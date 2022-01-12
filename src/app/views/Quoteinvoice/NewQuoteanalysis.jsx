@@ -1138,7 +1138,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-sm-24" style={{ width: 70 }} align="left">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }}></TableCell>
                   <TableCell className="px-0" style={{ width: '150px' }} align="center">ITEM NAME</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }} align="center">RFQ DESCRIPTION</TableCell>
+                  {
+                    localStorage.getItem('division') == 3 ? <></> : <>
+                      <TableCell className="px-0" style={{ width: '100px' }} align="center">RFQ DESCRIPTION</TableCell>
+
+                    </>
+                  }
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '70px' }} align="center">QUANTITY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
@@ -1255,35 +1260,39 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </>}
 
                       </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextValidator
-                          label="Item"
-                          onChange={(event) => setProductdescription(event, index)}
-                          type="text"
-                          name="product_id"
-                          fullWidth
-                          variant="outlined"
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
+                      {
+                        localStorage.getItem('division') == 3 ? <></> : <>
+                          <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                            <TextValidator
+                              label="Item"
+                              onChange={(event) => setProductdescription(event, index)}
+                              type="text"
+                              name="product_id"
+                              fullWidth
+                              variant="outlined"
+                              // inputProps={{style: {textTransform: 'capitalize'}}}
 
-                          size="small"
-                          value={item.product_id ? item.product_id : ""}
-                          required
-                          // validators={["required"]}
+                              size="small"
+                              value={item.product_id ? item.product_id : ""}
+                              required
+                              // validators={["required"]}
 
-                          // errorMessages={["this field is required"]}
-                          select
-                        >
-                          <MenuItem value="false">
-                            <Icon>add</Icon>Add New
-                          </MenuItem>
-                          {proList.map((item) => (
-                            <MenuItem value={item.id} key={item.id}>
-                              {item.name}
-                            </MenuItem>
-                          ))}
-                        </TextValidator>
-                      </TableCell>
+                              // errorMessages={["this field is required"]}
+                              select
+                            >
+                              <MenuItem value="false">
+                                <Icon>add</Icon>Add New
+                              </MenuItem>
+                              {proList.map((item) => (
+                                <MenuItem value={item.id} key={item.id}>
+                                  {item.name}
+                                </MenuItem>
+                              ))}
+                            </TextValidator>
+                          </TableCell>
 
+                        </>
+                      }
 
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
