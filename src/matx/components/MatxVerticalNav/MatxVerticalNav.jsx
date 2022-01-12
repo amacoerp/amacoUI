@@ -172,7 +172,7 @@ const MatxVerticalNav = ({ items }) => {
                       classes.itemText
                     )}
                   >
-                    {item.name}
+                    {item.name.toUpperCase()}
                   </span>
                   <div className="mx-auto"></div>
                   {item.badge && (

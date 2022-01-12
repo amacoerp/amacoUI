@@ -130,7 +130,7 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
             <span
               className={clsx("align-middle sidenavHoverShow", classes.itemText)}
             >
-              {name}
+              {name.toUpperCase()}
             </span>
           </div>
           {badge && (
@@ -168,7 +168,7 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
         }
       >
         {children}
-       
+
       </div>
 
     </div>
