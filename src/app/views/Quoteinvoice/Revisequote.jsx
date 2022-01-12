@@ -21,6 +21,7 @@ import {
   InputLabel,
   Select,
   FormGroup,
+  useMediaQuery
 } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete,createFilterOptions } from "@material-ui/lab";
@@ -30,10 +31,10 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import useAuth from "app/hooks/useAuth";
-import { getInvoiceById, addInvoice, updateInvoice, getCustomerList,getcompanybank ,getusers} from "../invoice/InvoiceService";
+import { getInvoiceById, addInvoice, updateInvoice, getCustomerList,getcompanybank ,getusers, navigatePath} from "../invoice/InvoiceService";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
 import { useParams, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles,useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import axios from "axios";
@@ -58,6 +59,7 @@ import { sortedLastIndex } from "lodash";
 import FormDialog_product from "../../views/product/Addproduct_popup"
 import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import  MemberEditorDialogcontact  from "../party/partycontact";
+import useSettings from "app/hooks/useSettings";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -76,6 +78,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [isAlive, setIsAlive] = useState(true);
+  const theme = useTheme();
+  const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { settings, updateSettings } = useSettings();
   const [state, setState] = useState(initialValues);
   const [rfq, setrfq] = useState([]);
   const [rdate, setrdate] = useState([]);
@@ -684,8 +689,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setShouldOpenEditorDialog(true)
   }
   const handleSubmit = () => {
-    
-    // setState({ ...state, ['subTotalCost']: subTotalCost });
+    let mode="full"
+    updateSidebarMode({ mode })
+   
     setState({ ...state, loading: true });
     
     let tempState = { ...state };
@@ -761,7 +767,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
         .then((result) => {
-          history.push("/quoateview/0")
+          history.push(navigatePath+"/quoateview/0")
         // window.location.href="../quoateview"
         })
       })
@@ -770,7 +776,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    history.push("/quoateview/0")
+    history.push(navigatePath+"/quoateview/0")
   }
   
   const handleDialogClose = () => {
@@ -840,6 +846,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       
     });
   }
+  // Toggle
+  const updateSidebarMode = (sidebarSettings) => {
+    updateSettings({
+      layout1Settings: {
+        leftSidebar: {
+          ...sidebarSettings,
+        },
+      },
+    });
+  };
+
+  const handleSidebarToggle = () => {
+    let { layout1Settings } = settings;
+    let mode;
+
+    if (isMdScreen) {
+      mode = layout1Settings.leftSidebar.mode === "close" ? "mobile" : "close";
+    } else {
+      mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
+    }
+
+    updateSidebarMode({ mode });
+  };
 
   useEffect(() => {
     getCustomerList().then(({ data }) => {
@@ -1048,6 +1077,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
    
   <div className="m-sm-30">
     <Card elevation={6}>
+    <IconButton onClick={handleSidebarToggle}>
+          <Icon>arrow_back</Icon>
+        </IconButton>
     <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
       <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
         <div className="viewer_actions px-4 flex justify-between">
@@ -1250,7 +1282,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               
               // margin_val=((subCost-costTotal));
               dis_val+=(item?.discount_val?item?.discount_val:0)
-              
+             
               
               dis_per=((parseFloat(dis_val)/parseFloat(subCost))*100).toFixed(3);
              
@@ -1266,34 +1298,34 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               else
               {
                 costTotal+=parseFloat(item.purchase_price)*parseFloat(item.quantity);
-                totalmargin+=parseFloat(item.margin);
-                
-                // subCost += parseFloat(item.total_amount)
-                // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
-  
-                // margin_per=((subCost-costTotal)/costTotal)*100;
-                  
-                margin_val+=((item.margin_val));
+              totalmargin+=parseFloat(item.margin);
               
-                margin_per=(margin_val/costTotal)*100;
-                subCost = costTotal+margin_val;
-                subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+              // subCost += parseFloat(item.total_amount)
+              // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+
+              // margin_per=((subCost-costTotal)/costTotal)*100;
                 
-                // margin_val=((subCost-costTotal));
-                dis_val+=(item.discount_val)
-                
-                
-                dis_per=((parseFloat(dis_val)/parseFloat(subCost))*100).toFixed(3);
-               
-  
-                
-                sellTotal=subTotalCost-dis_val
-                vat= (((parseFloat(sellTotal)-parseFloat(other+transport)) * 15) / 100).toFixed(2);
-               
-                // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-                GTotal=(parseFloat(vat)+parseFloat(sellTotal))
-                
-              }
+              margin_val+=((item.margin_val));
+            
+              margin_per=(margin_val/costTotal)*100;
+              subCost = costTotal+margin_val;
+              subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+              
+              // margin_val=((subCost-costTotal));
+              dis_val+=(item.discount_val)
+              
+              
+              dis_per=((parseFloat(dis_val)/parseFloat(subCost))*100).toFixed(3);
+             
+
+              
+              sellTotal=subTotalCost-dis_val
+              vat= (((parseFloat(sellTotal)-parseFloat(other+transport)) * 15) / 100).toFixed(2);
+             
+              // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+              GTotal=(parseFloat(vat)+parseFloat(sellTotal))
+          }
+
               // vat= (discount * 15) / 100
               // GTotal=item.discount + item.vat;
               // vat= (discount * 15) / 100
@@ -1498,9 +1530,9 @@ file_upload
                         
                         className="w-full"
                         size="small"
-                        options={item.product_price_list}
+                        options={item.product_price_list?item.product_price_list:[]}
                         name="purchase_price"
-                        value={item?.product_price}
+                        value={item?.purchase_price}
                         filterOptions={filterPrice}
                         renderOption={option => option.price}
                         getOptionLabel={option => {
@@ -1511,7 +1543,7 @@ file_upload
                           if (option.inputValue) {
                             return option.inputValue;
                           }
-                          return option.price;
+                          return option?.price?option?.price:' ';
                         }}
                         freeSolo
                         renderInput={(params) => (
@@ -1997,7 +2029,7 @@ file_upload
                 style={{width:'90px'}}
                 onChange={(event) => handleChange(event, "discount")}
                 inputProps={{min: 0, style: { textAlign: 'center' }}}
-                value={discounts}
+                value={parseFloat(dis_per)}
                 
               />
               
@@ -2024,7 +2056,7 @@ file_upload
                 style={{width:'150px'}}
 			          currencySymbol="SAR"
                 name="dis_per"
-                value={dis_per}
+                value={parseFloat(dis_val)}
               />
              </div>
              <div>

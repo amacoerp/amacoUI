@@ -693,7 +693,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleSubmit = () => {
-    handleSidebarToggle()
+    let mode="full"
+    updateSidebarMode({ mode })
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     let tempItemList =[...state.item];
 //     tempItemList.map((element, i) => {

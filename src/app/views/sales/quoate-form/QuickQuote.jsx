@@ -602,7 +602,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleSubmit = () => {
-
+    let mode="full"
+    updateSidebarMode({ mode })
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
