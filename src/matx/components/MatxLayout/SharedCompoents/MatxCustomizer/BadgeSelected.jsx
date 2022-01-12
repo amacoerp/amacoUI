@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:02befc2548614dbd3699d944359edf4565d3c4585c6790649c3c35c95c285298
-size 294
+import { Badge } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles"
+
+const BadgeSelected = withStyles(theme => ({
+  badge: {
+    top: "0",
+    right: "0",
+    height: "32px",
+    width: "32px",
+    borderRadius: "50%"
+  }
+}))(Badge);
+
+export default BadgeSelected;

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d5136bf9a293daea58a7b71b58acf788e336e44795ad027e42c8d2a0128ec7b4
-size 175
+import React from "react";
+
+export const MatxLayouts = {
+  layout1: React.lazy(() => import("./Layout1/Layout1")),
+  layout2: React.lazy(() => import("./Layout2/Layout2"))
+};

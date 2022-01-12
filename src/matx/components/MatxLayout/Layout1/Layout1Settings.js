@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:259efae08e7dbd4f61ddb4d12250bb08ad58a3ab3e12ccd111304f6abb1cfb50
-size 436
+const Layout1Settings = {
+  leftSidebar: {
+    show: true,
+    mode: "full", // full, close, compact, mobile,
+    theme: "slateDark1", // View all valid theme colors inside MatxTheme/themeColors.js
+    bgImgURL: "/assets/images/sidebar/sidebar-bg-dark.jpg",
+  },
+  topbar: {
+    show: true,
+    fixed: true,
+    theme: "whiteBlue", // View all valid theme colors inside MatxTheme/themeColors.js
+  },
+};
+
+export default Layout1Settings;

@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:712cb76b8a712f50b726e35aa61982fcf957f3da506452be651b552f88851fb9
-size 1277
+import React from "react";
+import Switch from "@material-ui/core/Switch";
+
+export default function SimpleSwitch() {
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true
+  });
+
+  const handleChange = name => event => {
+    setState({ ...state, [name]: event.target.checked });
+  };
+
+  return (
+    <div>
+      <Switch
+        checked={state.checkedA}
+        onChange={handleChange("checkedA")}
+        value="checkedA"
+        inputProps={{ "aria-label": "secondary checkbox" }}
+      />
+      <Switch
+        checked={state.checkedB}
+        onChange={handleChange("checkedB")}
+        value="checkedB"
+        color="primary"
+        inputProps={{ "aria-label": "primary checkbox" }}
+      />
+      <Switch
+        value="checkedC"
+        inputProps={{ "aria-label": "primary checkbox" }}
+      />
+      <Switch
+        disabled
+        value="checkedD"
+        inputProps={{ "aria-label": "disabled checkbox" }}
+      />
+      <Switch
+        disabled
+        checked
+        value="checkedE"
+        inputProps={{ "aria-label": "primary checkbox" }}
+      />
+      <Switch
+        defaultChecked
+        value="checkedF"
+        color="default"
+        inputProps={{ "aria-label": "checkbox with default color" }}
+      />
+    </div>
+  );
+}

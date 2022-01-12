@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1624d65313af212d834fa2cc02809a010087b16d6b2e62b977d4068c9fad9348
-size 537
+import React from "react";
+import Chart from "react-apexcharts";
+
+const InventoryDoughnutChart = () => {
+  const series = [75, 50, 25];
+
+  return <Chart options={option} series={series} type="donut" />;
+};
+
+const option = {
+  labels: ["Available", "Low Stock", "Out of Stock"],
+  stroke: {
+    width: 0,
+  },
+  colors: [
+    "rgba(var(--primary), 1)",
+    "rgba(var(--secondary), 1)",
+    "rgba(var(--error), 1)",
+  ],
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    show: false,
+  },
+};
+
+export default InventoryDoughnutChart;

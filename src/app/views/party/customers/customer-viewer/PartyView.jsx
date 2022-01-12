@@ -1,3 +1,117 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:69bf282350ab1de4446907b73004d0f1dc5f026bd962bb1b19454bd23583a053
-size 3554
+import React,{ useState, useEffect}from "react";
+// import { Breadcrumb,ConfirmationDialog } from "matx";
+// import Tooltip from '@material-ui/core/Tooltip';
+// import Axios from "axios";
+import {
+  // Avatar,
+  // Button,
+  Card,
+  Divider,
+  // Grid,
+  // Icon,
+  Table,
+  TableBody,
+  // IconButton,
+  TableCell,
+  TableRow,
+} from "@material-ui/core";
+// import FormDialog from "../../partycontact"
+// import MemberEditorDialog from "../../partycontact"
+import url from "../../../invoice/InvoiceService"
+
+
+const PartyInfo = () => {
+  let search = window.location.search;
+  let params = new URLSearchParams(search);
+  const foo =parseInt(params.get('id'));
+  const [userList, setUserList] = useState(false);
+ 
+  useEffect(() => {
+
+   
+    url.get("parties/"+foo).then(({ data }) => {
+         setUserList(data[0]);
+       
+      });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
+
+    
+  return (
+    
+    <Card className="pt-6" elevation={3}>
+      <div className="flex-column items-center mb-6">
+        {/* <Avatar className="w-84 h-84" src="/assets/images/faces/10.jpg" /> */}
+        <h3 className="mt-4 mb-2">{userList.firm_name}</h3>
+        
+        <small className="text-muted"><h5><strong>Registration Number:</strong>{userList.registration_no}</h5></small>
+        <small className="text-muted"><h5><strong>Vat Number:</strong>{userList.vat_no}</h5></small>
+        <div className="flex-row">
+        <small className="text-white bg-green border-radius-4 px-2 py-2px">
+                Credit Limit: <strong>{userList.credit_limit}</strong>
+              </small>
+              <small className="text-white bg-green border-radius-4 px-2 py-2px ml-2">
+                Credit Days: <strong>{userList.credit_days}</strong>
+              </small>
+          </div>
+      </div>
+
+      <Divider />
+      <Table className="mb-4">
+        <TableBody>
+        
+           
+              
+              
+              <TableRow>
+              <TableCell className="pl-4">P.O Box</TableCell>
+              <TableCell>{userList.post_box_no}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell className="pl-4">Street</TableCell>
+              <TableCell>{userList.street}</TableCell>
+            </TableRow>
+            
+            <TableRow>
+              <TableCell className="pl-4">City</TableCell>
+              <TableCell>{userList.city}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Province</TableCell>
+              <TableCell>{userList.proviance}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Zip code</TableCell>
+              <TableCell>{userList.zip_code}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Country</TableCell>
+              <TableCell>{userList.country}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Contact</TableCell>
+              <TableCell>{userList.contact}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Website URL</TableCell>
+              <TableCell>{userList.website}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-4">Fax</TableCell>
+              <TableCell>{userList.fax}</TableCell>
+            </TableRow>
+            
+       
+        </TableBody>
+      </Table>
+            
+    </Card>
+  );
+};
+
+
+
+export default PartyInfo;

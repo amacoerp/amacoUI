@@ -1,3 +1,240 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9f1c2bb60ca7fb4bd267dcbb65f919f4fb29e40fa31823b482d413963696fc9f
-size 6055
+import React, { Fragment,useState,useEffect } from "react";
+import { Grid, Card,Icon,TableCell } from "@material-ui/core";
+import DoughnutChart from "../charts/echarts/Doughnut";
+import ModifiedAreaChart from "./shared/ModifiedAreaChart";
+import StatCards from "./shared/StatCards";
+import TopSellingTable from "./shared/TopSellingTable";
+import RowCards from "./shared/RowCards";
+import StatCards2 from "./shared/StatCards2";
+import UpgradeCard from "./shared/UpgradeCard";
+import Campaigns from "./shared/Campaigns";
+import { useTheme } from "@material-ui/styles";
+import url,{getpaidDivision} from "../invoice/InvoiceService";
+import MUIDataTable from "mui-datatables";
+import DueInvoice from './DueInvoice';
+import AccountStatement from './AccountStatement';
+import ExpenseCategory from "./expenseCategory";
+import moment from 'moment';
+import { TreeItem } from "@material-ui/lab";
+
+
+const months=[{
+
+ name: "Jan",
+  count:0
+},
+{
+ name: "Feb",
+ count:0
+},
+{
+  name:"Mar",
+  count:0
+},
+{
+  name:"Apr",
+  count:0
+},
+{
+  name: "May",
+  count:0
+},
+{
+  name: "Jun",
+  count:0
+},
+{
+  name: "Jul",
+  count:0
+},{
+  name: "Aug",
+  count:0
+},{
+  name: "Sep",
+  count:0
+},{
+  name: "Oct",
+  count:0
+},{
+  name: "Nov",
+  count:0
+},{
+  name: "Dec",
+  count:0
+},
+ 
+ 
+
+]
+
+const Analytics = () => {
+  const theme = useTheme();
+  const[paiddivision_account,setpaiddivision_account]=useState([]);
+  const[tempList,settempList]=useState([]);
+  const[linegraph,setlinegraph]=useState([]);
+  const[accountStatement,setaccountStatement]=useState([]);
+  const[data,setdata]=useState();
+  const[maxVal,setmaxVal]=useState('');
+  const[perList,setPerList]=useState('');
+
+  var obj;
+  var parentData;
+  useEffect(() => {
+    // console.log(compPer)
+    // setPerList(compPer);
+    getpaidDivision().then(({ data }) => {
+    
+      var arrVal = data.sort(function (obj1, obj2) {
+        return obj1.type.localeCompare(obj2.type);
+     });
+    })
+    //  setlinegraph(option)
+     url.get('invoice').then(({ data }) => {
+      // const myArr = Object.values(data[0].data).sort(
+      //   (a, b) => new Date(a[0].date) - new Date(b[0].date)
+      // );
+       
+   
+              
+             
+      // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
+      var result=data.map((item,i)=>{
+        item['debit']= data.filter(x => moment(x.created_at).format('MM YYY')==moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+        item['count']=data.filter(x => moment(x.created_at).format('MM YYY')==moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        item['month']=moment(item.created_at).format('MMM');
+       
+        return item
+      })
+      var Due=result.filter( (ele, ind) => ind === result.findIndex( elem => elem.invoice_no=== ele.invoice_no));
+     
+      var finalResult =months.filter(function (o1) {
+        return Due.map(function (o2) {
+            if(o1.name == o2.month)
+            {
+              o1['count']=o2.count
+              // return o1;
+             
+             
+            }
+           
+           
+             // return the ones with equal id
+       });
+    });
+    var finalArray = finalResult.map(function (obj) {
+      return obj.count;
+    });
+    setdata(finalArray);
+    setmaxVal(Math.max(...finalArray))
+    console.log(Math.max(...finalArray))
+              // return the ones with equal id
+      
+       
+    
+      
+      // setaccountStatement(Due)
+      
+     });
+   
+     
+     
+  }, [ ])
+
+
+
+  
+
+  return (
+    <Fragment>
+         <div className="pb-24 pt-7 px-8 bg-primary">
+              {/* {perList?.includes("Last 12 Months Sales") ? "" : <> */}
+           
+        
+        <div className="card-title capitalize text-white mb-4 text-white-secondary">
+          Last 12 months sales
+        </div>
+        <ModifiedAreaChart
+          height="280px"
+          maxVal={maxVal}
+          option={{
+            series: [
+              {
+                data: data,
+                type: "line",
+              },
+            ],
+            xAxis: {
+              data: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+              ],
+            },
+          }}
+        />
+     
+             
+              {/* </>} */}
+              </div>
+
+      <div className="analytics m-sm-30 mt--18">
+        <Grid container spacing={3}>
+          <Grid item lg={8} md={8} sm={12} xs={12}>
+            <StatCards />
+
+            {/* Top Selling Products */}
+            {/* <TopSellingTable /> */}
+
+            <Card elevation={3} className="pt-5 mb-6">
+            <div className="flex justify-between items-center px-6 mb-3">
+        {/* <span className="card-title">Account Statements</span> */}
+       
+      </div>
+      <div className="overflow-auto">
+        
+        <AccountStatement />
+      </div>
+      </Card>
+
+            {/* <StatCards2 /> */}
+
+            {/* <h4 className="card-title text-muted mb-4">Ongoing Projects</h4>
+            <RowCards /> */}
+            <DueInvoice />
+          </Grid>
+
+          <Grid item lg={4} md={4} sm={12} xs={12}>
+            {/* <Card className="px-6 py-4 mb-6">
+              <div className="card-title">Traffic Sources</div>
+              <div className="card-subtitle">Last 30 days</div>
+              <DoughnutChart
+                height="300px"
+                color={[
+                  theme.palette.primary.dark,
+                  theme.palette.primary.main,
+                  theme.palette.primary.light,
+                ]}
+              />
+            </Card> */}
+            <ExpenseCategory />
+
+            {/* <UpgradeCard /> */}
+
+            {/* <Campaigns /> */}
+          </Grid>
+        </Grid>
+      </div>
+    </Fragment>
+  );
+};
+
+export default Analytics;

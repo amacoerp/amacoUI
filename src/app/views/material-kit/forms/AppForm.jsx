@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9049ba714dcef61959964f36094cf55ea2264c71928f0f7262f824d647be8f35
-size 660
+import React from "react";
+import SimpleForm from "./SimpleForm";
+import StepperForm from "./StepperForm";
+import { Breadcrumb, SimpleCard } from "matx";
+
+const AppForm = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Form" }
+          ]}
+        />
+      </div>
+      <SimpleCard title="Simple Form">
+        <SimpleForm />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="stepper form">
+        <StepperForm />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default AppForm;

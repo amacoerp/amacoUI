@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9044c689ffb0d19647dc6da23c084654aae99fb76cfb05eefd7f24dd5ab8afd
-size 379
+import React from "react";
+
+const PrintPurRoutes = [
+ 
+  
+  {
+    path: "/print_rfqview",
+    component: React.lazy(() => import("./Rfqview"))
+  },
+  
+  {
+    path: "/print_AddRfq",
+    component: React.lazy(() => import("./AddRfq"))
+  },
+  {
+    path: "/print_po",
+    component: React.lazy(() => import("./po"))
+  },
+  
+];
+
+export default PrintPurRoutes;

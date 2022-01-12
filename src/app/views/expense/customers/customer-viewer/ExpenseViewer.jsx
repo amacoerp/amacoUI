@@ -1,3 +1,65 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:020e108e64fabce916af4177014891b53fdd9a53227feac2a88ea9a9a4159ae1
-size 1790
+import React, { useState } from "react";
+import { Divider, Tab, Tabs,Button,Icon } from "@material-ui/core";
+import { Breadcrumb } from "matx";
+import ExpensePending from "./ExpensePending";
+import ExpenseVerified from "./ExpenseVerified";
+import ExpenseCompleted from "./ExpenseCompleted";
+import { Link } from "react-router-dom";
+import { navigatePath } from "app/views/invoice/InvoiceService";
+
+const ExpenseViewer = () => {
+  
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (e, value) => {
+    setTabIndex(value);
+  };
+
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+      <div className="flex flex-wrap justify-between mb-6">
+        <Breadcrumb
+          routeSegments={[
+            // { name: "Add Expense", path: "/addexpense" },
+            { name: "EXPENSES" },
+          ]}
+        />
+        <div className="text-right">
+                <Link to={navigatePath+"/addexpense"}>
+                <Button
+            className="py-2"
+            color="primary"
+            variant="outlined"
+          >
+          <Icon>add</Icon>
+          ADD NEW
+          </Button>
+          </Link>
+          </div>
+          </div>
+        
+      </div>
+      <Tabs
+        className="mt-4"
+        value={tabIndex}
+        onChange={handleTabChange}
+        indicatorColor="primary"
+        textColor="primary"
+      >
+        {tabList.map((item, ind) => (
+          <Tab className="capitalize" value={ind} label={item} key={ind} />
+        ))}
+      </Tabs>
+      <Divider className="mb-6" />
+
+      {tabIndex === 0 && <ExpensePending />}
+      {tabIndex === 1 && <ExpenseVerified />}
+      {tabIndex === 2 && <ExpenseCompleted />}
+    </div>
+  );
+};
+
+const tabList = ["PENDING", "VERIFIED","COMPLETED"];
+
+export default ExpenseViewer;

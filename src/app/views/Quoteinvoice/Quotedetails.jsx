@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:14312e724677a911d9c4589b22e5d677ec2b45c299ab9f3cb660b31074ca623b
-size 1055
+import React, { useState, useEffect } from "react";
+import { Card } from "@material-ui/core";
+import InvoiceViewer from "./Quoteview";
+import InvoiceEditor from "./Quoteedit";
+import { useParams } from "react-router-dom";
+
+const InvoiceDetails = () => {
+  const [showInvoiceEditor, setShowInvoiceEditor] = useState(false);
+  const [isNewInvoice, setIsNewInvoice] = useState(false);
+
+  const { id } = useParams();
+
+  const toggleInvoiceEditor = () => {
+    setShowInvoiceEditor(!showInvoiceEditor);
+    setIsNewInvoice(false);
+  };
+
+  useEffect(() => {
+    if (id === "add") {
+      setShowInvoiceEditor(true);
+      setIsNewInvoice(true);
+    }
+  }, [id]);
+
+  return (
+    <Card elevation={6} className="m-sm-30">
+ 
+      {showInvoiceEditor ? (
+        <InvoiceEditor
+          toggleInvoiceEditor={toggleInvoiceEditor}
+          isNewInvoice={isNewInvoice}
+        />
+      ) : (
+        <InvoiceViewer toggleInvoiceEditor={toggleInvoiceEditor} />
+      )}
+   
+    </Card>
+  );
+};
+
+export default InvoiceDetails;

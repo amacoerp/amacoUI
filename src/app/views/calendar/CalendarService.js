@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:46e04c2ec67733045b73c2ca589bfa5a13b4b220088db6bf9119ecc3eee3d7ea
-size 421
+import axios from 'axios';
+
+export const getAllEvents = () => {
+    return axios.get("/api/calendar/events/all");
+}
+
+export const addNewEvent = (event) => {
+    return axios.post("/api/calendar/events/add",event);
+}
+
+export const updateEvent = (event) => {
+    return axios.post("/api/calendar/events/update",event);
+}
+
+export const deleteEvent = (event) => {
+    return axios.post("/api/calendar/events/delete",event);
+}

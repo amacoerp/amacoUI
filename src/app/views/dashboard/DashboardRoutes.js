@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4d31c78e43c85e7de15d70b06ac04fef7c3a22df8fdb3ccbefd09164c39ceef7
-size 643
+import React from "react";
+import { authRoles } from "../../auth/authRoles";
+import { navigatePath } from "../invoice/InvoiceService";
+
+const dashboardRoutes = [
+  {
+    path: navigatePath+"/dashboard/alternative",
+    component: React.lazy(() => import("./Analytics")),
+    // auth: authRoles.sa,
+  },
+  {
+    path: navigatePath+"/dashboard/default",
+    component: React.lazy(() => import("./Analytics2")),
+    // auth: authRoles.admin,
+  },
+  {
+    path: navigatePath+"/dashboard/inventory-management",
+    component: React.lazy(() => import("./InventoryManagement")),
+    // auth: authRoles.admin,
+  },
+];
+
+export default dashboardRoutes;

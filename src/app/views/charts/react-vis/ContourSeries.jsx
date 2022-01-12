@@ -1,3 +1,44 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1f7976bb7164237bd15c28da23c950a4e883227b1c140b9013a298bb3743e57e
-size 930
+import React from "react";
+
+import {
+  FlexibleWidthXYPlot,
+  XAxis,
+  YAxis,
+  ContourSeries,
+  MarkSeriesCanvas,
+  Borders,
+} from "react-vis";
+
+import { ContourData } from "./ContourData.js";
+
+const ContourSeriesChart = () => {
+  const data = ContourData;
+
+  return (
+    <FlexibleWidthXYPlot
+      xDomain={[40, 100]}
+      yDomain={[1.5, 8]}
+      getX={(d) => d.waiting}
+      getY={(d) => d.eruptions}
+      height={300}
+      width={700}
+    >
+      <ContourSeries
+        animation
+        className="contour-series-example"
+        style={{
+          stroke: "#125C77",
+          strokeLinejoin: "round",
+        }}
+        colorRange={["#79C7E3", "#FF9833"]}
+        data={data}
+      />
+      <MarkSeriesCanvas animation data={data} size={1} color={"#125C77"} />
+      <Borders style={{ all: { fill: "#fff" } }} />
+      <XAxis />
+      <YAxis />
+    </FlexibleWidthXYPlot>
+  );
+};
+
+export default ContourSeriesChart;

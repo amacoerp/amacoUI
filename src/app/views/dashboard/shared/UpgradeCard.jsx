@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:baf3eabc5c3b6eec3e28a5614ac044c0405a131dda20a65d99f433f7893b7982
-size 714
+import React from "react";
+import { Card, Button } from "@material-ui/core";
+
+const UpgradeCard = () => {
+  return (
+    <Card className="p-sm-24 mb-6">
+      <Card
+        elevation={0}
+        className="box-shadow-none text-center relative bg-light-primary p-sm-24"
+      >
+        <img src="/assets/images/illustrations/upgrade.svg" alt="upgrade" />
+        <p className="text-muted m-0 py-6">
+          Upgrade to <b>MatX PRO</b> for <br /> more resources
+        </p>
+        <Button
+          className="uppercase"
+          size="large"
+          variant="contained"
+          color="primary"
+        >
+          upgrade now
+        </Button>
+      </Card>
+    </Card>
+  );
+};
+
+export default UpgradeCard;

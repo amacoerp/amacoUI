@@ -1,3 +1,49 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0fe1ac283f25146806cae2f12e7b9e20033470ecbe4c8e4ec8ef6d587a5e2da0
-size 1645
+// import "../fake-db";
+import React from "react";
+import { Provider } from "react-redux";
+import { Router, Switch, Route } from "react-router-dom";
+import AppContext from "./contexts/AppContext";
+import history from "history.js";
+import routes from "./RootRoutes";
+import { Store } from "./redux/Store";
+import { GlobalCss, MatxSuspense, MatxTheme, MatxLayout } from "matx";
+import sessionRoutes from "./views/sessions/SessionRoutes";
+import AuthGuard from "./auth/AuthGuard";
+import { AuthProvider } from "app/contexts/JWTAuthContext";
+import { SettingsProvider } from "app/contexts/SettingsContext";
+
+const App = () => {
+  return (
+    <AppContext.Provider value={{ routes }}>
+      <Provider store={Store}>
+        <SettingsProvider>
+          <MatxTheme>
+            <GlobalCss />
+            <Router history={history}>
+              <AuthProvider>
+                <MatxSuspense>
+                  <Switch>
+                    {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
+                    {sessionRoutes.map((item, i) => (
+                      <Route
+                        key={indexedDB}
+                        path={item.path}
+                        component={item.component}
+                      />
+                    ))}
+                    {/* AUTH PROTECTED DASHBOARD PAGES */}
+                    <AuthGuard>
+                      <MatxLayout />
+                    </AuthGuard>
+                  </Switch>
+                </MatxSuspense>
+              </AuthProvider>
+            </Router>
+          </MatxTheme>
+        </SettingsProvider>
+      </Provider>
+    </AppContext.Provider>
+  );
+};
+
+export default App;

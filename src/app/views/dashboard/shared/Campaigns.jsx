@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:852519f8b9657d44e520eddc5a9929b8c3d57770f85bfaa28efd44f655f519f3
-size 1446
+import React from "react";
+import { SimpleCard, MatxProgressBar } from "matx";
+
+const Campaigns = () => {
+  return (
+    <div>
+      <SimpleCard title="Campaigns">
+        <small className="text-muted">Today</small>
+        <div className="pt-2" />
+        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+
+        <div className="py-3" />
+        <small className="text-muted">Yesterday</small>
+        <div className="pt-2" />
+        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+
+        <div className="py-3" />
+        <small className="text-muted">Yesterday</small>
+        <div className="pt-2" />
+        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
+        <div className="py-1" />
+        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default Campaigns;

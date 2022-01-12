@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:92fcd0a9d80e870bf2c82acf2b77ba5b9288a045f3fb22c704ad5ed93a896ca1
-size 759
+import React from "react";
+import { navigatePath } from "../invoice/InvoiceService";
+
+const partyRoutes = [
+  {
+    path: navigatePath+"/party/addparty",
+    component: React.lazy(() => import("./Addparty")),
+  },
+  {
+    path: navigatePath+"/partycontact",
+    component: React.lazy(() => import("./partycontact")),
+  },
+  {
+    path: navigatePath+"/party/updateparty",
+    component: React.lazy(() => import("./updateparty")),
+  },
+  {
+    path: navigatePath+"/party/viewparty",
+    component: React.lazy(() => import("./Viewparty")),
+  },
+  {
+    path: navigatePath+"/pages/view-customer",
+    component: React.lazy(() =>
+      import("./customers/customer-viewer/CustomerViewer")
+    ),
+  },
+  ];
+
+export default partyRoutes;

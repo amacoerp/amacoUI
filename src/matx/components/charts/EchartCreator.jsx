@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:62224bc925514001b79a1f44170851972ef72158b08225aa8c512ef300ebcb57
-size 677
+import React from "react";
+import echarts from "echarts";
+import ReactEcharts from "echarts-for-react";
+import PropTypes from "prop-types";
+import { EchartTheme } from "matx";
+import { useTheme } from "@material-ui/core/styles";
+
+const EchartCreator = ({ height, option }) => {
+  const theme = useTheme();
+
+  echarts.registerTheme("echarts-theme", EchartTheme(theme));
+
+  return (
+    <ReactEcharts
+      style={{ height: height, width: "100%" }}
+      option={option}
+      lazyUpdate={true}
+      theme="echarts-theme"
+    />
+  );
+};
+
+EchartCreator.prototype = {
+  height: PropTypes.string.isRequired,
+  option: PropTypes.object.isRequired,
+};
+
+export default EchartCreator;

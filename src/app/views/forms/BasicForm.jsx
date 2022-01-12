@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf4b5c7ec5104504a56988b9e670e4654a9234635e4fbac212ab324f95712692
-size 600
+import React, { Component } from "react";
+import { Breadcrumb } from "matx";
+import SimpleForm from "../material-kit/forms/SimpleForm";
+import { Card } from "@material-ui/core";
+
+class BasicForm extends Component {
+  render() {
+    return (
+      <div className="m-sm-30">
+        <div  className="mb-sm-30">
+          <Breadcrumb
+            routeSegments={[
+              { name: "Forms", path: "/forms" },
+              { name: "Basic" }
+            ]}
+          />
+        </div>
+        <Card className="px-6 pt-2 pb-4"><SimpleForm /></Card>
+      </div>
+    );
+  }
+}
+
+export default BasicForm;

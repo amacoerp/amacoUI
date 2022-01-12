@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:266c3cef6351996ab102606e629c2db796a5f9b3ca83eb7aa72716d8b8e54da9
-size 1185
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import VolumeDown from "@material-ui/icons/VolumeDown";
+import VolumeUp from "@material-ui/icons/VolumeUp";
+import Slider from "@material-ui/core/Slider";
+
+const useStyles = makeStyles({
+  root: {
+    width: 200
+  }
+});
+
+export default function ContinuousSlider() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(30);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div className={classes.root}>
+      <Typography id="continuous-slider" gutterBottom>
+        Volume
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item>
+          <VolumeDown />
+        </Grid>
+        <Grid item xs>
+          <Slider
+            value={value}
+            onChange={handleChange}
+            aria-labelledby="continuous-slider"
+          />
+        </Grid>
+        <Grid item>
+          <VolumeUp />
+        </Grid>
+      </Grid>
+      <Slider disabled defaultValue={30} aria-labelledby="continuous-slider" />
+    </div>
+  );
+}

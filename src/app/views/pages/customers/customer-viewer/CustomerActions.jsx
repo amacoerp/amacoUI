@@ -1,3 +1,44 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e2441c14759428ae2b9b40d6926fc8c9e403a7c68b8143ee6103ea3ddcb29f3d
-size 1256
+import React from "react";
+import { Button, Card, Divider, Icon } from "@material-ui/core";
+import { GetApp } from "@material-ui/icons";
+
+const CustomerActions = () => {
+  return (
+    <Card elevation={3}>
+      <h5 className="p-4 m-0">Other Actions</h5>
+
+      <Divider className="mb-4" />
+
+      <div className="flex-column items-start px-4 mb-4">
+        <Button className="mb-2" variant="text">
+          <Icon className="mr-2" fontSize="small">
+            not_interested
+          </Icon>{" "}
+          Close Account
+        </Button>
+        <Button className="mb-4" variant="text">
+          <GetApp className="mr-2" fontSize="small" />
+          Export Data
+        </Button>
+
+        <div className="flex items-center mb-4">
+          <Icon className="mr-2" fontSize="small" color="secondary">
+            info
+          </Icon>
+          <small className="text-muted">
+            Once you delete account, data will be lost forever.
+          </small>
+        </div>
+
+        <Button className="mb-2 bg-error text-white" variant="contained">
+          <Icon className="mr-2" fontSize="small">
+            delete
+          </Icon>{" "}
+          Delete Account
+        </Button>
+      </div>
+    </Card>
+  );
+};
+
+export default CustomerActions;

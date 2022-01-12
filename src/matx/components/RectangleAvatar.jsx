@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d90e335b6e57fb6c100520d08ae01ffe33de2e4235e00f6d9583c2ada4721c66
-size 498
+import React from "react";
+import { Icon } from "@material-ui/core";
+
+const RectangleAvatar = ({ color = "primary", icon, textIcon, style }) => {
+  return (
+    <div
+      className={`rectangle-box bg-light-${color} flex justify-center items-center`}
+      style={style}
+    >
+      {textIcon ? (
+        <h5 className={`font-medium m-0 text-${color}`}>{textIcon}</h5>
+      ) : (
+        <Icon className={`text-${color}`}>{icon}</Icon>
+      )}
+    </div>
+  );
+};
+
+export default RectangleAvatar;

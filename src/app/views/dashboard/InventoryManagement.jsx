@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9d5f33f0a6523503f1127521612235e46255a8c9b00e06ccea5ae107fb2b526a
-size 840
+import React, { useState } from "react";
+import { Tabs, Tab } from "@material-ui/core";
+import InventoryDashboard from "./shared/InventoryDashboard";
+import RecentUpdates from "./shared/RecentUpdates";
+
+const InventoryManagement = () => {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  return (
+    <div className="analytics m-sm-30">
+      <Tabs
+        className="mt-4 mb-6"
+        value={tabIndex}
+        onChange={(e, value) => setTabIndex(value)}
+        indicatorColor="primary"
+        textColor="primary"
+      >
+        {["Dashboard", "Recent Updates"].map((item, ind) => (
+          <Tab className="capitalize" value={ind} label={item} key={ind} />
+        ))}
+      </Tabs>
+
+      {tabIndex === 0 && <InventoryDashboard />}
+      {tabIndex === 1 && <RecentUpdates />}
+    </div>
+  );
+};
+
+export default InventoryManagement;
