@@ -15,8 +15,11 @@ import {
   Icon,
   TextField,
   Tooltip,
-  FormGroup
+  FormGroup,
+  IconButton,
+  useMediaQuery
 } from "@material-ui/core";
+import useSettings from "app/hooks/useSettings";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   MuiPickersUtilsProvider,
@@ -25,7 +28,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import { getCustomerList, navigatePath} from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles,useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import url,{getusers,divisionId,data,getcompanybank} from "../invoice/InvoiceService";
@@ -166,6 +169,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 // ];
 
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
+  const theme = useTheme();
+  const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { settings, updateSettings } = useSettings();
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [rfq, setrfq] = useState([]);
@@ -892,6 +898,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenEditorDialogproduct(true)
   }
   }
+  // toggle 
+  const handleSidebarToggle = () => {
+    let { layout1Settings } = settings;
+    let mode;
+
+    if (isMdScreen) {
+      mode = layout1Settings.leftSidebar.mode === "close" ? "mobile" : "close";
+    } else {
+      mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
+    }
+
+    updateSidebarMode({ mode });
+  };
+  const updateSidebarMode = (sidebarSettings) => {
+    updateSettings({
+      layout1Settings: {
+        leftSidebar: {
+          ...sidebarSettings,
+        },
+      },
+    });
+  };
+
   const setproductids=(id,index)=>{
     setcatid(id)
     setindexvalue(index)
@@ -938,6 +967,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     
   <div className="m-sm-30">
     <Card elevation={3}>
+    <IconButton onClick={handleSidebarToggle}>
+          <Icon>arrow_back</Icon>
+        </IconButton>
     <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
       <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
         <div className="viewer_actions px-4 flex justify-between">
