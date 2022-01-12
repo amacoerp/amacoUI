@@ -21,6 +21,7 @@ import {
   TextField,
   Tooltip,
   FormGroup,
+  useMediaQuery
 
 } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
@@ -32,7 +33,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
 import { getInvoiceById, addInvoice, updateInvoice, getCustomerList,getusers,getcompanybank, navigatePath } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles ,useTheme} from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import axios from "axios";
@@ -58,6 +59,7 @@ import FormDialog_product from "../../views/product/Addproduct_popup"
 import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import  MemberEditorDialogcontact  from "../party/partycontact";
 import { Autocomplete,createFilterOptions } from "@material-ui/lab";
+import useSettings from "app/hooks/useSettings";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -75,6 +77,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }));
 
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
+  const theme = useTheme();
+  const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { settings, updateSettings } = useSettings();
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [rfq, setrfq] = useState([]);
@@ -637,6 +642,28 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
 
   };
+
+  const handleSidebarToggle = () => {
+    let { layout1Settings } = settings;
+    let mode;
+
+    if (isMdScreen) {
+      mode = layout1Settings.leftSidebar.mode === "close" ? "mobile" : "close";
+    } else {
+      mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
+    }
+
+    updateSidebarMode({ mode });
+  };
+  const updateSidebarMode = (sidebarSettings) => {
+    updateSettings({
+      layout1Settings: {
+        leftSidebar: {
+          ...sidebarSettings,
+        },
+      },
+    });
+  };
   const handleFileSelect = (event,index) => {
 
   
@@ -681,6 +708,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   
   };
   const handleSubmit = () => {
+    handleSidebarToggle()
     
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     setState({ ...state, loading: true });
@@ -1036,6 +1064,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
    
   <div className="m-sm-30">
     <Card elevation={6}>
+    <IconButton onClick={handleSidebarToggle}>
+          <Icon>arrow_back</Icon>
+        </IconButton>
     <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
       <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
         <div className="viewer_actions px-4 flex justify-between">
