@@ -39,15 +39,15 @@ export const getInvoice = () => {
 };
 
 const url = axios.create({
-  // baseURL: "http://127.0.0.1:8000/api/",
-  baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
+  baseURL: "http://127.0.0.1:8000/api/",
+  // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
   // baseURL: 'http://www.amacoerp.com/amaco/public/api/',
   //  timeout: 1000,
 
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });
-// export const basePath =  "http://127.0.0.1:8000/api" ;
-  export const basePath = "http://www.amacoerp.com/test/amaco_test/";
+export const basePath = "http://127.0.0.1:8000/api";
+// export const basePath = "http://www.amacoerp.com/test/amaco_test/";
 // export const basePath =  "http://www.amacoerp.com/amaco/" ;
 //   const url = axios.create({
 //     baseURL: 'http://www.amacoerp.com/amaco/public/api/',
@@ -89,7 +89,7 @@ export const getVendorList = () => {
   return url.get("parties-vendor");
 };
 export const getCustomerList = () => {
-  return url.get("customer-list");
+  return url.get(`customer-list/${localStorage.getItem("division")}`);
 };
 
 export const getmanufacturer = () => {

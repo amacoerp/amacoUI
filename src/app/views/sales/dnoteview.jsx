@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url from "../../views/invoice/InvoiceService";
 import moment from "moment";
@@ -34,7 +34,7 @@ const SimpleMuiTable = () => {
     backgroundColor: "#fff",
     width: "600px",
     wordBreak: "break-all",
-    
+
   }
   const columnStyleWithWidth = {
     top: "0px",
@@ -44,7 +44,7 @@ const SimpleMuiTable = () => {
     backgroundColor: "#fff",
     width: "120px",
     wordBreak: "break-word",
-    
+
   }
   useEffect(() => {
     url.get("delivery-notes").then(({ data }) => {
@@ -53,8 +53,8 @@ const SimpleMuiTable = () => {
       // if(data.length)
       // {
       //   setUserList(data);
-     
-     setqdetails(data);
+
+      setqdetails(data);
       // }
     });
     return () => setIsAlive(false);
@@ -265,15 +265,15 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-      <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
-            { name: "DELIVERY NOTES" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <Breadcrumb
+            routeSegments={[
+              // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
+              { name: "DELIVERY NOTES" },
+            ]}
+          />
 
-        {/* <div className="text-right">
+          {/* <div className="text-right">
           <Link to={"/Newquoteanalysis"}>
             <Button
               className="py-2"
@@ -284,12 +284,12 @@ const SimpleMuiTable = () => {
           </Button>
           </Link>
         </div>  */}
-      </div>
-      <MUIDataTable
-        title={"DELIVERY NOTES"}
-        
-        data={qdetails.map((item, index) => {
-       
+        </div>
+        <MUIDataTable
+          title={"DELIVERY NOTES"}
+
+          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+
             return [
               ++index,
               item?.delivery_number,
@@ -300,35 +300,35 @@ const SimpleMuiTable = () => {
               // item.requested_date,
               // item.require_date,
             ]
-          
-        })}
-        
-        columns={columns}
-        options={{
-         
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          // responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-          // expandableRows: true,
-          // expandableRowsOnClick: true,
-          renderExpandableRow: (rowData, rowMeta) => {
-            
-            return (
-              <tr>
-                <td colSpan={6}>
-                  <Table style={{ minWidth: "650",border:"1px solid black" }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>product Name</TableCell>
-                        <TableCell>description</TableCell>
-                        <TableCell>Quantity</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {/* {userList.map((item, index) => {
+
+          })}
+
+          columns={columns}
+          options={{
+
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            // responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+            // expandableRows: true,
+            // expandableRowsOnClick: true,
+            renderExpandableRow: (rowData, rowMeta) => {
+
+              return (
+                <tr>
+                  <td colSpan={6}>
+                    <Table style={{ minWidth: "650", border: "1px solid black" }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>product Name</TableCell>
+                          <TableCell>description</TableCell>
+                          <TableCell>Quantity</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {/* {userList.map((item, index) => {
                         if(rowData[0]===item.id)
                       {
                       {item.qdetails.map((row,index) => {
@@ -342,7 +342,7 @@ const SimpleMuiTable = () => {
                        )
                       })}
                       } */}
-                      {/* {userList.map((item, index) => {
+                        {/* {userList.map((item, index) => {
                         
                         {item.qdetails.map(row => (
                           <TableRow key={row.name}>
@@ -358,17 +358,17 @@ const SimpleMuiTable = () => {
                       
                       })}
                        */}
-                    {/* })} */}
-                   
-                    </TableBody>
-                  </Table>
-                </td>
-              </tr>
-            )
-          }
-        }}
-      />
-    </div>
+                        {/* })} */}
+
+                      </TableBody>
+                    </Table>
+                  </td>
+                </tr>
+              )
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }
