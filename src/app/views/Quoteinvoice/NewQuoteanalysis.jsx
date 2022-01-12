@@ -745,7 +745,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     getCustomerList().then(({ data }) => {
 
-      setCustomerList(data);
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+      setCustomerList(d);
 
       setsign(user.id)
 
