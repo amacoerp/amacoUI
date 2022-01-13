@@ -587,8 +587,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleSubmit = () => {
-    let mode="full"
-    updateSidebarMode({ mode })
+    handleSidebarToggle()
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
