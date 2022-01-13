@@ -514,7 +514,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           inputProps={{ style: { textTransform: 'capitalize' } }}
-                          value={item ? item.description : null}
+                          value={localStorage.getItem('division') == 3 ? item ? item.descriptionss : null : item ? item.description : null}
                           validators={["required"]}
                           multiline
                           errorMessages={["this field is required"]}
