@@ -1309,7 +1309,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
                           label="description"
-                          required
+                          // required
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           name="description"
@@ -1325,7 +1325,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
                           label="Our description"
-                          required
+                          // required
                           // onChange={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           onChange={(event) => handleIvoiceListChange(event, index)}
@@ -1345,7 +1345,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Qty"
                           onChange={(event) => calcualtep(event, index)}
                           type="number"
-                          requried
+                          // requried
                           variant="outlined"
                           size="small"
                           fullWidth
@@ -1369,7 +1369,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // validators={[
                           //   "required",
                           // ]}
-                          required
+                          // required
                           fullWidth
                           errorMessages={["this field is required"]}
                           select
@@ -1419,7 +1419,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // native
 
                           // onChange={handleChange}
-                          required
+                          // required
                           variant="outlined"
                           currencySymbol="SAR"
                           decimalPlaces={3}
@@ -1474,8 +1474,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={isNaN(item.margin) ? 0 : item.margin}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
 
                         />
 
@@ -1495,8 +1495,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={item.discount}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
 
                         />
 
@@ -1671,8 +1671,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     onChange={e => setvalidity(e.target.value)
                     }
                     value={validity}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="payment Terms"
@@ -1685,8 +1685,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     name="net_amount"
                     value={payment_terms}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Waranty"
@@ -1699,8 +1699,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="net_amount"
                     style={{ width: 500 }}
                     value={warranty}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Delivery Time"
@@ -1713,8 +1713,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     style={{ width: 500 }}
                     name="net_amount"
                     value={delivery_time}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Inco-Term"
@@ -1727,15 +1727,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="net_amount"
                     style={{ width: 500 }}
                     value={inco_terms}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                   />
                   <FormGroup>
                     <FormControl variant="outlined" minWidth="120" size="small">
                       <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
                       <Select
                         native
-                        required
+                        // required
                         value={sign}
                         // onChange={handleChange}
                         onChange={e => setsign(e.target.value)}
@@ -1761,7 +1761,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
                       <Select
                         native
-                        required
+                        // required
                         value={bank_id}
                         // onChange={handleChange}
                         onChange={e => setbank_id(e.target.value)}
@@ -2060,8 +2060,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     value={item.note}
                     size="small"
                     style={{ width: 500 }}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                    // validators={["required"]}
+                    // errorMessages={["this field is required"]}
                     name="note"
                     onChange={(e) => noteList(e.target.value, index)}></TextField>
                   <Button onClick={() => deleteItemFromNoteList(index)}>
