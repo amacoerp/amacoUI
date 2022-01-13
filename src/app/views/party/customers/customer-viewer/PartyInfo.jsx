@@ -1,5 +1,5 @@
 
-import React,{ useState, useEffect}from "react";
+import React, { useState, useEffect } from "react";
 // import Axios from "axios";
 import url from "../../../invoice/InvoiceService"
 import {
@@ -14,32 +14,32 @@ import {
 } from "@material-ui/core";
 
 const PartyInfo = () => {
-    let search = window.location.search;
+  let search = window.location.search;
   let params = new URLSearchParams(search);
-  const foo =parseInt(params.get('id'));
+  const foo = parseInt(params.get('id'));
   const [userList, setUserList] = useState(false);
   const [divisionsList, setdivisionsList] = useState([]);
- 
+
   useEffect(() => {
 
-   
-    url.get("parties/"+foo).then(({ data }) => {
-         setUserList(data[0]);
-         setdivisionsList(data[0].partyDivision)
-      });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    url.get("parties/" + foo).then(({ data }) => {
+      setUserList(data[0]);
+      setdivisionsList(data[0].partyDivision.filter(obj => obj.division_id == localStorage.getItem('division')))
+    });
 
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   return (
     <Card elevation={3}>
       <h5 className="p-4 m-0">OTHER INFO</h5>
       <Divider />
       <Table className="mb-4">
         <TableBody>
-         
-            <TableRow>
+
+          <TableRow>
             <TableCell className="pl-4">Party Type</TableCell>
             <TableCell>{userList.party_type}</TableCell>
           </TableRow>
@@ -49,22 +49,22 @@ const PartyInfo = () => {
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Party Code</TableCell>
-            <TableCell>{divisionsList?.map((item,index)=>
-            ((index ? ', ' : '')+item.vendor_code))}</TableCell>
+            <TableCell>{divisionsList?.map((item, index) =>
+              ((index ? ', ' : '') + item.vendor_code))}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Opening Balance</TableCell>
             <TableCell>
-            {parseFloat(userList.opening_balance).toLocaleString(undefined, {minimumFractionDigits:2})}
-                   
+              {parseFloat(userList.opening_balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
 
             </TableCell>
           </TableRow>
-        
+
         </TableBody>
       </Table>
 
-      
+
     </Card>
   );
 };

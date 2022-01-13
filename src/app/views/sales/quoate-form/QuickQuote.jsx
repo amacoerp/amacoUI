@@ -603,7 +603,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleSubmit = (s) => {
-    let mode="full"
+    let mode = "full"
     updateSidebarMode({ mode })
     setState({ ...state, loading: true });
 
@@ -676,14 +676,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            if(s=="New")
-            {
-            history.push(navigatePath + "/quote/"+response.data+"/New")
+            if (s == "New") {
+              history.push(navigatePath + "/quote/" + response.data + "/New")
 
             }
-            else
-            {
-            history.push(navigatePath + "/quoateview/3")
+            else {
+              history.push(navigatePath + "/quoateview/3")
             }
           })
       })
@@ -983,7 +981,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.QuickQuote)}>
-          <ValidatorForm onSubmit={()=>handleSubmit} onError={(errors) => null}>
+          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1005,7 +1003,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={()=>handleSubmit('draft')}
+                  onClick={() => handleSubmit('draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
                 </Button>
@@ -1016,7 +1014,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={()=>handleSubmit('New')}
+                  onClick={() => handleSubmit('New')}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
