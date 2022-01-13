@@ -517,7 +517,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index == i) {
 
 
-        element['margin'] = (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3);
+        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))?0:(isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)))?(((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3):0;
 
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
 
@@ -1841,7 +1841,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol=" "
                         name="net_amount"
-                        value={margin_per}
+                        value={margin_per?margin_per:0}
 
                       />
                       <CurrencyTextField
@@ -1854,7 +1854,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         style={{ width: '150px' }}
                         currencySymbol="SAR"
                         name="dis_per"
-                        value={margin_val}
+                        value={margin_val?margin_val:0}
                       />
 
                     </div>
@@ -1937,7 +1937,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         style={{ width: '90px' }}
                         // onChange={(event) => handleChange(event, "discount")}
                         inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                        value={(dis_per)}
+                        value={isNaN(dis_per)?0:dis_per}
 
                       />
 
