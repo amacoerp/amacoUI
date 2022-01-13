@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a6827995b209722a809b58b1ae3ba863841ff79980b55c532c21d704ba1ad712
-size 312
+import Mock from "./mock";
+
+import "./db/auth";
+import "./db/invoice";
+import "./db/calendarEvents";
+import "./db/users";
+import "./db/inbox";
+import "./db/chat";
+import "./db/todos";
+import "./db/list";
+import "./db/scrumBoard";
+import "./db/notification";
+import "./db/ecommerce";
+
+Mock.onAny().passThrough();

@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:271272093e24a41f5f4418a15e93321c26766ae9d6a3d647c1cd37c8f39bc348
-size 515
+import React from "react";
+import { Breadcrumb } from "matx";
+import { Card } from "@material-ui/core";
+import BasicMap from "./BasicMap";
+import MarkerMap from "./MarkerMap";
+
+const AppMap = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb routeSegments={[{ name: "Map" }]} />
+      </div>
+      <Card>
+        <BasicMap />
+      </Card>
+      <div className="py-3" />
+      <Card>
+        <MarkerMap />
+      </Card>
+    </div>
+  );
+};
+
+export default AppMap;

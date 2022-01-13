@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9f91ffe8ba2bcdfb1b3487004820648e431d2769a06d4b838c015160d304ed5
-size 353
+class localStorageService {
+  ls = window.localStorage
+
+  setItem(key, value) {
+    value = JSON.stringify(value)
+    this.ls.setItem(key, value)
+    return true
+  }
+
+  getItem(key) {
+    let value = this.ls.getItem(key)
+    try {
+      return JSON.parse(value)
+    } catch (e) {
+      return null
+    }
+  }
+
+}
+
+export default new localStorageService();

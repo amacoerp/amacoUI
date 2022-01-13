@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7344708ba450d39e984f548f9f2e0da836dd2f4a31caa94640a722307766f85e
-size 883
+import React from "react";
+import { MatxHorizontalNav } from "matx";
+import { navigations } from "../../../../app/navigations";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+
+const useStyles = makeStyles(({ palette, ...theme }) => ({
+  root: {
+    "&, & .horizontal-nav ul ul": {
+      background: palette.primary.main,
+    },
+    "& .horizontal-nav a, & .horizontal-nav label": {
+      color: palette.primary.contrastText,
+    },
+    "& .horizontal-nav ul li ul li:hover, & .horizontal-nav ul li ul li.open": {
+      background: palette.primary.dark,
+    },
+  },
+}));
+
+const Layout2Navbar = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={clsx("navbar", classes.root)}>
+      <div className="pl-6">
+        <MatxHorizontalNav navigation={navigations} max={6} />
+      </div>
+    </div>
+  );
+};
+
+export default Layout2Navbar;

@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:59bf3d501f5ea42ac7392783bf66495f7b837cf6300666b380ecd169fae7d3a5
-size 308
+import React from "react";
+
+const PrintReportRoutes = [
+ 
+  
+  {
+    path: "/print_job_report",
+    component: React.lazy(() => import("./Job"))
+  },
+  
+  {
+    path: "/print_quote_stock",
+    component: React.lazy(() => import("./Stock"))
+  },
+  
+  
+];
+
+export default PrintReportRoutes;

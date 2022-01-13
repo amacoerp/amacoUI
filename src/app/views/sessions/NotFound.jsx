@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:091f9298b17563ceed4009d86c7fd022f73e52d3ea7ed7b18ddc3edf29e15c04
-size 651
+import React from "react";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
+const NotFound = () => {
+  return (
+    <div className="flex justify-center items-center h-full-screen w-full">
+      <div className="flex-column justify-center items-center max-w-320">
+        <img
+          className="mb-8 w-full"
+          src="/assets/images/illustrations/404.svg"
+          alt=""
+        />
+        <Link to="/">
+          <Button className="capitalize" variant="contained" color="primary">
+            Back to Dashboard
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default NotFound;

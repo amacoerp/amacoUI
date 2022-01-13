@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c2e334d9a47ce3f3e8aa4a75c2e90275637daf7b5b29218ef06a3d6152829238
-size 228
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+
+@media print {
+  .ps {
+    overflow: scroll !important;
+    overflow-anchor: none;
+    -ms-overflow-style: none;
+    touch-action: auto;
+    -ms-touch-action: auto;
+  }
+}

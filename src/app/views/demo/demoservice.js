@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c28923846ccc59cc3f6efe92a3a1cc39c85e31699015268ba5be700ace86c827
-size 561
+import axios from 'axios';
+
+export const getAllInvoice = () => {
+    return axios.get("http://www.dataqueuesystems.com/amaco/amaco/public/api/products")
+}
+export const getInvoiceById = (id) => {
+    return axios.get("/api/invoices", { data: id })
+}
+export const deleteInvoice = (invoice) => {
+    return axios.post("/api/invoices/delete", invoice)
+}
+export const addInvoice = (invoice) => {
+    return axios.post("/api/invoices/add", invoice)
+}
+export const updateInvoice = (invoice) => {
+    return axios.post("/api/invoices/update", invoice)
+}

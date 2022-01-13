@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fbbecd6cb776e2c78aa33f152c47719795e6a41456eeeb4f2e835fe46d9f8b14
-size 512
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware, compose } from "redux";
+import RootReducer from "./reducers/RootReducer";
+
+const initialState = {};
+const middlewares = [thunk];
+let devtools = x => x;
+
+if (
+  process.env.NODE_ENV !== "production" &&
+  process.browser &&
+  window.__REDUX_DEVTOOLS_EXTENSION__
+) {
+  devtools = window.__REDUX_DEVTOOLS_EXTENSION__();
+}
+
+export const Store = createStore(
+  RootReducer,
+  initialState,
+  compose(applyMiddleware(...middlewares), devtools)
+);

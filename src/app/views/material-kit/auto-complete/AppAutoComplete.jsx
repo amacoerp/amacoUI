@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6fa2d1d4078d9460b153e127b1aaf69e2aa4cf85231505c92b4abcea51913363
-size 1120
+import React from "react";
+import { Breadcrumb, SimpleCard } from "matx";
+import AutocompleteCombo from "./AutocompleteCombo";
+import AsyncAutocomplete from "./AsyncAutocomplete";
+import BadgeAutocomplete from "./BadgeAutocomplete";
+
+const AppAutoComplete = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Autocomplete" }
+          ]}
+        />
+      </div>
+      <SimpleCard title="autocomplete combo">
+        <AutocompleteCombo />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Asyncronous Autocomplete">
+        <AsyncAutocomplete></AsyncAutocomplete>
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Asyncronous Autocomplete">
+        <BadgeAutocomplete></BadgeAutocomplete>
+      </SimpleCard>
+      {/* <div className="py-3" />
+      <SimpleCard title="Google Location">
+        <LocationAutocomplete></LocationAutocomplete>
+      </SimpleCard> */}
+    </div>
+  );
+};
+
+export default AppAutoComplete;

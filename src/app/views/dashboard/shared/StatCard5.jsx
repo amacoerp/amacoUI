@@ -1,3 +1,54 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cabc58e7c94db1eab4422f873945c6faab12545c281cb249c10f9bab6374c1eb
-size 1328
+import React from "react";
+import { Grid, Card, IconButton, Icon } from "@material-ui/core";
+
+const StatCard5 = () => {
+  const statList = [
+    {
+      icon: "card_giftcard",
+      amount: 10495,
+      title: "TO BE PACKED",
+    },
+    {
+      icon: "local_shipping",
+      amount: 30942,
+      title: "TO BE SHIPPED",
+    },
+    {
+      icon: "assignment_turned_in",
+      amount: 45269,
+      title: "TO BE DELIVERED",
+    },
+    {
+      icon: "assignment",
+      amount: 20965,
+      title: "TO BE INVOICED",
+    },
+  ];
+
+  return (
+    <div>
+      <Grid container spacing={3}>
+        {statList.map((item, ind) => (
+          <Grid key={item.title} item md={3} sm={6} xs={12}>
+            <Card
+              elevation={3}
+              className="p-5 flex-column justify-center items-center"
+            >
+              <div>
+                <IconButton size="small" className="p-2 bg-light-gray">
+                  <Icon className="text-muted">{item.icon}</Icon>
+                </IconButton>
+              </div>
+              {/* <div> */}
+              <h3 className="mt-1 text-32">{item.amount.toLocaleString()}</h3>
+              <p className="m-0 text-muted">{item.title}</p>
+              {/* </div> */}
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
+  );
+};
+
+export default StatCard5;

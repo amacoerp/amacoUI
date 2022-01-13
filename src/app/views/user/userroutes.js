@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:90f01832131282c66ec41a9ba5108c1f5001fc4cc1428340027e0cd82c0b01ce
-size 891
+import React from "react";
+import { navigatePath } from "../invoice/InvoiceService";
+
+const userRoutes = [
+ 
+  
+  {
+    path: navigatePath+"/user",
+    component: React.lazy(() => import("./userview"))
+  },
+  {
+    path: navigatePath+"/userTab",
+    component: React.lazy(() => import("./userTab"))
+  },
+  {
+    path: navigatePath+"/companyInfo",
+    component: React.lazy(() => import("./companyInfo"))
+  },
+  {
+    path: navigatePath+"/division",
+    component: React.lazy(() => import("./divisionview"))
+  },
+  {
+    path: navigatePath+"/bankaccount",
+    component: React.lazy(() => import("./bankaccount"))
+  },
+  {
+    path: navigatePath+"/profile",
+    component: React.lazy(() => import("./profile"))
+  },
+  {
+    path: navigatePath+"/changepass",
+    component: React.lazy(() => import("./changepass"))
+  },
+    
+];
+
+export default userRoutes;

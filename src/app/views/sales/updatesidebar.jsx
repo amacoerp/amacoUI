@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:73de20369f6665767aa957fcab7e1eda5ad482a481ed52a7f7588b7676d27abc
-size 1151
+import useSettings from '../../hooks/useSettings';
+const { settings, updateSettings } = useSettings();
+
+const updateSidebarMode = (sidebarSettings) => {
+    if (sidebarSettings.mode == "close") {
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
+        },
+      });
+    }
+    else {
+      window.location.href = "../sales/rfq-form/rfqview"
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
+        },
+      });
+
+    }
+
+  }
+export default updateSidebarMode;

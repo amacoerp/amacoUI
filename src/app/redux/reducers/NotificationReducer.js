@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8947570c66a64d9284ba755e68440ecafb1b57ebec5226c950bf28537921f485
-size 642
+import {
+  GET_NOTIFICATION,
+  CREATE_NOTIFICATION,
+  DELETE_ALL_NOTIFICATION,
+  DELETE_NOTIFICATION
+} from "../actions/NotificationActions";
+
+const initialState = [];
+
+const NotificationReducer = function(state = initialState, action) {
+  switch (action.type) {
+    case GET_NOTIFICATION: {
+      return [...action.payload];
+    }
+    case CREATE_NOTIFICATION: {
+      return [...action.payload];
+    }
+    case DELETE_NOTIFICATION: {
+      return [...action.payload];
+    }
+    case DELETE_ALL_NOTIFICATION: {
+      return [...action.payload];
+    }
+    default: {
+      return [...state];
+    }
+  }
+};
+
+export default NotificationReducer;

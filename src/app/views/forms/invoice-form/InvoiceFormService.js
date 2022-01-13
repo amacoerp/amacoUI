@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2f92c7cad1f46aa575913885cf0027c57d644ad95afc39781be6fd32465654c0
-size 466
+import axios from "axios";
+
+export const calculateAmount = (item) => {
+  if (!item.discount) return item.price * item.quantity || 0;
+
+  if (item.discountType === "$") {
+    let total = item.price * item.quantity;
+    return total - item.discount || 0;
+  } else {
+    let total = item.price * item.quantity;
+    return total - (total * item.discount) / 100 || 0;
+  }
+};
+
+export const getProductList = () => {
+  return axios.get("/api/ecommerce/get-product-list");
+};

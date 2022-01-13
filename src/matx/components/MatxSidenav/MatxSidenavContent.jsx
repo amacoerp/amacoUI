@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:578a881fb248b69d0b1eb6b2297d73e6484e23e6f640600455294361cc854911
-size 184
+import React from "react";
+
+const MatxSidenavContent = ({ children }) => {
+  return <div className="relative flex-grow h-full">{children}</div>;
+};
+
+export default MatxSidenavContent;

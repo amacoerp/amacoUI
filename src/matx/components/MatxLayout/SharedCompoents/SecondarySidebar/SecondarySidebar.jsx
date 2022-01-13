@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a37b64aaaeaacd1f12bf3c159067737729dd4cdf4f0dc20807c52c9558049ccd
-size 703
+import React from "react";
+import SecondarySidebarToggle from "./SecondarySidebarToggle";
+import SecondarySidebarContent from "./SecondarySidebarContent";
+import SecondarySidenavTheme from "../../MatxTheme/SecondarySidenavTheme/SecondarySidenavTheme";
+import useSettings from 'app/hooks/useSettings';
+
+const SecondarySidebar = () => {
+  const { settings } = useSettings();
+  const secondarySidebarTheme =
+    settings.themes[settings.secondarySidebar.theme];
+
+  return (
+    <SecondarySidenavTheme theme={secondarySidebarTheme}>
+      {settings.secondarySidebar.open && <SecondarySidebarContent />}
+      <SecondarySidebarToggle />
+    </SecondarySidenavTheme>
+  );
+};
+
+export default SecondarySidebar;

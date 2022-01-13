@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b09787e7795f00f149d5283812084408490afe9689dee16501b22e46c46e5cb0
-size 977
+import url, { getpaidDivision,newF } from "../views/invoice/InvoiceService";
+var obj = [];
+
+// const uid = localStorage.getItem('user_id');
+// url.get(`userPermission/${uid}`).then(({ data }) => {
+//   localStorage.setItem("permissiondata" ,JSON.stringify(data.permission));
+// })
+export const authRoles = {
+  sa: ['SA'], // Only Super Admin has access
+  admin: ['SA', 'ADMIN'], // Only SA & Admin has access
+  editor: ['SA', 'ADMIN', 'EDITOR'], // Only SA & Admin & Editor has access
+  guest: ['SA', 'ADMIN', 'EDITOR', 'GUEST'] // Everyone has access
+}
+
+
+
+
+// Check out app/views/dashboard/DashboardRoutes.js
+// Only SA & Admin has dashboard access
+
+// const dashboardRoutes = [
+//   {
+//     path: "/dashboard/analytics",
+//     component: Analytics,
+//     auth: authRoles.admin <===============
+//   }
+// ];
+
+
+// Check navigaitons.js
+
+// {
+//   name: "Dashboard",
+//   path: "/dashboard/analytics",
+//   icon: "dashboard",
+//   auth: authRoles.admin <=================
+// }

@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:45f710e461894983232e3ac59c6babb5dbf5f688cb45afa7ce8af625d8ca0525
-size 499
+import React from "react";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
+import useSettings from 'app/hooks/useSettings';
+
+const SidenavTheme = ({ children }) => {
+  const theme = useTheme();
+  const { settings } = useSettings();
+  const sidenavTheme =
+    settings.themes[settings.layout1Settings.leftSidebar.theme] || theme;
+
+  return <ThemeProvider theme={sidenavTheme}>{children}</ThemeProvider>;
+};
+
+export default SidenavTheme;

@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b0ec7b099437bb6f925fb5d5723f52282ac6ae16b1a7ead0c9c4b9bfe90ddb82
-size 833
+import React from "react";
+import { Grid, Fade } from "@material-ui/core";
+import ProductPriceList from "./ProductPriceList";
+// import CustomerEmailSender from "./CustomerEmailSender";
+import ProductInfos from "./ProductInfo";
+import ProductAction from "./ProductAction";
+
+const ProductDetails = () => {
+  return (
+    <Fade in timeout={300}>
+      <Grid container spacing={2}>
+        <Grid item lg={4} md={6} xs={12}>
+          <ProductInfos />
+        </Grid>
+        <Grid item lg={8} md={6} xs={12}>
+          <ProductPriceList />
+        </Grid>
+        {/* <Grid item lg={4} md={6} xs={12}>
+          <CustomerEmailSender />
+        </Grid> */}
+        <Grid item lg={4} md={6} xs={12}>
+          <ProductAction/>
+        </Grid>
+      </Grid>
+    </Fade>
+  );
+};
+
+export default ProductDetails;

@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a7e9afad010e36a8414156ebf22c2be6feb5f055c1ea8bcc8318b8134a6bc309
-size 903
+import "./VendorCss";
+import React from 'react';
+import { variableStyles } from "./_variables";
+import { positioningStyles } from "./utilities/_positionings";
+import { spacingStyles } from "./utilities/_spacing";
+import { borderStyles } from "./utilities/_border";
+import { shadowStyles } from "./utilities/_shadows";
+import { colorStyles } from "./utilities/_color";
+import { typographyStyles } from "./utilities/_typography";
+import { commonStyles } from "./utilities/_common";
+import { animationStyles } from "./utilities/_animations";
+// import { landingStyles } from "./utilities/_landing";
+
+const GlobalCss = ({ children }) => {
+  variableStyles();
+  positioningStyles();
+  spacingStyles();
+  borderStyles();
+  colorStyles();
+  shadowStyles();
+  typographyStyles();
+  commonStyles();
+  animationStyles();
+  // landingStyles();
+
+  return children || null;
+};
+
+export default React.memo(GlobalCss);

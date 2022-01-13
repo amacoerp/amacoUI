@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:22974f4ecce91ea549139fd3970e4a426b69f81fdbd8442ff484039b6de1288b
-size 1105
+import React from "react";
+import SimpleCheckbox from "./SimpleCheckbox";
+import LabelledCheckbox from "./LabelledCheckbox";
+import PlacingCheckboxLabel from "./PlacingCheckboxLabel";
+import FormGroupCheckbox from "./FormGroupCheckbox";
+import { Breadcrumb, SimpleCard } from "matx";
+
+const AppCheckbox = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Chckbox" }
+          ]}
+        />
+      </div>
+      <SimpleCard title="simple checkbox">
+        <SimpleCheckbox />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Checkbox with Label">
+        <LabelledCheckbox />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Checkbox with Form Group">
+        <FormGroupCheckbox />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Checkbox with Different Label Placement">
+        <PlacingCheckboxLabel />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default AppCheckbox;

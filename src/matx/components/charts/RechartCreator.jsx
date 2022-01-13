@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0a97312c4e0d51588523942f42dbd01cc9f39092491a54b624c23439b6f870c2
-size 311
+import React from "react";
+import { ResponsiveContainer } from "recharts";
+
+const RechartCreator = ({ height = "320px", width = "100%", children }) => {
+  return (
+    <div style={{ height, width }}>
+      <ResponsiveContainer>{children}</ResponsiveContainer>
+    </div>
+  );
+};
+
+export default RechartCreator;

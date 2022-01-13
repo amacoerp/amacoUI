@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:17c16e82ab42af9195d6665e22bc525ff6e0abeb21f592217ef87bb0d063a150
-size 584
+import React from "react";
+import { navigatePath } from "./InvoiceService";
+const invoiceRoutes = [
+  // {
+  //   path: "/invoice/rfqprint",
+  //   component: React.lazy(() => import("./Rfqprint"))
+  // },
+  {
+    path: navigatePath+"/invoice/list",
+    // exact: true,
+    component: React.lazy(() => import("./InvoiceViewer"))
+  },
+  {
+    path: navigatePath+"/invoice/:id",
+    component: React.lazy(() => import("./InvoiceDetails"))
+  },
+
+  {
+    path: navigatePath+"/edit/:id",
+    component: React.lazy(() => import("./InvoiceEditor"))
+  },
+  
+];
+
+export default invoiceRoutes;

@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9d41c0cc2ca37725ce3b73dd74fe5c80fb0844071ff2a11242643bc73bb03a88
-size 788
+import FirebaseLogin from "./login/FirebaseLogin";
+import JwtLogin from "./login/JwtLogin.jsx";
+import NotFound from "./NotFound";
+import ForgotPassword from "./ForgotPassword";
+import FirebaseRegister from "./register/FirebaseRegister";
+import React from "react";
+import { navigatePath } from "../invoice/InvoiceService";
+
+const sessionRoutes = [
+  {
+    path: navigatePath+"/session/signup",
+    component: FirebaseRegister,
+  },
+  {
+    path: navigatePath+"/session/signin",
+    component: JwtLogin,
+  },
+  {
+    path: navigatePath+"/session/signin",
+    component: JwtLogin,
+  },
+  {
+    path: navigatePath+"/session/forgot-password",
+    component: ForgotPassword,
+  },
+  {
+    path: navigatePath+"/session/404",
+    component: NotFound,
+  },
+  
+  
+];
+
+export default sessionRoutes;
