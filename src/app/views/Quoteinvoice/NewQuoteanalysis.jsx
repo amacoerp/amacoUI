@@ -435,6 +435,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       description: "",
       descriptions: "",
       quantity: 0,
+      unit_of_measure: 0,
       product_price_list: [
         {
           price: ""
@@ -586,8 +587,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const handleSubmit = () => {
-    handleSidebarToggle()
+  const handleSubmit = (s) => {
+    let mode="full"
+    updateSidebarMode({ mode })
+   
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
@@ -638,6 +641,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('transport', transport)
     formData.append('other', other)
     formData.append('user_id', user.id)
+    formData.append('status', s)
     formData.append('div_id', localStorage.getItem('division'))
 
 
@@ -658,7 +662,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "/quoateview/0")
+            if(s=="New")
+            {
+            history.push(navigatePath + "/quote/"+response.data+"/New")
+
+            }
+            else
+            {
+            history.push(navigatePath + "/quoateview/3")
+            }
           })
       })
       .catch(function (error) {
@@ -959,7 +971,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm onSubmit={()=>handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -974,7 +986,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
-
+                <Button
+                  type="submit"
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  disabled={loading}
+                  onClick={()=>handleSubmit('draft')}
+                >
+                  <Icon>drafts</Icon> DRAFT
+                </Button>
 
                 <Button
                   type="submit"
@@ -982,6 +1003,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
+                  onClick={()=>handleSubmit('New')}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
