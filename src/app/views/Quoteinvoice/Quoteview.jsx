@@ -358,6 +358,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       if (s == "New") {
         settab(0)
       }
+      else if (s == "draft") {
+        settab(1)
+      }
       else if (s == "accept") {
         settab(1)
       }

@@ -8,6 +8,7 @@ import { Link,useParams } from "react-router-dom";
 import SimpleMuiTable from "./Quoateview";
 import AcceptQuote from "./Acceptquote";
 import RejectQuote from "./Rejectquote";
+import Draft from "./Draft";
 import { navigatePath } from "app/views/invoice/InvoiceService";
 
 const CustomerViewer = () => {
@@ -36,8 +37,9 @@ const CustomerViewer = () => {
   useEffect(() => {
 
     setTabIndex(parseInt(t))
+    return t
     
-  }, [ ])
+  }, [t])
   
 
   return (
@@ -105,10 +107,11 @@ const CustomerViewer = () => {
        {tabIndex == 0 && <SimpleMuiTable />}
       {tabIndex == 1 && <AcceptQuote />}
       {tabIndex == 2 && <RejectQuote />}  
+      {tabIndex == 3 && <Draft />}  
     </div>
   );
 };
 
-const tabList = ["NEW", "ACCEPTED QUOTATION", "TRASH"];
+const tabList = ["NEW", "ACCEPTED QUOTATION", "TRASH","DRAFT"];
 
 export default CustomerViewer;

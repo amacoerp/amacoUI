@@ -338,7 +338,7 @@ const SimpleMuiTable = () => {
       <MUIDataTable
         title={"SALES QUOTATION"}
         
-        data={qdetails.filter(obj=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
+        data={qdetails.filter(obj=>obj.div_id==localStorage.getItem('division') && obj.status=="New").map((item, index) => {
        
             return [
               ++index,
