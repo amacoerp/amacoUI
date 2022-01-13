@@ -1650,6 +1650,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         type="text"
                         variant="outlined"
                         size="small"
+                        readOnly
                         style={{ width: '90px' }}
                         onChange={(event) => handleChange(event, "discount")}
                         inputProps={{ min: 0, style: { textAlign: 'center' } }}
@@ -1681,6 +1682,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         name="dis_per"
                         variant="outlined"
                         fullWidth
+                        readOnly
                         size="small"
                         currencySymbol="SAR"
                         value={discount ? dis_per : 0.00}
@@ -1724,6 +1726,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       name="vat"
                       variant="outlined"
                       fullWidth
+                      readOnly
                       size="small"
                       currencySymbol="SAR"
                       value={subTotalCost ? vat : parseFloat(0.00).toLocaleString(undefined, {
@@ -1738,6 +1741,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         name="net_amount"
                         variant="outlined"
                         fullWidth
+                        readOnly
                         size="small"
                         currencySymbol="SAR"
                         value={subTotalCost ? GTotal : parseFloat(0.00).toLocaleString(undefined, {

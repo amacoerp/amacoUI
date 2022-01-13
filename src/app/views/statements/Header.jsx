@@ -18,7 +18,12 @@ function Header() {
             <div className="px-2 flex justify-between">
               <div className="flex">
                 <div className="pr-12">
-                  <img src={state?.image1} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
+                  {localStorage.getItem('division') == 3 ? <>
+                    <img src={state?.image1} alt="logo" style={{ marginLeft: '15px', width: 237 }} />
+                  </> : <>
+                    <img src={state?.image1} alt="logo" style={{ marginLeft: '15px', width: 237 }} />
+
+                  </>}
 
                 </div>
 
