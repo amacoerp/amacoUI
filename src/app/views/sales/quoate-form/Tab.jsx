@@ -37,9 +37,9 @@ const CustomerViewer = () => {
   useEffect(() => {
 
     setTabIndex(parseInt(t))
-    return t
+    // return t
     
-  }, [t])
+  }, [ ])
   
 
   return (
