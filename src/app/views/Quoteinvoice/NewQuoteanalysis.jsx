@@ -587,8 +587,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleSubmit = () => {
-    let mode="full"
-    updateSidebarMode({ mode })
+    handleSidebarToggle()
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
@@ -746,7 +745,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     getCustomerList().then(({ data }) => {
 
-      setCustomerList(data);
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+      setCustomerList(d);
 
       setsign(user.id)
 
@@ -1261,55 +1261,56 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </>}
 
                       </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                        <TextValidator
+                          label="Item"
+                          onChange={(event) => setProductdescription(event, index)}
+                          type="text"
+                          name="product_id"
+                          fullWidth
+                          variant="outlined"
+                          // inputProps={{style: {textTransform: 'capitalize'}}}
+
+                          size="small"
+                          value={item.product_id ? item.product_id : ""}
+                          required
+                          // validators={["required"]}
+
+                          // errorMessages={["this field is required"]}
+                          select
+                        >
+                          <MenuItem value="false">
+                            <Icon>add</Icon>Add New
+                          </MenuItem>
+                          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
+                            <MenuItem value={item.id} key={item.id}>
+                              {item.name}
+                            </MenuItem>
+                          ))}
+                        </TextValidator>
+                      </TableCell>
                       {
                         localStorage.getItem('division') == 3 ? <></> : <>
                           <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                            <TextValidator
-                              label="Item"
-                              onChange={(event) => setProductdescription(event, index)}
+                            <TextField
+                              label="description"
+                              onChange={(event) => handleIvoiceListChange(event, index)}
                               type="text"
-                              name="product_id"
+                              name="description"
                               fullWidth
                               variant="outlined"
                               // inputProps={{style: {textTransform: 'capitalize'}}}
-
+                              multiline
                               size="small"
-                              value={item.product_id ? item.product_id : ""}
-                              required
-                              // validators={["required"]}
+                              value={item ? item.description : null}
 
-                              // errorMessages={["this field is required"]}
-                              select
-                            >
-                              <MenuItem value="false">
-                                <Icon>add</Icon>Add New
-                              </MenuItem>
-                              {proList.map((item) => (
-                                <MenuItem value={item.id} key={item.id}>
-                                  {item.name}
-                                </MenuItem>
-                              ))}
-                            </TextValidator>
+                            />
                           </TableCell>
 
                         </>
                       }
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextField
-                          label="description"
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          name="description"
-                          fullWidth
-                          variant="outlined"
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
-                          multiline
-                          size="small"
-                          value={item ? item.description : null}
 
-                        />
-                      </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
                           label="Our description"

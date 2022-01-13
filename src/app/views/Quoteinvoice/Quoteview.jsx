@@ -1166,12 +1166,20 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           {
                             localStorage.getItem('division') == 3 ? <></> : <>
                               <TableCell className="px-0" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
 
                             </>
                           }
-                          <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
+                          {
+                            localStorage.getItem('division') == 3 ? <>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO OFFERED DESCRIPTION </TableCell>
 
-                          <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO DESCRIPTION</TableCell>
+                            </> : <>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO DESCRIPTION</TableCell>
+
+                            </>
+                          }
+
                           <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 80, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">QTY</TableCell>
                           <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} colSpan={2} align="center">UOM</TableCell>
 
@@ -1194,11 +1202,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                     {item.file ? <img className="w-60" src={item.file} alt="" /> : ''}
 
                                   </TableCell>
+                                  <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
+                                    {item.description}
+                                  </TableCell>
                                 </>
                               }
-                              <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
-                                {item.description}
-                              </TableCell>
+
                               <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
                                 {item?.descriptionss}
                               </TableCell>
@@ -1233,7 +1242,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         })}
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
-                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 9 : 11}>
+                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : 11}>
                             <div className="px-4 flex justify-between" style={{ fontFamily: "Calibri" }}>
                               <div className="flex">
                                 <div className="pr-12">
@@ -1346,7 +1355,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                          <TableCell colspan={localStorage.getItem('division') == 3 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
+                          <TableCell colspan={localStorage.getItem('division') == 3 ? 5 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
                             <div className="px-4 flex justify-between">
                               <div className="flex">
                                 <div className="pr-12" style={{ wordBreak: 'break-word', fontSize: '11pt' }}>

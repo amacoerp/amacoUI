@@ -16,7 +16,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url,{ApiKey, navigatePath} from "../invoice/InvoiceService";
+import url, { ApiKey, navigatePath } from "../invoice/InvoiceService";
 // expandable table
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -45,16 +45,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [cname, setcname] = useState('');
   var tempDate = new Date();
   const [qno, setqno] = useState('');
-  const[pono,setpono]=useState('');
+  const [pono, setpono] = useState('');
   const [party_id, setparty_id] = useState('');
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
   const [ProductList, setProductList] = useState([]);
-  const [discount,setdiscount] =useState('0')
+  const [discount, setdiscount] = useState('0')
   const [dstatus, setdstatus] = useState(false);
   const history = useHistory();
   const { id } = useParams();
-  const {user } = useAuth();
+  const { user } = useAuth();
   const classes = useStyles();
 
   const generateRandomId = useCallback(() => {
@@ -63,72 +63,71 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
- 
-  
 
-  
+
+
+
 
   const handleIvoiceListChange = (event, index) => {
     event.persist()
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-      
-    
-      if (index === i) 
-      {
-        
-        element['total_amount']=(parseInt(element.sell_price)*event.target.value).toFixed(2);
+      let sum = 0;
+
+
+      if (index === i) {
+
+        element['total_amount'] = (parseInt(element.sell_price) * event.target.value).toFixed(2);
         element[event.target.name] = event.target.value;
-      
+
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-   
-     
-   
+
+
+
   };
 
-  
 
-  
 
-  
-  
+
+
+
+
 
   const handleSubmit = () => {
 
 
 
-    let tempItemList =[...state.item];
+    let tempItemList = [...state.item];
     tempItemList.map((element, i) => {
-      let sum=0;
-      
-    
-   
-      element['product_id']="";
-      
-    Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${element.description}&target=ar`, {
-      method: 'POST',
-      headers: { 
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
-"Access-Control-Allow-Headers": "Content-Type, x-requested-with",
-"Access-Control-Max-Age": 86400
-      },
-    })
-      .then(({ data }) => {
-          element['arabic_description']=data.data.translations[0].translatedText;
-          // console.log(data.data.translations[0].translatedText);
-      
+      let sum = 0;
+
+
+
+      element['product_id'] = "";
+
+      Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${element.description}&target=ar`, {
+        method: 'POST',
+        headers: {
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
+          "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+          "Access-Control-Max-Age": 86400
+        },
       })
+        .then(({ data }) => {
+          element['arabic_description'] = data.data.translations[0].translatedText;
+          // console.log(data.data.translations[0].translatedText);
+
+        })
       return element;
     })
 
@@ -139,65 +138,65 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     setState({ ...state, loading: true });
-    
+
     let tempState = { ...state };
     let arr = []
     delete tempState.loading;
 
-    
+
 
     // arr.push({
     //   invoice_details:tempItemList,
     // });
     // console.log(tempItemList)
-    arr.invoice_details=tempItemList
-    arr.quotation_id=parseInt(id)
-    arr.discount_in_percentage=discount
-    arr.total_value=parseFloat(subTotalCost).toFixed(2)
-    arr.grand_total=GTotal
-    arr.vat_in_value=parseFloat(vat).toFixed(2)
-    arr.party_id=party_id
-    arr.ps_date=tempDate
-    arr.user_id=user.id
-    arr.div_id=localStorage.getItem('division')
-   
+    arr.invoice_details = tempItemList
+    arr.quotation_id = parseInt(id)
+    arr.discount_in_percentage = discount
+    arr.total_value = parseFloat(subTotalCost).toFixed(2)
+    arr.grand_total = GTotal
+    arr.vat_in_value = parseFloat(vat).toFixed(2)
+    arr.party_id = party_id
+    arr.ps_date = tempDate
+    arr.user_id = user.id
+    arr.div_id = localStorage.getItem('division')
+
     const json = Object.assign({}, arr);
-  
-    setTimeout(() => {  
-    url.post('invoice',json)
-      .then(function (response) {
-        
-         
-        Swal.fire({
-          title: 'Success',
-          type: 'success',
-          icon:'success',
-          text: 'Data saved successfully.',
-        });
-        history.push(navigatePath+"/inv")
-      //  window.location.href="../quoateview"
-      })
-      .catch(function (error) {
-        
-      })
-    }, 5000); 
+
+    setTimeout(() => {
+      url.post('invoice', json)
+        .then(function (response) {
+
+
+          Swal.fire({
+            title: 'Success',
+            type: 'success',
+            icon: 'success',
+            text: 'Data saved successfully.',
+          });
+          history.push(navigatePath + "/inv")
+          //  window.location.href="../quoateview"
+        })
+        .catch(function (error) {
+
+        })
+    }, 5000);
     console.log(arr)
   };
   function cancelform() {
-    history.push(navigatePath+`/quote/${id}/accept`)
+    history.push(navigatePath + `/quote/${id}/accept`)
   }
 
   useEffect(() => {
-   
+
     url.get("products").then(({ data }) => {
       setproList(data)
-    // setState({
-    //     ...state,
-    //     item: data,
-    //   }); 
+      // setState({
+      //     ...state,
+      //     item: data,
+      //   }); 
     });
-    url.get("sale-quotation/"+ id).then(({ data }) => {
-     
+    url.get("sale-quotation/" + id).then(({ data }) => {
+
       setcname(data[0].party.firm_name)
       setqno(data[0].quotation_no)
       setpono(data[0].po_number)
@@ -206,22 +205,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0].discount_in_p)
       let tempItemList = data[0].quotation_details;
       tempItemList.map((element, i) => {
-        let sum=0;
-        element['productId']=element.product_id
-        element['product']=element.description
+        let sum = 0;
+        element['productId'] = element.product_id
+        element['product'] = element.description
         return element;
       })
       console.log(tempItemList)
-   
-     setState({
-      ...state,
-      item: tempItemList,
+
+      setState({
+        ...state,
+        item: tempItemList,
+      });
+
     });
-    
-   });
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
-  
+
   // handleChange(evt) {
   //   this.setState({
   //     [evt.target.name]: evt.target.value,
@@ -234,59 +233,59 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   let subTotalCost = 0;
   let GTotal = 0;
-  let discount1=0;
+  let discount1 = 0;
   let {
-    
+
     item: invoiceItemList = [],
-    quote:quoteList = [],
+    quote: quoteList = [],
     vat,
     loading,
   } = state;
 
   return (
     <div className="m-sm-30">
-    <Card elevation={3}>
-    <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-      <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
-      
-        <div className="viewer_actions px-4 flex justify-between">
-          <div className="mb-6">
-          <h3 align="left">SALES INVOICE</h3>
-          </div>
-          <div className="mb-6">
-         
-            <Button
-              className="mr-4 py-2"
-              variant="outlined"
-              color="secondary"
-              onClick={cancelform}
-            >
-              <Icon>cancel</Icon> CANCEL
-            </Button>
-           
+      <Card elevation={3}>
+        <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
+          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
 
-            <Button
-              type="submit"
-              className="py-2"
-              variant="outlined"
-              color="primary"
-              disabled={loading}
-            >
-              <Icon>save</Icon> SAVE & PRINT INVOICE
-            </Button>
-          </div>
-        </div>
+            <div className="viewer_actions px-4 flex justify-between">
+              <div className="mb-6">
+                <h3 align="left">SALES INVOICE</h3>
+              </div>
+              <div className="mb-6">
 
-        <div className="viewer__order-info px-4 mb-4 flex justify-between">
-          <div>
-          <h5 className="font-normal capitalize">
-              <strong>Quotation Number: </strong>{" "}
-              <span>
-                {qno}
-              </span>
-            </h5>
-            {/* <p className="mb-4">Order Number</p> */}
-            {/* <TextValidator
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="secondary"
+                  onClick={cancelform}
+                >
+                  <Icon>cancel</Icon> CANCEL
+                </Button>
+
+
+                <Button
+                  type="submit"
+                  className="py-2"
+                  variant="outlined"
+                  color="primary"
+                  disabled={loading}
+                >
+                  <Icon>save</Icon> SAVE & PRINT INVOICE
+                </Button>
+              </div>
+            </div>
+
+            <div className="viewer__order-info px-4 mb-4 flex justify-between">
+              <div>
+                <h5 className="font-normal capitalize">
+                  <strong>Quotation Number: </strong>{" "}
+                  <span>
+                    {qno}
+                  </span>
+                </h5>
+                {/* <p className="mb-4">Order Number</p> */}
+                {/* <TextValidator
               label="Customer Name."
               type="text"
               size="small"
@@ -298,14 +297,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               validators={["required"]}
               errorMessages={["this field is required"]}
             /> */}
-           <h5 className="font-normal capitalize">
-              <strong>Company Name: </strong>{" "}
-              <span>
-                {cname}
-              </span>
-            </h5>
-            
-            {/* <TextValidator
+                <h5 className="font-normal capitalize">
+                  <strong>Company Name: </strong>{" "}
+                  <span>
+                    {cname}
+                  </span>
+                </h5>
+
+                {/* <TextValidator
                 label="Buyer Address"
                 onChange={(event) => handleSellerBuyerChange(event, "buyer")}
                 type="text"
@@ -319,10 +318,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
-          </div>
-          <div>
-           
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              </div>
+              <div>
+
+                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 // id="mui-pickers-date"
                 label="Requested Date"
@@ -335,23 +334,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 onChange={rdate => setrdate(rdate)} 
                 
               /> */}
-            {/* </MuiPickersUtilsProvider> */}
-            <div className="text-right">
-              <h5 className="font-normal">
-                <strong>Due date: </strong>
-                <span>
-                  {moment(tempDate).format('DD MMM YYYY')}
-                  </span>
-              </h5>
-            </div>
-            <div className="text-right">
-              <h5 className="font-normal">
-                <strong>P.O Number: </strong>
-                <span>
-                  {pono}
-                  </span>
-              </h5>
-              {/* <TextField
+                {/* </MuiPickersUtilsProvider> */}
+                <div className="text-right">
+                  <h5 className="font-normal">
+                    <strong>Due date: </strong>
+                    <span>
+                      {moment(tempDate).format('DD MMM YYYY')}
+                    </span>
+                  </h5>
+                </div>
+                <div className="text-right">
+                  <h5 className="font-normal">
+                    <strong>P.O Number: </strong>
+                    <span>
+                      {pono}
+                    </span>
+                  </h5>
+                  {/* <TextField
                     
                     label="PO Number"
                     style={{minWidth:200,maxWidth:'250px'}}
@@ -367,8 +366,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   >
                     
         </TextField> */}
-            </div>
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                </div>
+                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="none"
                 // id="mui-pickers-date"
@@ -387,55 +386,53 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 }}
               />
             </MuiPickersUtilsProvider> */}
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <Divider />
+            <Divider />
 
-          <Table className="mb-4">
-          <TableHead>
-            <TableRow className="bg-default">
-              <TableCell className="pl-2" width={80}>S.NO.</TableCell>
-              {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
-              <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell> 
-              <TableCell className="px-0"  align="center" width={100}>UOM</TableCell>
-              <TableCell className="px-0"  align="center" style={{width:'80px'}}>QUANTITY</TableCell>
-              <TableCell className="px-0" align="center" style={{width:'150px'}}>UNIT PRICE</TableCell>
-              <TableCell className="px-0" align="center">TOTAL</TableCell>
-              {/* <TableCell className="px-0">Action</TableCell> */}
-            </TableRow>
-          </TableHead>
+            <Table className="mb-4">
+              <TableHead>
+                <TableRow className="bg-default">
+                  <TableCell className="pl-2" width={80}>S.NO.</TableCell>
+                  {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
+                  <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell>
+                  <TableCell className="px-0" align="center" width={100}>UOM</TableCell>
+                  <TableCell className="px-0" align="center" style={{ width: '80px' }}>QUANTITY</TableCell>
+                  <TableCell className="px-0" align="center" style={{ width: '150px' }}>UNIT PRICE</TableCell>
+                  <TableCell className="px-0" align="center">TOTAL</TableCell>
+                  {/* <TableCell className="px-0">Action</TableCell> */}
+                </TableRow>
+              </TableHead>
 
-          <TableBody>
-            {invoiceItemList.map((item, index) => {
-             
-              if(!dstatus)
-              {
-                
-              // subTotalCost=parseInt(subTotalCost)+(parseInt(item.product[0].unit_price) * parseInt(item.quantity_required))
-  
-              subTotalCost += parseFloat(item.total_amount) 
-            
-              vat= ((subTotalCost * 15) / 100).toFixed(2)
-              GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
-              }
-              else
-              {
-                
-                subTotalCost += parseFloat(item.total_amount)
-                // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
-                vat= (((subTotalCost-parseFloat(discounts * subTotalCost/100)) * 15) / 100).toFixed(2)
-                GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
-              }
-              // vat= (discount * 15) / 100
-              // GTotal=item.discount + item.vat;
-              
-              return (
-                <TableRow key={index}>
-                  
-                  {/* <div className={classes.root}> */}
-                  
-      {/* <ExpansionPanel>
+              <TableBody>
+                {invoiceItemList.map((item, index) => {
+
+                  if (!dstatus) {
+
+                    // subTotalCost=parseInt(subTotalCost)+(parseInt(item.product[0].unit_price) * parseInt(item.quantity_required))
+
+                    subTotalCost += parseFloat(item.total_amount)
+
+                    vat = ((subTotalCost * 15) / 100).toFixed(2)
+                    GTotal = (subTotalCost + (subTotalCost * 15) / 100).toFixed(2)
+                  }
+                  else {
+
+                    subTotalCost += parseFloat(item.total_amount)
+                    // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
+                    vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
+                    GTotal = ((subTotalCost - parseFloat(discounts * subTotalCost / 100)) + parseFloat(vat)).toFixed(2);
+                  }
+                  // vat= (discount * 15) / 100
+                  // GTotal=item.discount + item.vat;
+
+                  return (
+                    <TableRow key={index}>
+
+                      {/* <div className={classes.root}> */}
+
+                      {/* <ExpansionPanel>
      
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -464,16 +461,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </ExpansionPanelDetails>
       </ExpansionPanel>
      */}
-      
-    {/* </div> */}
-                
-                  <TableCell className="pl-2 capitalize" align="left">
-                    {index + 1}
-                    {/* <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+
+                      {/* </div> */}
+
+                      <TableCell className="pl-2 capitalize" align="left">
+                        {index + 1}
+                        {/* <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton> */}
-                  </TableCell>
-                  {/* <Select
+                      </TableCell>
+                      {/* <Select
                 menuPortalTarget={document.body}
                 menuPosition={'fixed'}
         placeholder="Select Option"
@@ -484,7 +481,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
          onChange={(event) => handleIvoiceListChange(event, index)}
           
       /> */}
-                  {/* <TableCell className="pl-0 capitalize" align="left">
+                      {/* <TableCell className="pl-0 capitalize" align="left">
                     
                   
                     <TextValidator
@@ -507,56 +504,56 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </TextValidator>
                   </TableCell> */}
 
-                  <TableCell className="pl-0 capitalize" align="left">
-                    <TextValidator
-                      label="description"
-                      // onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      name="description"
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      inputProps={{style: {textTransform: 'capitalize'}}}
-                      value={item? item.description: null}
-                      validators={["required"]}
-                      multiline
-                      errorMessages={["this field is required"]}
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left">
-                    <TextValidator
-                      label="UOM"
-                      // onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      name="unit_of_measure"
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
-                      fullWidth
-                      value={item ?item.unit_of_measure :null }
-              
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize"  align="left" style={{width:'60px'}}>
-                    <TextValidator
-                      label="Quantity"
-                      onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="number"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      name="quantity"
-                      min="1"
-                      max={item.quantity}
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
-                      value={item.quantity}
-                      validators={["required"]}
-                      errorMessages={["this field is required"]}
-                    />
-                  </TableCell>
-                  
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'80px'}}>
-                    {/* <TextValidator
+                      <TableCell className="pl-0 capitalize" align="left">
+                        <TextValidator
+                          label="description"
+                          // onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          name="description"
+                          fullWidth
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { textTransform: 'capitalize' } }}
+                          value={item ? item.description : null}
+                          validators={["required"]}
+                          multiline
+                          errorMessages={["this field is required"]}
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left">
+                        <TextValidator
+                          label="UOM"
+                          // onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          name="unit_of_measure"
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          fullWidth
+                          value={item ? item.unit_of_measure : null}
+
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '60px' }}>
+                        <TextValidator
+                          label="Quantity"
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="number"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          name="quantity"
+                          min="1"
+                          max={item.quantity}
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          value={item.quantity}
+                          validators={["required"]}
+                          errorMessages={["this field is required"]}
+                        />
+                      </TableCell>
+
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
+                        {/* <TextValidator
                       label="Unit_Price"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -569,23 +566,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       validators={["required"]}
                       errorMessages={["this field is required"]}
                     /> */}
-                    <CurrencyTextField
-                className="w-full"
-                label="Unit Price"
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="sell_price"
-                value={item? item.sell_price: null}
-              />
-                  </TableCell>
+                        <CurrencyTextField
+                          className="w-full"
+                          label="Unit Price"
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          currencySymbol="SAR"
+                          name="sell_price"
+                          value={item ? item.sell_price : null}
+                        />
+                      </TableCell>
 
-                  
-                  
-                  
-                  <TableCell className="pl-0 capitalize" align="left">
-                    {/* <TextValidator
+
+
+
+                      <TableCell className="pl-0 capitalize" align="left">
+                        {/* <TextValidator
                       label="QTotal"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -597,64 +594,64 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       value={item.total_amount}
                       
                     /> */}
-                    <CurrencyTextField
-                className="w-full"
-                label="Total"
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="total_amount"
-                value={item.total_amount}
-              />
-                  </TableCell>
-                  
+                        <CurrencyTextField
+                          className="w-full"
+                          label="Total"
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          currencySymbol="SAR"
+                          name="total_amount"
+                          value={item.total_amount}
+                        />
+                      </TableCell>
 
-                  {/* <TableCell className="pl-0 capitalize" align="left">
+
+                      {/* <TableCell className="pl-0 capitalize" align="left">
                     {item.unit * item.price}
                   </TableCell> */}
-       
-                  {/* <TableCell className="pl-0 capitalize" align="left">
+
+                      {/* <TableCell className="pl-0 capitalize" align="left">
                     <Button onClick={() => deleteItemFromInvoiceList(index)}>
                     <Icon color="error" fontSize="small">
                         delete
                       </Icon>
                     </Button>
                   </TableCell> */}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-        {/* <div className="flex justify-end px-4 mb-4">
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            {/* <div className="flex justify-end px-4 mb-4">
           <Button  className="mt-4"
             color="primary"
             variant="contained"
             size="small" onClick={addItemToInvoiceList}>Add Item</Button>
         </div> */}
-     
-     <div className="flex justify-end px-4 mb-4">
-     <div className="flex ">
-            <div className="pr-12">
-              </div>
+
+            <div className="flex justify-end px-4 mb-4">
+              <div className="flex ">
+                <div className="pr-12">
+                </div>
               </div>
 
-          <div className="flex ">
-            <div className="pr-12">
-              <p className="mb-8">Sub Total:</p>
-              <p className="mb-8">Discount:</p>
-              <p className="mb-8">Vat(15%):</p>
-              {/* <p className="mb-5">currency:</p> */}
-              <strong>
-                <p className="mb-8">Grand Total:</p>
-              </strong>
-            </div>
-            <div>
-              
-              <p className="mb-4" align="right">{subTotalCost?subTotalCost.toLocaleString(undefined,{
-                minimumFractionDigits:2
-              }):'0.00'}</p>
-              {/* <TextValidator
+              <div className="flex ">
+                <div className="pr-12">
+                  <p className="mb-8">Sub Total:</p>
+                  <p className="mb-8">Discount:</p>
+                  <p className="mb-8">Vat(15%):</p>
+                  {/* <p className="mb-5">currency:</p> */}
+                  <strong>
+                    <p className="mb-8">Grand Total:</p>
+                  </strong>
+                </div>
+                <div>
+
+                  <p className="mb-4" align="right">{subTotalCost ? subTotalCost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                  }) : '0.00'}</p>
+                  {/* <TextValidator
                 className="mb-4"
                 label="Discount"
                 type="text"
@@ -663,18 +660,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 inputProps={{min: 0, style: { textAlign: 'right' }}}
                 value={discount}
               /> */}
-              <CurrencyTextField
-                className="w-full mb-4"
-                label="Discount"
-                style={{width:'250px'}}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="vat"
-                value={discount}
-              />
-              {/* <TextValidator
+                  <CurrencyTextField
+                    className="w-full mb-4"
+                    label="Discount"
+                    style={{ width: '250px' }}
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    currencySymbol="SAR"
+                    name="vat"
+                    value={discount}
+                  />
+                  {/* <TextValidator
                 className="mb-4"
                 label="Vat"
                 // onChange={handleChange}
@@ -687,22 +684,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
-              <div>
+                  <div>
 
-             
-               <CurrencyTextField
-                className="w-full mb-4"
-                label="Vat"
-			          variant="outlined"
-                fullWidth
-                size="small"
-                style={{width:'250px'}}
-			          currencySymbol="SAR"
-                name="vat"
-                value={subTotalCost?vat:0}
-              />
-              </div>
-              {/* <TextValidator
+
+                    <CurrencyTextField
+                      className="w-full mb-4"
+                      label="Vat"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      style={{ width: '250px' }}
+                      currencySymbol="SAR"
+                      name="vat"
+                      value={subTotalCost ? vat : 0}
+                    />
+                  </div>
+                  {/* <TextValidator
                 label="Grand Total"
                 // onChange={handleChange}
                 type="text"
@@ -715,25 +712,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
-              <div>
-              <CurrencyTextField
-                className="w-full"
-                label="Grand Total"
-			          variant="outlined"
-                style={{width:'250px'}}
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={subTotalCost?GTotal:0.00}
-              />
+                  <div>
+                    <CurrencyTextField
+                      className="w-full"
+                      label="Grand Total"
+                      variant="outlined"
+                      style={{ width: '250px' }}
+                      size="small"
+                      currencySymbol="SAR"
+                      name="net_amount"
+                      value={subTotalCost ? GTotal : 0.00}
+                    />
+                  </div>
+
+                </div>
               </div>
-              
             </div>
-          </div>
-          </div>
-      </ValidatorForm>
-    </div>
-    </Card>
+          </ValidatorForm>
+        </div>
+      </Card>
     </div>
   );
 };
