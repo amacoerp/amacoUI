@@ -518,7 +518,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index == i) {
 
 
-        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))?0:(isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)))?(((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3):0;
+        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
 
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
 
@@ -1173,7 +1173,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-0" style={{ width: 50 }} align="left">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }}></TableCell>
                   {/* <TableCell className="px-0" style={{width:'150px'}}>ITEM NAME</TableCell> */}
-                  <TableCell className="px-0" style={{ width: '150px' }} align="center">RFQ DESCRIPTION</TableCell>
+                  {
+                    localStorage.getItem('division') == 3 ? <></> : <>
+                      <TableCell className="px-0" style={{ width: '150px' }} align="center">RFQ DESCRIPTION</TableCell>
+
+                    </>
+                  }
                   <TableCell className="px-0" style={{ width: '150px' }} align="center">OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '80px' }} align="center">QUANTITY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
@@ -1283,19 +1288,21 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
             // value={item.files}
           />
           <img className="w-48" src={item.src} alt="" /> */}
-                        {!item.src ? (<Icon
-                          variant="contained"
-                          component="label"
-                          onChange={(event) => handleFileSelect(event, index)}
-                        >
-                          file_upload
-                          <input
-                            type="file"
-                            hidden
-                          />
-                        </Icon>)
+                        {localStorage.getItem('division') == 3 ? <></> : <>
+                          {!item.src ? (<Icon
+                            variant="contained"
+                            component="label"
+                            onChange={(event) => handleFileSelect(event, index)}
+                          >
+                            file_upload
+                            <input
+                              type="file"
+                              hidden
+                            />
+                          </Icon>)
 
-                          : (<span><Icon color="error" onClick={(event) => deleteFileSelect(event, index)}>close</Icon><img className="w-48" src={item.src} alt="" ></img></span>)}
+                            : (<span><Icon color="error" onClick={(event) => deleteFileSelect(event, index)}>close</Icon><img className="w-48" src={item.src} alt="" ></img></span>)}
+                        </>}
                       </TableCell>
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
                     <TextValidator
@@ -1326,23 +1333,27 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </TextValidator>
                   </TableCell>
                    */}
+                      {
+                        localStorage.getItem('division') == 3 ? <></> : <>
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextField
-                          label="description"
-                          // required
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          name="description"
-                          fullWidth
-                          variant="outlined"
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
-                          multiline
-                          size="small"
-                          value={item ? item.description : null}
+                          <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                            <TextField
+                              label="description"
+                              // required
+                              onChange={(event) => handleIvoiceListChange(event, index)}
+                              type="text"
+                              name="description"
+                              fullWidth
+                              variant="outlined"
+                              // inputProps={{style: {textTransform: 'capitalize'}}}
+                              multiline
+                              size="small"
+                              value={item ? item.description : null}
 
-                        />
-                      </TableCell>
+                            />
+                          </TableCell>
+                        </>
+                      }
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
                           label="Our description"
@@ -1495,8 +1506,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={isNaN(item.margin) ? 0 : item.margin}
-                          // validators={["required"]}
-                          // errorMessages={["this field is required"]}
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
 
                         />
 
@@ -1516,8 +1527,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={item.discount}
-                          // validators={["required"]}
-                          // errorMessages={["this field is required"]}
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
 
                         />
 
@@ -1692,8 +1703,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     onChange={e => setvalidity(e.target.value)
                     }
                     value={validity}
-                    // validators={["required"]}
-                    // errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="payment Terms"
@@ -1706,8 +1717,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     name="net_amount"
                     value={payment_terms}
-                    // validators={["required"]}
-                    // errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Waranty"
@@ -1720,8 +1731,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="net_amount"
                     style={{ width: 500 }}
                     value={warranty}
-                    // validators={["required"]}
-                    // errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Delivery Time"
@@ -1734,8 +1745,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     style={{ width: 500 }}
                     name="net_amount"
                     value={delivery_time}
-                    // validators={["required"]}
-                    // errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                   />
                   <TextValidator
                     label="Inco-Term"
@@ -1748,8 +1759,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="net_amount"
                     style={{ width: 500 }}
                     value={inco_terms}
-                    // validators={["required"]}
-                    // errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                   />
                   <FormGroup>
                     <FormControl variant="outlined" minWidth="120" size="small">
@@ -1862,7 +1873,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol=" "
                         name="net_amount"
-                        value={margin_per?margin_per:0}
+                        value={margin_per ? margin_per : 0}
 
                       />
                       <CurrencyTextField
@@ -1875,7 +1886,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         style={{ width: '150px' }}
                         currencySymbol="SAR"
                         name="dis_per"
-                        value={margin_val?margin_val:0}
+                        value={margin_val ? margin_val : 0}
                       />
 
                     </div>
@@ -1955,10 +1966,11 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         type="text"
                         variant="outlined"
                         size="small"
+                        readOnly
                         style={{ width: '90px' }}
                         // onChange={(event) => handleChange(event, "discount")}
                         inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                        value={isNaN(dis_per)?0:dis_per}
+                        value={isNaN(dis_per) ? 0 : dis_per}
 
                       />
 
@@ -1982,6 +1994,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
+                        readOnly
                         style={{ width: '150px' }}
                         currencySymbol="SAR"
                         name="dis_per"
@@ -2027,6 +2040,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       label="Vat"
                       variant="outlined"
                       fullWidth
+                      readOnly
                       size="small"
                       currencySymbol="SAR"
                       name="vat"
@@ -2055,6 +2069,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
+                        readOnly
                         currencySymbol="SAR"
                         name="net_amount"
                         value={subTotalCost ? GTotal : parseFloat(0.00).toLocaleString(undefined, {

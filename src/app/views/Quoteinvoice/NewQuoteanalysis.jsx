@@ -1914,6 +1914,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         label="Discount %"
                         type="text"
                         variant="outlined"
+                        readOnly
                         size="small"
                         style={{ width: '90px' }}
                         // onChange={(event) => handleChange(event, "discount")}
@@ -1942,6 +1943,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
+                        readOnly
                         style={{ width: '150px' }}
                         currencySymbol="SAR"
                         name="dis_per"
@@ -1987,6 +1989,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       label="Vat"
                       variant="outlined"
                       fullWidth
+                      readOnly
                       size="small"
                       currencySymbol="SAR"
                       name="vat"
@@ -2016,6 +2019,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         onChange={handleChange}
                         variant="outlined"
                         fullWidth
+                        readOnly
                         size="small"
                         currencySymbol="SAR"
                         name="net_amount"
