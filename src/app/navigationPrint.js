@@ -59,11 +59,11 @@ export const navigationPrint = [
         path: navigatePath + "/inv",
         // icon:"folder",
       },
-      // {
-      //   name: "SALES RETURN",
-      //   path: "/salesreturn",
-      //   // icon:"folder",
-      // },
+      {
+        name: "SALES RETURN",
+        path: navigatePath + "/salesreturn",
+        // icon: "folder",
+      },
     ],
     // }
     // ]
