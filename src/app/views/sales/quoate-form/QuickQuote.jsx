@@ -690,8 +690,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    let mode="full"
-    updateSidebarMode({mode})
+    let mode = "full"
+    updateSidebarMode({ mode })
     history.push(navigatePath + "/quoateview/0")
   }
 
@@ -1039,10 +1039,9 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   name="party_id"
                   size="small"
                   variant="outlined"
-
+                  required
 
                   onClick={(event) => setcontact(event)}
-                  required
                   select
                 >
                   <MenuItem onClick={() => {
@@ -1344,6 +1343,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               type="text"
                               name="description"
                               fullWidth
+                              required
                               variant="outlined"
                               // inputProps={{style: {textTransform: 'capitalize'}}}
                               multiline
@@ -1362,6 +1362,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           variant="outlined"
+                          required
 
                           size="small"
                           name="descriptionss"

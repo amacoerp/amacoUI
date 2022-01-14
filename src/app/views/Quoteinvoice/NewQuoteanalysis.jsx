@@ -588,9 +588,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleSubmit = (s) => {
-    let mode="full"
+    let mode = "full"
     updateSidebarMode({ mode })
-   
+
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
@@ -662,14 +662,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            if(s=="New")
-            {
-            history.push(navigatePath + "/quote/"+response.data+"/New")
+            if (s == "New") {
+              history.push(navigatePath + "/quote/" + response.data + "/New")
 
             }
-            else
-            {
-            history.push(navigatePath + "/quoateview/3")
+            else {
+              history.push(navigatePath + "/quoateview/3")
             }
           })
       })
@@ -678,7 +676,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    let mode="full"
+    let mode = "full"
     updateSidebarMode({ mode })
     history.push(navigatePath + "/quoateview/0")
   }
@@ -973,7 +971,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={()=>handleSubmit} onError={(errors) => null}>
+          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -994,7 +992,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={()=>handleSubmit('draft')}
+                  onClick={() => handleSubmit('draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
                 </Button>
@@ -1005,7 +1003,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={()=>handleSubmit('New')}
+                  onClick={() => handleSubmit('New')}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
@@ -1028,7 +1026,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   name="party_id"
                   size="small"
                   variant="outlined"
-
+                  required
 
                   onClick={(event) => setcontact(event)}
                   required
@@ -1321,6 +1319,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               onChange={(event) => handleIvoiceListChange(event, index)}
                               type="text"
                               name="description"
+                              required
                               fullWidth
                               variant="outlined"
                               // inputProps={{style: {textTransform: 'capitalize'}}}
@@ -1342,7 +1341,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           variant="outlined"
-
+                          required
                           size="small"
                           name="descriptionss"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
@@ -2070,6 +2069,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     value={item.note}
                     size="small"
                     style={{ width: 500 }}
+                    required
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                     multiline

@@ -365,6 +365,8 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     useEffect(() => {
 
+
+
         // updateSidebarMode({ mode: "close" })
         document.title = "Purchase Order - Amaco"
         url.get(`getSalesReturnINV/${id}`).then(({ data }) => {
@@ -457,7 +459,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const editpurchase = () => {
 
         // window.location.href=`../purchaseedit/${id}`
-        history.push(navigatePath + `/purchaseedit/${id}`)
+        history.push(navigatePath + `/salesreturnedit/${id}`)
 
     }
     const updateCompany = () => {

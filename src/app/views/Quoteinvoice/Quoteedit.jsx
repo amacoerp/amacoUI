@@ -31,13 +31,13 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
-import { getInvoiceById, addInvoice, updateInvoice, getCustomerList,getusers,getcompanybank, navigatePath } from "../invoice/InvoiceService";
+import { getInvoiceById, addInvoice, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
-import { makeStyles ,useTheme} from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import axios from "axios";
-import url,{getVendorList,divisionId,data} from "../invoice/InvoiceService";
+import url, { getVendorList, divisionId, data } from "../invoice/InvoiceService";
 import useAuth from "app/hooks/useAuth";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -57,8 +57,8 @@ import moment from "moment";
 import { sortedLastIndex } from "lodash";
 import FormDialog_product from "../../views/product/Addproduct_popup"
 import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
-import  MemberEditorDialogcontact  from "../party/partycontact";
-import { Autocomplete,createFilterOptions } from "@material-ui/lab";
+import MemberEditorDialogcontact from "../party/partycontact";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import useSettings from "app/hooks/useSettings";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -91,13 +91,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
   const [ProductList, setProductList] = useState([]);
-  const [validity,setvalidity] =useState('3 Days')
-  const [payment_terms,setpayment_terms] =useState('100% Advance')
-  const [warranty,setwarranty] =useState('NA')
-  const [delivery_time,setdelivery_time] =useState('Within 2-3 Days from the Date of PO')
-  const [inco_terms,setinco_terms] =useState('DDP-Delivery Duty Paid To Customer Office')
-  const [discount,setdiscount] =useState('0')
-  const [contactid,setcontactid] =useState('')
+  const [validity, setvalidity] = useState('3 Days')
+  const [payment_terms, setpayment_terms] = useState('100% Advance')
+  const [warranty, setwarranty] = useState('NA')
+  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
+  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
+  const [discount, setdiscount] = useState('0')
+  const [contactid, setcontactid] = useState('')
   const [dstatus, setdstatus] = useState(false);
   const [price, setprice] = useState(0);
   const [pprice, setpprice] = useState(0);
@@ -110,16 +110,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [customercontact, setcustomercontact] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [ProductList1, setProductList1] = useState([]);
-  const [catid,setcatid]=useState()
-  const [indexvalue,setindexvalue]=useState()
-  const [productprice,setproductprice]=useState([])
-  const [users,setusers]=useState([])
-  const [sign,setsign]=useState('')
-  const [rfq_no,setrfq_no]=useState('')
-  const [subject,setsubject]=useState('')
-  const [bank_id,setbank_id]=useState('')
-  const [quickstatus,setquickstatus]=useState(false)
-  let calculateAmount=[];
+  const [catid, setcatid] = useState()
+  const [indexvalue, setindexvalue] = useState()
+  const [productprice, setproductprice] = useState([])
+  const [users, setusers] = useState([])
+  const [sign, setsign] = useState('')
+  const [rfq_no, setrfq_no] = useState('')
+  const [subject, setsubject] = useState('')
+  const [bank_id, setbank_id] = useState('')
+  const [quickstatus, setquickstatus] = useState(false)
+  let calculateAmount = [];
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
@@ -128,9 +128,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [open, setOpen] = React.useState(false);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenEditorDialogproduct, setshouldOpenEditorDialogproduct] = useState(false);
-  const [Quote_date,setQuote_date]=useState(moment(new Date()).format('DD MMM YYYY'));
-  const [transport,settransport]=useState('0.00')
-  const [other,setother]=useState('0.00')
+  const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'));
+  const [transport, settransport] = useState('0.00')
+  const [other, setother] = useState('0.00')
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -140,7 +140,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct,
   ] = useState(false);
   const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
-  const formData=new FormData();
+  const formData = new FormData();
   const filter = createFilterOptions();
 
 
@@ -156,31 +156,30 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     setTestArr([...data]);
   };
-  const noteList=(val,index) => {
-    
-   
+  const noteList = (val, index) => {
+
+
     let tempItemList = [...testArr];
-    
+
     tempItemList.map((element, i) => {
-  
-    
-      if (index === i) 
-      {
-       
-        
-       element['notes']=val
-       
-        
+
+
+      if (index === i) {
+
+
+        element['notes'] = val
+
+
         return element;
 
       }
-     
-      
+
+
     });
 
-    
+
     setTestArr([...tempItemList])
-    
+
   };
 
   const generateRandomId = useCallback(() => {
@@ -189,29 +188,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
-  const handleChange = (event,fieldName) => {
+  const handleChange = (event, fieldName) => {
     // setState({ ...state, ['discount']:event.target.value });
     event.persist();
-   
+
     // discount=subTotalCost-parseFloat(event.target.value * subTotalCost/100);
     // vat= ((discount * 15) / 100).toFixed(2);
     // GTotal=discount + vat;
-   
-    
+
+
     // setState({ ...state, ['fieldname']:event.target.value });
     let tempItemList = [...state.item];
     setdstatus(true)
     setdiscount(event.target.value)
     setdiscounts(event.target.value)
- 
+
     // setState({ ...state, ['vat']: vat });
     // setState({ ...state, ['net_amount']: GTotal });
     // setdstatus(true)
-    
-   
+
+
 
   };
-  
+
 
   const handleSellerBuyerChange = (event, fieldName) => {
     event.persist();
@@ -226,98 +225,96 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const setremark = (event, index) => {
     event.persist()
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
+      let sum = 0;
+
+      if (index === i) {
         element[event.target.name] = event.target.value;
-        
-      
+
+
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  
-     
+
+
   }
   const filterPrice = (options, params) => {
     // console.log(params.inputValue)
     const filtered = filter(options, params);
-   
+
     // if (params.inputValue == "") {
-      filtered.push({
-        inputValue: params.inputValue,
-        price: params.inputValue,
-        amount: params.inputValue
-      });
+    filtered.push({
+      inputValue: params.inputValue,
+      price: params.inputValue,
+      amount: params.inputValue
+    });
     // }
     return filtered;
   };
   const handleIvoiceListChange = (event, index) => {
     event.persist()
-   
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-        
+      let sum = 0;
+
+      if (index === i) {
+
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
         element[event.target.name] = event.target.value;
-        
-      
+
+
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  
- 
-   
+
+
+
   };
 
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
-    
+
     tempItemList.push({
-      id:null,
+      id: null,
       product_id: "",
-      description:"",
-      descriptions:"",
-      quantity:0,
-      product_price_list:[
+      description: "",
+      descriptions: "",
+      quantity: 0,
+      product_price_list: [
         {
-          price:"",
-          firm_name:""
+          price: "",
+          firm_name: ""
         }
       ],
-      purchase_price:0,
-      margin:0,
-      margin_val:0,
-      discount_val:0,
-      discount:0,
-      sell_price:0.00,
-      cost_qty:0.00,
-      remark:"",
-      total_amount:0.00,
-      amaco_description:""
-      
+      purchase_price: 0,
+      margin: 0,
+      margin_val: 0,
+      discount_val: 0,
+      discount: 0,
+      sell_price: 0.00,
+      cost_qty: 0.00,
+      remark: "",
+      total_amount: 0.00,
+      amaco_description: ""
+
     });
     setState({
       ...state,
@@ -326,7 +323,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const deleteItemFromInvoiceList = (index,id) => {
+  const deleteItemFromInvoiceList = (index, id) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -337,26 +334,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-    let tempItemList = [...state.item];
-    tempItemList.splice(index, 1);
-    
-    setState({
-      ...state,
-      item: tempItemList,
-    });
-    if(id){
-      url.delete(`quotation_details/${id}`).then(data)
-    }
-   
-  }
-  else if (result.dismiss === Swal.DismissReason.cancel) {
-    Swal.fire( 
-      'Cancelled',
-      'Your Quotation Details is safe :)',
-      'error'
-    )
-  }
-  })
+        let tempItemList = [...state.item];
+        tempItemList.splice(index, 1);
+
+        setState({
+          ...state,
+          item: tempItemList,
+        });
+        if (id) {
+          url.delete(`quotation_details/${id}`).then(data)
+        }
+
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Quotation Details is safe :)',
+          'error'
+        )
+      }
+    })
   };
 
   const handleDateChange = (rdate) => {
@@ -367,242 +364,235 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const deleteItemFromNoteList = (index) => {
     let tempItemList = [...testArr];
     tempItemList.splice(index, 1);
-    
+
     setTestArr([...tempItemList])
   }
-  const calcualteprice = (pprice,marginprice) => {
+  const calcualteprice = (pprice, marginprice) => {
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (indexset === i) 
-      {
-        
-        element['purchase_price']=pprice;
-        element['sell_price']=(parseFloat((marginprice * pprice/100)+parseFloat(pprice)));
-       
-        element['total_amount']=((element.sell_price)*element.quantity).toFixed(2);
+      let sum = 0;
+
+      if (indexset === i) {
+
+        element['purchase_price'] = pprice;
+        element['sell_price'] = (parseFloat((marginprice * pprice / 100) + parseFloat(pprice)));
+
+        element['total_amount'] = ((element.sell_price) * element.quantity).toFixed(2);
         element['margin'] = marginprice;
         element['name'] = pprice;
-        
-      
+
+
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  
+
     // setprice(parseInt(event.target.value))
   }
-  const priceset = (a,b,c) => {
+  const priceset = (a, b, c) => {
     url.get("parties/" + c).then(({ data }) => {
       setproList(data[0].contacts);
-      
+
     });
     alert(c)
   };
-  const expandData= (id) => {
-   
+  const expandData = (id) => {
+
     var filtered = proList.filter(a => a.id == id);
-    
+
     setProductList(filtered)
-   
+
   };
-  const  calculatemargin=(event,index,value)=>{
+  const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
-    let d_val=value?value:event.target.value;
+    let d_val = value ? value : event.target.value;
     tempItemList.map((element, i) => {
-      let sum=0;
-     
-      
-  
-      if (index == i) 
-      {
-        
-        
+      let sum = 0;
+
+
+
+      if (index == i) {
+
+
         element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
-        element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
-        
+        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
-        element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
+        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.total_amount=((parseFloat(element.sell_price)*element.quantity).toFixed(2));
-        element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)*parseFloat(element.quantity))
-        console.log(((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)))
-  
-      }
-      return element;
-      
-    });
-  
-    setState({
-      ...state,
-      item: tempItemList,
-    }); 
-   }
-
-   const calcualte_qty = (event,index,value) => {
-  
-    let tempItemList = [...state.item];
-    
-    tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-        
-        
-        element[event.target.name] = value?value:event.target.value;
-        element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
-        element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-        element.cost_qty=((element.purchase_price)*element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)*parseFloat(element.quantity))
+        element.total_amount = ((parseFloat(element.sell_price) * element.quantity).toFixed(2));
+        element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        console.log(((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)))
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
-    }); 
+    });
   }
-  const calcualte_margin = (event,index,value) => {
-  
+
+  const calcualte_qty = (event, index, value) => {
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-        
-        
-        element[event.target.name] = value?value:event.target.value;
-        element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
-        element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-        element.cost_qty=((element.purchase_price)*element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)*parseFloat(element.quantity))
+      let sum = 0;
+
+      if (index === i) {
+
+
+        element[event.target.name] = value ? value : event.target.value;
+        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
+        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
-    }); 
+    });
   }
-   const calcualtep = (event,index,value) => {
-  
+  const calcualte_margin = (event, index, value) => {
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-        
-        
-        element['purchase_price'] = value?.price?value?.price:(value==null?0:value);
-        element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
-        element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-        element.cost_qty=((element.purchase_price)*element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)*parseFloat(element.quantity))
+      let sum = 0;
+
+      if (index === i) {
+
+
+        element[event.target.name] = value ? value : event.target.value;
+        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
+        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
       }
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
-    }); 
+    });
   }
-  const discountPer = (event,index,value) => {
-   
+  const calcualtep = (event, index, value) => {
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i ) 
-      {
-        
-        
-        element[event.target.name] = value?value:event.target.value;
-        element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-(parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3);
-        
-        element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-        element.cost_qty=((element.purchase_price)*element.quantity).toFixed(2);
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)*parseFloat(element.quantity))
-        console.log(((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3)))
-      
+      let sum = 0;
+
+      if (index === i) {
+
+
+        element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
+        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
       }
-      
       return element;
-      
+
     });
 
     setState({
       ...state,
       item: tempItemList,
-    }); 
+    });
   }
-  const deleteFileSelect = (event,index) => {
+  const discountPer = (event, index, value) => {
 
-  
- 
-    
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index === i) {
+
+
+        element[event.target.name] = value ? value : event.target.value;
+        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3);
+
+        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        console.log(((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)))
+
+
+      }
+
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+  const deleteFileSelect = (event, index) => {
+
+
+
+
     event.persist()
-   
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-       
+      let sum = 0;
+
+      if (index === i) {
+
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
-        element['src'] =null;
-        element[`files`]=null;
-       
-        
+        element['src'] = null;
+        element[`files`] = null;
+
+
         return element;
 
       }
-     
-      
+
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  
-    
-     
-    
-  
+
+
+
+
+
   };
   const deletequotefile = (id) => {
 
-    
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this File!',
@@ -614,7 +604,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         url.delete(`delete-quotation-detail/${id}`)
-        // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
+          // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
           .then(res => {
 
 
@@ -624,10 +614,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               'success'
             )
             setIsAlive(true)
-           
+
 
           })
-         
+
 
 
         // For more information about handling dismissals please visit
@@ -664,229 +654,225 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       },
     });
   };
-  const handleFileSelect = (event,index) => {
+  const handleFileSelect = (event, index) => {
 
-  
-  
-    
+
+
+
     event.persist()
-   
+
     let tempItemList = [...state.item];
-    
+
     tempItemList.map((element, i) => {
-      let sum=0;
-    
-      if (index === i) 
-      {
-       
+      let sum = 0;
+
+      if (index === i) {
+
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
         element['src'] = URL.createObjectURL(event.target.files[0]);
         let files = event.target.files[0];
         // formData.append('files',event.target.files[0])
-        
-    
-        
-        element[`files`]=event.target.files[0]
-       
-        
+
+
+
+        element[`files`] = event.target.files[0]
+
+
         return element;
 
       }
-     
-      
+
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  
-    
-     
-    
-  
+
+
+
+
+
   };
 
   const handleSubmit = (status) => {
-    let mode="full"
+    let mode = "full"
     updateSidebarMode({ mode })
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     setState({ ...state, loading: true });
-    
+
     let tempState = { ...state };
     let arr = []
     delete tempState.loading;
-    let tempItemList =[...state.item];
+    let tempItemList = [...state.item];
 
     // arr.push({
     // Quotedetails:tempItemList,
     // });
-    arr.contact_id=contactid
-    arr.quotation_details=tempItemList
-    arr.discount_in_p=discount
-    arr.total_value=parseFloat(subTotalCost).toFixed(2)
-    arr.net_amount=GTotal
-    arr.vat_in_value=parseFloat(vat).toFixed(2)
-    arr.po_number=id
-    arr.party_id=party_id
-    arr.validity=validity
-    arr.warranty=warranty
-    arr.delivery_time=delivery_time
-    arr.inco_terms=inco_terms
-    arr.payment_terms=payment_terms
-    arr.contact_id=contactid
-    arr.ps_date=Quote_date
-    arr.rfq_id=null
-    arr.transaction_type="sale"
+    arr.contact_id = contactid
+    arr.quotation_details = tempItemList
+    arr.discount_in_p = discount
+    arr.total_value = parseFloat(subTotalCost).toFixed(2)
+    arr.net_amount = GTotal
+    arr.vat_in_value = parseFloat(vat).toFixed(2)
+    arr.po_number = id
+    arr.party_id = party_id
+    arr.validity = validity
+    arr.warranty = warranty
+    arr.delivery_time = delivery_time
+    arr.inco_terms = inco_terms
+    arr.payment_terms = payment_terms
+    arr.contact_id = contactid
+    arr.ps_date = Quote_date
+    arr.rfq_id = null
+    arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p',dis_per)
-    formData.append('total_value',parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount',GTotal)
-    formData.append('vat_in_value',parseFloat(vat).toFixed(2))
-    formData.append('po_number',id)
-    formData.append('party_id',party_id)
-    formData.append('validity',validity)
-    formData.append('warranty',warranty)
-    formData.append('delivery_time',delivery_time)
-    formData.append('inco_terms',inco_terms)
-    formData.append('payment_terms',payment_terms)
-    formData.append('contact_id',contactid)
-    formData.append('ps_date',Quote_date)
-    formData.append('rfq_id',null)
-    formData.append('transaction_type',"sale")
-    formData.append('id',id)
-    formData.append('sign',sign)
-    formData.append('subject',subject)
-    formData.append('rfq_no',rfq_no?rfq_no:" ")
-    formData.append('bank_id',parseInt(bank_id))
-    formData.append('notes',JSON.stringify(testArr))
-    formData.append('transport',transport)
-    formData.append('other',other)
-    formData.append('user_id',user.id)
-    formData.append('div_id',localStorage.getItem('division'))
-    formData.append('status',status)
+    formData.append('discount_in_p', dis_per)
+    formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', GTotal)
+    formData.append('vat_in_value', parseFloat(vat).toFixed(2))
+    formData.append('po_number', id)
+    formData.append('party_id', party_id)
+    formData.append('validity', validity)
+    formData.append('warranty', warranty)
+    formData.append('delivery_time', delivery_time)
+    formData.append('inco_terms', inco_terms)
+    formData.append('payment_terms', payment_terms)
+    formData.append('contact_id', contactid)
+    formData.append('ps_date', Quote_date)
+    formData.append('rfq_id', null)
+    formData.append('transaction_type', "sale")
+    formData.append('id', id)
+    formData.append('sign', sign)
+    formData.append('subject', subject)
+    formData.append('rfq_no', rfq_no ? rfq_no : " ")
+    formData.append('bank_id', parseInt(bank_id))
+    formData.append('notes', JSON.stringify(testArr))
+    formData.append('transport', transport)
+    formData.append('other', other)
+    formData.append('user_id', user.id)
+    formData.append('div_id', localStorage.getItem('division'))
+    formData.append('status', status)
     // JSON.stringify(values.rfq_details)
-   
-    
-    tempItemList.map((answer, i) => {  
+
+
+    tempItemList.map((answer, i) => {
       // console.log(answer)
-      formData.append(`quotation_detail${i}`,JSON.stringify(answer))
-      answer.files&& (formData.append(`file${i}`,answer.files))
+      formData.append(`quotation_detail${i}`, JSON.stringify(answer))
+      answer.files && (formData.append(`file${i}`, answer.files))
     })
     console.log(tempItemList)
-   
-    url.post(`sale-quotation-update`,formData)
+
+    url.post(`sale-quotation-update`, formData)
       .then(function (response) {
-       
-        
+
+
         Swal.fire({
           title: 'Success',
           type: 'success',
-          icon:'success',
+          icon: 'success',
           text: 'Data saved successfully.',
         })
-        .then((result) => {
-         
-          if(status=="New")
-          {
-          history.push(navigatePath + "/quote/"+response.data+"/New")
+          .then((result) => {
 
-          }
-          else
-          {
-          history.push(navigatePath+"/quoateview/3")
-          }
-        // window.location.href="../quoateview"
-        })
+            if (status == "New") {
+              history.push(navigatePath + "/quote/" + response.data + "/New")
+
+            }
+            else {
+              history.push(navigatePath + "/quoateview/3")
+            }
+            // window.location.href="../quoateview"
+          })
       })
       .catch(function (error) {
-        
+
       })
   };
   function cancelform() {
-    let mode="full"
+    let mode = "full"
     updateSidebarMode({ mode })
-    history.push(navigatePath+"/quoateview/0")
+    history.push(navigatePath + "/quoateview/0")
   }
-  
+
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
     url.get("products/" + catid).then(({ data }) => {
       let tempItemList = [...state.item];
       data.prices.map((element, i) => {
-      
+
       })
       setProductList1(data.prices)
       tempItemList.map((element, i) => {
-        let sum=0;
-      
-        if(indexvalue===i)
-        {
-          
-          element['product_id']= catid;
-          element['descriptionss']= data.product[0].description;
-          
-          
-            
-            
-            
-              element.product_price_list.splice(id, element.product_price_list.length);
-          
-              data.prices.map((v, i) => {
-           
-                element.product_price_list.push({
-                  price:v.price,
-                  firm_name:v.firm_name,
-                  id:v.product_id
-                })
-               
-              })
-           
-        
-           }
-        return element
-    })
-    setState({
-      ...state,
-      item: tempItemList,
-    });
- 
+        let sum = 0;
 
-  })
+        if (indexvalue === i) {
+
+          element['product_id'] = catid;
+          element['descriptionss'] = data.product[0].description;
+
+
+
+
+
+          element.product_price_list.splice(id, element.product_price_list.length);
+
+          data.prices.map((v, i) => {
+
+            element.product_price_list.push({
+              price: v.price,
+              firm_name: v.firm_name,
+              id: v.product_id
+            })
+
+          })
+
+
+        }
+        return element
+      })
+      setState({
+        ...state,
+        item: tempItemList,
+      });
+
+
+    })
 
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
       setproList(data)
-      
-   
+
+
     });
-   
+
   };
-  const setcontact= (event) => {
-    
-   
+  const setcontact = (event) => {
+
+
     url.get("parties/" + event.target.value).then(({ data }) => {
-      
+
       setcustomercontact(data[0].contacts);
-      
+
       setparty_id(event.target.value)
 
       setrfqstatus(true);
-      
-      
+
+
     });
   }
 
   useEffect(() => {
     getCustomerList().then(({ data }) => {
       setCustomerList(data);
-      
+
 
     });
     getusers().then(({ data }) => {
       setusers(data);
-      
+
 
     });
     getcompanybank().then(({ data }) => {
@@ -894,12 +880,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("products").then(({ data }) => {
       setproList(data)
-      
-   
-    });
-    
 
-    
+
+    });
+
+
+
     url.get(`sale-quotation/${id}`).then(({ data }) => {
       setinco_terms(data[0].inco_terms)
       setdiscounts(data[0].discount_in_p)
@@ -916,130 +902,124 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setbank_id(parseInt(data[0].bank?.id))
       setother(parseFloat(data[0].other))
       settransport(parseFloat(data[0].transport))
-    
-     
+
+
       setProductList1(data[0]?.quotation_details[0]?.product_price_list)
-    
-      if(data[0]?.quotation_details[0]?.product_price_list)
-      {
+
+      if (data[0]?.quotation_details[0]?.product_price_list) {
         setquickstatus(true)
       }
-      if(data[0].contact!==null)
-      {
-      setcontactid(data[0].contact.id)
-      url.get("parties/" + data[0].party_id).then(({ data }) => {
-      
-        setcustomercontact(data[0].contacts);
-        
-        
-  
-        setrfqstatus(true);
-        
-        
-      });
+      if (data[0].contact !== null) {
+        setcontactid(data[0].contact.id)
+        url.get("parties/" + data[0].party_id).then(({ data }) => {
+
+          setcustomercontact(data[0].contacts);
+
+
+
+          setrfqstatus(true);
+
+
+        });
       }
       setparty_id(data[0].party_id)
       setTestArr([...data[0].notes]);
-      
+
       setState({
         ...state,
         item: data[0].quotation_details,
       });
-      
+
     });
     return setIsAlive(false)
-   
-   
- 
+
+
+
 
 
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
-  
-  const setMargin = (id,index,name)=>{
-    
+
+  const setMargin = (id, index, name) => {
+
     setproductid(id)
     setproductname(name)
     setindex(index)
     setShouldOpenEditorDialog(true);
 
   }
-  const setProductdescription = (event,index,id)=>{
-    if(event.target.value!=="false")
-    {
-    url.get("products/" + event.target.value).then(({ data }) => {
-      let tempItemList = [...state.item];
-     
-      // setProductList1(data.prices)
-      
-  
-    
-    tempItemList.map((element, i) => {
-      let sum=0;
-     
-      if (index === i) 
-      {
-        
-        // element.product_price_list.push(
-        //   {
-        //     price:data.prices
-        //   }
-        // )
-        element['product_id']= event.target.value;
-        element['descriptionss']= data.product[0].description;
-        if(element.product_price_list.length>=1)
-        {
-          
-          
-          
-            element.product_price_list.splice(id, element.product_price_list.length);
-            data.prices.map((v, i) => {
-         
-              element.product_price_list.push({
-                price:v.price,
-                firm_name:v.firm_name,
+  const setProductdescription = (event, index, id) => {
+    if (event.target.value !== "false") {
+      url.get("products/" + event.target.value).then(({ data }) => {
+        let tempItemList = [...state.item];
+
+        // setProductList1(data.prices)
+
+
+
+        tempItemList.map((element, i) => {
+          let sum = 0;
+
+          if (index === i) {
+
+            // element.product_price_list.push(
+            //   {
+            //     price:data.prices
+            //   }
+            // )
+            element['product_id'] = event.target.value;
+            element['descriptionss'] = data.product[0].description;
+            if (element.product_price_list.length >= 1) {
+
+
+
+              element.product_price_list.splice(id, element.product_price_list.length);
+              data.prices.map((v, i) => {
+
+                element.product_price_list.push({
+                  price: v.price,
+                  firm_name: v.firm_name,
+                })
+
               })
-           
-            })
-         
-          
-        }
-        else{
 
-        data.prices.map((v, i) => {
-         
-          element.product_price_list.push({
-            price:v.price,
-            firm_name:v.firm_name
-          })
-       
-        })
-      }
-       
-        setproductid(id)
-        
-      
 
-      }
-      return element;
-      
-    });
+            }
+            else {
 
-    setState({
-      ...state,
-      item: tempItemList,
-    }); 
-   
-    })
-  }
-  else
-  {
-    setshouldOpenEditorDialogproduct(true)
-  }
+              data.prices.map((v, i) => {
+
+                element.product_price_list.push({
+                  price: v.price,
+                  firm_name: v.firm_name
+                })
+
+              })
+            }
+
+            setproductid(id)
+
+
+
+          }
+          return element;
+
+        });
+
+        setState({
+          ...state,
+          item: tempItemList,
+        });
+
+      })
+    }
+    else {
+      setshouldOpenEditorDialogproduct(true)
+    }
 
   }
 
-  const setproductids=(id,index)=>{
+  const setproductids = (id, index) => {
     setcatid(id)
     setindexvalue(index)
     setShouldOpenEditorDialog(true)
@@ -1060,7 +1040,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     buyer,
     seller,
     item: invoiceItemList = [],
-    quote:quoteList = [],
+    quote: quoteList = [],
     status,
     vat,
     date,
@@ -1069,143 +1049,143 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     margin,
     remark,
     quantity
-    
+
   } = state;
-  
+
   return (
-   
-  <div className="m-sm-30">
-    <Card elevation={6}>
-    <IconButton onClick={handleSidebarToggle}>
+
+    <div className="m-sm-30">
+      <Card elevation={6}>
+        <IconButton onClick={handleSidebarToggle}>
           <Icon>arrow_back</Icon>
         </IconButton>
-    <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-      <ValidatorForm onSubmit={()=>handleSubmit} onError={(errors) => null}>
-        <div className="viewer_actions px-4 flex justify-between">
-        <div className="mb-6">
-          <h3 align="left"> UPDATE SALES QUOTATION</h3>
-          </div>
-          <div className="mb-6">
-         
-            <Button
-              className="mr-4 py-2"
-              variant="outlined"
-              color="secondary"
-              onClick={cancelform}
-            >
-             <Icon>cancel</Icon> CANCEL
-            </Button>
-            <Button
+        <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
+          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
+            <div className="viewer_actions px-4 flex justify-between">
+              <div className="mb-6">
+                <h3 align="left"> UPDATE SALES QUOTATION</h3>
+              </div>
+              <div className="mb-6">
+
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="secondary"
+                  onClick={cancelform}
+                >
+                  <Icon>cancel</Icon> CANCEL
+                </Button>
+                <Button
                   type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={()=>handleSubmit('draft')}
+                  onClick={() => handleSubmit('draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
                 </Button>
 
-            <Button
-              type="submit"
-              className="py-2"
-              variant="outlined"
-              color="primary"
-              disabled={loading}
-              onClick={()=>handleSubmit('New')}
-            >
-              <Icon>save</Icon> SAVE & PRINT QUOTATION
-            </Button>
-          </div>
-        </div>
+                <Button
+                  type="submit"
+                  className="py-2"
+                  variant="outlined"
+                  color="primary"
+                  disabled={loading}
+                  onClick={() => handleSubmit('New')}
+                >
+                  <Icon>save</Icon> SAVE & PRINT QUOTATION
+                </Button>
+              </div>
+            </div>
 
-        <div className="viewer__order-info px-4 mb-4 flex justify-between">
-          <div>
-          <h5 className="font-normal capitalize">
-              <strong>Customer: </strong>{" "}
-              <span>
-                {id}
-              </span>
-            </h5>
-            
-            <TextField
-                    
-                    label="Customer Name"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="party_id"
-                    size="small"
-                    variant="outlined"
-                    
-                    value={party_id}
-                    // onChange={handleChange}
-                    onClick={(event)=>setcontact(event)}
-                    required
-                    select
-                  >
-                    {/* <MenuItem onClick={() => {
+            <div className="viewer__order-info px-4 mb-4 flex justify-between">
+              <div>
+                <h5 className="font-normal capitalize">
+                  <strong>Customer: </strong>{" "}
+                  <span>
+                    {id}
+                  </span>
+                </h5>
+
+                <TextField
+
+                  label="Customer Name"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
+
+                  value={party_id}
+                  // onChange={handleChange}
+                  onClick={(event) => setcontact(event)}
+                  required
+                  select
+                >
+                  {/* <MenuItem onClick={() => {
                           history.push("/party/addparty");
                         }}>
                       
                         <Icon>add</Icon>new
                
                     </MenuItem> */}
-                    {CustomerList.filter(obj =>obj.party_division[0]?.div_id===divisionId).map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  
-            
-            
-          
-         
+                  {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
+                    <MenuItem value={item.id} key={item.id}>
+                      {item.firm_name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+
+
+
+
                 {/* {rfqstatus && */}
+                <TextField
+
+                  label="Contact Person"
+                  className="ml-2"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="contact_id"
+                  size="small"
+                  variant="outlined"
+                  select
+                  value={contactid}
+                  onChange={(e) => setcontactid(e.target.value)}
+
+
+                >
+                  <Button onClick={() => setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
+                  {customercontact.map((item) => (
+                    <MenuItem value={item.id} key={item.id}>
+                      {item.fname}
+                    </MenuItem>
+                  ))}
+
+                </TextField>
+                {/* } */}
+              </div>
+
+              <div>
+
+
+                <div className="text-right pt-4">
                   <TextField
-                    
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="contact_id"
+                    name="rfq_no"
+                    value={rfq_no}
+                    className="m-2"
+                    label="RFQ No"
                     size="small"
                     variant="outlined"
-                    select
-                    value={contactid}
-                    onChange={(e)=>setcontactid(e.target.value)}
-                    
-                   
+                    onChange={(e) => {
+                      setrfq_no(e.target.value)
+                      // return date
+                    }}
+
                   >
-                  <Button onClick={()=>setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
 
                   </TextField>
-                  {/* } */}
-                  </div>
-                  
-          <div>
-           
-            
-            <div className="text-right pt-4">
-            <TextField
-              name="rfq_no"
-              value={rfq_no}
-              className="m-2"
-              label="RFQ No"
-              size="small"
-              variant="outlined"
-              onChange={(e) => {
-                setrfq_no(e.target.value)
-                // return date
-              }} 
-              
-              >
-
-              </TextField>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="m-2"
                       margin="none"
@@ -1224,22 +1204,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </MuiPickersUtilsProvider>
 
 
+                </div>
+
+              </div>
             </div>
-            
-          </div>
-        </div>
-        <div className="pl-4">
-<h5 className="font-normal capitalize">
-              <strong>Subject: </strong>{" "}
-  
-    </h5>
-  <TextValidator
+            <div className="pl-4">
+              <h5 className="font-normal capitalize">
+                <strong>Subject: </strong>{" "}
+
+              </h5>
+              <TextValidator
                 label="Subject"
                 className="mb-4"
                 type="text"
                 variant="outlined"
                 size="small"
-                style={{width:500}}
+                style={{ width: 500 }}
                 onChange={e => setsubject(e.target.value)
                 }
                 value={subject}
@@ -1247,244 +1227,243 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 errorMessages={["this field is required"]}
               /></div>
 
-        <Divider />
+            <Divider />
 
-          <Table className="mb-4">
-          <TableHead>
-            <TableRow className="bg-default">
-              <TableCell className="pl-sm-24" style={{width:70}} align="left">S.NO.</TableCell>
-              <TableCell className="px-0" style={{width:'50px'}}>ITEM</TableCell>
-              <TableCell className="px-0" style={{width:'130px'}}>ITEM NAME</TableCell>
-              <TableCell className="px-0" style={{width:'130px'}}>RFQ DESCRIPTION</TableCell>
-              <TableCell className="px-0" style={{width:'130px'}}>AMACO DESCRIPTION</TableCell>
-              <TableCell className="px-0" style={{width:'70px'}}>QUANTITY</TableCell>
-              <TableCell className="px-0" style={{width:'100px'}} align="center">UOM</TableCell>
-              <TableCell className="px-0" style={{width:'100px'}}>PRICE</TableCell>
-              <TableCell className="px-0" style={{width:'80px'}}>MARGIN %</TableCell>
-              <TableCell className="px-0" style={{width:'80px'}} align="center">DISCOUNT %</TableCell>
-              <TableCell className="px-0" style={{width:'100px'}}>SELL PRICE</TableCell>
-              <TableCell className="px-0"style={{width:'110px'}}>TOTAL</TableCell>
-              {/* <TableCell className="px-0"style={{width:'120px'}}>REMARK</TableCell> */}
-               <TableCell className="px-0" style={{width:'40px'}}><Icon>delete</Icon></TableCell> 
-            </TableRow>
-          </TableHead>
+            <Table className="mb-4">
+              <TableHead>
+                <TableRow className="bg-default">
+                  <TableCell className="pl-sm-24" style={{ width: 70 }} align="left">S.NO.</TableCell>
+                  <TableCell className="px-0" style={{ width: '50px' }}>ITEM</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>ITEM NAME</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>RFQ DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>AMACO DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '70px' }}>QUANTITY</TableCell>
+                  <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
+                  <TableCell className="px-0" style={{ width: '100px' }}>PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '80px' }}>MARGIN %</TableCell>
+                  <TableCell className="px-0" style={{ width: '80px' }} align="center">DISCOUNT %</TableCell>
+                  <TableCell className="px-0" style={{ width: '100px' }}>SELL PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '110px' }}>TOTAL</TableCell>
+                  {/* <TableCell className="px-0"style={{width:'120px'}}>REMARK</TableCell> */}
+                  <TableCell className="px-0" style={{ width: '40px' }}><Icon>delete</Icon></TableCell>
+                </TableRow>
+              </TableHead>
 
-          <TableBody>
-            {invoiceItemList.map((item, index) => {
-           
-           if(!dstatus)
-              {
-              costTotal+=parseFloat(item.purchase_price)*parseFloat(item.quantity);
-              totalmargin+=parseFloat(item.margin);
-              
-              // subCost += parseFloat(item.total_amount)
-              // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+              <TableBody>
+                {invoiceItemList.map((item, index) => {
 
-              // margin_per=((subCost-costTotal)/costTotal)*100;
-                
-              margin_val+=((item.margin_val));
-            
-              margin_per=(margin_val/costTotal)*100;
-              subCost = costTotal+margin_val;
-              subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
-              
-              // margin_val=((subCost-costTotal));
-              dis_val+=(item?.discount_val?item?.discount_val:0)
-             
-              
-              dis_per=((parseFloat(dis_val)/parseFloat(subCost))*100).toFixed(3);
-             
+                  if (!dstatus) {
+                    costTotal += parseFloat(item.purchase_price) * parseFloat(item.quantity);
+                    totalmargin += parseFloat(item.margin);
 
-              
-              sellTotal=subTotalCost-dis_val
-              vat= (((parseFloat(sellTotal)-parseFloat(other+transport)) * 15) / 100).toFixed(2);
-             
-              // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-              GTotal=(parseFloat(vat)+parseFloat(sellTotal))
-              
-              }
-              else
-              {
-                costTotal+=parseFloat(item.purchase_price)*parseFloat(item.quantity);
-              totalmargin+=parseFloat(item.margin);
-              
-              // subCost += parseFloat(item.total_amount)
-              // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+                    // subCost += parseFloat(item.total_amount)
+                    // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
-              // margin_per=((subCost-costTotal)/costTotal)*100;
-                
-              margin_val+=((item.margin_val));
-            
-              margin_per=(margin_val/costTotal)*100;
-              subCost = costTotal+margin_val;
-              subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
-              
-              // margin_val=((subCost-costTotal));
-              dis_val+=(item.discount_val)
-              
-              
-              dis_per=((parseFloat(dis_val)/parseFloat(subCost))*100).toFixed(3);
-             
+                    // margin_per=((subCost-costTotal)/costTotal)*100;
 
-              
-              sellTotal=subTotalCost-dis_val
-              vat= (((parseFloat(sellTotal)-parseFloat(other+transport)) * 15) / 100).toFixed(2);
-             
-              // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-              GTotal=(parseFloat(vat)+parseFloat(sellTotal))
-                            }
-              // vat= (discount * 15) / 100
-              // GTotal=item.discount + item.vat;        
-              // vat= (discount * 15) / 100
-              // GTotal=item.discount + item.vat;
-              
-              return (
-                <TableRow key={index}>
-                  
-                 
-                  <TableCell className="pl-sm-24 capitalize" align="left" style={{width:50}}>
-                    {index + 1}
-                    
-                  </TableCell>
-                  <TableCell className="px-0" style={{width:'50px'}}>
-                   
-       {item.file?(<span><Icon color="error" onClick={(event) => deletequotefile(item.id)}>close</Icon><img className="w-48" src={item.file} alt="" ></img></span>):!item.src ?(<Icon
-  variant="contained"
-  component="label"
-  onChange={(event) => handleFileSelect(event,index)}
->
-file_upload
-  <input
-    type="file"
-    hidden
-  />
-</Icon>)
-            
-:(<span><Tooltip title="delete"><Icon color="error" onClick={(event) => deleteFileSelect(event,index)}>close</Icon></Tooltip><img className="w-48" src={item.src} alt="" ></img></span>)}
-                  </TableCell>
-                  
-                <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
-                {quickstatus?(<TextValidator
-                      label="Item"
-                      onChange={(event) => setProductdescription(event, index)}
-                      type="text"
-                      name="product_id"
-                      fullWidth
-                      variant="outlined"
-                      // inputProps={{style: {textTransform: 'capitalize'}}}
-                      
-                      size="small"
-                      value={item.product_id?item.product_id:""}
-                    //   validators={["required"]}
-                      
-                    //   errorMessages={["this field is required"]}
-                    select
-                    >
-                       <MenuItem value="false">
-                         <Icon>add</Icon>Add New
+                    margin_val += ((item.margin_val));
+
+                    margin_per = (margin_val / costTotal) * 100;
+                    subCost = costTotal + margin_val;
+                    subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
+
+                    // margin_val=((subCost-costTotal));
+                    dis_val += (item?.discount_val ? item?.discount_val : 0)
+
+
+                    dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
+
+
+
+                    sellTotal = subTotalCost - dis_val
+                    vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
+
+                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+                    GTotal = (parseFloat(vat) + parseFloat(sellTotal))
+
+                  }
+                  else {
+                    costTotal += parseFloat(item.purchase_price) * parseFloat(item.quantity);
+                    totalmargin += parseFloat(item.margin);
+
+                    // subCost += parseFloat(item.total_amount)
+                    // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+
+                    // margin_per=((subCost-costTotal)/costTotal)*100;
+
+                    margin_val += ((item.margin_val));
+
+                    margin_per = (margin_val / costTotal) * 100;
+                    subCost = costTotal + margin_val;
+                    subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
+
+                    // margin_val=((subCost-costTotal));
+                    dis_val += (item.discount_val)
+
+
+                    dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
+
+
+
+                    sellTotal = subTotalCost - dis_val
+                    vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
+
+                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+                    GTotal = (parseFloat(vat) + parseFloat(sellTotal))
+                  }
+                  // vat= (discount * 15) / 100
+                  // GTotal=item.discount + item.vat;        
+                  // vat= (discount * 15) / 100
+                  // GTotal=item.discount + item.vat;
+
+                  return (
+                    <TableRow key={index}>
+
+
+                      <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
+                        {index + 1}
+
+                      </TableCell>
+                      <TableCell className="px-0" style={{ width: '50px' }}>
+
+                        {item.file ? (<span><Icon color="error" onClick={(event) => deletequotefile(item.id)}>close</Icon><img className="w-48" src={item.file} alt="" ></img></span>) : !item.src ? (<Icon
+                          variant="contained"
+                          component="label"
+                          onChange={(event) => handleFileSelect(event, index)}
+                        >
+                          file_upload
+                          <input
+                            type="file"
+                            hidden
+                          />
+                        </Icon>)
+
+                          : (<span><Tooltip title="delete"><Icon color="error" onClick={(event) => deleteFileSelect(event, index)}>close</Icon></Tooltip><img className="w-48" src={item.src} alt="" ></img></span>)}
+                      </TableCell>
+
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                        {quickstatus ? (<TextValidator
+                          label="Item"
+                          onChange={(event) => setProductdescription(event, index)}
+                          type="text"
+                          name="product_id"
+                          fullWidth
+                          variant="outlined"
+                          // inputProps={{style: {textTransform: 'capitalize'}}}
+
+                          size="small"
+                          value={item.product_id ? item.product_id : ""}
+                          //   validators={["required"]}
+
+                          //   errorMessages={["this field is required"]}
+                          select
+                        >
+                          <MenuItem value="false">
+                            <Icon>add</Icon>Add New
                           </MenuItem>
-                         {proList.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>
-                           {item.name}
-                          </MenuItem>
-                        ))} 
-                    </TextValidator>):
-                    (<TextValidator
-                      label="Item"
-                      onChange={(event) => setProductdescription(event, index)}
-                      type="text"
-                      name="product_id"
-                      fullWidth
-                      variant="outlined"
-                      // inputProps={{style: {textTransform: 'capitalize'}}}
-                      
-                      size="small"
-                      disabled
-                      value={item.product_id?item.product_id:"---"}
-                    //   validators={["required"]}
-                      
-                    //   errorMessages={["this field is required"]}
-                    
-                    >
-                     none</TextValidator>)}
-                  </TableCell>
-                  
+                          {proList.map((item) => (
+                            <MenuItem value={item.id} key={item.id}>
+                              {item.name}
+                            </MenuItem>
+                          ))}
+                        </TextValidator>) :
+                          (<TextValidator
+                            label="Item"
+                            onChange={(event) => setProductdescription(event, index)}
+                            type="text"
+                            name="product_id"
+                            fullWidth
+                            variant="outlined"
+                            // inputProps={{style: {textTransform: 'capitalize'}}}
 
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
-                    <TextValidator
-                      label="description"
-                      onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      name="description"
-                      fullWidth
-                      variant="outlined"
-                      // inputProps={{style: {textTransform: 'capitalize'}}}
-                      
-                      size="small"
-                      value={item? item.description: null}
-                      validators={["required"]}
-                      multiline
-                      errorMessages={["this field is required"]}
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
-                    <TextValidator
-                      label="Amaco Description"
-                      onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      
-                      variant="outlined"
-                      size="small"
-                      name="descriptionss"
-                      fullWidth
-                      multiline
-                      value={item?.descriptionss}
-              
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize"  align="left" style={{width:'70px'}}>
-                    <TextValidator
-                      label="Qty"
-                      required
-                      onChange={(event) => calcualte_qty(event, index)}
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
-                      name="quantity"
-                      value={item.quantity}
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'100px'}}>
-                  <TextField
-              className="mr-2"
-              label="UOM"
-              onChange={(event) => handleIvoiceListChange(event, index)}
-              // onChange={e => setunit_of_measure(e.target.value)}
-              type="text"
-              size="small"
-              value={item.unit_of_measure}
-              name="unit_of_measure"
-              variant="outlined"
-              validators={[
-                "required",
-              ]}
-              fullWidth
-              errorMessages={["this field is required"]}
-              select
-            // validators={["required"]}
-            // errorMessages={["this field is required"]}
-            >
-              {data.map((item, ind) => (
-                <MenuItem value={item.value} key={item}>
-                  {item.label}
-                </MenuItem>
-              ))}
-              </TextField>
-              </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'50px'}}>
-                  {/* <TextField
+                            size="small"
+                            disabled
+                            value={item.product_id ? item.product_id : "---"}
+                          //   validators={["required"]}
+
+                          //   errorMessages={["this field is required"]}
+
+                          >
+                            none</TextValidator>)}
+                      </TableCell>
+
+
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                        <TextValidator
+                          label="description"
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          name="description"
+                          fullWidth
+                          variant="outlined"
+                          // inputProps={{style: {textTransform: 'capitalize'}}}
+
+                          size="small"
+                          value={item ? item.description : null}
+                          validators={["required"]}
+                          multiline
+                          errorMessages={["this field is required"]}
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                        <TextValidator
+                          label="Amaco Description"
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+
+                          variant="outlined"
+                          size="small"
+                          name="descriptionss"
+                          fullWidth
+                          multiline
+                          value={item?.descriptionss}
+
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '70px' }}>
+                        <TextValidator
+                          label="Qty"
+                          required
+                          onChange={(event) => calcualte_qty(event, index)}
+                          type="number"
+                          variant="outlined"
+                          size="small"
+
+                          fullWidth
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          name="quantity"
+                          value={item.quantity}
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
+                        <TextField
+                          className="mr-2"
+                          label="UOM"
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          // onChange={e => setunit_of_measure(e.target.value)}
+                          type="text"
+                          size="small"
+                          value={item.unit_of_measure}
+                          name="unit_of_measure"
+                          variant="outlined"
+                          validators={[
+                            "required",
+                          ]}
+                          fullWidth
+                          errorMessages={["this field is required"]}
+                          select
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
+                        >
+                          {data.map((item, ind) => (
+                            <MenuItem value={item.value} key={item}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
+                        {/* <TextField
                       label="Unit Price"
                       variant="outlined"
                       // onChange={(event) => calcualtep(event,index)}
@@ -1508,8 +1487,8 @@ file_upload
                         </MenuItem>
                       ))} 
                     </TextField> */}
-                    {quickstatus?<span>
-                      {/* <FormControl variant="outlined" className={classes.formControl}>
+                        {quickstatus ? <span>
+                          {/* <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="outlined-age-native-simple">Price</InputLabel>
         <Select
           native
@@ -1533,145 +1512,145 @@ file_upload
           
         </Select>
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''} */}
-        <Autocomplete
-                        
-                        className="w-full"
-                        size="small"
-                        options={item.product_price_list}
-                        name="purchase_price"
-                        value={item?.purchase_price}
-                        filterOptions={filterPrice}
-                        renderOption={option => option.price}
-                        getOptionLabel={option => {
-                          // e.g value selected with enter, right from the input
-                          if (typeof option === "string") {
-                            return option;
-                          }
-                          if (option.inputValue) {
-                            return option.inputValue;
-                          }
-                          return option.price;
-                        }}
-                        freeSolo
-                        renderInput={(params) => (
-                          <TextField {...params} variant="outlined" name="purchase_price"  fullWidth />
-                        )}
-                        // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                        onInputChange={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                        onChange={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                        
-                      />
-        </span>
-        :<CurrencyTextField
-          // native
-         
-          // onChange={handleChange}
-        
-          variant="outlined"
-          currencySymbol="SAR"
-          value={item.purchase_price}
-          // decimalPlaces={3}
-          onChange={(event,value) => calcualtep(event, index,value)}
-          label="Price"
-          size="small"
-         
-          inputProps={{
-            name: 'purchase_price',
-            id: 'outlined-age-native-simple',
-            style: { textAlign: 'right' }
-          }}
-         
-          
-        ></CurrencyTextField>}
-                    
-                  </TableCell> 
+                          <Autocomplete
 
-                  
-                  
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'50px'}}>
-                    <TextField
-                      label="Margin"
-                      required
-                      onChange={(event) => calcualte_margin(event, index)}
-                      // onBlur={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      name="margin"
-                      decimalPlaces={3}
-                      fullWidth
-                      value={item.margin}
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
-                      validators={["required"]}
-                      errorMessages={["this field is required"]}
-              
-                    />
-                    {/* <Tooltip title="Reference">
+                            className="w-full"
+                            size="small"
+                            options={item.product_price_list}
+                            name="purchase_price"
+                            value={item?.purchase_price}
+                            filterOptions={filterPrice}
+                            renderOption={option => option.price}
+                            getOptionLabel={option => {
+                              // e.g value selected with enter, right from the input
+                              if (typeof option === "string") {
+                                return option;
+                              }
+                              if (option.inputValue) {
+                                return option.inputValue;
+                              }
+                              return option.price;
+                            }}
+                            freeSolo
+                            renderInput={(params) => (
+                              <TextField {...params} variant="outlined" name="purchase_price" fullWidth />
+                            )}
+                            // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
+                            onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+                            onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+
+                          />
+                        </span>
+                          : <CurrencyTextField
+                            // native
+
+                            // onChange={handleChange}
+
+                            variant="outlined"
+                            currencySymbol="SAR"
+                            value={item.purchase_price}
+                            // decimalPlaces={3}
+                            onChange={(event, value) => calcualtep(event, index, value)}
+                            label="Price"
+                            size="small"
+
+                            inputProps={{
+                              name: 'purchase_price',
+                              id: 'outlined-age-native-simple',
+                              style: { textAlign: 'right' }
+                            }}
+
+
+                          ></CurrencyTextField>}
+
+                      </TableCell>
+
+
+
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
+                        <TextField
+                          label="Margin"
+                          required
+                          onChange={(event) => calcualte_margin(event, index)}
+                          // onBlur={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          name="margin"
+                          decimalPlaces={3}
+                          fullWidth
+                          value={item.margin}
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          validators={["required"]}
+                          errorMessages={["this field is required"]}
+
+                        />
+                        {/* <Tooltip title="Reference">
                   <Icon aria-label="expand row" size="small" style={{width:'25%',float:'left',cursor:'pointer'}} onClick={() => {
                          setMargin(item.product_id,index,item.name);
                       }}>
                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </Icon>
                 </Tooltip> */}
-  
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'80px'}}>
-                    <TextValidator
-                      label="Discount"
-                      required
-                      onChange={(event) => discountPer(event, index)}
-                      // onBlur={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      decimalPlaces={2}
-                      variant="outlined"
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
-                      size="small"
-                      name="discount"
-                      // style={{width:'75%',float:'left'}}
-                      fullWidth
-                      value={item.discount}
-                      validators={["required"]}
-                      errorMessages={["this field is required"]}
-              
-                    />
-                   
-  
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'100px'}}>
-                    <CurrencyTextField
-                      label="price"
-                      // onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                     
-                      variant="outlined"
-                      size="small"
-                      decimalPlaces={3}
-                      currencySymbol=""
-                      name="sell_price"
-                      onBlur={(e,value)=>calculatemargin(e,index,value)}
-                      inputProps={{min: 0, style: { textAlign: 'right' }}}
-                      
-                      value={item.sell_price}
-      
-                    />
-                  </TableCell>
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'100px'}}>
-                    <TextValidator
-                      label="QTotal"
-                      
-                      // onChange={(event) => handleIvoiceListChange(event, index)}
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                     
-                      name="total_amount"
-                     
-                      value={item.total_amount}
-                      inputProps={{min: 0, style: { textAlign: 'right' }}}
-                      
-                    />
-                  </TableCell>
-                  {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
+
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
+                        <TextValidator
+                          label="Discount"
+                          required
+                          onChange={(event) => discountPer(event, index)}
+                          // onBlur={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          decimalPlaces={2}
+                          variant="outlined"
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          size="small"
+                          name="discount"
+                          // style={{width:'75%',float:'left'}}
+                          fullWidth
+                          value={item.discount}
+                          validators={["required"]}
+                          errorMessages={["this field is required"]}
+
+                        />
+
+
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
+                        <CurrencyTextField
+                          label="price"
+                          // onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+
+                          variant="outlined"
+                          size="small"
+                          decimalPlaces={3}
+                          currencySymbol=""
+                          name="sell_price"
+                          onBlur={(e, value) => calculatemargin(e, index, value)}
+                          inputProps={{ min: 0, style: { textAlign: 'right' } }}
+
+                          value={item.sell_price}
+
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
+                        <TextValidator
+                          label="QTotal"
+
+                          // onChange={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          variant="outlined"
+                          size="small"
+
+                          name="total_amount"
+
+                          value={item.total_amount}
+                          inputProps={{ min: 0, style: { textAlign: 'right' } }}
+
+                        />
+                      </TableCell>
+                      {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
                     <TextValidator
                       label="Remark"
                       onChange={(event) => setremark(event, index)}
@@ -1689,27 +1668,27 @@ file_upload
                     />
   
                   </TableCell> */}
-                  <TableCell className="pl-0 capitalize" align="left" style={{width:'50px'}}>
-               
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index,item?.id)}>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
+
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
                           delete
-                      </Icon>
-                      
-                </TableCell>
-                </TableRow>
-              );
-            })}
-            
-          </TableBody>
-          
-        </Table>
-        <div className="flex justify-end px-4 mb-4">
-            <Button className="mt-4 py-2"
-              color="primary"
-              variant="contained"
-              size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
-          </div>
-          {/* {testArr.map((item, index) => {
+                        </Icon>
+
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+
+              </TableBody>
+
+            </Table>
+            <div className="flex justify-end px-4 mb-4">
+              <Button className="mt-4 py-2"
+                color="primary"
+                variant="contained"
+                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
+            </div>
+            {/* {testArr.map((item, index) => {
               
               return (
                 <div>
@@ -1737,7 +1716,7 @@ file_upload
                 color="primary"
                 variant="contained"
                 size="small" onClick={addRow}><Icon>add</Icon>Add Note</Button> */}
-        {/* <div> 
+            {/* <div> 
 <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div>
 <div style={{display:'inline-block',marginLeft:100}}><TextValidator
                 label="Subject"
@@ -1753,300 +1732,300 @@ file_upload
                 errorMessages={["this field is required"]}
               /></div>
 </div> */}
-        <h6 className="pl-4"><strong>Terms</strong></h6>
-        <div className="px-4 flex justify-between">
-        <div className="flex">
-        
-        <div className="pr-12">
-        
+            <h6 className="pl-4"><strong>Terms</strong></h6>
+            <div className="px-4 flex justify-between">
+              <div className="flex">
 
-        
-        <p className="mb-6">Quotation Validity:</p>
-              <p className="mb-8">Payment Terms:</p>
-              <p className="mb-10">Waranty:</p>
-              <p className="mb-10">Delivery Time:</p>
-              <p className="mb-8">Inco-Term:</p>
-              <p className="mb-8">Signature:</p>
-              <p className="mb-8">Bank:</p>
-          </div>
-          <div>
-          <TextValidator
-                label="Quotation Validity"
-                className="mb-4"
-                type="text"
-                variant="outlined"
-                size="small"
-                style={{width:500}}
-                onChange={e => setvalidity(e.target.value)
-                }
-                value={validity}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                label="payment Terms"
-                className="mb-4"
-                onChange={e => setpayment_terms(e.target.value)
-                }
-                type="text"
-                style={{width:500}}
-                variant="outlined"
-                size="small"
-                name="net_amount"
-                value={payment_terms}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                label="Waranty"
-                onChange={e => setwarranty(e.target.value)
-                }
-                className="mb-4"
-                type="text"
-                variant="outlined"
-                size="small"
-                name="net_amount"
-                style={{width:500}}
-                value={warranty}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                label="Delivery Time"
-                className="mb-4"
-                onChange={e => setdelivery_time(e.target.value)
-                }
-                type="text"
-                variant="outlined"
-                size="small"
-                style={{width:500}}
-                name="net_amount"
-                value={delivery_time}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                label="Inco-Term"
-                onChange={e => setinco_terms(e.target.value)
-                }
-                type="text"
-                className="mb-4"
-                variant="outlined"
-                size="small"
-                name="net_amount"
-                style={{width:500}}
-                value={inco_terms}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <FormGroup>
-        <FormControl variant="outlined" minWidth="120" size="small">
-        <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
-        <Select
-          native
-          value={sign}
-          defaultValue={sign}
-          // onChange={handleChange}
-          onChange={e => setsign(e.target.value)}
-          size="small"
-          label="Signature"
-          inputProps={{
-            name: 'Bank',
-            id: 'outlined-age-native-simple',
-           
-          }}
-          
-        >
-         
-         {users.map((item, ind) => (
-          <option value={item.id} defaultValue={item.name}>{item.name}</option>
-         ))}
-        </Select>
-      </FormControl>
-      </FormGroup>
-      <FormGroup>
-      <FormControl variant="outlined" size="small" minWidth="120"
-                   className="mt-4">
-        <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
-        <Select
-          native
-          value={bank_id}
-          defaultValue={bank_id}
-          // onChange={handleChange}
-          onChange={e => setbank_id(e.target.value)}
-          size="small"
-          label="Bank"
-          inputProps={{
-            name: 'Bank',
-            id: 'outlined-age-native-simple',
-          }}
-        >
-         <option value="" disabled>
-              --select--
-          </option>
-         {companybank.map((item, ind) => (
-          <option value={item.id}>{item.name}-{item.ac_no}</option>
-         ))}
-        </Select>
-      </FormControl>
-      </FormGroup>
-     
-          </div>
-          
-          </div>
-          <div className="px-4 flex justify-end">
-          <div className="flex " >
-              <div className="pr-12">
-              <p className="mb-8">Total Cost:</p>
-              <p className="mb-8">margin%:</p>
-              <p className="mb-8 pt-0">Sub Total:</p>
-              <p className="mb-8">Transport:</p>
-              <p className="mb-8">Other:</p>
-              <p className="mb-8 pt-0">Net Total:</p>
-              <p className="mb-8">Discount:</p>
-              <p className="mb-8">Selling Total:</p>
-              <p className="mb-8 pt-2">Vat(15%):</p>
-              {/* <p className="mb-5">currency:</p> */}
-              <strong>
-                <p className="mb-8">Grand Total:</p>
-              </strong>
-            </div>
-            <div>
-           
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Cost"
-                readOnly
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={costTotal?costTotal:parseFloat(0.00).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })}           
-                
-                />
-              
+                <div className="pr-12">
+
+
+
+                  <p className="mb-6">Quotation Validity:</p>
+                  <p className="mb-8">Payment Terms:</p>
+                  <p className="mb-10">Waranty:</p>
+                  <p className="mb-10">Delivery Time:</p>
+                  <p className="mb-8">Inco-Term:</p>
+                  <p className="mb-8">Signature:</p>
+                  <p className="mb-8">Bank:</p>
+                </div>
+                <div>
+                  <TextValidator
+                    label="Quotation Validity"
+                    className="mb-4"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    onChange={e => setvalidity(e.target.value)
+                    }
+                    value={validity}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextValidator
+                    label="payment Terms"
+                    className="mb-4"
+                    onChange={e => setpayment_terms(e.target.value)
+                    }
+                    type="text"
+                    style={{ width: 500 }}
+                    variant="outlined"
+                    size="small"
+                    name="net_amount"
+                    value={payment_terms}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextValidator
+                    label="Waranty"
+                    onChange={e => setwarranty(e.target.value)
+                    }
+                    className="mb-4"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    name="net_amount"
+                    style={{ width: 500 }}
+                    value={warranty}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextValidator
+                    label="Delivery Time"
+                    className="mb-4"
+                    onChange={e => setdelivery_time(e.target.value)
+                    }
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    name="net_amount"
+                    value={delivery_time}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextValidator
+                    label="Inco-Term"
+                    onChange={e => setinco_terms(e.target.value)
+                    }
+                    type="text"
+                    className="mb-4"
+                    variant="outlined"
+                    size="small"
+                    name="net_amount"
+                    style={{ width: 500 }}
+                    value={inco_terms}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <FormGroup>
+                    <FormControl variant="outlined" minWidth="120" size="small">
+                      <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
+                      <Select
+                        native
+                        value={sign}
+                        defaultValue={sign}
+                        // onChange={handleChange}
+                        onChange={e => setsign(e.target.value)}
+                        size="small"
+                        label="Signature"
+                        inputProps={{
+                          name: 'Bank',
+                          id: 'outlined-age-native-simple',
+
+                        }}
+
+                      >
+
+                        {users.map((item, ind) => (
+                          <option value={item.id} defaultValue={item.name}>{item.name}</option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControl variant="outlined" size="small" minWidth="120"
+                      className="mt-4">
+                      <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
+                      <Select
+                        native
+                        value={bank_id}
+                        defaultValue={bank_id}
+                        // onChange={handleChange}
+                        onChange={e => setbank_id(e.target.value)}
+                        size="small"
+                        label="Bank"
+                        inputProps={{
+                          name: 'Bank',
+                          id: 'outlined-age-native-simple',
+                        }}
+                      >
+                        <option value="" disabled>
+                          --select--
+                        </option>
+                        {companybank.map((item, ind) => (
+                          <option value={item.id}>{item.name}-{item.ac_no}</option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </FormGroup>
+
+                </div>
+
               </div>
-             
-              {/* <p className="mb-4 pt-4">{margin_per?parseFloat(margin_per).toLocaleString(undefined,{minimumFractionDigits:2}):0.00}</p> */}
-              <div>
-              <CurrencyTextField
-                className="mb-4 mr-2"
-                label="Margin %"
-                readOnly
-                style={{width:'90px'}}
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol=" "
-                name="net_amount"
-                value={margin_per ? margin_per : 0}          
-                
-                />
-                <CurrencyTextField
-                className="w-full "
-                readOnly
-                label="Margin Value"
-			          variant="outlined"
-                fullWidth
-                size="small"
-                style={{width:'150px'}}
-			          currencySymbol="SAR"
-                name="dis_per"
-                value={margin_val}
-              />
-              
-              </div>
-              {/* <p className="mb-4 pt-4">{subTotalCost?subTotalCost.toFixed(2):'0.00'}</p> */}
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Sub Total"
-                readOnly
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={subCost?subCost:parseFloat(0.00).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })}           
-                
-                />
-              
-              </div>
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Transport"
-                onChange={(e,value)=>settransport(parseFloat(value))}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={transport}           
-                
-                />
-              
-              </div>
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Other"
-               
-              
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                onChange={(e,value)=>setother(parseFloat(value))}
-                name="net_amount"
-                value={other}           
-                
-                />
-              
-              </div>
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="NetTotal"
-                readOnly
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={subTotalCost?subTotalCost:parseFloat(0.00).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })}           
-                
-                />
-              
-              </div>
-              <div>
-              <TextField
-                className="mb-4 mr-2"
-                label="Discount %"
-                type="text"
-                variant="outlined"
-                size="small"
-                style={{width:'90px'}}
-                // onChange={(event) => handleChange(event, "discount")}
-                inputProps={{min: 0, style: { textAlign: 'center' }}}
-                value={isNaN(dis_per) ? 0 : dis_per}
-                
-              />
-              
-            
-              {/* <TextField
+              <div className="px-4 flex justify-end">
+                <div className="flex " >
+                  <div className="pr-12">
+                    <p className="mb-8">Total Cost:</p>
+                    <p className="mb-8">margin%:</p>
+                    <p className="mb-8 pt-0">Sub Total:</p>
+                    <p className="mb-8">Transport:</p>
+                    <p className="mb-8">Other:</p>
+                    <p className="mb-8 pt-0">Net Total:</p>
+                    <p className="mb-8">Discount:</p>
+                    <p className="mb-8">Selling Total:</p>
+                    <p className="mb-8 pt-2">Vat(15%):</p>
+                    {/* <p className="mb-5">currency:</p> */}
+                    <strong>
+                      <p className="mb-8">Grand Total:</p>
+                    </strong>
+                  </div>
+                  <div>
+
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Cost"
+                        readOnly
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={costTotal ? costTotal : parseFloat(0.00).toLocaleString(undefined, {
+                          minimumFractionDigits: 2
+                        })}
+
+                      />
+
+                    </div>
+
+                    {/* <p className="mb-4 pt-4">{margin_per?parseFloat(margin_per).toLocaleString(undefined,{minimumFractionDigits:2}):0.00}</p> */}
+                    <div>
+                      <CurrencyTextField
+                        className="mb-4 mr-2"
+                        label="Margin %"
+                        readOnly
+                        style={{ width: '90px' }}
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol=" "
+                        name="net_amount"
+                        value={margin_per ? margin_per : 0}
+
+                      />
+                      <CurrencyTextField
+                        className="w-full "
+                        readOnly
+                        label="Margin Value"
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        style={{ width: '150px' }}
+                        currencySymbol="SAR"
+                        name="dis_per"
+                        value={margin_val}
+                      />
+
+                    </div>
+                    {/* <p className="mb-4 pt-4">{subTotalCost?subTotalCost.toFixed(2):'0.00'}</p> */}
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Sub Total"
+                        readOnly
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={subCost ? subCost : parseFloat(0.00).toLocaleString(undefined, {
+                          minimumFractionDigits: 2
+                        })}
+
+                      />
+
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Transport"
+                        onChange={(e, value) => settransport(parseFloat(value))}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={transport}
+
+                      />
+
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Other"
+
+
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        onChange={(e, value) => setother(parseFloat(value))}
+                        name="net_amount"
+                        value={other}
+
+                      />
+
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="NetTotal"
+                        readOnly
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={subTotalCost ? subTotalCost : parseFloat(0.00).toLocaleString(undefined, {
+                          minimumFractionDigits: 2
+                        })}
+
+                      />
+
+                    </div>
+                    <div>
+                      <TextField
+                        className="mb-4 mr-2"
+                        label="Discount %"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        style={{ width: '90px' }}
+                        // onChange={(event) => handleChange(event, "discount")}
+                        inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                        value={isNaN(dis_per) ? 0 : dis_per}
+
+                      />
+
+
+                      {/* <TextField
                 className="mb-4 ml-2"
                 label="Discount"
                 type="text"
@@ -2059,39 +2038,39 @@ file_upload
                 value={discount?dis_per:0.00}
                
               /> */}
-              <CurrencyTextField
-                className="w-full "
-                label="Discount"
-			          variant="outlined"
-                fullWidth
-                size="small"
-                style={{width:'150px'}}
-			          currencySymbol="SAR"
-                name="dis_per"
-                value={parseFloat(dis_val)}
-                readOnly
-              />
-             </div>
-             <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Selling Total"
-                readOnly
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                value={parseFloat(sellTotal).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })}           
-                
-                />
-              
-              </div>
-              
-              {/* <TextValidator
+                      <CurrencyTextField
+                        className="w-full "
+                        label="Discount"
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        style={{ width: '150px' }}
+                        currencySymbol="SAR"
+                        name="dis_per"
+                        value={parseFloat(dis_val)}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Selling Total"
+                        readOnly
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={parseFloat(sellTotal).toLocaleString(undefined, {
+                          minimumFractionDigits: 2
+                        })}
+
+                      />
+
+                    </div>
+
+                    {/* <TextValidator
                 className="mb-4 "
                 label="Vat"
                 // onChange={handleChange}
@@ -2106,19 +2085,19 @@ file_upload
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Vat"
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="vat"
-                value={vat} 
-                readOnly
-                             />
-              
-              {/* <TextValidator
+                    <CurrencyTextField
+                      className="w-full mb-4 "
+                      label="Vat"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      currencySymbol="SAR"
+                      name="vat"
+                      value={vat}
+                      readOnly
+                    />
+
+                    {/* <TextValidator
                 label="Grand Total"
                 onChange={handleChange}
                 type="text"
@@ -2133,65 +2112,65 @@ file_upload
                 errorMessages={["this field is required"]}
                 inputProps={{min: 0, style: { textAlign: 'right' }}}
               /> */}
-              <div>
-              <CurrencyTextField
-                className="w-full mb-4 "
-                label="Grand Total"
-                onChange={handleChange}
-			          variant="outlined"
-                fullWidth
-                size="small"
-			          currencySymbol="SAR"
-                name="net_amount"
-                readOnly
-                value={subTotalCost?GTotal:parseFloat(0.00).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })}           />
-              
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Grand Total"
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        readOnly
+                        value={subTotalCost ? GTotal : parseFloat(0.00).toLocaleString(undefined, {
+                          minimumFractionDigits: 2
+                        })} />
+
+                    </div>
+                  </div>
+                </div>
               </div>
-              </div>
-          </div>
-          </div>
-        </div>
-        {testArr.map((item, index) => {
-              
+            </div>
+            {testArr.map((item, index) => {
+
               return (
                 <div>
-                
-                     <TextField  label={'Note'}
-                  className="mb-4 ml-4"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  style={{width:500}}
-                  validators={["required"]}
-                  value={item.notes?item.notes:" "}
-                  errorMessages={["this field is required"]}
-                  name="note"
-                  onChange={(e)=> noteList(e.target.value,index)}></TextField>
-  
-  <Button onClick={() => deleteItemFromNoteList(index)}>
-                  <Icon color="error" className="mt-2" >delete</Icon>
+
+                  <TextField label={'Note'}
+                    className="mb-4 ml-4"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    validators={["required"]}
+                    value={item.notes ? item.notes : " "}
+                    errorMessages={["this field is required"]}
+                    name="note"
+                    onChange={(e) => noteList(e.target.value, index)}></TextField>
+
+                  <Button onClick={() => deleteItemFromNoteList(index)}>
+                    <Icon color="error" className="mt-2" >delete</Icon>
                   </Button>
-                    
+
                 </div>
               )
             })}
             <Button className="mt-4 py-2 mb-2 ml-4"
-                color="primary"
-                variant="contained"
-                size="small" onClick={addRow}><Icon>add</Icon>Add Note</Button>
-      </ValidatorForm>
-      </div>
-      
-      {shouldOpenEditorDialog && (
+              color="primary"
+              variant="contained"
+              size="small" onClick={addRow}><Icon>add</Icon>Add Note</Button>
+          </ValidatorForm>
+        </div>
+
+        {shouldOpenEditorDialog && (
           <MemberEditorDialog
             handleClose={handleDialogClose}
             contactid={status}
             open={shouldOpenEditorDialog}
             catid={catid}
             productprice={setproductprice}
-            
+
           />
         )}
         {shouldOpenConfirmationDialog && (
@@ -2205,33 +2184,33 @@ file_upload
           <MemberEditorDialog_product
             handleClose={handleDialogClose}
             open={shouldOpenEditorDialogproduct}
-            
-            
+
+
           />
         )}
         {shouldOpenConfirmationDialogproduct && (
           <ConfirmationDialog
             open={shouldOpenConfirmationDialogproduct}
             onConfirmDialogClose={handleDialogClose}
-            
+
             text="Are you sure to delete?"
           />
         )}
 
-{shouldOpenConfirmationDialogparty && (
+        {shouldOpenConfirmationDialogparty && (
           <MemberEditorDialogcontact
             open={shouldOpenConfirmationDialogparty}
             onConfirmDialogClose={handleDialogClose}
-            handleClose={()=>{setshouldOpenConfirmationDialogparty(false);setIsAlive(false)}}
+            handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
             customercontact={setcustomercontact}
             partyid={party_id}
-            
+
             text="Are you sure to delete?"
           />
         )}
-          </Card>
+      </Card>
     </div>
-  
+
   );
 };
 
