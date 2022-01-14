@@ -582,7 +582,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         <Card elevation={6} className="m-sm-30">
             <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
                 <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-                    <Link to="/purchasereturn">
+                    <Link to={navigatePath + "/salesreturn"}>
                         <IconButton >
                             <Icon>arrow_back</Icon>
                         </IconButton>

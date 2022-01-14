@@ -12,6 +12,8 @@ import {
     Icon,
     TextareaAutosize
 } from "@material-ui/core";
+import useAuth from 'app/hooks/useAuth';
+
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "../../Quoteinvoice/Annexure";
@@ -25,7 +27,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency } from "../../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../../product/productprice";
@@ -80,7 +82,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [total, settotal] = useState(0.00);
     const [catid, setcatid] = useState();
     const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
-
+    const { user } = useAuth()
 
     // purchasereturn states
 
@@ -438,8 +440,13 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.status = "New"
         arr.ps_date = Quote_date
         arr.currency_type = currency_type
+        arr.user_id = user.id
+        arr.div_id = localStorage.getItem('division')
+
         const json = Object.assign({}, arr);
         console.log(json)
+        console.log(user.id)
+        console.log(localStorage.getItem('division'))
         url.post('purchase-return', json)
             .then(function (response) {
                 console.log(response)
@@ -452,7 +459,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 })
                     .then((result) => {
                         // console.log(response)
-                        history.push("../salesreturn")
+                        history.push(navigatePath + "/salesreturn")
                     })
 
             })
@@ -462,7 +469,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push("/sales/rfq-form/rfqview")
+        history.push(navigatePath + "/salesreturn")
     }
 
     const handleDialogClose = () => {
@@ -529,7 +536,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             //     )
             // });
             // console.log(poN);
-            setPoNumbers(data.getPurchaseReturnData);
+            setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
         });
     }
 
