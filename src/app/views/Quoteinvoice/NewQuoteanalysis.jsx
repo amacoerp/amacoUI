@@ -508,7 +508,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index == i) {
 
 
-        element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
+        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
 
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
@@ -1844,11 +1844,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol=" "
                         name="net_amount"
-                        value={margin_per}
+                        value={margin_per ? margin_per : 0}
 
                       />
                       <CurrencyTextField
-                        className="w-full "
+                        className="w-full"
                         readOnly
                         label="Margin Value"
                         variant="outlined"
@@ -1941,7 +1941,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         style={{ width: '90px' }}
                         // onChange={(event) => handleChange(event, "discount")}
                         inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                        value={(dis_per)}
+                        value={isNaN(dis_per) ? 0 : dis_per}
 
                       />
 
