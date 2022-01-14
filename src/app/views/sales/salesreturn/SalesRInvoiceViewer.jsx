@@ -18,7 +18,7 @@ import {
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
-import { getInvoiceById } from "../../invoice/InvoiceService";
+import { getInvoiceById, navigatePath } from "../../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -457,7 +457,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const editpurchase = () => {
 
         // window.location.href=`../purchaseedit/${id}`
-        history.push(`/purchaseedit/${id}`)
+        history.push(navigatePath + `/purchaseedit/${id}`)
 
     }
     const updateCompany = () => {
@@ -698,15 +698,19 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         />
         </strong> */}
                                                         {/* </IntlProvider></h2> */}
-                                                        شركة أماكو العربية للمقاولات</h2>
+                                                        {localStorage.getItem('division') == 3 ?
+                                                            <>شركة أماكو مانيفاكترنج اند أندستريل سيرفيزيس المحدودة</>
+                                                            :
+                                                            <>شركة أماكو العربية للمقاولات</>}
+                                                    </h2>
 
                                                     <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
+                                                        {localStorage.getItem('division') == 3 ? <>Amaco Manufacturing & Industrial Services Pvt. Ltd.</> : <>AMACO ARABIA CONTRACTING COMPANY</>}
 
-                                                        AMACO ARABIA CONTRACTING COMPANY
 
                                                     </h3>
                                                     <h5 style={{ color: '#555', textAlign: 'right', fontSize: 17 }} className="font-normal b-4 capitalize">
-                                                        C.R No. 2055003404 | VAT No. 310398615200003
+                                                        C.R No. {localStorage.getItem('division') == 3 ? <>2055017282</> : <>2055003404</>} | VAT No. {localStorage.getItem('division') == 3 ? <>310398615200003</> : <>310398615200003</>}
 
 
                                                     </h5>
