@@ -255,4 +255,6 @@ export const capitalize_arr = value => {
   return capsArray.join(" ");
 };
 
+
+
 export default url;

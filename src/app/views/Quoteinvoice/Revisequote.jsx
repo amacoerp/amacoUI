@@ -776,6 +776,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
+    let mode="full"
+    updateSidebarMode({ mode })
     history.push(navigatePath+"/quoateview/0")
   }
   

@@ -151,13 +151,13 @@ const Layout1Topbar = () => {
 
     <div className={classes.topbar}>
       <div className={clsx({ "topbar-hold": true, fixed: fixed })}>
-        <div className="flex justify-between items-center">
-          <div className="flex">
-            <IconButton onClick={handleSidebarToggle} className="hide-on-pc">
+        <div className="flex justify-between items-center h-full">
+          <div className="flex pr-4">
+            <IconButton onClick={handleSidebarToggle} >
               <Icon>menu</Icon>
             </IconButton>
-
-            <div className="hide-on-mobile">
+             
+            <div className="hide-on-mobile" style={{textAlign:'right'}}>
               {user?.division?.map((item) => {
                 return (
                   <>
@@ -180,13 +180,7 @@ const Layout1Topbar = () => {
 
 
 
-              {/* <IconButton>
-                <Icon>M</Icon>
-              </IconButton>
-
-              <IconButton>
-                <Icon>H</Icon>
-              </IconButton> */}
+             
 
             </div>
           </div>
