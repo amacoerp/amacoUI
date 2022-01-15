@@ -295,9 +295,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: null,
       product_id: "",
-      description: "",
-      descriptions: "",
+      description: null,
+      descriptions: "---",
+      descriptionss: "---",
       quantity: 0,
+      unit_of_measure: " ",
       product_price_list: [
         {
           price: "",
@@ -411,8 +413,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calculatemargin = (event, index, value) => {
+
     let tempItemList = [...state.item];
     let d_val = value ? value : event.target.value;
+    console.log('dee')
     tempItemList.map((element, i) => {
       let sum = 0;
 
@@ -427,9 +431,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.total_amount = ((parseFloat(element.sell_price) * element.quantity).toFixed(2));
+        element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log(((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)))
+
+        console.log("deee", ((parseFloat(element.sell_price) * element.quantity).toFixed(2)))
 
       }
       return element;
@@ -454,7 +459,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         element[event.target.name] = value ? value : event.target.value;
         element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.total_amount = (parseFloat(element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
@@ -476,16 +481,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.map((element, i) => {
       let sum = 0;
 
-      if (index === i) {
+      if (index == i) {
 
 
         element[event.target.name] = value ? value : event.target.value;
         element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        element.total_amount = (parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-
+        console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
       }
       return element;
 
@@ -1399,7 +1404,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // inputProps={{style: {textTransform: 'capitalize'}}}
 
                           size="small"
-                          value={item ? item.description : null}
+                          value={item?.description ? item?.description : 0}
                           validators={["required"]}
                           multiline
                           errorMessages={["this field is required"]}
@@ -1416,7 +1421,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="descriptionss"
                           fullWidth
                           multiline
-                          value={item?.descriptionss}
+                          value={item.product_id ? item?.descriptionss : item.descriptionss}
 
                         />
                       </TableCell>
@@ -1425,10 +1430,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Qty"
                           required
                           onChange={(event) => calcualte_qty(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
-
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           name="quantity"
@@ -1625,9 +1629,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           decimalPlaces={3}
-                          currencySymbol=""
+                          currencySymbol="SAR"
                           name="sell_price"
                           onBlur={(e, value) => calculatemargin(e, index, value)}
+                          onChange={(e, value) => calculatemargin(e, index, value)}
                           inputProps={{ min: 0, style: { textAlign: 'right' } }}
 
                           value={item.sell_price}
@@ -2229,7 +2234,7 @@ const initialValues = {
   },
   item: [],
   status: "",
-  // discount:"",
+  // discount:" ",
   date: new Date(),
   currency: "",
   loading: false,

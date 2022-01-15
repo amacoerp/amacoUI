@@ -15,6 +15,7 @@ import {
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "../../Quoteinvoice/Annexure";
+import useAuth from 'app/hooks/useAuth';
 
 import {
     MuiPickersUtilsProvider,
@@ -25,7 +26,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency } from "../../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../../product/productprice";
@@ -80,6 +81,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [total, settotal] = useState(0.00);
     const [catid, setcatid] = useState();
     const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
+    const { user } = useAuth()
 
 
     // purchasereturn states
@@ -192,13 +194,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     const handleChangesPO = (event, newValue, index) => {
-        // console.log(newValue.id);
-        // console.log(newValue.name);
-        console.log(newValue.po_number);
+
 
         url.get(`getProductsPR/${newValue.po_number}`).then(({ data }) => {
             setproList(data.getPData)
-            console.log("pr", data.getPData);
+
         });
 
 
@@ -214,7 +214,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
             return element;
         });
-        console.log(tempItemList);
+
         setState({
             ...state,
             item: tempItemList,
@@ -225,10 +225,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // console.log(newValue.name);
         // console.log(newValue.po_number);
 
-        console.log(newValue.product_id);
 
         const pD = proList.filter(obj => obj.product_id == newValue.product_id)
-        console.log(pD[0].product_id);
+
 
 
         setState({
@@ -236,7 +235,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             description: pD[0].product_id,
         })
 
-        console.log({ state });
+
 
         // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
@@ -255,7 +254,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
             return element;
         });
-        console.log(tempItemList);
+
         setState({
             ...state,
             item: tempItemList,
@@ -284,7 +283,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             return element;
 
         });
-        console.log(tempItemList)
+
         setState({
             ...state,
             item: tempItemList,
@@ -434,11 +433,13 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.status = "New"
         arr.ps_date = Quote_date
         arr.currency_type = currency_type
+        arr.user_id = user.id
+        arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-        console.log(json)
+
         url.post('purchase-return', json)
             .then(function (response) {
-                console.log(response)
+
 
                 Swal.fire({
                     title: 'Success',
@@ -447,8 +448,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     text: 'Data saved successfully.',
                 })
                     .then((result) => {
-                        // console.log(response)
-                        history.push("../purchasereturn")
+
+                        history.push(navigatePath + "purchasereturn")
                     })
 
             })
@@ -458,7 +459,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push("/sales/rfq-form/rfqview")
+        history.push(navigatePath + "/purchasereturn")
     }
 
     const handleDialogClose = () => {
@@ -472,7 +473,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setDataList(newValue);
     }
     const handleDialogCloseAnnexure = () => {
-        console.log(DataList)
+
         setShouldOpenEditorDialogAnnexure(false);
 
 
@@ -482,7 +483,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     useEffect(() => {
         url.get("products").then(({ data }) => {
             setproList(data)
-            console.log("pr", data);
         });
         getVendorList().then(({ data }) => {
             setvalues({
@@ -510,14 +510,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const setcontact = (event) => {
 
         url.get("parties/" + event.target.value).then(({ data }) => {
-            console.log(data[0].contacts)
+
             setcontacts(data[0].contacts)
             setparty_id(event.target.value)
             setvalues({ ...values, status: true });
         });
 
         url.get(`purchase-return-data/${event.target.value}`).then(({ data }) => {
-            console.log(data.getPurchaseReturnData);
+
 
             // const pr = data.getPurchaseReturnData.map((item, i) => {
             //     item.
@@ -527,8 +527,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             //         item.po_number
             //     )
             // });
-            // console.log(poN);
-            setPoNumbers(data.getPurchaseReturnData);
+            // console.log(poN)
+            setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
         });
     }
 
@@ -712,7 +712,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>PO NUMBER</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>ITEM</TableCell>
-                                    <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
+                                    <TableCell className="px-0" style={{ width: '220px' }}>OUR DESCRIPTION</TableCell>
                                     <TableCell className="px-0" style={{ width: '80px' }}>QTY</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>UOM</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
@@ -813,7 +813,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                                 />
                                             </TableCell>
-                                            <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
+                                            <TableCell className="pl-0 capitalize" align="left" style={{ width: '220px' }}>
                                                 <TextField
                                                     label="Our description"
                                                     type="text"
@@ -851,7 +851,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     size="small"
                                                     name="unit_of_measure"
-                                                    style={{ width: '150px', float: 'left' }}
+                                                    style={{ width: '140px', float: 'left' }}
                                                     fullWidth
                                                     value={item.unit_of_measure ? item.unit_of_measure : null}
                                                     onChange={(event) => po_description(event, index)}

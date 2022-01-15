@@ -1,40 +1,47 @@
 import { authRoles } from "./auth/authRoles";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { navigatePath } from "./views/invoice/InvoiceService";
 
 export const navigationPrint = [
   {
-    name: "dashboard",
+    name: "DASHBOARD",
     path: navigatePath + "/dashboard/alternative",
     // path: "/dashboard",
     icon: "dashboard",
   },
+
   {
-    name: "party",
+    name: "PARTY",
     path: navigatePath + "/party/viewparty",
     icon: "people",
   },
   {
-    name: "product",
+    name: "PRODUCT",
     path: navigatePath + "/product/viewsubcategory",
     icon: "queue",
   },
 
   {
-    name: "Purchase",
+    name: "PURCHASE",
     icon: "monetization_on",
     children: [
       {
         name: "RFQ",
-        path: "/print_rfqview",
+        path: navigatePath + "/sales/rfq-form/rfqview",
       },
       {
-        name: "Purchase Order",
-        path: "/print_po",
+        name: "PURCHASE ORDER",
+        path: navigatePath + "/Newinvoiceview",
       },
+      // {
+      //   name: "PURCHASE INVOICE",
+      //   path: navigatePath+ "/purchaseinvoiceview",
+
+      // },
       {
-        name: "Purchase Invoice Entry",
-        path: "/Newinvoiceview",
+        name: "PURCHASE RETURN",
+        path: navigatePath + "/purchasereturn",
       },
     ],
   },
@@ -68,75 +75,140 @@ export const navigationPrint = [
     // }
     // ]
   },
-  // {
-  //   name: "Sales",
-  //   icon: "trending_up",
-  //   children: [
-  //     {
-  //       name: "Quotation",
-  //       path: navigatePath + "/quoateview/0",
-  //       // path: "/Newquoteanalysis",
-  //       // icon:"folder",
-  //     },
-  //     {
-  //       name: "Delivery Notes",
-  //       path: "/print_deliverynote",
-  //       // icon:"folder",
-  //     },
-
-  //     {
-  //       name: "Pro forma Invoice",
-  //       path: "/print_invoice",
-  //       // icon:"folder",
-  //     },
-  //   ],
-  //   // }
-  //   // ]
-  // },
   {
-    name: "Production",
-    icon: "attach_money",
-    path: "/print_Joborder_tab",
+    name: "ACCOUNT",
+    icon: "developer_board",
+    children: [
+      {
+        name: "ACCOUNT DASHBOARD",
+        icon: "dashboard",
+        path: navigatePath + "/dashboard",
+      },
+      {
+        name: "EXPENSES",
+        icon: "attach_money",
+        path: navigatePath + "/expenseview",
+      },
+      {
+        name: "TRANSACTION",
+        icon: "account_balance_wallet",
+        path: navigatePath + "/transaction",
+      },
+
+      // {
+      // name: "STATEMENTS",
+      // icon: "book",
+      // children: [
+      //   {
+      // name: "CUSTOMER",
+      // icon: "people",
+      // path: "/customeraccount",
+      //   },
+      {
+        name: "STATEMENTS",
+        icon: "book",
+        // path: "/account",
+        children: [
+          {
+            name: "VENDOR",
+            // icon: "people",
+            path: navigatePath + "/vendor",
+          },
+          {
+            name: "CUSTOMER",
+            // icon: "people",
+            path: navigatePath + "/customeraccount",
+          },
+          {
+            name: "MASTER",
+            // icon: "account_balance",
+            path: navigatePath + "/master",
+          },
+          {
+            name: "PERSONAL",
+            // icon: "account_balance",
+            path: navigatePath + "/personalTab",
+          },
+        ],
+      },
+    ],
+    // }
+
+    // ]
   },
   {
-    name: "Expenses",
-    icon: "attach_money",
-    path: "/print_expense",
-  },
-  // {
-  //   name: "Production",
-  //   icon: "developer_board",
-  //   children: [
-
-  //     {
-  //       name: "Job List",
-  //       icon: "account_balance_wallet",
-  //       path: "/transaction",
-  //     },
-  //     {
-  //       name: "Job Entry",
-  //       icon: "book",
-  //       path:'/'
-
-  //     }
-
-  //   ]
-
-  // },
-
-  {
-    name: "Report",
+    name: "REPORT",
     icon: "assignment",
 
     children: [
+      // {
+      //   name: "BALANCE SHEET",
+      //   icon:"description",
+      //   path: "/balanceSheet",
+
+      // },
+      // {
+      //   name: "PROFIT LOSS",
+      //   icon:"swap_vert",
+      //   path: "/ProfitLoss",
+
+      // },
       {
-        name: "Stock",
-        path: "/print_quote_stock",
+        name: "TAX",
+        path: "/product/producthistory",
+        icon: "monetization_on",
+        children: [
+          {
+            name: "PURCHASE",
+            path: navigatePath + "/purchasetax",
+          },
+          {
+            name: "SALES",
+            path: navigatePath + "/salestax",
+          },
+          {
+            name: "VAT",
+            path: navigatePath + "/vatstatement",
+          },
+        ],
       },
+      // {
+
+      //   name: "Product",
+      //   path: "/product/producthistory",
+
+      // },
       {
-        name: "Job",
-        path: "/print_job_report",
+        name: "SALES",
+        icon: "graphic_eq",
+        path: navigatePath + "/salesreport",
       },
     ],
   },
+  {
+    name: "USERS",
+    icon: "people",
+    path: navigatePath + "/userTab",
+  },
+  {
+    name: "PERMISSION",
+    icon: "security",
+    children: [
+      {
+        name: "MODULES",
+        path: navigatePath + "/modules",
+      },
+    ],
+  },
+
+  {
+    name: "EMPLOYEES",
+    icon: "badge",
+    path: navigatePath + "/employees",
+  },
+  // {
+  //   name: "STOCK",
+  //   icon: "show_chart",
+  //   path: navigatePath+"/stock",
+  // },
 ];

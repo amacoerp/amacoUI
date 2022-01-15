@@ -18,7 +18,7 @@ import {
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
-import { getInvoiceById } from "../../invoice/InvoiceService";
+import { getInvoiceById, navigatePath } from "../../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -457,7 +457,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const editpurchase = () => {
 
         // window.location.href=`../purchaseedit/${id}`
-        history.push(`/purchaseedit/${id}`)
+        history.push(navigatePath + `/purchasereturnedit/${id}`)
 
     }
     const updateCompany = () => {
@@ -543,7 +543,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                             'success'
                         )
 
-                        history.push("/purchasereturn")
+                        history.push(navigatePath + "/purchasereturn")
                         // history.push('/quoateview')
 
                     })
