@@ -1560,6 +1560,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          readOnly={true}
                           currencySymbol=""
                           name="total_amount"
                           value={item.total_amount}
