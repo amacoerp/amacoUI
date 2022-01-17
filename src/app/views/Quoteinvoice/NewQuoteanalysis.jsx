@@ -688,9 +688,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("products/" + catid).then(({ data }) => {
       let tempItemList = [...state.item];
-      data.prices.map((element, i) => {
 
-      })
       setProductList1(data.prices)
       tempItemList.map((element, i) => {
         let sum = 0;
@@ -1758,7 +1756,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         }}
 
                       >
-                        <option aria-label="None" value="" />
                         {users.map((item, ind) => (
                           <option value={item.id}>{item.name}</option>
                         ))}
@@ -1768,7 +1765,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <FormGroup>
                     <FormControl variant="outlined" size="small"
                       className="mt-4">
-                      <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
+                      <InputLabel htmlFor="outlined-age-native-simple">Bankk</InputLabel>
                       <Select
                         native
                         value={bank_id ? bank_id : ''}
@@ -1781,9 +1778,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option value="0" disabled>
-                          --select--
-                        </option>
+
                         {companybank.map((item, ind) => (
                           <option value={item.id}>{item.name}-{item.ac_no}</option>
                         ))}
