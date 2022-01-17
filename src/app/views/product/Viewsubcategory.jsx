@@ -22,7 +22,7 @@ import {
   TableHead,
   TableCell,
   // TableBody,
-  IconButton,
+  IconButton, Badge,
   // TableRow,
   // Divider,
   Button,
@@ -201,7 +201,7 @@ const SimpleMuiTable = () => {
     //     setUserList(response.data)
 
     //   })
-    history.push(navigatePath+`/product/viewproduct/${user}`)
+    history.push(navigatePath + `/product/viewproduct/${user}`)
 
     setAnchorEl(null);
   };
@@ -395,7 +395,7 @@ const SimpleMuiTable = () => {
 
   const productUpdate = () => {
 
-    history.push(navigatePath+'/product/other');
+    history.push(navigatePath + '/product/other');
   }
 
 
@@ -544,12 +544,13 @@ const SimpleMuiTable = () => {
             <Grid onClick={productUpdate} item xs>
               <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                 <div className="text-right">
+
                   <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
                   // onClick={(event) => handleClick(event, item.id)}
                   >
-                    <Tooltip title="Subcategory list">
-                      <Icon color="primary" style={{ paddingRight: 12 }}></Icon>
+                    <Tooltip title="Other">
+                      <Icon color="primary" style={{ paddingRight: 12 }}>ds</Icon>
                     </Tooltip>
                   </IconButton>
                 </div>
