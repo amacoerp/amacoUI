@@ -316,7 +316,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
             <Grid item sm={6} xs={12}>
               <TextValidator
                 className="w-full mb-4"
-                label="Category Name"
+                label={catid ? "Sub Category Name" : "Category Name"}
                 autoComplete="off"
                 variant="outlined"
                 onChange={e => setcname(e.target.value)
