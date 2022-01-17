@@ -114,6 +114,10 @@ const salesRoutes = [
     path: navigatePath + "/salesreturnedit/:id",
     component: React.lazy(() => import("./salesreturn/SalesReturnEdit")),
   },
+  {
+    path: navigatePath + "/purchasereturnedit/:id",
+    component: React.lazy(() => import("./purchasereturn/PurchaseReturnEdit")),
+  },
 ];
 
 export default salesRoutes;

@@ -22,7 +22,7 @@ import {
   TableHead,
   TableCell,
   // TableBody,
-  IconButton,
+  IconButton, Badge,
   // TableRow,
   // Divider,
   Button,
@@ -64,6 +64,7 @@ const SimpleMuiTable = () => {
   const [originalList, setOriginalList] = useState([]);
   const [other, setOtherList] = useState([]);
   const [list, setList] = useState([]);
+  const [oCount, setOCount] = useState('');
   function handleClick(event, id) {
 
     url.get("sub-category/" + id).then(({ data }) => {
@@ -87,6 +88,11 @@ const SimpleMuiTable = () => {
 
 
   useEffect(() => {
+
+    url.get("unCategorized-products").then(({ data }) => {
+      const d = data.filter(obj => obj.div_id == GDIV)
+      setOCount(d.length)
+    });
     url.get("products").then(({ data }) => {
       const d = data.filter(obj => obj.div_id == GDIV)
       setUserList(d);
@@ -201,7 +207,7 @@ const SimpleMuiTable = () => {
     //     setUserList(response.data)
 
     //   })
-    history.push(navigatePath+`/product/viewproduct/${user}`)
+    history.push(navigatePath + `/product/viewproduct/${user}`)
 
     setAnchorEl(null);
   };
@@ -395,7 +401,7 @@ const SimpleMuiTable = () => {
 
   const productUpdate = () => {
 
-    history.push(navigatePath+'/product/other');
+    history.push(navigatePath + '/product/other');
   }
 
 
@@ -544,11 +550,13 @@ const SimpleMuiTable = () => {
             <Grid onClick={productUpdate} item xs>
               <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                 <div className="text-right">
+                  <Badge badgeContent={oCount} style={{ paddingRight: 12, position: "relative", left: 20 }} color="primary" />
+
                   <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
                   // onClick={(event) => handleClick(event, item.id)}
                   >
-                    <Tooltip title="Subcategory list">
+                    <Tooltip title="Other">
                       <Icon color="primary" style={{ paddingRight: 12 }}></Icon>
                     </Tooltip>
                   </IconButton>

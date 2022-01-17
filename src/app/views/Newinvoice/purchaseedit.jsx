@@ -756,7 +756,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         }}
                         freeSolo
                         renderInput={(params) => (
-                          <TextField {...params} variant="outlined" name="product_id" fullWidth />
+                          <TextField {...params} variant="outlined" name="product_id" required fullWidth />
                         )}
                         // onChange={handleChanges}
                         onChange={(event,newValue) => handleChanges(event, newValue,index)}

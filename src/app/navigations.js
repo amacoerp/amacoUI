@@ -199,10 +199,6 @@ export const navigations = [
         name: "MODULES",
         path: navigatePath + "/modules",
       },
-      {
-        name: "QR",
-        path: navigatePath + "/QR",
-      },
     ],
   },
 

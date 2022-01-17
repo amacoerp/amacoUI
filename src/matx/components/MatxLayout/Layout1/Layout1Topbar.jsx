@@ -20,7 +20,7 @@ import { NotificationProvider } from "app/contexts/NotificationContext";
 import history from "history.js";
 import FormDialog from "../../../../app/views/sessions/login/changepassword"
 import MemberEditorDialog from "../../../../app/views/sessions/login/changepassword"
-import { navigatePath } from "app/views/invoice/InvoiceService";
+import url, { navigatePath } from "app/views/invoice/InvoiceService";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   topbar: {
@@ -128,8 +128,15 @@ const Layout1Topbar = () => {
     updateSidebarMode({ mode });
   };
   const logout = () => {
-    localStorage.clear();
-    window.location.href = `../dashboard/alternative`;
+    url.post(`logoutLog/${user.id}`,)
+      .then(function (response) {
+        localStorage.clear();
+        window.location.href = `../dashboard/alternative`;
+      })
+      .catch(function (error) {
+
+      })
+
   }
 
   const changeDivision = (div_id) => {
@@ -139,7 +146,6 @@ const Layout1Topbar = () => {
 
 
   useEffect(() => {
-   
     const d = user?.divs?.map((item) => {
       return item.id
     })
@@ -180,7 +186,6 @@ const Layout1Topbar = () => {
 
 
 
-             
 
             </div>
           </div>

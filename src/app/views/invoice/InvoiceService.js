@@ -86,7 +86,7 @@ export const getProductList = () => {
   return url.get("products");
 };
 export const getVendorList = () => {
-  return url.get("parties-vendor");
+  return url.get(`parties-vendor/${localStorage.getItem("division")}`);
 };
 export const getCustomerList = () => {
   return url.get(`customer-list/${localStorage.getItem("division")}`);

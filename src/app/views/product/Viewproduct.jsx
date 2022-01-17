@@ -118,7 +118,7 @@ const SimpleMuiTable = () => {
 
   useEffect(() => {
 
-    url.get("categorized-products/"+id)
+    url.get("categorized-products/" + id)
       .then(function (response) {
         const d = response.data
         setUserList(d)
@@ -464,7 +464,6 @@ const SimpleMuiTable = () => {
           data={
 
             userList.map((item, index) => {
-              console.log(item)
 
               return [
 

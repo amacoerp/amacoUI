@@ -425,7 +425,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         
         
         element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
-
         element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
         
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)

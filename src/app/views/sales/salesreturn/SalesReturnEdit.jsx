@@ -495,6 +495,18 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
 
+            setQuote_date(moment(data.getReturnParty[0]?.ps_date).format('DD MMM YYYY'))
+            setcontacts(data.party.contacts)
+            setparty_id(data.getReturnParty[0]?.party_id)
+            setvalues(contactid)
+            setvalues({ ...values, status: true });
+
+            console.log('ss', data.getReturnItems[0]);
+            // setState({
+            //     ...state,
+            //     item: ""
+            // });
+
         })
 
 
@@ -543,7 +555,6 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const setcontact = (event) => {
 
         url.get("parties/" + event.target.value).then(({ data }) => {
-            console.log(data[0].contacts)
             setcontacts(data[0].contacts)
             setparty_id(event.target.value)
             setvalues({ ...values, status: true });

@@ -1,9 +1,9 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { borders } from '@material-ui/system';
 import {
   Icon,
   Divider,
-   Grid,
+  Grid,
   Table,
   TableHead,
   TableRow,
@@ -16,7 +16,7 @@ import {
   Hidden
 } from "@material-ui/core";
 import { RichTextEditor, Breadcrumb } from "matx";
-import { Link, useParams,useHistory } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
 import { getInvoiceById, navigatePath } from "../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -35,7 +35,7 @@ import useSettings from '../../hooks/useSettings';
 import apiurl from '../../../config';
 import url from "../invoice/InvoiceService";
 import Arabic from '../../../lang/ar.json';
-import { IntlProvider,FormattedNumber } from 'react-intl';
+import { IntlProvider, FormattedNumber } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
 import Swal from "sweetalert2";
 import Axios from "axios";
@@ -45,7 +45,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { ToWords } from 'to-words';
 import { useReactToPrint } from 'react-to-print';
-import { Note }  from './Note.js';
+import { Note } from './Note.js';
 import "./print.css";
 
 

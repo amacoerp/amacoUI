@@ -529,7 +529,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   }
-
   const calcualtep = (event, index, value) => {
 
     let tempItemList = [...state.item];
@@ -562,7 +561,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   }
-
   const discountPer = (event, index, value) => {
 
     let tempItemList = [...state.item];
@@ -1568,6 +1566,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          readOnly={true}
                           currencySymbol=""
                           name="total_amount"
                           value={item.total_amount}

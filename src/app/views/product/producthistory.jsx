@@ -14,16 +14,16 @@ import url from "../invoice/InvoiceService";
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 import {
-    // Table,
-    // TableHead,
-    TableCell,
-    // TableBody,
-    // IconButton,
-    // TableRow,
-    // Divider,
-    // Button,
-    // Card,
-    // Grid
+  // Table,
+  // TableHead,
+  TableCell,
+  // TableBody,
+  // IconButton,
+  // TableRow,
+  // Divider,
+  // Button,
+  // Card,
+  // Grid
 } from "@material-ui/core";
 
 
@@ -33,13 +33,13 @@ const SimpleMuiTable = () => {
     button: {
       margin: theme.spacing(1),
       float: 'right',
-      background:'blue',
-      color:'white'
+      background: 'blue',
+      color: 'white'
     },
     input: {
       display: "none"
     },
-    columnStyleWithWidth : {
+    columnStyleWithWidth: {
       top: "0px",
       left: "0px",
       zIndex: "100",
@@ -48,7 +48,7 @@ const SimpleMuiTable = () => {
       width: "80px",
       wordBreak: "break-all",
     },
-    columnStyleWithWidth1 : {
+    columnStyleWithWidth1: {
       top: "0px",
       left: "0px",
       zIndex: "100",
@@ -57,7 +57,6 @@ const SimpleMuiTable = () => {
       width: "400px",
       wordBreak: "break-all",
     }
-    
   }));
   // const columnStyleWithWidth = {
   //   top: "0px",
@@ -77,19 +76,19 @@ const SimpleMuiTable = () => {
   //   width: "400px",
   //   wordBreak: "break-all",
   // }
-  
-  const classes = useStyles();
-    const [isAlive, setIsAlive] = useState(true);
-    const [userList, setUserList] = useState([]);
-    // const [catList, setcatList] = useState([]);
-    const [subcatList, setsubcatList] = useState([]);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const { id } = useParams();
 
-  function handleClick(event,id) {
-   
-    url.get("sub-category/"+id).then(({ data }) => {
-     
+  const classes = useStyles();
+  const [isAlive, setIsAlive] = useState(true);
+  const [userList, setUserList] = useState([]);
+  // const [catList, setcatList] = useState([]);
+  const [subcatList, setsubcatList] = useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { id } = useParams();
+
+  function handleClick(event, id) {
+
+    url.get("sub-category/" + id).then(({ data }) => {
+
       setsubcatList(data);
     })
     setAnchorEl(event.currentTarget);
@@ -98,7 +97,7 @@ const SimpleMuiTable = () => {
   function handleClose() {
     setAnchorEl(null);
   }
-    const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
+  const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
 
   const [
     shouldOpenConfirmationDialog,
@@ -106,76 +105,75 @@ const SimpleMuiTable = () => {
   ] = useState(false);
 
 
-    useEffect(() => {
-      
-      url.get("products")
+  useEffect(() => {
+
+    url.get("products")
       .then(function (response) {
-      //  console.log(response.data)
         setUserList(response.data)
-        
+
       })
-      //   url.get(url+"products").then(({ data }) => {
-      //      setUserList(data);
-        
-          
+    //   url.get(url+"products").then(({ data }) => {
+    //      setUserList(data);
 
-      //   });
-      //   url.get(url+"categories").then(({ data }) => {
-      //     setcatList(data);
-     
-         
 
-      //  });
-       
-       
-        
-        return () => setIsAlive(false);
-    },[]);
-    const [count, setCount] = useState(0);
-  
-    function getrow(e) {
-      url.get("products").then(({ data }) => {
-        if (isAlive) setUserList(data);
+
+    //   });
+    //   url.get(url+"categories").then(({ data }) => {
+    //     setcatList(data);
+
+
+
+    //  });
+
+
+
+    return () => setIsAlive(false);
+  }, []);
+  const [count, setCount] = useState(0);
+
+  function getrow(e) {
+    url.get("products").then(({ data }) => {
+      if (isAlive) setUserList(data);
     });
     return () => setIsAlive(false);
-    }
+  }
   function Increment(e) {
     alert('3')
   }
   function Decrement() {
     setCount(count - 1);
   }
-   
-  const [click, setClick] = useState([]); 
-    
-  const addNumber = () => { 
-    setClick([ 
-      ...click, 
-      { 
-        id: click.length, 
-        value: Math.random() * 10 
-      } 
-    ]); 
-  }; 
+
+  const [click, setClick] = useState([]);
+
+  const addNumber = () => {
+    setClick([
+      ...click,
+      {
+        id: click.length,
+        value: Math.random() * 10
+      }
+    ]);
+  };
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-   
+
   };
 
   const handleDeleteUser = (user) => {
-    
+
     setShouldOpenConfirmationDialog(true);
   };
   const selectcategory = (user) => {
-  
-    url.get("categorized-products/"+user)
+
+    url.get("categorized-products/" + user)
       .then(function (response) {
-       
+
         setUserList(response.data)
-        
+
       })
 
-  setAnchorEl(null);
+    setAnchorEl(null);
   };
 
   const removeData = (id) => {
@@ -192,20 +190,20 @@ const SimpleMuiTable = () => {
     }).then((result) => {
       if (result.value) {
         url.delete(`products/${id}`)
-    .then(res => {
-        
-        getrow()
-        Swal.fire(
-          'Deleted!',
-          ' product has been deleted.',
-          'success'
-        )
-        
-    })
-    
-        
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
+          .then(res => {
+
+            getrow()
+            Swal.fire(
+              'Deleted!',
+              ' product has been deleted.',
+              'success'
+            )
+
+          })
+
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -214,171 +212,171 @@ const SimpleMuiTable = () => {
         )
       }
     })
-    
-}
-//  {/* category wise product display */}
-//  const statList = [
-//   {
-//     icon: "receipt",
-//     amount: 23,
-//     title: "New Quotation Request",
-//   },
-//   {
-//     icon: "hourglass_empty",
-//     amount: 12,
-//     title: "Pending Quotation",
-//   },
-//   {
-//     icon: "shopping_cart",
-//     amount: 10,
-//     title: "Sales Orders",
-//   },
-//   {
-//     icon: "dvr",
-//     amount: 30,
-//     title: "Todays Sale",
-//   },
-// ];
 
-const columns = [
-  {
+  }
+  //  {/* category wise product display */}
+  //  const statList = [
+  //   {
+  //     icon: "receipt",
+  //     amount: 23,
+  //     title: "New Quotation Request",
+  //   },
+  //   {
+  //     icon: "hourglass_empty",
+  //     amount: 12,
+  //     title: "Pending Quotation",
+  //   },
+  //   {
+  //     icon: "shopping_cart",
+  //     amount: 10,
+  //     title: "Sales Orders",
+  //   },
+  //   {
+  //     icon: "dvr",
+  //     amount: 30,
+  //     title: "Todays Sale",
+  //   },
+  // ];
+
+  const columns = [
+    {
       name: "id", // field name in the row object
       label: "S.No.", // column title that will be shown in table
       options: {
-         
-        customHeadRender: ({index, ...column}) =>{
+
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className={classes.columnStyleWithWidth}>  
-              <span style={{marginLeft:18}}>S.No.</span> 
+            <TableCell key={index} className={classes.columnStyleWithWidth}>
+              <span style={{ marginLeft: 18 }}>S.No.</span>
             </TableCell>
           )
-       }
+        }
       },
-  },
-  {
-    name: "name", // field name in the row object
-    label: "Name", // column title that will be shown in table
-    options: {
-       
-        filter: true,
     },
-},
-  {
-      name: "description",
-     
-    
+    {
+      name: "name", // field name in the row object
+      label: "Name", // column title that will be shown in table
       options: {
-          // setCellProps: () => ({ style: { minWidth: "800px", maxWidth: "800px" }}),
-          customHeadRender: ({index, ...column}) =>{
-            return (
-              <TableCell key={index} className={classes.columnStyleWithWidth1}>  
-                <span style={{marginLeft:18}}>Description</span> 
-              </TableCell>
-            )
-         },
+
+        filter: true,
       },
-  },
-  {
+    },
+    {
+      name: "description",
+
+
+      options: {
+        // setCellProps: () => ({ style: { minWidth: "800px", maxWidth: "800px" }}),
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} className={classes.columnStyleWithWidth1}>
+              <span style={{ marginLeft: 18 }}>Description</span>
+            </TableCell>
+          )
+        },
+      },
+    },
+    {
       name: "unit_of_measure",
       label: "Unit_of_measure",
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className={classes.columnStyleWithWidth}>  
-              <span style={{marginLeft:18}} >UOM</span> 
+            <TableCell key={index} className={classes.columnStyleWithWidth}>
+              <span style={{ marginLeft: 18 }} >UOM</span>
             </TableCell>
           )
-       },
-          filter: true,
+        },
+        filter: true,
       },
-  },
-  
-
-  {
-    name: "category_name",
-    label: "Category",
-    options: {
-      
-        filter: true,
     },
-},
-{
-    name: "model_no",
-    label: "Model Number",
-    options: {
-      
+
+
+    {
+      name: "category_name",
+      label: "Category",
+      options: {
+
         filter: true,
+      },
     },
-},
+    {
+      name: "model_no",
+      label: "Model Number",
+      options: {
+
+        filter: true,
+      },
+    },
 
 
- 
-//   {
-//     name: "id",
-//     label: "Action",
-//     options: {
-//         filter: true,
-//         customBodyRender: (value, tableMeta, updateValue) => {
-//             return (
-//               <span>
-//             <IconButton onClick={() => removeData(tableMeta.rowData[5])}>
-//                     <Icon color="error">delete</Icon>
-//             </IconButton>
-            
-//             <Link to={"/product/updateproduct?id=" +tableMeta.rowData[5] }>
-//               <IconButton>
-//                 <Icon color="secondary">edit</Icon>
-//               </IconButton>
-//             </Link>
-//             </span>
-            
-//             )
-            
-//         },
-//     },
-// },
-// {
-//   name: "id",
-//   label:".",
-//   options: {
-//       filter: true,
-//       customBodyRender: (value, tableMeta, updateValue) => {
-//           return (
-//             <Link to={"/product/updateproduct?id=" +tableMeta.rowData[4] }>
-//               <IconButton>
-//                 <Icon color="secondary">edit</Icon>
-//               </IconButton>
-//             </Link>
-            
-          
-//           )
-//       },
-//   },
-// },
-];
 
-    
-  
-  return ( 
-   
-      <div className="m-sm-30">
-      <div  className="mb-sm-30">
-          <Breadcrumb
-            routeSegments={[
+    //   {
+    //     name: "id",
+    //     label: "Action",
+    //     options: {
+    //         filter: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             return (
+    //               <span>
+    //             <IconButton onClick={() => removeData(tableMeta.rowData[5])}>
+    //                     <Icon color="error">delete</Icon>
+    //             </IconButton>
+
+    //             <Link to={"/product/updateproduct?id=" +tableMeta.rowData[5] }>
+    //               <IconButton>
+    //                 <Icon color="secondary">edit</Icon>
+    //               </IconButton>
+    //             </Link>
+    //             </span>
+
+    //             )
+
+    //         },
+    //     },
+    // },
+    // {
+    //   name: "id",
+    //   label:".",
+    //   options: {
+    //       filter: true,
+    //       customBodyRender: (value, tableMeta, updateValue) => {
+    //           return (
+    //             <Link to={"/product/updateproduct?id=" +tableMeta.rowData[4] }>
+    //               <IconButton>
+    //                 <Icon color="secondary">edit</Icon>
+    //               </IconButton>
+    //             </Link>
+
+
+    //           )
+    //       },
+    //   },
+    // },
+  ];
+
+
+
+  return (
+
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
             { name: "Report", path: "/product/producthistory" },
-              { name: "Product Report" }
-            ]}
-          />
-          
-          </div>
-          <div className="viewer_actions px-4 flex justify-between">
-          <div className="mb-6">
+            { name: "Product Report" }
+          ]}
+        />
+
+      </div>
+      <div className="viewer_actions px-4 flex justify-between">
+        <div className="mb-6">
           <div>
-      
-        </div>
-        
-        
-           
+
+          </div>
+
+
+
           {/* <Button
         variant="outlined"
         color="primary"
@@ -389,7 +387,7 @@ const columns = [
       >
         Select Category
       </Button> */}
-      {/* <Menu
+          {/* <Menu
         
         id="simple-menu"
         anchorEl={anchorEl}
@@ -406,16 +404,16 @@ const columns = [
                     ))}
           </Menu>
       */}
-         {/* <Button className="mr-4 py-2"
+          {/* <Button className="mr-4 py-2"
            color="primary"
            variant="outlined"   onClick={() => {
                         setShouldOpenEditorDialog(true);
                       }}>
                      Manage Category
                      </Button> */}
-                     </div>
-                    {/* </Button> */}
-                    {/* <Link to={`/product/addproduct/${id}`}>
+        </div>
+        {/* </Button> */}
+        {/* <Link to={`/product/addproduct/${id}`}>
            
                     <Button className="py-2"
            color="primary"
@@ -424,60 +422,60 @@ const columns = [
           Add New
         </Button>
         </Link> */}
-          </div>
-      
-          
-        
-        
+      </div>
 
-                    {shouldOpenEditorDialog && (
-          <MemberEditorDialog
-            handleClose={handleDialogClose}
-            open={shouldOpenEditorDialog}
-          />
-        )}
-        {shouldOpenConfirmationDialog && (
-          <ConfirmationDialog
-            open={shouldOpenConfirmationDialog}
-            onConfirmDialogClose={handleDialogClose}
-            text="Are you sure to delete?"
-          />
-        )}
-      
+
+
+
+
+      {shouldOpenEditorDialog && (
+        <MemberEditorDialog
+          handleClose={handleDialogClose}
+          open={shouldOpenEditorDialog}
+        />
+      )}
+      {shouldOpenConfirmationDialog && (
+        <ConfirmationDialog
+          open={shouldOpenConfirmationDialog}
+          onConfirmDialogClose={handleDialogClose}
+          text="Are you sure to delete?"
+        />
+      )}
+
       <div className="mb-sm-30">
-      <MUIDataTable
-                title={"Product List"}
-                data={userList}
-                data={userList.map((item,index)=>
-                {
-                  return [
-                    ++index,
-                     item.name,
-                     item.description,
-                     item.unit_of_measure,
-                     item.category_name,
-                     item.model_no
-                  ]
-                })}
-                  
-                columns={columns}
-                options={{
-                    filterType: "textField",
-                    responsive: "simple",
-                    selectableRows: "none", // set checkbox for each row
-                    // search: false, // set search option
-                    // filter: false, // set data filter option
-                    // download: false, // set download option
-                    // print: false, // set print option
-                    // pagination: true, //set pagination option
-                    // viewColumns: false, // set column option
-                    elevation: 0,
-                    rowsPerPageOptions: [10, 20, 40, 80, 100],
-                }}
-            />
-            </div>
-            </div>
-  ); } 
-   
+        <MUIDataTable
+          title={"Product List"}
+          data={userList}
+          data={userList.map((item, index) => {
+            return [
+              ++index,
+              item.name,
+              item.description,
+              item.unit_of_measure,
+              item.category_name,
+              item.model_no
+            ]
+          })}
+
+          columns={columns}
+          options={{
+            filterType: "textField",
+            responsive: "simple",
+            selectableRows: "none", // set checkbox for each row
+            // search: false, // set search option
+            // filter: false, // set data filter option
+            // download: false, // set download option
+            // print: false, // set print option
+            // pagination: true, //set pagination option
+            // viewColumns: false, // set column option
+            elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 
 export default SimpleMuiTable;
