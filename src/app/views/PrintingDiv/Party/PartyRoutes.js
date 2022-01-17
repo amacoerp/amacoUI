@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9d290dfd8348f763a6278bb8bad215023c98f4373627ce59c837c83eb9ace6cd
-size 612
+import React from "react";
+
+const partyRoutes = [
+  {
+    path: "/print_addparty",
+    component: React.lazy(() => import("./Addparty")),
+  },
+  // {
+  //   path: "/partycontact",
+  //   component: React.lazy(() => import("./partycontact")),
+  // },
+  // {
+  //   path: "/party/updateparty",
+  //   component: React.lazy(() => import("./updateparty")),
+  // },
+  {
+    path: "/print_viewparty",
+    component: React.lazy(() => import("./ViewParty")),
+  },
+  {
+    path: "/print_tab",
+    component: React.lazy(() =>
+      import("./Tab")
+    ),
+  },
+  ];
+
+export default partyRoutes;

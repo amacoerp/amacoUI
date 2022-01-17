@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0d5abba19d3d8f34142566caef153e7a336f1967c1e64d4c0aeea588bed4ef4f
-size 513
+import { navigatePath } from "app/views/invoice/InvoiceService";
+
+export const SET_NAVIGATION = "SET_NAVIGATION";
+export const GET_NAVIGATION = "GET_NAVIGATION";
+export const RESET_NAVIGATION = "RESET_NAVIGATION";
+
+export function getNavigation(user) {
+  return {
+    type: GET_NAVIGATION
+  }
+}
+
+export function logoutUser() {
+  return dispatch => {
+    jwtAuthService.logout();
+
+    history.push({
+      pathname: navigatePath+"/session/signin"
+    });
+
+    dispatch({
+      type: USER_LOGGED_OUT
+    });
+  };
+}

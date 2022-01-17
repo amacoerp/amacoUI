@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fcb1c0e6dd9be6f475e4d195e84d40471b181970e2eef9deffecfc8d41b23c52
-size 466
+import React from "react";
+
+const pricingRoutes = [
+  {
+    path: "/others/pricing-1",
+    component: React.lazy(() => import("./Pricing1")),
+  },
+  {
+    path: "/others/pricing-2",
+    component: React.lazy(() => import("./Pricing2")),
+  },
+  {
+    path: "/others/pricing-3",
+    component: React.lazy(() => import("./Pricing3")),
+  },
+  {
+    path: "/others/pricing-4",
+    component: React.lazy(() => import("./Pricing4")),
+  },
+];
+
+export default pricingRoutes;

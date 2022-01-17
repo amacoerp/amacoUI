@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3e5de8f33281fee974315ac21bac324f989d87208c974a29cac7e327a6ecbe20
-size 1194
+import React from "react";
+import { Breadcrumb, SimpleCard } from "matx";
+import SimpleExpansionPanel from "./SimpleExpansionPanel";
+import ControlledExpansionPanels from "./ControlledAccordion";
+import DetailedExpansionPanel from "./DetailedExpansionPanel";
+import CustomizedExpansionPanels from "./CustomizedExpansionPanel";
+
+const AppExpansionPanel = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Expansion Panel" }
+          ]}
+        />
+      </div>
+      <SimpleCard title="simple expansion panel">
+        <SimpleExpansionPanel />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Controlled Accordion">
+        <ControlledExpansionPanels />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Secondary heading and Columns">
+        <DetailedExpansionPanel />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Customized expansion panels">
+        <CustomizedExpansionPanels />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default AppExpansionPanel;

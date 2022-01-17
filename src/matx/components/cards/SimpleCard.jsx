@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:befe4313563d97c4879fc5f6a758bf6c69a56640c625ccb2539af3409bcf83d6
-size 519
+import React from "react";
+import { Card } from "@material-ui/core";
+import { classList } from "utils";
+
+const SimpleCard = ({ children, title, subtitle, icon }) => {
+  return (
+    <Card elevation={6} className="px-6 py-5 h-full">
+      <div
+        className={classList({
+          "card-title": true,
+          "mb-4": !subtitle
+        })}
+      >
+        {title}
+      </div>
+      {subtitle && <div className="card-subtitle mb-4">{subtitle}</div>}
+      {children}
+    </Card>
+  );
+};
+
+export default SimpleCard;

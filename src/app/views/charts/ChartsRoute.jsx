@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e6e9055d5a956f48678a986b058d35f2359862370931ad5033755681dd12474e
-size 514
+import React from 'react';
+
+const chartsRoute = [
+  {
+    path: "/charts/echarts",
+    component: React.lazy(() => import("./echarts/AppEchart"))
+  },
+  {
+    path: "/charts/recharts",
+    component: React.lazy(() => import("./recharts/AppRechart"))
+  },
+  {
+    path: "/charts/victory-charts",
+    component: React.lazy(() => import("./victory-charts/AppVictoryChart"))
+  },
+  {
+    path: "/charts/react-vis",
+    component: React.lazy(() => import("./react-vis/AppReactVis"))
+  }
+];
+
+export default chartsRoute;

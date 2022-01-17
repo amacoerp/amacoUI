@@ -1,3 +1,67 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9608123a81b96f048dae03ad87694090330bd27a69c02b770ec846a510907895
-size 1338
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
+
+const useStyles = makeStyles({
+  root: {
+    height: 300
+  }
+});
+
+function valuetext(value) {
+  return `${value}°C`;
+}
+
+const marks = [
+  {
+    value: 0,
+    label: "0°C"
+  },
+  {
+    value: 20,
+    label: "20°C"
+  },
+  {
+    value: 37,
+    label: "37°C"
+  },
+  {
+    value: 100,
+    label: "100°C"
+  }
+];
+
+export default function VerticalSlider() {
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <Typography id="vertical-slider" gutterBottom>
+        Temperature
+      </Typography>
+      <div className={classes.root}>
+        <Slider
+          orientation="vertical"
+          getAriaValueText={valuetext}
+          defaultValue={30}
+          aria-labelledby="vertical-slider"
+        />
+        <Slider
+          disabled
+          orientation="vertical"
+          getAriaValueText={valuetext}
+          defaultValue={30}
+          aria-labelledby="vertical-slider"
+        />
+        <Slider
+          orientation="vertical"
+          defaultValue={[20, 37]}
+          aria-labelledby="vertical-slider"
+          getAriaValueText={valuetext}
+          marks={marks}
+        />
+      </div>
+    </React.Fragment>
+  );
+}

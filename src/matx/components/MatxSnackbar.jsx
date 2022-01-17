@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f872e11e0dff35c701b65929096ff7305a6e65fe140027ffbcd6fbc7afea5493
-size 845
+import React from "react";
+import { IconButton, Icon, Snackbar } from "@material-ui/core";
+
+const MatxSnackbar = ({
+  open,
+  message,
+  duration = 6000,
+  horizontal = "center",
+  vertical = "bottom",
+  handleClose
+}) => {
+  return (
+    <Snackbar
+      anchorOrigin={{
+        vertical: { vertical },
+        horizontal: { horizontal }
+      }}
+      open={open}
+      autoHideDuration={duration}
+      onClose={handleClose}
+      ContentProps={{
+        "aria-describedby": "message-id"
+      }}
+      message={<span id="message-id">{message}</span>}
+      action={[
+        <IconButton
+          key="close"
+          aria-label="close"
+          color="inherit"
+          // className="check"
+          onClick={handleClose}
+        >
+          <Icon>close</Icon>
+        </IconButton>
+      ]}
+    />
+  );
+};
+
+export default MatxSnackbar;

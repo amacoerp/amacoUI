@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7dd38617b34fa81899e0c8b927d917de0eb7535a3cbf61ef14fe1ad7fc340115
-size 850
+import axios from "axios";
+
+export const getAllTodo = () => {
+  return axios.get("/api/todo/all");
+};
+
+export const getTodoById = todoId => {
+  return axios.get("/api/todo", { data: todoId });
+};
+
+export const reorderTodoList = todoList => {
+  return axios.post("/api/todo/reorder", { todoList });
+};
+
+export const addTodo = todo => {
+  return axios.post("/api/todo/add", { todo });
+};
+
+export const updateTodoById = todo => {
+  return axios.post("/api/todo/update", { todo });
+};
+
+export const deleteTodo = todo => {
+  return axios.post("/api/todo/delete", { todo });
+};
+
+// tag management
+
+export const getAllTodoTag = () => {
+  return axios.get("/api/todo/tag");
+};
+
+export const addNewTag = tag => {
+  return axios.post("/api/todo/tag/add", { tag });
+};
+
+export const deleteTag = tag => {
+  return axios.post("/api/todo/tag/delete", { tag });
+};

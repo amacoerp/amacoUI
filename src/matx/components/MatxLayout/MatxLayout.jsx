@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c7ed0b654a5ce4dd88ab9910db4440b1dfd9ee9e79f3da1e6aa10edd3afa1511
-size 1178
+import React, { useContext, useEffect, useRef } from "react";
+import { MatxLayouts } from "./index";
+import AppContext from "app/contexts/AppContext";
+import { MatxSuspense } from "matx";
+import { useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+import useSettings from 'app/hooks/useSettings';
+
+const MatxLayout = (props) => {
+  const theme = useTheme();
+  const appContext = useContext(AppContext);
+  const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { settings, updateSettings } = useSettings();
+  const ref = useRef({ appContext, isMdScreen, settings });
+  const Layout = MatxLayouts[settings.activeLayout];
+
+  useEffect(() => {
+    let { settings } = ref.current;
+    let sidebarMode = settings.layout1Settings.leftSidebar.mode;
+    if (settings.layout1Settings.leftSidebar.show) {
+      let mode = isMdScreen ? "close" : sidebarMode;
+      updateSettings({ layout1Settings: { leftSidebar: { mode } } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMdScreen]);
+
+  return (
+    <MatxSuspense>
+      <Layout {...props} />
+    </MatxSuspense>
+  );
+};
+
+export default MatxLayout;

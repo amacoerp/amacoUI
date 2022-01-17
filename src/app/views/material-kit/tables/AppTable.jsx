@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dfcce1ae84a811ba5bf745915d61efe6da31adc4791f23c63b98208c3bbd4a26
-size 683
+import React from "react";
+import SimpleTable from "./SimpleTable";
+import PaginationTable from "./PaginationTable";
+import { Breadcrumb, SimpleCard } from "matx";
+
+const AppTable = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Table" }
+          ]}
+        />
+      </div>
+      <SimpleCard title="Simple Table">
+        <SimpleTable />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="Pagination Table">
+        <PaginationTable />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default AppTable;

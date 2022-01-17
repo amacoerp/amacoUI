@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:607ba3f486e5256e714182d8bd1193a28423bb8639709b3f236af403fc7eb917
-size 158
+body {
+  position: relative;
+}
+p {
+  margin: 20px 0;
+  page-break-inside: avoid;
+  position: relative; 
+}
+
+div.onepage {page-break-after: always; }

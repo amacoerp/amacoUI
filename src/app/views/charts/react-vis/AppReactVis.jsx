@@ -1,3 +1,53 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8929979e1feaff67a7fa02a570d41c64809d1850042a3a8e74c312a64c2bd9ea
-size 1542
+import React from "react";
+import { Breadcrumb, SimpleCard } from "matx";
+import VisLineChart from "./VisLineChart";
+import ColoredLineChart from "./ColoredLineChart";
+import VisAreaChart from "./VisAreaChart";
+import VisBarChart from "./VisBarChart";
+import BigBaseBarSeries from "./BigBaseBarSeries";
+import LabeledHeatmap from "./LabelledHeatMap";
+import ContourSeriesChart from "./ContourSeries";
+
+const AppReactVis = () => {
+  return (
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Charts", path: "/charts" },
+            { name: "React Vis Charts" },
+          ]}
+        />
+      </div>
+      <SimpleCard title="heatmap with label">
+        <LabeledHeatmap />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="line chart with many color">
+        <ColoredLineChart />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="big base bar series">
+        <BigBaseBarSeries />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="contour map">
+        <ContourSeriesChart />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="line chart">
+        <VisLineChart />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="area Chart">
+        <VisAreaChart />
+      </SimpleCard>
+      <div className="py-3" />
+      <SimpleCard title="bar Chart">
+        <VisBarChart />
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default AppReactVis;

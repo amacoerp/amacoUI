@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:40c6a5267a9c3e87551ccd2fface9a9aaa13de273e30cd6fcf4dcd80cb08b0c1
-size 374
+import React from "react";
+import { navigatePath } from "../invoice/InvoiceService";
+
+const userRoutes = [
+ 
+  
+  {
+    path: navigatePath+"/purchasetax",
+    component: React.lazy(() => import("./Purchase_Tax"))
+  },
+  {
+    path: navigatePath+"/salestax",
+    component: React.lazy(() => import("./Sales_Tax"))
+  },
+      
+];
+
+export default userRoutes;

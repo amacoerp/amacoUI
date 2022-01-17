@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:909a261eaa0444dfe1af92fa39e045242abfd964979d9f0a4483d6839cde6cab
-size 537
+import React from "react";
+import { SimpleCard } from "matx";
+import HorizontalStepper from "./HorizontalStepper";
+import VerticalStepper from "./VerticalStepper";
+
+const WizardForm = () => {
+  return (
+    <div className="m-sm-30">
+      <SimpleCard title="Horizontal Stepper">
+        <HorizontalStepper></HorizontalStepper>
+      </SimpleCard>
+      <div className="py-3"></div>
+      <SimpleCard title="Vertical Stepper">
+        <VerticalStepper></VerticalStepper>
+      </SimpleCard>
+    </div>
+  );
+};
+
+export default WizardForm;
