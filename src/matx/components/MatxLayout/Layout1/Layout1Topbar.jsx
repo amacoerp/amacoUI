@@ -162,8 +162,8 @@ const Layout1Topbar = () => {
             <IconButton onClick={handleSidebarToggle} className="pr-4">
               <Icon>menu</Icon>
             </IconButton>
-             
-            <div className="hide-on-mobile" style={{textAlign:'right',marginLeft:40}}>
+
+            <div className="hide-on-mobile" style={{ textAlign: 'right', marginLeft: 40 }}>
               {user?.division?.map((item) => {
                 return (
                   <>
