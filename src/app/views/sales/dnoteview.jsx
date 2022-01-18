@@ -293,7 +293,7 @@ const SimpleMuiTable = () => {
             return [
               ++index,
               item?.delivery_number,
-              ((item?.po_number == null) || (item?.po_number = "null")) ? "--" : item?.po_number,
+              item?.po_number,
               moment(item?.created_at).format('DD MMM YYYY'),
               item?.id
               // item.party[index].firm_name,
