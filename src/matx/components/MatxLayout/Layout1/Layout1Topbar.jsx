@@ -167,17 +167,23 @@ const Layout1Topbar = () => {
               {user?.division?.map((item) => {
                 return (
                   <>
-                    {divi?.includes(item.id) && (
-                      <Button
-                        style={{ width: 180, height: 64, position: "relative", left: -17 }}
-                        variant={item.id == localStorage.getItem('division') && "contained"}
-                        backgroundColor="#c7c7c7"
-                        onClick={() => { changeDivision(item.id) }}>
-                        <div style={{ fontWeight: "bold" }}>
-                          {item.name.toUpperCase()}
-                        </div>
-                      </Button>
-                    )}
+                    {
+                      item.name == "HQ " || item.name == "Manufacturing" ? <>
+                      </> : <>
+                        {divi?.includes(item.id) && (
+                          <Button
+                            style={{ width: 180, height: 64, position: "relative", left: -17 }}
+                            variant={item.id == localStorage.getItem('division') && "contained"}
+                            backgroundColor="#c7c7c7"
+                            onClick={() => { changeDivision(item.id) }}>
+                            <div style={{ fontWeight: "bold" }}>
+                              {item.name.toUpperCase()}
+                            </div>
+                          </Button>
+                        )}
+                      </>
+
+                    }
 
                   </>
                 )
