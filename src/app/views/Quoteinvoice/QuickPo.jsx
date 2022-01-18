@@ -117,6 +117,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       description: "",
       descriptions: "",
       quantity: 0,
+      product:"---",
       product_price_list: [
         {
           price: ""
@@ -406,7 +407,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.div_id = GDIV
     arr.user_id = user.id
     const json = Object.assign({}, arr);
-
+    console.log(arr)
+   
     url.post('purchase-quotation', json)
       .then(function (response) {
 
@@ -418,7 +420,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            // console.log(response)
+           
             history.push(navigatePath + "/Newinvoiceview")
           })
 
