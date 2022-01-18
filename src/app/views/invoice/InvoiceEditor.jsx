@@ -326,8 +326,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.map((element, i) => {
       if (index == i) {
         // element['name'] = v.value;
-        element['files'] = '';
-        element['src'] = ' ';
+        element['files'] = null;
+        element['src'] = null;
 
       }
 
@@ -653,7 +653,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell>
-                        {item?.product && (<Icon
+                        {item?.product_name && (<Icon
                           variant="contained"
                           component="label"
 
@@ -661,15 +661,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           file_upload
                           <input
                             type="file"
-                            name="file"
+                            name="files"
                             onChange={(e) => SelectFile(e, index)}
 
                           />
                         </Icon>)}
 
-                        {item?.file ? (<span></span>) : (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
+                        {item?.files ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
 
-                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>)}
+                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : (<Icon
+                          variant="contained"
+                          component="label"
+
+                        >
+                          file_upload
+                          <input
+                            type="file"
+                            name="files"
+                            onChange={(e) => SelectFile(e, index)}
+
+                          />
+                        </Icon>)}
                       </TableCell>
 
 
