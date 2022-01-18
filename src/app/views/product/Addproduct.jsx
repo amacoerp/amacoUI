@@ -222,19 +222,19 @@ const SimpleForm = ({ open, handleClose }) => {
 
   const submitValue = () => {
     setloading(true)
-    Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${product}&target=ar`, {
-      method: 'POST',
-      headers: {
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
-        "Access-Control-Max-Age": 86400
-      },
-    })
-      .then(({ data }) => {
+    // Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${product}&target=ar`, {
+    //   method: 'POST',
+    //   headers: {
+    //     "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
+    //     "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
+    //     "Access-Control-Max-Age": 86400
+    //   },
+    // })
+    //   .then(({ data }) => {
 
 
 
-        if (data.data.translations[0].translatedText) {
+    //     if (data.data.translations[0].translatedText) {
           const frmdetails = {
             party_id: vendors,
             name: (product),
@@ -249,7 +249,7 @@ const SimpleForm = ({ open, handleClose }) => {
             minimum_quantity: mq,
             manufacturer_id: manid,
             model_no: modelno,
-            name_in_ar: data.data.translations[0].translatedText,
+            name_in_ar:product ,
             div_id: localStorage.getItem('division'),
             user_id: user.id,
 
@@ -277,8 +277,8 @@ const SimpleForm = ({ open, handleClose }) => {
             })
           resetform()
 
-        }
-      })
+      //   }
+      // })
   }
 
 
