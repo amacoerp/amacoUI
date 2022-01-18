@@ -33,7 +33,7 @@ import "date-fns";
 // import Axios from "axios";
 // import { useParams, matchPath } from "react-router-dom";
 // import { database } from "firebase/app";
-import url from "../../views/invoice/InvoiceService"
+import url, { navigatePath } from "../../views/invoice/InvoiceService"
 
 
 
@@ -232,7 +232,7 @@ const SimpleForm = () => {
   const [ooptions1, setooptions] = useState([]);
   const [categoryid, setcategoryid] = useState();
   const [partyid, setpartyid] = useState('');
-  const { user }=useAuth()
+  const { user } = useAuth()
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
@@ -240,13 +240,10 @@ const SimpleForm = () => {
 
   useEffect(() => {
 
-    console.log('ss', subCat);
     url.get("products/" + foo).then(({ data }) => {
       if (isAlive) setUserList(data);
 
-      console.log(data.product[0].category_name)
-
-
+      console.log('s', data.product[0].unit_of_measure);
       setdescription(data.product[0].description)
       setname_in_ar(data.product[0].name_in_ar)
       setunit_of_measure(data.product[0].unit_of_measure)
@@ -276,7 +273,6 @@ const SimpleForm = () => {
 
     url.get("getAllCat").then(({ data }) => {
 
-      console.log(data);
       setCat(data);
 
 
@@ -305,7 +301,6 @@ const SimpleForm = () => {
 
 
 
-    console.log(selectedOption1);
 
     const frmdetails = {
       name: product ? (product) : '',
@@ -321,8 +316,8 @@ const SimpleForm = () => {
       // party_id: vendors,
       model_no: modelno,
       manufacturer_id: manid,
-      div_id:localStorage.getItem('division'),
-      user_id:user.id
+      div_id: localStorage.getItem('division'),
+      user_id: user.id
 
     }
 
@@ -337,7 +332,7 @@ const SimpleForm = () => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(`/product/Viewproduct/${selectedOption1}`)
+            history.push(navigatePath + `/product/Viewproduct/${selectedOption1}`)
           })
       })
       .catch(function (error) {
@@ -374,13 +369,11 @@ const SimpleForm = () => {
   })
 
   const handleChange3 = (e) => {
-    console.log(e.target.value);
     const subC = cat.filter(obj => obj.parent_id == e.target.value);
     setSubCat(subC);
 
   }
   const handleChange4 = (e) => {
-    console.log(e.target.value);
     setselectedOption1(e.target.value);
 
   }
