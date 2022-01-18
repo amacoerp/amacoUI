@@ -435,7 +435,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       description: "",
       descriptions: "",
       quantity: 0,
-      unit_of_measure:' ',
+      unit_of_measure: ' ',
       product_price_list: [
         {
           price: ""
@@ -517,8 +517,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-       
-        console.log("sell_price",element.sell_price)
+
+        console.log("sell_price", element.sell_price)
       }
       return element;
 
@@ -538,19 +538,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
 
-       
-          element[event.target.name] = value ? value : event.target.value;
-       
+
+        element[event.target.name] = value ? value : event.target.value;
+
         element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        
-        
-        
-       
-       
+
+
+
+
+
       }
       return element;
 
@@ -975,7 +975,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
