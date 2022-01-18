@@ -333,13 +333,13 @@ const RejectQuote = () => {
         title={"SALES QUOTATION"}
         
         data={qdetails.filter(obj=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
-          console.log(item)
+         
             return [
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
               moment(item?.created_at).format('DD MMM YYYY'),
-              (parseFloat(item?.net_amount)).toFixed(2).toLocaleString(undefined, {minimumFractionDigits:2}),
+              (parseFloat(item?.net_amount)).toLocaleString(undefined, {minimumFractionDigits:2}),
               item?.id
               // item.party[index].firm_name,
               // item.requested_date,
