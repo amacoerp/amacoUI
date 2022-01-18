@@ -97,49 +97,49 @@ const locale = navigator.language;
 
 // import Image from 'react-image-resizer';
 
-const i=0;
-  function counter() {
-    
-    return i+1;
-  }
+const i = 0;
+function counter() {
+
+  return i + 1;
+}
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
- 
+
   "@global": {
-    
-   
-    
+
+
+
     "@media print": {
-      
-      
+
+
       "body, html": {
         visibility: "hidden",
         size: "auto",
-        counterReset:i,
+        counterReset: i,
         // content: 'none !important',
         "-webkit-print-color-adjust": "exact !important",
-        marginTop:'10px',
+        marginTop: '10px',
         '.pagebreak': {
-            pageBreakBefore:'always'
+          pageBreakBefore: 'always'
         }
-    
-       
-        
-      
 
-      
-       
+
+
+
+
+
+
       },
-      "h3":{
-        counterIncrement:i,
-        content: "Section " 
+      "h3": {
+        counterIncrement: i,
+        content: "Section "
       },
-     "#edits": {
+      "#edits": {
         display: 'none'
       },
-      
-     
+
+
       "#header": {
         // padding: "10px",
 
@@ -148,76 +148,76 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         //top: '1em',
         left: 0,
         // paddingBottom:130
-        justifySelf:"end"
-       
+        justifySelf: "end"
+
       },
       ".empty-header": {
-        height:"100px",
-        marginTop:'10px',
-        
-        
-        },
-        ".empty-footer": {
-          height:"100px",
-          marginTop:'10px',
-         
-         
-          
-          },
-        ".header": {
-        position: "fixed",
-        height:"100px",
-        top:0,
-        
-        },
-        ".footer": {
-          position: "fixed",
-          height:"100px",
-          bottom:0,
-          width: "100%",
-          
-           
-        
-          
-        },
-        '#panel':{
-         display:'none'
-        },
-        '#edits':{
-          visibility:'hidden'
-         },
+        height: "100px",
+        marginTop: '10px',
 
-        "#note":{
-          // height:"100px",
-          
-        
-          // paddingTop:,
-          // "-webkit-print-color-adjust": "exact !important",
-          // pageBreak: { pageBreakBefore:'always !important' }
-        },
-        "#footer": {
-          
-          backgroundColor: "#F8F8F8",
-          borderTop: "1px solid #E7E7E7",
-          textAlign: "center",
-          
-          bottom: "0",
-          position:'fixed',
-          width: "100%",
-          justifySelf:"end"
-        },
-        "#sign": {
-          
-          // backgroundColor: "#F8F8F8",
-          // borderTop: "1px solid #E7E7E7",
-          // textAlign: "center",
-          
-          // bottom: "0",
-          // position:'fixed',
-          // width: "100%",
-          // justifySelf:"end"
-        },
-    
+
+      },
+      ".empty-footer": {
+        height: "100px",
+        marginTop: '10px',
+
+
+
+      },
+      ".header": {
+        position: "fixed",
+        height: "100px",
+        top: 0,
+
+      },
+      ".footer": {
+        position: "fixed",
+        height: "100px",
+        bottom: 0,
+        width: "100%",
+
+
+
+
+      },
+      '#panel': {
+        display: 'none'
+      },
+      '#edits': {
+        visibility: 'hidden'
+      },
+
+      "#note": {
+        // height:"100px",
+
+
+        // paddingTop:,
+        // "-webkit-print-color-adjust": "exact !important",
+        // pageBreak: { pageBreakBefore:'always !important' }
+      },
+      "#footer": {
+
+        backgroundColor: "#F8F8F8",
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+
+        bottom: "0",
+        position: 'fixed',
+        width: "100%",
+        justifySelf: "end"
+      },
+      "#sign": {
+
+        // backgroundColor: "#F8F8F8",
+        // borderTop: "1px solid #E7E7E7",
+        // textAlign: "center",
+
+        // bottom: "0",
+        // position:'fixed',
+        // width: "100%",
+        // justifySelf:"end"
+      },
+
       "#table": {
         display: "-webkit-box",
         display: "-ms-flexbox",
@@ -245,14 +245,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         // top: 10,
         left: 0,
         right: 0,
-       
+
         // height: "100%",
         // marginTop: "10px",
         // marginBottom:'30px',
-        boxDecorationBreak:'clone',
-        position:'relative',
-        
-        
+        boxDecorationBreak: 'clone',
+        position: 'relative',
+
+
 
         "& *": {
           visibility: "visible",
@@ -261,8 +261,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
   },
   invoiceViewer: {
-   
-    
+
+
   },
 }));
 
@@ -281,15 +281,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [net_amount, setnet_amount] = useState("");
   const [vat_in_value, setvat_in_value] = useState("");
   const [total_value, settotal_value] = useState("");
-  const [validity,setvalidity] =useState()
-  const [edit,setedit] =useState(false)
-  const [payment_terms,setpayment_terms] =useState('')
-  const [warranty,setwarranty] =useState('')
-  const [delivery_time,setdelivery_time] =useState()
-  const [qid,setqid] =useState()
-  const [rno,setrno] =useState()
+  const [validity, setvalidity] = useState()
+  const [edit, setedit] = useState(false)
+  const [payment_terms, setpayment_terms] = useState('')
+  const [warranty, setwarranty] = useState('')
+  const [delivery_time, setdelivery_time] = useState()
+  const [qid, setqid] = useState()
+  const [rno, setrno] = useState()
   const componentRef = useRef();
-  const [inco_terms,setinco_terms] =useState()
+  const [inco_terms, setinco_terms] = useState()
   const [contactpersoncontact, setcontactpersoncontact] = useState('');
   const [company_address, setcompany_address] = useState('Amaco Arabia Contracting Company,P.O. Box 7452, Al Jawhara District,Jubail - 35518, Saudi Arabia.');
   const [contactpersonemail, setcontactpersonemail] = useState('');
@@ -299,7 +299,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [party_code, setparty_code] = useState('');
   const { id } = useParams();
   const classes = useStyles();
-  var fval =10;
+  var fval = 10;
   const { settings, updateSettings } = useSettings();
   const history = useHistory()
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -308,9 +308,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [currency_type, setcurrency_type] = useState("");
   const [freight_type, setfreight_type] = useState("");
   const [expanded, setExpanded] = React.useState("panel1");
- 
-  const [noteList, setnoteList] = useState([ ]);
-  const [address, setaddress] = useState([{street:'',city:' ',po_no:' '}]);
+
+  const [noteList, setnoteList] = useState([]);
+  const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
   const [content, setContent] = useState(`
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Delivery Time</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
@@ -326,12 +326,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  const handleChanges =  (event,index) => {
-  
-  let newArr = [...noteList]; // copying the old datas array
-  newArr[index] = event.target.value; // replace e.target.value with whatever you want to change it to
+  const handleChanges = (event, index) => {
+
+    let newArr = [...noteList]; // copying the old datas array
+    newArr[index] = event.target.value; // replace e.target.value with whatever you want to change it to
     // console.log(newArr)
-  setnoteList(newArr);
+    setnoteList(newArr);
   };
   const toWords = new ToWords({
     localeCode: 'en-IN',
@@ -344,33 +344,33 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   function handleClose() {
     setAnchorEl(null);
   }
-  
+
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
   const handlePrinting = useReactToPrint({
     content: () => componentRef.current,
-    header:()=> componentRef.current
-    
-   
-    
+    header: () => componentRef.current
+
+
+
   });
 
   const genPurchaseInv = () => {
 
-    history.push(navigatePath+`/purchaseinvoice/${id}`)
+    history.push(navigatePath + `/purchaseinvoice/${id}`)
 
   }
 
-  
+
 
   useEffect(() => {
-   
+
     // updateSidebarMode({ mode: "close" })
-    document.title="Purchase Order - Amaco"
-    url.get("purchase-quotation/"+id).then(({ data }) => {
-    
-    // setcname(data[0].party.fname)
+    document.title = "Purchase Order - Amaco"
+    url.get("purchase-quotation/" + id).then(({ data }) => {
+
+      // setcname(data[0].party.fname)
       setpo_number(data[0].po_number)
 
       setqid(data[0].id)
@@ -400,88 +400,86 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setdesignation(data[0].contact?.designation)
       setvendor_id(data[0].party.vendor_id)
       setparty_code(data[0].party?.party_code)
-      setaddress({...address,street:data[0].party.street,city:data[0].party.city,po_no:data[0].party.post_box_no})
+      setaddress({ ...address, street: data[0].party.street, city: data[0].party.city, po_no: data[0].party.post_box_no })
       let words = toWords.convert(parseFloat(data[0].net_amount));
-        let riyal = words.replace("Rupees", "Riyals");
-        let halala =  riyal.replace("Paise", "Halala")
-        let words1 = numberToWords.toWords(data[0].net_amount);
-        let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
+      let riyal = words.replace("Rupees", "Riyals");
+      let halala = riyal.replace("Paise", "Halala")
+      let words1 = numberToWords.toWords(data[0].net_amount);
+      let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
-         
-        // setress(halala);
-        setress(words1.split(",").join(" ")+" Riyals "+((parseFloat(data[0].net_amount.split('.')[1])!==NaN)?(parseFloat(data[0].net_amount.split('.')[1])==0.00?".":" & "+(numberToWords?.toWords(decimal)+" Halalas.")):" "));
+
+      // setress(halala);
+      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : " & " + (numberToWords?.toWords(decimal) + " Halalas.")) : " "));
 
 
     });
     setnoteList(Note)
-   Note.map((item,i)=>{
-    
-   })
+    Note.map((item, i) => {
+
+    })
     // if (id !== "add")
     //   getInvoiceById(id).then((res) => {
     //     setState({ ...res.data });
     //   });
   }, [id]);
   const updateSidebarMode = (sidebarSettings) => {
-    if(sidebarSettings.mode=="close")
-    {
-    let activeLayoutSettingsName = settings.activeLayout + "Settings";
-    let activeLayoutSettings = settings[activeLayoutSettingsName];
-    updateSettings({
-      ...settings,
-      [activeLayoutSettingsName]: {
-        ...activeLayoutSettings,
-        leftSidebar: {
-          ...activeLayoutSettings.leftSidebar,
-          ...sidebarSettings,
+    if (sidebarSettings.mode == "close") {
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
         },
-      },
-    });
-  }
-  else
-  {
-    window.location.href=`../Newinvoiceview`
-    history.push("/Newinvoiceview")
-    // let activeLayoutSettingsName = settings.activeLayout + "Settings";
-    // let activeLayoutSettings = settings[activeLayoutSettingsName];
-    // updateSettings({
-    //   ...settings,
-    //   [activeLayoutSettingsName]: {
-    //     ...activeLayoutSettings,
-    //     leftSidebar: {
-    //       ...activeLayoutSettings.leftSidebar,
-    //       ...sidebarSettings,
-    //     },
-    //   },
-    // });
-     
-  }
+      });
+    }
+    else {
+      window.location.href = `../Newinvoiceview`
+      history.push("/Newinvoiceview")
+      // let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      // let activeLayoutSettings = settings[activeLayoutSettingsName];
+      // updateSettings({
+      //   ...settings,
+      //   [activeLayoutSettingsName]: {
+      //     ...activeLayoutSettings,
+      //     leftSidebar: {
+      //       ...activeLayoutSettings.leftSidebar,
+      //       ...sidebarSettings,
+      //     },
+      //   },
+      // });
+
+    }
 
   }
-  const editpurchase =() =>{
-    
+  const editpurchase = () => {
+
     // window.location.href=`../purchaseedit/${id}`
-    history.push(navigatePath+`/purchaseedit/${id}`)
-    
+    history.push(navigatePath + `/purchaseedit/${id}`)
+
   }
-  const updateCompany =() =>{
-    const val={
-      id:id,
-      company_address:company_address
+  const updateCompany = () => {
+    const val = {
+      id: id,
+      company_address: company_address
     }
     // window.location.href=`../purchaseedit/${id}`
-   setedit(false)
-   url.post('update_company',val).then(()=>{
+    setedit(false)
+    url.post('update_company', val).then(() => {
 
-   })
-    
+    })
+
   }
-  const invoicegenrate= (sidebarSettings) => {
+  const invoicegenrate = (sidebarSettings) => {
     // alert(id)
     // const postatus={
     //   status:"po"
     // }
-   
+
     // Swal.fire({
     //   title: 'Are you sure?',
     //   text: 'You want to create Invoice !',
@@ -492,9 +490,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //   cancelButtonText: 'No, keep it'
     // }).then((result) => {
     //   if (result.value) {
-       
-    
-        
+
+
+
     //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
     // let activeLayoutSettings = settings[activeLayoutSettingsName];
     // updateSettings({
@@ -507,15 +505,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //     },
     //   },
     // });
-     
-    
-      
-     window.location.href=`../poinvoicegenerate/${id}`
-        
-        
-  
-    
-        
+
+
+
+    window.location.href = `../poinvoicegenerate/${id}`
+
+
+
+
+
 
     //   } else if (result.dismiss === Swal.DismissReason.cancel) {
     //     Swal.fire(
@@ -525,48 +523,49 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //     )
     //   }
     // })
-    
-}
-const deletepo = ()=>{
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this Purchase Order!',
-    icon: 'danger',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    icon: 'warning',
-    cancelButtonText: 'No, keep it'
-  }).then((result) => {
-    if (result.value) {
-      url.delete(`purchase-quotation/${id}`)
-  .then(res => {
-      
-      Swal.fire(
-        'Deleted!',
-        'Purchase Order has been deleted.',
-        'success'
-      )
-      
-      history.push(navigatePath+"/Newinvoiceview")
-      // history.push('/quoateview')
-      
-  })
-  
-      
 
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire(
-        'Cancelled',
-        'Your Purchase Order is safe :)',
-        'error'
-      )
-    }
-  })
-}
+  }
+  const deletepo = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Purchase Order!',
+      icon: 'danger',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        url.delete(`purchase-quotation/${id}`)
+          .then(res => {
+
+            Swal.fire(
+              'Deleted!',
+              'Purchase Order has been deleted.',
+              'success'
+            )
+
+            history.push(navigatePath + "/Newinvoiceview")
+            // history.push('/quoateview')
+
+          })
+
+
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Purchase Order is safe :)',
+          'error'
+        )
+      }
+    })
+  }
 
 
   const handlePrint = () => window.print();
-  window.onafterprint = function(){ window.close()
+  window.onafterprint = function () {
+    window.close()
     window.location.href = ``
   };
 
@@ -583,15 +582,15 @@ const deletepo = ()=>{
 
   return (
     <Card elevation={6} className="m-sm-30">
-    <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
-      <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-        <Link to={navigatePath+"/Newinvoiceview"}> 
-          <IconButton >
-            <Icon>arrow_back</Icon>
-          </IconButton>
-        </Link>
-        <div>
-          {/* <Button
+      <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
+        <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
+          <Link to={navigatePath + "/Newinvoiceview"}>
+            <IconButton >
+              <Icon>arrow_back</Icon>
+            </IconButton>
+          </Link>
+          <div>
+            {/* <Button
             className="mr-4 py-2"
             color="primary"
             variant="outlined"
@@ -599,8 +598,8 @@ const deletepo = ()=>{
           >
             Edit Quote
           </Button> */}
-          
-<Button
+
+            <Button
               className="mr-4 py-2"
               color="primary"
               variant="outlined"
@@ -609,40 +608,40 @@ const deletepo = ()=>{
               GENERATE PURCHASE INVOICE
             </Button>
 
-          <Button
-        variant="outlined"
-        color="primary"
-        className="mr-4 py-2"
-        aria-owns={anchorEl ? "simple-menu" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        ACTION<Icon>expand_more</Icon>
-      </Button>
-          <Menu
-        
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-                    {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
+            <Button
+              variant="outlined"
+              color="primary"
+              className="mr-4 py-2"
+              aria-owns={anchorEl ? "simple-menu" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              ACTION<Icon>expand_more</Icon>
+            </Button>
+            <Menu
+
+              id="simple-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
                     Genrate Purchase Order
                       </MenuItem> */}
-                      
-                      <MenuItem  onClick={() => deletepo()}>
-                      DELETE PURCHASEORDER
-                      </MenuItem>
-                      <MenuItem  onClick={() => handlePrinting()}>
-                      PRINT PURCHASEORDER
-                      </MenuItem>
-                      <MenuItem  onClick={() => editpurchase()}>
-                      EDIT PURCHASEORDER
-                      </MenuItem>
-                    
-          </Menu>
-     
-          {/* <Button
+
+              <MenuItem onClick={() => deletepo()}>
+                DELETE PURCHASEORDER
+              </MenuItem>
+              <MenuItem onClick={() => handlePrinting()}>
+                PRINT PURCHASEORDER
+              </MenuItem>
+              <MenuItem onClick={() => editpurchase()}>
+                EDIT PURCHASEORDER
+              </MenuItem>
+
+            </Menu>
+
+            {/* <Button
             className="mr-4 py-2"
             color="primary"
             variant="outlined"
@@ -650,7 +649,7 @@ const deletepo = ()=>{
           >
             Genrate Invoice
           </Button> */}
-          {/* <Button
+            {/* <Button
             onClick={handlePrint}
             className="py-2"
             color="secondary"
@@ -658,26 +657,26 @@ const deletepo = ()=>{
           >
             Print Purchase Order
           </Button> */}
+          </div>
         </div>
-      </div>
 
-       <div id="print-area" ref={componentRef} style={{fontFamily: "Calibri",fontSize: 16}}> 
-      
-       {/* <header id="header"> */}
-       <table >
-        <thead style={{display:"table-header-group"}} >
-            <tr>
-              
-              <td>
-              <div class="empty-header">
-              
-<div className="px-2 flex justify-between">
-  <div className="flex">
-    <div className="pr-12">
-      <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
+        <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
 
-    </div>
-    {/* <div className="pr-12">
+          {/* <header id="header"> */}
+          <table >
+            <thead style={{ display: "table-header-group" }} >
+              <tr>
+
+                <td>
+                  <div class="empty-header">
+
+                    <div className="px-2 flex justify-between">
+                      <div className="flex">
+                        <div className="pr-12">
+                          <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
+
+                        </div>
+                        {/* <div className="pr-12">
     <h4><IntlProvider locale={locale} messages={Arabic}>
         <FormattedMessage
           id="app.channel.plug"
@@ -697,436 +696,435 @@ const deletepo = ()=>{
       </h6>
       
     </div> */}
-    <div className="viewer__order-info px-4 mb-4 flex justify-between">
-    </div>
-  </div>
-  <div className="flex">
-  <div>
-    <h2 style={{color:'#1d2257',textAlign:'right'}}>
-      {/* <IntlProvider locale={locale} messages={Arabic}> */}
-       {/* <strong><FormattedMessage
+                        <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                        </div>
+                      </div>
+                      <div className="flex">
+                        <div>
+                          <h2 style={{ color: '#1d2257', textAlign: 'right' }}>
+                            {/* <IntlProvider locale={locale} messages={Arabic}> */}
+                            {/* <strong><FormattedMessage
           id="app.channel.plug"
           defaultMessage="Amaco Arabia Contracting Company"
           values="Amaco Arabia Contracting Company"
         />
         </strong> */}
-      {/* </IntlProvider></h2> */}
-    شركة أماكو العربية للمقاولات</h2>
+                            {/* </IntlProvider></h2> */}
+                            شركة أماكو العربية للمقاولات</h2>
 
-      <h3 style={{color:'#1d2257',textAlign:'right',fontSize:20}}>
-      
-        AMACO ARABIA CONTRACTING COMPANY
-        
-      </h3>
-      <h5 style={{color:'#555',textAlign:'right',fontSize:17}} className="font-normal b-4 capitalize">
-       C.R No. 2055003404 | VAT No. 310398615200003
+                          <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
 
+                            AMACO ARABIA CONTRACTING COMPANY
 
-      </h5>
-   
-      
-    </div>
-  </div>
-</div>
+                          </h3>
+                          <h5 style={{ color: '#555', textAlign: 'right', fontSize: 17 }} className="font-normal b-4 capitalize">
+                            C.R No. 2055003404 | VAT No. 310398615200003
 
 
-{/* </header> */}
-</div>
-</td>
-</tr>
-</thead>
+                          </h5>
 
 
+                        </div>
+                      </div>
+                    </div>
 
-        <hr></hr>
-        <tbody style={{marginBottom:'50px'}}>
-            <tr>
-              <td>
-        <div className="viewer__order-info px-4 mb-4 pt-5 flex justify-between">
-          <div className="ml-2">
-          <section class="pageno">page</section>
-          <h3 style={{fontSize:20}}><strong>PURCHASE ORDER</strong></h3>
-            
-          </div>
-          <div className="text-center">
-         
-           
-          </div>
-          <div className="text-right">
-           
-          </div>
-        </div>
-        <div className="px-2 flex justify-between">
-          
-          
-        </div>
-        <div className="px-2 flex justify-between">
-          
-          
-        </div>
-        <div className="px-2 flex justify-between">
-          
-         
-          
-        </div>
 
-       
+                    {/* </header> */}
+                  </div>
+                </td>
+              </tr>
+            </thead>
 
 
 
-        <div className="px-2 flex justify-between">
-            <div className="px-2 flex justify-end">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2 pb-4">
-              <span style={{fontWeight:1000}}>SUPPLIER NUMBER</span><br></br>
-            {party_code}
-        
-            </div>
-            {/* <div className="pl-2 pb-4">
+            <hr></hr>
+            <tbody style={{ marginBottom: '50px' }}>
+              <tr>
+                <td>
+                  <div className="viewer__order-info px-4 mb-4 pt-5 flex justify-between">
+                    <div className="ml-2">
+                      <h3 style={{ fontSize: 20 }}><strong>PURCHASE ORDER</strong></h3>
+
+                    </div>
+                    <div className="text-center">
+
+
+                    </div>
+                    <div className="text-right">
+
+                    </div>
+                  </div>
+                  <div className="px-2 flex justify-between">
+
+
+                  </div>
+                  <div className="px-2 flex justify-between">
+
+
+                  </div>
+                  <div className="px-2 flex justify-between">
+
+
+
+                  </div>
+
+
+
+
+
+                  <div className="px-2 flex justify-between">
+                    <div className="px-2 flex justify-end">
+                      <div className="flex " >
+                        <div className="">
+                          <div className="pl-2 pb-4">
+                            <span style={{ fontWeight: 1000 }}>SUPPLIER NUMBER</span><br></br>
+                            {party_code}
+
+                          </div>
+                          {/* <div className="pl-2 pb-4">
               <span style={{fontWeight:1000}}>Attention</span><br></br>
               {contactperson}
              
              
             </div> */}
-             <div className="pl-2 pb-4" style={{width:250}}>
-             <span style={{fontWeight:1000}}>DELIVERY ADDRESS {!edit?(<span id="edits"><Icon   onClick={()=>setedit(true)} style={{fontSize:"12px"}}>edit</Icon></span>):(<Icon  style={{fontSize:"12px"}} onClick={()=>updateCompany()}>done</Icon>)}</span><br></br>
-              {!edit&&(<div  style={{ flexDirection: 'row' ,display:'flex'}}>
-              {company_address}
-           </div>)}
-             
-            
-              {edit &&(<><TextField style={{width:250}}  value={company_address} onChange={(e)=>setcompany_address(e.target.value)} multiline>
-              
-              </TextField></>)}
-              
-            
-            </div>
-            {/* <div className="pl-2 pb-4">
+                          <div className="pl-2 pb-4" style={{ width: 250 }}>
+                            <span style={{ fontWeight: 1000 }}>DELIVERY ADDRESS {!edit ? (<span id="edits"><Icon onClick={() => setedit(true)} style={{ fontSize: "12px" }}>edit</Icon></span>) : (<Icon style={{ fontSize: "12px" }} onClick={() => updateCompany()}>done</Icon>)}</span><br></br>
+                            {!edit && (<div style={{ flexDirection: 'row', display: 'flex' }}>
+                              {company_address}
+                            </div>)}
+
+
+                            {edit && (<><TextField style={{ width: 250 }} value={company_address} onChange={(e) => setcompany_address(e.target.value)} multiline>
+
+                            </TextField></>)}
+
+
+                          </div>
+                          {/* <div className="pl-2 pb-4">
            
               <span style={{fontWeight:1000}}>FREIGHT TYPE</span><br></br>
               {freight_type}
               
             
             </div> */}
-            <div className="pl-2 ">
-            {/* <span style={{fontWeight:1000}}>Email ID</span><br></br>
+                          <div className="pl-2 ">
+                            {/* <span style={{fontWeight:1000}}>Email ID</span><br></br>
               {contactpersonemail} */}
-              <span style={{fontWeight:1000}}>PAYMENT TERMS</span><br></br>
-              100% Advance
-              
-            
-            </div>
-            </div>
-            <div>
-              </div>
-              </div>
-            </div>
-            <div className="px-2 flex justify-end">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2 pb-4">
-              {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
-              {moment(rdate).format('DD MMM YYYY')} */}
-               <span style={{fontWeight:1000}}>PURCHASE ORDER</span><br></br>
-              {po_number}
+                            <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
+                            100% Advance
 
-            </div>
-            <div className="pl-2 pb-8">
-              {/* <span style={{fontWeight:1000}}>P.O. Number</span><br></br>
+
+                          </div>
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-2 flex justify-end">
+                      <div className="flex " >
+                        <div className="">
+                          <div className="pl-2 pb-4">
+                            {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
+              {moment(rdate).format('DD MMM YYYY')} */}
+                            <span style={{ fontWeight: 1000 }}>PURCHASE ORDER</span><br></br>
+                            {po_number}
+
+                          </div>
+                          <div className="pl-2 pb-8">
+                            {/* <span style={{fontWeight:1000}}>P.O. Number</span><br></br>
               {po_number} */}
-               <span style={{fontWeight:1000}}>SUPPLIER</span><br></br>
-            {company}<br />
-            {address?.street}, {address?.city}- {address?.po_no}
-             
-             
-            </div>
-            <div className="pl-2 ">
-          
-            <span style={{fontWeight:1000}}>INCO TERMS</span><br></br>
-              {inco_terms}
-            
-            </div>
-            </div>
-            <div>
-              </div>
-              </div>
-            </div>
-            <div className="px-2 flex justify-end">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2 pb-4">
-              <span style={{fontWeight:1000}}>ORDER DATE</span><br></br>
-              {moment(rdate).format('DD MMM YYYY')}
-        
-           
-        
-            </div>
-            
-          
-            <div className="pl-2 pb-4">
-              {/* <span style={{fontWeight:1000}}>Attention</span><br></br>
+                            <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
+                            {company}<br />
+                            {address?.street}, {address?.city}- {address?.po_no}
+
+
+                          </div>
+                          <div className="pl-2 ">
+
+                            <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                            {inco_terms}
+
+                          </div>
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-2 flex justify-end">
+                      <div className="flex " >
+                        <div className="">
+                          <div className="pl-2 pb-4">
+                            <span style={{ fontWeight: 1000 }}>ORDER DATE</span><br></br>
+                            {moment(rdate).format('DD MMM YYYY')}
+
+
+
+                          </div>
+
+
+                          <div className="pl-2 pb-4">
+                            {/* <span style={{fontWeight:1000}}>Attention</span><br></br>
               {contactperson} */}
-            
-            </div>
-            <div className="pl-2 ">
-          
-            {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
+
+                          </div>
+                          <div className="pl-2 ">
+
+                            {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
               {moment(rdate).format('DD MMM YYYY')} */}
-        
-             
-            
-            </div>
-            </div>
-            <div>
-              </div>
-              </div>
-            </div>
-          </div>
-        
-      <br></br>
-        <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius" >
-        
 
-        
-        <div className="viewer__order-info px-2 mb-4 flex justify-between">
-          <Table>  
-          <TableHead style={{backgroundColor:'#1d2257',display:'table-row-group'}}>
-              <TableRow>
-                <TableCell className="pl-0" colspan={2} style={{border: "1px solid #ccc",width:"50px",fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16}} align="center">S.No.</TableCell>
-                
-        
-                <TableCell className="px-0"  style={{border: "1px solid #ccc",fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16 }}width="0px" align="center">ITEM</TableCell>
-        
-                <TableCell className="px-0" colspan={4} style={{border: "1px solid #ccc",fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16}} width="300px" align="center">DESCRIPTION</TableCell>
-                {/* <TableCell className="px-0" colspan={3} style={{border: "1px solid #ccc",fontFamily: "Calibri",width:200,color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">REMARK</TableCell> */}
-                <TableCell className="px-0" style={{border: "1px solid #ccc",fontFamily: "Calibri",width:90,color:"#fff",fontWeight:'1000',fontSize: 16}} align="center">QTY</TableCell>
-                <TableCell className="px-0"style={{border: "1px solid #ccc",fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">UOM</TableCell>
-                
-                <TableCell className="px-0"style={{border: "1px solid #ccc",width:100,fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">UNIT PRICE</TableCell> 
-                <TableCell className="px-0"style={{border: "1px solid #ccc",width:100,fontFamily: "Calibri",color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">TOTAL</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody >
-              {qdetails.map((item, index) => {
 
-                 
-                
-                return (
-                  <TableRow key={index} style={{border: "1px solid #ccc"}}>
-                    <TableCell className="pr-0" align="center" colspan={2} style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}} >
-                      {index + 1}
-                    </TableCell>
-                    
 
-                    <TableCell className="pl-2 capitalize" align="left"   style={{border: "1px solid #ccc",wordBreak:'break-word',fontFamily: "Calibri",fontSize: 16}}>
-                     {item?.description}
+                          </div>
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                    </TableCell>
-                    <TableCell className="pl-2 capitalize" align="left" colspan={4}  style={{border: "1px solid #ccc",wordBreak:'break-word',fontFamily: "Calibri",fontSize: 16}}>
-                     {item?.descriptionss}
+                  <br></br>
+                  <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius" >
 
-                    </TableCell>
-                    {/* <TableCell className="pl-0 capitalize" colspan={3} align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
+
+
+                    <div className="viewer__order-info px-2 mb-4 flex justify-between">
+                      <Table>
+                        <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
+                          <TableRow>
+                            <TableCell className="pl-0" colspan={2} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">S.No.</TableCell>
+
+
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">ITEM</TableCell>
+
+                            <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="300px" align="center">DESCRIPTION</TableCell>
+                            {/* <TableCell className="px-0" colspan={3} style={{border: "1px solid #ccc",fontFamily: "Calibri",width:200,color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">REMARK</TableCell> */}
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 90, color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">QTY</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">UOM</TableCell>
+
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", width: 100, fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">UNIT PRICE</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", width: 100, fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">TOTAL</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody >
+                          {qdetails.map((item, index) => {
+
+
+
+                            return (
+                              <TableRow key={index} style={{ border: "1px solid #ccc" }}>
+                                <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+                                  {index + 1}
+                                </TableCell>
+
+
+                                <TableCell className="pl-2 capitalize" align="left" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
+                                  {item?.description}
+
+                                </TableCell>
+                                <TableCell className="pl-2 capitalize" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
+                                  {item?.descriptionss}
+
+                                </TableCell>
+                                {/* <TableCell className="pl-0 capitalize" colspan={3} align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
                      {item?.remark}
 
                     </TableCell> */}
-                    
-                    <TableCell className="pr-0 capitalize" align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
-                    {parseInt(item.quantity).toLocaleString()}
 
-                    
-                      
-                    </TableCell>
-                    <TableCell className="pr-0 capitalize" align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
-                    {item?.unit_of_measure}
-                    </TableCell>
-                    <TableCell className="pl-0 capitalize" style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}} >
-                   
-                    {parseFloat(item.purchase_price).toLocaleString(undefined, {minimumFractionDigits:2})}
-                    </TableCell>
-                    <TableCell className="pl-0 capitalize" style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
-                   
-                   {parseFloat(item.total_amount).toLocaleString(undefined, {minimumFractionDigits:2})}
-          
-                    </TableCell>
-                    
-                    {/* <TableCell className="pl-0 capitalize" align="left">
+                                <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
+                                  {parseInt(item.quantity).toLocaleString()}
+
+
+
+                                </TableCell>
+                                <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
+                                  {item?.unit_of_measure}
+                                </TableCell>
+                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+
+                                  {parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                </TableCell>
+                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
+
+                                  {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                                </TableCell>
+
+                                {/* <TableCell className="pl-0 capitalize" align="left">
                       {item.product[0].unit_price}
                     </TableCell> */}
-                    {/* <TableCell className="pl-0">
+                                {/* <TableCell className="pl-0">
                       <Link to={"/sales/rfq-form/rfqanalysis"}>
                         <Icon>search</Icon>
                       </Link>
                     </TableCell> */}
-                  </TableRow>
-                );
-              })}
-              <TableRow style={{border: "1px solid #ccc"}}>
-              <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc",fontFamily: "Calibri",width:200 }}>
-              </TableCell>
-            <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }} colspan={2}>Total Amount ({currency_type})</TableCell>
-            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
+                              </TableRow>
+                            );
+                          })}
+                          <TableRow style={{ border: "1px solid #ccc" }}>
+                            <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            </TableCell>
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({currency_type})</TableCell>
+                            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
-              <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }} colspan={2}
-                >
-                   
-                   <div>
-                  <div style={{float:"left"}} className="pl-20">{currency_type} </div>
-                  <div style={{float:"right"}}>
-                  {parseFloat(total_value).toLocaleString(undefined, {minimumFractionDigits:2})}  
-                   
-                    </div>
-                  <div style={{clear: "left"}} />
-                  </div>
-                 
-                   
-                    
-                </TableCell>
-                  
-                 
-              </TableRow>
-              <TableRow style={{border: "1px solid #ccc"}}>
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}
+                            >
 
-              <TableCell className="pr-0 capitalize" colspan={7} style={{ border: "1px solid #ccc",fontFamily: "Calibri",width:200 }}>
-                </TableCell>
-      
-                  <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }} width="130px" colspan={2}>Freight Charges ({currency_type})
-                  </TableCell>
-                  {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
+                              <div>
+                                <div style={{ float: "left" }} className="pl-20">{currency_type} </div>
+                                <div style={{ float: "right" }}>
+                                  {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+
+
+
+                            </TableCell>
+
+
+                          </TableRow>
+                          <TableRow style={{ border: "1px solid #ccc" }}>
+
+                            <TableCell className="pr-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            </TableCell>
+
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges ({currency_type})
+                            </TableCell>
+                            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
-                 <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }} width="130px" colspan={2}
-                
-                 >
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}
 
-                <div>
-                  <div style={{float:"left"}} className="pl-20">{currency_type}</div>
-                  <div style={{float:"right"}}>
-                  {parseFloat(vat_in_value).toLocaleString(undefined, {minimumFractionDigits:2})} 
-                   
+                            >
+
+                              <div>
+                                <div style={{ float: "left" }} className="pl-20">{currency_type}</div>
+                                <div style={{ float: "right" }}>
+                                  {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+
+
+                            </TableCell>
+                          </TableRow>
+                          <TableRow style={{ border: "1px solid #ccc" }}>
+                            <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200, fontSize: 16 }}>
+                              <div className="px-4 flex justify-between">
+                                <div className="flex">
+                                  <div className="pr-12" style={{ wordBreak: 'break-word' }}>
+
+                                    <strong>TOTAL IN WORDS</strong><br></br><b>{currency_type}</b> {ress}
+                                    <br></br>
+                                    <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
+
+                                  </div>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}
+                              colspan={2}
+                            >
+                              <span>Net Total ({currency_type})</span>
+                            </TableCell>
+
+                            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
+                SAR
+                </TableCell> */}
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 16 }} colspan={2}>
+
+
+                              <div>
+                                <div style={{ float: "left" }} className="pl-20"> {currency_type} </div>
+                                <div style={{ float: "right" }}>
+                                  {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+
+
+
+
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
                     </div>
-                  <div style={{clear: "left"}} />
-                  </div>
-                 
-                   
-                </TableCell> 
-              </TableRow>
-              <TableRow style={{border: "1px solid #ccc"}}>
-              <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc",fontFamily: "Calibri",width:200,fontSize: 16}}>
-                    <div className="px-4 flex justify-between">
-                      <div className="flex">
-                        <div className="pr-12" style={{wordBreak:'break-word'}}>
+                    <div id="panel">
+                      <ExpansionPanel
+                        square
 
-                          <strong>TOTAL IN WORDS</strong><br></br><b>{currency_type}</b> {ress}
-                          <br></br>
-                         <p style={{display:'inline'}} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
-                          
+                        className="p-4"
+                        expanded={expanded === "panel3"}
+                        onChange={handleChange("panel3")}
+                      >
+                        <ExpansionPanelSummary
+                          aria-controls="panel3d-content"
+                          id="panel3d-header"
+                        >
+                          <span>ANNEXURE</span><Icon>expand_more</Icon>
+                        </ExpansionPanelSummary>
+
+                        <RichTextEditor
+                          content={content}
+                          handleContentChange={(content) => setContent(content)}
+                          placeholder="insert text here..."
+                        />
+                      </ExpansionPanel>
+                    </div>
+
+                    <br></br>
+                    <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
+                      <div style={{ breakAfter: 'page' }}></div>
+                      <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
+                    <div class="sign" class="onepage">
+                      <p>
+                        <div className="viewer__order-info px-4 mb-4 flex justify-between" >
+                          <div className="ml-24" style={{ fontWeight: 1000 }}>
+                            <h5 className="font-normal t-4 capitalize">
+                              <IntlProvider locale={locale} messages={Arabic}>
+                                <FormattedMessage
+                                  id="preparedby"
+
+                                />
+                              </IntlProvider>
+                            </h5 >
+                            Prepared by
+                          </div>
+                          <div style={{ fontWeight: 1000 }}>
+                            <h5 className="font-normal t-4 capitalize">
+                              <IntlProvider locale={locale} messages={Arabic}>
+                                <FormattedMessage
+                                  id="approvedby"
+
+                                />
+                              </IntlProvider>
+                            </h5>
+                            Approved by
+                          </div>
+                          <div className="mr-24" style={{ fontWeight: 1000 }}>
+                            <h5 className="font-normal t-4 capitalize">
+                              <IntlProvider locale={locale} messages={Arabic}>
+                                <FormattedMessage
+                                  id="receivedby"
+
+                                />
+                              </IntlProvider>
+                            </h5>
+                            Received by
+                          </div>
                         </div>
-                      </div>
+                      </p>
                     </div>
-                  </TableCell>
-                 <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }}
-                 colspan={2}
-                 >
-                     <span>Net Total ({currency_type})</span> 
-                </TableCell> 
-                
-                {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
-                SAR
-                </TableCell> */}
-                <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",fontSize: 16 }} colspan={2}>
-
-
-                <div>
-                  <div style={{float:"left"}} className="pl-20"> {currency_type} </div>
-                  <div style={{float:"right"}}>
-                  {parseFloat(net_amount).toLocaleString(undefined, {minimumFractionDigits:2})}
-                   
-                    </div>
-                  <div style={{clear: "left"}} />
-                  </div>
-                 
-               
-          
-    
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-          </div>
-          <div id="panel">
-          <ExpansionPanel
-        square
-        
-        className="p-4"
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <ExpansionPanelSummary
-          aria-controls="panel3d-content"
-          id="panel3d-header"
-        >
-          <span>ANNEXURE</span><Icon>expand_more</Icon>
-        </ExpansionPanelSummary>
-        
-         <RichTextEditor
-        content={content}
-        handleContentChange={(content) => setContent(content)}
-        placeholder="insert text here..."
-      />
-      </ExpansionPanel>
-      </div>
-  
-          <br></br>
-        <td id="note"  style={{padding: '5vh',pageBreakInside:'auto',visibility:'hidden'}} >
-          <div style={{breakAfter:'page'}}></div>
-          <div style={{pageBreakInside:'auto'}} dangerouslySetInnerHTML={{__html:content}}></div></td>
-          <div class="sign" class="onepage">
-            <p>
-          <div className="viewer__order-info px-4 mb-4 flex justify-between" >
-          <div className="ml-24" style={{fontWeight:1000}}>
-              <h5 className="font-normal t-4 capitalize">
-                <IntlProvider locale={locale} messages={Arabic}>
-                  <FormattedMessage
-                    id="preparedby"
-
-                  />
-                </IntlProvider>
-              </h5 >
-                 Prepared by
-              </div>
-            <div style={{fontWeight:1000}}>
-              <h5 className="font-normal t-4 capitalize">
-                <IntlProvider locale={locale} messages={Arabic}>
-                  <FormattedMessage
-                    id="approvedby"
-
-                  />
-                </IntlProvider>
-              </h5>
-                 Approved by
-              </div>
-              <div className="mr-24" style={{fontWeight:1000}}>
-              <h5 className="font-normal t-4 capitalize">
-                <IntlProvider locale={locale} messages={Arabic}>
-                  <FormattedMessage
-                    id="receivedby"
-
-                  />
-                </IntlProvider>
-              </h5>
-                 Received by
-              </div>
-          </div>
-          </p>
-          </div>
-          <div class="onepage"></div>
+                    <div class="onepage"></div>
 
                   </Card>
-        <div className="viewer__order-info px-4 mb-4 flex justify-between">
-          {/* <div>
+                  <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                    {/* <div>
           <td style={{color:"red"}} colspan={2}>Notes </td>
         <tr style={{ height: 5, fontSize: 14,textAlign: 'left'}}>
               
@@ -1159,7 +1157,7 @@ const deletepo = ()=>{
         </tr>
         
        </div> */}
-       {/* <div>
+                    {/* <div>
         <tr>
               <td>
                 <h5 className="font-normal capitalize">
@@ -1182,7 +1180,7 @@ const deletepo = ()=>{
         
        </div>
       </div> */}
-      {/* <br></br>
+                    {/* <br></br>
       <div className="viewer__order-info px-4 mb-4 flex justify-between">
       <div>
             <h6>We trust our offer falls inline with your requirements. For any clarification please contact under signed</h6>
@@ -1208,25 +1206,25 @@ const deletepo = ()=>{
             </tr>
       </div>
       */}
-      </div>
-      </td>
-      </tr>
-      </tbody>
-      <tfoot><div class="empty-footer"></div>
-      
-      </tfoot>
-     
-      </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot><div class="empty-footer"></div>
 
-        
-      <div class="footer page-number">
+            </tfoot>
 
-      {/* <div class="page-number"></div>
+          </table>
+
+
+          <div class="footer page-number">
+
+            {/* <div class="page-number"></div>
 CSS to make the number appear in the div :
   multi-page content here... */}
-             <footer   style={{visibility: "hidden" }} >
-            
-             {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
+            <footer style={{ visibility: "hidden" }} >
+
+              {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
           
           <p style={{color:'#fff',paddingTop:5,paddingBottom:5}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
                 
@@ -1237,27 +1235,27 @@ CSS to make the number appear in the div :
         </div>
         
         <h3 style={{textAlign:"center"}} ></h3> */}
-         <div >
-        <div id="outer" style={{"position": "relative", width:'1050px', backgroundColor:'#c1c1c1',"transform": "skew(-20deg)",marginLeft:'40px',marginRight:'50px'}}>
-        <p style={{color:'#fff',paddingTop:5,paddingBottom:5,"transform": "skew(20deg)"}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
-        <div id="spacer" style={{width: "200px", height: "10px", marginRight:0,}}></div>
-        <div style={{"position": "fixed", bottom: 0, width: "100%", height: 30, backgroundColor:"#1d2257",}}> <p   style={{textAlign: 'center',color:'white',fontFamily: "Calibri",paddingTop:5,paddingBottom:10,"transform": "skew(20deg)"}}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p></div>
-    </div> 
-    
-    <div id="content">
-  {/* <div id="pageFooter"  >Page </div> */}
- 
-</div>
-           </div>
-        
-        
-        </footer>
-        </div>
-       
+              <div >
+                <div id="outer" style={{ "position": "relative", width: '1050px', backgroundColor: '#c1c1c1', "transform": "skew(-20deg)", marginLeft: '40px', marginRight: '50px' }}>
+                  <p style={{ color: '#fff', paddingTop: 5, paddingBottom: 5, "transform": "skew(20deg)" }} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
+                  <div id="spacer" style={{ width: "200px", height: "10px", marginRight: 0, }}></div>
+                  <div style={{ "position": "fixed", bottom: 0, width: "100%", height: 30, backgroundColor: "#1d2257", }}> <p style={{ textAlign: 'center', color: 'white', fontFamily: "Calibri", paddingTop: 5, paddingBottom: 10, "transform": "skew(20deg)" }}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p></div>
+                </div>
 
-      </div>
-      
-      {/* <ExpansionPanel
+                <div id="content">
+                  {/* <div id="pageFooter"  >Page </div> */}
+
+                </div>
+              </div>
+
+
+            </footer>
+          </div>
+
+
+        </div>
+
+        {/* <ExpansionPanel
         square
         
         className="p-4"
@@ -1278,10 +1276,10 @@ CSS to make the number appear in the div :
       />
       </ExpansionPanel>
    */}
-    </div>
+      </div>
     </Card>
-   
-    
+
+
   );
 };
 
