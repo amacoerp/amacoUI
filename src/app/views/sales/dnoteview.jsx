@@ -153,13 +153,17 @@ const SimpleMuiTable = () => {
     },
     {
       name: "delivery_number", // field name in the row object
-      label: "DELIVERY NUMBER", // column title that will be shown in table
+      label: "DELIVERY NUMB ER", // column title that will be shown in table
       options: {
         filter: true,
+        setCellProps: () => ({
+          align: "center",
+
+        }),
         wordBreak: 'break-word',
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 400 }} textAlign="center">
+            <TableCell key={index} align="center" >
               <span className="pl-2">DELIVERY NUMBER</span>
             </TableCell>
           )
@@ -175,15 +179,14 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 400 }} textAlign="center">
+            <TableCell key={index} align="center">
               <span className="pl-2">P.O. NUMBER</span>
             </TableCell>
           )
         },
-        setCellProps:()=>({
-          align:"center",
-          // width:600,
-          wordWrap:'break'
+        setCellProps: () => ({
+          align: "center",
+
         })
       },
     },
@@ -192,6 +195,17 @@ const SimpleMuiTable = () => {
       label: "DATE",
       options: {
         filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align="center" >
+              <span className="pl-2">DATE</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+
+        })
       },
     },
 
