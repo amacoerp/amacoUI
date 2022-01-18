@@ -527,8 +527,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-       
-        
+
+
       }
       return element;
 
@@ -551,37 +551,35 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
 
-      if(parseFloat(element.purchase_price))
-      {
-        
-        element[event.target.name] = value ? value : event.target.value;
-       
-        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+        if (parseFloat(element.purchase_price)) {
 
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        
-        
-      }
-      else
-      {
-        
-        element[event.target.name] = value ? value : event.target.value;
-       
-        
+          element[event.target.name] = value ? value : event.target.value;
 
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        
-        
-      
-      }
-       
-       
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+        }
+        else {
+
+          element[event.target.name] = value ? value : event.target.value;
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+
+        }
+
+
       }
       return element;
 
@@ -654,10 +652,10 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.currency_type = "SAR"
     arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', isNaN(discount)?0:discount)
-    formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2))?0:parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount', isNaN(GTotal)?0:GTotal)
-    formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2))?0:parseFloat(vat).toFixed(2))
+    formData.append('discount_in_p', isNaN(discount) ? 0 : discount)
+    formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', isNaN(GTotal) ? 0 : GTotal)
+    formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2)) ? 0 : parseFloat(vat).toFixed(2))
     formData.append('po_number', id)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
@@ -1005,7 +1003,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.QuickQuote)}>
-          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1608,7 +1606,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol=""
                           name="total_amount"
-                          value={isNaN(item.total_amount)?0:item.total_amount}
+                          value={isNaN(item.total_amount) ? 0 : item.total_amount}
                         />
                       </TableCell>
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
@@ -1906,7 +1904,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: '150px',alignItems:'right' }}
+                        style={{ width: '150px', alignItems: 'right' }}
                         // currencySymbol="SAR"
                         // name="dis_per"
                         value={parseFloat(margin_val).toFixed(2) ? parseFloat(margin_val).toFixed(2) : 0}
