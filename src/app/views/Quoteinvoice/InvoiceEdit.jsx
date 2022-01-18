@@ -886,7 +886,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("invoice/" + id).then(({ data }) => {
       // setproList(data)
-      console.log(data[0]);
+      console.log(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
       setponumber(data[0]?.po_number)
