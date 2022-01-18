@@ -624,10 +624,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.currency_type = "SAR"
     arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', discount)
-    formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount', GTotal)
-    formData.append('vat_in_value', parseFloat(vat).toFixed(2))
+    formData.append('discount_in_p', isNaN(discount) ? 0 : discount)
+    formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
+    formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2)) ? 0 : parseFloat(vat).toFixed(2))
     formData.append('po_number', id)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
@@ -1198,7 +1198,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     margin_val += ((item.margin_val));
 
                     margin_per = (margin_val / costTotal) * 100;
-                    subCost = costTotal + margin_val;
+                    subCost = Math.round(costTotal + margin_val);
                     subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
                     // margin_val=((subCost-costTotal));
@@ -1225,7 +1225,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     margin_per = ((subCost - costTotal) / costTotal) * 100;
                     margin_val = ((subCost - costTotal));
                     sellTotal = subTotalCost - dis_per;
-                    console.log(sellTotal)
+                    
                     // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                     vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toLocaleString(undefined,{
