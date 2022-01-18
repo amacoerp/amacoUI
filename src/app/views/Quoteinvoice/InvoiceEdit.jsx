@@ -1244,9 +1244,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                   if (!dstatus) {
+                    // subTotalCost += parseFloat(item?.total_amount)
+                    // vat = ((subTotalCost * 15) / 100).toFixed(2)
+                    // GTotal = (subTotalCost + (subTotalCost * 15) / 100).toFixed(2)
+
+
+
                     subTotalCost += parseFloat(item?.total_amount)
-                    vat = ((subTotalCost * 15) / 100).toFixed(2)
-                    GTotal = (subTotalCost + (subTotalCost * 15) / 100).toFixed(2)
+                    dis_per = parseFloat(discount * subTotalCost / 100).toFixed(2)
+                    // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
+                    vat = (((subTotalCost - parseFloat(discount * subTotalCost / 100)) * 15) / 100).toFixed(2)
+                    GTotal = ((subTotalCost - parseFloat(discount * subTotalCost / 100)) + parseFloat(vat)).toFixed(2);
+                    
                   }
                   else {
 
@@ -1721,7 +1730,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         fullWidth
                         size="small"
                         currencySymbol="SAR"
-                        value={subTotalCost ? GTotal : parseFloat(0.00).toLocaleString(undefined, {
+                        value={ GTotal?GTotal : parseFloat(0.00).toLocaleString(undefined, {
                           minimumFractionDigits: 2
                         })}
                       />
