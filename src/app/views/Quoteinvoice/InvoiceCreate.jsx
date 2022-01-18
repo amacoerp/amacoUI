@@ -263,6 +263,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element['productId'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
+        // element['product_id'] = newValue?.id ? newValue?.id : null
 
 
 
@@ -534,12 +535,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
 
     tempItemList.push({
-      product_id: "",
+      product_id: " ",
       src: '',
       invoice_id: 0,
       id: 0,
-      description: "",
-      descriptions: "",
+      description: " ",
+      descriptions: " ",
+      unit_of_measure:" ",
       quantity: 0,
       product_price_list: [
         {
@@ -564,6 +566,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const deleteItemFromInvoiceList = (index) => {
+    let tempItemList = [...state.item];
+    console.log(tempItemList)
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Invoice Details!',
@@ -574,9 +578,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        let tempItemList = [...state.item];
+      
+        
+       
         tempItemList.splice(index, 1);
-
+        
+        console.log(tempItemList)
         setState({
           ...state,
           item: tempItemList,
@@ -1317,8 +1324,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           size="small"
                           options={proList.filter(obj => obj.div_id == localStorage.getItem('division'))}
-                          name="product_id"
-                          value={item?.product_id}
+                          name="productId"
+                          value={item?.productId}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           // multiline
@@ -1334,7 +1341,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           freeSolo
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField {...params} variant="outlined"  name="productId" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}

@@ -143,7 +143,7 @@ const SimpleMuiTable = () => {
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 50 }}>
+            <TableCell key={index} style={{ width: 100 }}>
               <span className="pl-2">S.NO.</span>
             </TableCell>
           )
@@ -159,7 +159,7 @@ const SimpleMuiTable = () => {
         wordBreak: 'break-word',
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 400 }}>
+            <TableCell key={index} style={{ width: 400 }} textAlign="center">
               <span className="pl-2">DELIVERY NUMBER</span>
             </TableCell>
           )
@@ -175,11 +175,16 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 400 }}>
+            <TableCell key={index} style={{ width: 400 }} textAlign="center">
               <span className="pl-2">P.O. NUMBER</span>
             </TableCell>
           )
         },
+        setCellProps:()=>({
+          align:"center",
+          // width:600,
+          wordWrap:'break'
+        })
       },
     },
     {
