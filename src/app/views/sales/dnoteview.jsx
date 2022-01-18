@@ -153,7 +153,7 @@ const SimpleMuiTable = () => {
     },
     {
       name: "delivery_number", // field name in the row object
-      label: "DELIVERY NUMBER", // column title that will be shown in table
+      label: "DELIVERY NUMB ER", // column title that will be shown in table
       options: {
         filter: true,
         wordBreak: 'break-word',
@@ -293,7 +293,7 @@ const SimpleMuiTable = () => {
             return [
               ++index,
               item?.delivery_number,
-              ((item?.po_number == null) || (item?.po_number = "null")) ? "--" : item?.po_number,
+              item?.po_number,
               moment(item?.created_at).format('DD MMM YYYY'),
               item?.id
               // item.party[index].firm_name,
