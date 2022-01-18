@@ -1419,7 +1419,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // inputProps={{style: {textTransform: 'capitalize'}}}
 
                           size="small"
-                          value={item?.description ? item?.description : 0}
+                          value={item?.description ? item?.description : ""}
                           validators={["required"]}
                           multiline
                           errorMessages={["this field is required"]}
