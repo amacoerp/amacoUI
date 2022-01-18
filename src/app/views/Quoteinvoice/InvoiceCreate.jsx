@@ -1324,8 +1324,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           size="small"
                           options={proList.filter(obj => obj.div_id == localStorage.getItem('division'))}
-                          name="productId"
-                          value={item?.productId}
+                          name="product_id"
+                          value={item?.product_id}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           // multiline
@@ -1341,7 +1341,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           freeSolo
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined"  name="productId" required fullWidth />
+                            <TextField {...params} variant="outlined" value={item.product_id} name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
