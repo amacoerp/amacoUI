@@ -56,18 +56,18 @@ const Rfqview = ({ toggleInvoiceEditor }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    url.get("rfq/"+id).then(({ data }) => {
-       setcname(data[0].id)
-       setrdate(data[0].requested_date)
-       setddate(data[0].require_date)
-      
+    url.get("rfq/" + id).then(({ data }) => {
+      setcname(data[0].id)
+      setrdate(data[0].requested_date)
+      setddate(data[0].require_date)
+
       setrfqdetails(data[0].rfq_details)
       handlePrint()
-     
-            
 
-        });
-        
+
+
+    });
+
     // if (id !== "add")
     //   getInvoiceById(id).then((res) => {
     //     setState({ ...res.data });
@@ -96,16 +96,16 @@ const Rfqview = ({ toggleInvoiceEditor }) => {
           </IconButton>
         </Link>
         <Button
-            onClick={handlePrint}
-            className="py-2"
-            variant="outline-warning"
-          >
-            Print Invoice
-          </Button>
+          onClick={handlePrint}
+          className="py-2"
+          variant="outline-warning"
+        >
+          Print Invoice
+        </Button>
       </div>
 
       <div id="print-area">
-      <Divider />
+        <Divider />
         <div className="viewer__order-info px-4 mb-4 flex justify-between">
           <div>
             {/* <h5 className="mb-2">Order Info</h5> */}
@@ -116,7 +116,7 @@ const Rfqview = ({ toggleInvoiceEditor }) => {
           </div>
           <div className="text-right">
             <h5 className="font-normal mb-4 capitalize">
-            <strong>Requested date: </strong>{" "}
+              <strong>Requested date: </strong>{" "}
               <span>
                 {rdate}
               </span>
@@ -167,7 +167,7 @@ const Rfqview = ({ toggleInvoiceEditor }) => {
             </TableHead>
             <TableBody>
               {rfq_details.map((item, index) => {
-                
+
                 subTotalCost += item.unit * item.price;
                 return (
                   <TableRow key={index}>
@@ -194,7 +194,7 @@ const Rfqview = ({ toggleInvoiceEditor }) => {
             </TableBody>
           </Table>
         </Card>
-{/* 
+        {/* 
         <div className="px-4 flex justify-end">
           <div className="flex">
             <div className="pr-12">

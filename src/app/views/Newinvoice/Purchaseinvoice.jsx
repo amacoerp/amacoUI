@@ -74,11 +74,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         tempItemList.map((element, i) => {
             let sum = 0;
-
+            console.log('ds', element.purchase_price);
 
             if (index === i) {
 
-                element['total_amount'] = (parseInt(element.sell_price) * event.target.value).toFixed(2);
+                element['total_amount'] = (parseInt(element.purchase_price) * event.target.value).toFixed(2);
                 element[event.target.name] = event.target.value;
 
 
@@ -108,19 +108,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.map((element, i) => {
             let sum = 0;
             element['product_id'] = "";
-            Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${element.description}&target=ar`, {
-                method: 'POST',
-                headers: {
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
-                    "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
-                    "Access-Control-Max-Age": 86400
-                },
-            })
-                .then(({ data }) => {
-                    element['arabic_description'] = data.data.translations[0].translatedText;
-                    // console.log(data.data.translations[0].translatedText);
 
-                })
             return element;
         })
 
@@ -184,7 +172,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         icon: 'success',
                         text: 'Data saved successfully.',
                     });
-                    history.push(navigatePath+"/purchaseinvoiceview")
+                    history.push(navigatePath + "/purchaseinvoiceview")
                     //  window.location.href="../quoateview"
                 })
                 .catch(function (error) {
@@ -261,11 +249,47 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         loading,
     } = state;
 
+    const calculatemargin = (event, index, value) => {
+        let tempItemList = [...state.item];
+        let d_val = value ? value : event.target.value;
+        tempItemList.map((element, i) => {
+            let sum = 0;
+
+
+
+            if (index == i) {
+
+                if (parseInt(element.purchase_price) !== 0) {
+
+                    element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
+                    element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+                    element.sell_price = d_val
+                    // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
+                    // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
+                    // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
+                    element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
+                }
+                else {
+                    // element['margin']=parseFloat(0.00);
+                    element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
+                    element.sell_price = d_val
+                }
+            }
+            return element;
+
+        });
+
+        setState({
+            ...state,
+            item: tempItemList,
+        });
+    }
+
     return (
         <div className="m-sm-30">
             <Card elevation={3}>
                 <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-                    <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+                    <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
 
                         <div className="viewer_actions px-4 flex justify-between">
                             <div className="mb-6">
@@ -563,6 +587,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     label="UOM"
                                                     // onChange={(event) => handleIvoiceListChange(event, index)}
                                                     type="text"
+                                                    readOnly
                                                     variant="outlined"
                                                     size="small"
                                                     name="unit_of_measure"
@@ -610,8 +635,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     fullWidth
                                                     size="small"
+                                                    // calculatemargin
+                                                    onChange={(e, value) => calculatemargin(e, index, value)}
+
                                                     currencySymbol="SAR"
-                                                    name="sell_price"
+                                                    name="purchase_price"
                                                     value={item ? item.purchase_price : null}
                                                 />
                                             </TableCell>
@@ -637,6 +665,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     label="Total"
                                                     variant="outlined"
                                                     fullWidth
+                                                    readOnly
                                                     size="small"
                                                     currencySymbol="SAR"
                                                     name="total_amount"
@@ -730,6 +759,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             label="Vat"
                                             variant="outlined"
                                             fullWidth
+                                            readOnly
                                             size="small"
                                             style={{ width: '250px' }}
                                             currencySymbol="SAR"
@@ -757,6 +787,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             variant="outlined"
                                             style={{ width: '250px' }}
                                             size="small"
+                                            readOnly
                                             currencySymbol="SAR"
                                             name="net_amount"
                                             value={subTotalCost ? GTotal : 0.00}

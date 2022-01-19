@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InvoiceForm = ({}) => {
+const InvoiceForm = ({ }) => {
   const [files, setFiles] = useState([]);
   const formData = new FormData();
   const arr = [];
@@ -117,16 +117,16 @@ const InvoiceForm = ({}) => {
 
   const handleSubmit = async (values, { isSubmitting, resetForm }) => {
 
-   values.rfq_details.map((answer, i) => {  
-    
-     formData.append(`file${i}`,answer.file)
+    values.rfq_details.map((answer, i) => {
+
+      formData.append(`file${i}`, answer.file)
     })
     for (let a = 0; a < upload.length; a++) {
       formData.append("myFile" + a, upload[a], upload[a].name);
     }
     values.party_id = party_id;
-    formData.append('div_id',GDIV)
-    formData.append('user_id',user.id)
+    formData.append('div_id', GDIV)
+    formData.append('user_id', user.id)
     for (const [key, value] of Object.entries(values)) {
       let list = [];
       if (`${key}` === "rfq_details") {
@@ -154,11 +154,11 @@ const InvoiceForm = ({}) => {
             text: "Data saved successfully.",
           }).then((result) => {
             getrfq();
-            history.push(navigatePath+"/sales/rfq-form/rfqview");
+            history.push(navigatePath + "/sales/rfq-form/rfqview");
           });
         })
 
-        .catch(function (error) {});
+        .catch(function (error) { });
       resetForm({ values: "" });
     } else {
       setmessage(true);
@@ -170,7 +170,7 @@ const InvoiceForm = ({}) => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "VIEW", path: navigatePath+"/sales/rfq-form/rfqview" },
+            { name: "ADD", path: navigatePath + "/sales/rfq-form/rfqview" },
             { name: "RFQ" },
           ]}
         />
@@ -241,7 +241,7 @@ const InvoiceForm = ({}) => {
                           >
                             <Icon>add</Icon>new
                           </MenuItem>
-                          {CustomerList.filter(obj=>obj.div_id).map((item) => (
+                          {CustomerList.filter(obj => obj.div_id).map((item) => (
                             <MenuItem value={item.id} key={item.id}>
                               {item.firm_name}
                             </MenuItem>
@@ -253,24 +253,24 @@ const InvoiceForm = ({}) => {
                   <Grid item xs>
                     <div className="flex">
                       {/* {rfqstatus && ( */}
-                        <TextField
-                          label="Contact Person"
-                          style={{ minWidth: 200, maxWidth: "250px" }}
-                          name="contact_id"
-                          size="small"
-                          variant="outlined"
-                          select
-                          disabled={!rfqstatus}
-                          value={values.contact_id}
-                          onChange={handleChange}
-                          required
-                        >
-                          {customercontact.map((item) => (
-                            <MenuItem value={item.id} key={item.id}>
-                              {item.fname}
-                            </MenuItem>
-                          ))}
-                        </TextField>
+                      <TextField
+                        label="Contact Person"
+                        style={{ minWidth: 200, maxWidth: "250px" }}
+                        name="contact_id"
+                        size="small"
+                        variant="outlined"
+                        select
+                        disabled={!rfqstatus}
+                        value={values.contact_id}
+                        onChange={handleChange}
+                        required
+                      >
+                        {customercontact.map((item) => (
+                          <MenuItem value={item.id} key={item.id}>
+                            {item.fname}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                       {/* )} */}
                     </div>
                   </Grid>
@@ -317,7 +317,7 @@ const InvoiceForm = ({}) => {
                       />
                     </MuiPickersUtilsProvider>
                   </Grid>
-                  
+
 
                   <Grid item xs={12}>
                     <Divider />

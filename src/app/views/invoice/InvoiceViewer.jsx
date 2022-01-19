@@ -670,7 +670,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               </div>
             </div>
       
-        <Card className="mb-4" elevation={0} title="Rfq Details">
+        <Card className="mb-4" elevation={0} >
         <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
           <Table>
             <TableHead  style={{border: "1px solid #ccc",fontFamily: "Calibri",backgroundColor:'#1d2257',fontWeight:1000,fontSize: 16}}>

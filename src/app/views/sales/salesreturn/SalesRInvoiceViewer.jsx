@@ -855,7 +855,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     </div>
 
                                     <br></br>
-                                    <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius" >
+                                    <Card className="mb-4" elevation={0}  borderRadius="borderRadius" >
 
 
 
