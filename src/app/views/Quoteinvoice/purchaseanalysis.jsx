@@ -701,6 +701,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                     <CurrencyTextField
                 className="w-full"
+                readOnly
                 label="Total"
 			          variant="outlined"
                 fullWidth
@@ -933,7 +934,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 size="small"
 			          currencySymbol={currency_type}
                 name="net_amount"   
-                value={charge?total:GTotal}
+                value={GTotal}
               />
                 </div>
               
