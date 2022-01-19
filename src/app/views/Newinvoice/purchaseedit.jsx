@@ -65,7 +65,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [delivery_time,setdelivery_time] =useState('Within 2-3 Days from the Date of PO')
   const [inco_terms,setinco_terms] =useState('DDP-Delivery Duty Paid To Customer Office')
   const [discount,setdiscount] =useState('0')
-  const [contactid,setcontactid] =useState('')
+  const [contactid,setcontactid] =useState(0)
   const [dstatus, setdstatus] = useState(false);
   const [productid, setproductid] = useState('1');
   const [indexset, setindex] = useState(0);
@@ -82,6 +82,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [Quote_date,setQuote_date]=useState(moment(new Date()).format('DD MMM YYYY'))
 
   const history = useHistory();
+  const formData= new FormData()
   const { id } = useParams();
   const classes = useStyles();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -112,7 +113,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: "",
       src:'',
-      id:'',
+      id:0,
       description:"",
       descriptions:"",
       quantity:0,
@@ -199,8 +200,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       {
         
        
-        element['product'] = newValue?.id?newValue?.name:newValue
-        // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
+        element['product'] = newValue?.id?newValue?.name:newValue?.name
+        element['product_id'] = newValue?.id?newValue?.id:0
         element['product_price_list']=price?price:null
         element['arabic_description']=null
         
@@ -388,31 +389,35 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     
    
     
-    arr.quotation_details=tempItemList
-    arr.discount_in_p=0
-    arr.total_value=parseFloat(subTotalCost).toFixed(2)
-    arr.net_amount=GTotal
-    arr.freight=freight
-    arr.vat_in_value=parseFloat(charge).toFixed(2)
-    arr.rfq_id=id
-    arr.po_number=id
-    arr.party_id=party_id
-    arr.warranty=warranty
-    arr.validity=validity
-    arr.delivery_time=delivery_time
-    arr.inco_terms=inco_terms
-    arr.payment_terms=payment_terms
-    arr.contact_id=contactid
-    arr.transaction_type="purchase"
-    arr.status="New"
-    arr.ps_date=Quote_date
-    arr.currency_type=currency_type
-    arr.id=id
+    
+    formData.append('discount_in_p',0);
+    formData.append('total_value',parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount',GTotal)
+    formData.append('freight',freight)
+    formData.append('vat_in_value',parseFloat(charge).toFixed(2))
+    formData.append('rfq_id',id)
+    formData.append('po_number',id)
+    formData.append('party_id',party_id)
+    formData.append('warranty',warranty)
+    formData.append('validity',validity)
+    formData.append('delivery_time',delivery_time)
+    formData.append('inco_terms',inco_terms)
+    formData.append('payment_terms',payment_terms)
+    // formData.append('contact_id',contactid)
+    formData.append('transaction_type',"purchase")
+    formData.append('status',"New")
+    formData.append('ps_date',Quote_date)
+    formData.append('currency_type',currency_type)
+    formData.append('id',id)
+    tempItemList.map((answer, i) => {
+      // console.log(answer)
+      formData.append(`quotation_detail${i}`, JSON.stringify(answer))
+      
+    })
     const json = Object.assign({}, arr);
     
     
-    url.put(`purchase-quotation/${id}`, json)
-      .then(function (response) {
+    url.post(`purchaseUpdate`,formData).then((response) =>{
         
        
         Swal.fire({

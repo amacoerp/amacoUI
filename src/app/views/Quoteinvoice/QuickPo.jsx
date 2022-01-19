@@ -361,6 +361,38 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   }
 
+  const po_uom = (event, index) => {
+    //  event.persist()
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index === i) {
+
+
+
+        
+        element[event.target.name] = event.target.value;
+        element['remark'] = "";
+
+
+
+
+      }
+
+      return element;
+
+    });
+
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+  }
+
 
 
   const setproductids = (id, index) => {
@@ -386,7 +418,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.quotation_details = tempItemList
     arr.discount_in_p = 0
     arr.total_value = parseFloat(subTotalCost).toFixed(2)
-    arr.net_amount = charge ? total : GTotal
+    arr.net_amount = GTotal
     arr.freight = freight
     arr.vat_in_value = parseFloat(charge).toFixed(2)
     arr.rfq_id = id
@@ -794,7 +826,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           style={{ width: '100%', float: 'left' }}
                           fullWidth
                           value={item.unit_of_measure ? item.unit_of_measure : null}
-                          onChange={(event) => po_description(event, index)}
+                          onChange={(event) => po_uom(event, index)}
                           select
 
 
