@@ -888,7 +888,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           <div />
         </div> */}
 
-                                    <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius">
+                                    <Card className="mb-4" elevation={0} borderRadius="borderRadius">
                                         <div className="viewer__order-info px-4 pt-4 mb-4 flex justify-between">
                                             <Table style={{ border: "1px solid #ccc" }}>
                                                 <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>

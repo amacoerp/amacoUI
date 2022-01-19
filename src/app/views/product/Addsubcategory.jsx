@@ -143,6 +143,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
                 });
 
               })
+            catid = null;
             handleClose()
             // history.push('/product/viewsubcategory');
           })
