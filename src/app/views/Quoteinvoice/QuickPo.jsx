@@ -117,7 +117,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       description: "",
       descriptions: "",
       quantity: 0,
-      product:"---",
+      product: "---",
       product_price_list: [
         {
           price: ""
@@ -408,7 +408,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.user_id = user.id
     const json = Object.assign({}, arr);
     console.log(arr)
-   
+
     url.post('purchase-quotation', json)
       .then(function (response) {
 
@@ -420,7 +420,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-           
+
             history.push(navigatePath + "/Newinvoiceview")
           })
 
@@ -687,7 +687,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="px-0" style={{ width: '130px' }}>PRICE</TableCell>
                   <TableCell className="px-0" style={{ width: '130px' }}>TOTAL</TableCell>
 
-                  <TableCell className="pr-0" style={{ textAlign: "right" }}>Action</TableCell>
+                  <TableCell className="pr-0" style={{ textAlign: "right" }}>ACTION</TableCell>
                 </TableRow>
               </TableHead>
 

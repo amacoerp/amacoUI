@@ -214,7 +214,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [PriceList, setPriceList] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [pricestatus, setpricestatus] = useState(false);
-  const [ponumber, setponumber] = useState();
+  const [ponumber, setponumber] = useState('');
   const [fstatus, setfstatus] = useState(-1);
   let calculateAmount = [];
   const history = useHistory();
@@ -889,9 +889,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
-      setponumber(data[0]?.po_number)
-
-
+      setponumber(data[0]?.po_number == null || data[0]?.po_number == 'null' ? '' : data[0]?.po_number)
+      console.log('sd', data[0]?.po_number);
       setState({
         ...state,
         item: data[0].invoice_detail,
@@ -1083,7 +1082,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     <div className="m-sm-30">
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> EDIT SALES INVOICE</h3>
@@ -1209,7 +1208,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     label="P.O Number"
                     className="m-2"
                     style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
+                    name="ponumber"
                     size="small"
                     variant="outlined"
                     value={ponumber ? ponumber : null}
@@ -1255,7 +1254,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                     vat = (((subTotalCost - parseFloat(discount * subTotalCost / 100)) * 15) / 100).toFixed(2)
                     GTotal = ((subTotalCost - parseFloat(discount * subTotalCost / 100)) + parseFloat(vat)).toFixed(2);
-                    
+
                   }
                   else {
 
@@ -1730,7 +1729,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         fullWidth
                         size="small"
                         currencySymbol="SAR"
-                        value={ GTotal?GTotal : parseFloat(0.00).toLocaleString(undefined, {
+                        value={GTotal ? GTotal : parseFloat(0.00).toLocaleString(undefined, {
                           minimumFractionDigits: 2
                         })}
                       />

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Axios from 'axios';
 import { ApiKey } from "../invoice/InvoiceService";
+import useAuth from '../../hooks/useAuth';
 
 import {
   Dialog,
@@ -153,6 +154,9 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
     },
 
   ];
+
+
+  const { user } = useAuth();
 
   // const [selectedOption, setSelectedOption] = useState(data);
 
@@ -306,11 +310,13 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
       minimum_quantity: mq,
       manufacturer_id: manid,
       model_no: modelno,
-      name_in_ar: data.data.translations[0].translatedText
+      user_id: user.id,
+      div_id: localStorage.getItem('division'),
+      // name_in_ar: data.data.translations[0].translatedText
 
 
     }
-
+    console.log('dsds');
     if (catid) {
       url.post('products', frmdetails)
         .then(function (response) {
@@ -367,7 +373,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
     setselectedOption1('');
     setptype('');
     setdescription('');
-    setmanufacture('');
+    // setmanufacture('');
     setmodelno('');
     setcategory_name('');
 

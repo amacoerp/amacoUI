@@ -650,21 +650,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell>
-                        {item?.product_name && (<Icon
-                          variant="contained"
-                          component="label"
 
-                        >
-                          file_upload
-                          <input
-                            type="file"
-                            name="files"
-                            onChange={(e) => SelectFile(e, index)}
+                        {item?.src ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
 
-                          />
-                        </Icon>)}
+                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : <>
+                          {item?.product_name && (<Icon
+                            variant="contained"
+                            component="label"
 
-                        {item?.files ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
+                          >
+                            file_upload
+                            <input
+                              type="file"
+                              name="files"
+                              onChange={(e) => SelectFile(e, index)}
+
+                            />
+                          </Icon>)}
+                        </>}
+                        {/* {item?.files ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
 
                         >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : (<Icon
                           variant="contained"
@@ -678,7 +682,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             onChange={(e) => SelectFile(e, index)}
 
                           />
-                        </Icon>)}
+                        </Icon>)} */}
                       </TableCell>
 
 

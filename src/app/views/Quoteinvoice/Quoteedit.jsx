@@ -776,11 +776,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('status', status)
     // JSON.stringify(values.rfq_details)
 
-
+    console.log('ss', tempItemList)
     tempItemList.map((answer, i) => {
       // console.log(answer)
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
       answer.files && (formData.append(`file${i}`, answer.files))
+
     })
 
     url.post(`sale-quotation-update`, formData)
