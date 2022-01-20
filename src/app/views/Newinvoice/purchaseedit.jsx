@@ -112,6 +112,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
+      product_name: "",
       src:'',
       id:0,
       description:"",
@@ -200,6 +201,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         
        
         element['product'] = newValue?.id?newValue?.name:newValue?.name
+        element['product_name'] = newValue?.id?newValue?.name:newValue?.name
         element['product_id'] = newValue?.id?newValue?.id:0
         element['product_price_list']=price?price:null
         element['arabic_description']=null

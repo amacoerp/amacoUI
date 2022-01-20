@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { Breadcrumb } from "matx";
 import MemberEditorDialog from "../product/Addcategory";
 import history from "history.js";
-import { getVendorList, getmanufacturer, ApiKey, navigatePath } from "../invoice/InvoiceService"
+import { getVendorList, getmanufacturer, ApiKey, navigatePath,data } from "../invoice/InvoiceService"
 import MemberEditorDialog1 from "./manufacture";
 import useAuth from '../../hooks/useAuth';
 
@@ -30,109 +30,109 @@ const SimpleForm = ({ open, handleClose }) => {
   const [state, setState] = useState({
     date: new Date(),
   });
-  const data = [
-    {
-      value: "TONNES",
-      label: "TON-TONNES"
-    },
-    {
-      value: "TUBES",
-      label: "TUB-TUBES"
-    },
-    {
-      value: "UNITS",
-      label: "UNT-UNITS"
-    },
-    {
-      value: "YARDS",
-      label: "YDS-YARDS"
-    },
-    {
-      value: "SETS",
-      label: "SET-SETS"
-    },
-    {
-      value: "SQUARE FEET",
-      label: "SQF-SQUARE FEET"
-    },
-    {
-      value: "SQUARE YARDS",
-      label: "SQY-SQUARE YARDS"
-    },
-    {
-      value: "THOUSANDS",
-      label: "THD-THOUSANDS"
-    },
-    {
-      value: "KILOLITER",
-      label: "KLR-KILOLITER"
-    },
-    {
-      value: "KILOGRAM",
-      label: "KG-KILOGRAM"
-    },
-    {
-      value: "KILOMETER",
-      label: "KME-KILOMETER"
-    },
-    {
-      value: "MILLILITER",
-      label: "MLT-MILLILITER"
-    },
-    {
-      value: "METERS",
-      label: "MTR-METERS"
-    },
-    {
-      value: "NUMBERS",
-      label: "NOS-NUMBERS"
-    },
-    {
-      value: "PACKS",
-      label: "PAC-PACKS"
-    },
-    {
-      value: "PIECES",
-      label: "PCS-PIECES"
-    },
-    {
-      value: "PAIRS",
-      label: "PAIRS"
-    },
-    {
-      value: "QUINTAL",
-      label: "QTL-QUINTAL"
-    },
-    {
-      value: "ROLLS",
-      label: "ROLLS"
-    },
-    {
-      value: "CENTIMETER",
-      label: "CENTIMETER"
-    },
-    {
-      value: "CARTONS",
-      label: "CTN-CARTONS"
-    },
-    {
-      value: "DOZEN",
-      label: "DOZ-DOZEN"
-    },
-    {
-      value: "DRUM",
-      label: "DRM-DRUM"
-    },
-    {
-      value: "GRAMS",
-      label: "GRAMS"
-    },
-    {
-      value: "GROSS",
-      label: "GRS-GROSS"
-    },
+  // const data = [
+  //   {
+  //     value: "TONNES",
+  //     label: "TON-TONNES"
+  //   },
+  //   {
+  //     value: "TUBES",
+  //     label: "TUB-TUBES"
+  //   },
+  //   {
+  //     value: "UNITS",
+  //     label: "UNT-UNITS"
+  //   },
+  //   {
+  //     value: "YARDS",
+  //     label: "YDS-YARDS"
+  //   },
+  //   {
+  //     value: "SETS",
+  //     label: "SET-SETS"
+  //   },
+  //   {
+  //     value: "SQUARE FEET",
+  //     label: "SQF-SQUARE FEET"
+  //   },
+  //   {
+  //     value: "SQUARE YARDS",
+  //     label: "SQY-SQUARE YARDS"
+  //   },
+  //   {
+  //     value: "THOUSANDS",
+  //     label: "THD-THOUSANDS"
+  //   },
+  //   {
+  //     value: "KILOLITER",
+  //     label: "KLR-KILOLITER"
+  //   },
+  //   {
+  //     value: "KILOGRAM",
+  //     label: "KG-KILOGRAM"
+  //   },
+  //   {
+  //     value: "KILOMETER",
+  //     label: "KME-KILOMETER"
+  //   },
+  //   {
+  //     value: "MILLILITER",
+  //     label: "MLT-MILLILITER"
+  //   },
+  //   {
+  //     value: "METERS",
+  //     label: "MTR-METERS"
+  //   },
+  //   {
+  //     value: "NUMBERS",
+  //     label: "NOS-NUMBERS"
+  //   },
+  //   {
+  //     value: "PACKS",
+  //     label: "PAC-PACKS"
+  //   },
+  //   {
+  //     value: "PIECES",
+  //     label: "PCS-PIECES"
+  //   },
+  //   {
+  //     value: "PAIRS",
+  //     label: "PAIRS"
+  //   },
+  //   {
+  //     value: "QUINTAL",
+  //     label: "QTL-QUINTAL"
+  //   },
+  //   {
+  //     value: "ROLLS",
+  //     label: "ROLLS"
+  //   },
+  //   {
+  //     value: "CENTIMETER",
+  //     label: "CENTIMETER"
+  //   },
+  //   {
+  //     value: "CARTONS",
+  //     label: "CTN-CARTONS"
+  //   },
+  //   {
+  //     value: "DOZEN",
+  //     label: "DOZ-DOZEN"
+  //   },
+  //   {
+  //     value: "DRUM",
+  //     label: "DRM-DRUM"
+  //   },
+  //   {
+  //     value: "GRAMS",
+  //     label: "GRAMS"
+  //   },
+  //   {
+  //     value: "GROSS",
+  //     label: "GRS-GROSS"
+  //   },
 
-  ];
+  // ];
 
 
 

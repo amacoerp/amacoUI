@@ -425,7 +425,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         
         
         element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
-        element.margin_val = Math.round((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
+        element.margin_val = ((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity)
         
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
@@ -748,6 +748,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('transport',transport)
     formData.append('other',other)
     formData.append('user_id',user.id)
+    formData.append('status','New')
     formData.append('div_id',localStorage.getItem('division'))
     // JSON.stringify(values.rfq_details)
    
@@ -915,8 +916,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setsign(data[0].sign?.id)
       setrfq_no(data[0].rfq_no)
       setbank_id(parseInt(data[0]?.bank?.id))
-      settransport(parseInt(data[0]?.transport))
-      setother(parseInt(data[0]?.other))
+      settransport(isNaN(parseFloat(data[0]?.transport))?0:parseInt(data[0]?.transport))
+      setother(isNaN(parseFloat(data[0]?.other))?0:parseFloat(data[0]?.other))
       
      
       setProductList1(data[0].quotation_details[0].product_price_list)
@@ -1293,6 +1294,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               
               sellTotal=subTotalCost-dis_val
+              console.log(subCost)
               vat= (((parseFloat(sellTotal)-parseFloat(other+transport)) * 15) / 100).toFixed(2);
              
               // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);

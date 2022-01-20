@@ -33,7 +33,7 @@ import "date-fns";
 // import Axios from "axios";
 // import { useParams, matchPath } from "react-router-dom";
 // import { database } from "firebase/app";
-import url, { navigatePath } from "../../views/invoice/InvoiceService"
+import url, { navigatePath,data } from "../../views/invoice/InvoiceService"
 
 
 
@@ -47,115 +47,115 @@ const SimpleForm = () => {
     "Inventory",
     "Service",
   ];
-  const data = [
-    {
-      value: "TON",
-      label: "TON-TONNES"
-    },
-    {
-      value: "TUB",
-      label: "TUB-TUBES"
-    },
-    {
-      value: "UNT",
-      label: "UNT-UNITS"
-    },
+  // const data = [
+  //   {
+  //     value: "TON",
+  //     label: "TON-TONNES"
+  //   },
+  //   {
+  //     value: "TUB",
+  //     label: "TUB-TUBES"
+  //   },
+  //   {
+  //     value: "UNT",
+  //     label: "UNT-UNITS"
+  //   },
 
-    {
-      value: "YDS",
-      label: "YDS-YARDS"
-    },
-    {
-      value: "SET",
-      label: "SET-SETS"
-    },
-    {
-      value: "SQF",
-      label: "SQF-SQUARE FEET"
-    },
-    {
-      value: "SQY",
-      label: "SQY-SQUARE YARDS"
-    },
-    {
-      value: "THD",
-      label: "THD-THOUSANDS"
-    },
+  //   {
+  //     value: "YDS",
+  //     label: "YDS-YARDS"
+  //   },
+  //   {
+  //     value: "SET",
+  //     label: "SET-SETS"
+  //   },
+  //   {
+  //     value: "SQF",
+  //     label: "SQF-SQUARE FEET"
+  //   },
+  //   {
+  //     value: "SQY",
+  //     label: "SQY-SQUARE YARDS"
+  //   },
+  //   {
+  //     value: "THD",
+  //     label: "THD-THOUSANDS"
+  //   },
 
-    {
-      value: "KLR",
-      label: "KLR-KILOLITER"
-    },
-    {
-      value: "KME",
-      label: "KME-KILOMETER"
-    },
-    {
-      value: "KILOGRAM",
-      label: "KG-KILOGRAM"
-    },
-    {
-      value: "MLT",
-      label: "MLT-MILLILITER"
-    },
-    {
-      value: "MTR",
-      label: "MTR-METERS"
-    },
-    {
-      value: "NOS",
-      label: "NOS-NUMBERS"
-    },
-    {
-      value: "PAC",
-      label: "PAC-PACKS"
-    },
-    {
-      value: "PCS",
-      label: "PCS-PACKS"
-    },
-    {
-      value: "PRS",
-      label: "PAIRS"
-    },
-    {
-      value: "QTL",
-      label: "QTL-QUINTAL"
-    },
-    {
-      value: "ROL",
-      label: "ROLLS"
-    },
-    {
-      value: "CMS",
-      label: "CENTIMETER"
-    },
-    {
-      value: "CTN",
-      label: "CTN-CARTONS"
-    },
-    {
-      value: "DOZ",
-      label: "DOZ-DOZEN"
-    },
-    {
-      value: "DRM",
-      label: "DRM-DRUM"
-    },
-    {
-      value: "GMS",
-      label: "GRAMS"
-    },
-    {
-      value: "GMS",
-      label: "GRAMS"
-    },
-    {
-      value: "GRS",
-      label: "GRS-GROSS"
-    },
+  //   {
+  //     value: "KLR",
+  //     label: "KLR-KILOLITER"
+  //   },
+  //   {
+  //     value: "KME",
+  //     label: "KME-KILOMETER"
+  //   },
+  //   {
+  //     value: "KILOGRAM",
+  //     label: "KG-KILOGRAM"
+  //   },
+  //   {
+  //     value: "MLT",
+  //     label: "MLT-MILLILITER"
+  //   },
+  //   {
+  //     value: "MTR",
+  //     label: "MTR-METERS"
+  //   },
+  //   {
+  //     value: "NOS",
+  //     label: "NOS-NUMBERS"
+  //   },
+  //   {
+  //     value: "PAC",
+  //     label: "PAC-PACKS"
+  //   },
+  //   {
+  //     value: "PCS",
+  //     label: "PCS-PACKS"
+  //   },
+  //   {
+  //     value: "PRS",
+  //     label: "PAIRS"
+  //   },
+  //   {
+  //     value: "QTL",
+  //     label: "QTL-QUINTAL"
+  //   },
+  //   {
+  //     value: "ROL",
+  //     label: "ROLLS"
+  //   },
+  //   {
+  //     value: "CMS",
+  //     label: "CENTIMETER"
+  //   },
+  //   {
+  //     value: "CTN",
+  //     label: "CTN-CARTONS"
+  //   },
+  //   {
+  //     value: "DOZ",
+  //     label: "DOZ-DOZEN"
+  //   },
+  //   {
+  //     value: "DRM",
+  //     label: "DRM-DRUM"
+  //   },
+  //   {
+  //     value: "GMS",
+  //     label: "GRAMS"
+  //   },
+  //   {
+  //     value: "GMS",
+  //     label: "GRAMS"
+  //   },
+  //   {
+  //     value: "GRS",
+  //     label: "GRS-GROSS"
+  //   },
 
-  ];
+  // ];
   // const [selectedOption, setSelectedOption] = useState(data);
 
 
