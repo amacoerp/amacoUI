@@ -1232,8 +1232,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     // margin_val=((subCost-costTotal));
                     dis_val += (item?.discount_val ? item?.discount_val : 0)
-                    
-                    console.log("discount",dis_val)
+
+                    console.log("discount", dis_val)
 
                     dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
 
@@ -1605,6 +1605,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          readonly
                           currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item.total_amount}
