@@ -398,7 +398,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('delivery_time', delivery_time)
     formData.append('inco_terms', inco_terms)
     formData.append('payment_terms', payment_terms)
-    formData.append('contact_id', contactid)
+    formData.append('contact_id', contactid ? contactid : 0)
     formData.append('transaction_type', "purchase")
     formData.append('status', "New")
     formData.append('ps_date', Quote_date)

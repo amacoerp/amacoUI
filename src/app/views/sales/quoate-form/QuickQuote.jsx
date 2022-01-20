@@ -1827,7 +1827,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-
+                        <option value="">--Select--</option>
                         {companybank.map((item, ind) => (
                           <option value={item.id}>{item.name}-{item.ac_no}</option>
                         ))}

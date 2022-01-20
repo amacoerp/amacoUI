@@ -221,7 +221,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const handleIvoiceListChange = (event, index, newValue) => {
-    event.persist()
+    // event.persist()
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
