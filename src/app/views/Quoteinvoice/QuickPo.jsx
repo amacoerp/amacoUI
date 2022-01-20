@@ -221,7 +221,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const handleIvoiceListChange = (event, index, newValue) => {
-    event.persist()
+    // event.persist()
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -372,7 +372,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-        
+
         element[event.target.name] = event.target.value;
         element['remark'] = "";
 
@@ -1115,6 +1115,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         label="Grand Total"
                         variant="outlined"
                         fullWidth
+                        readonly
                         size="small"
                         currencySymbol={currency_type}
                         name="net_amount"

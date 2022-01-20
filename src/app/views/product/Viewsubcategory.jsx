@@ -100,6 +100,7 @@ const SimpleMuiTable = () => {
     if (catid) {
       url.get("categories").then(({ data }) => {
         const d = data.filter(obj => obj.div_id == GDIV)
+
         setcatList(d);
         setOriginalList(d);
         setList(d);
@@ -109,7 +110,9 @@ const SimpleMuiTable = () => {
     }
     else {
       url.get("categories").then(({ data }) => {
+
         const d = data.filter(obj => obj.div_id == GDIV)
+
         setcatList(d);
         setOriginalList(d);
         setList(d);
@@ -470,13 +473,17 @@ const SimpleMuiTable = () => {
               <Grid item xs>
                 <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                   <div className="text-right">
+
                     <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
                       aria-haspopup="true"
                       onClick={(event) => handleClick(event, item.id)}
                     >
+                      <Badge badgeContent={item?.totalProducts} style={{ paddingRight: 8, position: "relative", left: 7 }} color="primary" />
+
                       <Tooltip title="Subcategory list">
                         <Icon color="primary" style={{ paddingRight: 12 }}>expand_more</Icon>
                       </Tooltip>
+
                     </IconButton>
                   </div>
                   <Menu

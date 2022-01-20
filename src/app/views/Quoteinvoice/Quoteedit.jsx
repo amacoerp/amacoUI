@@ -1889,6 +1889,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         }}
 
                       >
+                        <option value="">--Select--</option>
 
                         {users.map((item, ind) => (
                           <option value={item.id} defaultValue={item.name}>{item.name}</option>

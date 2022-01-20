@@ -369,18 +369,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       }
 
       document.title = `AMACO Quote - ${data[0]?.party?.firm_name} - ${data[0]?.quotation_no}`
-      setrfq(data[0].rfq_id)
-      setFfile(data[0].file)
-      setrfq_no(data[0].rfq_no)
-      setqid(data[0].quotation_no)
-      setpsdate(moment(data[0].ps_date).format('DD MMM YYYY'))
-      setcontactaddress(data[0].party)
+      setrfq(data[0]?.rfq_id)
+      setFfile(data[0]?.file)
+      setrfq_no(data[0]?.rfq_no)
+      setqid(data[0]?.quotation_no)
+      setpsdate(moment(data[0]?.ps_date).format('DD MMM YYYY'))
+      setcontactaddress(data[0]?.party)
       // setddate(moment(data[0].rfq.require_date).format('DD MMM YYYY'))
       setcompany(data[0]?.party?.firm_name)
-      setdiscount_per(data[0].discount_in_p)
+      setdiscount_per(data[0]?.discount_in_p)
 
-      setsubject(data[0].subject)
-      setsign(data[0].sign)
+      setsubject(data[0]?.subject)
+      setsign(data[0]?.sign)
       setcity(data[0]?.party?.city)
       setstreet(data[0]?.party?.street)
       setzipcode(data[0]?.party?.zip_code)
@@ -394,15 +394,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       settotal_value(data[0]?.total_value)
       setvalidity(data[0]?.validity)
       setwarranty(data[0]?.warranty)
-      setinco_terms(data[0].inco_terms)
-      setis_revised(data[0].is_revised)
-      setpayment_terms(data[0].payment_terms)
-      setdelivery_time(data[0].delivery_time)
-      settransport(isNaN(data[0].transport)?0:parseFloat(data[0].transport))
-      setother(isNaN(data[0].other)?0:parseFloat(data[0].other))
+      setinco_terms(data[0]?.inco_terms)
+      setis_revised(data[0]?.is_revised)
+      setpayment_terms(data[0]?.payment_terms)
+      setdelivery_time(data[0]?.delivery_time)
+      settransport(isNaN(data[0]?.transport) ? 0 : parseFloat(data[0]?.transport))
+      setother(isNaN(data[0].other) ? 0 : parseFloat(data[0]?.other))
       setnotes(data[0]?.notes)
       if (data[0].bank) {
-        setbank({ ...bank, 'bank_name': data[0].bank.name, 'acc_no': data[0].bank.ac_no, 'iban_no': data[0].bank.iban_no })
+        setbank({ ...bank, 'bank_name': data[0]?.bank.name, 'acc_no': data[0]?.bank.ac_no, 'iban_no': data[0]?.bank.iban_no })
 
       }
       if (data[0].contact !== null) {
@@ -412,10 +412,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         setcontactpersonemail(data[0].contact.email)
       }
 
-      setcontactpersoncontact(data[0]?.party.contact)
+      setcontactpersoncontact(data[0]?.party?.contact)
       // console.log(data[0])
       var item = data[0].party?.party_division?.find(item => item.div_id === 75);
-      setvendor_id(data[0]?.party.vendor_id)
+      setvendor_id(data[0]?.party?.vendor_id)
       let words1 = numberToWords.toWords(data[0].net_amount);
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 

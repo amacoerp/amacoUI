@@ -58,14 +58,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [party_id, setparty_id] = useState('');
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
-  const [validity,setvalidity] =useState('3 Days')
-  const [payment_terms,setpayment_terms] =useState('100% Advance')
-  const [freight,setfreight] =useState('Air Freight')
-  const [warranty,setwarranty] =useState('NA')
-  const [delivery_time,setdelivery_time] =useState('Within 2-3 Days from the Date of PO')
-  const [inco_terms,setinco_terms] =useState('DDP-Delivery Duty Paid To Customer Office')
-  const [discount,setdiscount] =useState('0')
-  const [contactid,setcontactid] =useState(0)
+  const [validity, setvalidity] = useState('3 Days')
+  const [payment_terms, setpayment_terms] = useState('100% Advance')
+  const [freight, setfreight] = useState('Air Freight')
+  const [warranty, setwarranty] = useState('NA')
+  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
+  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
+  const [discount, setdiscount] = useState('0')
+  const [contactid, setcontactid] = useState(0)
   const [dstatus, setdstatus] = useState(false);
   const [productid, setproductid] = useState('1');
   const [indexset, setindex] = useState(0);
@@ -82,7 +82,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
   const history = useHistory();
-  const formData= new FormData()
+  const formData = new FormData()
   const { id } = useParams();
   const classes = useStyles();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -113,12 +113,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: "",
       product_name: "",
-      src:'',
-      id:0,
-      description:"",
-      descriptions:"",
-      quantity:0,
-      product_price_list:[
+      src: '',
+      id: 0,
+      description: "",
+      descriptions: "",
+      quantity: 0,
+      product_price_list: [
         {
           price: ""
         }
@@ -193,26 +193,24 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
-      let sum=0;
-      
-    
-      if (index === i) 
-      {
-        
-       
-        element['product'] = newValue?.id?newValue?.name:newValue?.name
-        element['product_name'] = newValue?.id?newValue?.name:newValue?.name
-        element['product_id'] = newValue?.id?newValue?.id:0
-        element['product_price_list']=price?price:null
-        element['arabic_description']=null
-        
-      
+      let sum = 0;
+
+
+      if (index === i) {
+
+
+        element['product'] = newValue?.id ? newValue?.name : newValue?.name
+        element['product_name'] = newValue?.id ? newValue?.name : newValue?.name
+        element['product_id'] = newValue?.id ? newValue?.id : 0
+        element['product_price_list'] = price ? price : null
+        element['arabic_description'] = null
+
+
 
       }
       return element;
 
     });
-    console.log(tempItemList)
     setState({
       ...state,
       item: tempItemList,
@@ -288,7 +286,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
   };
   const filterPrice = (options, params) => {
-    // console.log(params.inputValue)
 
     // const filtered = filter(options, params);
 
@@ -383,34 +380,33 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempState = { ...state };
     let arr = []
     delete tempState.loading;
-    let tempItemList =[...state.item];
-    
-   
-    
-    
-    formData.append('discount_in_p',0);
-    formData.append('total_value',parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount',GTotal)
-    formData.append('freight',freight)
-    formData.append('vat_in_value',parseFloat(charge).toFixed(2))
-    formData.append('rfq_id',id)
-    formData.append('po_number',id)
-    formData.append('party_id',party_id)
-    formData.append('warranty',warranty)
-    formData.append('validity',validity)
-    formData.append('delivery_time',delivery_time)
-    formData.append('inco_terms',inco_terms)
-    formData.append('payment_terms',payment_terms)
-    // formData.append('contact_id',contactid)
-    formData.append('transaction_type',"purchase")
-    formData.append('status',"New")
-    formData.append('ps_date',Quote_date)
-    formData.append('currency_type',currency_type)
-    formData.append('id',id)
+    let tempItemList = [...state.item];
+
+
+
+
+    formData.append('discount_in_p', 0);
+    formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', GTotal)
+    formData.append('freight', freight)
+    formData.append('vat_in_value', parseFloat(charge).toFixed(2))
+    formData.append('rfq_id', id)
+    formData.append('po_number', id)
+    formData.append('party_id', party_id)
+    formData.append('warranty', warranty)
+    formData.append('validity', validity)
+    formData.append('delivery_time', delivery_time)
+    formData.append('inco_terms', inco_terms)
+    formData.append('payment_terms', payment_terms)
+    formData.append('contact_id', contactid ? contactid : 0)
+    formData.append('transaction_type', "purchase")
+    formData.append('status', "New")
+    formData.append('ps_date', Quote_date)
+    formData.append('currency_type', currency_type)
+    formData.append('id', id)
     tempItemList.map((answer, i) => {
-      // console.log(answer)
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
-      
+
     })
     const json = Object.assign({}, arr);
     console.log(tempItemList);
@@ -470,18 +466,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("product-price").then(({ data }) => {
       setPriceList(data)
-
-
-
-
     });
     url.get("purchase-quotation/" + id).then(({ data }) => {
+      // setparty_id(data[0]?.party_id)
+      updateCont(data[0]?.party_id, data[0].contact?.id);
 
-
-
-      setcontactid(data[0].contact?.id)
-
-      setparty_id(data[0]?.party_id)
       setcharge(data[0]?.vat_in_value)
       settotal(data[0]?.net_amount)
       setState({
@@ -503,17 +492,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   }
   const setcontact = (event) => {
-
-
     url.get("parties/" + event.target.value).then(({ data }) => {
-
-
       setcontacts(data[0].contacts)
       setparty_id(event.target.value)
-
       setvalues({ ...values, status: true });
+    });
+  }
 
-
+  const updateCont = async (id, cid) => {
+    await url.get("parties/" + id).then(({ data }) => {
+      setcontacts(data[0].contacts)
+      setparty_id(id)
+      // setvalues({ ...values, status: true });
+      setcontactid(cid)
     });
   }
 
@@ -628,7 +619,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                {values.status &&
+                {
                   <TextField
 
                     label="Contact Person"
@@ -638,7 +629,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     variant="outlined"
                     select
-                    value={values.contact_id}
+                    value={contactid}
                     onChange={(e) => setcontactid(e.target.value)}
 
                   >

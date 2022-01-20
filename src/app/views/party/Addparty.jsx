@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import history from "history.js";
-import url, { getparties, getpaidDivision, GDIV,navigatePath } from "../../views/invoice/InvoiceService";
+import url, { getparties, getpaidDivision, GDIV, navigatePath } from "../../views/invoice/InvoiceService";
 import { Breadcrumb } from "matx";
 import { toArabic } from 'arabic-digits';
 import {
@@ -80,7 +80,7 @@ const Addparty = ({ open, handleClose }) => {
   const [vat_no, setvat_no] = useState('');/*Holds the vat number */
   const [post_box_no, setpost_box_no] = useState('');/*Holds the post box number*/
   const [country, setcountry] = useState('');/*Holds the country name*/
-  const [street, setstreet] = useState('');/*Holds the street */
+  const [street, setstreet] = useState(null);/*Holds the street */
   const [zip_code, setzip_code] = useState('');/*Holds the zipcode */
   const [proviance, setproviance] = useState('');/*Holds the proviance */
   const [website, setwebsite] = useState('');/*Holds the website */
@@ -186,7 +186,7 @@ const Addparty = ({ open, handleClose }) => {
         })
           .then((result) => {
             getparties()
-            history.push(navigatePath+'/party/viewparty')
+            history.push(navigatePath + '/party/viewparty')
           })
       })
       .catch(function (error) {
@@ -237,7 +237,7 @@ const Addparty = ({ open, handleClose }) => {
     setiban_no('');
     setaccount_no('');
 
-    
+
     setcontact('');
     setvendor_id('');
     setaddress('');
@@ -776,7 +776,7 @@ const Addparty = ({ open, handleClose }) => {
               </div>
               <Autocomplete
                 multiple
-                
+
                 id="checkboxes-tags-demo"
                 size="small"
                 options={paiddivision_account.filter(obj => obj.type === "division")}
@@ -801,7 +801,7 @@ const Addparty = ({ open, handleClose }) => {
                     autoComplete: "new-password",
                     required: division.length === 0
                   }}
-                  required={true} />
+                    required={true} />
                 )}
               />
 
