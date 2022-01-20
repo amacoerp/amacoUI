@@ -486,7 +486,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
-    let d_val = value ? value : event.target.value;
+    let d_val = value ? (value!==null?value:0) : (event.target.value?event.target.value:0);
+
     tempItemList.map((element, i) => {
       let sum = 0;
 
@@ -498,7 +499,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val
+          element.sell_price = d_val?d_val:0.00
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -508,7 +509,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           // element['margin']=parseFloat(0.00);
           element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
-          element.sell_price = d_val
+          element.sell_price = d_val?d_val:0.00
         }
 
 
@@ -655,10 +656,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-        if (element.purchase_price !== null) {
+        if (parseFloat(element.purchase_price) !== null && !isNaN(element.purchase_price)) {
+          
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? newValue : event.target.value
+          element[name] = newValue ? (isNaN(newValue)?0:newValue) : (isNaN(event.target.value)?0:event.target.value)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
@@ -668,7 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           element[name] = newValue ? newValue : event.target.value
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-
+          console.log("hi")
           // element['id']=null;
         }
 
@@ -1249,7 +1251,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                    subTotalCost += parseFloat(item?.total_amount)
+                    subTotalCost += isNaN(item?.total_amount)?0:parseFloat(item?.total_amount)
                     dis_per = parseFloat(discount * subTotalCost / 100).toFixed(2)
                     // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                     vat = (((subTotalCost - parseFloat(discount * subTotalCost / 100)) * 15) / 100).toFixed(2)
@@ -1544,7 +1546,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol="SAR"
                           name="sell_price"
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          value={item?.sell_price}
+                          value={(item?.sell_price)?(isNaN(item?.sell_price)?0:item.sell_price):0}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
@@ -1573,7 +1575,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol="SAR"
                           name="total_amount"
-                          value={item?.total_amount?.toLocaleString(undefined, {
+                          value={isNaN(item.total_amount) ? 0 :item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
                         />
