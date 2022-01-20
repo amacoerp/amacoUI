@@ -120,6 +120,7 @@ const InvoiceForm = ({ }) => {
     values.rfq_details.map((answer, i) => {
 
       formData.append(`file${i}`, answer.file)
+
     })
     for (let a = 0; a < upload.length; a++) {
       formData.append("myFile" + a, upload[a], upload[a].name);
@@ -170,8 +171,8 @@ const InvoiceForm = ({ }) => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "ADD", path: navigatePath + "/sales/rfq-form/rfqview" },
-            { name: "RFQ" },
+            { name: "RFQ", path: navigatePath + "/sales/rfq-form/rfqview" },
+            { name: "ADD" },
           ]}
         />
       </div>

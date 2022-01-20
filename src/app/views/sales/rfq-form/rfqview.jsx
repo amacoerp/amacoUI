@@ -252,8 +252,8 @@ const SimpleMuiTable = () => {
           <div className="flex flex-wrap justify-between">
             <Breadcrumb
               routeSegments={[
-                { name: "VIEW", path: navigatePath + "/sales/rfq-form/Rfqform" },
-                { name: "RFQ" },
+                { name: "RFQ", path: navigatePath + "/sales/rfq-form/rfqview" },
+                { name: "VIEW" },
               ]}
             />
 
