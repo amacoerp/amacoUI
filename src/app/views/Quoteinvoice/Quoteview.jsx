@@ -51,7 +51,7 @@ import { useReactToPrint } from 'react-to-print';
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
 import useAuth from "app/hooks/useAuth";
-import "../../../app/views/Newinvoice/print.css";
+// import "../../../app/views/Newinvoice/print.css";
 const locale = navigator.language;
 
 
