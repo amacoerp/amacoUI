@@ -783,7 +783,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // console.log(answer)
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
       answer.files && (formData.append(`file${i}`, answer.files))
-
+      // console.log()
     })
 
     url.post(`sale-quotation-update`, formData)
