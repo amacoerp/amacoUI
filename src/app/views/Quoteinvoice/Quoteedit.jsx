@@ -31,7 +31,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
-import { getInvoiceById, addInvoice, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath } from "../invoice/InvoiceService";
+import { getInvoiceById, addInvoice, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath, basePath } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -432,7 +432,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        
+
         console.log(((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)))
 
 
@@ -777,13 +777,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('div_id', localStorage.getItem('division'))
     formData.append('status', status)
     // JSON.stringify(values.rfq_details)
+    var spl = basePath.replace('api', '');
 
-    console.log('ss', tempItemList)
+
     tempItemList.map((answer, i) => {
-      // console.log(answer)
+      answer.file && (answer.file = answer.file.replace(spl, ''))
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
-      answer.files && (formData.append(`file${i}`, answer.files))
-      // console.log()
+      answer.files && (formData.append(`files${i}`, answer.files))
     })
 
     url.post(`sale-quotation-update`, formData)
@@ -921,8 +921,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // rfq no
       setrfq_no(data[0].rfq_no)
       setbank_id(parseInt(data[0].bank?.id))
-      setother(isNaN(parseFloat(data[0].other))?0:parseFloat(data[0].other))
-      settransport(isNaN(parseFloat(data[0].transport))?0:parseFloat(data[0].transport))
+      setother(isNaN(parseFloat(data[0].other)) ? 0 : parseFloat(data[0].other))
+      settransport(isNaN(parseFloat(data[0].transport)) ? 0 : parseFloat(data[0].transport))
 
 
       setProductList1(data[0]?.quotation_details[0]?.product_price_list)
