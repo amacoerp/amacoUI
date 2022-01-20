@@ -713,13 +713,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <TableRow className="bg-default">
                   <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
-                  <TableCell className="px-0" style={{ width: '350px' }}>OUR DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>UOM</TableCell>
-                  <TableCell className="px-0" style={{ width: '130px' }}>PRICE</TableCell>
-                  <TableCell className="px-0" style={{ width: '130px' }}>TOTAL</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>UOM</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>TOTAL</TableCell>
 
-                  <TableCell className="pr-0" style={{ textAlign: "right" }}>ACTION</TableCell>
+                  <TableCell className="pr-2" style={{ textAlign: "right" }}>ACTION</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -1052,7 +1052,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Amount{currency_type} :</p>
+                    <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
                     <p className="mb-8">Freight Charges ({currency_type})</p>
                     {/* <p className="mb-5">currency:</p> */}

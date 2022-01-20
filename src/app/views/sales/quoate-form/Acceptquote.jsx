@@ -217,7 +217,7 @@ const AcceptQuote = () => {
       options: {
       customHeadRender: ({index, ...column}) =>{
         return (
-          <TableCell key={index} className="pr-2" style={{width:100,textAlign:'right'}}>  
+          <TableCell key={index} className="pr-2" style={{width:200,textAlign:'right'}}>  
             <span textAlign="right" >AMOUNT</span> 
           </TableCell>
         )

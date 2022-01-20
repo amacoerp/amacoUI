@@ -313,7 +313,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
   const [content, setContent] = useState(`
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Delivery Time</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>FREIGHT TYPE</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  :Air Freight</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>INCO TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:CPT</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>PAYMENT TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
@@ -835,7 +835,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               {po_number} */}
                             <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
                             {company}<br />
-                            {address?.street}, {address?.city}- {address?.po_no}
+                            {/* {address?.street}, {address?.city}- {address?.po_no} */}
+                            {address?.street ? address?.street + (address?.city ? "," + address?.city + (address?.po_no ? "," + address?.po_no : " ") : (address?.po_no ? "," + address?.po_no : " ")) : (address?.city ? address?.city + (address?.po_no ? " ," + address?.po_no: " ") : (address?.po_no ? address?.po_no : " "))}
 
 
                           </div>
@@ -887,7 +888,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
 
-                    <div className="viewer__order-info px-2 mb-4 flex justify-between">
+                    <div className="viewer__order-info px-2 mb-2 flex justify-between">
                       <Table>
                         <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                           <TableRow>
@@ -1019,7 +1020,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                     <strong>TOTAL IN WORDS</strong><br></br><b>{currency_type}</b> {ress}
                                     <br></br>
-                                    <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
+                                    {/* <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition */}
 
                                   </div>
                                 </div>
@@ -1038,7 +1039,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                               <div>
-                                <div style={{ float: "left" }} className="pl-20"> {currency_type} </div>
+                                <div style={{ float: "left" }} className="pl-19"> {currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1052,9 +1053,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             </TableCell>
                           </TableRow>
                         </TableBody>
+
+
                       </Table>
+                     
                     </div>
-                    <div id="panel">
+                    <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure (1) for terms & condition
+                    <div id="panel" className="pt-2">
                       <ExpansionPanel
                         square
 
@@ -1078,7 +1083,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
 
                     <br></br>
-                    <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
+                    <td id="note" style={{ padding: '1vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
                       <div style={{ breakAfter: 'page' }}></div>
                       <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
                     <div class="sign" class="onepage">

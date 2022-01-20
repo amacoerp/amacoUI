@@ -413,7 +413,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       
     })
     const json = Object.assign({}, arr);
-    
+    console.log(tempItemList);
     
     url.post(`purchaseUpdate`,formData).then((response) =>{
         
@@ -741,7 +741,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.description}
+                          value={item?.descriptions}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           multiline
@@ -1033,7 +1033,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Amount{currency_type} :</p>
+                    <p className="mb-8">Total Amount  ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
                     <p className="mb-8">Freight Charges ({currency_type})</p>
                     {/* <p className="mb-5">currency:</p> */}

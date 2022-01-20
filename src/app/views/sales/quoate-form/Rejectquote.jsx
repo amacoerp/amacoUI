@@ -218,7 +218,7 @@ const RejectQuote = () => {
       options: {
       customHeadRender: ({index, ...column}) =>{
         return (
-          <TableCell key={index} style={{width:100,textAlign:'right'}} className="pr-2">  
+          <TableCell key={index} style={{width:200,textAlign:'right'}} className="pr-2">  
             <span textAlign="right" >AMOUNT</span> 
           </TableCell>
         )
