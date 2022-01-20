@@ -67,11 +67,11 @@ export const navigations = [
         path: navigatePath + "/inv",
         // icon:"folder",
       },
-      {
-        name: "SALES RETURN",
-        path: navigatePath + "/salesreturn",
-        // icon: "folder",
-      },
+      // {
+      //   name: "SALES RETURN",
+      //   path: navigatePath + "/salesreturn",
+      //   // icon: "folder",
+      // },
     ],
     // }
     // ]
