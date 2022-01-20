@@ -165,6 +165,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
   };
   const removeData = (id) => {
+
     Swal.fire({
       title: 'Are you sure you want to delete?',
       text: 'Any products, services will be uncategorised.',
@@ -179,12 +180,12 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
       if (result.value) {
         url.delete(`categories/${id}`)
           .then(res => {
-
             getcategories().then(({ data }) => {
               catList(data)
 
             });
           })
+        setIsAlive(true);
         handleClose()
         Swal.fire({
           customClass: {
@@ -241,7 +242,9 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
   }, [])
   function getrow() {
+
     if (!catid) {
+
       url.get("categories").then(({ data }) => {
         setUserList(data);
         setIsAlive(!isAlive)
@@ -287,7 +290,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
       },
     },
     {
-      name: "action",
+      name: "id",
       label: "Action",
       options: {
         // filter: true,
