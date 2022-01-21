@@ -772,10 +772,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     //   answer.files&& (formData.append(`file${i}`,answer.files))
     // })
 
-    console.log('sasa', tempItemList);
 
     // setTimeout(() => { 
-    url.post('purchase-invoice', formData)
+    url.post('PurchaseInvoiceCreate', formData)
       .then(function (response) {
 
         Swal.fire({
@@ -785,7 +784,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "/piview/" + id)
+            history.push(navigatePath + "purchaseinvoiceview")
           })
         // window.location.href="../quoateview"
       })
@@ -880,27 +879,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
 
 
       // setState({
       //     ...state,
       //     item: data,
       //   }); 
-
-    });
-    url.get("purchase-invoice/" + id).then(({ data }) => {
-      // setproList(data)
-      setdiscount(data[0].discount_in_percentage);
-      setparty_id(data[0]?.party_id)
-      setcontactid(data[0]?.contact?.id)
-      setQuote_date(moment(data[0]?.issue_date).format('DD MMM YYYY'))
-      setponumber(data[0]?.po_number == null || data[0]?.po_number == 'null' ? '' : data[0]?.po_number)
-      console.log('sd', data[0]?.po_number);
-      setState({
-        ...state,
-        item: data[0].purchase_invoice_detail,
-      });
 
     });
     url.get("product-price").then(({ data }) => {
@@ -1091,7 +1077,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
-                <h3 align="left"> EDIT PURCHASE INVOICE</h3>
+                <h3 align="left">  PURCHASE INVOICE</h3>
               </div>
               <div className="mb-6">
 

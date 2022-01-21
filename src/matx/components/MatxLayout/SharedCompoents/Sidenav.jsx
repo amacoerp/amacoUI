@@ -80,7 +80,7 @@ const Sidenav = ({ children }) => {
         {children}
         <MatxVerticalNav
 
-          items={x == 1 ? navigations : x == 3 ? navigationPrint : navigations}
+          items={navigations}
         />
 
       </Scrollbar>

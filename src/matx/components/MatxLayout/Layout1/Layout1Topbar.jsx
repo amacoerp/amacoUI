@@ -153,6 +153,7 @@ const Layout1Topbar = () => {
       return item.id
     })
     setDivi(d);
+    setDv(localStorage.getItem('division'));
   }, [])
 
 

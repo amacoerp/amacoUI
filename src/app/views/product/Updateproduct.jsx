@@ -33,7 +33,7 @@ import "date-fns";
 // import Axios from "axios";
 // import { useParams, matchPath } from "react-router-dom";
 // import { database } from "firebase/app";
-import url, { navigatePath,data } from "../../views/invoice/InvoiceService"
+import url, { navigatePath, data } from "../../views/invoice/InvoiceService"
 
 
 
@@ -243,7 +243,6 @@ const SimpleForm = () => {
     url.get("products/" + foo).then(({ data }) => {
       if (isAlive) setUserList(data);
 
-      console.log('s', data.product[0].unit_of_measure);
       setdescription(data.product[0].description)
       setname_in_ar(data.product[0].name_in_ar)
       setunit_of_measure(data.product[0].unit_of_measure)
@@ -272,10 +271,7 @@ const SimpleForm = () => {
     });
 
     url.get("getAllCat").then(({ data }) => {
-
-      setCat(data);
-
-
+      setCat(data.filter(obj => obj.div_id == localStorage.getItem('division')));
     });
 
 
@@ -370,6 +366,7 @@ const SimpleForm = () => {
 
   const handleChange3 = (e) => {
     const subC = cat.filter(obj => obj.parent_id == e.target.value);
+
     setSubCat(subC);
 
   }
@@ -651,7 +648,7 @@ const SimpleForm = () => {
                 size="small"
               >
                 <MenuItem>Choose Sub Category</MenuItem>
-                {cat.filter(obj => obj.parent_id !== null).map((item, i) => {
+                {subCat.filter(obj => obj.parent_id !== null).map((item, i) => {
                   return (
                     <MenuItem value={item.id} key={i}>{item.name}</MenuItem>
                   )

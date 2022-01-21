@@ -1605,7 +1605,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          readonly
+                          readOnly
                           currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item.total_amount}
