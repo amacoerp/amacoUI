@@ -339,17 +339,17 @@ const SimpleMuiTable = () => {
                         ]}
                     />
 
-                    {/* <div className="text-right">
+                    <div className="text-right">
                         <Link to={"/InvoiceCreate"}>
                             <Button
                                 className="py-2"
                                 variant="outlined"
                                 color="primary"
                             >
-                                <Icon>add</Icon> GENERATE INVOICES
+                                <Icon>add</Icon> GENERATE PURCHASE INVOICES
                             </Button>
                         </Link>
-                    </div> */}
+                    </div>
                 </div>
                 <MUIDataTable
                     title={"PURCHASE INVOICE"}

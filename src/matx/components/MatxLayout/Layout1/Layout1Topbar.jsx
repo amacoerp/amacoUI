@@ -75,6 +75,7 @@ const Layout1Topbar = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const fixed = settings?.layout1Settings?.topbar?.fixed;
   const userInfo = localStorage.getItem('user')
+  const [dv, setDv] = useState('');
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [
     shouldOpenConfirmationDialog,
@@ -140,8 +141,10 @@ const Layout1Topbar = () => {
   }
 
   const changeDivision = (div_id) => {
+    setDv(div_id);
     localStorage.setItem('division', div_id)
-    window.location.reload();
+    // window.location.reload();
+    history.push('/dashboard/alternative');
   }
 
 
@@ -173,7 +176,7 @@ const Layout1Topbar = () => {
                         {divi?.includes(item.id) && (
                           <Button
                             style={{ width: 180, height: 64, position: "relative", left: -17 }}
-                            variant={item.id == localStorage.getItem('division') && "contained"}
+                            variant={item.id == dv && "contained"}
                             backgroundColor="#c7c7c7"
                             onClick={() => { changeDivision(item.id) }}>
                             <div style={{ fontWeight: "bold" }}>
