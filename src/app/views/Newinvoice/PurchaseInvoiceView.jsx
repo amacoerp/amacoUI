@@ -400,7 +400,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         }
         else {
 
-            history.push(navigatePath+"/inv")
+            history.push(navigatePath + "/inv")
             // let activeLayoutSettingsName = settings.activeLayout + "Settings";
             // let activeLayoutSettings = settings[activeLayoutSettingsName];
             // updateSettings({
@@ -734,7 +734,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pl-2 pb-4">
                                                         <span style={{ fontWeight: 1000 }}>COMPANY NAME & ADDRESS</span><br></br>
                                                         <span>{company}</span><br></br>
-                                                        <span>{street}-{city}, {zipcode}</span>
+                                                        <span>{street && street + '-'}{city && city + ','} {zipcode}</span>
 
 
                                                     </div>
@@ -776,7 +776,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="">
                                                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                                                         <br></br>
-                                                        {vatno}
+                                                        {vatno ? vatno : '--'}
 
                                                     </div>
 
@@ -815,7 +815,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }} >
                                                             رقم ضريبة القيمة المضافة
                                                         </span><br></br>
-                                                        {toArabic(vatno)}
+                                                        {toArabic(vatno) == undefined ? toArabic(vatno) : "--"}
 
                                                     </div>
                                                 </div>
@@ -847,7 +847,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         </span><br></br>
                                                         <span>{cname_ar}</span><br></br>
                                                         {/* <span>{companyaddress}</span> */}
-                                                        <span>{street_ar}-{city_ar}, {toArabic(zipcode)}</span>
+                                                        <span>{street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)}</span>
 
 
 

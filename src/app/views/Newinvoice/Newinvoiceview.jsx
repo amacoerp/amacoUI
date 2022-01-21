@@ -954,7 +954,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}>                          رقم ضريبة
                         </span><br></br>
-                        {toArabic(vatno)}
+                        {toArabic(vatno) == 'null' || toArabic(vatno) == null ? '--' : toArabic(vatno)}
 
 
                       </Grid>
