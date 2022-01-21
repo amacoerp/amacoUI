@@ -199,8 +199,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? (newValue?.name? newValue?.name:event?.target?.value) :(event?.target?.value)
-        element['descriptions'] = newValue?.id ? (newValue?.name? newValue?.name:event?.target?.value) :(event?.target?.value)
+        element['product'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
+        element['descriptions'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
         element['product_name'] = newValue?.id ? newValue?.name : newValue?.name
         element['product_id'] = newValue?.id ? newValue?.id : 0
         element['product_price_list'] = price ? price : null
@@ -411,18 +411,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
     const json = Object.assign({}, arr);
     console.log(tempItemList);
-    
-    url.post(`purchaseUpdate`,formData).then((response) =>{
-        
-       
-        Swal.fire({
-          title: 'Success',
-          type: 'success',
-          icon: 'success',
-          text: 'Data saved successfully.',
-        });
-        history.push("../Newinvoiceview")
-      })
+
+    url.post(`purchaseUpdate`, formData).then((response) => {
+
+
+      Swal.fire({
+        title: 'Success',
+        type: 'success',
+        icon: 'success',
+        text: 'Data saved successfully.',
+      });
+      history.push("../Newinvoiceview")
+    })
       .catch(function (error) {
 
       })
@@ -610,7 +610,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <Icon>add</Icon>New
                     {/* </Button> */}
                   </MenuItem>
-                  {values?.vendorList.filter(obj => obj?.party_division[0]?.div_id === divisionId).map((item) => (
+                  {/* {values?.vendorList.filter(obj => obj?.party_division[0]?.div_id === divisionId).map((item) => ( */}
+                  {values?.vendorList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
                     </MenuItem>
@@ -734,7 +735,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.descriptions?item?.descriptions:item?.description}
+                          value={item?.descriptions ? item?.descriptions : item?.description}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           multiline

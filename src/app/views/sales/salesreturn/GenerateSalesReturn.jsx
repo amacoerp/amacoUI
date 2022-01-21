@@ -639,7 +639,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                     </MenuItem>
 
-                                    {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
+                                    {CustomerList.map((item) => (
 
                                         <MenuItem value={item.id} key={item.id}>
                                             {item.firm_name}

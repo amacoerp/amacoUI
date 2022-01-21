@@ -541,7 +541,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       id: 0,
       description: " ",
       descriptions: " ",
-      unit_of_measure:" ",
+      unit_of_measure: " ",
       quantity: 0,
       product_price_list: [
         {
@@ -578,11 +578,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-      
-        
-       
+
+
+
         tempItemList.splice(index, 1);
-        
+
         console.log(tempItemList)
         setState({
           ...state,
@@ -1169,7 +1169,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <Icon>add</Icon>New
                     {/* </Button> */}
                   </MenuItem>
-                  {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
+                  {CustomerList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
                     </MenuItem>

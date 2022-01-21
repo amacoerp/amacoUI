@@ -632,7 +632,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         <Icon>add</Icon>New
                                         {/* </Button> */}
                                     </MenuItem>
-                                    {values?.vendorList.filter(obj => obj?.party_division[0]?.div_id === divisionId).map((item) => (
+                                    {values?.vendorList.map((item) => (
                                         <MenuItem value={item.id} key={item.id}>
                                             {item.firm_name}
                                         </MenuItem>
