@@ -111,7 +111,7 @@ const SimpleMuiTable = () => {
     else {
       url.get("categories").then(({ data }) => {
 
-        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+        const d = data.filter(obj => obj.div_id == GDIV)
 
         setcatList(d);
         setOriginalList(d);

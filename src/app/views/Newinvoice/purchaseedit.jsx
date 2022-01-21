@@ -199,7 +199,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue?.name
+        element['product'] = newValue?.id ? (newValue?.name? newValue?.name:event?.target?.value) :(event?.target?.value)
+        element['descriptions'] = newValue?.id ? (newValue?.name? newValue?.name:event?.target?.value) :(event?.target?.value)
         element['product_name'] = newValue?.id ? newValue?.name : newValue?.name
         element['product_id'] = newValue?.id ? newValue?.id : 0
         element['product_price_list'] = price ? price : null
@@ -470,7 +471,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get("purchase-quotation/" + id).then(({ data }) => {
       // setparty_id(data[0]?.party_id)
       updateCont(data[0]?.party_id, data[0].contact?.id);
-
+      setcurrency_type(data[0]?.currency_type)
       setcharge(data[0]?.vat_in_value)
       settotal(data[0]?.net_amount)
       setState({
@@ -732,7 +733,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.descriptions}
+                          value={item?.descriptions?item?.descriptions:item?.description}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           multiline
