@@ -60,6 +60,7 @@ const ModifiedAreaChart = ({ height, option ,maxVal}) => {
       axisLabel: {
         color: "#ccc",
         margin: 0,
+        // marginLeft:10,
         fontSize: 13,
         fontFamily: "roboto",
       },
