@@ -470,7 +470,7 @@ const SimpleMuiTable = () => {
             </Card> */}
 
             {catList.map((item, ind) => (
-              <Grid item xs>
+              <Grid key={ind} item xs>
                 <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                   <div className="text-right">
 
