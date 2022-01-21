@@ -215,9 +215,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
+
         if (id) {
           url.delete(`rfq_details/${id}`).then(data)
           setIsAlive(true);
+        } else {
+          let tempItemList = [...state.item];
+          tempItemList.splice(index, 1);
+
+          setState({
+            ...state,
+            item: tempItemList,
+          });
         }
         // let tempItemList = [...state.item];
         // tempItemList.splice(index, 1);
@@ -390,7 +399,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       formData.append('rfq_details', JSON.stringify(tempItemList))
       formData.append('requested_date', rdate)
-      formData.append('require_date', rdate)
+      formData.append('require_date', ddate)
       formData.append('rfq_id', id)
       formData.append('user_id', user.id)
       formData.append('div_id', localStorage.getItem('division'))
@@ -465,7 +474,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
 

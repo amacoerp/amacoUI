@@ -1115,7 +1115,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         label="Grand Total"
                         variant="outlined"
                         fullWidth
-                        readonly
+                        readOnly
                         size="small"
                         currencySymbol={currency_type}
                         name="net_amount"

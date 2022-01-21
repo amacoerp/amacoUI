@@ -355,7 +355,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     // updateSidebarMode({ mode: "close" })
 
     url.get("sale-quotation/" + id).then(({ data }) => {
-      if (s == "New") {
+      if (s == "new") {
         settab(0)
       }
       else if (s == "draft") {

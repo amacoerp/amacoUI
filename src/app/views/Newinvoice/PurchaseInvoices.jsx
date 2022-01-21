@@ -77,6 +77,7 @@ const SimpleMuiTable = () => {
             if (data.length) {
 
                 setpoid(data[0].id)
+                console.log(data);
                 setpodetails(data);
             }
         });
@@ -298,7 +299,7 @@ const SimpleMuiTable = () => {
                     console.log(tableMeta.rowData)
                     return (
                         <div style={{ textAlign: "right" }} className="pr-8">
-                            <Link to={navigatePath+"/piview/" + tableMeta.rowData[7]}>
+                            <Link to={navigatePath + "/piview/" + tableMeta.rowData[7]}>
                                 <Tooltip title="view more">
                                     <Icon color="primary">remove_red_eye</Icon>
                                 </Tooltip>
@@ -352,8 +353,7 @@ const SimpleMuiTable = () => {
                 </div>
                 <MUIDataTable
                     title={"PURCHASE INVOICE"}
-                    data={podetails.map((item, index) => {
-
+                    data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
                         return [
                             ++index,
 

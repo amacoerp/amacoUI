@@ -21,6 +21,7 @@ import url, { ApiKey, navigatePath } from "../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import moment from "moment";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
+import useAuth from '../../hooks/useAuth';
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -43,6 +44,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [state, setState] = useState(initialValues);
     const [cname, setcname] = useState('');
     var tempDate = new Date();
+    const { user } = useAuth();
+
     const [qno, setqno] = useState('');
     const [pono, setpono] = useState('');
     const [party_id, setparty_id] = useState('');
@@ -74,7 +77,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         tempItemList.map((element, i) => {
             let sum = 0;
-            console.log('ds', element.purchase_price);
 
             if (index === i) {
 
@@ -129,7 +131,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // arr.push({
         //   invoice_details:tempItemList,
         // });
-        console.log(tempItemList)
         arr.invoice_details = tempItemList
         arr.quotation_id = parseInt(id)
         arr.discount_in_percentage = discount
@@ -141,7 +142,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.invoice_no = pono
         arr.file = state?.file
 
-        console.log('sss', tempItemList);
 
         formData.append('file', state?.file)
         // formData.append('invoice_details', tempItemList)
@@ -154,44 +154,43 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         formData.append('ps_date', tempDate)
         formData.append('invoice_no', pono)
         formData.append('party_id', party_id)
+        formData.append('div_id', localStorage.getItem('division'))
+        formData.append('user_id', user.id)
+        formData.append('party_id', party_id)
 
         tempItemList.map((answer, i) => {
             formData.append(`invoice_details${i}`, JSON.stringify(answer))
         })
 
         const json = Object.assign({}, arr);
-        console.log("ss", formData);
-        setTimeout(() => {
-            url.post('purchase-invoice', formData)
-                .then(function (response) {
-                    console.log(response);
 
-                    Swal.fire({
-                        title: 'Success',
-                        type: 'success',
-                        icon: 'success',
-                        text: 'Data saved successfully.',
-                    });
-                    history.push(navigatePath + "/purchaseinvoiceview")
-                    //  window.location.href="../quoateview"
-                })
-                .catch(function (error) {
+        url.post('purchase-invoice', formData)
+            .then(function (response) {
 
-                })
-        }, 5000);
+                Swal.fire({
+                    title: 'Success',
+                    type: 'success',
+                    icon: 'success',
+                    text: 'Data saved successfully.',
+                });
+                history.push(navigatePath + "/purchaseinvoiceview")
+                //  window.location.href="../quoateview"
+            })
+            .catch(function (error) {
+
+            })
+
     };
 
     const handleChangeImage = (event) => {
-        console.log("sdsd");
         setState({
             ...state,
             [event.target.name]: event.target.files[0],
         });
-        console.log({ state });
 
     }
     function cancelform() {
-        history.push(`/quote/${id}/accept`)
+        history.push(`/Newinvoiceview`)
     }
 
     useEffect(() => {
@@ -577,9 +576,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     size="small"
                                                     inputProps={{ style: { textTransform: 'capitalize' } }}
                                                     value={item ? item.description : null}
-                                                    validators={["required"]}
+                                                    // validators={["required"]}
                                                     multiline
-                                                    errorMessages={["this field is required"]}
+                                                    required
+                                                // errorMessages={["this field is required"]}
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left">
