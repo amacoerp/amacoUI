@@ -791,7 +791,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
     console.log("sign", user.id)
     getCustomerList().then(({ data }) => {
-      // console.log(data)
+      console.log(data)
       setCustomerList(data);
 
 
@@ -1073,7 +1073,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   </MenuItem>
 
-                  {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
+                  {CustomerList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
                     </MenuItem>
