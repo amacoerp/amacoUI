@@ -340,7 +340,7 @@ const SimpleMuiTable = () => {
                     />
 
                     <div className="text-right">
-                        <Link to={"/InvoiceCreate"}>
+                        <Link to={"/purchaseinvoicegenarate"}>
                             <Button
                                 className="py-2"
                                 variant="outlined"
