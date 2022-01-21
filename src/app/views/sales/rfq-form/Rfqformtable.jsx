@@ -25,6 +25,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
   useEffect(() => {
     getProductList().then(({ data }) => {
 
+      console.log(data);
       if (isAlive) setProductList(data)
       // arrayHelpers.push({})
 

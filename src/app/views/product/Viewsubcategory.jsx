@@ -90,16 +90,16 @@ const SimpleMuiTable = () => {
   useEffect(() => {
 
     url.get("unCategorized-products").then(({ data }) => {
-      const d = data.filter(obj => obj.div_id == GDIV)
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       setOCount(d.length)
     });
     url.get("products").then(({ data }) => {
-      const d = data.filter(obj => obj.div_id == GDIV)
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       setUserList(d);
     });
     if (catid) {
       url.get("categories").then(({ data }) => {
-        const d = data.filter(obj => obj.div_id == GDIV)
+        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
 
         setcatList(d);
         setOriginalList(d);
@@ -111,7 +111,7 @@ const SimpleMuiTable = () => {
     else {
       url.get("categories").then(({ data }) => {
 
-        const d = data.filter(obj => obj.div_id == GDIV)
+        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
 
         setcatList(d);
         setOriginalList(d);
@@ -478,7 +478,6 @@ const SimpleMuiTable = () => {
                       aria-haspopup="true"
                       onClick={(event) => handleClick(event, item.id)}
                     >
-                      <Badge badgeContent={item?.totalProducts} style={{ paddingRight: 8, position: "relative", left: 7 }} color="primary" />
 
                       <Tooltip title="Subcategory list">
                         <Icon color="primary" style={{ paddingRight: 12 }}>expand_more</Icon>
@@ -513,7 +512,8 @@ const SimpleMuiTable = () => {
                   <div className="pb-5 flex justify-center">
                     <div style={{ display: 'flex', marginLeft: '0.5rem', textAlign: "center" }}>
 
-                      <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >{item.name.toUpperCase()}</h6></strong>
+                      <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >{item.name.toUpperCase()}<Badge badgeContent={item?.totalProducts} style={{ paddingRight: 8, position: "relative", left: 6, top: "-10px" }} color="primary" />
+                      </h6></strong>
                     </div>
                     <div className="px-4">
                       {/* <IconButton size="small"  aria-owns={anchorEl ? "simple-menu" : undefined}

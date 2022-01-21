@@ -697,7 +697,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
                   }}>
                     <Icon>add</Icon>Category
                   </MenuItem>
-                  {cat.map((item, i) =>
+                  {cat.filter(obj => obj.category.div_id == localStorage.getItem('division')).map((item, i) =>
                   (
 
 
@@ -717,7 +717,6 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
                       {item.sub_categories.length > 0 && item.sub_categories.map((items, i) =>
                       (
                         <>
-
                           <MenuItem onClick={() => onchange1(items.id, items.name)}>{items.name}</MenuItem>
                         </>
                       ))}
