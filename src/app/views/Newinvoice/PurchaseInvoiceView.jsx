@@ -610,6 +610,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <MenuItem onClick={() => handlePrinting()}>
                                 PRINT INVOICE
                             </MenuItem>
+                            <MenuItem onClick={() => history.push(`/piedit/${id}`)}>
+                                EDIT INVOICE
+                            </MenuItem>
 
 
                         </Menu>

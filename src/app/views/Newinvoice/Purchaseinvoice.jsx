@@ -4,6 +4,7 @@ import {
     Divider,
     Card,
     Table,
+    TextField,
     TableHead,
     TableRow,
     TableCell, Fab,
@@ -63,9 +64,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setState((state) => ({ ...state, id }));
     }, []);
 
+    let dis_per = parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      });
 
-
-
+    const handleChange = (event, fieldName) => {
+        // setState({ ...state, ['discount']:event.target.value });
+        event.persist();
+    
+    
+        let tempItemList = [...state.item];
+        setdstatus(true)
+        setdiscount(event.target.value)
+        setdiscounts(event.target.value)
+    
+        // setState({ ...state, ['vat']: vat });
+        // setState({ ...state, ['net_amount']: GTotal });
+        // setdstatus(true)
+    
+    
+    
+      };
 
 
     const handleIvoiceListChange = (event, index) => {
@@ -484,6 +503,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         subTotalCost += parseFloat(item.total_amount)
                                         // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                                         vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
+                                        dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
                                         GTotal = ((subTotalCost - parseFloat(discounts * subTotalCost / 100)) + parseFloat(vat)).toFixed(2);
                                     }
                                     // vat= (discount * 15) / 100
@@ -727,17 +747,51 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 inputProps={{min: 0, style: { textAlign: 'right' }}}
                 value={discount}
               /> */}
-                                    <CurrencyTextField
-                                        className="w-full mb-4"
-                                        label="Discount"
-                                        style={{ width: '250px' }}
-                                        variant="outlined"
-                                        fullWidth
-                                        size="small"
-                                        currencySymbol="SAR"
-                                        name="vat"
-                                        value={discount}
-                                    />
+                                    <div>
+                      <TextField
+                        className="mb-4 mr-2"
+                        label="Discount %"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        readOnly
+                        style={{ width: '90px' }}
+                        onChange={(event) => handleChange(event, "discount")}
+                        inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                        value={discount}
+                      // style={{width:50}}
+                      // validators={["required"]}
+                      // errorMessages={["this field is required"]}
+                      />
+
+
+                      {/* <TextField
+                className="mb-4 ml-2"
+                label="Discount"
+                type="text"
+                variant="outlined"
+                size="small"
+                name="dis_per"
+                style={{width:'90px'}}
+                inputProps={{min: 0, style: { textAlign: 'right' }}}
+                // onChange={(event) => handleChange(event, "discount")}
+                value={discount?dis_per:0.00}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+              /> */}
+                      <CurrencyTextField
+                        className="w-full"
+                        label="Discount"
+                        style={{ width: '150px' }}
+                        name="dis_per"
+                        variant="outlined"
+                        fullWidth
+                        readOnly
+                        size="small"
+                        currencySymbol="SAR"
+                        value={dis_per}
+                      />
+                    </div>
                                     {/* <TextValidator
                 className="mb-4"
                 label="Vat"

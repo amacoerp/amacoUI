@@ -470,6 +470,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("purchase-quotation/" + id).then(({ data }) => {
       // setparty_id(data[0]?.party_id)
+      setQuote_date(moment(data[0].ps_date).format('DD MMM YYYY'))
       updateCont(data[0]?.party_id, data[0].contact?.id);
       setcurrency_type(data[0]?.currency_type)
       setcharge(data[0]?.vat_in_value)

@@ -43,7 +43,10 @@ const NewinvoiceRoutes = [
     component: React.lazy(() => import("./PurchaseInvoiceView.jsx"))
   },
 
-  
+  {
+    path: navigatePath+"/piedit/:id",
+    component: React.lazy(() => import("./PurchaseInvoiceEdit.jsx"))
+  },
   
 ];
 

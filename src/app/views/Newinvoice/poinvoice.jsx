@@ -375,7 +375,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       setqid(data[0].id)
       setrno(data[0]?.rfq?.id)
-      setrdate(moment(data[0].updated_at).format('DD MMM YYYY'))
+      setrdate(moment(data[0].ps_date).format('DD MMM YYYY'))
       setcompany(data[0].party.firm_name)
       setcity(data[0].party.city)
       setstreet(data[0].party.street)

@@ -56,9 +56,10 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
               {values?.rfq_details?.map((item, ind) => (
 
-                <TableRow className="position-relative" key={ind}>
+                <TableRow className="position-relative" key={item.id}>
                   <TableCell className="pl-0" align="left">
                     {ind + 1}
+                  
                   </TableCell>
                   <TableCell>
                     {item?.name && (<Icon
@@ -232,7 +233,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                     <IconButton
                       size="small"
                       // onClick={(e) => arrayHelpers.remove(values?.rfq_details.findIndex(e))}
-                      onClick={(item) => arrayHelpers.remove(ind)}
+                      onClick={() => arrayHelpers.remove(item)}
                     >
                       <Icon color="error" fontSize="small">
                         delete
