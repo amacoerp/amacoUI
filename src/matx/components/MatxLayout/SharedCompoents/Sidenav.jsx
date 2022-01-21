@@ -67,7 +67,6 @@ const Sidenav = ({ children }) => {
   };
   useEffect(() => {
     setx(localStorage.getItem("division"))
-    console.log(localStorage.getItem("division"))
   })
 
   return (
