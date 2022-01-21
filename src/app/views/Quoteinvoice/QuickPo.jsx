@@ -436,7 +436,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.currency_type = currency_type
     arr.transport = 0.00
     arr.other = 0.00
-    arr.div_id = GDIV
+    arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
     const json = Object.assign({}, arr);
     console.log(arr)

@@ -126,7 +126,7 @@ const InvoiceForm = ({ }) => {
       formData.append("myFile" + a, upload[a], upload[a].name);
     }
     values.party_id = party_id;
-    formData.append('div_id', GDIV)
+    formData.append('div_id', localStorage.getItem('division'))
     formData.append('user_id', user.id)
     for (const [key, value] of Object.entries(values)) {
       let list = [];

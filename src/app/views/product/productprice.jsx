@@ -77,11 +77,11 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
             // });
           })
-          try {
-            fun(true);
-          } catch (error) {
-            
-          }
+        try {
+          fun(true);
+        } catch (error) {
+
+        }
         handleClose()
 
         setcname('');
@@ -146,7 +146,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
     setcname(partyids)
     url.get("parties-except/" + catid).then(({ data }) => {
 
-      setcustomerList(data)
+      setcustomerList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

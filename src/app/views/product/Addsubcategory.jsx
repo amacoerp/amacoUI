@@ -137,7 +137,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
 
                 getcategories().then(({ data }) => {
-                  const d = data.filter(obj => obj.div_id == GDIV)
+                  const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
                   catList(d)
 
                 });

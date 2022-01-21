@@ -168,7 +168,7 @@ const Addparty = ({ open, handleClose }) => {
       zip_code_ar: toArabic(zip_code),
       vat_no_in_ar: toArabic(vat_no),
       user_id: user.id,
-      div_id: GDIV
+      div_id: localStorage.getItem('division')
 
     }
 
@@ -779,7 +779,7 @@ const Addparty = ({ open, handleClose }) => {
 
                 id="checkboxes-tags-demo"
                 size="small"
-                options={paiddivision_account.filter(obj => obj.type === "division")}
+                options={paiddivision_account.filter(obj => obj.type === "division" && obj.name == "Trading Division" || obj.name == "Printing Division")}
 
                 getOptionLabel={(option) => option.name}
                 onChange={(event: any, value: string[] | null) => handleMultiselect(value)}

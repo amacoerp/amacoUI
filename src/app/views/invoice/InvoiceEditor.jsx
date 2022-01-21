@@ -393,7 +393,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       formData.append('require_date', rdate)
       formData.append('rfq_id', id)
       formData.append('user_id', user.id)
-      formData.append('div_id', GDIV)
+      formData.append('div_id', localStorage.getItem('division'))
       tempItemList.map((answer, i) => {
 
         formData.append(`file${i}`, answer.files ? answer.files : null)
