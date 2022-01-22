@@ -253,11 +253,12 @@ const Analytics2 = () => {
     
    
     var filterResult=result.filter(o1 =>parentData.map(o2 => o1.parent_account.id === o2.id))
+    console.log(filterResult)
     // console.log(filterResult.filter( (ele, ind) => ind === filterResult.findIndex( elem => elem.parent_account.id === ele.parent_account.id)))
      
 
       var arr2 = filterResult.map(v => ({ name: v.parent_account.name, value: parseFloat(v.amount) }));
-    // console.log(parentData)
+       
 
     settempList(arr2)
     

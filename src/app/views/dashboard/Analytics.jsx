@@ -15,6 +15,11 @@ import DueInvoice from './DueInvoice';
 import AccountStatement from './AccountStatement';
 import ExpenseCategory from "./expenseCategory";
 import moment from 'moment';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { TreeItem } from "@material-ui/lab";
 
 
@@ -76,6 +81,8 @@ const Analytics = () => {
   const [data, setdata] = useState();
   const [maxVal, setmaxVal] = useState('');
   const [perList, setPerList] = useState('');
+  const [date, setdate] = useState(moment(new Date()).format('YYYY'));
+  const [responseData, setresponseData] = useState([]);
 
   var obj;
   var parentData;
@@ -95,16 +102,19 @@ const Analytics = () => {
       // );
 
       // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-      var result = data.map((item, i) => {
+      setresponseData(data)
+      var result = data.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
         item['debit'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
         item['count'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
         item['month'] = moment(item.created_at).format('MMM');
 
         return item
       })
+
       var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
 
       var finalResult = months.filter(function (o1) {
+
         return Due.map(function (o2) {
           if (o1.name == o2.month) {
             o1['count'] = o2.count
@@ -117,12 +127,15 @@ const Analytics = () => {
           // return the ones with equal id
         });
       });
+
       var finalArray = finalResult.map(function (obj) {
         return obj.count;
       });
+
       setdata(finalArray);
+
       setmaxVal(Math.max(...finalArray))
-      console.log(Math.max(...finalArray))
+
       // return the ones with equal id
 
 
@@ -132,25 +145,118 @@ const Analytics = () => {
 
     });
 
+    //  return setdate(true);
+
 
 
   }, [])
 
+  const handleChange = (i) => {
+    console.log(parseInt(i))
+    // setPerList(compPer);
+    // setdate(moment(i).format('YYYY'));
+    getpaidDivision().then(({ data }) => {
+
+      var arrVal = data.sort(function (obj1, obj2) {
+        return obj1.type.localeCompare(obj2.type);
+      });
+    })
+    //  setlinegraph(option)
+    url.get('invoice').then(({ data }) => {
 
 
+      const result = responseData.filter(obj => moment(obj.created_at).format('YYYY') == parseInt(i)).map((item, i) => {
+        console.log(item.created_at)
+        item['debit'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+        item['count'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        item['month'] = moment(item.created_at).format('MMM');
+
+        return item
+      })
+
+      const Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
+      console.log(Due)
+      const finalResult = months.filter(function (o1) {
+
+        return Due.map(function (o2) {
+          if (o1.name == o2.month) {
+
+            o1['count'] = o2.count
+
+
+
+          }
+          else {
+            o1['count'] = 0
+          }
+
+
+        });
+      });
+
+      var finalArray = finalResult.map(function (obj) {
+
+        return obj.count;
+      });
+
+
+      setmaxVal(Math.max(...finalArray))
+      if (result.length) {
+        setdata(finalArray);
+        // setmaxVal(Math.max(...finalArray))
+      }
+      else {
+        //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
+        setdata([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      }
+
+
+
+    });
+
+
+
+
+  }
 
 
   return (
     <Fragment>
-      <div className="pb-24 pt-7 px-8 bg-primary">
+      <div className="pb-24 pt-7 px-8 bg-primary pl-12">
         {/* {perList?.includes("Last 12 Months Sales") ? "" : <> */}
 
 
-        <div className="card-title capitalize text-white mb-4 text-white-secondary">
-          Last 12 months sales
+        <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
+          <div>
+            Last 12 months sales
+          </div>
+          <div>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                className="m-2"
+                margin="none"
+                label="Select Year"
+                format="yyyy"
+                inputVariant="outlined"
+                type="text"
+                size="small"
+                selected={date}
+                value={date}
+                views={["year"]}
+                onChange={(date) => {
+
+                  setdate(moment(date).format('YYYY'))
+                  handleChange(moment(date).format('YYYY'))
+                  // return date
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </div>
+
         </div>
         <ModifiedAreaChart
           height="280px"
+          className="pl-12"
           maxVal={maxVal}
           option={{
             series: [
