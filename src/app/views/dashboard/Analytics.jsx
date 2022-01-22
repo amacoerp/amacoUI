@@ -229,12 +229,11 @@ const Analytics = () => {
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
           <div>
             Last 12 months sales
-          </div>
-          <div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 className="m-2"
                 margin="none"
+
                 label="Select Year"
                 format="yyyy"
                 inputVariant="outlined"
@@ -242,7 +241,9 @@ const Analytics = () => {
                 size="small"
                 selected={date}
                 value={date}
+                style={{ float: "right" }}
                 views={["year"]}
+
                 onChange={(date) => {
 
                   setdate(moment(date).format('YYYY'))
@@ -253,36 +254,39 @@ const Analytics = () => {
             </MuiPickersUtilsProvider>
           </div>
 
+
         </div>
-        <ModifiedAreaChart
-          height="280px"
-          className="pl-12"
-          maxVal={maxVal}
-          option={{
-            series: [
-              {
-                data: data,
-                type: "line",
-              },
-            ],
-            xAxis: {
-              data: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
+        <div className="container">
+          <ModifiedAreaChart
+            height="280px"
+            className="pl-12"
+            maxVal={maxVal}
+            option={{
+              series: [
+                {
+                  data: data,
+                  type: "line",
+                },
               ],
-            },
-          }}
-        />
+              xAxis: {
+                data: [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ],
+              },
+            }}
+          />
+        </div>
 
 
         {/* </>} */}

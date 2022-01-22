@@ -145,7 +145,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
   useEffect(() => {
     setcname(partyids)
     url.get("parties-except/" + catid).then(({ data }) => {
-
+      console.log(data);
       setcustomerList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
     })
 
