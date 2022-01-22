@@ -4,7 +4,7 @@ import { merge } from "lodash";
 
 
 
-const ModifiedAreaChart = ({ height, option ,maxVal}) => {
+const ModifiedAreaChart = ({ height, option, maxVal }) => {
   const defaultOption = {
     grid: {
       top: 16,
@@ -16,7 +16,7 @@ const ModifiedAreaChart = ({ height, option ,maxVal}) => {
     tooltip: {
       show: true,
       trigger: "axis",
-  
+
       axisPointer: {
         type: "cross",
         lineStyle: {
@@ -56,12 +56,12 @@ const ModifiedAreaChart = ({ height, option ,maxVal}) => {
     yAxis: {
       type: "value",
       min: 0,
-      max: Math.round(maxVal)+1000,
+      max: Math.round(maxVal) + 1000,
       axisLabel: {
         color: "#ccc",
         margin: 0,
         // marginLeft:10,
-        fontSize: 13,
+        fontSize: 9,
         fontFamily: "roboto",
       },
       splitLine: {
@@ -70,7 +70,7 @@ const ModifiedAreaChart = ({ height, option ,maxVal}) => {
           color: "rgba(255, 255, 255, .1)",
         },
       },
-  
+
       axisLine: {
         show: false,
       },
@@ -103,7 +103,7 @@ const ModifiedAreaChart = ({ height, option ,maxVal}) => {
     <ReactEcharts
       style={{ height: height }}
       option={merge({}, defaultOption, option)}
-      
+
     />
   );
 };
