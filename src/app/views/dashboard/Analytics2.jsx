@@ -588,7 +588,7 @@ const Analytics2 = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TablefBody>
             {paiddivision_account.map((product, index) => (
               <TableRow key={index} hover>
                 <TableCell className="px-0 capitalize" colSpan={4} align="left">
@@ -625,7 +625,7 @@ const Analytics2 = () => {
                 </TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TablefBody>
         </Table> */}
         <MUIDataTable
         data={
