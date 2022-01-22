@@ -81,10 +81,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [total, settotal] = useState(0.00);
     const [catid, setcatid] = useState();
     const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
+    const [Tabledata, setTabledata] = useState([])
     const { user } = useAuth()
 
 
-    // purchasereturn states
+   
 
     const [poNumbers, setPoNumbers] = useState([]);
     const [pData, setPData] = useState([]);
@@ -180,7 +181,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const filterOptions = (options, params) => {
         const filtered = filter(options, params);
-        // if (params.inputValue !== "") {
+       
         filtered.push({
             inputValue: params.inputValue,
             name: `Add "${params.inputValue}"`
@@ -188,21 +189,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // }
         return filtered;
     };
-    const charges = (e) => {
-        vat = e.target.value
-        GTotal = 50 + vat
-    }
+  
 
     const handleChangesPO = (event, newValue, index) => {
 
 
-        url.get(`getProductsPR/${newValue.po_number}`).then(({ data }) => {
-            setproList(data.getPData)
-
-        });
-
-
-        // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
+       
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
         let tempItemList = [...state.item];
@@ -210,7 +202,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
+                console.log(element)
                 element['po_number'] = newValue?.id ? newValue?.po_number : newValue
+                setproList(element.podata)
             }
             return element;
         });
@@ -221,12 +215,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
     };
     const handleChanges = (event, newValue, index) => {
-        // console.log(newValue.id);
-        // console.log(newValue.name);
-        // console.log(newValue.po_number);
+       
 
 
-        const pD = proList.filter(obj => obj.product_id == newValue.product_id)
+        const pD = proList?.filter(obj => obj?.product_id == newValue?.product_id)
 
 
 
@@ -237,7 +229,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-        // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
+       
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
         let tempItemList = [...state.item];
@@ -248,7 +240,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 element['product_name'] = newValue?.id ? newValue?.description : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.product_id : newValue
-                // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
+               
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
             }
@@ -260,38 +252,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             item: tempItemList,
         });
     };
-    const handleIvoiceListChange = (event, index, newValue) => {
-        event.persist()
-        let tempItemList = [...state.item];
 
-        tempItemList.map((element, i) => {
-            let sum = 0;
-
-            if (index === i) {
-
-
-                element['total_amount'] = ((newValue.price ? newValue.price : newValue) * element.quantity).toFixed(2);
-                element['purchase_price'] = newValue.price ? newValue.price : newValue;
-                // element[event.target.name] = event.target.value;
-                element.margin = "";
-                element.sell_price = "";
-                element['remark'] = "";
-
-
-
-            }
-            return element;
-
-        });
-
-        setState({
-            ...state,
-            item: tempItemList,
-        });
-
-
-
-    };
 
 
 
@@ -323,20 +284,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
         })
     };
-    const filterPrice = (options, params) => {
-        // console.log(params.inputValue)
-
-        // const filtered = filter(options, params);
-
-        // // if (params.inputValue == "") {
-        //   filtered.push({
-        //     inputValue: params.inputValue,
-        //     price: params.inputValue,
-        //     amount: params.inputValue
-        //   });
-        // }
-        // return filtered;
-    };
+    
 
     const calcualteprice = (event, index) => {
         event.persist()
@@ -377,7 +325,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
 
             if (index === i) {
-                element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
+                // element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
                 element[event.target.name] = event.target.value;
                 element['remark'] = "";
             }
@@ -396,12 +344,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const setproductids = (id, index) => {
-        setcatid(id)
-        setpartyids(party_id)
-        setShouldOpenEditorDialog(true)
-    }
-
+   
 
     const handleSubmit = () => {
 
@@ -494,6 +437,15 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         url.get("product-price").then(({ data }) => {
             setPriceList(data)
         });
+        url.get(`getPurchaseReturnINV/${id}`).then(({ data }) => {
+            console.log(data);
+
+            
+            setState({
+                ...state,
+                item: data.getReturnItems,
+              });
+        })
 
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);
@@ -769,7 +721,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.po_number;
+                                                        return option?.po_number?option?.po_number:" ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -788,7 +740,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     size="small"
                                                     options={proList ? proList : []}
                                                     name="product_id"
-                                                    value={item?.name}
+                                                    value={item?.description}
                                                     filterOptions={filterOptions}
                                                     renderOption={option => option.description}
                                                     multiline
@@ -800,7 +752,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.description;
+                                                        return option?.description?option.description:" ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -820,11 +772,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                                     variant="outlined"
                                                     size="small"
-                                                    name="description"
+                                                    name="product_description"
                                                     multiline
                                                     fullWidth
                                                     onChange={(event) => po_description(event, index)}
-                                                    value={state.description}
+                                                    value={item.product_description}
 
                                                 />
                                             </TableCell>
@@ -893,32 +845,35 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         ))} 
                     </TextField> */}
 
-                                                <Autocomplete
+                                                <TextField
 
                                                     className="w-full"
                                                     size="small"
-                                                    options={item?.product_price_list}
+                                                    variant="outlined"
+                                                   
+                                                    // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={item?.purchase_price}
+                                                    onChange={(event) => calcualteprice(event, index)}
                                                     // filterOptions={filterPrice}
-                                                    renderOption={option => option.price}
-                                                    getOptionLabel={option => {
-                                                        // e.g value selected with enter, right from the input
-                                                        if (typeof option === "string") {
-                                                            return option;
-                                                        }
-                                                        if (option.inputValue) {
-                                                            return option.inputValue;
-                                                        }
-                                                        return option.price;
-                                                    }}
-                                                    freeSolo
-                                                    renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
-                                                    )}
+                                                    // renderOption={option => option.price}
+                                                    // getOptionLabel={option => {
+                                                    //     // e.g value selected with enter, right from the input
+                                                    //     if (typeof option === "string") {
+                                                    //         return option;
+                                                    //     }
+                                                    //     if (option.inputValue) {
+                                                    //         return option.inputValue;
+                                                    //     }
+                                                    //     return option?.price?option?.price:" ";
+                                                    // }}
+                                                    // freeSolo
+                                                    // renderInput={(params) => (
+                                                    //     <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
+                                                    // )}
                                                     // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                                                    onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
-                                                    onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                                                    // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                                                    // onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
 
                                                 />
 

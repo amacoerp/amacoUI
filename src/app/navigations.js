@@ -34,16 +34,16 @@ export const navigations = [
         name: "PURCHASE ORDER",
         path: navigatePath + "/Newinvoiceview",
       },
-      // {
-      //   name: "PURCHASE INVOICE",
-      //   path: navigatePath+ "/purchaseinvoiceview",
+      {
+        name: "PURCHASE INVOICE",
+        path: navigatePath+ "/purchaseinvoiceview",
 
-      // },
-      // {
-      //   name: "PURCHASE RETURN",
-      //   path: "/purchasereturn",
+      },
+      {
+        name: "PURCHASE RETURN",
+        path: "/purchasereturn",
 
-      // },
+      },
     ],
   },
   {

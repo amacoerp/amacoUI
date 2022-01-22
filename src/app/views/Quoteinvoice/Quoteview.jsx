@@ -398,8 +398,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setis_revised(data[0]?.is_revised)
       setpayment_terms(data[0]?.payment_terms)
       setdelivery_time(data[0]?.delivery_time)
-      settransport(isNaN(data[0]?.transport) ? 0 : parseFloat(data[0]?.transport))
-      setother(isNaN(data[0].other) ? 0 : parseFloat(data[0]?.other))
+      settransport((isNaN(data[0]?.transport)||data[0]?.transport==null) ? 0 : parseFloat(data[0]?.transport))
+      setother((isNaN(data[0].other)||data[0]?.other==null) ? 0 : parseFloat(data[0]?.other))
       setnotes(data[0]?.notes)
       if (data[0].bank) {
         setbank({ ...bank, 'bank_name': data[0]?.bank.name, 'acc_no': data[0]?.bank.ac_no, 'iban_no': data[0]?.bank.iban_no })

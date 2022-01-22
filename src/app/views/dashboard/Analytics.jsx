@@ -240,6 +240,7 @@ const Analytics = () => {
           Last 12 months sales
           </div>
           <div>
+        
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="m-2"

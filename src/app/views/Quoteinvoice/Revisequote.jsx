@@ -711,7 +711,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.rfq_id = null
     arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', isNaN(discount) ? 0 : discount)
+    formData.append('discount_in_p', isNaN(dis_per) ? 0 : dis_per)
     formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
     formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2)) ? 0 : parseFloat(vat).toFixed(2))
@@ -891,6 +891,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
+      console.log(data[0].discount_in_p)
       setinco_terms(data[0].inco_terms)
       setdiscounts(data[0].discount_in_p)
       setdiscount(data[0].discount_in_p)
