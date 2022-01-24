@@ -434,6 +434,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       src: '',
       description: "",
       descriptions: "",
+      descriptionss: "",
       quantity: 0,
       unit_of_measure: ' ',
       product_price_list: [

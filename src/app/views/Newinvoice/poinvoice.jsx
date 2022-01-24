@@ -409,7 +409,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
       // setress(halala);
-      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : " & " + (numberToWords?.toWords(decimal) + " Halalas.")) : " "));
+      if(data[0].currency_type=="SAR")
+      {
+      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas.":"")) : " "));
+      }
+      else
+      {
+        setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ?  " & " + (numberToWords?.toWords(decimal))+ " Cents.":"")) : " "))
+      }
 
 
     });

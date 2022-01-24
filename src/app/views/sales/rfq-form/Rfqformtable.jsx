@@ -55,7 +55,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
               {values?.rfq_details?.map((item, ind) => (
 
-                <TableRow className="position-relative" key={item.id}>
+                <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" align="left">
                     {ind + 1}
                   

@@ -603,7 +603,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-0 capitalize" align="left" style={{width:'80px'}}>
                     <TextField
                       label="UOM"
-                     
+                      inputProps={
+                        { readOnly: true, }
+                      }
                       type="text"
                       variant="outlined"
                       size="small"
@@ -706,7 +708,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 			          variant="outlined"
                 fullWidth
                 size="small"
-			          currencySymbol="SAR"
+			          currencySymbol={currency_type}
                 name="total_amount"   
                 value={item.total_amount ? item.total_amount: ""}
               />
@@ -749,14 +751,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         
 
         
-        <p className="mb-8">Quotation Validity:</p>
+        {/* <p className="mb-8">Quotation Validity:</p> */}
               <p className="mb-8">payment Terms:</p>
               <p className="mb-8">Freight type:</p>
               <p className="mb-8">Delivery Time:</p>
               <p className="mb-8">Inco-Term:</p>
           </div>
           <div>
-          <TextValidator
+          {/* <TextValidator
                 label="Quotation Validity"
                 className="mb-4"
                 type="text"
@@ -768,8 +770,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 value={validity}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              />
+              /> */}
               <TextValidator
+              	inputProps={
+                  { readOnly: true, }
+                }
                 label="payment Terms"
                 className="mb-4"
                 onChange={e => setpayment_terms(e.target.value)

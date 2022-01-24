@@ -229,11 +229,10 @@ const Analytics = () => {
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
           <div>
             Last 12 months sales
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils} color="white">
               <KeyboardDatePicker
                 className="m-2"
                 margin="none"
-
                 label="Select Year"
                 format="yyyy"
                 inputVariant="outlined"
@@ -241,6 +240,17 @@ const Analytics = () => {
                 size="small"
                 selected={date}
                 value={date}
+                inputProps={{
+                  style: {
+                    color: 'white',
+                    borderColor: 'white',
+                    // fontFamily: fonts.root,
+                    borderStyle: 'solid',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    outline: 'none',
+                  },
+                }}
                 style={{ float: "right" }}
                 views={["year"]}
 
@@ -251,7 +261,7 @@ const Analytics = () => {
                   // return date
                 }}
               />
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
           </div>
 
 

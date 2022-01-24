@@ -493,7 +493,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               ' Quotation has been deleted.',
               'success'
             )
-            history.push(navigatePath + "/quoateview")
+            history.push(navigatePath + "/quoateview/2")
 
           })
 

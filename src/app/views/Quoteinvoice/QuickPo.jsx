@@ -970,14 +970,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-8">Quotation Validity:</p>
+                  {/* <p className="mb-8">Quotation Validity:</p> */}
                   <p className="mb-8">payment Terms:</p>
                   <p className="mb-8">Freight type:</p>
                   <p className="mb-8">Delivery Time:</p>
                   <p className="mb-8">Inco-Term:</p>
                 </div>
                 <div>
-                  <TextValidator
+                  {/* <TextValidator
                     label="Quotation Validity"
                     className="mb-4"
                     type="text"
@@ -989,7 +989,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     value={validity}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
-                  />
+                  /> */}
                   <TextValidator
                     label="payment Terms"
                     className="mb-4"

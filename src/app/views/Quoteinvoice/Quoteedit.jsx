@@ -295,7 +295,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: null,
       product_id: "",
-      description: " ",
+      description: "",
+      descriptionss: "",
       descriptions: '---',
       quantity: 0,
       unit_of_measure: " ",
@@ -1914,7 +1915,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option value="" disabled>
+                        <option value="">
                           --select--
                         </option>
                         {companybank.map((item, ind) => (

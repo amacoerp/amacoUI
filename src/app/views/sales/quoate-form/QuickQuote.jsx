@@ -438,6 +438,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       src: '',
       description: "",
       descriptions: "",
+      descriptionss: "",
       product_description: "",
       uom: "",
       unit_of_measure: "",
