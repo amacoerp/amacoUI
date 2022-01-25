@@ -962,10 +962,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             );
                           })}
                           <TableRow style={{ border: "1px solid #ccc" }}>
-                            <TableCell className="pl-0 capitalize" colspan={7} style={{ borderborderBottom: "none", fontFamily: "Calibri", width: 200 }}>
-                              sds
+                            <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
-                            <TableCell style={{ textAlign: "right", borderborderBottom: "none", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({currency_type})</TableCell>
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({currency_type})</TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
