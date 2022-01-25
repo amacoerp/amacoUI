@@ -69,7 +69,7 @@ export const GDIV = localStorage.getItem("division")
 export const ApiKey = "";
 const role = localStorage.getItem("role");
 
-    // const  url = "http://dataqueuesystems.com/amaco/amaco/public/api/";
+// const  url = "http://dataqueuesystems.com/amaco/amaco/public/api/";
 // const phpurl = "http://www.amacoerp.com/test/amaco_test/public/api/";
 // const  phpurl = "http://dataqueuesystems.com/amaco/amaco/public/api/";
 export const getparties = () => {
