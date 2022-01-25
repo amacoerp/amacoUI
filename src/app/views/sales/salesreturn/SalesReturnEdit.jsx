@@ -12,11 +12,10 @@ import {
     Icon,
     TextareaAutosize
 } from "@material-ui/core";
-import useAuth from 'app/hooks/useAuth';
-
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "../../Quoteinvoice/Annexure";
+import useAuth from 'app/hooks/useAuth';
 
 import {
     MuiPickersUtilsProvider,
@@ -53,7 +52,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     }
 }));
 const filter = createFilterOptions();
-const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
+const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const [isAlive, setIsAlive] = useState(true);
     const [state, setState] = useState(initialValues);
@@ -77,20 +76,23 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [contacts, setcontacts] = useState([])
     const [PriceList, setPriceList] = useState([]);
     const [DataList, setDataList] = useState("ghhhhh");
+    const [dl, setDL] = useState("ghhhhh");
     const [currency_type, setcurrency_type] = useState('SAR');
     const [charge, setcharge] = useState(0.00);
     const [total, settotal] = useState(0.00);
     const [catid, setcatid] = useState();
     const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
+    const [Tabledata, setTabledata] = useState([])
     const { user } = useAuth()
 
-    // purchasereturn states
+
+
 
     const [poNumbers, setPoNumbers] = useState([]);
+    const [pData, setPData] = useState([]);
+    const [dln, setDLN] = useState([]);
 
-    const [CustomerList, setCustomerList] = useState([]);
 
-    // const [custList, setCustList] = useState([]);
 
 
 
@@ -181,7 +183,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const filterOptions = (options, params) => {
         const filtered = filter(options, params);
-        // if (params.inputValue !== "") {
+
         filtered.push({
             inputValue: params.inputValue,
             name: `Add "${params.inputValue}"`
@@ -189,109 +191,93 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // }
         return filtered;
     };
-    const charges = (e) => {
-        vat = e.target.value
-        GTotal = 50 + vat
-    }
+
 
     const handleChangesPO = (event, newValue, index) => {
-        // console.log(newValue.id);
-        // console.log(newValue.name);
-        console.log(newValue.invoice_no);
 
+        // const a = dl.filter(obj => obj.invoice_no == newValue?.invoice_no).map((item, i) => {
+        //     return item?.podata
+        // });
+        // console.log(a);
+        // const c = state.item.filter(obj => obj.invoice_no == newValue?.invoice_no);
 
-        url.get(`getInvSr/${newValue.invoice_no}`).then(({ data }) => {
-
-            const b = proList;
-
-            let yFilter = data.getPData.map(itemY => { return itemY.product_id; });
-            let filteredX = b.filter(itemX => yFilter.includes(itemX.id));
-
-            setproList(filteredX);
-            // console.log('aaa', filteredX);
-
+        const nd = dln.filter(obj => obj.invoice_no == newValue?.invoice_no).map((item) => {
+            return item.product_id
         });
 
+        console.log(newValue?.invoice_no)
+        console.log(dln)
+        console.log(nd)
 
-        // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
+        const a = nd.map((item) => {
+            const b = dl;
+            return b.filter(obj => obj.id == item)
+        })
+
+        const c = a.map((item) => {
+            return item[0]
+        })
+        setproList(c)
+
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
         let tempItemList = [...state.item];
-
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
+
                 element['invoice_no'] = newValue?.id ? newValue?.invoice_no : newValue
+                // setproList(a)
+
             }
             return element;
         });
-        console.log(tempItemList);
+
         setState({
             ...state,
             item: tempItemList,
         });
     };
     const handleChanges = (event, newValue, index) => {
-        // console.log(newValue.id);
-        // console.log(newValue.name);
-        console.log(newValue.id);
 
 
-        // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
+
+        const pD = proList?.filter(obj => obj?.product_id == newValue?.product_id)
+
+
+
+        setState({
+            ...state,
+            description: pD?.product_id,
+        })
+
+
+
+
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
         let tempItemList = [...state.item];
-
+        console.log(newValue)
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
-                element['product_name'] = newValue?.id ? newValue?.name : newValue
-                element['product'] = newValue?.id ? newValue?.name : newValue
+                element['product_name'] = newValue?.id ? newValue?.description : newValue
+                element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
-                // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
+                element['description'] = newValue?.id ? newValue?.name : newValue
+
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
             }
             return element;
         });
-        console.log(tempItemList);
+
         setState({
             ...state,
             item: tempItemList,
         });
     };
-    const handleIvoiceListChange = (event, index, newValue) => {
-        event.persist()
-        let tempItemList = [...state.item];
 
-        tempItemList.map((element, i) => {
-            let sum = 0;
-
-            if (index === i) {
-
-
-                element['total_amount'] = ((newValue.price ? newValue.price : newValue) * element.quantity).toFixed(2);
-                element['purchase_price'] = newValue.price ? newValue.price : newValue;
-                // element[event.target.name] = event.target.value;
-                element.margin = "";
-                element.sell_price = "";
-                element['remark'] = "";
-
-
-
-            }
-            return element;
-
-        });
-        console.log(tempItemList)
-        setState({
-            ...state,
-            item: tempItemList,
-        });
-
-
-
-    };
 
 
 
@@ -323,20 +309,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
         })
     };
-    const filterPrice = (options, params) => {
-        // console.log(params.inputValue)
 
-        // const filtered = filter(options, params);
-
-        // // if (params.inputValue == "") {
-        //   filtered.push({
-        //     inputValue: params.inputValue,
-        //     price: params.inputValue,
-        //     amount: params.inputValue
-        //   });
-        // }
-        // return filtered;
-    };
 
     const calcualteprice = (event, index) => {
         event.persist()
@@ -377,16 +350,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
 
             if (index === i) {
-
-
-
-                element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
+                // element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
                 element[event.target.name] = event.target.value;
                 element['remark'] = "";
-
-
-
-
             }
 
             return element;
@@ -403,11 +369,6 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const setproductids = (id, index) => {
-        setcatid(id)
-        setpartyids(party_id)
-        setShouldOpenEditorDialog(true)
-    }
 
 
     const handleSubmit = () => {
@@ -419,7 +380,6 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         delete tempState.loading;
         let tempItemList = [...state.item];
 
-        console.log('sdd', tempItemList);
 
 
         arr.quotation_details = tempItemList
@@ -429,7 +389,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.freight = freight
         arr.vat_in_value = parseFloat(charge).toFixed(2)
         arr.rfq_id = id
-        arr.po_number = id
+        arr.invoice_no = id
         arr.party_id = party_id
         arr.warranty = warranty
         arr.validity = validity
@@ -437,20 +397,17 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.inco_terms = inco_terms
         arr.payment_terms = payment_terms
         arr.contact_id = contactid
-        arr.transaction_type = "sales"
+        arr.transaction_type = "purchase"
         arr.status = "New"
         arr.ps_date = Quote_date
         arr.currency_type = currency_type
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
-
         const json = Object.assign({}, arr);
-        console.log(json)
-        console.log(user.id)
-        console.log(localStorage.getItem('division'))
-        url.post('purchase-return', json)
+
+        url.post('purchase-return-update', json)
             .then(function (response) {
-                console.log(response)
+
 
                 Swal.fire({
                     title: 'Success',
@@ -459,8 +416,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     text: 'Data saved successfully.',
                 })
                     .then((result) => {
-                        // console.log(response)
-                        // history.push(navigatePath + "/salesreturn")
+                        history.push(navigatePath + "../purchasereturn")
                     })
 
             })
@@ -470,7 +426,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push(navigatePath + "/salesreturn")
+        history.push(navigatePath + "/purchasereturn")
     }
 
     const handleDialogClose = () => {
@@ -484,7 +440,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setDataList(newValue);
     }
     const handleDialogCloseAnnexure = () => {
-        console.log(DataList)
+
         setShouldOpenEditorDialogAnnexure(false);
 
 
@@ -492,54 +448,31 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     };
 
     useEffect(() => {
-
-        url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
-
-            setQuote_date(moment(data.getReturnParty[0]?.ps_date).format('DD MMM YYYY'))
-            setcontacts(data.party.contacts)
-            setparty_id(data.getReturnParty[0]?.party_id)
-            setvalues(contactid)
-            setvalues({ ...values, status: true });
-
-            console.log('ss', data.getReturnItems[0]);
-            // setState({
-            //     ...state,
-            //     item: ""
-            // });
-
-        })
-
-
-        // getpaidDivision()
-
-        //     .then(response => response)
-        //     .then(data => obj = data)
-        //     .then(() =>
-
-        //         url.get(`expense/${id}`).then(({ data }) => {
-        //             arrVals = obj.data.sort(function (obj1, obj2) {
-        //                 return obj1.type.localeCompare(obj2.type);
-        //             });
-
-
-
-
         url.get("products").then(({ data }) => {
-            setproList(data)
+            setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
         });
-        getCustomerList().then(({ data }) => {
-            setCustomerList(data);
+        getVendorList().then(({ data }) => {
+            setvalues({
+                ...values,
+                vendorList: data,
+                status: false
+            })
         });
-
-        // url.get("getSalesFormData").then(({ data }) => {
-        //     // setproList(data)
-        //     setCustList(data);
-        //     console.log(data);
-        // });
-
         url.get("product-price").then(({ data }) => {
             setPriceList(data)
         });
+        url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
+
+            setDLN(data.Odata);
+            setparty_id(data?.data[0]?.party_id);
+            setcontact123(data?.data[0]?.party_id)
+            setState({
+                ...state,
+                item: data.datas,
+            });
+        })
+
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);
 
@@ -552,22 +485,24 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setShouldOpenEditorDialog(true);
 
     }
-    const setcontact = (event) => {
+    const setcontact = async (event) => {
 
-        url.get("parties/" + event.target.value).then(({ data }) => {
+        await url.get("parties/" + event.target.value).then(({ data }) => {
+
             setcontacts(data[0].contacts)
             setparty_id(event.target.value)
             setvalues({ ...values, status: true });
         });
-
-        url.get(`getSalesFormData/${event.target.value}`).then(({ data }) => {
-            console.log(data);
-            // const poN = data.getPurchaseReturnData.map((item, i) => {
-            //     return (
-            //         item.po_number
-            //     )
-            // });
-            // console.log(poN);
+        await url.get(`sales-return-data/${event.target.value}`).then(({ data }) => {
+            setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
+        });
+    }
+    const setcontact123 = async (pid) => {
+        // await url.get("parties/" + pid).then(({ data }) => {
+        //     setcontacts(data[0].contacts)
+        //     // setvalues({ ...values, status: true });
+        // });
+        await url.get(`sales-return-data/${pid}`).then(({ data }) => {
             setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
         });
     }
@@ -595,7 +530,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
                         <div className="viewer_actions px-4 flex justify-between">
                             <div className="mb-6">
-                                <h4 align="left"> CREATE SALES RETURN</h4>
+                                <h4 align="left"> UPDATE SALES RETURN</h4>
                             </div>
                             <div className="mb-6">
 
@@ -616,7 +551,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     color="primary"
                                     disabled={loading}
                                 >
-                                    <Icon>save</Icon> SAVE & PRINT SALESRETURN
+                                    <Icon>save</Icon> SAVE & PRINT PURCHASERETURN
                                 </Button>
                             </div>
                         </div>
@@ -657,9 +592,12 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     style={{ minWidth: 200, maxWidth: '250px' }}
                                     name="party_id"
                                     size="small"
+
                                     variant="outlined"
+                                    className="pl-2"
                                     value={party_id}
-                                    onClick={(event) => setcontact(event)}
+                                    // onChange={handleChange}
+                                    onChange={(event) => setcontact(event)}
                                     required
                                     select
                                 >
@@ -668,23 +606,14 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     }}>
 
                                         <Icon>add</Icon>New
-
+                                        {/* </Button> */}
                                     </MenuItem>
-
-                                    {CustomerList.map((item) => (
-
+                                    {values?.vendorList.map((item) => (
                                         <MenuItem value={item.id} key={item.id}>
                                             {item.firm_name}
                                         </MenuItem>
                                     ))}
-                                    {/* {CustomerList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))} */}
-
                                 </TextField>
-
 
 
 
@@ -757,9 +686,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <TableHead>
                                 <TableRow className="bg-default">
                                     <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
-                                    <TableCell className="px-0" style={{ width: '150px' }}>INVOICE NO</TableCell>
+                                    <TableCell className="px-0" style={{ width: '150px' }}>INVOICE NUMBER</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>ITEM</TableCell>
-                                    <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
+                                    <TableCell className="px-0" style={{ width: '220px' }}>OUR DESCRIPTION</TableCell>
                                     <TableCell className="px-0" style={{ width: '80px' }}>QTY</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>UOM</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
@@ -816,7 +745,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.invoice_no;
+                                                        return option?.invoice_no ? option?.invoice_no : " ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -847,7 +776,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.name;
+                                                        return option?.name ? option.name : '';
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -860,18 +789,18 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                                 />
                                             </TableCell>
-                                            <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
+                                            <TableCell className="pl-0 capitalize" align="left" style={{ width: '220px' }}>
                                                 <TextField
                                                     label="Our description"
                                                     type="text"
 
                                                     variant="outlined"
                                                     size="small"
-                                                    name="description"
+                                                    name="product_description"
                                                     multiline
                                                     fullWidth
                                                     onChange={(event) => po_description(event, index)}
-                                                    value={item.description ? item.description : ""}
+                                                    value={item.product_description}
 
                                                 />
                                             </TableCell>
@@ -898,7 +827,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     size="small"
                                                     name="unit_of_measure"
-                                                    style={{ width: '150px', float: 'left' }}
+                                                    style={{ width: '140px', float: 'left' }}
                                                     fullWidth
                                                     value={item.unit_of_measure ? item.unit_of_measure : null}
                                                     onChange={(event) => po_description(event, index)}
@@ -940,33 +869,45 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         ))} 
                     </TextField> */}
 
-                                                <Autocomplete
+                                                <TextField
+
                                                     className="w-full"
                                                     size="small"
-                                                    options={item?.product_price_list}
+                                                    variant="outlined"
+
+                                                    // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={item?.purchase_price}
-                                                    // filterOptions={filterPrice}
-                                                    renderOption={option => option.price}
-                                                    getOptionLabel={option => {
-                                                        // e.g value selected with enter, right from the input
-                                                        if (typeof option === "string") {
-                                                            return option;
-                                                        }
-                                                        if (option.inputValue) {
-                                                            return option.inputValue;
-                                                        }
-                                                        return option.price;
-                                                    }}
-                                                    freeSolo
-                                                    renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
-                                                    )}
-                                                    // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                                                    onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
-                                                    onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                                                    onChange={(event) => calcualteprice(event, index)}
+                                                // filterOptions={filterPrice}
+                                                // renderOption={option => option.price}
+                                                // getOptionLabel={option => {
+                                                //     // e.g value selected with enter, right from the input
+                                                //     if (typeof option === "string") {
+                                                //         return option;
+                                                //     }
+                                                //     if (option.inputValue) {
+                                                //         return option.inputValue;
+                                                //     }
+                                                //     return option?.price?option?.price:" ";
+                                                // }}
+                                                // freeSolo
+                                                // renderInput={(params) => (
+                                                //     <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
+                                                // )}
+                                                // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
+                                                // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                                                // onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+
                                                 />
+
+
                                             </TableCell>
+
+
+
+
+
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                                                 {/* <TextValidator
                       label="QTotal"
@@ -1248,4 +1189,4 @@ const initialValues = {
     loading: false,
 };
 
-export default GenSalesReturn;
+export default GenPurchaseReturn;

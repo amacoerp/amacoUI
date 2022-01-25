@@ -288,7 +288,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
-                element['product_name'] = newValue?.id ? newValue?.description : newValue
+                element['product_name'] = newValue?.id ? newValue?.name : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
                 // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
@@ -453,6 +453,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         delete tempState.loading;
         let tempItemList = [...state.item];
 
+        console.log(tempItemList);
 
 
         arr.quotation_details = tempItemList

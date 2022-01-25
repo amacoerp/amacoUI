@@ -911,11 +911,11 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                                 </TableCell>
 
                                                                 <TableCell className="pl-2 capitalize" align="left" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {item?.description}
+                                                                    {item?.product_description}
 
                                                                 </TableCell>
                                                                 <TableCell className="pl-2 capitalize" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {item?.product_description}
+                                                                    {item?.description}
 
                                                                 </TableCell>
                                                                 {/* <TableCell className="pl-0 capitalize" colspan={3} align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
