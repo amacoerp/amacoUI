@@ -735,7 +735,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pl-2 pb-4">
                                                         <span style={{ fontWeight: 1000 }}>COMPANY NAME & ADDRESS</span><br></br>
                                                         <span>{company}</span><br></br>
-                                                        <span>{street && street + '-'}{city && city + ','} {zipcode}</span>
+                                                        <span>{street && street}{city && '-' + city} {zipcode && + ',' + zipcode}</span>
 
 
                                                     </div>
@@ -1071,9 +1071,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         </div>
 
                                         <br></br>
-                                        <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                                        <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
 
-                                            <div className="" style={{ fontWeight: 1000 }}>
+                                            <div className="pl-24" style={{ fontWeight: 1000 }}>
                                                 <h5 className="font-normal t-4 capitalize">
                                                     <IntlProvider locale={locale} messages={Arabic}>
                                                         <FormattedMessage
@@ -1084,7 +1084,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 </h5>
                                                 Prepared by
                                             </div>
-                                            <div style={{ fontWeight: 1000 }}>
+                                            <div style={{ fontWeight: 1000 }} className="pl-2">
                                                 <h5 className="font-normal t-4 capitalize">
                                                     <IntlProvider locale={locale} messages={Arabic}>
                                                         <FormattedMessage
@@ -1095,7 +1095,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 </h5>
                                                 Approved by
                                             </div>
-                                            <div className="mr-24" style={{ fontWeight: 1000 }}>
+                                            <div className="mr-0 pr-24" style={{ fontWeight: 1000 }}>
                                                 <h5 className="font-normal t-4 capitalize">
                                                     <IntlProvider locale={locale} messages={Arabic}>
                                                         <FormattedMessage
@@ -1108,21 +1108,21 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                             </div>
                                             {/* <div className="mr-28" style={{ fontWeight: 1000 }}>
 
-                                                <QRCode
+                        <QRCode
 
-                                                    level="L"
-                                                    imageSettings={{
-                                                        excavate: true,
-                                                        margin: "50px",
-                                                        height: "35",
-                                                        width: "35",
-                                                        src: NLogo
-                                                    }}
-                                                    size="200"
-                                                    value={qrValue}
-                                                />
-                                            </div> */}
-
+                          level="L"
+                          imageSettings={{
+                            excavate: true,
+                            margin: "50px",
+                            height: "35",
+                            width: "35",
+                            src: NLogo
+                          }}
+                          size="160"
+                          value={qrValue}
+                        />
+                      </div>
+ */}
                                         </div>
 
 

@@ -417,7 +417,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     text: 'Data saved successfully.',
                 })
                     .then((result) => {
-                        history.push(navigatePath + "../purchasereturn")
+                        history.push(navigatePath + "../salesreturn")
                     })
 
             })
@@ -427,7 +427,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push(navigatePath + "/purchasereturn")
+        history.push(navigatePath + "/salesreturn")
     }
 
     const handleDialogClose = () => {
