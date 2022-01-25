@@ -836,7 +836,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
                             {company}<br />
                             {/* {address?.street}, {address?.city}- {address?.po_no} */}
-                            {address?.street ? address?.street + (address?.city ? "," + address?.city + (address?.po_no ? "," + address?.po_no : " ") : (address?.po_no ? "," + address?.po_no : " ")) : (address?.city ? address?.city + (address?.po_no ? " ," + address?.po_no: " ") : (address?.po_no ? address?.po_no : " "))}
+                            {address?.street ? address?.street + (address?.city ? "," + address?.city + (address?.po_no ? "," + address?.po_no : " ") : (address?.po_no ? "," + address?.po_no : " ")) : (address?.city ? address?.city + (address?.po_no ? " ," + address?.po_no : " ") : (address?.po_no ? address?.po_no : " "))}
 
 
                           </div>
@@ -884,7 +884,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   </div>
 
                   <br></br>
-                  <Card className="mb-4" elevation={0}  borderRadius="borderRadius" >
+                  <Card className="mb-4" elevation={0} borderRadius="borderRadius" >
 
 
 
@@ -1056,7 +1056,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                       </Table>
-                     
+
                     </div>
                     <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure (1) for terms & condition
                     <div id="panel" className="pt-2">

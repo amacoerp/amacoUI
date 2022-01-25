@@ -367,7 +367,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
         // updateSidebarMode({ mode: "close" })
         document.title = "Purchase Order - Amaco"
-        url.get(`getPurchaseReturnINV/${id}`).then(({ data }) => {
+        url.get(`getPurchaseReturnDetails/${id}`).then(({ data }) => {
             console.log(data);
 
             setParty(data.getReturnParty);
@@ -881,7 +881,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell className="pl-0" colspan={2} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">S.No.</TableCell>
 
 
-                                                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">PO NUMBER</TableCell>
+                                                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">INVOICE NUMBER</TableCell>
                                                         <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">ITEM</TableCell>
 
                                                         <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="300px" align="center">DESCRIPTION</TableCell>

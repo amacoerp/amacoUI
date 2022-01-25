@@ -36,13 +36,11 @@ export const navigations = [
       },
       {
         name: "PURCHASE INVOICE",
-        path: navigatePath+ "/purchaseinvoiceview",
-
+        path: navigatePath + "/purchaseinvoiceview",
       },
       {
         name: "PURCHASE RETURN",
         path: "/purchasereturn",
-
       },
     ],
   },
@@ -67,11 +65,11 @@ export const navigations = [
         path: navigatePath + "/inv",
         // icon:"folder",
       },
-      // {
-      //   name: "SALES RETURN",
-      //   path: navigatePath + "/salesreturn",
-      //   // icon: "folder",
-      // },
+      {
+        name: "SALES RETURN",
+        path: navigatePath + "/salesreturn",
+        // icon: "folder",
+      },
     ],
     // }
     // ]
