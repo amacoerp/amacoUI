@@ -1003,7 +1003,6 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                                         <strong>TOTAL IN WORDS</strong><br></br><b>{party[0]?.currency_type}</b> {ress}
                                                                         <br></br>
-                                                                        <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
 
                                                                     </div>
                                                                 </div>

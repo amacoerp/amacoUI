@@ -938,7 +938,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         );
                                                     })}
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
-                                                        <TableCell className="pl-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                                                        <TableCell className="pl-0 capitalize hidecell" colspan={8} style={{ fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
@@ -961,6 +961,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
 
                                                         <TableCell className="pr-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+
                                                         </TableCell>
 
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Freight Charges </TableCell>
@@ -986,7 +987,6 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                                         <strong>TOTAL IN WORDS</strong><br></br><b>{party[0]?.currency_type}</b> {ress}
                                                                         <br></br>
-                                                                        <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
 
                                                                     </div>
                                                                 </div>
