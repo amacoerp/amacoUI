@@ -1584,7 +1584,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             // onChange={handleChange}
                             // required
                             variant="outlined"
-                            currencySymbol="SAR"
+                            currencySymbol=""
                             decimalPlaces={3}
                             onChange={(event, value) => calcualtep(event, index, value)}
                             value={item?.purchase_price}
@@ -1605,7 +1605,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             // onChange={handleChange}
 
                             variant="outlined"
-                            currencySymbol="SAR"
+                            currencySymbol=""
                             value={item.purchase_price}
                             // decimalPlaces={3}
                             onChange={(event, value) => calcualtep(event, index, value)}
