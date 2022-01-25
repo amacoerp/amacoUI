@@ -15,6 +15,7 @@ import {
   TextField,
   Hidden
 } from "@material-ui/core";
+import Box from '@material-ui/core/Box';
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
@@ -46,7 +47,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { ToWords } from 'to-words';
 import { useReactToPrint } from 'react-to-print';
 import { Note } from './Note.js';
-import "./print.css";
+import Footer from '../../../app/views/statements/Footer';
+// import "./print.css";
 
 
 
@@ -311,17 +313,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const [noteList, setnoteList] = useState([]);
   const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
-  const [content, setContent] = useState(`
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>FREIGHT TYPE</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  :Air Freight</p>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>INCO TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:CPT</p>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>PAYMENT TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :2-4 Weeks after PO receives</p>
-  <ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;">Purchase order acknowledgment – Acknowledgement of PO with 1 day of issuance is mandatory on supplier. The <span style="color: rgb(0, 0, 0);">acknowledgement must be done by signing and stamping a copy of our PO. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Specification – It is requested to provide exact specification of material as mentioned in the purchase order, any deviation other than mentioned in PO, must be approved with amendment in purchase order. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The material should be as per your quotation / Pro forma / Invoice. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Packing – All materials must be packed in sea-worthy or air-worthy with protection against corrosion, weather and damage. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Country of origin labels </span><span style="color: rgb(0, 0, 0);">– Country of origin labels ‘’non-removable’’ type must be sticked to all materials in shipment. Failing which customs department in Saudi Arabia will levy penalty of SAR 7,000/- per shipment and shipment will be shipped back. All the charges towards penalty, shipment, and other expenses to be borne by supplier. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">The container must have label indicating the contains of goods in the container and its origin Supplier shall furnish AMACO with all the required and customary certifications, test data, manuals, certificates and technical information and documentation relating to work; including (but not limited) to certificates of origin, weight certificates material test certificate, NDT, pressure test, etc </span> <span style="color: rgb(0, 0, 0);">as specified in the PO. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Bank details – The payment will be dealt either through transfer or letter of credit. In case of transfer, AMACO will bear transfer charges for the first transfer. If the transfer is not through due to reasons beyond AMACO’s responsibility, supplier will have to bear all the charges. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);"> </span><span style="font-weight: 700; color: rgb(0, 0, 0);">Delivery period &amp; penalty – Should supplier fail to deliver or perform the work according to the agreed date (s) and/or schedule set out in the PO, AMACO may in its sole discretion, with or without prior notice to the supplier: </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Extend the time by means of change order. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Cancel the PO or part of the work and procure goods or services of similar description from other works. </span></p>
-  <p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Claim from supplier the damages suffered (including the amount by which the cost of replacements exceeds the</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               Price) and to the extend allowed under </span><span style="color: rgb(0, 0, 0); font-weight: 700; letter-spacing: 0.14994px;">in lieuof the agreed liquidated damages provided for above.</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"></p>
-  <p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: this 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Order progress – Order progress reports must be sent on weekly basis, without any reminders. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Shipping documents – A copy of shipping documents must be sent before attestation for review and confirmation. In case the shipment is sent without review of shipping documents, any demurrage or penalties resulting due to discrepancy in shipping documents, must be borne by supplier. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Shipping documents must reach in hand at least 3 days before arrival of shipment to port. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Country of Origin </span><span style="color: rgb(0, 0, 0);">– Materials of origin like China and East Europe are not acceptable unless clearly mentioned in purchase order. In the event of supplier sending the material with origin other than agreed in the Purchase order, AMACO reserves the right to reject the material and claim for return of payments made.</span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">AMACO shall be entitled to inspect and/or test (or arrange for independent inspection/testing) the work at supplier’s facilities prior to and/or at delivery/completion in order to ensure that they conform to the Specifications. In the event that the inspection shows that work do not conform to the specifications or requirements of the PO, AMACO shall be entitled to reject the delivery and cancel the purchase agreement forthwith. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Quality &amp; Warranty - The work shall conform in all respects to the quality requirements and specifications set out in the PO; and if not specified, to the normal and customary specifications or quality of such goods, or in the case of services; in accordance with accepted industry practices and any applicable professional standards and codes. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Supplier may not change the Specifications, material or manufacturing processes without the prior written consent of AMACO. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Supplier warrants and guarantees that the Work will be free from faulty design, defects (whether patent or latent), in </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material and workmanship </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;(fair wear and tear excluded) and fit for the intended purpose for a period of at least eighteen </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(18) months after acceptance or twelve (12) months from use,</span><span style="letter-spacing: 0.14994px; color: rgb(0, 0, 0);">&nbsp;installation </span><span style="letter-spacing: 0.14994px; color: rgb(0, 0, 0);">commissioning (whichever is the latest). </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>	c.<span style="color: rgb(0, 0, 0);">&nbsp;If any such defects or failure is discovered or occur within the warranty period, AMACO shall notify supplier accordingly,</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and supplier shall promptly, and at his sole </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">cost and risk repair or replace or replace or otherwise makegood any and all </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;work which are found to be defective. In addition, supplier shall compensate AMACO for all </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">costs and expenses reasonably</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incurred or suffered in connection with the defect and the repairs or replacement of theworks (or part thereof) under the </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warranty.</span><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. The repairs/replacement works will carry the same warranty as from the date of replacement. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. This warranty is additional to and without prejudice to any further or specific terms of warranties offered by supplier or applicable in<span></p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;respect of the work.</span><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Compliance to Laws and Ethics</span><span style="color: rgb(0, 0, 0);"> - In the performance of any purchase agreement, supplier shall take all reasonable steps to ensure full compliance with all laws and regulations of the KSA as well as any other applicable laws or international obligations</span></li></ul>
-  `
-  );
+  const [content, setContent] = useState('');
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -407,9 +399,31 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       let words1 = numberToWords.toWords(data[0].net_amount);
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
-
+        // annexure
+        setContent(`
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :${data[0].delivery_time}</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>FREIGHT TYPE</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  :${data[0].freight_type}</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>INCO TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:${data[0].inco_terms}</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>PAYMENT TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :${data[0].payment_terms}</p>
+  <ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;">Purchase order acknowledgment – Acknowledgement of PO with 1 day of issuance is mandatory on supplier. The <span style="color: rgb(0, 0, 0);">acknowledgement must be done by signing and stamping a copy of our PO. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Specification – It is requested to provide exact specification of material as mentioned in the purchase order, any deviation other than mentioned in PO, must be approved with amendment in purchase order. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The material should be as per your quotation / Pro forma / Invoice. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Packing – All materials must be packed in sea-worthy or air-worthy with protection against corrosion, weather and damage. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Country of origin labels </span><span style="color: rgb(0, 0, 0);">– Country of origin labels ‘’non-removable’’ type must be sticked to all materials in shipment. Failing which customs department in Saudi Arabia will levy penalty of SAR 7,000/- per shipment and shipment will be shipped back. All the charges towards penalty, shipment, and other expenses to be borne by supplier. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">The container must have label indicating the contains of goods in the container and its origin Supplier shall furnish AMACO with all the required and customary certifications, test data, manuals, certificates and technical information and documentation relating to work; including (but not limited) to certificates of origin, weight certificates material test certificate, NDT, pressure test, etc </span> <span style="color: rgb(0, 0, 0);">as specified in the PO. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Bank details – The payment will be dealt either through transfer or letter of credit. In case of transfer, AMACO will bear transfer charges for the first transfer. If the transfer is not through due to reasons beyond AMACO’s responsibility, supplier will have to bear all the charges. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);"> </span><span style="font-weight: 700; color: rgb(0, 0, 0);">Delivery period &amp; penalty – Should supplier fail to deliver or perform the work according to the agreed date (s) and/or schedule set out in the PO, AMACO may in its sole discretion, with or without prior notice to the supplier: </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Extend the time by means of change order. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Cancel the PO or part of the work and procure goods or services of similar description from other works. </span></p>
+  <p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Claim from supplier the damages suffered (including the amount by which the cost of replacements exceeds the</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               Price) and to the extend allowed under </span><span style="color: rgb(0, 0, 0); font-weight: 700; letter-spacing: 0.14994px;">in lieuof the agreed liquidated damages provided for above.</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"></p>
+  <p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: this 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Order progress – Order progress reports must be sent on weekly basis, without any reminders. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Shipping documents – A copy of shipping documents must be sent before attestation for review and confirmation. In case the shipment is sent without review of shipping documents, any demurrage or penalties resulting due to discrepancy in shipping documents, must be borne by supplier. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Shipping documents must reach in hand at least 3 days before arrival of shipment to port. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Country of Origin </span><span style="color: rgb(0, 0, 0);">– Materials of origin like China and East Europe are not acceptable unless clearly mentioned in purchase order. In the event of supplier sending the material with origin other than agreed in the Purchase order, AMACO reserves the right to reject the material and claim for return of payments made.</span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">AMACO shall be entitled to inspect and/or test (or arrange for independent inspection/testing) the work at supplier’s facilities prior to and/or at delivery/completion in order to ensure that they conform to the Specifications. In the event that the inspection shows that work do not conform to the specifications or requirements of the PO, AMACO shall be entitled to reject the delivery and cancel the purchase agreement forthwith. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="color: rgb(0, 0, 0);">Quality &amp; Warranty - The work shall conform in all respects to the quality requirements and specifications set out in the PO; and if not specified, to the normal and customary specifications or quality of such goods, or in the case of services; in accordance with accepted industry practices and any applicable professional standards and codes. </span></li></ul><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Supplier may not change the Specifications, material or manufacturing processes without the prior written consent of AMACO. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Supplier warrants and guarantees that the Work will be free from faulty design, defects (whether patent or latent), in </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material and workmanship </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;(fair wear and tear excluded) and fit for the intended purpose for a period of at least eighteen </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(18) months after acceptance or twelve (12) months from use,</span><span style="letter-spacing: 0.14994px; color: rgb(0, 0, 0);">&nbsp;installation </span><span style="letter-spacing: 0.14994px; color: rgb(0, 0, 0);">commissioning (whichever is the latest). </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>	c.<span style="color: rgb(0, 0, 0);">&nbsp;If any such defects or failure is discovered or occur within the warranty period, AMACO shall notify supplier accordingly,</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and supplier shall promptly, and at his sole </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">cost and risk repair or replace or replace or otherwise makegood any and all </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;work which are found to be defective. In addition, supplier shall compensate AMACO for all </span><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">costs and expenses reasonably</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incurred or suffered in connection with the defect and the repairs or replacement of theworks (or part thereof) under the </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><span style="color: rgb(0, 0, 0); letter-spacing: 0.14994px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;warranty.</span><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. The repairs/replacement works will carry the same warranty as from the date of replacement. </span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;">		<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. This warranty is additional to and without prejudice to any further or specific terms of warranties offered by supplier or applicable in<span></p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;respect of the work.</span><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><ul style="margin-right: 0px; margin-bottom: 0px; margin-left: 0px; cursor: text; padding: 0px 0px 0px 1.5em; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; font-size: 13px; letter-spacing: 0.14994px; white-space: pre-wrap;"><li style="list-style-type: none; padding-left: 1.5em;"><span style="font-weight: 700; color: rgb(0, 0, 0);">Compliance to Laws and Ethics</span><span style="color: rgb(0, 0, 0);"> - In the performance of any purchase agreement, supplier shall take all reasonable steps to ensure full compliance with all laws and regulations of the KSA as well as any other applicable laws or international obligations</span></li></ul>
+  `
+  );
       // setress(halala);
-      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : " & " + (numberToWords?.toWords(decimal) + " Halalas.")) : " "));
+      if(data[0].currency_type=="SAR")
+      {
+      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas.":"")) : " "));
+      }
+      if(data[0].currency_type=="AED")
+      {
+      setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils.":"")) : " "));
+      }
+      else
+      {
+        setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ?  " & " + (numberToWords?.toWords(decimal))+ " Cents.":"")) : " "))
+      }
 
 
     });
@@ -417,10 +431,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     Note.map((item, i) => {
 
     })
-    // if (id !== "add")
-    //   getInvoiceById(id).then((res) => {
-    //     setState({ ...res.data });
-    //   });
+   
+
+
   }, [id]);
   const updateSidebarMode = (sidebarSettings) => {
     if (sidebarSettings.mode == "close") {
@@ -746,48 +759,48 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <h3 style={{ fontSize: 20 }}><strong>PURCHASE ORDER</strong></h3>
 
                     </div>
-                    <div className="text-center">
-
-
-                    </div>
-                    <div className="text-right">
-
-                    </div>
+                    
+                    
                   </div>
-                  <div className="px-2 flex justify-between">
-
-
-                  </div>
-                  <div className="px-2 flex justify-between">
-
-
-                  </div>
-                  <div className="px-2 flex justify-between">
-
-
-
-                  </div>
+                  
+                 
+                  
 
 
 
 
+                 
 
-                  <div className="px-2 flex justify-between">
-                    <div className="px-2 flex justify-end">
-                      <div className="flex " >
-                        <div className="">
-                          <div className="pl-2 pb-4">
-                            <span style={{ fontWeight: 1000 }}>SUPPLIER NUMBER</span><br></br>
-                            {party_code}
 
-                          </div>
-                          {/* <div className="pl-2 pb-4">
-              <span style={{fontWeight:1000}}>Attention</span><br></br>
-              {contactperson}
-             
-             
-            </div> */}
-                          <div className="pl-2 pb-4" style={{ width: 250 }}>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={6} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>SUPPLIER NUMBER</span><br></br>
+                        {party_code}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>PURCHASE ORDER</span><br></br>
+                        {po_number}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>                                                            
+                        ORDER DATE
+                        </span><br></br>
+                        
+                        {moment(rdate).format('DD MMM YYYY')}
+
+                      </Grid>
+                      
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-0 pb-0" xs={6} style={{ wordBreak: 'break-word' }}>
+                      <div className="pl-2 pb-4" style={{ width: 250 }}>
                             <span style={{ fontWeight: 1000 }}>DELIVERY ADDRESS {!edit ? (<span id="edits"><Icon onClick={() => setedit(true)} style={{ fontSize: "12px" }}>edit</Icon></span>) : (<Icon style={{ fontSize: "12px" }} onClick={() => updateCompany()}>done</Icon>)}</span><br></br>
                             {!edit && (<div style={{ flexDirection: 'row', display: 'flex' }}>
                               {company_address}
@@ -800,91 +813,43 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                           </div>
-                          {/* <div className="pl-2 pb-4">
-           
-              <span style={{fontWeight:1000}}>FREIGHT TYPE</span><br></br>
-              {freight_type}
-              
-            
-            </div> */}
-                          <div className="pl-2 ">
-                            {/* <span style={{fontWeight:1000}}>Email ID</span><br></br>
-              {contactpersonemail} */}
-                            <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
-                            100% Advance
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
+                        {company}
+
+                      </Grid>
+                      
+                      
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
+                        <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
+                        {payment_terms}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={2}>
+                        <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                        {inco_terms}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>                           
+                        </span><br></br>
+                        
 
 
-                          </div>
-                        </div>
-                        <div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-2 flex justify-end">
-                      <div className="flex " >
-                        <div className="">
-                          <div className="pl-2 pb-4">
-                            {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
-              {moment(rdate).format('DD MMM YYYY')} */}
-                            <span style={{ fontWeight: 1000 }}>PURCHASE ORDER</span><br></br>
-                            {po_number}
+                      </Grid>
+                      
+                    </Grid>
+                  </Box>
+                 
 
-                          </div>
-                          <div className="pl-2 pb-8">
-                            {/* <span style={{fontWeight:1000}}>P.O. Number</span><br></br>
-              {po_number} */}
-                            <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
-                            {company}<br />
-                            {/* {address?.street}, {address?.city}- {address?.po_no} */}
-                            {address?.street ? address?.street + (address?.city ? "," + address?.city + (address?.po_no ? "," + address?.po_no : " ") : (address?.po_no ? "," + address?.po_no : " ")) : (address?.city ? address?.city + (address?.po_no ? " ," + address?.po_no : " ") : (address?.po_no ? address?.po_no : " "))}
-
-
-                          </div>
-                          <div className="pl-2 ">
-
-                            <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
-                            {inco_terms}
-
-                          </div>
-                        </div>
-                        <div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-2 flex justify-end">
-                      <div className="flex " >
-                        <div className="">
-                          <div className="pl-2 pb-4">
-                            <span style={{ fontWeight: 1000 }}>ORDER DATE</span><br></br>
-                            {moment(rdate).format('DD MMM YYYY')}
-
-
-
-                          </div>
-
-
-                          <div className="pl-2 pb-4">
-                            {/* <span style={{fontWeight:1000}}>Attention</span><br></br>
-              {contactperson} */}
-
-                          </div>
-                          <div className="pl-2 ">
-
-                            {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
-              {moment(rdate).format('DD MMM YYYY')} */}
-
-
-
-                          </div>
-                        </div>
-                        <div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <br></br>
-                  <Card className="mb-4" elevation={0} borderRadius="borderRadius" >
+  
+                  <Card className="mb-4" elevation={0}  borderRadius="borderRadius" >
 
 
 
@@ -961,10 +926,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </TableRow>
                             );
                           })}
-                          <TableRow style={{ border: "1px solid #ccc" }}>
+                          <TableRow style={{ border: "1px solid #ccc" }} >
                             <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
-                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({currency_type})</TableCell>
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount</TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
@@ -972,7 +937,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             >
 
                               <div>
-                                <div style={{ float: "left" }} className="pl-20">{currency_type} </div>
+                                <div style={{ float: "left" }} className="pl-15">{currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -991,7 +956,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <TableCell className="pr-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
 
-                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges ({currency_type})
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges 
                             </TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
@@ -1001,7 +966,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             >
 
                               <div>
-                                <div style={{ float: "left" }} className="pl-20">{currency_type}</div>
+                                <div style={{ float: "left" }} className="pl-15">{currency_type}</div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1029,7 +994,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}
                               colspan={2}
                             >
-                              <span>Net Total ({currency_type})</span>
+                              <span>Net Total </span>
                             </TableCell>
 
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
@@ -1039,7 +1004,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                               <div>
-                                <div style={{ float: "left" }} className="pl-19"> {currency_type} </div>
+                                <div style={{ float: "left" }} className="pl-14"> {currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1227,19 +1192,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             {/* <div class="page-number"></div>
 CSS to make the number appear in the div :
   multi-page content here... */}
-            <footer style={{ visibility: "hidden" }} >
+            {/* <footer style={{ visibility: "hidden" }} >
 
-              {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
-          
-          <p style={{color:'#fff',paddingTop:5,paddingBottom:5}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
-                
-        </div>
-         <div class="main" style={{width:'100%'}} > 
-       <div  class="right" style={{width: '90px',height: '10ex',backgroundColor: '#fff',shapeOutside: 'polygon(100% 0, 100% 100%, 0 100%)',float: 'right',webkitClipPath: 'polygon(100% 0, 100% 100%, 0 100%)'}}></div>           
-        <p   style={{textAlign: 'center',backgroundColor: '#1d2257',color:'white',fontFamily: "Calibri",paddingTop:5,paddingBottom:5}}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p>
-        </div>
-        
-        <h3 style={{textAlign:"center"}} ></h3> */}
               <div >
                 <div id="outer" style={{ "position": "relative", width: '1050px', backgroundColor: '#c1c1c1', "transform": "skew(-20deg)", marginLeft: '40px', marginRight: '50px' }}>
                   <p style={{ color: '#fff', paddingTop: 5, paddingBottom: 5, "transform": "skew(20deg)" }} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
@@ -1247,14 +1201,12 @@ CSS to make the number appear in the div :
                   <div style={{ "position": "fixed", bottom: 0, width: "100%", height: 30, backgroundColor: "#1d2257", }}> <p style={{ textAlign: 'center', color: 'white', fontFamily: "Calibri", paddingTop: 5, paddingBottom: 10, "transform": "skew(20deg)" }}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p></div>
                 </div>
 
-                <div id="content">
-                  {/* <div id="pageFooter"  >Page </div> */}
-
-                </div>
+               
               </div>
 
 
-            </footer>
+            </footer> */}
+            <Footer></Footer>
           </div>
 
 

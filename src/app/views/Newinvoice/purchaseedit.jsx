@@ -893,6 +893,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <CurrencyTextField
                           className="w-full"
                           label="Total"
+                          readOnly
                           variant="outlined"
                           fullWidth
                           size="small"
@@ -1088,6 +1089,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <CurrencyTextField
                         className="w-full mb-4"
                         label="Grand Total"
+                        readOnly
                         variant="outlined"
                         fullWidth
                         size="small"

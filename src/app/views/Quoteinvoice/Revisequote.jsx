@@ -304,6 +304,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       product_id: "",
       description: "",
       descriptions: "",
+      descriptionss: "",
       quantity: 0,
       unit_of_measure: " ",
       margin_val: 0,
@@ -1221,8 +1222,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 onChange={e => setsubject(e.target.value)
                 }
                 value={subject}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
               /></div>
 
 
@@ -1402,8 +1403,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           size="small"
                           value={item ? item.description : null}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
                           multiline
                         />
                       </TableCell>

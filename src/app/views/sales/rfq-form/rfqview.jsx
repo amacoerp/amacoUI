@@ -184,7 +184,7 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: (value, tableMeta, updateValue) => {
           return (
-            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>RFQ DATE</span>  </TableCell>)
+            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>BID CLOSING DATE</span>  </TableCell>)
         },
         setCellProps: () => ({
           align: "center"

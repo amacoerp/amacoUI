@@ -522,6 +522,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     };
 
     useEffect(() => {
+        // heelloo
         url.get("products").then(({ data }) => {
             setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
             setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));

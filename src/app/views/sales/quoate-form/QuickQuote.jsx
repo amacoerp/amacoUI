@@ -438,6 +438,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       src: '',
       description: "",
       descriptions: "",
+      descriptionss: "",
       product_description: "",
       uom: "",
       unit_of_measure: "",
@@ -1475,7 +1476,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onChange={handleChange}
                           // required
                           variant="outlined"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           decimalPlaces={3}
                           onChange={(event, value) => calcualtep(event, index, value)}
                           value={item.purchase_price}

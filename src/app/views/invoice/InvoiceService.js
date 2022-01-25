@@ -40,8 +40,8 @@ export const getInvoice = () => {
 
 const url = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
-  // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
-  //  baseURL: 'http://www.amacoerp.com/amaco/public/api/',
+  //  baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
+  // baseURL: 'http://www.amacoerp.com/amaco/public/api/',
   //  timeout: 1000,
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });
@@ -63,14 +63,14 @@ export const GDIV = localStorage.getItem("division")
   ? localStorage.getItem("division")
   : 1;
 
-export const version = "";
+  export const version = "";
 // export const version = "Test Version";
 
 export const ApiKey = "";
 const role = localStorage.getItem("role");
 
-// const  url = "http://dataqueuesystems.com/amaco/amaco/public/api/";
-const phpurl = "http://www.amacoerp.com/test/amaco_test/public/api/";
+    // const  url = "http://dataqueuesystems.com/amaco/amaco/public/api/";
+// const phpurl = "http://www.amacoerp.com/test/amaco_test/public/api/";
 // const  phpurl = "http://dataqueuesystems.com/amaco/amaco/public/api/";
 export const getparties = () => {
   return url.get(url + "parties");
@@ -240,6 +240,10 @@ export const currency = [
   {
     name: "USD",
     value: "USD",
+  },
+  {
+    name: "AED",
+    value: "AED",
   },
 ];
 

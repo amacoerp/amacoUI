@@ -218,7 +218,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [PriceList, setPriceList] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [pricestatus, setpricestatus] = useState(false);
-  const [ponumber, setponumber] = useState();
+  const [ponumber, setponumber] = useState(null);
   const [fstatus, setfstatus] = useState(-1);
   let calculateAmount = [];
   const history = useHistory();
@@ -491,6 +491,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calculatemargin = (event, index, value) => {
+    
     let tempItemList = [...state.item];
     let d_val = value ? value : event.target.value;
     tempItemList.map((element, i) => {
@@ -499,12 +500,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-
+        // element['sell_price']=value ? value : event.target.value;
         if (parseInt(element.purchase_price) !== 0) {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val
+          // element.sell_price = d_val
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -514,7 +515,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           // element['margin']=parseFloat(0.00);
           element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
-          element.sell_price = d_val
+          // element.sell_price = d_val
         }
 
 
@@ -550,9 +551,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       ],
       purchase_price: 0.00,
       margin: 0,
-      sell_price: parseFloat(0.00).toLocaleString(undefined, {
-        minimumFractionDigits: 2
-      }),
+      sell_price: 0,
       remark: "",
       total_amount: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
@@ -663,7 +662,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
           element[name] = newValue ? newValue : event.target.value
-          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
+          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
           // element['id']=null;
@@ -1557,13 +1556,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           autoComplete="none"
                           label="Sell Price"
+                          decimalPlaces={3}
                           variant="outlined"
                           fullWidth
                           size="small"
                           currencySymbol="SAR"
                           name="sell_price"
+                          
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          value={item.sell_price}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          // value={item.sell_price}
+                          value={item.sell_price.toLocaleString(undefined, {
+                            minimumFractionDigits: 3
+                          })}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>

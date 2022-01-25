@@ -124,6 +124,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         let tempItemList = [...state.item];
 
         tempItemList.push({
+            prd_id:0,
             product_id: "",
             src: '',
             description: "",
@@ -226,7 +227,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
             if (index == i) {
 
-                element['po_number'] = newValue?.id ? newValue?.po_number : newValue
+                element['po_number'] = newValue?.id ? newValue?.invoice_no : newValue
                 // setproList(a)
 
             }
@@ -263,7 +264,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
                 element['product_name'] = newValue?.id ? newValue?.description : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
-                element['product_id'] = newValue?.id ? newValue?.product_id : newValue
+                element['product_id'] = newValue?.id ? newValue?.id : newValue
+                element['description'] = newValue?.id ? newValue?.name : newValue
 
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
@@ -321,6 +323,37 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
+                element['total_amount'] = ((event.target.value) * element.quantity).toFixed(2);
+                element[event.target.name] = event.target.value;
+                element['remark'] = "";
+
+
+
+
+            }
+
+            return element;
+
+        });
+
+
+        setState({
+            ...state,
+            item: tempItemList,
+        });
+
+    }
+    const calcualte_qty = (event, index) => {
+        event.persist()
+        let tempItemList = [...state.item];
+
+        tempItemList.map((element, i) => {
+            let sum = 0;
+
+            if (index === i) {
+
+
+
                 element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
                 element[event.target.name] = event.target.value;
                 element['remark'] = "";
@@ -341,6 +374,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
 
     }
+
     const po_description = (event, index) => {
         //  event.persist()
         let tempItemList = [...state.item];
@@ -403,7 +437,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-
+        console.log(json)
         url.post('purchase-return-update', json)
             .then(function (response) {
 
@@ -470,6 +504,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ...state,
                 item: data.datas,
             });
+            console.log(data.datas)
         })
 
         return setIsAlive(false)
@@ -807,18 +842,18 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                                     variant="outlined"
                                                     size="small"
-                                                    name="product_description"
+                                                    name="description"
                                                     multiline
                                                     fullWidth
                                                     onChange={(event) => po_description(event, index)}
-                                                    value={item.product_description}
+                                                    value={item.description}
 
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                                                 <TextValidator
                                                     label="Qty"
-                                                    onChange={(event) => calcualteprice(event, index)}
+                                                    onChange={(event) => calcualte_qty(event, index)}
                                                     type="text"
                                                     variant="outlined"
                                                     size="small"

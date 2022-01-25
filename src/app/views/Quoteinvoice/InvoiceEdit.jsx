@@ -499,7 +499,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val?d_val:0.00
+          // element.sell_price = d_val?d_val:0.00
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -509,7 +509,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           // element['margin']=parseFloat(0.00);
           element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
-          element.sell_price = d_val?d_val:0.00
+          // element.sell_price = d_val?d_val:0.00
         }
 
 
@@ -661,7 +661,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
           element[name] = newValue ? (isNaN(newValue)?0:newValue) : (isNaN(event.target.value)?0:event.target.value)
-          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
+          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
           // element['id']=null;
@@ -670,7 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           element[name] = newValue ? newValue : event.target.value
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-          console.log("hi")
+          
           // element['id']=null;
         }
 
@@ -731,7 +731,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', GTotal)
     formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-    formData.append('po_number', ponumber ? ponumber : null)
+    formData.append('po_number', ponumber)
     formData.append('grand_total', GTotal)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
@@ -891,7 +891,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
-      setponumber(data[0]?.po_number == null || data[0]?.po_number == 'null' ? '' : data[0]?.po_number)
+      if(data[0]?.po_number)
+      {
+      setponumber(data[0]?.po_number)
+      }
       console.log('sd', data[0]?.po_number);
       setState({
         ...state,
@@ -1213,7 +1216,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="ponumber"
                     size="small"
                     variant="outlined"
-                    value={ponumber ? ponumber : null}
+                    value={ponumber}
                     onChange={(e) => setponumber(e.target.value)}
 
                   />
@@ -1540,6 +1543,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           autoComplete="none"
                           label="Sell Price"
+                          decimalPlaces={3}
                           variant="outlined"
                           fullWidth
                           size="small"
