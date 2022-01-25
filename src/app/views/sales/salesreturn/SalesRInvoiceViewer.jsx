@@ -783,7 +783,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
               {po_number} */}
                                                         <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
                                                         {party[0]?.firm_name}<br />
-                                                        {party[0]?.street}, {party[0]?.city}- {party[0]?.po_no}
+                                                        {party[0]?.street && party[0]?.street} {party[0]?.city && ',' + party[0]?.city} {party[0]?.po_no && '-' + party[0]?.po_no}
 
 
                                                     </div>
@@ -855,7 +855,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     </div>
 
                                     <br></br>
-                                    <Card className="mb-4" elevation={0}  borderRadius="borderRadius" >
+                                    <Card className="mb-4" elevation={0} borderRadius="borderRadius" >
 
 
 
@@ -940,17 +940,19 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
                                                         <TableCell className="pl-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
-                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({party[0]?.currency_type})</TableCell>
+                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}
                                                         >
+                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
 
                                                             {/* <IntlProvider locale='en-US' style={{wordBreak:'break-word',fontFamily: "Calibri"}}>
                     <FormattedNumber value={total_value} currency={"SAR"} style="currency" />
                     </IntlProvider> */}
-                                                            {parseFloat(party[0]?.total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  {party[0]?.currency_type}
+                                                            {parseFloat(party[0]?.total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                                                         </TableCell>
 
@@ -961,18 +963,19 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell className="pr-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
 
-                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges ({party[0]?.currency_type})</TableCell>
+                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Freight Charges </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
-                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}
+                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}
 
                                                         >
 
                                                             {/* <IntlProvider locale='en-US' style={{wordBreak:'break-word'}}>
                     <FormattedNumber value={vat_in_value} currency={"SAR"} style="currency" />
-                    </IntlProvider> */}
-                                                            {parseFloat(party[0]?.vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {party[0]?.currency_type}
+                    </IntlProvider> */}                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
+                                                            {parseFloat(party[0]?.vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                                         </TableCell>
                                                     </TableRow>
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
@@ -992,14 +995,16 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}
                                                             colspan={2}
                                                         >
-                                                            <span>Net Total ({party[0]?.currency_type})</span>
+                                                            <span>Net Total </span>
                                                         </TableCell>
 
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 16 }} colspan={2}>
-                                                            {parseFloat(party[0]?.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })} {party[0]?.currency_type}
+                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
+                                                            {parseFloat(party[0]?.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
 
                                                         </TableCell>
