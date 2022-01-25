@@ -263,7 +263,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
                 element['product_name'] = newValue?.id ? newValue?.description : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
-                element['product_id'] = newValue?.id ? newValue?.product_id : newValue
+                element['product_id'] = newValue?.id ? newValue?.id : newValue
+                element['description'] = newValue?.id ? newValue?.name : newValue
 
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
@@ -403,7 +404,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-
+        console.log(json)
         url.post('purchase-return-update', json)
             .then(function (response) {
 
@@ -470,6 +471,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ...state,
                 item: data.datas,
             });
+            console.log(data.datas)
         })
 
         return setIsAlive(false)
