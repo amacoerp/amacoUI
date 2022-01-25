@@ -11,6 +11,11 @@ import {
     TableBody,
     Icon,
 } from "@material-ui/core";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Axios from 'axios';
 import { useParams, useHistory } from "react-router-dom";
@@ -46,6 +51,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [cname, setcname] = useState('');
     var tempDate = new Date();
     const { user } = useAuth();
+    const [inv_date, setInv_date] = useState(moment(new Date()).format('DD MMM YYYY'));
 
     const [qno, setqno] = useState('');
     const [pono, setpono] = useState('');
@@ -59,7 +65,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const { id } = useParams();
     const classes = useStyles();
     const formData = new FormData();
-
+    const [ponumber, setponumber] = useState('');
 
     const generateRandomId = useCallback(() => {
         let tempId = Math.random().toString();
@@ -69,25 +75,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     let dis_per = parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
-      });
+    });
 
     const handleChange = (event, fieldName) => {
         // setState({ ...state, ['discount']:event.target.value });
         event.persist();
-    
-    
+
+
         let tempItemList = [...state.item];
         setdstatus(true)
         setdiscount(event.target.value)
         setdiscounts(event.target.value)
-    
+
         // setState({ ...state, ['vat']: vat });
         // setState({ ...state, ['net_amount']: GTotal });
         // setdstatus(true)
-    
-    
-    
-      };
+
+
+
+    };
 
 
     const handleIvoiceListChange = (event, index) => {
@@ -169,13 +175,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
         formData.append('grand_total', GTotal)
         formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-        formData.append('party_id', party_id)
-        formData.append('ps_date', tempDate)
-        formData.append('invoice_no', pono)
+        formData.append('ps_date', inv_date)
+        formData.append('po_number', pono)
+        formData.append('invoice_no', ponumber)
         formData.append('party_id', party_id)
         formData.append('div_id', localStorage.getItem('division'))
         formData.append('user_id', user.id)
-        formData.append('party_id', party_id)
 
         tempItemList.map((answer, i) => {
             formData.append(`invoice_details${i}`, JSON.stringify(answer))
@@ -430,6 +435,35 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             {pono}
                                         </span>
                                     </h5>
+                                    <TextField
+                                        type="text"
+                                        label="Invoice Number"
+                                        className="m-2"
+                                        style={{ minWidth: 200, maxWidth: '250px' }}
+                                        name="inv_no"
+                                        size="small"
+                                        variant="outlined"
+                                        value={ponumber ? ponumber : null}
+                                        onChange={(e) => setponumber(e.target.value)}
+
+                                    />
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <KeyboardDatePicker
+                                            className="m-2"
+                                            margin="none"
+                                            label="Date"
+                                            format="dd MMMM yyyy"
+                                            inputVariant="outlined"
+                                            type="text"
+                                            size="small"
+                                            selected={inv_date}
+                                            value={inv_date}
+                                            onChange={(date) => {
+                                                setInv_date(moment(date).format('DD MMM YYYY'))
+                                                // return date
+                                            }}
+                                        />
+                                    </MuiPickersUtilsProvider>
                                     {/* <TextField
                     
                     label="PO Number"
@@ -748,24 +782,24 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 value={discount}
               /> */}
                                     <div>
-                      <TextField
-                        className="mb-4 mr-2"
-                        label="Discount %"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        readOnly
-                        style={{ width: '90px' }}
-                        onChange={(event) => handleChange(event, "discount")}
-                        inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                        value={discount}
-                      // style={{width:50}}
-                      // validators={["required"]}
-                      // errorMessages={["this field is required"]}
-                      />
+                                        <TextField
+                                            className="mb-4 mr-2"
+                                            label="Discount %"
+                                            type="text"
+                                            variant="outlined"
+                                            size="small"
+                                            readOnly
+                                            style={{ width: '90px' }}
+                                            onChange={(event) => handleChange(event, "discount")}
+                                            inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                                            value={discount}
+                                        // style={{width:50}}
+                                        // validators={["required"]}
+                                        // errorMessages={["this field is required"]}
+                                        />
 
 
-                      {/* <TextField
+                                        {/* <TextField
                 className="mb-4 ml-2"
                 label="Discount"
                 type="text"
@@ -779,19 +813,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 // validators={["required"]}
                 // errorMessages={["this field is required"]}
               /> */}
-                      <CurrencyTextField
-                        className="w-full"
-                        label="Discount"
-                        style={{ width: '150px' }}
-                        name="dis_per"
-                        variant="outlined"
-                        fullWidth
-                        readOnly
-                        size="small"
-                        currencySymbol="SAR"
-                        value={dis_per}
-                      />
-                    </div>
+                                        <CurrencyTextField
+                                            className="w-full"
+                                            label="Discount"
+                                            style={{ width: '150px' }}
+                                            name="dis_per"
+                                            variant="outlined"
+                                            fullWidth
+                                            readOnly
+                                            size="small"
+                                            currencySymbol="SAR"
+                                            value={dis_per}
+                                        />
+                                    </div>
                                     {/* <TextValidator
                 className="mb-4"
                 label="Vat"

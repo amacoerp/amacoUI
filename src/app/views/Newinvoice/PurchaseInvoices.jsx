@@ -356,9 +356,9 @@ const SimpleMuiTable = () => {
                     data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
                         return [
                             ++index,
-
-                            item?.invoice_no ? item.invoice_no : "--",
                             item?.po_number ? item.po_number : "--",
+                            item?.invoice_no ? item.invoice_no : "--",
+
                             item?.party.firm_name,
 
                             moment(item.issue_date).format('DD MMM YYYY'),

@@ -698,7 +698,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     <div className="px-2 pt-5 flex justify-between">
                                         <div className="flex">
                                             <div className="pl-2 px-4 mb-4">
-                                                <h3 style={{ fontSize: 20 }}><strong>VAT INVOICE</strong></h3>
+                                                <h3 style={{ fontSize: 20 }}><strong>PURCHASE INVOICE</strong></h3>
                                                 {vat}
                                             </div>
                                         </div>
@@ -755,7 +755,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                                                     <div className="pb-4" >
-                                                        <span style={{ fontWeight: 1000 }}>PO NUMBER</span>
+                                                        <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                                                         <br></br>
                                                         {invoiceno}
 

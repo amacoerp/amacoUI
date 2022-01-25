@@ -55,6 +55,8 @@ const filter = createFilterOptions();
 const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const [isAlive, setIsAlive] = useState(true);
+    const [allData, setAllData] = useState([]);
+    const [dl, setDL] = useState([]);
     const [state, setState] = useState(initialValues);
     const [party_id, setparty_id] = useState('');
     const [discounts, setdiscounts] = useState('0');
@@ -195,11 +197,54 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const handleChangesPO = (event, newValue, index) => {
 
+        const d = allData;
+        console.log('dsdsa', d);
+        const nd = allData.filter(obj => obj.invoice_no == newValue?.invoice_no).map((item, i) => {
+            const b = item.details;
+            return b.map((it) => {
+                return it.product_id
+            })
+        })
 
-        url.get(`getProductsPR/${newValue.po_number}`).then(({ data }) => {
-            setproList(data.getPData)
+        console.log('dsd', dl);
 
-        });
+
+
+        // const a = nd.map((item) => {
+        //     const b = dl;
+        //     return b.filter(obj => obj.id == item)
+        // })
+
+        const a = nd.map((item, i) => {
+            return item.map((it) => {
+                const b = dl;
+                return b.filter(obj => obj.id == it)
+            })
+        })
+        console.log('dsd', a[0]);
+
+        const c = a[0]?.map((i) => {
+            return i?.map((n) => {
+                return n
+            })
+        })
+
+        const dta = c.map((item, n) => {
+            return item[0]
+        })
+
+        console.log('dsadsa', dta)
+        setproList(dta)
+
+
+
+        // console.log('sssd', ab);
+
+        // url.get(`getProductsPR/${newValue?.po_number}`).then(({ data }) => {
+        //     setproList(data)
+        //     console.log('d', data);
+
+        // });
 
 
         // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
@@ -210,7 +255,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
-                element['po_number'] = newValue?.id ? newValue?.po_number : newValue
+                element['po_number'] = newValue?.invoice_no ? newValue?.invoice_no : newValue
             }
             return element;
         });
@@ -220,18 +265,18 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
     };
     const handleChanges = (event, newValue, index) => {
-        // console.log(newValue.id);
-        // console.log(newValue.name);
-        // console.log(newValue.po_number);
+        console.log(newValue?.id);
+        console.log(newValue?.name);
+        console.log(newValue?.po_number);
 
 
-        const pD = proList.filter(obj => obj.product_id == newValue.product_id)
+        const pD = proList.filter(obj => obj.product_id == newValue?.id)
 
 
 
         setState({
             ...state,
-            description: pD[0].product_id,
+            description: pD[0]?.product_id,
         })
 
 
@@ -245,7 +290,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
                 element['product_name'] = newValue?.id ? newValue?.description : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
-                element['product_id'] = newValue?.id ? newValue?.product_id : newValue
+                element['product_id'] = newValue?.id ? newValue?.id : newValue
                 // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
@@ -267,8 +312,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index === i) {
 
 
-                element['total_amount'] = ((newValue.price ? newValue.price : newValue) * element.quantity).toFixed(2);
-                element['purchase_price'] = newValue.price ? newValue.price : newValue;
+                element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element?.quantity).toFixed(2);
+                element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
                 // element[event.target.name] = event.target.value;
                 element.margin = "";
                 element.sell_price = "";
@@ -478,7 +523,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     useEffect(() => {
         // heelloo
         url.get("products").then(({ data }) => {
-            setproList(data)
+            setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
+
         });
         getVendorList().then(({ data }) => {
             setvalues({
@@ -505,25 +552,18 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
     const setcontact = (event) => {
 
-        url.get("parties/" + event.target.value).then(({ data }) => {
-            setcontacts(data[0].contacts)
+        url.get("newparties/" + event.target.value).then(({ data }) => {
+            setcontacts(data.contacts)
             setparty_id(event.target.value)
             setvalues({ ...values, status: true });
+            setPoNumbers(data.data[0]?.inv);
+            setAllData(data.data[0]?.inv);
         });
 
-        url.get(`purchase-return-data/${event.target.value}`).then(({ data }) => {
-
-            // const pr = data.getPurchaseReturnData.map((item, i) => {
-            //     item.
-            // })
-            // const poN = data.getPurchaseReturnData.map((item, i) => {
-            //     return (
-            //         item.po_number
-            //     )
-            // });
-            // console.log(poN)
-            setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
-        });
+        // url.get(`purchase-return-data/${event.target.value}`).then(({ data }) => {
+        //     console.log(data.getPurchaseReturnData)
+        //     setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
+        // });
     }
 
     let subTotalCost = 0;
@@ -704,7 +744,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <TableHead>
                                 <TableRow className="bg-default">
                                     <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
-                                    <TableCell className="px-0" style={{ width: '150px' }}>PO NUMBER</TableCell>
+                                    <TableCell className="px-0" style={{ width: '150px' }}>INVOICE NUMBER</TableCell>
                                     <TableCell className="px-0" style={{ width: '150px' }}>ITEM</TableCell>
                                     <TableCell className="px-0" style={{ width: '220px' }}>OUR DESCRIPTION</TableCell>
                                     <TableCell className="px-0" style={{ width: '80px' }}>QTY</TableCell>
@@ -750,10 +790,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     className="w-full"
                                                     size="small"
                                                     options={poNumbers ? poNumbers : []}
-                                                    name="po_number"
-                                                    value={item?.po_number}
+                                                    name="invoice_no"
+                                                    value={item?.invoice_no}
                                                     filterOptions={filterOptions}
-                                                    renderOption={option => option.po_number}
+                                                    renderOption={option => option.invoice_no}
                                                     multiline
                                                     getOptionLabel={option => {
                                                         // e.g value selected with enter, right from the input
@@ -763,11 +803,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.po_number;
+                                                        return option.invoice_no;
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="po_number" required fullWidth />
+                                                        <TextField {...params} variant="outlined" name="invoice_no" required fullWidth />
                                                     )}
                                                     // onChange={handleChanges}
                                                     onChange={(event, newValue) => handleChangesPO(event, newValue, index)}
@@ -782,9 +822,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     size="small"
                                                     options={proList ? proList : []}
                                                     name="product_id"
-                                                    value={item?.name}
-                                                    filterOptions={filterOptions}
-                                                    renderOption={option => option.description}
+                                                    value={item?.id}
+                                                    // filterOptions={filterOptions}
+                                                    renderOption={option => option.name}
                                                     multiline
                                                     getOptionLabel={option => {
                                                         // e.g value selected with enter, right from the input
@@ -794,7 +834,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.description;
+                                                        return option.name;
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (

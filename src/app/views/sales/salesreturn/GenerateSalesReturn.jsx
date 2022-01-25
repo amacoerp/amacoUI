@@ -194,22 +194,17 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         GTotal = 50 + vat
     }
 
-    const handleChangesPO = (event, newValue, index) => {
+    const handleChangesPO = async (event, newValue, index) => {
         // console.log(newValue.id);
         // console.log(newValue.name);
-        console.log(newValue.invoice_no);
 
 
-        url.get(`getInvSr/${newValue.invoice_no}`).then(({ data }) => {
-
+        await url.get(`getInvSr/${newValue?.invoice_no}`).then(({ data }) => {
             const b = proList;
-
             let yFilter = data.getPData.map(itemY => { return itemY.product_id; });
             let filteredX = b.filter(itemX => yFilter.includes(itemX.id));
-
             setproList(filteredX);
             // console.log('aaa', filteredX);
-
         });
 
 

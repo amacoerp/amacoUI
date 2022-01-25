@@ -486,7 +486,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
-    let d_val = value ? (value!==null?value:0) : (event.target.value?event.target.value:0);
+    let d_val = value ? (value !== null ? value : 0) : (event.target.value ? event.target.value : 0);
 
     tempItemList.map((element, i) => {
       let sum = 0;
@@ -499,7 +499,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val?d_val:0.00
+          element.sell_price = d_val ? d_val : 0.00
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -509,7 +509,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           // element['margin']=parseFloat(0.00);
           element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
-          element.sell_price = d_val?d_val:0.00
+          element.sell_price = d_val ? d_val : 0.00
         }
 
 
@@ -658,10 +658,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
         if (parseFloat(element.purchase_price) !== null && !isNaN(element.purchase_price)) {
-          
+
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? (isNaN(newValue)?0:newValue) : (isNaN(event.target.value)?0:event.target.value)
+          element[name] = newValue ? (isNaN(newValue) ? 0 : newValue) : (isNaN(event.target.value) ? 0 : event.target.value)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
           element.total_amount = ((element.purchase_price) * element.quantity).toFixed(2);
 
@@ -671,7 +671,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           element[name] = newValue ? newValue : event.target.value
 
           element.total_amount = ((element.purchase_price) * element.quantity).toFixed(2);
-          
+
           // element['id']=null;
         }
 
@@ -732,7 +732,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', GTotal)
     formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-    formData.append('po_number', ponumber ? ponumber : null)
+    formData.append('invoice_no', ponumber ? ponumber : null)
     formData.append('grand_total', GTotal)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
@@ -783,7 +783,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "/piview/"+id)
+            history.push(navigatePath + "/piview/" + id)
           })
         // window.location.href="../quoateview"
       })
@@ -793,7 +793,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // },5000)
   };
   function cancelform() {
-    history.push(navigatePath + "/piview/"+id)
+    history.push(navigatePath + "/piview/" + id)
   }
 
   const handleDialogClose = () => {
@@ -889,11 +889,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("purchase-invoice/" + id).then(({ data }) => {
       // setproList(data)
-      setdiscount(data[0].discount_in_percentage);
+      setdiscount(data[0]?.discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
       setQuote_date(moment(data[0]?.issue_date).format('DD MMM YYYY'))
-      setponumber(data[0]?.po_number == null || data[0]?.po_number == 'null' ? '' : data[0]?.po_number)
+      setponumber(data[0]?.invoice_no == null || data[0]?.invoice_no == 'null' ? '' : data[0]?.invoice_no)
       console.log('sd', data[0]?.po_number);
       setState({
         ...state,
@@ -1209,10 +1209,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   <TextField
                     type="text"
-                    label="P.O Number"
+                    label="INVOICE NUMBER"
                     className="m-2"
                     style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="ponumber"
+                    name="invoice_no"
                     size="small"
                     variant="outlined"
                     value={ponumber ? ponumber : null}
@@ -1253,7 +1253,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                    subTotalCost += isNaN(item?.total_amount)?0:parseFloat(item?.total_amount)
+                    subTotalCost += isNaN(item?.total_amount) ? 0 : parseFloat(item?.total_amount)
                     dis_per = parseFloat(discount * subTotalCost / 100).toFixed(2)
                     // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                     vat = (((subTotalCost - parseFloat(discount * subTotalCost / 100)) * 15) / 100).toFixed(2)
@@ -1498,7 +1498,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       {/* <TableCell className="pl-0 capitalize" align="left"> */}
-                        {/* <TextValidator autoComplete="none"
+                      {/* <TextValidator autoComplete="none"
                           label="Margin"
                           onChange={(event, newValue) => calcualtep(event, index, newValue = null, 'margin')}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
@@ -1513,7 +1513,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           errorMessages={["this field is required"]}
 
                         /> */}
-                        {/* <Tooltip title="Reference">
+                      {/* <Tooltip title="Reference">
                   <Icon aria-label="expand row" size="small" style={{width:'25%',float:'left',cursor:'pointer'}} onClick={() => {
                         setMargin(item.product_id,index,item.name);
                       }}>
@@ -1524,7 +1524,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       {/* </TableCell> */}
 
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{ width: '200px' }}> */}
-                        {/* <TextValidator autoComplete="none"
+                      {/* <TextValidator autoComplete="none"
                       label="price"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -1538,7 +1538,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       value={item.sell_price}
       
                     /> */}
-                        {/* <CurrencyTextField
+                      {/* <CurrencyTextField
                           className="w-full"
                           autoComplete="none"
                           label="Sell Price"
@@ -1577,7 +1577,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol="SAR"
                           name="total_amount"
-                          value={isNaN(item.total_amount) ? 0 :item?.total_amount?.toLocaleString(undefined, {
+                          value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
                         />

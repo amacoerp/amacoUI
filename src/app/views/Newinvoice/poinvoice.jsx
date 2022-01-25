@@ -1021,7 +1021,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                       </Table>
-                     
+
                     </div>
                     <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure (1) for terms & condition
                     <div id="panel" className="pt-2">
