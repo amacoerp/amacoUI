@@ -744,7 +744,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     options={poNumbers ? poNumbers : []}
                                                     name="po_number"
                                                     value={item?.po_number}
-                                                    filterOptions={filterOptions}
+                                                    // filterOptions={filterOptions}
                                                     renderOption={option => option.invoice_no}
                                                     multiline
                                                     getOptionLabel={option => {
@@ -757,9 +757,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         }
                                                         return option?.invoice_no ? option?.invoice_no : " ";
                                                     }}
+
                                                     freeSolo
                                                     renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="po_number" required fullWidth />
+                                                        <TextField {...params} readOnly variant="outlined" name="po_number" required fullWidth />
                                                     )}
                                                     // onChange={handleChanges}
                                                     onChange={(event, newValue) => handleChangesPO(event, newValue, index)}
