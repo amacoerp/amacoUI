@@ -359,9 +359,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   useEffect(() => {
 
     // updateSidebarMode({ mode: "close" })
-    document.title = "Purchase Order - Amaco"
+   
     url.get("purchase-quotation/" + id).then(({ data }) => {
-
+      document.title = `AMACO PURCHASE ORDER - ${data[0]?.party?.firm_name} - ${data[0]?.po_number}`
       // setcname(data[0].party.fname)
       setpo_number(data[0].po_number)
 

@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { numberToWords } from 'number-to-words';
 import { withStyles } from "@material-ui/core/styles"
 import { getInvoiceById, navigatePath } from "../../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -404,10 +405,25 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
             // setparty_code(data[0].party?.party_code)
             // setaddress({ ...address, street: data[0].party.street, city: data[0].party.city, po_no: data[0].party.post_box_no })
             let words = toWords.convert(parseFloat(data.getReturnParty[0].net_amount));
-            let riyal = words.replace("Rupees", "Riyals");
-            let halala = riyal.replace("Paise", "Halala")
+      let riyal = words.replace("Rupees", "Riyals");
+      let halala = riyal.replace("Paise", "Halala")
+      let words1 = numberToWords.toWords(data.getReturnParty[0].net_amount);
+      let decimal = parseFloat(parseFloat(data.getReturnParty[0].net_amount).toFixed(2).split('.')[1]);
+      
 
-            setress(halala);
+    if(data.getReturnParty[0].currency_type=="SAR")
+      {
+      setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas.":"")) : " "));
+      }
+      if(data.getReturnParty[0].currency_type=="AED")
+      {
+      setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils.":"")) : " "));
+      }
+      else
+      {
+        setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ?  " & " + (numberToWords?.toWords(decimal))+ " Cents.":"")) : " "))
+      }
+
 
 
         });

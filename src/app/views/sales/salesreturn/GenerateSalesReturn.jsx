@@ -810,7 +810,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name;
+                                                        return option?.name?option?.name:" ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (

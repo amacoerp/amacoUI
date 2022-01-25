@@ -125,6 +125,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         tempItemList.push({
             product_id: "",
+            prd_id: 0,
             src: '',
             description: "",
             descriptions: "",
@@ -397,14 +398,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.inco_terms = inco_terms
         arr.payment_terms = payment_terms
         arr.contact_id = contactid
-        arr.transaction_type = "purchase"
+        arr.transaction_type = "sales"
         arr.status = "New"
         arr.ps_date = Quote_date
         arr.currency_type = currency_type
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-
+        console.log(json)
         url.post('purchase-return-update', json)
             .then(function (response) {
 
