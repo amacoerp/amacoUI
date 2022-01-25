@@ -173,9 +173,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const filterOptions = (options, params) => {
     const filtered = filter(options, params);
     // if (params.inputValue !== "") {
+      console.log("Input value",params.inputValue)
     filtered.push({
-      inputValue: params.inputValue,
-      name: `Add "${params.inputValue}"`
+      inputValue: params?.inputValue,
+      name: `Add "${params?.inputValue}"`
     });
     // }
     return filtered;
@@ -268,11 +269,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         let tempItemList = [...state.item];
         tempItemList.splice(index, 1);
-
+       
+        filterOptions()
         setState({
           ...state,
           item: tempItemList,
         });
+        
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -760,10 +763,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="product_id"
                           multiLine
                           value={item?.product_id ? item?.product_id : " "}
-                          // filterOptions={filterOptions}
+                          filterOptions={filterOptions}
                           renderOption={option => option.name}
 
                           getOptionLabel={option => {
+                            console.log(option.inputValue)
                             // e.g value selected with enter, right from the input
                             if (typeof option === "string") {
                               return option;

@@ -32,7 +32,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
 
     return () => setIsAlive(false);
-  }, [isAlive, values]);
+  }, [isAlive]);
 
 
   return (
@@ -232,7 +232,8 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                     <IconButton
                       size="small"
                       // onClick={(e) => arrayHelpers.remove(values?.rfq_details.findIndex(e))}
-                      onClick={() => arrayHelpers.remove(item)}
+                      // onClick={() => console.log(ind+","+values.rfq_details)}
+                      onClick={() => arrayHelpers.remove(ind)}
                     >
                       <Icon color="error" fontSize="small">
                         delete
