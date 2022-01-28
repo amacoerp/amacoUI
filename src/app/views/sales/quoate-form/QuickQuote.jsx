@@ -448,9 +448,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           price: ""
         }
       ],
-      purchase_price: parseFloat(0.00).toLocaleString(undefined, {
-        minimumFractionDigits: 2
-      }),
+      purchase_price:'',
       margin: 0,
       margin_val: 0,
       discount_val: 0,
@@ -528,8 +526,9 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        element.discount=0;
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        element.discount=0
+        element.discount_val=0
+        // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
 
       }
@@ -546,7 +545,58 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const calcualtep = (event, index, value) => {
+  
+    let tempItemList = [...state.item];
 
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index == i) {
+
+        if (parseFloat(element.purchase_price)) {
+
+          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+        }
+        else {
+
+          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
+
+
+  const calcualte_margin = (event, index, value) => {
+  
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -594,6 +644,54 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
 
+  const calcualte_qty = (event, index, value) => {
+  
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index == i) {
+
+        if (parseFloat(element.purchase_price)) {
+
+          element[event.target.name] = value ? value : event.target.value;
+
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+        }
+        else {
+
+          element[event.target.name] = value ? value : event.target.value;
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
   const discountPer = (event, index, value) => {
 
     let tempItemList = [...state.item];
@@ -1399,7 +1497,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
                         <TextValidator
                           label="Qty"
-                          onChange={(event) => calcualtep(event, index)}
+                          onChange={(event) => calcualte_qty(event, index)}
                           type="number"
                           // requried
                           variant="outlined"
@@ -1480,7 +1578,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol=""
                           decimalPlaces={3}
                           onChange={(event, value) => calcualtep(event, index, value)}
-                          value={item.purchase_price}
+                          value={item?.purchase_price}
                           label="Price"
                           size="small"
                           inputProps={{
@@ -1518,7 +1616,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                         <TextValidator
                           label="Margin"
-                          onChange={(event) => calcualtep(event, index)}
+                          onChange={(event) => calcualte_margin(event, index)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           inputProps={{ inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}

@@ -650,6 +650,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calcualtep = (event, index, newValue, name) => {
+   
 
     let tempItemList = [...state.item];
 

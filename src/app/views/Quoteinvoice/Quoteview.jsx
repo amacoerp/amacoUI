@@ -1492,7 +1492,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>{user?.contact}</td>
                           </tr>
-                          <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
+                          {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>Amaco Group Of Companies</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
@@ -1501,7 +1501,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>P.O BOX 9290 | Al Jubail - 31951 | Kingdom Of Saudi Arabia</td>
-                          </tr>
+                          </tr> */}
                         </div>
 
 
