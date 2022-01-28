@@ -735,7 +735,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pl-2 pb-4">
                                                         <span style={{ fontWeight: 1000 }}>COMPANY NAME & ADDRESS</span><br></br>
                                                         <span>{company}</span><br></br>
-                                                        <span>{street && street}{city && '-' + city} {zipcode && + ',' + zipcode}</span>
+                                                        <span>{street ? street + (city ? "," + city + (zipcode ? "," + (zipcode) : " ") : (zipcode ? "," + (zipcode) : " ")) : (city ? city + (zipcode ? " ," + (zipcode) : " ") : (zipcode ? zipcode : " "))}</span>
 
 
                                                     </div>
@@ -816,7 +816,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }} >
                                                             رقم ضريبة القيمة المضافة
                                                         </span><br></br>
-                                                        {toArabic(vatno) == undefined ? toArabic(vatno) : "--"}
+                                                        {toArabic(vatno) ? toArabic(vatno) : "--"}
 
                                                     </div>
                                                 </div>

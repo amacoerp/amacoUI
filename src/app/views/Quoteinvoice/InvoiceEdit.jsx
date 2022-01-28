@@ -1572,7 +1572,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                         <CurrencyTextField
                           className="w-full"
-                          label="QTotal"
+                          label="Total"
+                          readOnly
                           autoComplete="none"
                           variant="outlined"
                           fullWidth
@@ -1714,6 +1715,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               /> */}
                     <CurrencyTextField
                       className="w-full mb-4"
+                      readOnly
                       label="Vat"
                       style={{ width: '250px' }}
                       name="vat"
@@ -1729,6 +1731,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <CurrencyTextField
                         className="w-full"
                         label="Grand Total"
+                        readOnly
                         style={{ width: '250px' }}
                         name="net_amount"
                         variant="outlined"

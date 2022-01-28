@@ -109,7 +109,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const addItemToInvoiceList = () => {
+    
     let tempItemList = [...state.item];
+
 
     tempItemList.push({
       product_id: "",
@@ -171,9 +173,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const filterOptions = (options, params) => {
+    
     const filtered = filter(options, params);
     // if (params.inputValue !== "") {
-      console.log("Input value",params.inputValue)
+      console.log("Input value",params?.inputValue)
     filtered.push({
       inputValue: params?.inputValue,
       name: `Add "${params?.inputValue}"`
@@ -269,8 +272,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         let tempItemList = [...state.item];
         tempItemList.splice(index, 1);
+        
+          // const list = tempItemList.filter((item,ind) => ind !== index)
+         
        
-        filterOptions()
+       
         setState({
           ...state,
           item: tempItemList,
@@ -728,6 +734,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
+                  console.log(item)
                   if (!dstatus) {
                     subTotalCost += parseFloat(item.total_amount)
                     vat = ((subTotalCost * 15) / 100).toFixed(2)
@@ -759,27 +766,29 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Autocomplete
                           className="w-full"
                           size="small"
-                          options={proList ? proList : []}
+                          options={proList?.map(option => option)}
                           name="product_id"
                           multiLine
-                          value={item?.product_id ? item?.product_id : " "}
+                          // value={item?.product_id ? item?.product_id : " "}
+                          // value={item?.product_id}
                           filterOptions={filterOptions}
-                          renderOption={option => option.name}
-
-                          getOptionLabel={option => {
-                            console.log(option.inputValue)
-                            // e.g value selected with enter, right from the input
-                            if (typeof option === "string") {
-                              return option;
-                            }
-                            if (option.inputValue) {
-                              return option?.inputValue;
-                            }
-                            return option?.name ? option?.name : " ";
-                          }}
+                          // renderOption={option => option.name}
+                          getOptionLabel={(option) => option?.name ?option?.name:" "}
+                          // getOptionLabel={option => {
+                            
+                          //   // e.g value selected with enter, right from the input
+                          //   if (typeof option === "string") {
+                          //     return option;
+                          //   }
+                          //   if (option.inputValue) {
+                          //     return option?.inputValue;
+                          //   }
+                          //   return option?.name ? option?.name : " ";
+                          // }}
                           freeSolo
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" fullWidth />
+                            // {console.log(params)}
+                            <TextField {...params} variant="outlined" value={item.product_name} name="product_id" fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -792,6 +801,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextField
                           label="Our description"
                           type="text"
+                          multiLine
                           required
                           variant="outlined"
                           size="small"

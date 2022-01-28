@@ -825,17 +825,17 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     name="product_id"
                                                     value={item?.id}
                                                     // filterOptions={filterOptions}
-                                                    renderOption={option => option.name}
-                                                    multiline
+                                                    renderOption={option => option?.name}
+                                                    // multiline
                                                     getOptionLabel={option => {
                                                         // e.g value selected with enter, right from the input
                                                         if (typeof option === "string") {
                                                             return option;
                                                         }
-                                                        if (option.inputValue) {
-                                                            return option.inputValue;
+                                                        if (option?.inputValue) {
+                                                            return option?.inputValue;
                                                         }
-                                                        return option.name;
+                                                        return option?.name?option?.name:' ';
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (

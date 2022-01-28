@@ -1215,7 +1215,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="invoice_no"
                     size="small"
                     variant="outlined"
-                    value={ponumber ? ponumber : null}
+                    value={ponumber ? ponumber : ''}
                     onChange={(e) => setponumber(e.target.value)}
 
                   />
@@ -1570,12 +1570,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                         <CurrencyTextField
                           className="w-full"
+                          readOnly
                           label="QTotal"
                           autoComplete="none"
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
@@ -1712,6 +1713,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               /> */}
                     <CurrencyTextField
                       className="w-full mb-4"
+                      readOnly
                       label="Vat"
                       style={{ width: '250px' }}
                       name="vat"
@@ -1726,6 +1728,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full"
+                        readOnly
                         label="Grand Total"
                         style={{ width: '250px' }}
                         name="net_amount"

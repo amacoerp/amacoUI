@@ -586,7 +586,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     window.location.href = ``
   };
   const statuschange = (status, name) => {
-
+  
     var tab_status = 0;
     if (name == "accept") {
       settab(1)
@@ -635,7 +635,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             title: 'Success',
             type: 'success',
             icon: 'success',
-            text: `Quotation has been ${name}.`,
+            text: `Quotation has been ${status}ed.`,
           })
           history.push(navigatePath + '/quoateview/' + tab_status)
         }

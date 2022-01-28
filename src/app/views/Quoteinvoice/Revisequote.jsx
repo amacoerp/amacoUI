@@ -484,6 +484,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+        element.discount=0;
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
       }
@@ -2041,6 +2042,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <CurrencyTextField
                         className="w-full "
                         label="Discount"
+                        readOnly
                         variant="outlined"
                         fullWidth
                         size="small"
@@ -2113,6 +2115,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
+                        readOnly
                         label="Grand Total"
                         onChange={handleChange}
                         variant="outlined"

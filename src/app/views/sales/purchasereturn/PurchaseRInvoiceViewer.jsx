@@ -419,7 +419,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       {
       setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils.":"")) : " "));
       }
-      else
+      if(data.getReturnParty[0].currency_type=="USD")
       {
         setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." :  (decimal ?  " & " + (numberToWords?.toWords(decimal))+ " Cents.":"")) : " "))
       }
@@ -970,7 +970,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         );
                                                     })}
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
-                                                        <TableCell className="pl-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                                                        <TableCell className="pl-0 capitalize hidecell" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>

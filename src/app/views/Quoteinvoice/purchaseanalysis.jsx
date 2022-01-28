@@ -188,7 +188,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
+      text: 'You want to Delete this Purchase Order Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -934,6 +934,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <CurrencyTextField
                 className="w-full mb-4"
                 label="Grand Total"
+                readOnly
 			          variant="outlined"
                 fullWidth
                 size="small"

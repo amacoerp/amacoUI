@@ -118,13 +118,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       "body, html": {
         visibility: "hidden",
         size: "auto",
-        counterReset: i,
+        // counterReset: i,
         // content: 'none !important',
         "-webkit-print-color-adjust": "exact !important",
-        marginTop: '10px',
-        '.pagebreak': {
-          pageBreakBefore: 'always'
-        }
+        // marginTop: '10px',
+       
 
 
 
@@ -133,13 +131,13 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 
       },
-      "h3": {
-        counterIncrement: i,
-        content: "Section "
-      },
-      "#edits": {
-        display: 'none'
-      },
+      // "h3": {
+      //   counterIncrement: i,
+      //   content: "Section "
+      // },
+      // "#edits": {
+      //   display: 'none'
+      // },
 
 
       "#header": {
@@ -168,7 +166,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       },
       ".header": {
         position: "fixed",
-        height: "100px",
+        // height: "100px",
         top: 0,
 
       },
@@ -400,8 +398,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
       // annexure
-      setContent(`
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><p style="margin-bottom: 0px; cursor: text; padding: 0px; counter-reset: list-1 0 list-2 0 list-3 0 list-4 0 list-5 0 list-6 0 list-7 0 list-8 0 list-9 0; font-size: 16px; color: rgb(52, 49, 76); font-family: Helvetica, Arial, sans-serif; letter-spacing: 0.14994px; white-space: pre-wrap;"><br></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
+      setContent(`<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :${data[0].delivery_time}</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>FREIGHT TYPE</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  :${data[0].freight_type}</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>INCO TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:${data[0].inco_terms}</p>
@@ -412,13 +409,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   `
       );
       // setress(halala);
+      
       if (data[0].currency_type == "SAR") {
+        console.log(data[0].currency_type)
         setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
       }
       if (data[0].currency_type == "AED") {
         setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
       }
-      else {
+      if (data[0].currency_type == "USD"){
         setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
       }
 
@@ -1046,7 +1045,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                     <br></br>
                     <td id="note" style={{ padding: '1vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
-                      <div style={{ breakAfter: 'page' }}></div>
+                      {/* <div style={{ breakAfter: 'page' }}></div> */}
                       <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
                     <div class="sign" class="onepage">
                       <p>
