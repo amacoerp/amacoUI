@@ -76,7 +76,7 @@ const SimpleMuiTable = () => {
   }
 
   function handleClose() {
-
+    setcatid()
     setAnchorEl(null);
   }
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);

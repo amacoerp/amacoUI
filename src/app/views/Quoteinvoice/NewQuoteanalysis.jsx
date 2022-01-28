@@ -517,6 +517,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
+        element.discount=0;
         element.discount_val = ((parseFloat(parseFloat(discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
         console.log("sell_price", element.sell_price)
@@ -625,7 +626,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.currency_type = "SAR"
     arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', isNaN(discount) ? 0 : discount)
+    formData.append('discount_in_p', isNaN(dis_per) ? 0 : dis_per)
     formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
     formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2)) ? 0 : parseFloat(vat).toFixed(2))

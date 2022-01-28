@@ -292,7 +292,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const deleteItemFromInvoiceList = (index) => {
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You want to Delete this Quotation Details!',
+            text: 'You want to Delete this SalesReturn Details!',
             icon: 'danger',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -614,7 +614,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 </TextField>
 
                                 <TextField
-
+                                    className="pl-2"
                                     label="Customer Name"
                                     style={{ minWidth: 200, maxWidth: '250px' }}
                                     name="party_id"
@@ -810,7 +810,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name;
+                                                        return option?.name?option?.name:" ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -842,7 +842,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <TextValidator
                                                     label="Qty"
                                                     onChange={(event) => calcualteprice(event, index)}
-                                                    type="text"
+                                                    type="number"
                                                     variant="outlined"
                                                     size="small"
                                                     fullWidth
@@ -855,6 +855,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                                                 <TextField
+
                                                     label="UOM"
 
                                                     type="text"
@@ -904,7 +905,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </TextField> */}
 
                                                 <Autocomplete
-                                                    className="w-full"
+                                                    className="w-full pl-2"
                                                     size="small"
                                                     options={item?.product_price_list}
                                                     name="purchase_price"
@@ -946,6 +947,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <CurrencyTextField
                                                     className="w-full"
                                                     label="Total"
+                                                    readOnly
                                                     variant="outlined"
                                                     fullWidth
                                                     size="small"
@@ -1080,7 +1082,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <div className="px-4 flex justify-end">
                                 <div className="flex " >
                                     <div className="pr-12">
-                                        <p className="mb-8">Total Amount{currency_type} :</p>
+                                        <p className="mb-8">Total Amount ({currency_type}):</p>
                                         {/* <p className="mb-8">Discount:</p> */}
                                         <p className="mb-8">Freight Charges ({currency_type})</p>
                                         {/* <p className="mb-5">currency:</p> */}
@@ -1140,6 +1142,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         <div>
                                             <CurrencyTextField
                                                 className="w-full mb-4"
+                                                readOnly
                                                 label="Grand Total"
                                                 variant="outlined"
                                                 fullWidth

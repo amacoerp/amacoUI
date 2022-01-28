@@ -443,7 +443,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         name="inv_no"
                                         size="small"
                                         variant="outlined"
-                                        value={ponumber ? ponumber : null}
+                                        value={ponumber ? ponumber : ''}
                                         onChange={(e) => setponumber(e.target.value)}
 
                                     />

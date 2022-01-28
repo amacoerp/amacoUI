@@ -663,6 +663,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               /> */}
                   <CurrencyTextField
                     className="w-full mb-4"
+                    readOnly
                     label="Discount"
                     style={{ width: '250px' }}
                     variant="outlined"
@@ -690,6 +691,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     <CurrencyTextField
                       className="w-full mb-4"
+                      readOnly
                       label="Vat"
                       variant="outlined"
                       fullWidth
@@ -716,6 +718,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <div>
                     <CurrencyTextField
                       className="w-full"
+                      readOnly
                       label="Grand Total"
                       variant="outlined"
                       style={{ width: '250px' }}

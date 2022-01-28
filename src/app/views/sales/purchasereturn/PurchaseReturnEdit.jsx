@@ -828,6 +828,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     renderInput={(params) => (
                                                         <TextField {...params} variant="outlined" name="product_id" fullWidth />
                                                     )}
+                                                    select
                                                     // onChange={handleChanges}
                                                     onChange={(event, newValue) => handleChanges(event, newValue, index)}
                                                 // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
