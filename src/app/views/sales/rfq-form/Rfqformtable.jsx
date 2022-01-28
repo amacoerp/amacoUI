@@ -58,7 +58,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                 <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" align="left">
                     {ind + 1}
-                  
+
                   </TableCell>
                   <TableCell>
                     {item?.name && (<Icon
