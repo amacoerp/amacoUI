@@ -58,10 +58,11 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                 <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" align="left">
                     {ind + 1}
+                    {console.log(item)}
 
                   </TableCell>
                   <TableCell>
-                    {item?.name && (<Icon
+                    {/* {item?.name && (<Icon
                       variant="contained"
                       component="label"
 
@@ -84,9 +85,31 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           });
                         }}
                       />
-                    </Icon>)}
+                    </Icon>)} */}
+                    {item?.name == undefined ? '' : (item?.file == null || item?.file == undefined ? (<Icon
+                      variant="contained"
+                      component="label"
 
-                    {item?.file && (<span><Icon color="error"
+                    >
+                      file_upload
+                      <input
+                        type="file"
+                        name={`rfq_details[${ind}].file`}
+                        defaultValue={item?.file || ''}
+                        onChange={(event, newValue) => {
+                          handleChange({
+                            target: {
+                              //  files: `rfq_details[${ind}].file`,
+                              ...item,
+                              name: `rfq_details[${ind}].file`,
+                              src: URL.createObjectURL(event.target.files[0]),
+                              // name: `Add "rfq_details[${ind}]"`,
+                              value: event.target.files[0],
+                            },
+                          });
+                        }}
+                      />
+                    </Icon>) : <span><Icon color="error"
                       onClick={(event, newValue) => {
 
                         handleChange({
@@ -104,6 +127,24 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
                       }}
                     >close</Icon><img className="w-48" src={URL.createObjectURL(item?.file)} alt="" ></img></span>)}
+                    {/* {item?.file && (<span><Icon color="error"
+                      onClick={(event, newValue) => {
+
+                        handleChange({
+
+                          target: {
+                            //  files: `rfq_details[${ind}].file`,
+                            ...item,
+                            name: `rfq_details[${ind}].file`,
+                            src: null,
+                            // name: `Add "rfq_details[${ind}]"`,
+                            value: null,
+
+                          },
+                        });
+
+                      }}
+                    >close</Icon><img className="w-48" src={URL.createObjectURL(item?.file)} alt="" ></img></span>)} */}
                   </TableCell>
 
 
@@ -139,17 +180,31 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           handleChange({
                             target: {
                               //  files: `rfq_details[${ind}].file`,
-
-
-
-
                               ...item,
-
                               name: `rfq_details[${ind}].name`,
                               'id': null,
                               // src : URL.createObjectURL(event.target.files[0]),
                               // name: `Add "rfq_details[${ind}]"`,
                               value: newValue,
+
+                            }
+                          })
+                          console.log('dsd')
+                          console.log(newValue)
+
+                          let m = productList.filter(obj => obj.name == newValue).map((it) => {
+                            return it.unit_of_measure
+                          })
+                          console.log(m[0])
+                          handleChange({
+                            target: {
+                              //  files: `rfq_details[${ind}].file`,
+                              ...item,
+                              name: `rfq_details[${ind}].unit_of_measure`,
+                              'id': null,
+                              // src : URL.createObjectURL(event.target.files[0]),
+                              // name: `Add "rfq_details[${ind}]"`,
+                              value: m[0],
 
                             }
                           })
@@ -187,6 +242,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       required
                     />
                   </TableCell>
+                  {console.log('dsds', item?.unit_of_measure)}
                   <TableCell colSpan={2} className="pl-0" align="left">
                     <TextField
                       name={`rfq_details[${ind}].unit_of_measure`}
@@ -198,14 +254,16 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       fullWidth
                       inputProps={{ min: 0, style: { textAlign: 'center' } }}
                       defaultValue={item?.unit_of_measure}
+                      value={item?.unit_of_measure}
                       // defaultValue={item.quantity || ""}
                       onChange={handleChange}
+
                       required
                       select
                     >
-                      {data.map((item, ind) => (
-                        <MenuItem value={item.value} key={item}>
-                          {item.label}
+                      {data.map((itemM, INdd) => (
+                        <MenuItem value={itemM.value} key={INdd}>
+                          {itemM.label}
                         </MenuItem>
                       ))}
                     </TextField>

@@ -144,9 +144,25 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
   useEffect(() => {
     setcname(partyids)
+    console.log(catid);
     url.get("parties-except/" + catid).then(({ data }) => {
-      console.log(data);
-      setcustomerList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+
+      const b = data.ids
+      console.log(data.data);
+      console.log(data.ids);
+      let a = data.data
+      const c = data.ids.map((item) => {
+
+        a = a.filter(obj => obj.id !== item)
+        return a
+      });
+
+      const l = c.length - 1;
+      console.log(c[l]);
+
+      c[l] == undefined ? setcustomerList(data.data) : setcustomerList(c[l])
+
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
