@@ -449,6 +449,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       ],
       purchase_price:'',
+      costprice:0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
@@ -515,8 +516,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-
-
+        // 29-1-2022
+        element.costprice=
         element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
 
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
