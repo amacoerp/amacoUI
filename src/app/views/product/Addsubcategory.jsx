@@ -268,27 +268,27 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
         filter: true,
       },
     },
-    {
-      name: "description",
-      lable: "DESCRIPTIONS",
-      options: {
-        filter: true,
-        customHeadRender: ({ index, ...column }) => {
-          return (
+    // {
+    //   name: "description",
+    //   lable: "DESCRIPTIONS",
+    //   options: {
+    //     filter: true,
+    //     customHeadRender: ({ index, ...column }) => {
+    //       return (
 
-            <TableCell key={index} >
-              <TableHead>DESCRIPTIONS</TableHead>
-            </TableCell>
+    //         <TableCell key={index} >
+    //           <TableHead>DESCRIPTIONS</TableHead>
+    //         </TableCell>
 
-          )
+    //       )
 
-        },
-        setCellProps: () => ({
-          align: "center"
-        })
+    //     },
+    //     setCellProps: () => ({
+    //       align: "center"
+    //     })
 
-      },
-    },
+    //   },
+    // },
     {
       name: "id",
       label: "Action",
@@ -314,7 +314,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
               }}
             // className="pr-8"
             >
-              <IconButton onClick={() => removeData(tableMeta.rowData[2])
+              <IconButton onClick={() => removeData(tableMeta.rowData[1])
               } style={{ columnStyleWithWidth1 }}
               >
                 <Icon color="error">delete</Icon>

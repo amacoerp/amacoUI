@@ -214,7 +214,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     const [cname_ar, setcname_ar] = useState([]);
     const [company, setcompany] = useState("");
     const [city, setcity] = useState("");
-    const [city_ar, setcity_ar] = useState("");
+    const [city_ar, setcity_ar] = useState();
     const [street, setstreet] = useState("");
     const [street_ar, setstreet_ar] = useState("");
     const [pono, setpo] = useState("");
@@ -401,7 +401,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         }
         else {
 
-            history.push(navigatePath + "/inv")
+            history.push(navigatePath + "/purchaseinvoiceview")
             // let activeLayoutSettingsName = settings.activeLayout + "Settings";
             // let activeLayoutSettings = settings[activeLayoutSettingsName];
             // updateSettings({
@@ -848,7 +848,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         </span><br></br>
                                                         <span>{cname_ar}</span><br></br>
                                                         {/* <span>{companyaddress}</span> */}
-                                                        <span>{street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)}</span>
+                                                        <span>{street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)}
+
+                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? toArabic(zipcode) : " "))}
+                                                        
+                                                        </span>
 
 
 

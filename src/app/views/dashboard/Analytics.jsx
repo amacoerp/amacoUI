@@ -86,6 +86,12 @@ const Analytics = () => {
 
   var obj;
   var parentData;
+  const styles = theme => ({
+    notchedOutline: {
+      borderWidth: "1px",
+      borderColor: "yellow !important"
+    }
+  });
   useEffect(() => {
     // console.log(compPer)
     // setPerList(compPer);
@@ -229,7 +235,17 @@ const Analytics = () => {
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
           <div>
             Last 12 months sales
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils} color="white">
+            <MuiPickersUtilsProvider utils={DateFnsUtils} color="white"  inputProps={{
+                  style: {
+                    // color: 'white',
+                    borderColor: 'white',
+                    // fontFamily: fonts.root,
+                    borderStyle: 'solid',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    outline: 'none',
+                  },
+                }}>
               <KeyboardDatePicker
                 className="m-2"
                 margin="none"
@@ -240,17 +256,18 @@ const Analytics = () => {
                 size="small"
                 selected={date}
                 value={date}
-                inputProps={{
-                  style: {
-                    color: 'white',
-                    borderColor: 'white',
-                    // fontFamily: fonts.root,
-                    borderStyle: 'solid',
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    outline: 'none',
-                  },
-                }}
+                // inputProps={{
+                //   style: {
+                //     // color: 'white',
+                //     borderColor: 'white',
+                //     // fontFamily: fonts.root,
+                //     borderStyle: 'solid',
+                //     borderWidth: 2,
+                //     borderRadius: 5,
+                //     outline: 'none',
+                //   },
+                // }}
+
                 style={{ float: "right" }}
                 views={["year"]}
 
@@ -261,7 +278,7 @@ const Analytics = () => {
                   // return date
                 }}
               />
-            </MuiPickersUtilsProvider> */}
+            </MuiPickersUtilsProvider>
           </div>
 
 

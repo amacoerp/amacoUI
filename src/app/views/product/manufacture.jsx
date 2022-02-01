@@ -149,28 +149,28 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
   const columns = [
     {
       name: "name", // field name in the row object
-      label: "Name", // column title that will be shown in table
+      label: "NAME", // column title that will be shown in table
       options: {
         filter: true,
       },
     },
-    {
-      name: "description",
-      label: "Description",
-      options: {
-        filter: true,
-      },
-    },
+    // {
+    //   name: "description",
+    //   label: "Description",
+    //   options: {
+    //     filter: true,
+    //   },
+    // },
     {
       name: "id",
-      label: "Action",
+      label: "ACTION",
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
 
   
           return (
-            <IconButton onClick={() => removeData(tableMeta.rowData[2])
+            <IconButton onClick={() => removeData(tableMeta.rowData[1])
             }
             >
               <Icon color="error">delete</Icon>
@@ -190,7 +190,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
     <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{zIndex:1000}} fullWidth={fullWidth}
     maxWidth={maxWidth}>
       <div className="p-6"  >
-        <h4 className="mb-5">Add Manufacturer</h4>
+        <h4 className="mb-5">ADD MANUFACTURER</h4>
         <ValidatorForm onSubmit={handleFormSubmit} autoComplete="off">
           <Grid className="mb-4" container spacing={4}>
             <Grid item sm={6} xs={12}>
@@ -262,7 +262,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
 
           {/* <div className="flex justify-between items-center"> */}
             <Button variant="outlined" className="mr-4 py-2" color="primary" type="submit">
-              <Icon>save</Icon>Save
+              <Icon>save</Icon>SAVE
             </Button>
             
             <Button
@@ -271,7 +271,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
               className="mr-4 py-2"
               onClick={() => handleClose()}
             >
-             <Icon>cancel</Icon> Cancel
+             <Icon>cancel</Icon> CANCEL
             </Button>
             
             <Button
@@ -280,7 +280,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
               color="primary"
               onClick={() => getrow()}
             >
-             <Icon>remove_red_eye</Icon> view
+             <Icon>remove_red_eye</Icon> VIEW
             </Button>
           
           {/* </div> */}
@@ -288,7 +288,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
         <Divider className="mb-2" />
         {!isAlive && (
           <MUIDataTable
-            title={"Category"}
+            title={"Manufacturer"}
             columns={columns}
             data={userList}
             options={{

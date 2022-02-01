@@ -167,8 +167,8 @@ const SimpleForm = () => {
       party_code:partycode,
       company_name_ar:company_name_ar,
       division:division,
-      zip_code_ar:toArabic(zip_code),
-      vat_no_in_ar:toArabic(vat_no),
+      zip_code_ar:zip_code?toArabic(zip_code):'',
+      vat_no_in_ar:vat_no?toArabic(vat_no):'',
       user_id:user.id,
       div_id:localStorage.getItem('division')
     }

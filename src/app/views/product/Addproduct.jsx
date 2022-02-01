@@ -178,7 +178,7 @@ const SimpleForm = ({ open, handleClose }) => {
 
 
   const product_type = [
-    "Non inventory",
+    "Non Inventory",
     "Inventory",
     "Service"
   ];
@@ -468,14 +468,15 @@ const SimpleForm = ({ open, handleClose }) => {
               <TextField
                 className="mr-2"
                 label="Sub Category"
+                readOnly
                 variant="outlined"
                 value={subcategory}
                 size="small"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
-                onChange={e => setmq(e.target.value)}
+                // validators={[
+                //   "required",
+                // ]}
+                // errorMessages={["this field is required"]}
+                // onChange={e => setmq(e.target.value)}
                 fullWidth
               />
               <TextField

@@ -453,7 +453,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       margin: 0,
       margin_val: 0,
       discount_val: 0,
-      discount: 0,
+      discount: '',
       sell_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
       }),
@@ -703,6 +703,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
   const discountPer = (event, index, value) => {
    
+    console.log(event.target.value)
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -728,8 +729,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
         const dumy_sellPrice=element.sell_price;
-        element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
+        // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
+        element['discount'] = event.target.value;
+        
+
         element.sell_price =  element.purchase_price? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3):element.sell_price-((element.discount*element.sell_price)/100);
+
+        element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):dumy_sellPrice*element.quantity
+
+        
 
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
@@ -1668,17 +1676,18 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
-                        <TextValidator
+                      <CurrencyTextField
                           label="Discount"
-                          onChange={(event) => discountPer(event, index)}
-                          // onBlur={(e, value) => discountPer(e, index, value)}
+                          // onChange={(event) => discountPer(event, index)}
+                          onBlur={(e, value) => discountPer(e, index, value)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
+                         
                           decimalPlaces={2}
                           variant="outlined"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           size="small"
                           name="discount"
+                          currencySymbol=""
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={item.discount}
