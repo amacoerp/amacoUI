@@ -229,11 +229,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             })
         })
 
-        const dta = c.map((item, n) => {
+        const dta = c?.map((item, n) => {
             return item[0]
         })
-
-        console.log('dsadsa', dta)
         setproList(dta)
 
 
@@ -835,7 +833,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option?.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name?option?.name:' ';
+                                                        return option?.name ? option?.name : ' ';
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
