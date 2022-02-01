@@ -11,10 +11,10 @@ import {
 import MUIDataTable from "mui-datatables";
 import url from "../invoice/InvoiceService"
 
-export default function ActivityLog() {
+export default function ActivityLog({ logData }) {
 
 
-    const [logData, setLogData] = useState([]);
+    const [loggData, setLogData] = useState([]);
     const [isAlive, setIsAlive] = useState(true);
 
     const columnStyleWithWidthSno = {
@@ -57,9 +57,9 @@ export default function ActivityLog() {
     ];
 
     useEffect(() => {
-        url.get("activityLogs").then(({ data }) => {
-            setLogData(data);
-        });
+        // url.get("activityLogs").then(({ data }) => {
+        setLogData(logData);
+        // });
         setIsAlive(false);
     }, [isAlive])
 
@@ -68,7 +68,7 @@ export default function ActivityLog() {
         <div>
             <MUIDataTable
                 title={"ACTIVITY LOGS"}
-                data={logData.map((item, index) => {
+                data={loggData.map((item, index) => {
 
 
                     return [

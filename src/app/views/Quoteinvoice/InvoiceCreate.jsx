@@ -491,7 +491,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calculatemargin = (event, index, value) => {
-    
+
     let tempItemList = [...state.item];
     let d_val = value ? value : event.target.value;
     tempItemList.map((element, i) => {
@@ -650,7 +650,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calcualtep = (event, index, newValue, name) => {
-   
+
 
     let tempItemList = [...state.item];
 
@@ -1563,7 +1563,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol="SAR"
                           name="sell_price"
-                          
+
                           onChange={(e, value) => calculatemargin(e, index, value)}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           // value={item.sell_price}
@@ -1591,7 +1591,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                         <CurrencyTextField
                           className="w-full"
-                          label="QTotal"
+                          readOnly
+                          label="Total"
                           autoComplete="none"
                           variant="outlined"
                           fullWidth

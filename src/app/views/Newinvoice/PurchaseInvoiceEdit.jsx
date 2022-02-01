@@ -1571,7 +1571,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <CurrencyTextField
                           className="w-full"
                           readOnly
-                          label="QTotal"
+                          label="Total"
                           autoComplete="none"
                           variant="outlined"
                           fullWidth

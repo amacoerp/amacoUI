@@ -486,7 +486,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
-    let d_val = value ? (value!==null?value:0) : (event.target.value?event.target.value:0);
+    let d_val = value ? (value !== null ? value : 0) : (event.target.value ? event.target.value : 0);
 
     tempItemList.map((element, i) => {
       let sum = 0;
@@ -657,10 +657,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
         if (parseFloat(element.purchase_price) !== null && !isNaN(element.purchase_price)) {
-          
+
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? (isNaN(newValue)?0:newValue) : (isNaN(event.target.value)?0:event.target.value)
+          element[name] = newValue ? (isNaN(newValue) ? 0 : newValue) : (isNaN(event.target.value) ? 0 : event.target.value)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
@@ -670,7 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           element[name] = newValue ? newValue : event.target.value
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-          
+
           // element['id']=null;
         }
 
@@ -846,9 +846,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
-      setproList(data)
-
-
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
     });
 
 
@@ -877,7 +875,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
 
       // setState({
@@ -891,9 +889,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
-      if(data[0]?.po_number)
-      {
-      setponumber(data[0]?.po_number)
+      if (data[0]?.po_number) {
+        setponumber(data[0]?.po_number)
       }
       console.log('sd', data[0]?.po_number);
       setState({
@@ -1254,7 +1251,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                    subTotalCost += isNaN(item?.total_amount)?0:parseFloat(item?.total_amount)
+                    subTotalCost += isNaN(item?.total_amount) ? 0 : parseFloat(item?.total_amount)
                     dis_per = parseFloat(discount * subTotalCost / 100).toFixed(2)
                     // discount=subTotalCost-parseFloat(discounts * subTotalCost/100);
                     vat = (((subTotalCost - parseFloat(discount * subTotalCost / 100)) * 15) / 100).toFixed(2)
@@ -1550,7 +1547,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol="SAR"
                           name="sell_price"
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          value={(item?.sell_price)?(isNaN(item?.sell_price)?0:item.sell_price):0}
+                          value={(item?.sell_price) ? (isNaN(item?.sell_price) ? 0 : item.sell_price) : 0}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
@@ -1580,7 +1577,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol="SAR"
                           name="total_amount"
-                          value={isNaN(item.total_amount) ? 0 :item?.total_amount?.toLocaleString(undefined, {
+                          value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
                         />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, Tab, Tabs, Button } from "@material-ui/core";
 import { Breadcrumb, ConfirmationDialog } from "matx";
 import { Icon } from "@material-ui/core";
@@ -11,6 +11,8 @@ import MemberEditorDialog from "./useradd"
 import UserTrash from "./userTrash";
 import LoginLog from "./LoginLog";
 import ActivityLog from "./ActivityLog";
+import url from "../invoice/InvoiceService"
+
 
 const CustomerViewer = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -21,6 +23,7 @@ const CustomerViewer = () => {
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
   ] = useState(false);
+  const [logData, setLogData] = useState([]);
 
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
@@ -35,6 +38,13 @@ const CustomerViewer = () => {
   const handleTabChange = (e, value) => {
     setTabIndex(value);
   };
+
+  useEffect(() => {
+    url.get("activityLogs").then(({ data }) => {
+      setLogData(data);
+    });
+  }, []);
+
 
   return (
     <div className="m-sm-30">
@@ -104,11 +114,11 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-      {tabIndex === 0 && <SimpleMuiTable />}
+      {tabIndex === 0 && <SimpleMuiTable logData={logData} />}
       {/* {/* {tabIndex === 1 && <AcceptQuote />} */}
       {tabIndex === 1 && <UserTrash />}
       {tabIndex === 2 && <LoginLog />}
-      {tabIndex === 3 && <ActivityLog />}
+      {tabIndex === 3 && <ActivityLog logData={logData} />}
     </div>
   );
 };

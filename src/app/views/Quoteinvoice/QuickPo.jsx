@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Button,
   Divider,
@@ -15,6 +15,7 @@ import {
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "./Annexure";
+import useDynamicRefs from 'use-dynamic-refs';
 
 import {
   MuiPickersUtilsProvider,
@@ -51,9 +52,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     fontWeight: theme.typography.fontWeightRegular
   }
 }));
+const [getRef, setRef] = useDynamicRefs();
+
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
+
+  let inputRef = [];
+  let priceRef = [];
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [party_id, setparty_id] = useState('');
@@ -109,7 +115,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const addItemToInvoiceList = () => {
-    
+
     let tempItemList = [...state.item];
 
 
@@ -173,10 +179,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const filterOptions = (options, params) => {
-    
+
     const filtered = filter(options, params);
     // if (params.inputValue !== "") {
-      console.log("Input value",params?.inputValue)
+    console.log("Input value", params?.inputValue)
     filtered.push({
       inputValue: params?.inputValue,
       name: `Add "${params?.inputValue}"`
@@ -240,9 +246,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element.margin = "";
         element.sell_price = "";
         element['remark'] = "";
-
-
-
       }
       return element;
 
@@ -272,16 +275,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         let tempItemList = [...state.item];
         tempItemList.splice(index, 1);
-        
-          // const list = tempItemList.filter((item,ind) => ind !== index)
-         
-       
-       
+
+        // const list = tempItemList.filter((item,ind) => ind !== index)
+
+
+
         setState({
           ...state,
           item: tempItemList,
         });
-        
+
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -411,9 +414,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const handleSubmit = () => {
-
-
+  const handleSubmit = (e) => {
+    console.log('ds', e?.keyCode)
 
     setState({ ...state, loading: true });
 
@@ -527,6 +529,74 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setindex(index)
     setShouldOpenEditorDialog(true);
 
+  }
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+    console.log(e?.keyCode)
+    console.log(id)
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('purchase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r?.includes('purchase_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('purchase_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('purchase_price')) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
   }
   const setcontact = (event) => {
 
@@ -769,13 +839,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList?.map(option => option)}
                           name="product_id"
                           multiLine
+
+
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
                           filterOptions={filterOptions}
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) => option?.name ?option?.name:" "}
+                          getOptionLabel={(option) => option?.name ? option?.name : " "}
                           // getOptionLabel={option => {
-                            
+
                           //   // e.g value selected with enter, right from the input
                           //   if (typeof option === "string") {
                           //     return option;
@@ -786,9 +860,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           //   return option?.name ? option?.name : " ";
                           // }}
                           freeSolo
+                          inputProps={{
+                            ref: setRef(index + 'product_id')
+                          }}
                           renderInput={(params) => (
                             // {console.log(params)}
-                            <TextField {...params} variant="outlined" value={item.product_name} name="product_id" fullWidth />
+                            <TextField {...params}
+                              inputRef={input => {
+                                inputRef[index] = input;
+                              }}
+                              variant="outlined" value={item.product_name} name="product_id" fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -803,8 +884,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           multiLine
                           required
+                          // ref={index + 'description'}
                           variant="outlined"
                           size="small"
+                          inputProps={{
+                            ref: setRef(index + 'description')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
                           name="description"
                           multiline
                           fullWidth
@@ -820,8 +907,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="number"
                           variant="outlined"
                           size="small"
+                          // inputProps={{
+                          //   ref: setRef(index + 'quantity')
+                          // }}
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{
+                            min: 0, style: { textAlign: 'center' },
+                            ref: setRef(index + 'quantity')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
+
                           name="quantity"
                           value={item.quantity ? item.quantity : ""}
                           validators={["required"]}
@@ -842,8 +937,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={item.unit_of_measure ? item.unit_of_measure : null}
                           onChange={(event) => po_uom(event, index)}
                           select
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
 
-
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
                         >
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
@@ -888,6 +986,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={item?.purchase_price}
                           // filterOptions={filterPrice}
                           renderOption={option => option.price}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+
                           getOptionLabel={option => {
                             // e.g value selected with enter, right from the input
                             if (typeof option === "string") {
@@ -899,8 +999,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option.price;
                           }}
                           freeSolo
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
+                            <TextField {...params}
+                              inputRef={input => {
+                                priceRef[index] = input;
+                              }} variant="outlined" name="purchase_price" required fullWidth />
                           )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                           onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
@@ -933,6 +1037,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Total"
                           variant="outlined"
                           fullWidth
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
                           size="small"
                           readOnly={true}
                           currencySymbol={currency_type}

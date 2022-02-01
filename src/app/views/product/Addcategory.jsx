@@ -12,7 +12,7 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
 import Swal from "sweetalert2";
-import url, {getcategories}from "../invoice/InvoiceService";
+import url, { getcategories } from "../invoice/InvoiceService";
 import useAuth from '../../hooks/useAuth';
 
 
@@ -32,46 +32,46 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
   const [cdescription, setcdescription] = useState('');
   const [userList, setUserList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
- 
 
-  
+
+
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("md");
   const { user } = useAuth();
 
 
   const handleFormSubmit = () => {
-    
+
     const frmdetails = {
 
       name: cname,
       description: cdescription,
-      user_id:user.id,
-      div_id:localStorage.getItem('division')
+      user_id: user.id,
+      div_id: localStorage.getItem('division')
 
 
     }
     // setcdescription('')
     // setcname('')
-   
+
 
     url.post('categories', frmdetails)
       .then(function (response) {
         Swal.fire({
           title: 'Success',
           type: 'success',
-          icon:'success',
+          icon: 'success',
           text: 'Data saved successfully.',
         });
         getcategories()
         history.push('/product/viewproduct');
       })
       .catch(function (error) {
-       
+
       })
     setcdescription('')
     setcname('')
-    
+
 
   };
   const removeData = (id) => {
@@ -89,19 +89,19 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
       if (result.value) {
         url.delete(`categories/${id}`)
           .then(res => {
-            
+
 
           })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
-          customClass:{
+          customClass: {
             zIndex: 1000
           },
-           title:'Cancelled'
+          title: 'Cancelled'
           // 'Cancelled',
           // 'Your imaginary file is safe :)',
           // 'error',
-          
+
         })
       }
     })
@@ -111,7 +111,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
   useEffect(() => {
     // url.get("http://dataqueuesystems.com/amaco/amaco/public/api/products-in-category").then(({ data }) => {
     //   if (isAlive) setUserList(data);
-    
+
 
     // Object.keys(data).forEach(function(key) {
 
@@ -121,7 +121,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
 
 
     // });
-    
+
   })
   function getrow(e) {
     url.get("products-in-category").then(({ data }) => {
@@ -152,7 +152,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
 
-  
+
           return (
             <IconButton onClick={() => removeData(tableMeta.rowData[2])
             }
@@ -171,8 +171,8 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
 
 
   return (
-    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{zIndex:1000}} fullWidth={fullWidth}
-    maxWidth={maxWidth}>
+    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{ zIndex: 1000 }} fullWidth={fullWidth}
+      maxWidth={maxWidth}>
       <div className="p-6"  >
         <h4 className="mb-5">Add Category</h4>
         <ValidatorForm onSubmit={handleFormSubmit} autoComplete="off">
@@ -181,7 +181,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
               <TextValidator
                 className="w-full mb-4"
                 label="Name"
-                
+
                 variant="outlined"
                 onChange={e => setcname(e.target.value)
                   // .log(isAlive)
@@ -267,22 +267,22 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
               Save
             </Button>
             <div className="flex justify-between items-center">
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => handleClose()}
-            >
-              Cancel
-            </Button>
-            
-            <Button
-            
-              variant="outlined"
-              color="primary"
-              onClick={() => getrow()}
-            >
-              view
-            </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleClose()}
+              >
+                Cancel
+              </Button>
+
+              <Button
+
+                variant="outlined"
+                color="primary"
+                onClick={() => getrow()}
+              >
+                view
+              </Button>
             </div>
           </div>
         </ValidatorForm>
@@ -291,7 +291,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
           <MUIDataTable
             title={"Category"}
             columns={columns}
-            data={userList}
+            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
             options={{
               filterType: "textField",
               responsive: "simple",
@@ -303,7 +303,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
         )}
       </div>
     </Dialog>
-    
+
   );
 };
 

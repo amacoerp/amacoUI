@@ -48,6 +48,10 @@ const NewinvoiceRoutes = [
     path: navigatePath + "/purchaseinvoicegenarate/",
     component: React.lazy(() => import("./PurchaseInvoiceGenarate")),
   },
+  {
+    path: navigatePath + "/pdftest/",
+    component: React.lazy(() => import("./PDF")),
+  },
 ];
 
 export default NewinvoiceRoutes;
