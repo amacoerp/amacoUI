@@ -12,6 +12,8 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import { FieldArray } from "formik";
 import { Autocomplete } from "@material-ui/lab";
 import { calculateAmount, getCustomerList } from "./Rfqformservice";
@@ -20,8 +22,79 @@ import { SettingsInputAntenna } from "@material-ui/icons";
 
 const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList }) => {
   const [isAlive, setIsAlive] = useState(true);
+  const [getRef, setRef] = useDynamicRefs();
+
+  let inputRef = [];
+  let priceRef = [];
   const [productList, setProductList] = useState([]);
   // const [customerList, setCustomerList] = useState([]);
+
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+    console.log(e?.keyCode)
+    console.log(id)
+    console.log(nextid)
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('purchase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log('else');
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        // addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('purchase_price')) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
+
   useEffect(() => {
     getProductList().then(({ data }) => {
 
@@ -169,10 +242,13 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           return option?.name ? option?.name : " ";
                         }}
                         freeSolo
+                        onKeyDown={(e) => { controlKeyPress(e, ind + 'product_id', ind + 'quantity', null) }}
 
                         // getOptionLabel={(option) => option.name}
                         renderInput={(params) => (
-                          <TextField {...params} variant="outlined" required fullWidth />
+                          <TextField inputRef={input => {
+                            inputRef[ind] = input;
+                          }} {...params} variant="outlined" required fullWidth />
                         )}
                         value={item?.name}
                         onInputChange={(event, newValue) => {
@@ -231,11 +307,12 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                     <TextField
                       name={`rfq_details[${ind}].quantity`}
                       size="small"
+                      onKeyDown={(e) => { controlKeyPress(e, ind + 'quantity', ind + 'unit_of_measure', ind + 'product_id') }}
                       variant="outlined"
                       type="number"
                       disabled={!item?.name}
                       fullWidth
-                      inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                      inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(ind + 'quantity') }}
                       defaultValue={item?.quantity}
                       // defaultValue={item.quantity || ""}
                       onChange={handleChange}
@@ -250,9 +327,11 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       variant="outlined"
                       // type="text"
                       required
+                      onKeyDown={(e) => { controlKeyPress(e, ind + 'unit_of_measure', ind + 'descriptionss', ind + 'quantity') }}
+
                       disabled={!item?.name}
                       fullWidth
-                      inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                      inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(ind + 'unit_of_measure') }}
                       defaultValue={item?.unit_of_measure}
                       value={item?.unit_of_measure}
                       // defaultValue={item.quantity || ""}
@@ -276,7 +355,9 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       type="textarea"
                       disabled={!item?.name}
                       fullWidth
-                      inputProps={{ style: { textTransform: 'capitalize' } }}
+                      onKeyDown={(e) => { controlKeyPress(e, ind + 'descriptionss', null, ind + 'unit_of_measure') }}
+
+                      inputProps={{ style: { textTransform: 'capitalize' }, ref: setRef(ind + 'descriptionss') }}
                       // value={item.descriptionss?item.descriptionss :""}
                       value={item?.descriptionss}
                       onChange={handleChange}
@@ -289,7 +370,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                   <TableCell colSpan={1} className="pl-0" align="center">
                     <IconButton
                       size="small"
-                      // onClick={(e) => arrayHelpers.remove(values?.rfq_details.findIndex(e))}
+                      // onClick={(e) => arrayHelpers.remove(values?.rfq_details.findind(e))}
                       // onClick={() => console.log(ind+","+values.rfq_details)}
                       onClick={() => arrayHelpers.remove(ind)}
                     >

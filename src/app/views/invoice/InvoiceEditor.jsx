@@ -33,6 +33,8 @@ import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import axios from "axios";
 import url, { getProductList, capitalize_arr, data } from "../invoice/InvoiceService";
 import Select from 'react-select';
@@ -65,6 +67,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [upload, setupload] = useState([]);
   const [proList, setproList] = useState([]);
   const history = useHistory();
+
+  let inputRef = [];
+  let priceRef = [];
+  const [getRef, setRef] = useDynamicRefs();
+
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -369,6 +376,71 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+    console.log(e?.keyCode)
+    console.log(id)
+    console.log(nextid)
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('purchase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log('else');
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        // addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('purchase_price')) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
   const handleSubmit = () => {
     let arr = []
     setState({ ...state, loading: true });
@@ -638,7 +710,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-2 text-center" width={50} >S.NO.</TableCell>
                   <TableCell className="pl-2 text-center" width={100} ></TableCell>
 
-                  <TableCell className="pl-2" width={200} >ITEM NAME</TableCell>
+                  <TableCell className="pl-2" width={200} >ITEM NAzME</TableCell>
 
                   <TableCell className="px-0" width={100}>QUANTITY</TableCell>
                   <TableCell className="px-0" width={100}>UOM</TableCell>
@@ -737,8 +809,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option?.name ? option?.name : " ";
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField inputRef={input => {
+                              inputRef[index] = input;
+                            }} {...params} variant="outlined" name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => setproduct(event, newValue, index)}
@@ -759,7 +835,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="quantity"
                           value={item.quantity}
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
+
+                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity') }}
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           fullWidth
 
@@ -775,7 +853,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="unit_of_measure"
                           required
                           value={item?.unit_of_measure}
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'descriptionss', index + 'quantity') }}
+
+                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'unit_of_measure') }}
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           fullWidth
                           select
@@ -792,8 +872,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" width={700}>
                         <TextField
                           label="Description"
-                          inputProps={{ style: { textTransform: 'capitalize' } }}
+                          inputProps={{ style: { textTransform: 'capitalize' }, ref: setRef(index + 'descriptionss') }}
                           type="text"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', null, index + 'unit_of_measure') }}
+
+
                           name="description"
                           fullWidth
                           variant="outlined"
