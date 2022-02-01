@@ -1723,7 +1723,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol=""
                           name="sell_price"
                           value={item.sell_price}
-                          onBlur={(e, value) => calculatemargin(e, index, value)}
+                          onChange={(e, value) => calculatemargin(e, index, value)}
+                          // onBlur={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>

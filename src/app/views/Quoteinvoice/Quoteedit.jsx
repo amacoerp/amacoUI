@@ -1691,7 +1691,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
-                        <TextValidator
+                        {/* <TextValidator
                           label="Discount"
                           required
                           onChange={(event) => discountPer(event, index)}
@@ -1708,6 +1708,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           validators={["required"]}
                           errorMessages={["this field is required"]}
 
+                        /> */}
+                        <CurrencyTextField
+                          label="Discount"
+                          // onChange={(event) => discountPer(event, index)}
+                          onBlur={(e, value) => discountPer(e, index, value)}
+                          // onBlur={(event) => handleIvoiceListChange(event, index)}
+                         
+                          decimalPlaces={2}
+                          variant="outlined"
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          size="small"
+                          name="discount"
+                          currencySymbol=""
+                          // style={{width:'75%',float:'left'}}
+                          fullWidth
+                          value={item.discount}
+                        // validators={["required"]}
+                        // errorMessages={["this field is required"]}
+
                         />
 
 
@@ -1723,7 +1742,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol=""
                           name="sell_price"
                           value={item.sell_price}
-                          onBlur={(e, value) => calculatemargin(e, index, value)}
+                          onChange={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>

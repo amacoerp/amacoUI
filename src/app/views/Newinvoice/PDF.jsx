@@ -1,24 +1,7 @@
-import React, { useState } from 'react';
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
+import React from 'react';
 
-function MyApp() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
-  return (
-    <div>
-      <Document file="somefile.pdf" onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-      </Document>
-      <p>dsds
-        Page {pageNumber} of {numPages}
-      </p>
-    </div>
-  );
+function PDF() {
+  return <div></div>;
 }
 
-export default MyApp;
+export default PDF;

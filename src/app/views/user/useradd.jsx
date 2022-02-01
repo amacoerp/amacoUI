@@ -131,10 +131,10 @@ const MemberEditorDialog = ({ uid, open, handleClose,userid ,userList}) => {
             setprefix(data.prefix)
 
             setdesignation(data.designation)
-            var res =data.contact.slice(0, 4);
+            var res =data?.contact?.slice(0, 4);
             
             setcode(res)
-            var con =data.contact.slice(4,);
+            var con =data?.contact?.slice(4,);
             
            
             setcontact(con)

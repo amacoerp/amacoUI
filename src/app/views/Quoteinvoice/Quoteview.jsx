@@ -1490,7 +1490,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <td>{sign?.email}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{user?.contact}</td>
+                            <td>{sign?.contact?.slice(0,4)} {sign?.contact?.slice(4,6)} {sign?.contact?.slice(6,9)} {sign?.contact?.slice(9,13)}</td>
                           </tr>
                           {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>Amaco Group Of Companies</td>
