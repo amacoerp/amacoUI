@@ -12,6 +12,8 @@ import {
   Icon,
   TextareaAutosize
 } from "@material-ui/core";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "../Quoteinvoice/Annexure";
@@ -52,6 +54,10 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }));
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
+
+  let inputRef = [];
+  let priceRef = [];
+  const [getRef, setRef] = useDynamicRefs();
 
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
@@ -371,6 +377,73 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setShouldOpenEditorDialog(true)
   }
 
+  const controlKeyPress = (e, id, nextid, prev) => {
+    console.log(e?.keyCode)
+    console.log(id)
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('purchase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r?.includes('purchase_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('purchase_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('purchase_price')) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
 
   const handleSubmit = () => {
 
@@ -530,7 +603,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h4 align="left"> CREATE PURCHASE ORDER</h4>
@@ -750,8 +823,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option?.name ? option?.name : " ";
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField inputRef={input => {
+                              inputRef[index] = input;
+                            }}  {...params} variant="outlined" name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -769,6 +846,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="descriptionss"
                           required
+                          inputProps={{
+                            ref: setRef(index + 'description')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
+
                           multiline
                           fullWidth
                           onChange={(event) => po_description(event, index)}
@@ -784,7 +867,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity') }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
+
                           name="quantity"
                           value={item?.quantity ? item?.quantity : ""}
                           validators={["required"]}
@@ -799,6 +884,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           name="unit_of_measure"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
                           style={{ width: '100%', float: 'left' }}
                           fullWidth
                           value={item?.unit_of_measure ? item?.unit_of_measure : null}
@@ -861,8 +951,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option.price;
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
+                            <TextField inputRef={input => {
+                              priceRef[index] = input;
+                            }} {...params} variant="outlined" name="purchase_price" required fullWidth />
                           )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                           onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
@@ -896,6 +990,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           readOnly
                           variant="outlined"
                           fullWidth
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
                           size="small"
                           currencySymbol={currency_type}
                           name="total_amount"

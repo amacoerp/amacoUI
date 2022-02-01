@@ -633,7 +633,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h4 align="left"> CREATE PURCHASE ORDER</h4>
