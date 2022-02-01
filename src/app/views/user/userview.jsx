@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import FormDialog from "./useradd"
 import MemberEditorDialog from "./useradd"
 import PermissionDialog from "./Permission.jsx"
+import LogDialog from "./LogDialog.jsx"
 import Tooltip from '@material-ui/core/Tooltip';
 import url from "../invoice/InvoiceService";
 
@@ -45,10 +46,11 @@ const columnStyleWithWidthSno = {
   textAlign: "center"
 }
 
-const SimpleMuiTable = () => {
+const SimpleMuiTable = ({ logData }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userid, setuserid] = useState(null);
+  const [log, setLogData] = useState([])
 
   useEffect(() => {
     url.get("users").then(({ data }) => {
@@ -56,6 +58,7 @@ const SimpleMuiTable = () => {
       setUserList(data.filter(obj => obj.status === "true"));
 
     });
+    setLogData(logData)
 
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -74,6 +77,7 @@ const SimpleMuiTable = () => {
   const [click, setClick] = useState([]);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenPermissionDialog, setShouldOpenPermissionDialog] = useState(false);
+  const [shouldOpenLogDialog, setShouldOpenLogDialog] = useState(false);
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -82,6 +86,7 @@ const SimpleMuiTable = () => {
     setuserid()
     setShouldOpenEditorDialog(false);
     setShouldOpenPermissionDialog(false);
+    setShouldOpenLogDialog(false);
     setIsAlive(true)
 
   };
@@ -109,6 +114,10 @@ const SimpleMuiTable = () => {
   const permissionModel = (id) => {
     setuserid(id)
     setShouldOpenPermissionDialog(true)
+  }
+  const logModel = (id) => {
+    setuserid(id)
+    setShouldOpenLogDialog(true)
   }
   const removeData = (id) => {
 
@@ -281,6 +290,9 @@ const SimpleMuiTable = () => {
               <Tooltip title="Edit User">
                 <Icon color="secondary" onClick={e => edituser(tableMeta.rowData[6])}>edit</Icon>
               </Tooltip>
+              <Tooltip title="Logs">
+                <Icon color="primary" onClick={e => logModel(tableMeta.rowData[6])}>library_books</Icon>
+              </Tooltip>
               <Tooltip title="Permission">
                 <Icon color="primary" onClick={e => permissionModel(tableMeta.rowData[6])}>gpp_good</Icon>
               </Tooltip>
@@ -328,6 +340,14 @@ const SimpleMuiTable = () => {
               userid={userid}
             />
           )}
+          {shouldOpenLogDialog && (
+            <LogDialog
+              handleClose={handleDialogClose}
+              open={shouldOpenLogDialog}
+              userid={userid}
+              logData={logData}
+            />
+          )}
           {shouldOpenConfirmationDialog && (
             <ConfirmationDialog
               open={shouldOpenConfirmationDialog}
@@ -360,7 +380,7 @@ const SimpleMuiTable = () => {
 
 
               return [
- 
+
                 ++index,
                 item.name,
                 item.email,

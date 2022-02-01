@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { borders } from '@material-ui/system';
+import jsPDF from 'jspdf';
+
 import {
   Icon,
   Divider,
@@ -122,7 +124,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         // content: 'none !important',
         "-webkit-print-color-adjust": "exact !important",
         // marginTop: '10px',
-       
+
 
 
 
@@ -341,10 +343,19 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const handlePrinting = useReactToPrint({
     content: () => componentRef.current,
     header: () => componentRef.current
-
-
-
   });
+
+  // const handlePrinting = () => {
+
+  //   var doc = new jsPDF()
+
+
+  //   doc.fromHTML(componentRef.current, 1, 1)
+
+
+
+  //   doc.save("name.pdf")
+  // }
 
   const genPurchaseInv = () => {
 
@@ -357,7 +368,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   useEffect(() => {
 
     // updateSidebarMode({ mode: "close" })
-   
+
     url.get("purchase-quotation/" + id).then(({ data }) => {
       document.title = `AMACO PURCHASE ORDER - ${data[0]?.party?.firm_name} - ${data[0]?.po_number}`
       // setcname(data[0].party.fname)
@@ -409,7 +420,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   `
       );
       // setress(halala);
-      
+
       if (data[0].currency_type == "SAR") {
         console.log(data[0].currency_type)
         setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
@@ -417,7 +428,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       if (data[0].currency_type == "AED") {
         setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
       }
-      if (data[0].currency_type == "USD"){
+      if (data[0].currency_type == "USD") {
         setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
       }
 

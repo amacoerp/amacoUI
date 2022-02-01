@@ -398,7 +398,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
           <MUIDataTable
             title={"CATEGORY"}
             columns={columns}
-            data={userList}
+            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
             options={{
               filterType: "textField",
               responsive: "simple",

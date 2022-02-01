@@ -106,15 +106,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
 
 
   useEffect(() => {
-    url.get(`get-modules-per/${userid}`).then(({ data }) => {
-      console.log(data);
-      setPList(data.gData);
-      setListData(data.all);
-      const filterD = data.permission.map((item, i) => {
-        return item.module
-      })
-      setPerList(filterD);
-    });
+
     url.get(`divisionbyid/${userid}`).then(({ data }) => {
       setDivision(data);
       const tab = data.map((item) => {

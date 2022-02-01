@@ -503,10 +503,19 @@ const SimpleMuiTable = () => {
                       Sub Category
                     </MenuItem>
                     {subcatList.map((item) => (
-                      <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)} style={{ textAlign: "center" }} className="pl-4">
-                        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                        {item.name}
-                      </MenuItem>
+                      <>
+
+                        <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)} style={{ textAlign: "center" }} className="pl-4">
+                          {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+
+                          {item.name}
+                          <div>
+                            <Badge badgeContent={item.product} style={{ paddingRight: 15 }} color="primary" />
+                          </div>
+                        </MenuItem>
+
+                      </>
+
                     ))}
                   </Menu>
                   <div className="pb-5 flex justify-center">

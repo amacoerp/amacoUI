@@ -184,7 +184,6 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // if (params.inputValue !== "") {
         filtered.push({
             inputValue: params?.inputValue,
-            name: `Add "${params?.inputValue}"`
         });
         // }
         return filtered;
@@ -810,7 +809,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name?option?.name:" ";
+                                                        return option?.name ? option?.name : " ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (

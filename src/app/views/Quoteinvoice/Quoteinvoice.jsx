@@ -125,7 +125,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         },
       })
         .then(({ data }) => {
-         
+
           // console.log(data.data.translations[0].translatedText);
 
         })
@@ -164,22 +164,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const json = Object.assign({}, arr);
 
     // setTimeout(() => {
-      url.post('invoice', json)
-        .then(function (response) {
+    url.post('invoice', json)
+      .then(function (response) {
 
 
-          Swal.fire({
-            title: 'Success',
-            type: 'success',
-            icon: 'success',
-            text: 'Data saved successfully.',
-          });
-          history.push(navigatePath + "/inv")
-          //  window.location.href="../quoateview"
-        })
-        .catch(function (error) {
+        Swal.fire({
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Data saved successfully.',
+        });
+        history.push(navigatePath + "/inv")
+        //  window.location.href="../quoateview"
+      })
+      .catch(function (error) {
 
-        })
+      })
     // }, 5000);
     console.log(arr)
   };
@@ -598,7 +598,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <CurrencyTextField
                           className="w-full"
                           label="Total"
-                          variant="outlined"
+                          variant="outlined" z
                           fullWidth
                           size="small"
                           currencySymbol="SAR"
