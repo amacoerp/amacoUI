@@ -44,6 +44,7 @@ import logo from './../invoice/amaco-logo.png';
 import NLogo from './am.png';
 
 import logos from './../invoice/vision2030.png';
+import { numberToWords } from 'number-to-words';
 
 
 import Swal from "sweetalert2";
@@ -244,6 +245,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     const [shouldOpenViewDialog, setShouldOpenViewDialog] = useState(false);
     const [file, setFile] = useState('');
     const [fileType, setFileType] = useState('');
+    const [currency_type, setcurrency_type] = useState('SAR');
     const fType = ["jpg", "png", "peg"];
 
     const [qrValue, setQrValue] = useState("");
@@ -333,9 +335,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 setnet_amount(data[0].grand_total)
                 settotal_value(data[0].total_value)
                 setfirm_name_in_ar(data[0].party?.firm_name_in_ar)
+                setcurrency_type(data[0].currency_type)
                 let words = toWords.convert(parseFloat(data[0].grand_total));
                 let riyal = words.replace("Rupees", "Riyals");
-                let halala;
+                let halala = riyal.replace("Paise", "Halala")
+                let words1 = numberToWords.toWords(data[0].grand_total);
+                let decimal = parseFloat(parseFloat(data[0].grand_total).toFixed(2).split('.')[1]);
+               
                 if (parseFloat(data[0].grand_total) % 1 === 0) {
                     halala = riyal.replace("Paise", "Halala");
                 }
@@ -345,7 +351,17 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                 setQrValue(data[0].party?.firm_name + "                                                         " + data[0].party?.firm_name_in_ar + "                                              VAT NUMBER :" + data[0].party?.vat_no + "                                              " + "DATE : " + data[0].issue_date + "                                              INVOICE NUMBER : " + data[0].invoice_no + "                                              VAT AMOUNT : " + data[0].vat_in_value + " SAR" + "                                              GRAND TOTAL :" + data[0].grand_total + " SAR");
 
-                setress(halala);
+                if (data[0].currency_type == "SAR") {
+                    console.log(data[0].currency_type)
+                    setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+                  }
+                  if (data[0].currency_type == "AED") {
+                    setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
+                  }
+                  if (data[0].currency_type == "USD") {
+                    setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
+                  }
+                // setress(halala);
                 setstreet_ar(data[0]?.party?.street_ar)
                 setcity_ar(data[0]?.party?.city_ar);
                 const arr = data[0]?.party?.street + data[0]?.party?.city + data[0]?.party?.zip_code;
@@ -848,9 +864,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         </span><br></br>
                                                         <span>{cname_ar}</span><br></br>
                                                         {/* <span>{companyaddress}</span> */}
-                                                        <span>{street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)}
+                                                        <span>
+                                                            {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
 
-                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? toArabic(zipcode) : " "))}
+                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : "") : (toArabic(zipcode) ? toArabic(zipcode) : ""))}
+
                                                         
                                                         </span>
 
@@ -1012,7 +1030,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  SAR
+                                                            {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  {currency_type}
 
 
                                                         </TableCell>
@@ -1039,7 +1057,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} SAR
+                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
 
 
                                                         </TableCell>
@@ -1064,7 +1082,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })} SAR</strong>
+                                                            <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}</strong>
 
 
                                                         </TableCell>

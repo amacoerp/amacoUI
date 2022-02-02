@@ -185,7 +185,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     console.log("Input value", params?.inputValue)
     filtered.push({
       inputValue: params?.inputValue,
-      name: `Add "${params?.inputValue}"`
+      name: `${params?.inputValue}`
     });
     // }
     return filtered;
