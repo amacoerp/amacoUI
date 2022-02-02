@@ -892,6 +892,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get("purchase-invoice/" + id).then(({ data }) => {
       // setproList(data)
       setdiscount(data[0]?.discount_in_percentage);
+      setcurrency_type(data[0]?.currency_type);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
       setQuote_date(moment(data[0]?.issue_date).format('DD MMM YYYY'))
@@ -1163,11 +1164,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     name="party_id"
                     size="small"
                     variant="outlined"
+                    inputProps={{ required:true }}
                     
                     value={currency_type}
                     // onChange={handleChange}
                     onChange={(event)=>setcurrency_type(event.target.value)}
-                    required
+                    // required
                     select
                   >
                    

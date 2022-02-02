@@ -1586,6 +1586,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol={currency_type}
                           name="total_amount"
+                          readOnly
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
@@ -1724,6 +1725,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       label="Vat"
                       style={{ width: '250px' }}
                       name="vat"
+                      readOnly
                       variant="outlined"
                       fullWidth
                       size="small"
@@ -1741,6 +1743,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
+                        readOnly
                         currencySymbol={currency_type}
                         value={GTotal ? GTotal : parseFloat(0.00).toLocaleString(undefined, {
                           minimumFractionDigits: 2

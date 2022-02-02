@@ -945,7 +945,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
 
                     <div className="flex">
-                      <div className="pl-2 px-4 mb-4 justify-center">
+                      <div className="pl-0 px-0 mb-4 mr-24 justify-center">
                         <h1><strong> QUOTATION</strong></h1>
                         {vat}
                       </div>
@@ -1021,8 +1021,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             </div>
           </div>
         </div> */}
-                  <div className="px-2 flex justify-between">
-                    <div className="px-2 flex justify-end">
+                  {/* <div className="px-2 flex justify-between"> */}
+                    {/* <div className="px-2 flex justify-end">
                       <div className="flex " >
                         <div className="">
                           {
@@ -1044,11 +1044,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           <div className="pl-2 pb-4">
                             <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span>
                             <br></br>
-                            {/* {street.replace(/,\s*$/, "")}{city.replace(/,\s*$/, "")}{zipcode?.replace(/,\s*$/, "")} */}
-
-                            {/* {([street&&street,city,zipcode].filter(Boolean).join(",")).replace(/^,/, '')} */}
-                            {/* {((street?street+",":" ")+(city?city+",":" ")+(zipcode?zipcode+", ":" ").split(" ").join(','))} */}
-                            {/* {",hello".replace(/^,/, '')} */}
+                         
                             {street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}
 
 
@@ -1137,8 +1133,105 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         <div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </div> */}
+                     <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>RFQ NO</span><br></br>
+                        {rfq_no !== null ? rfq_no : "--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>ATTENTION</span><br></br>
+                        {prefix ? prefix + ". " : " "}{contactperson ? contactperson : '--'}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                        QUOTATION DATE
+                        </span><br></br>
+
+                        {moment(psdate).format('DD MMM YYYY')}
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>CUSTOMER</span><br></br>
+                        {company ? company : "--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>DESIGNATION</span><br></br>
+                        {designation ? designation : '--'}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                        QUOTATION NUMBER
+                        </span><br></br>
+
+                        {qid ? qid : "--"}
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-0" xs={5} style={{ wordBreak: 'break-word' }}>
+                      <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span><br></br>
+                      {street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>EMAIL ID</span><br></br>
+                        {contactpersonemail ? contactpersonemail : '--'}
+
+                      </Grid>
+
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                        VENDOR ID
+                        </span><br></br>
+
+                        {vendor_id}
+
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
+                        <span style={{ fontWeight: 1000 }}>CONTACT NUMBER</span><br></br>
+                        {contactpersoncontact ? contactpersoncontact : "--"}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={2}>
+                        {/* <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                        {inco_terms} */}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
+                        {/* <span style={{ fontWeight: 1000 }}>
+                        </span><br></br> */}
+
+
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+
+                  {/* </div> */}
 
 
 

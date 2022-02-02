@@ -66,6 +66,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const classes = useStyles();
     const formData = new FormData();
     const [ponumber, setponumber] = useState('');
+    const [currency_type, setcurrency_type] = useState('');
 
     const generateRandomId = useCallback(() => {
         let tempId = Math.random().toString();
@@ -181,6 +182,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         formData.append('party_id', party_id)
         formData.append('div_id', localStorage.getItem('division'))
         formData.append('user_id', user.id)
+        formData.append('currency_type', currency_type)
 
         tempItemList.map((answer, i) => {
             formData.append(`invoice_details${i}`, JSON.stringify(answer))
@@ -231,6 +233,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setcname(data[0].party.firm_name)
             setqno(data[0].quotation_no)
             setpono(data[0].po_number)
+            setcurrency_type(data[0].currency_type)
+
             // setrdate(data[0].requested_date)
             setparty_id(data[0].party.id)
             setdiscount(data[0].discount_in_p)
