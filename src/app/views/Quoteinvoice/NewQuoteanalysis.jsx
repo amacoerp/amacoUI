@@ -501,19 +501,20 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   
 
   const calcualtep = (event, index, value) => {
-  
+ 
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
       if (index == i) {
-
+       
         if (parseFloat(element.purchase_price)) {
 
-          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
-
-          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+          console.log(element)
+          element['purchase_price'] = event.target.value ? event.target.value : (event.target.value == null ? 0 : event.target.value);
+        
+          element.sell_price = parseFloat(element.purchase_price) ? (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price):parseFloat(element.purchase_price)*parseFloat(element.quantity);
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
           element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
@@ -523,8 +524,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         }
         else {
+          
 
-          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+          element['purchase_price'] = event.target.value ?event.target.value : (event.target.value == null ? 0 : event.target.value);
+          element['sell_price'] = event.target.value;
 
 
 
@@ -667,6 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
     let d_val = value ? value : event.target.value;
     tempItemList.map((element, i) => {
+     
       let sum = 0;
 
 
@@ -674,8 +678,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index == i) {
         // 29-1-2022
         let m=element.margin?element.margin:100;
-        element['costprice']=element.purchase_price?element.purchase_price:0
-        element['margin'] = element.purchase_price?(isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0):100;
+        element['costprice']=parseFloat(element.purchase_price)?element.purchase_price:0
+        element['margin'] = parseFloat(element.purchase_price)?(isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0):100;
 
         // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
         element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):d_val*element.quantity
@@ -1706,7 +1710,8 @@ if (!dstatus) {
                           currencySymbol=""
                           name="sell_price"
                           value={item.sell_price}
-                          onChange={(e, value) => calculatemargin(e, index, value)}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          onBlur={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>

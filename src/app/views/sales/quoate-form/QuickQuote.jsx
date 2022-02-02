@@ -453,7 +453,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       margin: 0,
       margin_val: 0,
       discount_val: 0,
-      discount: '',
+      discount: 0,
       sell_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
       }),
