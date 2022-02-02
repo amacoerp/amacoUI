@@ -758,7 +758,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pb-4" >
                                                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                                                         <br></br>
-                                                        {invoiceno == null ? '--' : invoiceno}
+                                                        {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
                                                     </div>
                                                     {/* <div className="justify-center" style={{visibility:'hidden'}}>
            
@@ -789,7 +789,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }}>
                                                             رقم الفاتورة
                                                         </span><br></br>
-                                                        {invoiceno}
+                                                        {invoiceno == null || invoiceno == 'null' ? '--' : invoiceno}
 
 
                                                     </div>
