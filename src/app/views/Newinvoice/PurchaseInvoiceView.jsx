@@ -832,7 +832,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }} >
                                                             رقم ضريبة القيمة المضافة
                                                         </span><br></br>
-                                                        {toArabic(vatno) ? toArabic(vatno) : "--"}
+                                                        {vatno ? toArabic(vatno) : "--"}
 
                                                     </div>
                                                 </div>
@@ -867,7 +867,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span>
                                                             {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
 
-                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : "") : (toArabic(zipcode) ? toArabic(zipcode) : ""))}
+                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (zipcode ? "," + (toArabic(zipcode)) : " ") : (zipcode ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + (toArabic(zipcode)) : "") : (zipcode ? toArabic(zipcode) : ""))}
 
                                                         
                                                         </span>

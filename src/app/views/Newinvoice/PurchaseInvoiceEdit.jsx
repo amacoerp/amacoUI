@@ -733,7 +733,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', GTotal)
     formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-    formData.append('invoice_no', ponumber ? ponumber : null)
+    formData.append('invoice_no', ponumber)
     formData.append('grand_total', GTotal)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
