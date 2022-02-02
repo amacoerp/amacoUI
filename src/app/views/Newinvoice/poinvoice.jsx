@@ -867,7 +867,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <TableCell className="pl-0" colspan={2} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">S.No.</TableCell>
 
 
-                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">ITEM</TableCell>
+                            {/* <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">ITEM</TableCell> */}
 
                             <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="300px" align="center">DESCRIPTION</TableCell>
                             {/* <TableCell className="px-0" colspan={3} style={{border: "1px solid #ccc",fontFamily: "Calibri",width:200,color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">REMARK</TableCell> */}
@@ -890,12 +890,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 </TableCell>
 
 
-                                <TableCell className="pl-2 capitalize" align="left" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
+                                {/* <TableCell className="pl-2 capitalize" align="left" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
                                   {item?.description}
 
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell className="pl-2 capitalize" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
-                                  {item?.descriptionss}
+                                  {item?.description} - {item?.descriptionss}
 
                                 </TableCell>
                                 {/* <TableCell className="pl-0 capitalize" colspan={3} align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
@@ -934,7 +934,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             );
                           })}
                           <TableRow style={{ border: "1px solid #ccc" }} >
-                            <TableCell className="pl-0 capitalize hidecell" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            <TableCell className="pl-0 capitalize hidecell" colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount</TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
@@ -960,7 +960,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                           <TableRow style={{ border: "1px solid #ccc" }}>
 
-                            <TableCell className="pr-0 capitalize " colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
 
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges
@@ -985,7 +985,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             </TableCell>
                           </TableRow>
                           <TableRow style={{ border: "1px solid #ccc" }}>
-                            <TableCell className="pl-0 capitalize" colspan={7} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200, fontSize: 16 }}>
+                            <TableCell className="pl-0 capitalize" colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200, fontSize: 16 }}>
                               <div className="px-4 flex justify-between">
                                 <div className="flex">
                                   <div className="pr-12" style={{ wordBreak: 'break-word' }}>
@@ -1034,7 +1034,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <div id="panel" className="pt-2">
                       <ExpansionPanel
                         square
-
                         className="p-4"
                         expanded={expanded === "panel3"}
                         onChange={handleChange("panel3")}
@@ -1045,7 +1044,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         >
                           <span>ANNEXURE</span><Icon>expand_more</Icon>
                         </ExpansionPanelSummary>
-
                         <RichTextEditor
                           content={content}
                           handleContentChange={(content) => setContent(content)}

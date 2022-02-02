@@ -26,7 +26,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import url, { getInvoiceById, addInvoice, updateInvoice, getCustomerList, ApiKey, navigatePath, data,CUR_RENCY } from "../invoice/InvoiceService";
+import url, { getInvoiceById, addInvoice, updateInvoice, getCustomerList, ApiKey, navigatePath, data, CUR_RENCY } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -1106,7 +1106,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
                 <h5 className="font-normal capitalize">
-                  <strong>Vendore: </strong>{" "}
+                  {/* <strong>Vendor: </strong>{" "} */}
                   <span>
                     {id}
                   </span>
@@ -1143,27 +1143,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <TextField
-                    className="pl-2"
-                    label="Currency Type"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="party_id"
-                    size="small"
-                    variant="outlined"
-                    
-                    value={currency_type}
-                    // onChange={handleChange}
-                    onChange={(event)=>setcurrency_type(event.target.value)}
-                    required
-                    select
-                  >
-                   
-                    {CUR_RENCY.map((item) => (
-                      <MenuItem value={item.value} key={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-            
+                  className="pl-2"
+                  label="Currency Type"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
+
+                  value={currency_type}
+                  // onChange={handleChange}
+                  onChange={(event) => setcurrency_type(event.target.value)}
+                  required
+                  select
+                >
+
+                  {CUR_RENCY.map((item) => (
+                    <MenuItem value={item.value} key={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
 
                 {/* {rfqstatus && */}
                 {/* <TextField

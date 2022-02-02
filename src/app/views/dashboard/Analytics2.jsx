@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   TextField,
@@ -12,15 +12,15 @@ import {
   TableCell,
   TableBody,
   Select,
- 
+
 
 } from "@material-ui/core";
 import { merge } from "lodash";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import StatCard3 from "./shared/StatCard3";
 import ReactEcharts from "echarts-for-react";
-import url,{getpaidDivision} from "../../views/invoice/InvoiceService";
+import url, { getpaidDivision } from "../../views/invoice/InvoiceService";
 import { useTheme } from "@material-ui/styles";
 import DoughnutChart from "../charts/echarts/Doughnut";
 import ComparisonChart2 from "../charts/echarts/ComparisonChart2";
@@ -77,14 +77,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }));
 
 const Analytics2 = () => {
-  const[paiddivision_account,setpaiddivision_account]=useState([]);
-  const[tempList,settempList]=useState([]);
-  const[linegraph,setlinegraph]=useState([]);
-  const[accountStatement,setaccountStatement]=useState([]);
+  const [paiddivision_account, setpaiddivision_account] = useState([]);
+  const [tempList, settempList] = useState([]);
+  const [linegraph, setlinegraph] = useState([]);
+  const [accountStatement, setaccountStatement] = useState([]);
 
   var obj;
   var parentData;
-  
+
 
   const theme = useTheme();
 
@@ -161,8 +161,8 @@ const Analytics2 = () => {
             show: false,
           },
         },
-        
-        data:tempList,
+
+        data: tempList,
         // data:[
         //   {
         //     value: 65,
@@ -184,280 +184,276 @@ const Analytics2 = () => {
       },
     ],
   };
-  
+
   useEffect(() => {
     getpaidDivision().then(({ data }) => {
-    
+
       var arrVal = data.sort(function (obj1, obj2) {
         return obj1.type.localeCompare(obj2.type);
-     });
-     setlinegraph(option)
-     url.post('all-account-statement').then(({ data }) => {
-      const myArr = Object.values(data[0].data).sort(
-        (a, b) => new Date(a[0].date) - new Date(b[0].date)
-      );
-       
-     
-              
-             
-      // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-     var result= myArr.map((item,i)=>{
-        item['debit']= myArr.filter(x => x[0].party_id==item[0].party_id).reduce((result, item) => result + item[0].debit, 0);
-        item['credit']= myArr.filter(x => x[0].party_id==item[0].party_id).reduce((result, item) => result + item[0].credit, 0);
-        return item
+      });
+      setlinegraph(option)
+      url.post('all-account-statement').then(({ data }) => {
+        const myArr = Object.values(data[0].data).sort(
+          (a, b) => new Date(a[0].date) - new Date(b[0].date)
+        );
+
+        // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
+        var result = myArr.map((item, i) => {
+          item['debit'] = myArr.filter(x => x[0].party_id == item[0].party_id).reduce((result, item) => result + item[0].debit, 0);
+          item['credit'] = myArr.filter(x => x[0].party_id == item[0].party_id).reduce((result, item) => result + item[0].credit, 0);
+          return item
+        })
+        var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem[0].party_id === ele[0].party_id));
+        console.log(Due);
+
+        // return the ones with equal id
+
+
+
+
+        setaccountStatement(Due)
+
+      });
+
+      url.get("accountCategory").then(({ data }) => {
+
+
+
+
       })
-      var Due=result.filter( (ele, ind) => ind === result.findIndex( elem => elem[0].party_id === ele[0].party_id));
-      console.log(Due);
+      url.get("accountCategory")
 
-              // return the ones with equal id
-      
-       
-    
-      
-      setaccountStatement(Due)
-      
-     });
-     
-     url.get("accountCategory").then(({ data }) => {
+        .then(response => response)
+        .then(data => obj = data)
+        .then(() =>
 
-    
-    
-    
-    })
-    url.get("accountCategory")
-    
-    .then(response => response)
-    .then(data => obj = data)
-    .then(() => 
-        
-    url.get(`expense_chart`).then(({ data }) => {
-    parentData=obj.data.filter(item=>item.parent_id==null);
-    
-      // var result=data.filter(o1 =>obj.data.map(o2 => o1.id === o2.parent_id))
-      var result = data[0].filter(function (o1) {
-       
-        return obj.data.some(function (o2,i) {
-            if(o1.account_category_id === o2.id)
-            {
-              const variableOne = obj.data.filter(itemInArray => itemInArray.id === o2.id);
+          url.get(`expense_chart`).then(({ data }) => {
+            parentData = obj.data.filter(item => item.parent_id == null);
 
-              o1['parent_account']=obj.data.find(itemInArray => itemInArray.id === variableOne[0].parent_id);
-              o1['count']=data[0].filter(val=>val.account_category_id==o2.id).reduce((total,currentItem) =>  total = total + parseFloat(currentItem.amount) , 0 );
-              return o1;
-            } // return the ones with equal id
-       });
-       
-      }) 
-    
-      // let pp = result.filter( (ele, ind) => ind === result.findIndex( elem => elem.account_category_id === ele.account_category_id))
-    
-   
-    var filterResult=result.filter(o1 =>parentData.map(o2 => o1.parent_account.id === o2.id))
-    console.log(filterResult)
-    // console.log(filterResult.filter( (ele, ind) => ind === filterResult.findIndex( elem => elem.parent_account.id === ele.parent_account.id)))
-     
+            // var result=data.filter(o1 =>obj.data.map(o2 => o1.id === o2.parent_id))
+            var result = data[0].filter(function (o1) {
 
-      var arr2 = filterResult.map(v => ({ name: v.parent_account.name, value: parseFloat(v.amount) }));
-       
+              return obj.data.some(function (o2, i) {
+                if (o1.account_category_id === o2.id) {
+                  const variableOne = obj.data.filter(itemInArray => itemInArray.id === o2.id);
 
-    settempList(arr2)
-    
+                  o1['parent_account'] = obj.data.find(itemInArray => itemInArray.id === variableOne[0].parent_id);
+                  o1['count'] = data[0].filter(val => val.account_category_id == o2.id).reduce((total, currentItem) => total = total + parseFloat(currentItem.amount), 0);
+                  return o1;
+                } // return the ones with equal id
+              });
+
+            })
+
+            // let pp = result.filter( (ele, ind) => ind === result.findIndex( elem => elem.account_category_id === ele.account_category_id))
 
 
-   }))
- 
-    // url.get("expense-paid").then(({ data }) => {
-
-    //   console.log(data.filter(o1 =>obj.some(o2 => o1.id === o2.id)))
-    
-    
-  
+            var filterResult = result.filter(o1 => parentData.map(o2 => o1.parent_account.id === o2.id))
+            console.log(filterResult)
+            // console.log(filterResult.filter( (ele, ind) => ind === filterResult.findIndex( elem => elem.parent_account.id === ele.parent_account.id)))
 
 
-    
+            var arr2 = filterResult.map(v => ({ name: v.parent_account.name, value: parseFloat(v.amount) }));
+
+
+            settempList(arr2)
+
+
+
+          }))
+
+      // url.get("expense-paid").then(({ data }) => {
+
+      //   console.log(data.filter(o1 =>obj.some(o2 => o1.id === o2.id)))
+
+
+
+
+
+
       setpaiddivision_account(data);
     });
-  }, [ ])
+  }, [])
   const columns = [
     {
-        name: "id", // field name in the row object
-        label: "S.No.", // column title that will be shown in table
-        options: {
-           
-            filter: true,
-            customHeadRender: ({index, ...column}) =>{
-              return (
-                <TableCell key={index} width={50} style={{textAlign:"center"}} >  
-                  <span style={{marginLeft:15}} >S.NO.</span> 
-                </TableCell>
-              )
-           },
-           setCellProps:()=>({
-             align:"center"
-           })
+      name: "id", // field name in the row object
+      label: "S.No.", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} width={50} style={{ textAlign: "center" }} >
+              <span style={{ marginLeft: 15 }} >S.NO.</span>
+            </TableCell>
+          )
         },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
     },
     {
       name: "id", // field name in the row object
       label: "NAME", // column title that will be shown in table
       options: {
-         
-          filter: true,
-          customHeadRender: ({index, ...column}) =>{
-            return (
-              <TableCell key={index}  style={{textAlign:"center"}} >  
-                <span  >NAME</span> 
-              </TableCell>
-            )
-         },
-         setCellProps:()=>({
-          align:"center"
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span  >NAME</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
         })
       },
-  },
-  {
-    name: "id", // field name in the row object
-    label: "DESIGNATION", // column title that will be shown in table
-    options: {
-       
+    },
+    {
+      name: "id", // field name in the row object
+      label: "DESIGNATION", // column title that will be shown in table
+      options: {
+
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index}  style={{textAlign:"center"}} >  
-              <span >BALANCE</span> 
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >BALANCE</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-        align:"center"
-      })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
     },
-  },
-  {
-    name: "id", // field name in the row object
-    // label: "DESIGNATION", // column title that will be shown in table
-    options: {
-       
+    {
+      name: "id", // field name in the row object
+      // label: "DESIGNATION", // column title that will be shown in table
+      options: {
+
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index}  style={{textAlign:"center"}} >  
-              <span >STATUS</span> 
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >STATUS</span>
             </TableCell>
           )
-       },
-       customBodyRender: (value, tableMeta, updateValue) => {
-       
-        return (
-         <div className="pr-8" style={{textAlign:'center'}}>
-         {tableMeta.rowData[2] < 0 ? (
-                      
-                      <Icon style={{color:"#08ad6c"}} size="small">arrow_downward</Icon>
-                     
-                    ) : (
-                      
-                        <Icon size="small" color="error">arrow_upward</Icon>
-                      
-                    )
-                  }
-        </div>
-        
-        )
-        
+        },
+        customBodyRender: (value, tableMeta, updateValue) => {
+
+          return (
+            <div className="pr-8" style={{ textAlign: 'center' }}>
+              {tableMeta.rowData[2] < 0 ? (
+
+                <Icon style={{ color: "#08ad6c" }} size="small">arrow_downward</Icon>
+
+              ) : (
+
+                <Icon size="small" color="error">arrow_upward</Icon>
+
+              )
+              }
+            </div>
+
+          )
+
+        },
+      },
     },
-    },
-  },
   ]
 
 
   const columnsDue = [
     {
-        name: "id", // field name in the row object
-        label: "S.No.", // column title that will be shown in table
-        options: {
-           
-            filter: true,
-            customHeadRender: ({index, ...column}) =>{
-              return (
-                <TableCell key={index} width={50} style={{textAlign:"center"}} >  
-                  <span style={{marginLeft:15}} >S.NO.</span> 
-                </TableCell>
-              )
-           },
-           setCellProps:()=>({
-             align:"center"
-           })
+      name: "id", // field name in the row object
+      label: "S.No.", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} width={50} style={{ textAlign: "center" }} >
+              <span style={{ marginLeft: 15 }} >S.NO.</span>
+            </TableCell>
+          )
         },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
     },
     {
       name: "id", // field name in the row object
       label: "NAME", // column title that will be shown in table
       options: {
-         
-          filter: true,
-          customHeadRender: ({index, ...column}) =>{
-            return (
-              <TableCell key={index}  style={{textAlign:"center"}} >  
-                <span  >NAME</span> 
-              </TableCell>
-            )
-         },
-         setCellProps:()=>({
-          align:"center"
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span  >NAME</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
         })
       },
-  },
-  {
-    name: "id", // field name in the row object
-    label: "DESIGNATION", // column title that will be shown in table
-    options: {
-       
-        filter: true,
-        customHeadRender: ({index, ...column}) =>{
-          return (
-            <TableCell key={index}  style={{textAlign:"center"}} >  
-              <span >BALANCE</span> 
-            </TableCell>
-          )
-       },
-       setCellProps:()=>({
-        align:"center"
-      })
     },
-  },
-  {
-    name: "id", // field name in the row object
-    // label: "DESIGNATION", // column title that will be shown in table
-    options: {
-       
+    {
+      name: "id", // field name in the row object
+      label: "DESIGNATION", // column title that will be shown in table
+      options: {
+
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index}  style={{textAlign:"center"}} >  
-              <span >STATUS</span> 
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >BALANCE</span>
             </TableCell>
           )
-       },
-       customBodyRender: (value, tableMeta, updateValue) => {
-       
-        return (
-         <div className="pr-8" style={{textAlign:'center'}}>
-         
-                      
-                      <Link to={"/customer_account/"+tableMeta.rowData[3]}>
-             
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
+    },
+    {
+      name: "id", // field name in the row object
+      // label: "DESIGNATION", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >STATUS</span>
+            </TableCell>
+          )
+        },
+        customBodyRender: (value, tableMeta, updateValue) => {
+
+          return (
+            <div className="pr-8" style={{ textAlign: 'center' }}>
+
+
+              <Link to={"/customer_account/" + tableMeta.rowData[3]}>
+
                 <Icon color="primary">remove_red_eye</Icon>
-          
-            </Link>
-                    
-              
-        </div>
-        
-        )
-        
+
+              </Link>
+
+
+            </div>
+
+          )
+
+        },
+      },
     },
-    },
-  },
   ]
   const classes = useStyles();
   return (
@@ -473,10 +469,10 @@ const Analytics2 = () => {
       </div>
 
       <StatCard3 />
-         
-            <Grid container spacing={3} alignItems="center">
-         
-            {/* <Grid item sm={6} xs={3}>
+
+      <Grid container spacing={3} alignItems="center">
+
+        {/* <Grid item sm={6} xs={3}>
 
       
 <Card elevation={3} className="pt-5 mb-6">
@@ -558,19 +554,19 @@ const Analytics2 = () => {
 
 
 
-      <Grid item sm={6} xs={12}>
+        <Grid item sm={6} xs={12}>
 
-      
-      <Card elevation={3} className="pt-5 mb-6">
-      <div className="flex justify-between items-center px-6 mb-3">
-        <span className="card-title">Account Statements</span>
-        {/* <Select size="small" defaultValue="this_month" disableUnderline>
+
+          <Card elevation={3} className="pt-5 mb-6">
+            <div className="flex justify-between items-center px-6 mb-3">
+              <span className="card-title">Account Statements</span>
+              {/* <Select size="small" defaultValue="this_month" disableUnderline>
           <MenuItem value="this_month">This Month</MenuItem>
           <MenuItem value="last_month">Last Month</MenuItem>
         </Select> */}
-      </div>
-      <div className="overflow-auto">
-        {/* <Table
+            </div>
+            <div className="overflow-auto">
+              {/* <Table
           className={clsx("whitespace-pre min-w-400", classes.productTable)}
         >
           <TableHead>
@@ -628,51 +624,51 @@ const Analytics2 = () => {
             ))}
           </TablefBody>
         </Table> */}
-        <MUIDataTable
-        data={
-          paiddivision_account.map((item, index) => {
-           
-           
-              return [
-        
-                ++index,
-                item.name?.toLowerCase(),
-                parseFloat(item?.balance).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                })
-                
-              ]
-            
-          })
-        }
-          columns={columns
-          }
-          options={{
-            filterType: "textField",
-            responsive: "simple",
-            selectableRows: "none",
-            filter: true,
-            rowsPerPage: 5,
-           
-            
-             
-            rowsPerPageOptions: [5, 10, 25]
-        }}
-        />
-      </div>
-    </Card>
-    </Grid>
-    <Grid xs={6} >
-    <Card elevation={3} className="pt-5 mb-6 mr-4">
-      <div className="flex justify-between items-center px-6 mb-3">
-        <span className="card-title">Customer Statements</span>
-        {/* <Select size="small" defaultValue="this_month" disableUnderline>
+              <MUIDataTable
+                data={
+                  paiddivision_account.map((item, index) => {
+
+
+                    return [
+
+                      ++index,
+                      item.name?.toLowerCase(),
+                      parseFloat(item?.balance).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                      })
+
+                    ]
+
+                  })
+                }
+                columns={columns
+                }
+                options={{
+                  filterType: "textField",
+                  responsive: "simple",
+                  selectableRows: "none",
+                  filter: true,
+                  rowsPerPage: 5,
+
+
+
+                  rowsPerPageOptions: [5, 10, 25]
+                }}
+              />
+            </div>
+          </Card>
+        </Grid>
+        <Grid xs={6} >
+          <Card elevation={3} className="pt-5 mb-6 mr-4">
+            <div className="flex justify-between items-center px-6 mb-3">
+              <span className="card-title">Customer Statements</span>
+              {/* <Select size="small" defaultValue="this_month" disableUnderline>
           <MenuItem value="this_month">This Month</MenuItem>
           <MenuItem value="last_month">Last Month</MenuItem>
         </Select> */}
-      </div>
-      <div className="overflow-auto">
-        {/* <Table
+            </div>
+            <div className="overflow-auto">
+              {/* <Table
           className={clsx("whitespace-pre min-w-400", classes.productTable)}
         >
           <TableHead>
@@ -730,41 +726,41 @@ const Analytics2 = () => {
             ))}
           </TableBody>
         </Table> */}
-        <MUIDataTable
-        data={
-          accountStatement.map((item, index) => {
-           
-           
-              return [
-        
-                ++index,
-                item[0].party.firm_name?.toLowerCase(),
-                parseFloat(item?.debit-item?.credit).toLocaleString(undefined,{
-                  minimumFractionDigits:2
-                }),
-                item[0].party.id
-                
-              ]
-            
-          })
-        }
-          columns={columnsDue
-          }
-          options={{
-            filterType: "textField",
-            responsive: "simple",
-            selectableRows: "none",
-            filter: true,
-            rowsPerPage: 5,
-           
-            
-             
-            rowsPerPageOptions: [5, 10, 25]
-        }}
-        />
-      </div>
-    </Card>
-      {/* <Card style={{position:'relative',top:'-225px',left:'14px'}} elevation={6}>
+              <MUIDataTable
+                data={
+                  accountStatement.map((item, index) => {
+
+
+                    return [
+
+                      ++index,
+                      item[0].party.firm_name?.toLowerCase(),
+                      parseFloat(item?.debit - item?.credit).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                      }),
+                      item[0].party.id
+
+                    ]
+
+                  })
+                }
+                columns={columnsDue
+                }
+                options={{
+                  filterType: "textField",
+                  responsive: "simple",
+                  selectableRows: "none",
+                  filter: true,
+                  rowsPerPage: 5,
+
+
+
+                  rowsPerPageOptions: [5, 10, 25]
+                }}
+              />
+            </div>
+          </Card>
+          {/* <Card style={{position:'relative',top:'-225px',left:'14px'}} elevation={6}>
     <div className="card-title pl-4 pt-4" >Expenses</div>
             
               
@@ -781,84 +777,84 @@ const Analytics2 = () => {
               
     />
               </Card> */}
+        </Grid>
       </Grid>
-    </Grid>
 
 
 
       <Grid container spacing={2}>
         <Grid item xs={7}>
-        <Card className="mt-5 mb-6" elevation={3}>
-        
-        <div className=" px-4 py-3 mb-6 flex justify-between items-center bg-light-gray">
-          <span className="font-medium text-muted">EXPENSE STATISTICS</span>
-          <IconButton size="small">
-            <Icon>more_horiz</Icon>
-          </IconButton>
-        </div>
-      
-        <div className="pb-24 pt-7 px-8 bg-primary" >
-        <div className="card-title capitalize text-white mb-4 text-white-secondary">
-          Last 12 months sales
-        </div>
-        <ReactEcharts
-      
-          color="#6c757d"
-          height="280px"
-          option={merge({}, defaultOption, {
-            series: [
-              {
-                data: [34, 45, 31, 45, 31, 43, 26, 43, 31, 45, 33, 40],
-                type: "line",
-              },
-            ],
-            xAxis: {
-              data: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-              ],
-            },
-          })
-          }
-        
-        />
+          <Card className="mt-5 mb-6" elevation={3}>
 
-      </div>
-      </Card>
+            <div className=" px-4 py-3 mb-6 flex justify-between items-center bg-light-gray">
+              <span className="font-medium text-muted">EXPENSE STATISTICS</span>
+              <IconButton size="small">
+                <Icon>more_horiz</Icon>
+              </IconButton>
+            </div>
+
+            <div className="pb-24 pt-7 px-8 bg-primary" >
+              <div className="card-title capitalize text-white mb-4 text-white-secondary">
+                Last 12 months sales
+              </div>
+              <ReactEcharts
+
+                color="#6c757d"
+                height="280px"
+                option={merge({}, defaultOption, {
+                  series: [
+                    {
+                      data: [34, 45, 31, 45, 31, 43, 26, 43, 31, 45, 33, 40],
+                      type: "line",
+                    },
+                  ],
+                  xAxis: {
+                    data: [
+                      "Jan",
+                      "Feb",
+                      "Mar",
+                      "Apr",
+                      "May",
+                      "Jun",
+                      "Jul",
+                      "Aug",
+                      "Sep",
+                      "Oct",
+                      "Nov",
+                      "Dec",
+                    ],
+                  },
+                })
+                }
+
+              />
+
+            </div>
+          </Card>
         </Grid>
         <Grid item xs={5}>
-        <Card style={{position:'relative',left:'14px',top:'20px'}} elevation={6}>
-    <div className="card-title pl-4 pt-2 " >Expenses</div>
-            
-              
-              <ReactEcharts
-              style={{ height:350,width:'100%' }}
+          <Card style={{ position: 'relative', left: '14px', top: '20px' }} elevation={6}>
+            <div className="card-title pl-4 pt-2 " >Expenses</div>
+
+
+            <ReactEcharts
+              style={{ height: 350, width: '100%' }}
               option={{
                 ...option,
                 color: [theme.palette.primary.dark,
-                    theme.palette.primary.main,
-                    // theme.palette.primary.light,
-                    theme.palette.secondary.dark,
-                  ],
+                theme.palette.primary.main,
+                // theme.palette.primary.light,
+                theme.palette.secondary.dark,
+                ],
               }}
-              
-    />
-              </Card> 
-        </Grid>
-        </Grid>
-     
 
-      
+            />
+          </Card>
+        </Grid>
+      </Grid>
+
+
+
     </div>
   );
 };
