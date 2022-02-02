@@ -448,8 +448,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           price: ""
         }
       ],
-      purchase_price:'',
-      costprice:0,
+      purchase_price: '',
+      costprice: 0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
@@ -517,21 +517,21 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
         // 29-1-2022
-        let m=element.margin?element.margin:100;
-        element['costprice']=element.purchase_price?element.purchase_price:0
-        element['margin'] = element.purchase_price?(isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0):100;
+        let m = element.margin ? element.margin : 100;
+        element['costprice'] = element.purchase_price ? element.purchase_price : 0
+        element['margin'] = element.purchase_price ? (isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0) : 100;
 
         // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
-        element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):d_val*element.quantity
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
 
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.sell_price=d_val
+        element.sell_price = d_val
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        element.discount=0
-        element.discount_val=0
+        element.discount = 0
+        element.discount_val = 0
         // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
 
@@ -549,7 +549,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const calcualtep = (event, index, value) => {
-  
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -600,7 +600,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const calcualte_margin = (event, index, value) => {
-  
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -623,7 +623,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
         else {
 
-          element['costprice'] = element.sell_price-(100/(100+100)*element.sell_price);
+          element['costprice'] = element.sell_price - (100 / (100 + 100) * element.sell_price);
           element[event.target.name] = value ? value : event.target.value;
 
 
@@ -650,7 +650,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const calcualte_qty = (event, index, value) => {
-  
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -660,7 +660,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index == i) {
 
         if (parseFloat(element.purchase_price)) {
-        
+
           element[event.target.name] = value ? value : event.target.value;
 
           element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
@@ -669,22 +669,22 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
 
-          element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((parseFloat(element.discount)*element.sell_price)/100)*element.quantity)
+          element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : (((parseFloat(element.discount) * element.sell_price) / 100) * element.quantity)
 
 
         }
         else {
-          let m = element.margin?element.margin:100
+          let m = element.margin ? element.margin : 100
           element['costprice'] = element.purchase_price;
-          
+
           element[event.target.name] = value ? value : event.target.value;
 
 
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
           element.cost_qty = ((element.costprice) * element.quantity).toFixed(2);
-          element.margin_val = element.purchase_price?((parseFloat(element.costprice) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):element.sell_price*element.quantity;
-          element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.costprice) / 100) + parseFloat(element.costprice)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((parseFloat(element.discount)*element.sell_price)/100)*element.quantity)
+          element.margin_val = element.purchase_price ? ((parseFloat(element.costprice) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : element.sell_price * element.quantity;
+          element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.costprice) / 100) + parseFloat(element.costprice)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : (((parseFloat(element.discount) * element.sell_price) / 100) * element.quantity)
 
 
 
@@ -702,7 +702,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
   const discountPer = (event, index, value) => {
-   
+
     console.log(event.target.value)
     let tempItemList = [...state.item];
 
@@ -711,41 +711,41 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index === i) {
 
-        
-        
 
-       
+
+
+
 
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-      
-        
+
+
         // element.sell_price = element.purchase_price?(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat((element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100)).toFixed(3)) / 100)).toFixed(3)):element.sell_price-((element.discount*element.sell_price)/100);
 
-       
+
 
 
         // element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         // element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
 
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
-        const dumy_sellPrice=element.sell_price;
+        const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
         element['discount'] = event.target.value;
-        
 
-        element.sell_price =  element.purchase_price? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3):element.sell_price-((element.discount*element.sell_price)/100);
 
-        element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):dumy_sellPrice*element.quantity
+        element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
-        
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : dumy_sellPrice * element.quantity
+
+
 
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):((((element.discount*dumy_sellPrice)/100)*element.quantity))
+        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : ((((element.discount * dumy_sellPrice) / 100) * element.quantity))
 
-       
 
-        
+
+
 
 
       }
@@ -1354,7 +1354,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   if (!dstatus) {
                     // 29-1-2022
-                    costTotal += item.purchase_price?item.purchase_price*item.quantity:0;
+                    costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
                     // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
                     totalmargin += parseFloat(item.margin);
 
@@ -1365,14 +1365,14 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     margin_val += ((item.margin_val));
 
-                    margin_per = costTotal?(margin_val / costTotal) * 100:100;
+                    margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
                     subCost = Math.round(costTotal + margin_val);
                     subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
                     // margin_val=((subCost-costTotal));
                     dis_val += (item?.discount_val ? item?.discount_val : 0)
 
-                    
+
 
                     dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
 
@@ -1661,7 +1661,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{ inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}
                           // inputProps={{ inputMode: 'decimal' }}
                           variant="outlined"
-                          disabled={item.purchase_price?false:true}
+                          disabled={item.purchase_price ? false : true}
                           // inputProps={{min: 0, style: { textAlign: 'center' }}}
                           size="small"
                           name="margin"
@@ -1676,12 +1676,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
-                      <CurrencyTextField
+                        <CurrencyTextField
                           label="Discount"
                           // onChange={(event) => discountPer(event, index)}
                           onBlur={(e, value) => discountPer(e, index, value)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
-                         
+
                           decimalPlaces={2}
                           variant="outlined"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
@@ -1724,7 +1724,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="sell_price"
                           value={item.sell_price}
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          // onBlur={(e, value) => calculatemargin(e, index, value)}
+                        // onBlur={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
@@ -2050,7 +2050,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         style={{ width: '150px', alignItems: 'right' }}
                         // currencySymbol="SAR"
                         // name="dis_per"
-                        value={parseFloat(margin_val).toFixed(2) ? parseFloat(margin_val).toFixed(2) : 0}
+                        value={isNaN(margin_val) ? 0 : parseFloat(margin_val).toFixed(2) ? parseFloat(margin_val).toFixed(2) : 0}
                       />
 
                     </div>

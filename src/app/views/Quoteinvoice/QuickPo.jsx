@@ -498,7 +498,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+      console.log('ss', data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
     getVendorList().then(({ data }) => {

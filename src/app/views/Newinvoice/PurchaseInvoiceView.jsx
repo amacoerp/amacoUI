@@ -774,13 +774,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pb-4" >
                                                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                                                         <br></br>
-                                                        {invoiceno}
-
-
+                                                        {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
                                                     </div>
-
-
-
                                                     {/* <div className="justify-center" style={{visibility:'hidden'}}>
            
             <span style={{fontWeight:1000}}></span>
@@ -810,7 +805,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }}>
                                                             رقم الفاتورة
                                                         </span><br></br>
-                                                        {invoiceno}
+                                                        {invoiceno == null || invoiceno == 'null' ? '--' : invoiceno}
 
 
                                                     </div>
@@ -862,7 +857,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                             اسم الشركة وعنوانها
 
                                                         </span><br></br>
-                                                        <span>{cname_ar}</span><br></br>
+                                                        <span>{cname_ar == null || cname_ar == 'null' ? '--' : cname_ar}</span><br></br>
                                                         {/* <span>{companyaddress}</span> */}
                                                         <span>
                                                             {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
@@ -879,8 +874,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span align="right" style={{ fontWeight: 1000, fontSize: 18 }}>
                                                             رقم أمر الشراء
                                                         </span><br></br>
-                                                        {pono}
-
+                                                        {pono == null ? '--' : pono}
 
                                                     </div>
                                                 </div>

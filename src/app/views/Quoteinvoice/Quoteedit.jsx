@@ -60,6 +60,8 @@ import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import MemberEditorDialogcontact from "../party/partycontact";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import useSettings from "app/hooks/useSettings";
+import useDynamicRefs from 'use-dynamic-refs';
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -306,7 +308,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           firm_name: ""
         }
       ],
-      purchase_price:0,
+      purchase_price: 0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
@@ -422,21 +424,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index == i) {
         // 29-1-2022
-        let m=element.margin?element.margin:100;
-        element['costprice']=element.purchase_price?element.purchase_price:0
-        element['margin'] = element.purchase_price?(isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0):100;
+        let m = element.margin ? element.margin : 100;
+        element['costprice'] = element.purchase_price ? element.purchase_price : 0
+        element['margin'] = element.purchase_price ? (isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0) : 100;
 
         // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
-        element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):d_val*element.quantity
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
 
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.sell_price=d_val
+        element.sell_price = d_val
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
         // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        element.discount=0
-        element.discount_val=0
+        element.discount = 0
+        element.discount_val = 0
         // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
 
@@ -451,6 +453,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
 
+  const [getRef, setRef] = useDynamicRefs();
+
+  let inputRef = [];
+  let priceRef = [];
 
   const calcualte_qty = (event, index, value) => {
 
@@ -490,6 +496,82 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   }
+
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+
+
+    if (e?.keyCode == 39) {
+      // if (nextid?.includes('purchase_price')) {
+      if (false) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        // if (r?.includes('purchase_price')) {
+        if (false) {
+          priceRef[parseInt(r)].focus();
+          // } else if (r.includes('product_id')) {
+        } else if (false) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        // if (r?.includes('purchase_price')) {
+        if (false) {
+          priceRef[parseInt(r)].focus();
+          // } else if (r.includes('product_id')) {
+        } else if (false) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        // addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        // if (prev.includes('product_id')) {
+        if (false) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+          // } else if (prev?.includes('purchase_price')) {
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
+
   const calcualte_margin = (event, index, value) => {
 
     let tempItemList = [...state.item];
@@ -550,7 +632,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
   const discountPer = (event, index, value) => {
-   
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -558,38 +640,38 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index === i) {
 
-        
-        
 
-       
+
+
+
 
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-      
-        
+
+
         // element.sell_price = element.purchase_price?(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat((element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100)).toFixed(3)) / 100)).toFixed(3)):element.sell_price-((element.discount*element.sell_price)/100);
 
-       
+
 
 
         // element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         // element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
 
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
-        const dumy_sellPrice=element.sell_price;
+        const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
         element['discount'] = event.target.value;
-        element.sell_price =  element.purchase_price? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3):element.sell_price-((element.discount*element.sell_price)/100);
+        element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
 
         // element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):dumy_sellPrice*element.quantity
 
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):((((element.discount*dumy_sellPrice)/100)*element.quantity))
+        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : ((((element.discount * dumy_sellPrice) / 100) * element.quantity))
 
-       
 
-        
+
+
 
 
       }
@@ -1079,7 +1161,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let costTotal = parseFloat('0');
   let margin_per = 0;
   let totalmargin = 0;
-  let temp=0;
+  let temp = 0;
   let sellTotal = 0;
   let margin_val = 0;
   let dis_val = 0;
@@ -1303,7 +1385,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {invoiceItemList.map((item, index) => {
 
                   if (!dstatus) {
-                    costTotal += item.purchase_price?item.purchase_price*item.quantity:0;
+                    costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
                     // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
                     totalmargin += parseFloat(item.margin);
 
@@ -1313,25 +1395,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     // margin_per=((subCost-costTotal)/costTotal)*100;
                     // if(parseFloat(item?.purchase_price))
                     // {
-                      
-                      margin_val += ((item.margin_val));
+
+                    margin_val += ((item.margin_val));
                     // }
                     // else
                     // {
-                     
 
-                      //   temp+= ((item.margin_val));
-                      // margin_val=temp+item.discount_val
+
+                    //   temp+= ((item.margin_val));
+                    // margin_val=temp+item.discount_val
                     // }
 
-                    margin_per = costTotal?(margin_val / costTotal) * 100:100;
+                    margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
                     subCost = Math.round(costTotal + margin_val);
                     subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
                     // margin_val=((subCost-costTotal));
                     dis_val += (item?.discount_val ? item?.discount_val : 0)
 
-                    
+
 
                     dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
 
@@ -1413,11 +1495,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="product_id"
                           fullWidth
                           variant="outlined"
+
                           // inputProps={{style: {textTransform: 'capitalize'}}}
 
                           size="small"
                           value={item.product_id ? item.product_id : ""}
                           //   validators={["required"]}
+                          inputProps={{
+                            ref: setRef(index + 'product_id')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
 
                           //   errorMessages={["this field is required"]}
                           select
@@ -1439,6 +1526,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             fullWidth
                             variant="outlined"
                             // inputProps={{style: {textTransform: 'capitalize'}}}
+                            inputProps={{
+                              ref: setRef(index + 'product_id')
+                            }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
 
                             size="small"
                             disabled
@@ -1459,6 +1550,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           name="description"
                           fullWidth
+                          inputProps={{
+                            ref: setRef(index + 'description')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id',) }}
+
                           variant="outlined"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
 
@@ -1477,6 +1573,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           variant="outlined"
                           size="small"
+                          inputProps={{
+                            ref: setRef(index + 'descriptionss')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description',) }}
+
                           name="descriptionss"
                           fullWidth
                           multiline
@@ -1505,7 +1606,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{
+                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity')
+                          }}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss',) }}
 
                           name="quantity"
                           value={item.quantity}
@@ -1518,6 +1623,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           // onChange={e => setunit_of_measure(e.target.value)}
                           type="text"
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',) }}
+
                           size="small"
                           value={item.unit_of_measure}
                           name="unit_of_measure"
@@ -1628,7 +1738,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             value={item?.purchase_price}
                             label="Price"
                             size="small"
+
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+
                             inputProps={{
+                              ref: setRef(index + 'purchase_price'),
+
                               name: 'purchase_price',
                               id: 'outlined-age-native-simple',
                               style: { textAlign: 'right' }
@@ -1650,8 +1765,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             label="Price"
                             size="small"
 
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+
                             inputProps={{
-                              name: 'purchase_price',
+                              ref: setRef(index + 'purchase_price'),
                               id: 'outlined-age-native-simple',
                               style: { textAlign: 'right' }
                             }}
@@ -1671,12 +1788,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           variant="outlined"
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price',) }}
+
                           size="small"
                           name="margin"
                           decimalPlaces={3}
                           fullWidth
                           value={item.margin}
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{
+                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'margin')
+                          }}
                           validators={["required"]}
                           errorMessages={["this field is required"]}
 
@@ -1714,11 +1836,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onChange={(event) => discountPer(event, index)}
                           onBlur={(e, value) => discountPer(e, index, value)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
-                         
+
                           decimalPlaces={2}
                           variant="outlined"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{
+                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'discount')
+                          }}
                           size="small"
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin',) }}
+
                           name="discount"
                           currencySymbol=""
                           // style={{width:'75%',float:'left'}}
@@ -1739,6 +1866,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          inputProps={{
+                            ref: setRef(index + 'sell_price')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount',) }}
+
                           currencySymbol=""
                           name="sell_price"
                           value={item.sell_price}
@@ -1754,10 +1886,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
 
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price',) }}
+
                           name="total_amount"
 
                           value={isNaN(item.total_amount) ? " " : item.total_amount}
-                          inputProps={{ min: 0, style: { textAlign: 'right' } }}
+                          inputProps={{
+                            min: 0, style: { textAlign: 'right' }, ref: setRef(index + 'total_amount')
+                          }}
 
                         />
                       </TableCell>

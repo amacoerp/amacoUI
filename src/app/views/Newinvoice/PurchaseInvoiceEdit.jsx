@@ -872,7 +872,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    getCustomerList().then(({ data }) => {
+    getVendorList().then(({ data }) => {
       setCustomerList(data);
 
 
@@ -1120,15 +1120,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
                 <h5 className="font-normal capitalize">
-                  <strong>Customer: </strong>{" "}
+                  <strong>Vendore: </strong>{" "}
                   <span>
-                    {id}
+
                   </span>
                 </h5>
 
                 <TextField
 
-                  label="Customer Name"
+                  label="Vendore Name"
                   style={{ minWidth: 200, maxWidth: '250px' }}
                   name="party_id"
                   size="small"
