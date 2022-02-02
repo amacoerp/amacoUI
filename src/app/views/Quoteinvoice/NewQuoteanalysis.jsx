@@ -233,9 +233,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let priceRef = [];
 
   const controlKeyPress = (e, id, nextid, prev) => {
-    console.log(e?.keyCode)
-    console.log(id)
-
     if (e?.keyCode == 39) {
       // if (nextid?.includes('purchase_price')) {
       if (false) {

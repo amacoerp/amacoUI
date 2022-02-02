@@ -758,13 +758,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pb-4" >
                                                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                                                         <br></br>
-                                                        {invoiceno}
-
-
+                                                        {invoiceno == null ? '--' : invoiceno}
                                                     </div>
-
-
-
                                                     {/* <div className="justify-center" style={{visibility:'hidden'}}>
            
             <span style={{fontWeight:1000}}></span>
@@ -816,7 +811,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }} >
                                                             رقم ضريبة القيمة المضافة
                                                         </span><br></br>
-                                                        {toArabic(vatno) ? toArabic(vatno) : "--"}
+                                                        {toArabic(vatno) == null ? toArabic(vatno) : "--"}
 
                                                     </div>
                                                 </div>
@@ -846,12 +841,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                             اسم الشركة وعنوانها
 
                                                         </span><br></br>
-                                                        <span>{cname_ar}</span><br></br>
+                                                        <span>{cname_ar == null || cname_ar == 'null' ? '--' : cname_ar}</span><br></br>
                                                         {/* <span>{companyaddress}</span> */}
                                                         <span>{street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)}
 
-                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? toArabic(zipcode) : " "))}
-                                                        
+                                                            {street_ar ? street_ar + (city_ar ? "," + city_ar + (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (toArabic(zipcode) ? " ," + (toArabic(zipcode)) : " ") : (toArabic(zipcode) ? toArabic(zipcode) : " "))}
+
                                                         </span>
 
 
@@ -861,8 +856,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span align="right" style={{ fontWeight: 1000, fontSize: 18 }}>
                                                             رقم أمر الشراء
                                                         </span><br></br>
-                                                        {pono}
-
+                                                        {pono == null ? '--' : pono}
 
                                                     </div>
                                                 </div>
