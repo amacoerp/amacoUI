@@ -19,6 +19,8 @@ import {
   IconButton,
   useMediaQuery
 } from "@material-ui/core";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import useSettings from "app/hooks/useSettings";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
@@ -225,6 +227,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct,
   ] = useState(false);
 
+  const [getRef, setRef] = useDynamicRefs();
+
   let inputRef = [];
   let priceRef = [];
 
@@ -233,7 +237,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     console.log(id)
 
     if (e?.keyCode == 39) {
-      if (nextid?.includes('purchase_price')) {
+      // if (nextid?.includes('purchase_price')) {
+      if (false) {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
         // if (e?.keyCode == 13) {
@@ -247,9 +252,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let i = parseInt(id)
       if (--i >= 0) {
         const r = i + a[1];
-        if (r?.includes('purchase_price')) {
+        // if (r?.includes('purchase_price')) {
+        if (false) {
           priceRef[parseInt(r)].focus();
-        } else if (r.includes('product_id')) {
+          // } else if (r.includes('product_id')) {
+        } else if (false) {
           inputRef[parseInt(r)].focus();
         } else {
           getRef(r).current.focus();
@@ -263,9 +270,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // if (++i) {
       const r = ++i + a[1];
       try {
-        if (r?.includes('purchase_price')) {
+        // if (r?.includes('purchase_price')) {
+        if (false) {
           priceRef[parseInt(r)].focus();
-        } else if (r.includes('product_id')) {
+          // } else if (r.includes('product_id')) {
+        } else if (false) {
           inputRef[parseInt(r)].focus();
 
           // inputRef.focus();
@@ -274,7 +283,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         console.error('eror')
-        addItemToInvoiceList();
+        // addItemToInvoiceList();
       }
 
       // }
@@ -283,11 +292,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (prev == null) {
 
       } else {
-        if (prev.includes('product_id')) {
+        // if (prev.includes('product_id')) {
+        if (false) {
           inputRef[parseInt(prev)].focus();
 
           // inputRef.focus();
-        } else if (prev?.includes('purchase_price')) {
+          // } else if (prev?.includes('purchase_price')) {
+        } else if (false) {
           priceRef[parseInt(prev)].focus();
         } else {
           getRef(prev).current.focus();
@@ -1535,6 +1546,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           fullWidth
                           variant="outlined"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
+                          inputProps={{
+                            ref: setRef(index + 'product_id')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
 
                           size="small"
                           value={item.product_id ? item.product_id : ""}
@@ -1563,6 +1578,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               type="text"
                               name="description"
                               required
+                              inputProps={{
+                                ref: setRef(index + 'description')
+                              }}
+                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id') }}
+
                               fullWidth
                               variant="outlined"
                               // inputProps={{style: {textTransform: 'capitalize'}}}
@@ -1587,6 +1607,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           required
                           size="small"
                           name="descriptionss"
+                          inputProps={{
+                            ref: setRef(index + 'descriptionss')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description') }}
+
                           // inputProps={{style: {textTransform: 'capitalize'}}}
                           fullWidth
                           multiline
@@ -1603,6 +1628,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{
+                            ref: setRef(index + 'quantity')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss') }}
 
                           name="quantity"
                           value={item.quantity}
@@ -1618,6 +1647,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           value={item.unit_of_measure}
                           name="unit_of_measure"
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+
                           variant="outlined"
                           required
                           fullWidth
@@ -1673,8 +1707,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             required
                             onChange={(event) => calcualtep(event, index)}
                             label="Price"
+
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+
                             inputProps={{
                               name: 'purchase_price',
+                              ref: setRef(index + 'purchase_price'),
                               id: 'outlined-age-native-simple',
                               style: { textAlign: 'right' }
                             }}
@@ -1716,6 +1754,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           size="small"
+                          inputProps={{
+                            ref: setRef(index + 'margin')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price') }}
+
                           name="margin"
                           style={{ width: '75%', float: 'left' }}
                           fullWidth
@@ -1745,6 +1788,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           size="small"
                           name="discount"
+                          inputProps={{
+                            ref: setRef(index + 'discount')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin') }}
+
                           currencySymbol=""
                           // style={{width:'75%',float:'left'}}
                           fullWidth
@@ -1777,6 +1825,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Price"
                           variant="outlined"
                           fullWidth
+                          inputProps={{
+                            ref: setRef(index + 'sell_price')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount') }}
+
                           size="small"
                           currencySymbol=""
                           name="sell_price"
@@ -1807,6 +1860,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           fullWidth
                           size="small"
                           readOnly={true}
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price') }}
+
                           currencySymbol=""
                           name="total_amount"
                           value={item.total_amount}
