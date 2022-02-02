@@ -593,6 +593,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     style={{ minWidth: 200, maxWidth: '250px' }}
                                     name="party_id"
                                     size="small"
+                                    inputProps={{
+                                        readOnly: true
+                                    }}
 
                                     variant="outlined"
                                     className="pl-2"

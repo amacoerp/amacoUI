@@ -124,7 +124,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         let tempItemList = [...state.item];
 
         tempItemList.push({
-            prd_id:0,
+            prd_id: 0,
             product_id: "",
             src: '',
             description: "",
@@ -638,6 +638,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     style={{ minWidth: 200, maxWidth: '250px' }}
                                     name="party_id"
                                     size="small"
+                                    readOnly
+                                    inputProps={{
+                                        readOnly: true
+                                    }}
                                     variant="outlined"
                                     className="pl-2"
                                     value={party_id}
