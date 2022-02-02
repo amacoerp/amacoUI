@@ -662,7 +662,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? (isNaN(newValue) ? 0 : newValue) : (isNaN(event.target.value) ? 0 : event.target.value)
+          element[name] = newValue ? (isNaN(newValue) ? 0 : newValue) : (isNaN(event?.target?.value) ? 0 : event?.target?.value)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
           element.total_amount = ((element.purchase_price) * element.quantity).toFixed(2);
 
@@ -1120,7 +1120,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
                 <h5 className="font-normal capitalize">
-                  <strong>Vendore: </strong>{" "}
+                  {/* <strong>Vendore: </strong>{" "} */}
                   <span>
 
                   </span>
@@ -1157,27 +1157,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <TextField
-                    
-                    label="Currency Type"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="party_id"
-                    size="small"
-                    variant="outlined"
-                    
-                    value={currency_type}
-                    // onChange={handleChange}
-                    onChange={(event)=>setcurrency_type(event.target.value)}
-                    required
-                    select
-                  >
-                   
-                    {CUR_RENCY.map((item) => (
-                      <MenuItem value={item.value} key={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-            
+
+                  label="Currency Type"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
+
+                  value={currency_type}
+                  // onChange={handleChange}
+                  onChange={(event) => setcurrency_type(event.target.value)}
+                  required
+                  select
+                >
+
+                  {CUR_RENCY.map((item) => (
+                    <MenuItem value={item.value} key={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
 
                 {/* {rfqstatus && */}
                 {/* <TextField

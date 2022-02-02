@@ -5,6 +5,8 @@ import moment from "moment";
 import history from "history.js";
 import url, { GDIV, getrfq, getVendorList, navigatePath } from "../../invoice/InvoiceService";
 import clsx from "clsx";
+import MemberEditorDialog from '../../party/partycontact';
+
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +45,8 @@ const InvoiceForm = ({ }) => {
   const [files, setFiles] = useState([]);
   const formData = new FormData();
   const arr = [];
+  const [isAlive, setIsAlive] = useState(true);
+
 
   const [CustomerList, setCustomerList] = useState([]);
   const [state, setState] = useState([]);
@@ -99,6 +103,11 @@ const InvoiceForm = ({ }) => {
     setrfqFiles(listrfq);
   };
 
+
+  const handleDialogClose = () => {
+    setshouldOpenConfirmationDialogparty(false)
+  }
+
   useEffect(() => {
     getVendorList().then(({ data }) => {
       setCustomerList(data);
@@ -114,6 +123,10 @@ const InvoiceForm = ({ }) => {
       setrfqstatus(true);
     });
   };
+  const [
+    shouldOpenConfirmationDialogparty,
+    setshouldOpenConfirmationDialogparty,
+  ] = useState(false);
 
   const handleSubmit = async (values, { isSubmitting, resetForm }) => {
 
@@ -266,6 +279,9 @@ const InvoiceForm = ({ }) => {
                         onChange={handleChange}
                         required
                       >
+                        <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}>
+                          <Icon>add</Icon>New
+                        </MenuItem>
                         {customercontact.map((item) => (
                           <MenuItem value={item.id} key={item.id}>
                             {item.fname}
@@ -437,6 +453,17 @@ const InvoiceForm = ({ }) => {
           )}
         </Formik>
       </Card>
+      {shouldOpenConfirmationDialogparty && (
+        <MemberEditorDialog
+          open={shouldOpenConfirmationDialogparty}
+          onConfirmDialogClose={handleDialogClose}
+          handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+          customercontact={setcustomercontact}
+          partyid={party_id}
+
+          text="Are you sure to delete?"
+        />
+      )}
     </div>
   );
 };

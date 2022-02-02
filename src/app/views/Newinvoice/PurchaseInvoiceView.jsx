@@ -341,7 +341,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 let halala = riyal.replace("Paise", "Halala")
                 let words1 = numberToWords.toWords(data[0].grand_total);
                 let decimal = parseFloat(parseFloat(data[0].grand_total).toFixed(2).split('.')[1]);
-               
+
                 if (parseFloat(data[0].grand_total) % 1 === 0) {
                     halala = riyal.replace("Paise", "Halala");
                 }
@@ -354,13 +354,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 if (data[0].currency_type == "SAR") {
                     console.log(data[0].currency_type)
                     setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
-                  }
-                  if (data[0].currency_type == "AED") {
+                }
+                if (data[0].currency_type == "AED") {
                     setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
-                  }
-                  if (data[0].currency_type == "USD") {
+                }
+                if (data[0].currency_type == "USD") {
                     setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
-                  }
+                }
                 // setress(halala);
                 setstreet_ar(data[0]?.party?.street_ar)
                 setcity_ar(data[0]?.party?.city_ar);
@@ -791,6 +791,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         {vatno ? vatno : '--'}
 
                                                     </div>
+                                                    <div className="">
+                                                        <span style={{ fontWeight: 1000 }}>PO NUMBER</span>
+                                                        <br></br>
+                                                        {pono == null ? '--' : pono}
+
+
+                                                    </div>
 
 
                                                 </div>
@@ -862,9 +869,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span>
                                                             {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
 
-                                                        {street_ar? street_ar+ (city_ar ? "," + city_ar + (zipcode ? "," + (toArabic(zipcode)) : " ") : (zipcode ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + (toArabic(zipcode)) : "") : (zipcode ? toArabic(zipcode) : ""))}
+                                                            {street_ar ? street_ar + (city_ar ? "," + city_ar + (zipcode ? "," + (toArabic(zipcode)) : " ") : (zipcode ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + (toArabic(zipcode)) : "") : (zipcode ? toArabic(zipcode) : ""))}
 
-                                                        
+
                                                         </span>
 
 
@@ -963,7 +970,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                                 </TableCell>
                                                                 <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
 
-                                                                    {parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                                    {isNaN(parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                                                                 </TableCell>
                                                                 <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
@@ -1051,7 +1058,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
+                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {isNaN(currency_type) ? 0 : currency_type}
 
 
                                                         </TableCell>

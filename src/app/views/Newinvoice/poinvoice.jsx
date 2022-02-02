@@ -1034,7 +1034,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <div id="panel" className="pt-2">
                       <ExpansionPanel
                         square
-
                         className="p-4"
                         expanded={expanded === "panel3"}
                         onChange={handleChange("panel3")}
@@ -1045,7 +1044,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         >
                           <span>ANNEXURE</span><Icon>expand_more</Icon>
                         </ExpansionPanelSummary>
-
                         <RichTextEditor
                           content={content}
                           handleContentChange={(content) => setContent(content)}
