@@ -505,12 +505,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-  const addItemToInvoiceList = () => {
+  const addItemToInvoiceList = (arr) => {
+    
     let tempItemList = [...state.item];
+ let lastIndex=Object.keys(arr).length-1;
+  let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       product_id: "",
       src: '',
+      index1:lastIndexarr+1,
       description: "",
       descriptions: "",
       descriptionss: "",
@@ -540,6 +544,45 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   };
+
+
+  const addItemToInvoiceList_Index = (id) => {
+    let tempItemList = [...state.item];
+
+    tempItemList.push({
+      product_id: "",
+      src: '',
+      index1:id,
+      description: "",
+      descriptions: "",
+      descriptionss: "",
+      quantity: 0,
+      unit_of_measure: ' ',
+      product_price_list: [
+        {
+          price: ""
+        }
+      ],
+      purchase_price: 0.00,
+      margin: 0,
+      margin_val: 0,
+      discount_val: 0,
+      discount: 0,
+      sell_price: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      }),
+      remark: "",
+      total_amount: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      })
+
+    });
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  };
+
 
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
@@ -1427,7 +1470,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList.map((item, index) => {
+                {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
 
                   if (!dstatus) {
                     // 29-1-2022
@@ -1488,7 +1531,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {index + 1}
+                      {item.index1 + 1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
                         {/* <label htmlFor="upload-single-file">
@@ -1890,6 +1933,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
                           delete
                         </Icon>
+                        <Icon color="error" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                          add
+                        </Icon>
 
                       </TableCell>
                     </TableRow>
@@ -1903,7 +1949,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
 
 

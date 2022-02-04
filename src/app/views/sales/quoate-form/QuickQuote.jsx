@@ -982,7 +982,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     });
-    getusers().then(({ data }) => {
+    url.get('designation').then(({ data }) => {
       setusers(data)
       setsign(user.id)
     })
@@ -1826,7 +1826,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
                           delete
                         </Icon>
-                        <Icon color="error" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
                           add
                         </Icon>
 
@@ -2001,7 +2001,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       >
 
                         {users.map((item, ind) => (
-                          <option value={item.id} defaultValue={item.id}>{item.name}</option>
+                          <option value={item.id} defaultValue={item.id}>{item.name}-{item.designation}</option>
                         ))}
                       </Select>
                     </FormControl>

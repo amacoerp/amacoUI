@@ -296,11 +296,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const addItemToInvoiceList = () => {
+  const addItemToInvoiceList = (arr) => {
+    
     let tempItemList = [...state.item];
+ let lastIndex=Object.keys(arr).length-1;
+  let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       id: null,
+      index1:lastIndexarr+1,
       product_id: "",
       description: "",
       descriptions: "",
@@ -329,6 +333,42 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
   };
+
+  const addItemToInvoiceList_Index = (id) => {
+
+    let tempItemList = [...state.item];
+   
+       tempItemList.push({
+         id: null,
+         index1:id,
+         product_id: "",
+         description: "",
+         descriptions: "",
+         descriptionss: "",
+         quantity: 0,
+         unit_of_measure: " ",
+         margin_val: 0,
+         discount_val: 0,
+         discount: 0,
+         product_price_list: [
+           {
+             price: "",
+             firm_name: ""
+           }
+         ],
+         purchase_price: 0.00,
+         margin: 0,
+         sell_price: 0.00,
+         remark: "",
+         total_amount: 0.00
+   
+       });
+       setState({
+         ...state,
+         item: tempItemList,
+       });
+  }
+
 
   const deleteItemFromInvoiceList = (index, id) => {
     Swal.fire({
@@ -972,7 +1012,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setQuote_date(data[0].ps_date)
       setsubject(data[0]?.subject)
       setquotation_no(data[0].quotation_no)
-      setsign(data[0].sign?.id)
+      setsign(data[0].sign[0]?.id)
       setrfq_no(data[0].rfq_no)
       setbank_id(parseInt(data[0]?.bank?.id))
       settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseInt(data[0]?.transport))
@@ -1320,7 +1360,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList.map((item, index) => {
+                {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
 
 if (!dstatus) {
   costTotal += item.purchase_price?item.purchase_price*item.quantity:0;
@@ -1404,7 +1444,7 @@ if (!dstatus) {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {index + 1}
+                      {item.index1 + 1}
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -1628,7 +1668,7 @@ if (!dstatus) {
                           native
 
                           // onChange={handleChange}
-                          required
+                          // required
                           variant="outlined"
                           currencySymbol="SAR"
                           value={item.purchase_price}
@@ -1652,7 +1692,7 @@ if (!dstatus) {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
                         <TextValidator
                           label="Margin"
-                          required
+                          // required
                           onChange={(event) => calcualte_margin(event, index)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
@@ -1664,8 +1704,8 @@ if (!dstatus) {
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={item.margin.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
 
                         />
                         {/* <Tooltip title="Reference">
@@ -1756,6 +1796,9 @@ if (!dstatus) {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
                           delete
                         </Icon>
+                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                          add
+                        </Icon>
 
                       </TableCell>
                     </TableRow>
@@ -1769,7 +1812,7 @@ if (!dstatus) {
               <Button className="mt-4"
                 color="primary"
                 variant="contained"
-                size="small" onClick={addItemToInvoiceList}>Add Item</Button>
+                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}>Add Item</Button>
             </div>
             {/* {testArr.map((item, index) => {
               

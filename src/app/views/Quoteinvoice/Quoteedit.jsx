@@ -1041,7 +1041,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     });
-    getusers().then(({ data }) => {
+    url.get('designation').then(({ data }) => {
       setusers(data);
 
 
@@ -1067,7 +1067,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setpayment_terms(data[0].payment_terms)
       setQuote_date(data[0].ps_date)
       setsubject(data[0].subject)
-      setsign(data[0].sign?.id)
+      setsign(data[0].sign[0]?.id)
       // rfq no
       setrfq_no(data[0].rfq_no)
       setbank_id(parseInt(data[0].bank?.id))

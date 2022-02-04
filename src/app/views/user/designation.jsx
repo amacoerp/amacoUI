@@ -148,6 +148,7 @@ const MemberEditorDialog1 = ({
     designationList.map((element, i) => {
       if (index === i) {
         element[event.target.name] = event.target.value;
+      
       }
       return element;
     });
@@ -160,13 +161,13 @@ const MemberEditorDialog1 = ({
   };
 
   const deleteItemFromInvoiceList = (index) => {
-    console.log(index)
+    
     let tempItemList = [...state.item];
-    tempItemList.splice(index, 1);
+    designationList.splice(index, 1);
 
     setState({
       ...state,
-      item: tempItemList,
+      item: designationList,
     });
   };
 
@@ -278,7 +279,7 @@ const MemberEditorDialog1 = ({
                         style={{ width: "200px" }}
                       >
                         <TextValidator
-                          label="Type"
+                          label="Name"
                           type="text"
                           name="name"
                           fullWidth

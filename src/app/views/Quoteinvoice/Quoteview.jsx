@@ -254,7 +254,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [rfq_no, setrfq_no] = useState("");
   const [prefix, setprefix] = useState("");
   const [srcfile, setsrcfile] = useState("");
-  const [sign, setsign] = useState("");
+  // const [sign, setsign] = useState("");
+  const [sign, setsign] = useState([]);
   const [subject, setsubject] = useState("");
   const [message, setmessage] = useState(false);
   const [loading, setloading] = useState(false);
@@ -1676,16 +1677,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                           <h5>Best Regards,</h5>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td style={{ height: 'auto !important', fontWeight: 1000 }}>{sign?.name}</td>
+                            <td style={{ height: 'auto !important', fontWeight: 1000 }}>{sign[0]?.name}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td >{sign?.designation}-ISD Division</td>
+                            <td >{sign[0]?.designation}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign?.email}</td>
+                            <td>{sign[0]?.email}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign?.contact?.slice(0,4)} {sign?.contact?.slice(4,6)} {sign?.contact?.slice(6,9)} {sign?.contact?.slice(9,13)}</td>
+                            <td>{sign[0]?.contact?.slice(0,4)} {sign[0]?.contact?.slice(4,6)} {sign[0]?.contact?.slice(6,9)} {sign[0]?.contact?.slice(9,13)}</td>
                           </tr>
                           {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>Amaco Group Of Companies</td>

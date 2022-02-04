@@ -141,6 +141,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,userid ,userList}) => {
             setprefix(data.prefix)
 
             setdesignation(data.designation)
+            setdesignationList(data.designationList)
             var res =data?.contact?.slice(0, 4);
             
             setcode(res)
@@ -195,7 +196,8 @@ if(userid)
         contact:code+contact,
         role_id:role_id,
         email:email,
-        designation:capitalize_arr(designation),
+        // designation:capitalize_arr(designation),
+        designationList:designationList,       
         prefix:prefix,
         nick_name:nick_name,
         divisions:JSON.stringify(divisions),
@@ -203,6 +205,7 @@ if(userid)
         opening_bal:opening_bal,
         profit_per:profit_per
     }
+    console.log(designationList)
     url.put(`users/${userid}`, formdata).then(function (data) {
         // url.get('users').then(({ data }) => {
         //    userList(data)
@@ -225,7 +228,7 @@ if(userid)
    else
    {
         const formdata={
-        // name:capitalize_arr(name),
+        name:capitalize_arr(name),
         password:password,
         contact:code+contact,
         role_id:role_id,
@@ -240,6 +243,7 @@ if(userid)
         profit_per:profit_per
     }
    
+    console.log(formdata)
     url.post('users', formdata).then(({data})=> {
         console.log(data)
       Swal.fire({
