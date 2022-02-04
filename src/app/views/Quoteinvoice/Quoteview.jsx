@@ -3,7 +3,7 @@ import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 import Header from '../../views/statements/Header';
 import Footer from '../../views/statements/Footer';
-
+import './new.css';
 
 import {
   Icon,
@@ -1284,110 +1284,111 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
                       </TableHead>
                       <TableBody >
-                      {qdetails.map((item, i) => {
-                        return(
-                        <>
-                        {Object.values(item).map((obj,index)=>{
+                        {qdetails.map((item, i) => {
                           return (
-                            <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                {index + 1}
-                              </TableCell>
-                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
- <tr>
-    
-    </tr>
-  
-  )})}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                        {item?.description}
-                                      </TableCell>
-                                      </TableRow>
-  
+                            <>
+                              {Object.values(item).map((obj, index) => {
+                                return (
+                                  <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {index + 1}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <tr>
+
+                                          </tr>
+
                                         )
-  })}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                        {item?.product_description}
-                                      </TableCell>
-                                      </TableRow>
-  
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.description}
+                                            </TableCell>
+
+                                          </TableRow>
+
                                         )
-  })}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                        {item.quantity}
-                                      </TableCell>
-                                      </TableRow>
-  
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.product_description}
+                                            </TableCell>
+                                          </TableRow>
                                         )
-  })}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                        {item?.unit_of_measure}
-                                      </TableCell>
-                                      </TableRow>
-  
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item.quantity}
+                                            </TableCell>
+                                          </TableRow>
+
                                         )
-  })}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                      </TableCell>
-                                      </TableRow>
-  
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.unit_of_measure}
+                                            </TableCell>
+                                          </TableRow>
+
                                         )
-  })}
-  </TableCell>
-  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                             {(obj).map((item,ind)=>{
-                                     return(
-                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                      </TableCell>
-                                      </TableRow>
-  
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
                                         )
-  })}
-  </TableCell>
-                          </TableRow>
-                          )
+                                      })}
+                                    </TableCell>
+                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })}
+                                    </TableCell>
+                                  </TableRow>
+                                )
+                              })}
+                            </>)
+
+
+
+
                         })}
-                        </>)
 
 
 
 
-                      })}
-                      
-                            
-     
 
-                          
 
                         {/* {qdetails.map((item, index) => {
                           return (

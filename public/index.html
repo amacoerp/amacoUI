@@ -23,7 +23,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-cave-light.min.css"
     />
+<!-- <style type="text/css">
+  @page {
+    size: A4;
+    margin: 0;
+  }
 
+</style> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -122,6 +128,23 @@
   </head>
 
   <body>
+    <!-- <script type="text/javascript">
+      window.onload = addPageNumbers;
+
+      function addPageNumbers() {
+        var totalPages = Math.ceil(document.body.scrollHeight / 1123);  //842px A4 pageheight for 72dpi, 1123px A4 pageheight for 96dpi, 
+        for (var i = 1; i <= totalPages; i++) {
+          var pageNumberDiv = document.createElement("div");
+          var pageNumber = document.createTextNode("Page " + i + " of " + totalPages);
+          pageNumberDiv.style.position = "absolute";
+          pageNumberDiv.style.top = "calc((" + i + " * (297mm - 0.5px)) - 40px)"; //297mm A4 pageheight; 0,5px unknown needed necessary correction value; additional wanted 40px margin from bottom(own element height included)
+          pageNumberDiv.style.height = "16px";
+          pageNumberDiv.appendChild(pageNumber);
+          document.body.insertBefore(pageNumberDiv, document.getElementById("print-area"));
+          pageNumberDiv.style.left = "calc(100% - (" + pageNumberDiv.offsetWidth + "px + 20px))";
+        }
+      }
+    </script> -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <div class="matx-loader">
