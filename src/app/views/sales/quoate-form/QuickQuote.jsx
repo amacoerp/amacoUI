@@ -509,7 +509,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
 
     });
-    console.log(tempItemList)
+  
     setState({
       ...state,
       item: tempItemList,
@@ -1826,11 +1826,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
                           delete
                         </Icon>
-
-                      </TableCell>
-                      <Icon color="error" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                        <Icon color="error" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
                           add
                         </Icon>
+
+                      </TableCell>
+                     
                     </TableRow>
                   );
                 })}
