@@ -2009,13 +2009,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-6">Quotation Validity:</p>
-                  <p className="mb-8">Payment Terms:</p>
-                  <p className="mb-10">Waranty:</p>
-                  <p className="mb-10">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
-                  <p className="mb-8">Signature:</p>
-                  <p className="mb-8">Bank:</p>
+                  <p className="mb-6" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '17px' }}>Payment Terms:</p>
+                  <p className="mb-10" style={{ position: 'relative', top: '18px' }}>Waranty:</p>
+                  <p className="mb-10" style={{ position: 'relative', top: '15px' }}>Delivery Time:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Inco-Term:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Signature:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Bank:</p>
 
                 </div>
                 <div>
@@ -2143,18 +2143,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Cost:</p>
-                    <p className="mb-8">margin%:</p>
-                    <p className="mb-8 pt-0">Sub Total:</p>
-                    <p className="mb-8">Transport:</p>
-                    <p className="mb-8">Other:</p>
-                    <p className="mb-8 pt-0">Net Total:</p>
-                    <p className="mb-8">Discount:</p>
-                    <p className="mb-8">Selling Total:</p>
-                    <p className="mb-8 pt-2">Vat(15%):</p>
+                    <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
+                    <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
+                    <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-0">Net Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
+                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Selling Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">Vat(15%):</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Grand Total:</p>
+                      <p style={{ position: 'relative', top: '18px' }} className="mb-8">Grand Total:</p>
                     </strong>
                   </div>
                   <div>

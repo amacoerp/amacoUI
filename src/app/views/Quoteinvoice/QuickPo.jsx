@@ -273,13 +273,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
+
         let tempItemList = [...state.item];
+        // console.log('before', state.item)
         tempItemList.splice(index, 1);
-
+        // console.log('after', tempItemList)
         // const list = tempItemList.filter((item,ind) => ind !== index)
-
-
-
         setState({
           ...state,
           item: tempItemList,
@@ -824,15 +823,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   return (
                     <TableRow key={index}>
-
-
                       <TableCell className="pl-2 capitalize" align="left" style={{ width: 100 }}>
                         {index + 1}
-
                       </TableCell>
-
-
-
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         <Autocomplete
                           className="w-full"
@@ -870,7 +863,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               inputRef={input => {
                                 inputRef[index] = input;
                               }}
-                              variant="outlined" value={item.product_name} name="product_id" fullWidth />
+                              variant="outlined" name="product_id" fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -977,7 +970,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           </MenuItem>
                         ))} 
                     </TextField> */}
-
+                        {console.log(index)}
                         <Autocomplete
 
                           className="w-full"
@@ -1094,10 +1087,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                   {/* <p className="mb-8">Quotation Validity:</p> */}
-                  <p className="mb-8">payment Terms:</p>
-                  <p className="mb-8">Freight type:</p>
-                  <p className="mb-8">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>payment Terms:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Freight type:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Delivery Time:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Inco-Term:</p>
                 </div>
                 <div>
                   {/* <TextValidator
@@ -1177,10 +1170,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <div className="pr-12">
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
-                    <p className="mb-8">Freight Charges ({currency_type})</p>
+                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Net Total ({currency_type})</p>
+                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
                     </strong>
                   </div>
                   <div>

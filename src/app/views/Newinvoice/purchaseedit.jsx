@@ -606,7 +606,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
-                <h4 align="left"> CREATE PURCHASE ORDER</h4>
+                <h4 align="left"> UPDATE PURCHASE ORDER</h4>
               </div>
               <div className="mb-6">
 
@@ -1044,11 +1044,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-8">Quotation Validity:</p>
-                  <p className="mb-8">payment Terms:</p>
-                  <p className="mb-8">Freight type:</p>
-                  <p className="mb-8">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>payment Terms:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Freight type:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Delivery Time:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Inco-Term:</p>
                 </div>
                 <div>
                   <TextValidator
@@ -1131,7 +1131,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <p className="mb-8">Freight Charges ({currency_type})</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Net Total ({currency_type})</p>
+                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
                     </strong>
                   </div>
                   <div>

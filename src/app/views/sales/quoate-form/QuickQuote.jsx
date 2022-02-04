@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import xlsx from 'xlsx';
 import {
   Button,
   FormControl,
@@ -902,6 +903,26 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     history.push(navigatePath + "/quoateview/0")
   }
 
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = xlsx.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const json = xlsx.utils.sheet_to_json(worksheet);
+        console.log(json);
+        setState({
+          ...state,
+          item: json,
+        });
+      };
+      reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  }
+
   const handleDialogClose = () => {
 
     setShouldOpenEditorDialog(false);
@@ -1206,6 +1227,21 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
 
+                <input
+                  accept="excel/*"
+                  className={classes.input}
+                  style={{ display: 'none' }}
+                  id="raised-button-file"
+                  onChange={readUploadFile}
+                  type="file"
+                />
+                <label htmlFor="raised-button-file">
+                  <Button className="mr-4 py-2"
+                    variant="outlined"
+                    color="primary" component="span" >
+                    <Icon>drafts</Icon>IMPORT FROM EXCEL
+                  </Button>
+                </label>
                 <Button
                   type="submit"
                   className="mr-4 py-2"
@@ -1900,13 +1936,13 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-6">Quotation Validity:</p>
-                  <p className="mb-8">Payment Terms:</p>
-                  <p className="mb-10">Waranty:</p>
-                  <p className="mb-10">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
-                  <p className="mb-8">Signature:</p>
-                  <p className="mb-8">Bank:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
+                  <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
+                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Waranty:</p>
+                  <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Bank:</p>
 
 
                 </div>
@@ -2041,18 +2077,18 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="pl-4 pr-4 pb-4  flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Cost:</p>
-                    <p className="mb-8">margin%:</p>
-                    <p className="mb-8 pt-0">Sub Total:</p>
-                    <p className="mb-8">Transport:</p>
-                    <p className="mb-8">Other:</p>
-                    <p className="mb-8 pt-0">Net Total:</p>
-                    <p className="mb-8">Discount:</p>
-                    <p className="mb-8">Selling Total:</p>
-                    <p className="mb-8 pt-2">Vat(15%):</p>
+                    <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
+                    <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
+                    <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-0">Net Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
+                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Selling Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">Vat(15%):</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Grand Total:</p>
+                      <p style={{ position: 'relative', top: '18px' }} className="mb-8">Grand Total:</p>
                     </strong>
                   </div>
                   <div>

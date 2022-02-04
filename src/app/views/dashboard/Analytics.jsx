@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Grid, Card, Icon, TableCell } from "@material-ui/core";
+import { Grid, Card, Icon, TableCell, MenuItem } from "@material-ui/core";
 import DoughnutChart from "../charts/echarts/Doughnut";
 import ModifiedAreaChart from "./shared/ModifiedAreaChart";
 import StatCards from "./shared/StatCards";
+import './s.css';
 import TopSellingTable from "./shared/TopSellingTable";
 import RowCards from "./shared/RowCards";
 import StatCards2 from "./shared/StatCards2";
@@ -21,6 +22,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { TreeItem } from "@material-ui/lab";
+import { TextField } from "@material-ui/core";
 
 
 const months = [{
@@ -180,8 +182,9 @@ const Analytics = () => {
         return item
       })
 
-      const Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
-      console.log(Due)
+      let Due = result.filter((ele, ind) => ind === localStorage.getItem('division') || ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
+      // Due = Due.filter(obj => obj.div_id == localStorage.getItem('division'))
+      // console.log(Due, 'sss')
       const finalResult = months.filter(function (o1) {
 
         return Due.map(function (o2) {
@@ -208,6 +211,7 @@ const Analytics = () => {
 
       setmaxVal(Math.max(...finalArray))
       if (result.length) {
+        console.log(finalArray)
         setdata(finalArray);
         // setmaxVal(Math.max(...finalArray))
       }
@@ -233,19 +237,50 @@ const Analytics = () => {
 
 
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
+
+          <TextField
+            select
+            style={{ float: "right", width: 250, }}
+            InputLabelProps={{
+              style: { color: 'white' },
+            }}
+
+            onChange={(e) => {
+              setdate(e.target.value)
+              handleChange(e.target.value)
+              // return date
+            }}
+            value={date}
+            label="Choose Year"
+          >
+            <MenuItem>Choose Year</MenuItem>
+            <MenuItem value="2019">2019</MenuItem>
+            <MenuItem value="2021">2021</MenuItem>
+            <MenuItem value="2022">2022</MenuItem>
+            <MenuItem value="2023">2023</MenuItem>
+            <MenuItem value="2024">2024</MenuItem>
+            <MenuItem value="2025">2025</MenuItem>
+            <MenuItem value="2026">2026</MenuItem>
+            <MenuItem value="2027">2027</MenuItem>
+            <MenuItem value="2028">2028</MenuItem>
+            <MenuItem value="2029">2029</MenuItem>
+            <MenuItem value="2030">2030</MenuItem>
+
+          </TextField>
           <div>
             Last 12 months sales
-            <MuiPickersUtilsProvider utils={DateFnsUtils} color="white"  inputProps={{
-                  style: {
-                    // color: 'white',
-                    borderColor: 'white',
-                    // fontFamily: fonts.root,
-                    borderStyle: 'solid',
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    outline: 'none',
-                  },
-                }}>
+
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils} color="white" inputProps={{
+              style: {
+                // color: 'white',
+                borderColor: 'white',
+                // fontFamily: fonts.root,
+                borderStyle: 'solid',
+                borderWidth: 2,
+                borderRadius: 5,
+                outline: 'none',
+              },
+            }}>
               <KeyboardDatePicker
                 className="m-2"
                 margin="none"
@@ -278,7 +313,7 @@ const Analytics = () => {
                   // return date
                 }}
               />
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
           </div>
 
 
@@ -366,7 +401,7 @@ const Analytics = () => {
           </Grid>
         </Grid>
       </div>
-    </Fragment>
+    </Fragment >
   );
 };
 

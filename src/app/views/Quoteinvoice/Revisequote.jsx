@@ -610,7 +610,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const discountPer = (event, index, value) => {
-   
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -618,38 +618,38 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index === i) {
 
-        
-        
 
-       
+
+
+
 
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-      
-        
+
+
         // element.sell_price = element.purchase_price?(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat((element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100)).toFixed(3)) / 100)).toFixed(3)):element.sell_price-((element.discount*element.sell_price)/100);
 
-       
+
 
 
         // element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         // element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
 
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
-        const dumy_sellPrice=element.sell_price;
+        const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
         element['discount'] = event.target.value;
-        element.sell_price =  element.purchase_price? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3):element.sell_price-((element.discount*element.sell_price)/100);
+        element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
 
         // element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):dumy_sellPrice*element.quantity
 
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):((((element.discount*dumy_sellPrice)/100)*element.quantity))
+        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : ((((element.discount * dumy_sellPrice) / 100) * element.quantity))
 
-       
 
-        
+
+
 
 
       }
@@ -663,7 +663,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   }
-    const deleteFileSelect = (event, index) => {
+  const deleteFileSelect = (event, index) => {
 
 
 
@@ -1331,8 +1331,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 onChange={e => setsubject(e.target.value)
                 }
                 value={subject}
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
+              // validators={["required"]}
+              // errorMessages={["this field is required"]}
               /></div>
 
 
@@ -1362,48 +1362,48 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
 
-if (!dstatus) {
-  costTotal += item.purchase_price?item.purchase_price*item.quantity:0;
-  // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
-  totalmargin += parseFloat(item.margin);
+                  if (!dstatus) {
+                    costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
+                    // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
+                    totalmargin += parseFloat(item.margin);
 
-  // subCost += parseFloat(item.total_amount)
-  // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+                    // subCost += parseFloat(item.total_amount)
+                    // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
-  // margin_per=((subCost-costTotal)/costTotal)*100;
-  // if(parseFloat(item?.purchase_price))
-  // {
-    
-    margin_val += ((item.margin_val));
-  // }
-  // else
-  // {
-   
+                    // margin_per=((subCost-costTotal)/costTotal)*100;
+                    // if(parseFloat(item?.purchase_price))
+                    // {
 
-    //   temp+= ((item.margin_val));
-    // margin_val=temp+item.discount_val
-  // }
+                    margin_val += ((item.margin_val));
+                    // }
+                    // else
+                    // {
 
-  margin_per = costTotal?(margin_val / costTotal) * 100:100;
-  subCost = Math.round(costTotal + margin_val);
-  subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
-  // margin_val=((subCost-costTotal));
-  dis_val += (item?.discount_val ? item?.discount_val : 0)
+                    //   temp+= ((item.margin_val));
+                    // margin_val=temp+item.discount_val
+                    // }
 
-  
+                    margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
+                    subCost = Math.round(costTotal + margin_val);
+                    subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
-  dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
+                    // margin_val=((subCost-costTotal));
+                    dis_val += (item?.discount_val ? item?.discount_val : 0)
 
 
 
-  sellTotal = subTotalCost - dis_val
-  vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
+                    dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
 
-  // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-  GTotal = (parseFloat(vat) + parseFloat(sellTotal))
 
-}
+
+                    sellTotal = subTotalCost - dis_val
+                    vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
+
+                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+                    GTotal = (parseFloat(vat) + parseFloat(sellTotal))
+
+                  }
                   else {
                     costTotal += parseFloat(item.purchase_price) * parseFloat(item.quantity);
                     totalmargin += parseFloat(item.margin);
@@ -1867,13 +1867,13 @@ if (!dstatus) {
 
 
 
-                  <p className="mb-6">Quotation Validity:</p>
-                  <p className="mb-8">Payment Terms:</p>
-                  <p className="mb-10">Waranty:</p>
-                  <p className="mb-10">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
-                  <p className="mb-8">Signature:</p>
-                  <p className="mb-8">Bank:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
+                  <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
+                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Waranty:</p>
+                  <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Bank:</p>
                 </div>
                 <div>
                   <TextValidator
@@ -2000,18 +2000,18 @@ if (!dstatus) {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Cost:</p>
-                    <p className="mb-8">margin%:</p>
-                    <p className="mb-8 pt-0">Sub Total:</p>
-                    <p className="mb-8">Transport:</p>
-                    <p className="mb-8">Other:</p>
-                    <p className="mb-8 pt-0">Net Total:</p>
-                    <p className="mb-8">Discount:</p>
-                    <p className="mb-8">Selling Total:</p>
-                    <p className="mb-8 pt-2">Vat(15%):</p>
+                    <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
+                    <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
+                    <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-0">Net Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
+                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Selling Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">Vat(15%):</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Grand Total:</p>
+                      <p style={{ position: 'relative', top: '18px' }} className="mb-8">Grand Total:</p>
                     </strong>
                   </div>
                   <div>
