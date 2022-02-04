@@ -15,3 +15,6 @@ p {
   border-left: 1px solid rgb(204, 204, 204) !important;
   border-right: 1px solid rgb(204, 204, 204) !important;
 }
+.changeYYY {
+  color: red !important;
+}
