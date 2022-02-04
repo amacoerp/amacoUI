@@ -12,6 +12,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Swal from "sweetalert2";
 import url, {capitalize_arr}from "../invoice/InvoiceService"
 import { FormGroup } from "@material-ui/core";
+import MemberEditorDialog1 from "./designation";
 
 const MemberEditorDialog = ({ uid, open, handleClose,userid ,userList}) => {
   const [state, setState] = useState({
@@ -41,9 +42,15 @@ const MemberEditorDialog = ({ uid, open, handleClose,userid ,userList}) => {
   const [role_id, setrole_id] = useState('');
   const [isTrue, setisTrue] = useState(false);
   const [divisions, setdivisions] = useState([]);
+  const [designationList, setdesignationList] = useState([]);
   const [value, setValue] = useState();
   const max = 100;
   const min = 0;
+
+  const [
+    shouldOpenEditorDialog1,
+    setshouldOpenEditorDialog1,
+  ] = useState(false);
 
   const [checked, setchecked] = useState(false);
   const prefixs = [
@@ -95,7 +102,10 @@ const MemberEditorDialog = ({ uid, open, handleClose,userid ,userList}) => {
   };
 
   
-
+  const handleDialogClose = () => {
+    setshouldOpenEditorDialog1(false);
+    
+  };
 
   const error = divisions.filter(v => v).length !== 1;
 
@@ -215,20 +225,21 @@ if(userid)
    else
    {
         const formdata={
-        name:capitalize_arr(name),
+        // name:capitalize_arr(name),
         password:password,
         contact:code+contact,
         role_id:role_id,
         email:email,
-        designation:capitalize_arr(designation),
+        // designation:capitalize_arr(designation),
         prefix:prefix,
         nick_name,
         divisions:JSON.stringify(divisions),
+        designationList:JSON.stringify(designationList),
         checked:checked,
         opening_bal:opening_bal,
         profit_per:profit_per
     }
-    
+   
     url.post('users', formdata).then(({data})=> {
         console.log(data)
       Swal.fire({
@@ -247,7 +258,7 @@ if(userid)
     .catch(function (error) {
 
     })
-    }
+     }
   }
   
   
@@ -349,7 +360,7 @@ if(userid)
                
                 
               />
-              <TextField
+              {/* <TextField
                 className="w-full mb-4"
                 label="Designation"
                 inputProps={{style: {textTransform: 'capitalize'}}}
@@ -363,7 +374,8 @@ if(userid)
                 value={designation}
                
                 
-              />
+              /> */}
+              <Icon onClick={()=>setshouldOpenEditorDialog1(true)}>add</Icon>
               
               <div className="flex mb-4">
                              <TextField
@@ -516,6 +528,16 @@ if(userid)
          
           
         </ValidatorForm>
+        {shouldOpenEditorDialog1 && (
+        <MemberEditorDialog1
+          handleClose={handleDialogClose}
+          open={shouldOpenEditorDialog1}
+          userid={userid}
+          designationList={designationList}
+         
+
+        />
+      )}
        
       </div>
     </Dialog>

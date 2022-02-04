@@ -291,12 +291,51 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const addItemToInvoiceList = () => {
+
+  const addItemToInvoiceList_Index = (i) => {
     let tempItemList = [...state.item];
+    tempItemList.push({
+      id: null,
+      product_id: "",
+      index1:i,
+      description: "",
+      descriptionss: "",
+      descriptions: '---',
+      quantity: 0,
+      unit_of_measure: " ",
+      product_price_list: [
+        {
+          price: "",
+          firm_name: ""
+        }
+      ],
+      purchase_price: 0,
+      margin: 0,
+      margin_val: 0,
+      discount_val: 0,
+      discount: 0,
+      sell_price: 0.00,
+      cost_qty: 0.00,
+      remark: "",
+      total_amount: 0.00,
+      amaco_description: ""
+
+    });
+    setState({
+      ...state,
+      item: tempItemList.sort((a,b)=>a.index1 <b.index1),
+    });
+  };
+
+  const addItemToInvoiceList = (arr) => {
+    let tempItemList = [...state.item];
+    let lastIndex=Object.keys(arr).length-1;
+     let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       id: null,
       product_id: "",
+      index1:lastIndexarr+1,
       description: "",
       descriptionss: "",
       descriptions: '---',
@@ -1382,7 +1421,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList.map((item, index) => {
+                {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
 
                   if (!dstatus) {
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1467,7 +1506,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {index + 1}
+                      {/* {item.index1 + 1} */}
+                      <TextField name="index1" value={item.index1} onChange={(e)=>handleIvoiceListChange(e,index)} />
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -1920,8 +1960,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
                           delete
                         </Icon>
+                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                          add
+                        </Icon>
 
                       </TableCell>
+                      
                     </TableRow>
                   );
                 })}
@@ -1933,7 +1977,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
             {/* {testArr.map((item, index) => {
               

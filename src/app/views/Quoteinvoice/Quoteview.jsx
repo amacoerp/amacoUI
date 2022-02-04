@@ -354,7 +354,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
     console.log(document.querySelectorAll(".footer").length, 'dsds');
-    url.get("sale-quotation/" + id).then(({ data }) => {
+    url.get("show_quotation/" + id).then(({ data }) => {
       if (s == "new") {
         settab(0)
       }
@@ -1284,7 +1284,112 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
                       </TableHead>
                       <TableBody >
-                        {qdetails.map((item, index) => {
+                      {qdetails.map((item, i) => {
+                        return(
+                        <>
+                        {Object.values(item).map((obj,index)=>{
+                          return (
+                            <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {index + 1}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+ <tr>
+    
+    </tr>
+  
+  )})}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                        {item?.description}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                        {item?.product_description}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                        {item.quantity}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                        {item?.unit_of_measure}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+  <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                             {(obj).map((item,ind)=>{
+                                     return(
+                                      <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                      <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                      {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                      </TableCell>
+                                      </TableRow>
+  
+                                        )
+  })}
+  </TableCell>
+                          </TableRow>
+                          )
+                        })}
+                        </>)
+
+
+
+
+                      })}
+                      
+                            
+     
+
+                          
+
+                        {/* {qdetails.map((item, index) => {
                           return (
                             <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1307,10 +1412,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
                                 {item?.descriptionss}
                               </TableCell>
-                              {/* <TableCell className="pl-0 " align="center"  colspan={3}  style={{border: "1px solid #ccc",fontFamily: "Calibri",}}>
-                     {item.remark}
-
-                    </TableCell> */}
+                             
 
                               <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }}>
                                 {nf.format(item.quantity)}
@@ -1335,7 +1437,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             </TableRow>
                           );
-                        })}
+                        })} */}
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
                           <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : 11}>
