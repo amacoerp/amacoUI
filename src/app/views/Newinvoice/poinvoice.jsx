@@ -56,6 +56,7 @@ import "./print.css";
 
 
 
+
 const ExpansionPanel = withStyles({
   root: {
     border: "1px solid rgba(0, 0, 0, .125)",
@@ -314,6 +315,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [noteList, setnoteList] = useState([]);
   const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
   const [content, setContent] = useState('');
+  const [pageNumber, setPageNumber] = useState([])
+  const x = [1557, 3125, 4693, 6261, 7829, 9397, 10965];
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -340,22 +343,31 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
-  const handlePrinting = useReactToPrint({
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
     header: () => componentRef.current
   });
 
-  // const handlePrinting = () => {
 
-  //   var doc = new jsPDF()
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
 
 
-  //   doc.fromHTML(componentRef.current, 1, 1)
 
-
-
-  //   doc.save("name.pdf")
-  // }
+  }
 
   const genPurchaseInv = () => {
 
@@ -363,9 +375,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   }
 
-
-
   useEffect(() => {
+
+    // console.log('sdhsafsdghf', console.log(document.getElementById('componentRef').innerHTML))
+    // console.log('sdhsafsdghf', componentRef.current.scrollHeight)
+    // console.log('ss', document.componentRef.scrollHeight)
 
     // updateSidebarMode({ mode: "close" })
 
@@ -638,6 +652,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               GENERATE PURCHASE INVOICE
             </Button>
 
+
             <Button
               variant="outlined"
               color="primary"
@@ -692,6 +707,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
         <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
 
+
+          {pageNumber.map((item, i) => {
+            return (
+              <span className="showPageNumber" style={{
+                position: 'relative',
+                top: x[i],
+                display: 'none',
+              }}> <center>{item}</center></span>
+            )
+          })}
           {/* <header id="header"> */}
           <table >
             <thead style={{ display: "table-header-group" }} >
@@ -1045,7 +1070,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <ExpansionPanel
                         square
                         className="p-4"
-                        expanded={expanded === "panel3"}
+                        expanded={expanded}
                         onChange={handleChange("panel3")}
                       >
                         <ExpansionPanelSummary
@@ -1203,7 +1228,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
           <div class="footer page-number">
-
             {/* <div class="page-number"></div>
 CSS to make the number appear in the div :
   multi-page content here... */}
@@ -1221,7 +1245,8 @@ CSS to make the number appear in the div :
 
 
             </footer> */}
-            <Footer></Footer>
+            <Footer p='q'></Footer>
+
           </div>
 
 
