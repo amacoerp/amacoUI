@@ -15,6 +15,7 @@ import {
     TextField,
     Hidden
 } from "@material-ui/core";
+import '../../Newinvoice/print.css';
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
@@ -312,6 +313,9 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const [party, setParty] = useState([]);
     const [tableData, setTableData] = useState([]);
 
+    const [pageNumber, setPageNumber] = useState([])
+
+    let pos = 0;
 
 
 
@@ -354,13 +358,34 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
     }
-    const handlePrinting = useReactToPrint({
+
+    const handlePrintingCur = useReactToPrint({
         content: () => componentRef.current,
         header: () => componentRef.current
-
-
-
     });
+
+
+    const handlePrinting = () => {
+
+        var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+        console.log(totalPages)
+        // totalPages = totalPages - 2
+        let a = [];
+        for (var i = 0; i < totalPages; i++) {
+            var j = i;
+            j = ++j;
+            var q = ("Page " + j + " of " + (totalPages));
+            a[i] = q;
+        }
+        console.log(a)
+        setPageNumber(a)
+        setTimeout(() => {
+            handlePrintingCur()
+        }, 500);
+
+
+
+    }
 
 
     useEffect(() => {
@@ -652,6 +677,21 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                 <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
 
+                    {pageNumber.map((item, i) => {
+                        if (i == 0) {
+                            pos = 1535;
+                        } else {
+                            pos = pos + 1563;
+                        }
+
+                        return (
+                            <span className="showPageNumber" style={{
+                                position: 'relative',
+                                top: pos,
+                                display: 'none',
+                            }}> <center>{item}</center></span>
+                        )
+                    })}
                     {/* <header id="header"> */}
                     <table >
                         <thead style={{ display: "table-header-group" }} >
@@ -880,9 +920,6 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 </TableHead>
                                                 <TableBody >
                                                     {tableData.map((item, index) => {
-
-
-
                                                         return (
                                                             <TableRow key={index} style={{ border: "1px solid #ccc" }}>
                                                                 <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
@@ -1015,9 +1052,10 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                                         <br></br>
-                                        <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
+                                        {/* <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
                                             <div style={{ breakAfter: 'page' }}></div>
-                                            <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
+                                            <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div>
+                                        </td> */}
                                         <div class="sign" class="onepage">
                                             <p>
                                                 <div className="viewer__order-info px-4 mb-4 flex justify-between" >

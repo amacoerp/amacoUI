@@ -9,6 +9,7 @@ import { useReactToPrint } from 'react-to-print';
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from 'react-intl';
 import moment from "moment";
+import './print.css';
 import history from "history.js";
 // import translate from 'google-translate-api';
 import { Translator, Translate } from 'react-auto-translate';
@@ -249,18 +250,37 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     const fType = ["jpg", "png", "peg"];
 
     const [qrValue, setQrValue] = useState("");
+    const [pageNumber, setPageNumber] = useState([])
+
+    let pos = 0;
 
 
 
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
     }
-    const handlePrinting = useReactToPrint({
+    const handlePrintingCur = useReactToPrint({
         content: () => componentRef.current,
         header: () => componentRef.current
-
-
     });
+
+
+    const handlePrinting = () => {
+
+        var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+        // totalPages = totalPages - 2
+        let a = [];
+        for (var i = 0; i < totalPages; i++) {
+            var j = i;
+            j = ++j;
+            var q = ("Page " + j + " of " + (totalPages));
+            a[i] = q;
+        }
+        setPageNumber(a)
+        setTimeout(() => {
+            handlePrintingCur()
+        }, 500);
+    }
 
 
 
@@ -663,6 +683,21 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                 <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
                     {/* <header id="header"> */}
+
+                    {pageNumber.map((item, i) => {
+                        if (i == 0) {
+                            pos = 1535;
+                        } else {
+                            pos = pos + 1563;
+                        }
+                        return (
+                            <span className="showPageNumber" style={{
+                                position: 'relative',
+                                top: pos,
+                                display: 'none',
+                            }}> <center>{item}</center></span>
+                        )
+                    })}
                     <table >
                         {/* <thead style={{display:"table-header-group"}} >
             <tr>

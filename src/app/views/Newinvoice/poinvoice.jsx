@@ -316,7 +316,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
   const [content, setContent] = useState('');
   const [pageNumber, setPageNumber] = useState([])
-  const x = [1557, 3125, 4693, 6261, 7829, 9397, 10965];
+  // const x = [1557, 3125, 4693, 6261, 7829, 9397, 10965];
+  let x = 1557;
+  let pos = 0;
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -360,6 +362,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       var q = ("Page " + j + " of " + (totalPages));
       a[i] = q;
     }
+    console.log('sd', a)
     setPageNumber(a)
     setTimeout(() => {
       handlePrintingCur()
@@ -424,7 +427,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       // annexure
       setContent(`<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE (1)</span></p><div><span style="font-weight: 700; color: rgb(0, 0, 0);"><br></span></div>
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :${data[0].delivery_time}</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DELIVERY TIME</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :${data[0].delivery_time}</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>FREIGHT TYPE</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  :${data[0].freight_type}</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>INCO TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp:${data[0].inco_terms}</p>
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>PAYMENT TERMS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp :${data[0].payment_terms}</p>
@@ -446,7 +449,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       // setress(halala);
 
       if (data[0].currency_type == "SAR") {
-        console.log(data[0].currency_type)
         setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
       }
       if (data[0].currency_type == "AED") {
@@ -707,13 +709,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
         <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
 
+          {/* const x = [1557, 3125, 4693, 6261, 7829, 9397, 10965]; */}
+
+          {/* 1568 */}
 
           {pageNumber.map((item, i) => {
+            if (i == 0) {
+              pos = 1557;
+            } else {
+              pos = pos + 1568;
+            }
+
             return (
               <span className="showPageNumber" style={{
                 position: 'relative',
-                top: x[i],
-                display: 'none',
+                top: pos,
+                // display: 'none',
               }}> <center>{item}</center></span>
             )
           })}

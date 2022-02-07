@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Header from '../../views/statements/Header';
 import Footer from '../../views/statements/Footer';
 import './new.css';
+import '../Newinvoice/print.css';
 
 import {
   Icon,
@@ -265,6 +266,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [fFile, setFfile] = useState('');
   const [transport, settransport] = useState('');
   const [notes, setnotes] = useState([]);
+  const [pageNumber, setPageNumber] = useState([])
+
+  let pos = 0;
   const [state, setState] = React.useState({
 
     open: false,
@@ -293,13 +297,34 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handleAddListToggle = (value) => {
     setShouldOpenAddList(value);
   };
-  const handlePrinting = useReactToPrint({
+
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
-    header: () => componentRef.current,
-
-
-
+    header: () => componentRef.current
   });
+
+
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    console.log(totalPages)
+    // totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    console.log(a)
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
+
+
+
+  }
   function printscript() {
     for (var i = 1; i <= 3; ++i) {
       document.body.innerHTML += '<footer style="margin-top: ' + (297 * i - 10) + 'mm">' + "Page No" + i + '</footer>';
@@ -894,6 +919,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       </div>
 
       <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+
+        {pageNumber.map((item, i) => {
+          if (i == 0) {
+            pos = 1557;
+          } else {
+            pos = pos + 1568;
+          }
+
+          return (
+            <span className="showPageNumber" style={{
+              position: 'relative',
+              top: pos,
+              display: 'none',
+            }}> <center>{item}</center></span>
+          )
+        })}
         <table >
           {/* <thead   style={{display:"table-header-group",marginTop:'20px'}} >
             <tr>
@@ -1687,7 +1728,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <td>{sign[0]?.email}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign[0]?.contact?.slice(0,4)} {sign[0]?.contact?.slice(4,6)} {sign[0]?.contact?.slice(6,9)} {sign[0]?.contact?.slice(9,13)}</td>
+                            <td>{sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td>
                           </tr>
                           {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td></td>
