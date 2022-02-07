@@ -1334,7 +1334,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableCell>
                                         </TableRow> */}
                                           
-                                          {item.description}  
+                                          {item?.description}  
 
                                       
                                     </TableCell>
@@ -1361,7 +1361,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                        {item.quantity}
+                                        {item?.quantity}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                       {/* {(obj).map((item, ind) => {
@@ -1387,7 +1387,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                       {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                       {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                       {/* {(obj).map((item, ind) => {
@@ -1400,7 +1400,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                      {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                      {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                     </TableCell>
                                   </TableRow>
                                 
