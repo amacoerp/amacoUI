@@ -1050,7 +1050,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       setCustomerList(d);
 
-      setsign(user.id)
+      // setsign(user.id)
 
 
     });
@@ -1058,9 +1058,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcompanybank(data);
     });
 
-    getusers().then(({ data }) => {
+    url.get('designation').then(({ data }) => {
 
-
+      let user_val=data.filter(obj=>obj.user_id==user.id)
+      setsign(user_val[0].id)
       setusers(data)
     })
 
@@ -1933,7 +1934,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
                           delete
                         </Icon>
-                        <Icon color="error" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
                           add
                         </Icon>
 
@@ -2106,7 +2107,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       >
                         {users.map((item, ind) => (
-                          <option value={item.id}>{item.name}</option>
+                          <option value={item.id}>{item.name} -- {item.designation}</option>
                         ))}
                       </Select>
                     </FormControl>

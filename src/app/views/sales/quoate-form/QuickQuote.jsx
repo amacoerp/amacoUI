@@ -996,7 +996,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   useEffect(() => {
-    console.log("sign", user.id)
+    console.log("sign", user.name)
     getCustomerList().then(({ data }) => {
       console.log(data)
       setCustomerList(data);
@@ -1005,7 +1005,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get('designation').then(({ data }) => {
       setusers(data)
-      setsign(user.id)
+      let user_val=data.filter(obj=>obj.user_id==user.id)
+      setsign(user_val[0].id)
     })
     getcompanybank().then(({ data }) => {
       setcompanybank(data);
@@ -2037,7 +2038,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       >
 
                         {users.map((item, ind) => (
-                          <option value={item.id} defaultValue={item.id}>{item.name}-{item.designation}</option>
+                          <option value={item.id} defaultValue={item.name}>{item.name} -- {item.designation}</option>
                         ))}
                       </Select>
                     </FormControl>

@@ -290,6 +290,35 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
+  const changeindex = (event, index) => {
+    event.persist()
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index === i) {
+
+        // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
+        // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
+        element['index1'] = event.target.value;
+
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+
+
+  };
 
 
   const addItemToInvoiceList_Index = (i) => {
@@ -1507,7 +1536,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
                       {/* {item.index1 + 1} */}
-                      <TextField name="index1" value={item.index1} onChange={(e)=>handleIvoiceListChange(e,index)} />
+                      <TextField name="index1" value={item.index1} onChange={(e)=>changeindex(e,index)} />
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -2130,7 +2159,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <option value="">--Select--</option>
 
                         {users.map((item, ind) => (
-                          <option value={item.id} defaultValue={item.name}>{item.name}</option>
+                          <option value={item.id} defaultValue={item.name}>{item.name}-{item.designation}</option>
                         ))}
                       </Select>
                     </FormControl>

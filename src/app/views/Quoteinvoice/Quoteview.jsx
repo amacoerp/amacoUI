@@ -380,7 +380,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
     console.log(document.querySelectorAll(".footer").length, 'dsds');
-    url.get("show_quotation/" + id).then(({ data }) => {
+    url.get("sale-quotation/" + id).then(({ data }) => {
       if (s == "new") {
         settab(0)
       }
@@ -413,7 +413,32 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setpo(data[0]?.party?.post_box_no)
       setregno(data[0]?.party?.registration_no)
       setvatno(data[0]?.party?.vat_no)
-      setqdetails(data[0]?.quotation_details)
+
+
+      const uniqueAddresses = Array.from(new Set(data[0]?.quotation_details.map(a => a.index1)))
+       .map(id => {
+          return data[0]?.quotation_details.find((a) => a.index1 === id)
+      })
+
+      let res= uniqueAddresses.map((item)=>{
+        item['count']=2
+        return item
+      })
+
+      let result = data[0]?.quotation_details.filter(function (o1) {
+        return res.some(function (o2) {
+            if(o1.id === o2.id)
+            {
+              return o1
+            }
+            else{
+              return o1
+            } // return the ones with equal id
+       });
+
+      })
+      setqdetails(result)
+      // setqdetails(data[0]?.quotation_details)
       setnet_amount(data[0]?.net_amount)
       console.log(data[0]?.net_amount)
       setvat_in_value(data[0]?.vat_in_value)
@@ -1297,7 +1322,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     </Table>
                   </div>
                   <div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
-                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table">
+                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table" >
                       <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                           <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
@@ -1326,40 +1351,36 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
                       </TableHead>
                       <TableBody >
-                        {qdetails.map((item, i) => {
+                        {qdetails.sort((a,b)=>(a.index1-b.index1)).map((item, index) => {
+                         
                           return (
-                            <>
-                              {Object.values(item).map((obj, index) => {
-                                return (
-                                  <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {index + 1}
-                                    </TableCell>
+                          
+                             
+                                
+                                  <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                   {item.count>0? <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt',borderTop:'2px solid #ccc' }} >
+                                      {item.index1}
+                                    </TableCell>:<TableCell className="pr-0" align="center" colspan={1} style={{  fontFamily: "Calibri", fontSize: '11pt'}} >
+                                     
+                                    </TableCell>}
                                     <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
-                                        return (
-                                          <tr>
-
-                                          </tr>
-
-                                        )
-                                      })}
+                                      
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
-                                        return (
-                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                              {item?.description}
-                                            </TableCell>
+                                     
+                                         
+                                          {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                          <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                            {item?.description}
+                                          </TableCell>
+                                        </TableRow> */}
+                                          
+                                          {item?.description}  
 
-                                          </TableRow>
-
-                                        )
-                                      })}
+                                      
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
+                                      {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1367,10 +1388,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                             </TableCell>
                                           </TableRow>
                                         )
-                                      })}
+                                      })} */}
+                                       {item?.descriptions}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
+                                      {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1379,10 +1401,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
 
                                         )
-                                      })}
+                                      })} */}
+                                        {item?.quantity}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
+                                      {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1391,10 +1414,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
 
                                         )
-                                      })}
+                                      })} */}
+                                       {item?.unit_of_measure}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
+                                      {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1403,10 +1427,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
 
                                         )
-                                      })}
+                                      })} */}
+                                       {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                     </TableCell>
                                     <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {(obj).map((item, ind) => {
+                                      {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1415,17 +1440,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
 
                                         )
-                                      })}
+                                      })} */}
+                                      {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                     </TableCell>
                                   </TableRow>
-                                )
-                              })}
-                            </>)
+                                
 
 
+                          )
 
-
-                        })}
+                          })}
 
 
 
