@@ -8,6 +8,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useReactToPrint } from 'react-to-print';
 import { numberToWords } from 'number-to-words';
+import './print.css';
 
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from 'react-intl';
@@ -244,18 +245,41 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const [qrValue, setQrValue] = useState("");
 
+  const [pageNumber, setPageNumber] = useState([])
 
+  let pos = 0;
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
-  const handlePrinting = useReactToPrint({
+
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
     header: () => componentRef.current
-
-
   });
 
+
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    console.log(totalPages)
+    // totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    console.log(a)
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
+
+
+
+  }
 
 
   function handleClose() {
@@ -640,6 +664,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
         <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
           {/* <header id="header"> */}
+
+          {pageNumber.map((item, i) => {
+            if (i == 0) {
+              pos = 1538;
+            } else {
+              pos = pos + 1568;
+            }
+
+            return (
+              <span className="showPageNumber" style={{
+                position: 'relative',
+                top: pos,
+                display: 'none',
+              }}> <center>{item}</center></span>
+            )
+          })}
           <table >
             {/* <thead style={{display:"table-header-group"}} >
             <tr>

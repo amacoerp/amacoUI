@@ -182,7 +182,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const filtered = filter(options, params);
     // if (params.inputValue !== "") {
-    console.log("Input value", params?.inputValue)
     filtered.push({
       inputValue: params?.inputValue,
       name: `${params?.inputValue}`
@@ -273,7 +272,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-
         let tempItemList = [...state.item];
         // console.log('before', state.item)
         tempItemList.splice(index, 1);
@@ -283,7 +281,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ...state,
           item: tempItemList,
         });
-
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -414,7 +411,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleSubmit = (e) => {
-    console.log('ds', e?.keyCode)
 
     setState({ ...state, loading: true });
 
@@ -449,7 +445,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
     const json = Object.assign({}, arr);
-    console.log(arr)
 
     url.post('purchase-quotation', json)
       .then(function (response) {
@@ -487,7 +482,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setDataList(newValue);
   }
   const handleDialogCloseAnnexure = () => {
-    console.log(DataList)
     setShouldOpenEditorDialogAnnexure(false);
 
 
@@ -497,7 +491,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      console.log('ss', data.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
@@ -532,8 +525,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const controlKeyPress = (e, id, nextid, prev) => {
-    console.log(e?.keyCode)
-    console.log(id)
+
 
     if (e?.keyCode == 39) {
       if (nextid?.includes('purchase_price')) {
@@ -602,7 +594,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     url.get("parties/" + event.target.value).then(({ data }) => {
-      console.log(data[0].contacts)
 
       setcontacts(data[0].contacts)
       setparty_id(event.target.value)
@@ -804,7 +795,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
-                  console.log(item)
                   if (!dstatus) {
                     subTotalCost += parseFloat(item.total_amount)
                     vat = ((subTotalCost * 15) / 100).toFixed(2)
@@ -833,9 +823,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList?.map(option => option)}
                           name="product_id"
                           multiLine
-
-
-
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
@@ -970,7 +957,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           </MenuItem>
                         ))} 
                     </TextField> */}
-                        {console.log(index)}
                         <Autocomplete
 
                           className="w-full"

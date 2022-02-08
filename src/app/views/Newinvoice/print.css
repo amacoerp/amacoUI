@@ -18,3 +18,8 @@ p {
 .changeYYY {
   color: red !important;
 }
+@media print {
+  .showPageNumber {
+    display: block !important;
+  }
+}

@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Header from '../../views/statements/Header';
 import Footer from '../../views/statements/Footer';
 import './new.css';
+import '../Newinvoice/print.css';
 
 import {
   Icon,
@@ -265,6 +266,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [fFile, setFfile] = useState('');
   const [transport, settransport] = useState('');
   const [notes, setnotes] = useState([]);
+  const [pageNumber, setPageNumber] = useState([])
+
+  let pos = 0;
   const [state, setState] = React.useState({
 
     open: false,
@@ -293,13 +297,34 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handleAddListToggle = (value) => {
     setShouldOpenAddList(value);
   };
-  const handlePrinting = useReactToPrint({
+
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
-    header: () => componentRef.current,
-
-
-
+    header: () => componentRef.current
   });
+
+
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    console.log(totalPages)
+    // totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    console.log(a)
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
+
+
+
+  }
   function printscript() {
     for (var i = 1; i <= 3; ++i) {
       document.body.innerHTML += '<footer style="margin-top: ' + (297 * i - 10) + 'mm">' + "Page No" + i + '</footer>';
@@ -391,25 +416,24 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
 
       const uniqueAddresses = Array.from(new Set(data[0]?.quotation_details.map(a => a.index1)))
-       .map(id => {
+        .map(id => {
           return data[0]?.quotation_details.find((a) => a.index1 === id)
-      })
+        })
 
-      let res= uniqueAddresses.map((item)=>{
-        item['count']=2
+      let res = uniqueAddresses.map((item) => {
+        item['count'] = 2
         return item
       })
 
       let result = data[0]?.quotation_details.filter(function (o1) {
         return res.some(function (o2) {
-            if(o1.id === o2.id)
-            {
-              return o1
-            }
-            else{
-              return o1
-            } // return the ones with equal id
-       });
+          if (o1.id === o2.id) {
+            return o1
+          }
+          else {
+            return o1
+          } // return the ones with equal id
+        });
 
       })
       setqdetails(result)
@@ -919,6 +943,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       </div>
 
       <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+
+        {pageNumber.map((item, i) => {
+          if (i == 0) {
+            pos = 1557;
+          } else {
+            pos = pos + 1568;
+          }
+
+          return (
+            <span className="showPageNumber" style={{
+              position: 'relative',
+              top: pos,
+              display: 'none',
+            }}> <center>{item}</center></span>
+          )
+        })}
         <table >
           {/* <thead   style={{display:"table-header-group",marginTop:'20px'}} >
             <tr>
@@ -1310,36 +1350,37 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
                       </TableHead>
                       <TableBody >
-                        {qdetails.sort((a,b)=>(a.index1-b.index1)).map((item, index) => {
-                         
+
+                        {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
+                          console.log('sss', item.count)
                           return (
-                          
-                             
-                                
-                                  <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                                   {item.count>0? <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt',borderTop:'2px solid #ccc' }} >
-                                      {item.index1}
-                                    </TableCell>:<TableCell className="pr-0" align="center" colspan={1} style={{  fontFamily: "Calibri", fontSize: '11pt'}} >
-                                     
-                                    </TableCell>}
-                                    <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                     
-                                         
-                                          {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+
+
+
+                            <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                              {item.count > 0 ? <TableCell className={(qdetails.length - 1) == index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
+                                {item.index1}
+                              </TableCell> : <TableCell className="pr-0" align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+
+                              </TableCell>}
+                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+
+
+                                {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                           <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                             {item?.description}
                                           </TableCell>
                                         </TableRow> */}
-                                          
-                                          {item?.description}  
 
-                                      
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {/* {(obj).map((item, ind) => {
+                                {item?.description}
+
+
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1348,10 +1389,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
                                         )
                                       })} */}
-                                       {item?.descriptions}
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {/* {(obj).map((item, ind) => {
+                                {item?.descriptions}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1361,10 +1402,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                        {item?.quantity}
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {/* {(obj).map((item, ind) => {
+                                {item?.quantity}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1374,10 +1415,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                       {item?.unit_of_measure}
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {/* {(obj).map((item, ind) => {
+                                {item?.unit_of_measure}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1387,10 +1428,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                       {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                    </TableCell>
-                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                      {/* {(obj).map((item, ind) => {
+                                {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                             <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1400,15 +1441,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                      {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                    </TableCell>
-                                  </TableRow>
-                                
+                                {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                            </TableRow>
+
 
 
                           )
 
-                          })}
+                        })}
 
 
 
@@ -1711,7 +1752,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <td>{sign[0]?.email}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign[0]?.contact?.slice(0,4)} {sign[0]?.contact?.slice(4,6)} {sign[0]?.contact?.slice(6,9)} {sign[0]?.contact?.slice(9,13)}</td>
+                            <td>{sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td>
                           </tr>
                           {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td></td>
