@@ -1460,7 +1460,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''}</>}
                    
                      */}
-                        <Autocomplete
+                        {/* <Autocomplete
 
                           className="w-full"
                           size="small"
@@ -1486,7 +1486,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                           onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
 
+                        /> */}
+
+                        <TextField
+                          className="w-full"
+                          autoComplete="none"
+                          label="purchase_price"
+                          // decimalPlaces={3}
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          
+                          name="purchase_price"
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+
+                          onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          // value={item.sell_price}
+                          value={isNaN(item.purchase_price)?0:item.purchase_price}
                         />
+
 
 
 

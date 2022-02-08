@@ -230,7 +230,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [invoiceno, setinvoiceno] = useState("");
   const [issue_date, setissue_date] = useState("");
   const [dis_per, setdis_per] = useState(0);
-  const [res, setres] = useState("");
+  const [res, setres] = useState(false);
   const [ress, setress] = useState("");
   const { id } = useParams();
   const classes = useStyles();
@@ -322,6 +322,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       if (data) {
         // console.log(data[0].po_number)
         setquoteid(data[0].quotation_id ? data[0].quotation_id : id)
+        data[0].quotation_id ? setres(true) : setres(false)
         setdis_per(data[0].discount_in_percentage)
         setpodetails(data[0].invoice_detail)
         setcompany(data[0].party?.firm_name)
@@ -434,8 +435,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   }
   const dnotegenrate = (sidebarSettings) => {
 
-
-    history.push(navigatePath + `/invoice_dnote/${quoteid}`)
+    if(res)
+    {
+      history.push(navigatePath + `/dnote/${quoteid}`)
+    }
+    else
+    {
+    history.push(navigatePath + `/invoice_dnote/${id}`)
+    }
 
   }
   const invoicegenrate = (sidebarSettings) => {
@@ -618,14 +625,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
             </Menu>
-            {/* <Button
+            <Button
               className="mr-4 py-2"
               color="primary"
               variant="outlined"
               onClick={() => dnotegenrate({ mode: "on" })}
             >
               GENERATE DELIVERY NOTE
-            </Button> */}
+            </Button>
 
 
           </div>

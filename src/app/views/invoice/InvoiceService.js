@@ -63,8 +63,8 @@ export const GDIV = localStorage.getItem("division")
   ? localStorage.getItem("division")
   : 1;
 
-// export const version = "";
-export const version = "Test Version";
+  export const version = "";
+// export const version = "Test Version";
 
 export const ApiKey = "";
 const role = localStorage.getItem("role");

@@ -434,7 +434,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const addItemToInvoiceList = (arr) => {
     let tempItemList = [...state.item];
  let lastIndex=Object.keys(arr).length-1;
-  let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
+  let lastIndexarr=lastIndex<0?0:tempItemList[lastIndex]?.index1;
   // const totalProps = arr.reduce((a, obj) => Object.keys(obj).length, 0);
   // console.log(tempItemList[lastIndex]?.index1);
   tempItemList.push({
@@ -1510,7 +1510,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: 50 }}>
-                        {item.index1 + 1}
+                        {item.index1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
                         {/* <label htmlFor="upload-single-file">

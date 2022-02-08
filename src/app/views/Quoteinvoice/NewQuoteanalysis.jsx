@@ -509,7 +509,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     
     let tempItemList = [...state.item];
  let lastIndex=Object.keys(arr).length-1;
-  let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
+  let lastIndexarr=lastIndex<0?0:tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       product_id: "",
@@ -584,7 +584,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-  const deleteItemFromInvoiceList = (index) => {
+  const deleteItemFromInvoiceList = (index,i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -597,7 +597,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         let tempItemList = [...state.item];
         tempItemList.splice(index, 1);
-
+       
+      
         setState({
           ...state,
           item: tempItemList,
@@ -1472,7 +1473,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-
+                  console.log(item)
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1528,11 +1529,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   // GTotal=item.discount + item.vat;
 
                   return (
-                    <TableRow key={index}>
+                    <TableRow key={item.index1}>
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                      {item.index1 + 1}
+                      {item.index1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
                         {/* <label htmlFor="upload-single-file">
@@ -1931,7 +1932,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index,item.index1)}>
                           delete
                         </Icon>
                         <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>

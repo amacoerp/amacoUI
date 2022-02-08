@@ -365,7 +365,7 @@ const SimpleMuiTable = () => {
 
               item?.status,
               item?.id,
-              item?.quotation_id
+              item?.quotation_id?"quote":"invoice"
               // moment(item.created_at).format('DD-MM-YYYY'),
               // (parseFloat(item.net_amount)).toFixed(2),
               // item.id

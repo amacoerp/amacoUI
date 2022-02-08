@@ -241,10 +241,10 @@ const SimpleMuiTable = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-
+console.log(tableMeta.rowData)
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-              <Link to={"/invview/" + tableMeta.rowData[4]}>
+              <Link to={"/invview/" + tableMeta.rowData[4]+"/"+tableMeta.rowData[5]}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -261,24 +261,25 @@ const SimpleMuiTable = () => {
         },
       },
     },
-    //   {
-    //     name: "",
-    //     // label: "Action",
-    //     options: {
-    //       filter: true,
-    //       customBodyRender: (value, tableMeta, updateValue) => {
-    //         return (
-    //           <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
-    //             <IconButton>
-    //               <Icon color="secondary">find_in_page</Icon>
-    //             </IconButton>
-    //           </Link>
+      {
+        name: "",
+        // label: "Action",
+        options: {
+          filter: true,
+          display:'none',
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+              <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+                <IconButton>
+                  <Icon color="secondary">find_in_page</Icon>
+                </IconButton>
+              </Link>
 
-    //         )
+            )
 
-    //       },
-    //     },
-    // },
+          },
+        },
+    },
   ];
 
   return (
@@ -314,8 +315,8 @@ const SimpleMuiTable = () => {
               item?.delivery_number,
               item?.po_number,
               moment(item?.created_at).format('DD MMM YYYY'),
-              item?.id
-              // item.party[index].firm_name,
+              item?.id,
+              item.quotation_id?"quote":"invoice",
               // item.requested_date,
               // item.require_date,
             ]

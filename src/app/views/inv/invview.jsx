@@ -177,7 +177,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [po, setpo] = useState('');
   const [deliveryno, setdeliveryno] = useState('');
   const [quotationno, setquotationno] = useState('');
-  const { id } = useParams();
+  const { id ,s} = useParams();
   const classes = useStyles();
   const componentRef = useRef();
   const { settings, updateSettings } = useSettings();
@@ -193,10 +193,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   useEffect(() => {
    
     document.title = "Delivery Note - Amaco"
-    url.get("delivery-notes/" + id).then(({ data }) => {
+    // delivery-notes
+    url.get("invoice_delivery_note/" + id+`/${s}`).then(({ data }) => {
+      
      
         
-      setcreatedate(data[1].created_at)
+      setcreatedate(data[1]?.created_at)
       if(data[1]?.quotation?.contact!==null)
       {
       setattn(data[1]?.quotation?.contact?.fname)
@@ -561,12 +563,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                       <TableCell className="pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }}>
                          
-                      {item[0]?.product[0]?.description} 
+                      {item[0]?.description?item[0]?.description:item[0]?.delivery_notes_detail?.product_descriptions} 
                       </TableCell>
 
 
                       <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }}>
-                      {item[0]?.product[0]?.unit_of_measure}
+                      {item[0].delivery_notes_detail.unit_of_measure?item[0]?.delivery_notes_detail.unit_of_measure:item[0]?.delivery_notes_detail?.product?.unit_of_measure}
                       </TableCell>
                       <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16 }} >
                       {parseInt(item[0]?.total_quantity).toLocaleString()}   

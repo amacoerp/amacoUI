@@ -549,7 +549,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           price: ""
         }
       ],
-      purchase_price: 0.00,
+      purchase_price: 0,
       margin: 0,
       sell_price: 0,
       remark: "",
@@ -659,11 +659,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-        if (element.purchase_price) {
+        if (parseFloat(element?.purchase_price)) {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? newValue : event.target.value
-          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
+          let dval=newValue ? newValue : event.target.value;
+          console.log(parseFloat(dval))
+          element[name] = parseFloat(dval)
+          element.sell_price = parseFloat((element.margin * dval / 100) + parseFloat(dval)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
           // element['id']=null;
@@ -1476,11 +1478,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''}</>}
                    
                      */}
-                        <Autocomplete
+                        {/* <Autocomplete
 
                           className="w-full"
                           size="small"
-                          options={item.product_price_list}
+                          options={item?.product_price_list?item?.product_price_list:[]}
                           name="purchase_price"
                           required
                           value={item?.purchase_price}
@@ -1503,6 +1505,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyUp={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
 
+                        /> */}
+                        <TextField
+                          className="w-full"
+                          autoComplete="none"
+                          label="purchase_price"
+                          // decimalPlaces={3}
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          
+                          name="purchase_price"
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+
+                          onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          // value={item.sell_price}
+                          value={isNaN(item.purchase_price)?0:item.purchase_price}
                         />
 
 
@@ -1523,7 +1542,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="margin"
                           fullWidth
-                          value={item.margin}
+                          value={isNaN(item.margin)?0:item.margin}
                           validators={["required"]}
                           errorMessages={["this field is required"]}
 
