@@ -414,9 +414,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (id) {
           tempItemList.splice(index, 1);
           url.delete(`quotation_details/${id}`).then(data)
+          let newArr=tempItemList.map((item)=>{
+            if(item.index1>i)
+            {
+            item['index1']=item.index1-1;
+            }
+            return item
+          })
           setState({
             ...state,
-            item: tempItemList,
+            item: newArr,
           });
         }
        
@@ -2212,7 +2219,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option value="">
+                        <option value={0}>
                           --select--
                         </option>
                         {companybank.map((item, ind) => (

@@ -370,7 +370,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const deleteItemFromInvoiceList = (index, id) => {
+  const deleteItemFromInvoiceList = (index, id,i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -381,15 +381,55 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        let tempItemList = [...state.item];
-        tempItemList.splice(index, 1);
-
-        setState({
-          ...state,
-          item: tempItemList,
-        });
-        if (id) {
-          url.delete(`quotation_details/${id}`).then(data)
+        if (result.value) {
+          let tempItemList = [...state.item];
+          
+          let count=tempItemList.filter(obj=>obj.index1==i).length;
+          
+          
+          if (id) {
+            tempItemList.splice(index, 1);
+            url.delete(`quotation_details/${id}`).then(data)
+            let newArr=tempItemList.map((item)=>{
+              if(item.index1>i)
+              {
+              item['index1']=item.index1-1;
+              }
+              return item
+            })
+            setState({
+              ...state,
+              item: newArr,
+            });
+          }
+         
+          
+          else if(count>1)
+          {
+  
+          
+          tempItemList.splice(index, 1);
+  
+          setState({
+            ...state,
+            item: tempItemList,
+          });
+        }
+        else
+        {
+          tempItemList.splice(index, 1);
+          let newArr=tempItemList.map((item)=>{
+            if(item.index1>i)
+            {
+            item['index1']=item.index1-1;
+            }
+            return item
+          })
+          setState({
+            ...state,
+            item: newArr,
+          });
+        }
         }
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -1444,7 +1484,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                      {item.index1 + 1}
+                      {item.index1}
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -1793,7 +1833,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id,item.index1)}>
                           delete
                         </Icon>
                         <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
@@ -1985,7 +2025,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option value="" disabled>
+                        <option value={0}>
                           --select--
                         </option>
                         {companybank.map((item, ind) => (

@@ -2151,7 +2151,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-
+                          <option value={0}>--Select--</option>
                         {companybank.map((item, ind) => (
                           <option value={item.id}>{item.name}-{item.ac_no}</option>
                         ))}

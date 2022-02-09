@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import history from "history.js";
 import moment from "moment";
 import Header from '../../views/statements/Header';
+import Box from '@material-ui/core/Box';
 import Footer from '../../views/statements/Footer';
 import {
   Icon,
@@ -204,11 +205,21 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setattn(data[1]?.quotation?.contact?.fname)
       }
       // setpodetails(data[1])
-      setcompany(data[1]?.quotation?.party?.firm_name)
+      if(s==="invoice")
+      {
+        setcompany(data[1]?.invoice?.party?.firm_name)
+        setquotationno(data[1]?.invoice?.invoice_no)
+      }
+      else
+      {
+        setcompany(data[1]?.quotation?.party?.firm_name)
+        setquotationno(data[1]?.quotation?.quotation_no)
+      }
+      
       setpodetails(data[0])
       setdeliveryno(data[1]?.delivery_number)
       setpo(data[1]?.po_number)
-      setquotationno(data[1]?.quotation?.quotation_no)
+      
 
     });
     // url.get("invoice/" + id).then(({ data }) => {
@@ -415,7 +426,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         <div className="px-4 flex justify-between">
           <div className="flex">
             <div className="pl-2 mb-4">
-            <h3 style={{fontSize:20}}><strong>DELIVERY NOTE</strong></h3>
+            <h1 style={{fontSize:20}}><strong>DELIVERY NOTE</strong></h1>
               {/* <h4>DELIVERY NOTE</h4> */}
               {vat}
             </div>
@@ -430,7 +441,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
          <div className="px-4 flex justify-between">
          
           
-        
+{/*         
         <div className="px-4 flex justify-between">
           
          
@@ -500,7 +511,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             <div>
               </div>
               </div>
-            </div>
+            </div> */}
+          
 
 
 
@@ -530,20 +542,74 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               </div>
               </div>
             </div>
+            <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>CUSTOMER NAME</span><br></br>
+                        {company}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>DELIVERY DATE</span><br></br>
+                        {moment(createdate).format('DD MMM YYYY')}
+
+
+                      </Grid>
+                     
+
+                    </Grid>
+                </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>ATTENTION</span><br></br>
+                        {attn?attn:"--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>DELIVERY NUMBER</span><br></br>
+                        {deliveryno}
+
+
+                      </Grid>
+                     
+
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span><br></br>
+                        {po?po:"--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>{s=="invoice"?"INVOICE NUMBER":"QUOTATION NUMBER"}</span><br></br>
+                        {quotationno}
+
+
+                      </Grid>
+                     
+
+                    </Grid>
+                  </Box>
 
         <Card className="mb-4" elevation={0} title="" borderRadius="borderRadius">
           <div className="viewer__order-info px-4 mb-4 pt-5 flex justify-between">
-            <Table style={{ border: "1px solid #ccc",fontSize: 16 }}>
-              <TableHead >
+            <Table style={{ border: "1px solid #ccc",fontSize: 16, }}>
+              <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                 <TableRow style={{ border: "1px solid #ccc" }}>
-                  <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px",fontFamily: "Calibri",fontWeight:1000,fontSize: 16 }} align="center">S.No.</TableCell>
-                  <TableCell className="px-0" colspan={3} style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontWeight:1000,fontSize: 16 }} align="center">DESCRIPTION</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center" colspan={3}>DESCRIPTION</TableCell>
 
-                  <TableCell className="px-0" style={{ border: "1px solid #ccc", width: "70px",fontFamily: "Calibri",fontWeight:1000,fontSize: 16}} align="center">UOM</TableCell>
-                  <TableCell className="px-0" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontWeight:1000,fontSize: 16}} align="center">QTY</TableCell>
-                  <TableCell className="px-0" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontWeight:1000,fontSize: 16}} align="center">DELIVERED QTY</TableCell>
-                  <TableCell className="px-0" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontWeight:1000,fontSize: 16}} align="center">DELIVERING  QTY</TableCell>
-                  <TableCell className="px-0" style={{ border: "1px solid #ccc",fontFamily: "Calibri",fontWeight:1000,fontSize: 16}} align="center">BALANCE QTY</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">UOM</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">QTY</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">DELIVERED QTY</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">DELIVERING  QTY</TableCell>
+                  <TableCell  className="pr-0"  style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">BALANCE QTY</TableCell>
 
                 </TableRow>
               </TableHead>
