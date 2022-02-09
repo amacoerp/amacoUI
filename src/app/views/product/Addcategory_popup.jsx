@@ -40,6 +40,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
   const [isAlive, setIsAlive] = useState(true);
   const [isAlivecat, setIsAlivecat] = useState('');
   const [loading, setloading] = useState(false);
+  const [changeIcon, setChangeIcon] = useState(false)
 
 
   const [fullWidth, setFullWidth] = React.useState(true);
@@ -218,7 +219,14 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
     // });
 
   }, [])
+
+  function getrows() {
+    setChangeIcon(!changeIcon)
+    setIsAlive(!isAlive)
+
+  }
   function getrow() {
+    setChangeIcon(!changeIcon)
     if (!catid) {
       url.get("categories").then(({ data }) => {
         setUserList(data);
@@ -244,23 +252,6 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
       },
     },
     {
-      name: "description",
-      lable: "DESCRIPTIONS",
-      options: {
-        filter: true,
-        customHeadRender: ({ index, ...column }) => {
-          return (
-
-            <TableCell key={index} >
-              <TableHead>DESCRIPTIONS</TableHead>
-            </TableCell>
-
-          )
-
-        },
-      },
-    },
-    {
       name: "id",
       label: "Action",
       options: {
@@ -268,7 +259,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
         customHeadRender: ({ index, ...column }) => {
           return (
 
-            <TableCell key={index} style={{ textAlign: "right" }} className="pr-8">
+            <TableCell key={index} style={{ textAlign: "right" }} className="">
               <TableHead>ACTION</TableHead>
             </TableCell>
 
@@ -281,9 +272,9 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
           return (
             <div
               style={{
-                textAlign: "right"
+                textAlign: ""
               }}
-              className="pr-8"
+              className=""
             >
               <IconButton onClick={() => removeData(tableMeta.rowData[2])
               } style={{ columnStyleWithWidth1 }}
@@ -385,9 +376,17 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
 
 
             {/* </Button> */}
-            <Tooltip title="view">
-              <Icon color="primary" align="right" style={{ position: 'absolute', right: 50 }} onClick={() => getrow()}>expand_more</Icon>
-            </Tooltip>
+            {console.log(changeIcon)}
+            {changeIcon ?
+              <Tooltip title="view">
+                <Icon color="primary" align="right" style={{ position: 'absolute', right: 50 }} onClick={() => getrows()}>expand_less</Icon>
+              </Tooltip>
+              :
+              <Tooltip title="view">
+                <Icon color="primary" align="right" style={{ position: 'absolute', right: 50 }} onClick={() => getrow()}>expand_more</Icon>
+              </Tooltip>
+            }
+
           </div>
 
 
