@@ -584,7 +584,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-  const deleteItemFromInvoiceList = (index,i) => {
+  const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -597,8 +597,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         let tempItemList = [...state.item];
         tempItemList.splice(index, 1);
-       
-      
+
         setState({
           ...state,
           item: tempItemList,
@@ -1473,7 +1472,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                  console.log(item)
+                
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1529,7 +1528,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   // GTotal=item.discount + item.vat;
 
                   return (
-                    <TableRow key={item.index1}>
+                    <TableRow key={item.index}>
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
