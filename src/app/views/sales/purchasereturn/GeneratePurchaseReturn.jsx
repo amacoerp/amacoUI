@@ -802,7 +802,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option.invoice_no;
+                                                        return option?.invoice_no?option.invoice_no:" ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
