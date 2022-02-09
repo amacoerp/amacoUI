@@ -487,14 +487,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
     let d_val = value ? (value !== null ? value : 0) : (event.target.value ? event.target.value : 0);
-
+   
     tempItemList.map((element, i) => {
       let sum = 0;
 
 
 
       if (index == i) {
-
+        element['sell_price']=value
         if (parseInt(element.purchase_price) !== 0) {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
@@ -1488,7 +1488,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                         /> */}
 
-                        <TextField
+                  <CurrencyTextField
                           className="w-full"
                           autoComplete="none"
                           label="purchase_price"
@@ -1498,14 +1498,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           
                           name="purchase_price"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          currencySymbol="SAR"
+                          // inputProps={{ min: 0, style: { textAlign: 'center' } }}
 
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           // value={item.sell_price}
                           value={isNaN(item.purchase_price)?0:item.purchase_price}
                         />
-
 
 
 

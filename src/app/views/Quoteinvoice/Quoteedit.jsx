@@ -984,7 +984,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('transaction_type', "sale")
     formData.append('id', id)
     formData.append('sign', sign)
-    formData.append('subject', subject)
+    formData.append('subject', subject?subject:0)
     formData.append('rfq_no', rfq_no ? rfq_no : " ")
     formData.append('bank_id', parseInt(bank_id))
     formData.append('notes', JSON.stringify(testArr))

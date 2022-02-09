@@ -500,12 +500,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-        // element['sell_price']=value ? value : event.target.value;
+        element['sell_price']=value;
         if (parseInt(element.purchase_price) !== 0) {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val
+          
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -551,7 +551,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       ],
       purchase_price: 0,
       margin: 0,
-      sell_price: 0,
+      sell_price: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      }),
       remark: "",
       total_amount: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
@@ -1506,7 +1508,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
 
                         /> */}
-                        <TextField
+                        <CurrencyTextField
                           className="w-full"
                           autoComplete="none"
                           label="purchase_price"
@@ -1516,7 +1518,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           
                           name="purchase_price"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          currencySymbol="SAR"
+                          // inputProps={{ min: 0, style: { textAlign: 'center' } }}
 
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
@@ -1538,6 +1541,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           variant="outlined"
+                          
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           size="small"
                           name="margin"
@@ -1586,9 +1590,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(e, value) => calculatemargin(e, index, value)}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           // value={item.sell_price}
-                          value={item.sell_price.toLocaleString(undefined, {
-                            minimumFractionDigits: 3
-                          })}
+                          value={(item?.sell_price) ? (isNaN(item?.sell_price) ? 0 : item.sell_price) : 0}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
