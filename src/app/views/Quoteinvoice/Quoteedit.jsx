@@ -407,11 +407,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         let tempItemList = [...state.item];
-        tempItemList.splice(index, 1);
+        
         let count=tempItemList.filter(obj=>obj.index1==i).length;
-
+        console.log(id)
         
         if (id) {
+          tempItemList.splice(index, 1);
           url.delete(`quotation_details/${id}`).then(data)
           setState({
             ...state,
