@@ -836,7 +836,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="quantity"
                           value={item.quantity}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
-
+                          required
                           inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity') }}
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           fullWidth
@@ -876,7 +876,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', null, index + 'unit_of_measure') }}
 
-
+                          required
                           name="description"
                           fullWidth
                           variant="outlined"
