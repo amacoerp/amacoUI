@@ -326,7 +326,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: null,
       product_id: "",
-      index1:i,
+      index1: i,
       description: "",
       descriptionss: "",
       descriptions: '---',
@@ -352,19 +352,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     setState({
       ...state,
-      item: tempItemList.sort((a,b)=>a.index1 <b.index1),
+      item: tempItemList.sort((a, b) => a.index1 < b.index1),
     });
   };
 
   const addItemToInvoiceList = (arr) => {
     let tempItemList = [...state.item];
-    let lastIndex=Object.keys(arr).length-1;
-     let lastIndexarr=lastIndex<0?-1:tempItemList[lastIndex]?.index1;
+    let lastIndex = Object.keys(arr).length - 1;
+    let lastIndexarr = lastIndex < 0 ? -1 : tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       id: null,
       product_id: "",
-      index1:lastIndexarr+1,
+      index1: lastIndexarr + 1,
       description: "",
       descriptionss: "",
       descriptions: '---',
@@ -1535,8 +1535,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                      {/* {item.index1 + 1} */}
-                      <TextField name="index1" value={item.index1} onChange={(e)=>changeindex(e,index)} />
+                        {/* {item.index1 + 1} */}
+                        <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} />
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -1994,7 +1994,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </Icon>
 
                       </TableCell>
-                      
+
                     </TableRow>
                   );
                 })}
@@ -2006,7 +2006,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={() => addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
             {/* {testArr.map((item, index) => {
               

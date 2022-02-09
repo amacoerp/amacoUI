@@ -321,9 +321,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     setTimeout(() => {
       handlePrintingCur()
     }, 500);
-
-
-
   }
   function printscript() {
     for (var i = 1; i <= 3; ++i) {
@@ -422,15 +419,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
       let res = uniqueAddresses.map((item) => {
         item['count'] = 2
-        item['bottom']='hide';
+        item['bottom'] = 'hide';
         return item
       })
+
+      console.log('ssss', uniqueAddresses)
+      console.log('sss', res)
 
       let result = data[0]?.quotation_details.filter(function (o1) {
         return res.some(function (o2) {
           if (o1.id === o2.id) {
 
-            
+
             return o1
           }
           else {
@@ -1355,17 +1355,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                       <TableBody >
 
                         {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
-                          console.log('sss', item)
                           return (
-
-
                             // (qdetails.length - 1) === index
                             <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                               {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
                                 {item.index1}
-                              </TableCell> : <TableCell className="pr-0" align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
-
-                              </TableCell>}
+                              </TableCell> :
+                                <TableCell className="pr-0 hideBottomLine" align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+                                </TableCell>}
                               <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
 
                               </TableCell>

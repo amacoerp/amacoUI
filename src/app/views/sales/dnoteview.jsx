@@ -48,6 +48,7 @@ const SimpleMuiTable = () => {
   }
   useEffect(() => {
     url.get("delivery-notes").then(({ data }) => {
+      console.log(data)
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
       // if(data.length)
@@ -171,6 +172,26 @@ const SimpleMuiTable = () => {
 
       },
     },
+    {
+      name: "delivery_number", // field name in the row object
+      label: "DELIVERY NUMB ER", // column title that will be shown in table
+      options: {
+        filter: true,
+        setCellProps: () => ({
+          align: "center",
+
+        }),
+        wordBreak: 'break-word',
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align="center" >
+              <span className="pl-2">COMPANY NAME</span>
+            </TableCell>
+          )
+        },
+
+      },
+    },
 
     {
       name: "po_number",
@@ -241,10 +262,9 @@ const SimpleMuiTable = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-console.log(tableMeta.rowData)
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-              <Link to={"/invview/" + tableMeta.rowData[4]+"/"+tableMeta.rowData[5]}>
+              <Link to={"/invview/" + tableMeta.rowData[5] + "/" + tableMeta.rowData[6]}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -261,24 +281,24 @@ console.log(tableMeta.rowData)
         },
       },
     },
-      {
-        name: "",
-        // label: "Action",
-        options: {
-          filter: true,
-          display:'none',
-          customBodyRender: (value, tableMeta, updateValue) => {
-            return (
-              <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
-                <IconButton>
-                  <Icon color="secondary">find_in_page</Icon>
-                </IconButton>
-              </Link>
+    {
+      name: "",
+      // label: "Action",
+      options: {
+        filter: true,
+        display: 'none',
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <IconButton>
+                <Icon color="secondary">find_in_page</Icon>
+              </IconButton>
+            </Link>
 
-            )
+          )
 
-          },
         },
+      },
     },
   ];
 
@@ -309,14 +329,16 @@ console.log(tableMeta.rowData)
           title={"DELIVERY NOTES"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
-
+            console.log(item.party[0]?.firm_name)
             return [
               ++index,
               item?.delivery_number,
+              item?.party[0]?.firm_name ? item?.party[0]?.firm_name : '--',
               item?.po_number,
+
               moment(item?.created_at).format('DD MMM YYYY'),
               item?.id,
-              item.quotation_id?"quote":"invoice",
+              item.quotation_id ? "quote" : "invoice",
               // item.requested_date,
               // item.require_date,
             ]
