@@ -1897,7 +1897,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           currencySymbol=""
                           name="sell_price"
-                          value={item.sell_price}
+                          value={parseFloat(item.sell_price)}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           onBlur={(e, value) => calculatemargin(e, index, value)}
                         />

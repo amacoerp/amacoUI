@@ -686,6 +686,79 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
 
+  const calcualte_margin = (event, index, newValue, name) => {
+
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index == i) {
+        if (parseFloat(element?.purchase_price)) {
+          // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
+          // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
+          let dval=newValue ? newValue : event.target.value;
+          console.log(parseFloat(dval))
+          element[name] = parseFloat(dval)
+          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+          // element['id']=null;
+        }
+        else {
+          element[name] = newValue ? newValue : event.target.value
+          
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+          // element['id']=null;
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
+
+  const calcualte_qty = (event, index, newValue, name) => {
+
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index == i) {
+        
+          element[name] = newValue ? newValue : event.target.value
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+          // element['id']=null;
+        
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
+
   const handleSubmit = () => {
 
     // setState({ ...state, ['subTotalCost']: subTotalCost });
@@ -892,10 +965,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (data[0]?.po_number) {
         setponumber(data[0]?.po_number)
       }
-      console.log('sd', data[0]?.po_number);
+ 
       setState({
         ...state,
-        item: data[0].invoice_detail,
+        item: data[0]?.invoice_detail,
       });
 
     });
@@ -1390,7 +1463,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           autoComplete="none"
                           label="Qty"
-                          onChange={(event, newValue) => calcualtep(event, index, newValue = null, 'quantity')}
+                          onChange={(event, newValue) => calcualte_qty(event, index, newValue = null, 'quantity')}
                           type="text"
                           variant="outlined"
                           size="small"
@@ -1492,7 +1565,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           autoComplete="none"
                           label="purchase_price"
-                          // decimalPlaces={3}
+                          decimalPlaces={3}
                           variant="outlined"
                           fullWidth
                           size="small"
@@ -1504,7 +1577,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           // value={item.sell_price}
-                          value={isNaN(item.purchase_price)?0:item.purchase_price}
+                          value={(isNaN(item?.purchase_price)||item?.purchase_price==null)?parseFloat(0):parseFloat(item?.purchase_price)}
                         />
 
 
@@ -1517,7 +1590,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left">
                         <TextValidator autoComplete="none"
                           label="Margin"
-                          onChange={(event, newValue) => calcualtep(event, index, newValue = null, 'margin')}
+                          onChange={(event, newValue) => calcualte_margin(event, index, newValue, 'margin')}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           variant="outlined"
@@ -1525,7 +1598,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="margin"
                           fullWidth
-                          value={item?.margin ? item?.margin : 0.00}
+                          value={isNaN(item?.margin)?" ":item?.margin}
                           validators={["required"]}
                           errorMessages={["this field is required"]}
 

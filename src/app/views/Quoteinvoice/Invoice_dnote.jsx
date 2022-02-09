@@ -89,7 +89,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         
        
         
-         else if(event.target.value<=0)
+         else if(event.target.value< 0)
           {
          
             element[event.target.name] = res;
@@ -193,7 +193,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get("invoice/"+ id).then(({ data }) => {
      
       setcname(data[0].party.firm_name)
-      setqno(data[0].quotation_no)
+      setqno(data[0].invoice_no)
       setpono(data[0].po_number)
      
       
@@ -268,7 +268,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         <div className="viewer__order-info px-4 mb-4 flex justify-between">
           <div>
           <h5 className="font-normal capitalize">
-              <strong>Quotation Number: </strong>{" "}
+              <strong>Invoice Number: </strong>{" "}
               <span>
                 {qno}
               </span>
@@ -423,7 +423,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       label="delivery quantity"
                       onChange={(event) => handleIvoiceListChange(event, index)}
                       type="number"
-                      inputProps={{min: 0, style: { textAlign: 'center' }}}
+                      inputProps={{min: -1, style: { textAlign: 'center' }}}
                       name="delivering_quantity"
                       fullWidth
                       required

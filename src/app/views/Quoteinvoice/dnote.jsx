@@ -87,7 +87,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-        else if (event.target.value <= 0) {
+        else if (event.target.value < 0) {
 
           element[event.target.name] = res;
           element['balance'] = 0;
@@ -416,7 +416,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="delivery quantity"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           type="number"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ min: -1, style: { textAlign: 'center' } }}
                           name="delivering_quantity"
                           fullWidth
                           required

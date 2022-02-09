@@ -459,9 +459,10 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     margin_val: 0,
     discount_val: 0,
     discount: 0,
-    sell_price: parseFloat(0.00).toLocaleString(undefined, {
-      minimumFractionDigits: 2
-    }),
+    sell_price:0,
+    // sell_price: parseFloat(0.00).toLocaleString(undefined, {
+    //   minimumFractionDigits: 2
+    // }),
     remark: "",
     total_amount: parseFloat(0.00).toLocaleString(undefined, {
       minimumFractionDigits: 2
@@ -1831,12 +1832,13 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full "
                           label="Price"
                           decimalPlaces={3}
+                          // minimumValue="0"
                           variant="outlined"
                           fullWidth
                           size="small"
                           currencySymbol=""
                           name="sell_price"
-                          value={item.sell_price}
+                          value={parseFloat(item.sell_price)}
                           onChange={(e, value) => calculatemargin(e, index, value)}
                         // onBlur={(e, value) => calculatemargin(e, index, value)}
                         />

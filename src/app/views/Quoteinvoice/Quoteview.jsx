@@ -1389,7 +1389,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
                                         )
                                       })} */}
-                                {item?.descriptions}
+                                {item?.descriptionss}
                               </TableCell>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {

@@ -254,7 +254,7 @@ const Analytics = () => {
             label="Choose Year"
           >
             <MenuItem>Choose Year</MenuItem>
-            <MenuItem value="2019">2019</MenuItem>
+            {/* <MenuItem value="2019">2019</MenuItem> */}
             <MenuItem value="2021">2021</MenuItem>
             <MenuItem value="2022">2022</MenuItem>
             <MenuItem value="2023">2023</MenuItem>
