@@ -48,11 +48,11 @@ const SimpleForm = () => {
         }
         else
         {
-          // const json={
-          //   password:npassword
-          // }
-          // url.put(`/users/${user.id}`,json).then(({ data }) => {
-            // setmessage(null)
+          const json={
+            password:npassword
+          }
+          url.put(`/users/${user.id}`,json).then(({ data }) => {
+            setmessage(null)
             Swal.fire({
               title: 'Success',
               type: 'success',
@@ -61,7 +61,7 @@ const SimpleForm = () => {
             });
             resetform()
 
-          // })
+          })
 
         }
       }
