@@ -56,10 +56,15 @@ const [getRef, setRef] = useDynamicRefs();
 
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
-
+  const handleClick = () => {
+    top100Films.splice(0, 1);
+    setVal(top100Films);
+    // set value in TextField from dropdown list
+  };
 
   let inputRef = [];
   let priceRef = [];
+  const [val, setVal] = useState(true);
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [party_id, setparty_id] = useState('');
@@ -112,8 +117,64 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
+  // const top100Films = [
+  //   { title: "The Shawshank Redemption", year: 1994 },
+  //   { title: "The Godfather", year: 1972 },
+  //   { title: "The Godfather: Part II", year: 1974 },
+  //   { title: "The Dark Knight", year: 2008 }
+  // ];
 
+  const top100Films = [
+    {
+        // "id": 1,
+        "category_id": 2,
+        "division_id": 1,
+        "manufacturer_id": 17,
+        // "name": "Iphone 6s",
+        title: "Iphone 6s",
+        "model_no": "IP122345",
+        // "name_in_ar": "Iphone 6s",
+        // "description": "Iphone 6s Red",
+        // "unit_of_measure": "BX",
+        // "type": "Service",
+        // "hsn_code": "HSN1234",
+        // "initial_quantity": "20",
+        // "minimum_quantity": "10",
+        // "created_at": "2022-02-10 08:45:37",
+        // "updated_at": "2022-02-10 08:45:37",
+        // "div_id": 1,
+        // "user_id": 38,
+        // "category_name": "IPHONE",
+        // "division_name": "Trading Division"
+    },
+    {
+        // "id": 3,
+        "category_id": 2,
+        "division_id": 1,
+        "manufacturer_id": 17,
+        // "name": "Vivo",
+        title: "Vivo",
+        "model_no": "IP122345ggg",
+        // "model_no": null,
+        // "name_in_ar": "vivo",
+        // "description": "Vivo",
+        // "unit_of_measure": "GM",
+        // "type": "Inventory",
+        // "hsn_code": null,
+        // "initial_quantity": "0",
+        // "minimum_quantity": "0",
+        // "created_at": "2022-02-10 09:33:48",
+        // "updated_at": "2022-02-10 09:33:48",
+        // "div_id": 1,
+        // "user_id": 7,
+        // "category_name": "IPHONE",
+        // "division_name": "Trading Division"
+    },
+    
+];
+  
 
+  console.log(top100Films)
   const addItemToInvoiceList = () => {
 
     let tempItemList = [...state.item];
@@ -195,7 +256,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleChanges = (event, newValue, index) => {
-
+    console.log(newValue?newValue:event.target.value)
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -491,7 +552,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      let arr=data.filter(obj => obj.div_id == localStorage.getItem('division')).map((item)=>{
+        item['title']=item.name;
+        return item
+      })
+      console.log(arr)
+      setproList(arr)
+     
 
     });
     getVendorList().then(({ data }) => {
@@ -816,7 +883,31 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-2 capitalize" align="left" style={{ width: 100 }}>
                         {index + 1}
                       </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
+                      <TableCell className="pl-2 capitalize" align="left" style={{ width: 100 }}>
+                        <Autocomplete
+        options={top100Films}
+        value={item.product}
+        name={"product_id"}
+        getOptionLabel={(option) => option.title}
+        filterOptions={filterOptions}
+        onChange={(event, newValue) => handleChanges(event, newValue, index)}
+        onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+        // onChange={handleClick}
+        style={{ width: 300 }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Combo box"
+            name={"product_id"}
+            value={item.product}
+            variant="outlined"
+            fullWidth
+          />
+        )}
+      />
+      <Button onClick={()=>handleClick}>Set value</Button>
+                      </TableCell>
+                      {/* <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         <Autocomplete
                           className="w-full"
                           size="small"
@@ -844,21 +935,24 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'product_id')
                           }}
-                          renderInput={(params) => (
-                            // {console.log(params)}
+                          renderInput={(params) => {
+                            {console.log(params)}
+                            return (
+                            
                             <TextField {...params}
                               inputRef={input => {
                                 inputRef[index] = input;
                               }}
-                              variant="outlined" name="product_id" fullWidth />
+                              variant="outlined"  name="product_id" fullWidth />
                           )}
+                            }
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
                           onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '350px' }}>
                         <TextField
                           label="Our description"
