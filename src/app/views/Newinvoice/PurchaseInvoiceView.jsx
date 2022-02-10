@@ -1004,9 +1004,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                                 </TableCell>
                                                                 <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
-
-                                                                    {isNaN(parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-
+                                                                    {parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) == 'NaN' ?
+                                                                        0
+                                                                        :
+                                                                        parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                                                    }
+                                                                    {/* {isNaN(parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 'Nam=n' : 'not na'} */}
                                                                 </TableCell>
                                                                 <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
 
@@ -1093,7 +1096,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            {isNaN(parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
+                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
 
 
                                                         </TableCell>

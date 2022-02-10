@@ -114,7 +114,9 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
           customClass: {
             zIndex: 1000
           },
-          title: 'Cancelled'
+          title: 'Cancelled',
+          icon: 'error'
+
           // 'Cancelled',
           // 'Your imaginary file is safe :)',
           // 'error',
