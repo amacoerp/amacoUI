@@ -1626,11 +1626,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           <MenuItem value="false">
                             <Icon>add</Icon>Add New
                           </MenuItem>
-                          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
-                            <MenuItem value={item.id} key={item.id}>
+
+                        {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
+                          
+                          
+                            <MenuItem value={item.id} >
                               {item.name}
                             </MenuItem>
-                          ))}
+                           
+                        ))}
                         </TextValidator>
                       </TableCell>
                       {
@@ -1771,7 +1775,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             required
                             onChange={(event) => calcualtep(event, index)}
                             label="Price"
-
+                            value={item.purchase_price}
                             onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
 
                             inputProps={{
@@ -1787,7 +1791,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                            <option value=""></option>
+                            <option value={0}>----</option>
                             {item?.product_price_list?.map((item, id) => (
                               <optgroup label={item.firm_name} style={{ fontSize: 12 }}>
                                 <option value={item.price}>{item.price}</option>
