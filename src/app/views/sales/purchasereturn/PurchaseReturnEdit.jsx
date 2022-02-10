@@ -418,7 +418,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.quotation_details = tempItemList
         arr.discount_in_p = 0
         arr.total_value = parseFloat(subTotalCost).toFixed(2)
-        arr.net_amount = charge ? total : GTotal
+        arr.net_amount = total
         arr.freight = freight
         arr.vat_in_value = parseFloat(charge).toFixed(2)
         arr.rfq_id = id
@@ -496,7 +496,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setPriceList(data)
         });
         url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
-
+            setcharge(data.data[0].vat_in_value)
             setDLN(data.Odata);
             setparty_id(data?.data[0]?.party_id);
             setcontact123(data?.data[0]?.party_id)
@@ -753,7 +753,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         subTotalCost += parseFloat(item.total_amount)
                                         vat = ((subTotalCost * 15) / 100).toFixed(2)
                                         // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
-                                        GTotal = subTotalCost + charge
+                                        GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                                     }
                                     else {
 
@@ -761,7 +761,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
                                         vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
                                         // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
-                                        GTotal = subTotalCost + charge
+                                        GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                                     }
 
 
@@ -1146,7 +1146,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             size="small"
                                             currencySymbol={currency_type}
                                             name="vat"
-                                            onChange={(e, value) => { setcharge(value); settotal(value + subTotalCost); }
+                                            onChange={(e, value) => { setcharge(value); settotal(parseInt(value) + parseInt(subTotalCost)); }
 
                                             }
                                             value={charge}
@@ -1176,7 +1176,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 size="small"
                                                 currencySymbol={currency_type}
                                                 name="net_amount"
-                                                value={charge ? total : GTotal}
+                                                value={GTotal}
                                             />
                                         </div>
 
