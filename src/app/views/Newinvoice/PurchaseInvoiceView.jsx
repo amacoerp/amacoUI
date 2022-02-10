@@ -1093,7 +1093,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
-                                                            {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {isNaN(currency_type) ? 0 : currency_type}
+                                                            {isNaN(parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
 
 
                                                         </TableCell>

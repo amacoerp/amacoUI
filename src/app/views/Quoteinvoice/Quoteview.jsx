@@ -1308,7 +1308,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                     <Table>
                       <TableRow style={{ marginBottom: 200 }} >
-                        Subject: {subject}
+                        Subject: {subject == null || subject == 'null' ? '--' : subject}
                       </TableRow>
                     </Table>
                   </div>
@@ -1428,7 +1428,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
@@ -1441,7 +1441,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                             </TableRow>
 
