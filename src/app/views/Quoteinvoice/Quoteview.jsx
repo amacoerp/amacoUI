@@ -1308,7 +1308,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                     <Table>
                       <TableRow style={{ marginBottom: 200 }} >
-                        Subject: {subject}
+                        Subject: {subject == null || subject == 'null' ? '--' : subject}
                       </TableRow>
                     </Table>
                   </div>
@@ -1355,12 +1355,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                       <TableBody >
 
                         {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
+
                           return (
                             // (qdetails.length - 1) === index
                             <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                               {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
                                 {item.index1}
-                              </TableCell> : <TableCell className="pr-0 hideBottomLine" align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+                              </TableCell> : <TableCell className={qdetails.length - 1 === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {item?.file ? <img className="w-60" src={item.file} /> : ""}
                               </TableCell>}
                               <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1428,7 +1429,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
@@ -1441,7 +1442,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                             </TableRow>
 
@@ -1610,7 +1611,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <div>
                               <div style={{ float: "left" }} className="pl-20">SAR</div>
                               <div style={{ float: "right" }}>
-                                {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                               </div>
                               <div style={{ clear: "left" }} />

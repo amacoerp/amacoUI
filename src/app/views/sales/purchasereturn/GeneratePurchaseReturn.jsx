@@ -263,12 +263,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
     };
     const handleChanges = (event, newValue, index) => {
-        console.log(newValue?.id);
-        console.log(newValue?.name);
-        console.log(newValue?.po_number);
 
 
-        const pD = proList.filter(obj => obj.product_id == newValue?.id)
+
+        const pD = proList.filter(obj => obj?.product_id == newValue?.id)
 
 
 
@@ -802,7 +800,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option?.invoice_no?option.invoice_no:" ";
+                                                        return option?.invoice_no ? option.invoice_no : " ";
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (

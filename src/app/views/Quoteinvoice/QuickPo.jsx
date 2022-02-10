@@ -325,7 +325,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
+      text: 'You want to Delete this Purchase Order Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -920,6 +920,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           getOptionLabel={(option) => option?.name ? option?.name : " "}
+
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input

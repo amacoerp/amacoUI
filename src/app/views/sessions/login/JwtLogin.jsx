@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Grid,
@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import history from "history.js";
 import clsx from "clsx";
 import useAuth from 'app/hooks/useAuth';
-import { getpaidDivision,version } from "app/views/invoice/InvoiceService";
+import { getpaidDivision, version } from "app/views/invoice/InvoiceService";
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -78,7 +78,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const JwtLogin = () => {
   const [loading, setLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState({email: "", password: ''});
+  const [userInfo, setUserInfo] = useState({ email: "", password: '' });
   const [message, setMessage] = useState('');
   const [division, setdivision] = useState([]);
   const { login } = useAuth();
@@ -91,20 +91,20 @@ const JwtLogin = () => {
     setUserInfo(temp);
   };
 
-  useEffect(()=>{
-    getpaidDivision().then((item)=>{
+  useEffect(() => {
+    getpaidDivision().then((item) => {
       setdivision(item.data);
     })
-     // {0:"a", 1:"b", 2:"c"}inputOptionsPromise)
-  },[])
+    // {0:"a", 1:"b", 2:"c"}inputOptionsPromise)
+  }, [])
 
   const handleFormSubmit = async (event) => {
-    
+
     setLoading(true);
     try {
       await login(userInfo.email, userInfo.password);
-      
-     
+
+
       history.push("/");
       // Swal.fire({
       //   title: 'Submit your Github username',
@@ -139,10 +139,10 @@ const JwtLogin = () => {
       //     })
       //   }
       // })
-      
-      
-    } catch(e) {
-    
+
+
+    } catch (e) {
+
       setMessage(e.message);
       setLoading(false);
     }
@@ -159,22 +159,22 @@ const JwtLogin = () => {
         <Grid container>
           <Grid item lg={6} md={6} sm={5} xs={12}>
             <div className={clsx({
-                "py-8 px-14 h-full": true,
-                [classes.cardLeft]: true,
-              })}>
+              "py-8 px-14 h-full": true,
+              [classes.cardLeft]: true,
+            })}>
               {/* <img
                 className="w-200"
                 src={logo}
                 alt=""
               /> */}
-               <img src={logo} style={{marginTop:"60px",}}></img>
-               <h6 className="pl-20">{version}</h6>
+              <img src={logo} style={{ marginTop: "60px", }}></img>
+              <h6 className="pl-20">{version}</h6>
             </div>
-            
+
           </Grid>
-          
+
           <Grid item lg={6} md={6} sm={6} xs={12}>
-          <h4 style={{marginTop:"20px",textAlign: "center"}}>Amaco - ERP</h4>
+            <h4 style={{ marginTop: "20px", textAlign: "center" }}>Amaco - ERP</h4>
             <div className="p-8 h-full bg-light-gray relative">
               <ValidatorForm onSubmit={handleFormSubmit}>
                 <TextValidator
@@ -186,11 +186,11 @@ const JwtLogin = () => {
                   type="email"
                   name="email"
                   value={userInfo.email}
-                  // validators={["required", "isEmail"]}
-                  // errorMessages={[
-                  //   "this field is required",
-                  //   "email is not valid",
-                  // ]}
+                // validators={["required", "isEmail"]}
+                // errorMessages={[
+                //   "this field is required",
+                //   "email is not valid",
+                // ]}
                 />
                 <TextValidator
                   className="mb-3 w-full"
@@ -201,8 +201,8 @@ const JwtLogin = () => {
                   name="password"
                   type="password"
                   value={userInfo.password}
-                  // validators={["required"]}
-                  // errorMessages={["this field is required"]}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
                 />
                 {/* <FormControlLabel
                   className="mb-3 min-w-288"
@@ -249,12 +249,12 @@ const JwtLogin = () => {
                     Sign up
                   </Button> */}
                 </div>
-                {/* <Button
+                <Button
                   className="text-primary"
                   onClick={() => history.push("/session/forgot-password")}
                 >
                   Forgot password?
-                </Button> */}
+                </Button>
               </ValidatorForm>
             </div>
           </Grid>

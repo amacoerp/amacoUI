@@ -239,7 +239,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
   const [catid, setcatid] = useState('')
-  const [currency_type, setcurrency_type] = useState('SAR');
+  const [currency_type, setcurrency_type] = useState('');
   const [productprice, setproductprice] = useState([])
   const formData = new FormData()
   const handleChanges = (event, newValue, index) => {
@@ -1146,7 +1146,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className="pl-2"
                   label="Currency Type"
                   style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
+                  name="currency_type"
                   size="small"
                   variant="outlined"
 

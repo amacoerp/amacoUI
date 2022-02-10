@@ -187,7 +187,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         filtered.push({
             inputValue: params.inputValue,
-            name: `Add "${params.inputValue}"`
+            // name: params.inputValue
         });
         // }
         return filtered;
@@ -977,6 +977,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     label="Total"
                                                     variant="outlined"
                                                     fullWidth
+                                                    readOnly
                                                     size="small"
                                                     currencySymbol={currency_type}
                                                     name="total_amount"
