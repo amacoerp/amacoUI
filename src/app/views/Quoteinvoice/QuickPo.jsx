@@ -136,7 +136,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           description: ""
         }
       ],
-      purchase_price: 0.00,
+      purchase_price: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      }),
       margin: 0,
       sell_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
@@ -369,7 +371,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   }
 
-  const po_uom = (event, index) => {
+  const ChangeName = (event, index) => {
     //  event.persist()
     let tempItemList = [...state.item];
 
@@ -876,7 +878,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="description"
                           multiline
                           fullWidth
-                          onChange={(event) => po_description(event, index)}
+                          onChange={(event) => ChangeName(event, index)}
                           value={item.description ? item.description : ""}
 
                         />
@@ -916,7 +918,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           style={{ width: '100%', float: 'left' }}
                           fullWidth
                           value={item.unit_of_measure ? item.unit_of_measure : null}
-                          onChange={(event) => po_uom(event, index)}
+                          onChange={(event) => ChangeName(event, index)}
                           select
                           onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
 
@@ -957,35 +959,40 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           </MenuItem>
                         ))} 
                     </TextField> */}
-                        <Autocomplete
+                        <CurrencyTextField
 
                           className="w-full"
                           size="small"
-                          options={item?.product_price_list}
+                          variant="outlined"
+                          // options={item?.product_price_list}
                           name="purchase_price"
-                          value={item?.purchase_price}
+                          value={parseFloat(item?.purchase_price)}
+                          currencySymbol=""
                           // filterOptions={filterPrice}
-                          renderOption={option => option.price}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
-
-                          getOptionLabel={option => {
-                            // e.g value selected with enter, right from the input
-                            if (typeof option === "string") {
-                              return option;
-                            }
-                            if (option.inputValue) {
-                              return option.inputValue;
-                            }
-                            return option.price;
+                          // renderOption={option => option.price}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price',index+'total_amount', index +'unit_of_measure') }}
+                          inputProps={{
+                            ref: setRef(index + 'purchase_price')
                           }}
-                          freeSolo
 
-                          renderInput={(params) => (
-                            <TextField {...params}
-                              inputRef={input => {
-                                priceRef[index] = input;
-                              }} variant="outlined" name="purchase_price" required fullWidth />
-                          )}
+                          // getOptionLabel={option => {
+                          //   // e.g value selected with enter, right from the input
+                          //   if (typeof option === "string") {
+                          //     return option;
+                          //   }
+                          //   if (option.inputValue) {
+                          //     return option.inputValue;
+                          //   }
+                          //   return option.price;
+                          // }}
+                          // freeSolo
+
+                          // renderInput={(params) => (
+                          //   <TextField {...params}
+                          //     inputRef={input => {
+                          //       priceRef[index] = input;
+                          //     }} variant="outlined" name="purchase_price" required fullWidth />
+                          // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                           onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                           onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
