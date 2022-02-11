@@ -506,15 +506,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const addItemToInvoiceList = (arr) => {
-    
+
     let tempItemList = [...state.item];
- let lastIndex=Object.keys(arr).length-1;
-  let lastIndexarr=lastIndex<0?0:tempItemList[lastIndex]?.index1;
+    let lastIndex = Object.keys(arr).length - 1;
+    let lastIndexarr = lastIndex < 0 ? 0 : tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       product_id: "",
       src: '',
-      index1:lastIndexarr+1,
+      index1: lastIndexarr + 1,
       description: "",
       descriptions: "",
       descriptionss: "",
@@ -552,7 +552,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: "",
       src: '',
-      index1:id,
+      index1: id,
       description: "",
       descriptions: "",
       descriptionss: "",
@@ -584,7 +584,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-  const deleteItemFromInvoiceList = (index,i) => {
+  const deleteItemFromInvoiceList = (index, i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -594,37 +594,34 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       icon: 'warning',
       cancelButtonText: 'No, keep it'
     }).then((result) => {
-      
+
       if (result.value) {
-       
+
         let tempItemList = [...state.item];
-        let count=tempItemList.filter(obj=>obj.index1==i).length;
-        if(count>1)
-        {
+        let count = tempItemList.filter(obj => obj.index1 == i).length;
+        if (count > 1) {
 
-        
-        tempItemList.splice(index, 1);
 
-        setState({
-          ...state,
-          item: tempItemList,
-        });
-      }
-      else
-      {
-        tempItemList.splice(index, 1);
-        let newArr=tempItemList.map((item)=>{
-          if(item.index1>i)
-          {
-          item['index1']=item.index1-1;
-          }
-          return item
-        })
-        setState({
-          ...state,
-          item: newArr,
-        });
-      }
+          tempItemList.splice(index, 1);
+
+          setState({
+            ...state,
+            item: tempItemList,
+          });
+        }
+        else {
+          tempItemList.splice(index, 1);
+          let newArr = tempItemList.map((item) => {
+            if (item.index1 > i) {
+              item['index1'] = item.index1 - 1;
+            }
+            return item
+          })
+          setState({
+            ...state,
+            item: newArr,
+          });
+        }
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -1083,7 +1080,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get('designation').then(({ data }) => {
 
-      let user_val=data.filter(obj=>obj.user_id==user.id)
+      let user_val = data.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
       setusers(data)
     })
@@ -1495,7 +1492,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                
+
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1555,7 +1552,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                      {item.index1}
+                        {item.index1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
                         {/* <label htmlFor="upload-single-file">
@@ -1958,7 +1955,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index,item.index1)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item.index1)}>
                           delete
                         </Icon>
                         <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
@@ -1977,7 +1974,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={() => addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
 
 
@@ -2155,7 +2152,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                          <option value={0}>--Select--</option>
+                        <option value={0}>--Select--</option>
                         {companybank.map((item, ind) => (
                           <option value={item.id}>{item.name}-{item.ac_no}</option>
                         ))}

@@ -526,7 +526,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
     getVendorList().then(({ data }) => {
@@ -995,7 +995,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'total_amount')
                           }}
                           size="small"
-                          currencySymbol={currency_type}
+                          currencySymbol=''
+                          // currencySymbol={currency_type}
                           name="total_amount"
                           value={item.total_amount ? item.total_amount : ""}
                         />

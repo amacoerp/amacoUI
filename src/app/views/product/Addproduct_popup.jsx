@@ -252,7 +252,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
     })
     getmanufacturer().then(({ data }) => {
 
-      setmanufacture(data);
+      setmanufacture(data.filter(obj => obj.div_id == localStorage.getItem('division')));
 
 
 

@@ -1030,7 +1030,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           size="small"
                           readOnly={true}
-                          currencySymbol={currency_type}
+                          currencySymbol=''
                           name="total_amount"
                           value={item.total_amount ? item.total_amount : ""}
                         />

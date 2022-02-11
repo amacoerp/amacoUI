@@ -664,7 +664,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (parseFloat(element?.purchase_price)) {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          let dval=newValue ? newValue : event.target.value;
+          let dval = newValue ? newValue : event.target.value;
           console.log(parseFloat(dval))
           element[name] = parseFloat(dval)
           element.sell_price = parseFloat((element.margin * dval / 100) + parseFloat(dval)).toFixed(3);
@@ -1593,7 +1593,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          
+
                           name="purchase_price"
                           currencySymbol="SAR"
                           // inputProps={{ min: 0, style: { textAlign: 'center' } }}
@@ -1661,7 +1661,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=''
                           name="sell_price"
 
                           onChange={(e, value) => calculatemargin(e, index, value)}
@@ -1695,7 +1695,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="total_amount"
                           value={item.total_amount.toLocaleString(undefined, {
                             minimumFractionDigits: 2

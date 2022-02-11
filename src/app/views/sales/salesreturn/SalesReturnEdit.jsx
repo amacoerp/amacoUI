@@ -464,7 +464,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setPriceList(data)
         });
         url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
-
+            setcharge(data.data[0].vat_in_value)
+            setcurrency_type(data.data[0].currency_type)
             setDLN(data.Odata);
             setparty_id(data?.data[0]?.party_id);
             setcontact123(data?.data[0]?.party_id)
@@ -708,7 +709,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         subTotalCost += parseFloat(item.total_amount)
                                         vat = ((subTotalCost * 15) / 100).toFixed(2)
                                         // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
-                                        GTotal = subTotalCost + charge
+                                        GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                                     }
                                     else {
 
@@ -716,7 +717,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
                                         vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
                                         // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
-                                        GTotal = subTotalCost + charge
+                                        GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                                     }
 
 
@@ -930,8 +931,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     label="Total"
                                                     variant="outlined"
                                                     fullWidth
+                                                    readOnly
                                                     size="small"
-                                                    currencySymbol={currency_type}
+                                                    currencySymbol=''
                                                     name="total_amount"
                                                     value={item.total_amount ? item.total_amount : ""}
                                                 />
@@ -1062,7 +1064,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <div className="px-4 flex justify-end">
                                 <div className="flex " >
                                     <div className="pr-12">
-                                        <p className="mb-8">Total Amount{currency_type} :</p>
+                                        <p className="mb-8">Total Amount ({currency_type}) :</p>
                                         {/* <p className="mb-8">Discount:</p> */}
                                         <p className="mb-8">Freight Charges ({currency_type})</p>
                                         {/* <p className="mb-5">currency:</p> */}
@@ -1124,11 +1126,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 className="w-full mb-4"
                                                 label="Grand Total"
                                                 variant="outlined"
+                                                readOnly
                                                 fullWidth
                                                 size="small"
                                                 currencySymbol={currency_type}
                                                 name="net_amount"
-                                                value={charge ? total : GTotal}
+                                                value={GTotal}
                                             />
                                         </div>
 

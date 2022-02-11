@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { Breadcrumb } from "matx";
 import MemberEditorDialog from "../product/Addcategory";
 import history from "history.js";
-import { getVendorList, getmanufacturer, ApiKey, navigatePath,data } from "../invoice/InvoiceService"
+import { getVendorList, getmanufacturer, ApiKey, navigatePath, data } from "../invoice/InvoiceService"
 import MemberEditorDialog1 from "./manufacture";
 import useAuth from '../../hooks/useAuth';
 
@@ -235,50 +235,50 @@ const SimpleForm = ({ open, handleClose }) => {
 
 
     //     if (data.data.translations[0].translatedText) {
-          const frmdetails = {
-            party_id: vendors,
-            name: (product),
-            description: description ? (description) : '',
-            unit_price: unit_Price,
-            unit_of_measure: unit_of_measue,
-            category_id: id,
-            division_id: selectedValue,
-            type: ptype,
-            hsn_code: hsn,
-            initial_quantity: iq,
-            minimum_quantity: mq,
-            manufacturer_id: manid,
-            model_no: modelno,
-            name_in_ar:product ,
-            div_id: localStorage.getItem('division'),
-            user_id: user.id,
+    const frmdetails = {
+      party_id: vendors,
+      name: (product),
+      description: description ? (description) : '',
+      unit_price: unit_Price,
+      unit_of_measure: unit_of_measue,
+      category_id: id,
+      division_id: selectedValue,
+      type: ptype,
+      hsn_code: hsn,
+      initial_quantity: iq,
+      minimum_quantity: mq,
+      manufacturer_id: manid,
+      model_no: modelno,
+      name_in_ar: product,
+      div_id: localStorage.getItem('division'),
+      user_id: user.id,
 
-          }
-
-
+    }
 
 
-          url.post('products', frmdetails)
-            .then(function (response) {
 
 
-              Swal.fire({
-                title: 'Success',
-                type: 'success',
-                icon: 'success',
-                text: 'Data saved successfully.',
-              })
-                .then((result) => {
-                  history.push(navigatePath + `/product/viewproduct/${id}`)
-                })
-            })
-            .catch(function (error) {
+    url.post('products', frmdetails)
+      .then(function (response) {
 
-            })
-          resetform()
 
-      //   }
-      // })
+        Swal.fire({
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Data saved successfully.',
+        })
+          .then((result) => {
+            history.push(navigatePath + `/product/viewproduct/${id}`)
+          })
+      })
+      .catch(function (error) {
+
+      })
+    resetform()
+
+    //   }
+    // })
   }
 
 
@@ -500,7 +500,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   <Icon >add</Icon>New
 
                 </MenuItem>
-                {manufacture.map((item, ind) => (
+                {manufacture.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, ind) => (
                   <MenuItem value={item.id} key={item}>
                     {item.name}
                   </MenuItem>

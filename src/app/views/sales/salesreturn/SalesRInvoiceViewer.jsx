@@ -21,6 +21,8 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles"
 import { getInvoiceById, navigatePath } from "../../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import { numberToWords } from 'number-to-words';
+
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import { format } from "date-fns";
@@ -433,8 +435,20 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
             let words = toWords.convert(parseFloat(data.getReturnParty[0].net_amount));
             let riyal = words.replace("Rupees", "Riyals");
             let halala = riyal.replace("Paise", "Halala")
+            let words1 = numberToWords.toWords(data.getReturnParty[0].net_amount);
+            let decimal = parseFloat(parseFloat(data.getReturnParty[0].net_amount).toFixed(2).split('.')[1]);
 
-            setress(halala);
+
+            if (data.getReturnParty[0].currency_type == "SAR") {
+                setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+            }
+            if (data.getReturnParty[0].currency_type == "AED") {
+                setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
+            }
+            if (data.getReturnParty[0].currency_type == "USD") {
+                setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
+            }
+
 
 
         });
