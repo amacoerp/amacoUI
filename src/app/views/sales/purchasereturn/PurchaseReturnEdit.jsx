@@ -186,7 +186,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         const filtered = filter(options, params);
 
         filtered.push({
-            inputValue: params.inputValue,
+            inputValue: params?.inputValue,
             // name: params.inputValue
         });
         // }
@@ -282,7 +282,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const deleteItemFromInvoiceList = (index) => {
+    const deleteItemFromInvoiceList = (index, rId) => {
         Swal.fire({
             title: 'Are you sure?',
             text: 'You want to Delete this Quotation Details!',
@@ -293,13 +293,37 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             cancelButtonText: 'No, keep it'
         }).then((result) => {
             if (result.value) {
-                let tempItemList = [...state.item];
-                tempItemList.splice(index, 1);
+                if (rId) {
 
-                setState({
-                    ...state,
-                    item: tempItemList,
-                });
+                    url.delete(`delete-sales-return-detail/${rId}`)
+                        // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
+                        .then(res => {
+                            // Swal.fire(
+                            //     'Deleted!',
+                            //     'File has been deleted.',
+                            //     'success'
+                            // )
+                            // setIsAlive(true)
+
+                            let tempItemList = [...state.item];
+                            tempItemList.splice(index, 1);
+
+                            setState({
+                                ...state,
+                                item: tempItemList,
+                            });
+                        })
+
+                } else {
+                    let tempItemList = [...state.item];
+                    tempItemList.splice(index, 1);
+
+                    setState({
+                        ...state,
+                        item: tempItemList,
+                    });
+                }
+
             }
             else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
@@ -817,17 +841,17 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     name="product_id"
                                                     value={item?.name}
                                                     filterOptions={filterOptions}
-                                                    renderOption={option => option.name}
+                                                    renderOption={option => option?.name}
                                                     multiline
                                                     getOptionLabel={option => {
                                                         // e.g value selected with enter, right from the input
                                                         if (typeof option === "string") {
                                                             return option;
                                                         }
-                                                        if (option.inputValue) {
-                                                            return option.inputValue;
+                                                        if (option?.inputValue) {
+                                                            return option?.inputValue;
                                                         }
-                                                        return option?.name ? option.name : '';
+                                                        return option?.name ? option?.name : '';
                                                     }}
                                                     freeSolo
                                                     renderInput={(params) => (
@@ -1004,7 +1028,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                                             <TableCell className="pl-2 capitalize" align="left" style={{ textAlign: "left" }}>
 
-                                                <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
+                                                <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item.prd_id)}>
                                                     delete
                                                 </Icon>
 

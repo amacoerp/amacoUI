@@ -282,7 +282,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const deleteItemFromInvoiceList = (index) => {
+    const deleteItemFromInvoiceList = (index, rId) => {
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You want to Delete this Quotation Details!',
@@ -292,14 +293,39 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             icon: 'warning',
             cancelButtonText: 'No, keep it'
         }).then((result) => {
-            if (result.value) {
-                let tempItemList = [...state.item];
-                tempItemList.splice(index, 1);
 
-                setState({
-                    ...state,
-                    item: tempItemList,
-                });
+            if (result.value) {
+                if (rId) {
+                    console.log('sss', rId)
+
+                    url.delete(`delete-sales-return-detail/${rId}`)
+                        // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
+                        .then(res => {
+                            // Swal.fire(
+                            //     'Deleted!',
+                            //     'File has been deleted.',
+                            //     'success'
+                            // )
+                            // setIsAlive(true)
+                        })
+
+
+                    let tempItemList = [...state.item];
+                    tempItemList.splice(index, 1);
+
+                    setState({
+                        ...state,
+                        item: tempItemList,
+                    });
+                } else {
+                    let tempItemList = [...state.item];
+                    tempItemList.splice(index, 1);
+
+                    setState({
+                        ...state,
+                        item: tempItemList,
+                    });
+                }
             }
             else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
@@ -308,6 +334,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     'error'
                 )
             }
+
         })
     };
 
@@ -957,7 +984,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                                             <TableCell className="pl-2 capitalize" align="left" style={{ textAlign: "left" }}>
 
-                                                <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
+                                                <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item.id)}>
                                                     delete
                                                 </Icon>
 
