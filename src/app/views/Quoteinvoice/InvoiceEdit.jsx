@@ -1496,14 +1496,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          
+
                           name="purchase_price"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
 
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           // onChange={(e, value) => calculatemargin(e, index, value)}
                           // value={item.sell_price}
-                          value={isNaN(item.purchase_price)?0:item.purchase_price}
+                          value={isNaN(item.purchase_price) ? 0 : item.purchase_price}
                         />
 
 
@@ -1563,7 +1563,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="sell_price"
                           onChange={(e, value) => calculatemargin(e, index, value)}
                           value={(item?.sell_price) ? (isNaN(item?.sell_price) ? 0 : item.sell_price) : 0}
@@ -1594,7 +1594,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2

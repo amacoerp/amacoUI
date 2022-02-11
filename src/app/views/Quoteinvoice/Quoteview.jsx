@@ -1364,22 +1364,29 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               </TableCell> : <TableCell className={qdetails.length - 1 === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {item?.file ? <img className="w-60" src={item.file} /> : ""}
                               </TableCell>}
-                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              {
+                                localStorage.getItem('division') == 1 &&
+                                <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
 
-                              </TableCell>
-                              <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                </TableCell>
+                              }
+
+                              {localStorage.getItem('division') == 1 &&
+                                <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
 
 
-                                {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                  {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                                           <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                             {item?.description}
                                           </TableCell>
                                         </TableRow> */}
 
-                                {item?.description}
+                                  {item?.description}
 
 
-                              </TableCell>
+                                </TableCell>
+
+                              }
                               <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
                                         return (
@@ -1390,7 +1397,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                           </TableRow>
                                         )
                                       })} */}
-                                {item?.descriptions}
+                                {item?.descriptionss}
                               </TableCell>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {

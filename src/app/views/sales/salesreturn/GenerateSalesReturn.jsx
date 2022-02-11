@@ -950,7 +950,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     fullWidth
                                                     size="small"
-                                                    currencySymbol={currency_type}
+                                                    currencySymbol=''
                                                     name="total_amount"
                                                     value={item.total_amount ? item.total_amount : ""}
                                                 />
