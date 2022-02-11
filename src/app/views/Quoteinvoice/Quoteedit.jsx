@@ -765,7 +765,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
         const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-        element['discount'] = event.target.value;
+
+        element['discount'] = (isNaN(event.target.value)||event.target.value!==null)?0:event.target.value;
+        console.log(element.discount)
         element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
 
@@ -1109,6 +1111,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     });
     url.get('designation').then(({ data }) => {
+      console.log(data)
       setusers(data);
 
 
@@ -1134,6 +1137,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setpayment_terms(data[0].payment_terms)
       setQuote_date(data[0].ps_date)
       setsubject(data[0].subject)
+    
       setsign(data[0].sign[0]?.id)
       // rfq no
       setrfq_no(data[0].rfq_no)
@@ -2180,9 +2184,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <FormControl variant="outlined" minWidth="120" size="small">
                       <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
                       <Select
-                        native
+                        // native
                         value={sign}
-                        defaultValue={sign}
+                        // defaultValue={sign}
                         // onChange={handleChange}
                         onChange={e => setsign(e.target.value)}
                         size="small"
@@ -2197,6 +2201,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <option value="">--Select--</option>
 
                         {users.map((item, ind) => (
+                          // {console.log(item.id)}
                           <option value={item.id} defaultValue={item.name}>{item.name}-{item.designation}</option>
                         ))}
                       </Select>

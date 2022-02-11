@@ -1436,7 +1436,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {isNaN(parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.sell_price)) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
