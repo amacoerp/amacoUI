@@ -763,11 +763,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <TableRow className="bg-default">
                   <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
-                  <TableCell className="px-0" style={{ width: '350px' }}>OUR DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>UOM</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>PRICE</TableCell>
-                  <TableCell className="px-0" style={{ width: '120px' }}>TOTAL</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>TOTAL</TableCell>
 
                   <TableCell className="pr-2" style={{ textAlign: "right" }}>ACTION</TableCell>
                 </TableRow>
@@ -837,7 +837,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                         />
                       </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '350px' }}>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         <TextField
                           label="Our description"
                           type="text"

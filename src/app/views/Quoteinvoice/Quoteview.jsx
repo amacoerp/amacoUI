@@ -1442,7 +1442,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                                         )
                                       })} */}
-                                {isNaN(parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(item?.total_amount)) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                             </TableRow>
 
@@ -1611,7 +1611,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <div>
                               <div style={{ float: "left" }} className="pl-20">SAR</div>
                               <div style={{ float: "right" }}>
-                                {isNaN(parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(vat_in_value)) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                               </div>
                               <div style={{ clear: "left" }} />

@@ -324,7 +324,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 element['total_amount'] = ((event.target.value) * element.quantity).toFixed(2);
-                element[event.target.name] = event.target.value;
+                element[event.target.name] = parseFloat(event.target.value);
                 element['remark'] = "";
 
 

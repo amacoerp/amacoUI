@@ -430,7 +430,30 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
 
     }
+    const ChangeName = (event, index) => {
+        //  event.persist()
+        let tempItemList = [...state.item];
 
+        tempItemList.map((element, i) => {
+            let sum = 0;
+
+            if (index === i) {
+               
+                element[event.target.name] = event.target.value;
+               
+            }
+
+            return element;
+
+        });
+
+
+        setState({
+            ...state,
+            item: tempItemList,
+        });
+
+    }
 
 
     const setproductids = (id, index) => {
@@ -854,7 +877,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     name="description"
                                                     multiline
                                                     fullWidth
-                                                    onChange={(event) => po_description(event, index)}
+                                                    onChange={(event) => ChangeName(event, index)}
                                                     value={state.description}
 
                                                 />
@@ -885,7 +908,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     style={{ width: '140px', float: 'left' }}
                                                     fullWidth
                                                     value={item.unit_of_measure ? item.unit_of_measure : null}
-                                                    onChange={(event) => po_description(event, index)}
+                                                    onChange={(event) => ChangeName(event, index)}
                                                     select
 
 

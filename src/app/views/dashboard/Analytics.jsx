@@ -80,7 +80,7 @@ const Analytics = () => {
   const [tempList, settempList] = useState([]);
   const [linegraph, setlinegraph] = useState([]);
   const [accountStatement, setaccountStatement] = useState([]);
-  const [data, setdata] = useState();
+  const [data1, setdata1] = useState();
   const [maxVal, setmaxVal] = useState('');
   const [perList, setPerList] = useState('');
   const [date, setdate] = useState(moment(new Date()).format('YYYY'));
@@ -110,10 +110,12 @@ const Analytics = () => {
       // );
 
       // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-      setresponseData(data)
-      var result = data.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
-        item['debit'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
-        item['count'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+      setresponseData(data.filter(obj=>obj.div_id==localStorage.getItem('division')))
+      let dataList=data.filter(obj=>obj.div_id==localStorage.getItem('division'))
+   
+      var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
+        item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+        item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
         item['month'] = moment(item.created_at).format('MMM');
 
         return item
@@ -140,7 +142,7 @@ const Analytics = () => {
         return obj.count;
       });
 
-      setdata(finalArray);
+      setdata1(finalArray);
 
       setmaxVal(Math.max(...finalArray))
 
@@ -157,10 +159,10 @@ const Analytics = () => {
 
 
 
-  }, [])
+  }, [ ])
 
   const handleChange = (i) => {
-    console.log(parseInt(i))
+   
     // setPerList(compPer);
     // setdate(moment(i).format('YYYY'));
     getpaidDivision().then(({ data }) => {
@@ -172,11 +174,11 @@ const Analytics = () => {
     //  setlinegraph(option)
     url.get('invoice').then(({ data }) => {
 
-
+      let dataList=data.filter(obj=>obj.div_id==localStorage.getItem('division'))
       const result = responseData.filter(obj => moment(obj.created_at).format('YYYY') == parseInt(i)).map((item, i) => {
-        console.log(item.created_at)
-        item['debit'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
-        item['count'] = data.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        
+        item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+        item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
         item['month'] = moment(item.created_at).format('MMM');
 
         return item
@@ -211,13 +213,13 @@ const Analytics = () => {
 
       setmaxVal(Math.max(...finalArray))
       if (result.length) {
-        console.log(finalArray)
-        setdata(finalArray);
+        
+        setdata1(finalArray);
         // setmaxVal(Math.max(...finalArray))
       }
       else {
         //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
-        setdata([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        setdata1([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
       }
 
 
@@ -326,7 +328,7 @@ const Analytics = () => {
             option={{
               series: [
                 {
-                  data: data,
+                  data: data1,
                   type: "line",
                 },
               ],
