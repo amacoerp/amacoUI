@@ -285,7 +285,7 @@ const SimpleForm = () => {
     });
     url.get("manufacturer").then(({ data }) => {
 
-      setmanuarr(data)
+      setmanuarr(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
 
     });

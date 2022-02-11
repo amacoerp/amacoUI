@@ -976,10 +976,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <CurrencyTextField
                                                     className="w-full"
                                                     label="Total"
+                                                    readOnly
                                                     variant="outlined"
                                                     fullWidth
                                                     size="small"
-                                                    currencySymbol={currency_type}
+                                                    currencySymbol=''
                                                     name="total_amount"
                                                     value={item.total_amount ? item.total_amount : ""}
                                                 />
@@ -1110,7 +1111,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <div className="px-4 flex justify-end">
                                 <div className="flex " >
                                     <div className="pr-12">
-                                        <p className="mb-8">Total Amount{currency_type} :</p>
+                                        <p className="mb-8">Total Amount ({currency_type}) :</p>
                                         {/* <p className="mb-8">Discount:</p> */}
                                         <p className="mb-8">Freight Charges ({currency_type})</p>
                                         {/* <p className="mb-5">currency:</p> */}

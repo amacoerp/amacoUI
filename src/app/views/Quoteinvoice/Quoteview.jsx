@@ -1611,8 +1611,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <div>
                               <div style={{ float: "left" }} className="pl-20">SAR</div>
                               <div style={{ float: "right" }}>
-                                {isNaN(parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-
+                                {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </div>
                               <div style={{ clear: "left" }} />
                             </div>

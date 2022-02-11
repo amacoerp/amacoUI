@@ -496,6 +496,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setPriceList(data)
         });
         url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
+            setcurrency_type(data.data[0].currency_type)
             setcharge(data.data[0].vat_in_value)
             setDLN(data.Odata);
             setparty_id(data?.data[0]?.party_id);
@@ -979,7 +980,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     fullWidth
                                                     readOnly
                                                     size="small"
-                                                    currencySymbol={currency_type}
+                                                    currencySymbol=''
                                                     name="total_amount"
                                                     value={item.total_amount ? item.total_amount : ""}
                                                 />
@@ -1173,6 +1174,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 label="Grand Total"
                                                 variant="outlined"
                                                 fullWidth
+                                                readOnly
                                                 size="small"
                                                 currencySymbol={currency_type}
                                                 name="net_amount"

@@ -13,6 +13,8 @@ import { Icon } from "@material-ui/core";
 // import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { getmanufacturer, capitalize_arr } from "../invoice/InvoiceService"
+import useAuth from '../../hooks/useAuth';
+
 
 const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => {
   // const [state, setState] = useState({
@@ -35,6 +37,8 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
 
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("sm");
+  const { user } = useAuth();
+
 
 
 
@@ -43,8 +47,9 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
     const frmdetails = {
 
       name: cname ? capitalize_arr(cname) : '',
-      description: cdescription ? capitalize_arr(cdescription) : ""
-
+      description: cdescription ? capitalize_arr(cdescription) : "",
+      div_id: localStorage.getItem('division'),
+      user_id: user.id
 
     }
     // setcdescription('')
@@ -119,7 +124,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
 
           // 'Cancelled',
           // 'Your imaginary file is safe :)',
-          // 'error',
+          // 'error',5
 
         })
       }
@@ -130,11 +135,6 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
   useEffect(() => {
     url.get('manufacturer').then(({ data }) => {
       setUserList(data);
-
-
-
-
-
 
     });
 
@@ -292,7 +292,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => 
           <MUIDataTable
             title={"Manufacturer"}
             columns={columns}
-            data={userList}
+            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
             options={{
               filterType: "textField",
               responsive: "simple",
