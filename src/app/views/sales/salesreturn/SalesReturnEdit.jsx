@@ -413,7 +413,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.quotation_details = tempItemList
         arr.discount_in_p = 0
         arr.total_value = parseFloat(subTotalCost).toFixed(2)
-        arr.net_amount = charge ? total : GTotal
+        arr.net_amount = GTotal
         arr.freight = freight
         arr.vat_in_value = parseFloat(charge).toFixed(2)
         arr.rfq_id = id
