@@ -60,6 +60,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [party_id, setparty_id] = useState('');
     const [discounts, setdiscounts] = useState('0');
     const [proList, setproList] = useState([]);
+    const [proListt, setproListt] = useState([]);
     const [validity, setvalidity] = useState('3 Days')
     const [payment_terms, setpayment_terms] = useState('100% Advance')
     const [freight, setfreight] = useState('Air Freight')
@@ -200,9 +201,12 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         await url.get(`getInvSr/${newValue?.invoice_no}`).then(({ data }) => {
             const b = proList;
+            console.log('gds', b)
             let yFilter = data.getPData.map(itemY => { return itemY.product_id; });
             let filteredX = b.filter(itemX => yFilter.includes(itemX.id));
-            setproList(filteredX);
+            console.log('ssds', filteredX)
+            console.log('ssdss', yFilter)
+            setproListt(filteredX);
             // console.log('aaa', filteredX);
         });
 
@@ -619,8 +623,6 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     name="party_id"
                                     size="small"
                                     variant="outlined"
-
-
                                     onClick={(event) => setcontact(event)}
                                     required
                                     select
@@ -795,7 +797,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <Autocomplete
                                                     className="w-full"
                                                     size="small"
-                                                    options={proList ? proList : []}
+                                                    options={proListt ? proListt : []}
                                                     name="product_id"
                                                     value={item?.name}
                                                     filterOptions={filterOptions}
