@@ -1160,11 +1160,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <TextField
 
                   label="Currency Type"
+                  className="pl-4"
+
                   style={{ minWidth: 200, maxWidth: '250px' }}
                   name="party_id"
                   size="small"
                   variant="outlined"
-                  inputProps={{ required: true }}
+                  inputProps={{ width: 20 }}
 
                   value={currency_type}
                   // onChange={handleChange}
@@ -1487,31 +1489,33 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''}</>}
                    
                      */}
-                        <Autocomplete
+                        <CurrencyTextField
 
                           className="w-full"
                           size="small"
-                          options={item?.product_price_list ? item?.product_price_list : []}
+                          // options={item?.product_price_list ? item?.product_price_list : []}
                           name="purchase_price"
-                          value={item?.purchase_price}
-                          filterOptions={filterPrice}
-                          renderOption={option => option?.price}
-                          getOptionLabel={option => {
-                            // e.g value selected with enter, right from the input
-                            if (typeof option === "string") {
-                              return option;
-                            }
-                            if (option.inputValue) {
-                              return option.inputValue;
-                            }
-                            return option.price;
-                          }}
-                          freeSolo
-                          renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="purchase_price" fullWidth />
-                          )}
+                          variant="outlined"
+                          currencySymbol=""
+                          value={parseFloat(item?.purchase_price)}
+                          // filterOptions={filterPrice}
+                          // renderOption={option => option?.price}
+                          // getOptionLabel={option => {
+                          //   // e.g value selected with enter, right from the input
+                          //   if (typeof option === "string") {
+                          //     return option;
+                          //   }
+                          //   if (option.inputValue) {
+                          //     return option.inputValue;
+                          //   }
+                          //   return option.price;
+                          // }}
+                          // freeSolo
+                          // renderInput={(params) => (
+                          //   <TextField {...params} variant="outlined" name="purchase_price" fullWidth />
+                          // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                          onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+                          onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
 
                         />
 

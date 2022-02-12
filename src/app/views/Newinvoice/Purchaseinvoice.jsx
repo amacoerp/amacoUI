@@ -659,7 +659,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <TextValidator
                                                     label="Quantity"
                                                     onChange={(event) => handleIvoiceListChange(event, index)}
-                                                    type="number"
+                                                    type="text"
                                                     variant="outlined"
                                                     size="small"
                                                     fullWidth
@@ -668,8 +668,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     max={item.quantity}
                                                     inputProps={{ min: 0, style: { textAlign: 'center' } }}
                                                     value={item.quantity}
-                                                    validators={["required"]}
-                                                    errorMessages={["this field is required"]}
+                                                    validators={["required", "isNumber"]}
+                                                    errorMessages={[
+                                                        "this field is required",
+                                                            "Input is not Valid",
+                                                    ]}
                                                 />
                                             </TableCell>
 
@@ -696,7 +699,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     // calculatemargin
                                                     onChange={(e, value) => calculatemargin(e, index, value)}
 
-                                                    currencySymbol="SAR"
+                                                    currencySymbol=""
                                                     name="purchase_price"
                                                     value={item ? item.purchase_price : null}
                                                 />
@@ -725,7 +728,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     fullWidth
                                                     readOnly
                                                     size="small"
-                                                    currencySymbol="SAR"
+                                                    currencySymbol=""
                                                     name="total_amount"
                                                     value={item.total_amount}
                                                 />
