@@ -887,7 +887,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualteprice(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           // inputProps={{
@@ -902,8 +902,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           name="quantity"
                           value={item.quantity ? item.quantity : ""}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          validators={["required", "isNumber"]}
+                          errorMessages={[
+                            "this field is required",
+                            "Input is not Valid",
+                          ]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
