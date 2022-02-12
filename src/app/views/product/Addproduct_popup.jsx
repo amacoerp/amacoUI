@@ -597,7 +597,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
                     <Icon >add</Icon>New
 
                   </MenuItem>
-                  {manufacture.map((item, ind) => (
+                  {manufacture.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, ind) => (
                     <MenuItem value={item.id} key={item}>
                       {item.name}
                     </MenuItem>

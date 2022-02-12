@@ -891,7 +891,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("purchase-invoice/" + id).then(({ data }) => {
       // setproList(data)
-      setdiscount(data[0]?.discount_in_percentage);
+      setdiscount(data[0]?.discount_in_percentage ? data[0]?.discount_in_percentage : 0);
       setcurrency_type(data[0]?.currency_type);
       setparty_id(data[0]?.party_id)
       setcontactid(data[0]?.contact?.id)
@@ -1158,28 +1158,28 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <TextField
-                    
-                    label="Currency Type"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="party_id"
-                    size="small"
-                    variant="outlined"
-                    inputProps={{ required:true }}
-                    
-                    value={currency_type}
-                    // onChange={handleChange}
-                    onChange={(event)=>setcurrency_type(event.target.value)}
-                    // required
-                    select
-                  >
-                   
-                    {CUR_RENCY.map((item) => (
-                      <MenuItem value={item.value} key={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-            
+
+                  label="Currency Type"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
+                  inputProps={{ required: true }}
+
+                  value={currency_type}
+                  // onChange={handleChange}
+                  onChange={(event) => setcurrency_type(event.target.value)}
+                  // required
+                  select
+                >
+
+                  {CUR_RENCY.map((item) => (
+                    <MenuItem value={item.value} key={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
 
                 {/* {rfqstatus && */}
                 {/* <TextField
