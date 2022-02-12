@@ -1476,9 +1476,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           size="small"
                           variant="outlined"
-                          options={item?.product_price_list ? item?.product_price_list : []}
+                          // options={item?.product_price_list ? item?.product_price_list : []}
                           name="purchase_price"
-                          value={item?.purchase_price}
+                          value={parseFloat(item?.purchase_price)}
                           currencySymbol=""
                           // filterOptions={filterPrice}
                           // renderOption={option => option?.price}

@@ -530,7 +530,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     if (e?.keyCode == 39) {
-      if (nextid?.includes('purchase_price')) {
+      if (false) {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
         // if (e?.keyCode == 13) {
@@ -584,7 +584,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           inputRef[parseInt(prev)].focus();
 
           // inputRef.focus();
-        } else if (prev?.includes('purchase_price')) {
+        } else if (false) {
           priceRef[parseInt(prev)].focus();
         } else {
           getRef(prev).current.focus();
@@ -973,10 +973,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           currencySymbol=""
                           // filterOptions={filterPrice}
                           // renderOption={option => option.price}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price',index+'total_amount', index +'unit_of_measure') }}
                           inputProps={{
                             ref: setRef(index + 'purchase_price')
                           }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
                           // getOptionLabel={option => {
                           //   // e.g value selected with enter, right from the input
@@ -997,7 +997,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           //     }} variant="outlined" name="purchase_price" required fullWidth />
                           // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                          onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                          // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                           onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
 
                         />

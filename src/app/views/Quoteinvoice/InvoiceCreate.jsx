@@ -1595,7 +1595,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
 
                           name="purchase_price"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           // inputProps={{ min: 0, style: { textAlign: 'center' } }}
 
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}

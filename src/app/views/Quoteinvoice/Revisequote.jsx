@@ -1594,7 +1594,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
-
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            "Input is not Valid",
+                          ]}
                           name="quantity"
                           value={item.quantity}
                         />

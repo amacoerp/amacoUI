@@ -1577,8 +1577,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {/* {item.index1 + 1} */}
-                        <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} />
+                        {item.index1 + 1}
+                        {/* <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} /> */}
 
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '50px' }}>
@@ -1712,7 +1712,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualte_qty(event, index)}
-                          type="number"
+                          type="text"
                           // requried
                           variant="outlined"
                           size="small"
@@ -1725,6 +1725,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           name="quantity"
                           value={item.quantity}
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            "Input is not Valid",
+                          ]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>

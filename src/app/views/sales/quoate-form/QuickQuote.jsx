@@ -1652,13 +1652,16 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualte_qty(event, index)}
-                          type="number"
+                          type="text"
                           // requried
                           variant="outlined"
                           size="small"
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
-
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            "Input is not Valid",
+                          ]}
                           name="quantity"
                           value={item.quantity}
                         />

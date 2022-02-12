@@ -1688,7 +1688,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualte_qty(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           fullWidth
@@ -1697,7 +1697,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'quantity')
                           }}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss') }}
-
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            "Input is not Valid",
+                          ]}
                           name="quantity"
                           value={item.quantity}
                         />
