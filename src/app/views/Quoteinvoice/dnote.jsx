@@ -378,7 +378,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="center" style={{ width: '150px' }}>
                         <TextValidator
                           label="Quantity"
-                          type="number"
+                          type="text"
                           variant="outlined"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           size="small"
@@ -396,7 +396,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="center" style={{ width: '150px' }}>
                         <TextValidator
                           label="delivered quantity"
-                          type="number"
+                          type="text"
                           name="delivered_quantity"
                           align="center"
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
@@ -415,11 +415,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="delivery quantity"
                           onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="number"
-                          inputProps={{ min: -1, style: { textAlign: 'center' } }}
+                          type="text"
+                          inputProps={{min: -1, style: { textAlign: 'center' }}}
                           name="delivering_quantity"
+                          validators={["required", "isNumber"]}
+                          errorMessages={[
+                            "this field is required",
+                            "Input is not Valid",
+                          ]}
                           fullWidth
-                          required
+                          // required
                           variant="outlined"
                           size="small"
                           value={item ? item.delivering_quantity : item.delivering_quantity}
