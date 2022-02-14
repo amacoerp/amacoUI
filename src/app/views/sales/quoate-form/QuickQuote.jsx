@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import xlsx from 'xlsx';
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
   Button,
   FormControl,
@@ -433,47 +435,47 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList = (arr) => {
     let tempItemList = [...state.item];
- let lastIndex=Object.keys(arr).length-1;
-  let lastIndexarr=lastIndex<0?0:tempItemList[lastIndex]?.index1;
-  // const totalProps = arr.reduce((a, obj) => Object.keys(obj).length, 0);
-  // console.log(tempItemList[lastIndex]?.index1);
-  tempItemList.push({
-    product_id: "",
-    src: '',
-    index1:lastIndexarr+1,
-    description: "",
-    descriptions: "",
-    descriptionss: "",
-    product_description: "",
-    uom: "",
-    unit_of_measure: "",
-    quantity: parseFloat(0),
-    product_price_list: [
-      {
-        price: ""
-      }
-    ],
-    purchase_price: '',
-    costprice: 0,
-    margin: 0,
-    margin_val: 0,
-    discount_val: 0,
-    discount: 0,
-    sell_price:0,
-    // sell_price: parseFloat(0.00).toLocaleString(undefined, {
-    //   minimumFractionDigits: 2
-    // }),
-    remark: "",
-    total_amount: parseFloat(0.00).toLocaleString(undefined, {
-      minimumFractionDigits: 2
-    })
+    let lastIndex = Object.keys(arr).length - 1;
+    let lastIndexarr = lastIndex < 0 ? 0 : tempItemList[lastIndex]?.index1;
+    // const totalProps = arr.reduce((a, obj) => Object.keys(obj).length, 0);
+    // console.log(tempItemList[lastIndex]?.index1);
+    tempItemList.push({
+      product_id: "",
+      src: '',
+      index1: lastIndexarr + 1,
+      description: "",
+      descriptions: "",
+      descriptionss: "",
+      product_description: "",
+      uom: "",
+      unit_of_measure: "",
+      quantity: parseFloat(0),
+      product_price_list: [
+        {
+          price: ""
+        }
+      ],
+      purchase_price: '',
+      costprice: 0,
+      margin: 0,
+      margin_val: 0,
+      discount_val: 0,
+      discount: 0,
+      sell_price: 0,
+      // sell_price: parseFloat(0.00).toLocaleString(undefined, {
+      //   minimumFractionDigits: 2
+      // }),
+      remark: "",
+      total_amount: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      })
 
-  });
+    });
 
-    
+
     setState({
       ...state,
-      item: tempItemList.sort((a,b)=>a.index1 <b.index1),
+      item: tempItemList.sort((a, b) => a.index1 < b.index1),
     });
   };
 
@@ -483,7 +485,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: "",
       src: '',
-      index1:id,
+      index1: id,
       description: "",
       descriptions: "",
       descriptionss: "",
@@ -511,7 +513,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
 
     });
-  
+
     setState({
       ...state,
       item: tempItemList,
@@ -520,7 +522,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-  const deleteItemFromInvoiceList = (index,i) => {
+  const deleteItemFromInvoiceList = (index, i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -539,33 +541,30 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         //   item: tempItemList,
         // });
         let tempItemList = [...state.item];
-        let count=tempItemList.filter(obj=>obj.index1==i).length;
-        if(count>1)
-        {
+        let count = tempItemList.filter(obj => obj.index1 == i).length;
+        if (count > 1) {
 
-        
-        tempItemList.splice(index, 1);
 
-        setState({
-          ...state,
-          item: tempItemList,
-        });
-      }
-      else
-      {
-        tempItemList.splice(index, 1);
-        let newArr=tempItemList.map((item)=>{
-          if(item.index1>i)
-          {
-          item['index1']=item.index1-1;
-          }
-          return item
-        })
-        setState({
-          ...state,
-          item: newArr,
-        });
-      }
+          tempItemList.splice(index, 1);
+
+          setState({
+            ...state,
+            item: tempItemList,
+          });
+        }
+        else {
+          tempItemList.splice(index, 1);
+          let newArr = tempItemList.map((item) => {
+            if (item.index1 > i) {
+              item['index1'] = item.index1 - 1;
+            }
+            return item
+          })
+          setState({
+            ...state,
+            item: newArr,
+          });
+        }
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -809,7 +808,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
         const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-        element['discount'] = (isNaN(parseFloat(event.target.value)))?0:parseFloat(event.target.value);
+        element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
 
 
         element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
@@ -926,6 +925,93 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       })
   };
+
+  let inputRef = [];
+  let priceRef = [];
+  let proRef = [];
+  const [getRef, setRef] = useDynamicRefs();
+
+
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('product_id')) {
+        proRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('purch3ase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_3price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_p3rice')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList(invoiceItemList);
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          proRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev.includes('purchase3_price')) {
+          priceRef[parseInt(prev)].focus();
+        } if (prev.includes('invoice_no')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          console.log(prev)
+          console.log(getRef(prev)?.current?.focus())
+        }
+      }
+    }
+  }
+
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
@@ -1034,7 +1120,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get('designation').then(({ data }) => {
       setusers(data)
-      let user_val=data.filter(obj=>obj.user_id==user.id)
+      let user_val = data.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
     })
     getcompanybank().then(({ data }) => {
@@ -1466,7 +1552,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                  
+
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1616,6 +1702,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               // required
                               onChange={(event) => handleIvoiceListChange(event, index)}
                               type="text"
+                              inputProps={{
+                                ref: setRef(index + 'description')
+                              }}
+                              // ref={setRef(index + 'description')}
+                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', null, invoiceItemList) }}
+
                               name="description"
                               fullWidth
                               required
@@ -1638,6 +1730,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           variant="outlined"
                           required
+                          inputProps={{
+                            ref: setRef(index + 'descriptionss')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
+
 
                           size="small"
                           name="descriptionss"
@@ -1663,6 +1761,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             "Input is not Valid",
                           ]}
                           name="quantity"
+                          inputProps={{
+                            ref: setRef(index + 'quantity')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss', invoiceItemList) }}
+
                           value={item.quantity}
                         />
                       </TableCell>
@@ -1677,6 +1781,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={item.unit_of_measure}
                           name="unit_of_measure"
                           variant="outlined"
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
+
                           // validators={[
                           //   "required",
                           // ]}
@@ -1733,12 +1843,17 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // required
                           variant="outlined"
                           currencySymbol=""
+
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
+
                           decimalPlaces={3}
                           onChange={(event, value) => calcualtep(event, index, value)}
                           value={item?.purchase_price}
                           label="Price"
                           size="small"
                           inputProps={{
+                            ref: setRef(index + 'purchase_price'),
                             name: 'purchase_price',
                             id: 'outlined-age-native-simple',
                             style: { textAlign: 'right' }
@@ -1776,9 +1891,14 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(event) => calcualte_margin(event, index)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
-                          inputProps={{ inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'margin'), inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}
                           // inputProps={{ inputMode: 'decimal' }}
                           variant="outlined"
+
+                          // ref={setRef(index + 'description')}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price', invoiceItemList) }}
+
                           disabled={item.purchase_price ? false : true}
                           // inputProps={{min: 0, style: { textAlign: 'center' }}}
                           size="small"
@@ -1802,8 +1922,10 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           decimalPlaces={2}
                           variant="outlined"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'discount'), min: 0, style: { textAlign: 'center' } }}
                           size="small"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin', invoiceItemList) }}
+
                           name="discount"
                           currencySymbol=""
                           // style={{width:'75%',float:'left'}}
@@ -1840,7 +1962,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           fullWidth
                           size="small"
                           currencySymbol=""
+                          inputProps={{
+                            ref: setRef(index + 'sell_price')
+                          }}
                           name="sell_price"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount', invoiceItemList) }}
+
                           value={parseFloat(item.sell_price)}
                           onChange={(e, value) => calculatemargin(e, index, value)}
                         // onBlur={(e, value) => calculatemargin(e, index, value)}
@@ -1868,6 +1995,11 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           fullWidth
                           size="small"
                           readOnly
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price', invoiceItemList) }}
+
                           currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item.total_amount}
@@ -1893,7 +2025,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index,item.index1)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item.index1)}>
                           delete
                         </Icon>
                         <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
@@ -1901,7 +2033,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </Icon>
 
                       </TableCell>
-                     
+
                     </TableRow>
                   );
                 })}
@@ -1914,7 +2046,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={()=>addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={() => addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
             {/* {testArr.map((item, index) => {
               

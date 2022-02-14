@@ -395,7 +395,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const deleteItemFromInvoiceList = (index, id,i) => {
+  const deleteItemFromInvoiceList = (index, id, i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -407,17 +407,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         let tempItemList = [...state.item];
-        
-        let count=tempItemList.filter(obj=>obj.index1==i).length;
+
+        let count = tempItemList.filter(obj => obj.index1 == i).length;
         console.log(id)
-        
+
         if (id) {
           tempItemList.splice(index, 1);
           url.delete(`quotation_details/${id}`).then(data)
-          let newArr=tempItemList.map((item)=>{
-            if(item.index1>i)
-            {
-            item['index1']=item.index1-1;
+          let newArr = tempItemList.map((item) => {
+            if (item.index1 > i) {
+              item['index1'] = item.index1 - 1;
             }
             return item
           })
@@ -426,34 +425,31 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             item: newArr,
           });
         }
-       
-        
-        else if(count>1)
-        {
 
-        
-        tempItemList.splice(index, 1);
 
-        setState({
-          ...state,
-          item: tempItemList,
-        });
-      }
-      else
-      {
-        tempItemList.splice(index, 1);
-        let newArr=tempItemList.map((item)=>{
-          if(item.index1>i)
-          {
-          item['index1']=item.index1-1;
-          }
-          return item
-        })
-        setState({
-          ...state,
-          item: newArr,
-        });
-      }
+        else if (count > 1) {
+
+
+          tempItemList.splice(index, 1);
+
+          setState({
+            ...state,
+            item: tempItemList,
+          });
+        }
+        else {
+          tempItemList.splice(index, 1);
+          let newArr = tempItemList.map((item) => {
+            if (item.index1 > i) {
+              item['index1'] = item.index1 - 1;
+            }
+            return item
+          })
+          setState({
+            ...state,
+            item: newArr,
+          });
+        }
 
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -604,7 +600,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const controlKeyPress = (e, id, nextid, prev) => {
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
 
 
     if (e?.keyCode == 39) {
@@ -654,7 +650,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         console.error('eror')
-        // addItemToInvoiceList();
+        addItemToInvoiceList(invoiceItemList);
       }
 
       // }
@@ -766,7 +762,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
 
-        element['discount'] = (isNaN(parseFloat(event.target.value)))?0:parseFloat(event.target.value);
+        element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
         console.log(element.discount)
         element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
@@ -986,7 +982,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('transaction_type', "sale")
     formData.append('id', id)
     formData.append('sign', sign)
-    formData.append('subject', subject?subject:0)
+    formData.append('subject', subject ? subject : 0)
     formData.append('rfq_no', rfq_no ? rfq_no : " ")
     formData.append('bank_id', parseInt(bank_id))
     formData.append('notes', JSON.stringify(testArr))
@@ -1137,7 +1133,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setpayment_terms(data[0].payment_terms)
       setQuote_date(data[0].ps_date)
       setsubject(data[0].subject)
-    
+
       setsign(data[0].sign[0]?.id)
       // rfq no
       setrfq_no(data[0].rfq_no)
@@ -1615,7 +1611,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'product_id')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
 
                           //   errorMessages={["this field is required"]}
                           select
@@ -1640,7 +1636,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             inputProps={{
                               ref: setRef(index + 'product_id')
                             }}
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
 
                             size="small"
                             disabled
@@ -1664,7 +1660,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'description')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList) }}
 
                           variant="outlined"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
@@ -1687,7 +1683,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'descriptionss')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
 
                           name="descriptionss"
                           fullWidth
@@ -1721,7 +1717,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity')
                           }}
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss', invoiceItemList) }}
 
                           name="quantity"
                           value={item.quantity}
@@ -1741,7 +1737,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'unit_of_measure')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
 
                           size="small"
                           value={item.unit_of_measure}
@@ -1854,7 +1850,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             label="Price"
                             size="small"
 
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
 
                             inputProps={{
                               ref: setRef(index + 'purchase_price'),
@@ -1880,7 +1876,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             label="Price"
                             size="small"
 
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
 
                             inputProps={{
                               ref: setRef(index + 'purchase_price'),
@@ -1904,7 +1900,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           variant="outlined"
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price', invoiceItemList) }}
 
                           size="small"
                           name="margin"
@@ -1959,7 +1955,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           size="small"
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin', invoiceItemList) }}
 
                           name="discount"
                           currencySymbol=""
@@ -1984,7 +1980,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'sell_price')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount', invoiceItemList) }}
 
                           currencySymbol=""
                           name="sell_price"
@@ -2001,7 +1997,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price',) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price', invoiceItemList) }}
 
                           name="total_amount"
 
@@ -2032,7 +2028,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id,item.index1)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id, item.index1)}>
                           delete
                         </Icon>
                         <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
