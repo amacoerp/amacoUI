@@ -310,7 +310,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-    console.log(totalPages)
+
+    if (componentRef.current.scrollHeight <= 1630) {
+      totalPages = 1
+    }
+
+
     // totalPages = totalPages - 2
     let a = [];
     for (var i = 0; i < totalPages; i++) {
@@ -594,27 +599,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     history.push(navigatePath + `/revisequote/${id}`)
   }
 
-  function PrintMe(DivID) {
-    var disp_setting = "toolbar=yes,location=no,";
-    disp_setting += "directories=yes,menubar=yes,";
-    disp_setting += "scrollbars=yes,width=2000, height=1000, left=100, top=25";
-    var content_vlue = document.getElementById('print-area').innerHTML;
-    var docprint = window.open("", "", disp_setting);
-    docprint.document.open();
-    docprint.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"');
-    docprint.document.write('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
-    docprint.document.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">');
-    docprint.document.write('<head><title>My Title</title>');
-    docprint.document.write('<style type="text/css">body{ margin:0px;');
-    docprint.document.write('font-family:verdana,Arial;color:#000;');
-    docprint.document.write('font-family:Verdana, Geneva, sans-serif; font-size:12px;}');
-    docprint.document.write('a{color:#000;text-decoration:none;} </style>');
-    docprint.document.write('</head><body onLoad="self.print()"><center>');
-    docprint.document.write(content_vlue);
-    docprint.document.write('</center></body></html>');
-    docprint.document.close();
-    docprint.focus();
-  }
   const handlePrint = () => {
     // var prtContent = document.getElementById('print-area');
     // dummyContent.innerHTML = prtContent.contentWindow.document.body.innerHTML
@@ -958,7 +942,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           if (i == 0) {
             pos = 1557;
           } else {
-            pos = pos + 1568;
+            pos = pos + 1571;
           }
 
           return (
@@ -1364,7 +1348,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
 
                           return (
-                            // (qdetails.length - 1) === index
+
                             <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                               {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
                                 {item.index1}
@@ -1459,9 +1443,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                 {isNaN(parseFloat(item?.total_amount)) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
                             </TableRow>
-
-
-
                           )
 
                         })}

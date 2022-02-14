@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
   Button,
   FormControl,
@@ -222,6 +224,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  let inputRef = [];
+  let priceRef = [];
+  const [getRef, setRef] = useDynamicRefs();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenEditorDialogproduct, setshouldOpenEditorDialogproduct] = useState(false);
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
@@ -856,6 +861,75 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+
+
+    if (e?.keyCode == 39) {
+      if (false) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r?.includes('pudrchase_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('purchase_prisce')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
+
+
   const setcontact = (event) => {
 
 
@@ -1355,8 +1429,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option?.name ? option?.name : " ";
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField {...params}
+                              inputRef={input => {
+                                inputRef[index] = input;
+                              }}
+                              variant="outlined" name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -1424,7 +1504,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
+
+                          inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
 
                           name="quantity"
                           value={item?.quantity}
@@ -1445,6 +1527,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             "required",
                           ]}
                           fullWidth
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+
                           errorMessages={["this field is required"]}
                           select
                         // validators={["required"]}
@@ -1498,6 +1586,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           currencySymbol=""
                           value={parseFloat(item?.purchase_price)}
+                          inputProps={{
+                            ref: setRef(index + 'purchase_price')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+
                           // filterOptions={filterPrice}
                           // renderOption={option => option?.price}
                           // getOptionLabel={option => {
@@ -1605,6 +1699,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
+
                           currencySymbol=""
                           name="total_amount"
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
