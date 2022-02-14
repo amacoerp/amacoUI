@@ -100,6 +100,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         height: '1px !important', /* overwrites any other rules */
         backgroundColor: '#FFFFFF',
       },
+      "#editIcon":{
+        display:'none'
+      },
 
 
       "#header": {
