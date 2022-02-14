@@ -8,6 +8,7 @@ import { Link,useParams } from "react-router-dom";
 import SimpleMuiTable from "./Quoateview";
 import AcceptQuote from "./Acceptquote";
 import RejectQuote from "./Rejectquote";
+import History from "./History";
 import Draft from "./Draft";
 import { navigatePath } from "app/views/invoice/InvoiceService";
 
@@ -108,10 +109,11 @@ const CustomerViewer = () => {
       {tabIndex == 1 && <AcceptQuote />}
       {tabIndex == 2 && <RejectQuote />}  
       {tabIndex == 3 && <Draft />}  
+      {tabIndex == 4 && <History />}  
     </div>
   );
 };
 
-const tabList = ["NEW", "ACCEPTED QUOTATION", "TRASH","DRAFT"];
+const tabList = ["NEW", "ACCEPTED QUOTATION", "TRASH","DRAFT","QUOTATION HISTORY"];
 
 export default CustomerViewer;

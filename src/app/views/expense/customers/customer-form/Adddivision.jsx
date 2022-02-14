@@ -230,6 +230,7 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
               <TextValidator
                 className="w-full mb-4"
                 label="Name"
+                size="small"
                 autoComplete="none"
                 variant="outlined"
                 onChange={e => setname(e.target.value)
@@ -243,16 +244,18 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
                 inputProps={{style: {textTransform: 'capitalize'}}}
                 errorMessages={["this field is required"]}
               />
-              {/* <TextValidator
+              <h5>COMPANY INFO</h5>
+              <TextValidator
                 className="w-full mb-4"
-                label="Email"
-                onChange={handleChange}
+                label="Company Name"
+                variant="outlined"
                 type="text"
+                size="small"
                 name="email"
                 value={setState.email}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              /> */}
+              />
 
               {/* <TextValidator
                 className="w-full mb-4"
@@ -282,6 +285,7 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
               <CurrencyTextField
                     className="mb-4 w-full"
                     label="Amount"
+                    size="small"
                     name="Amount"
                     variant="outlined"
                     value={opening_balance}
@@ -290,6 +294,18 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
                     required
                     onChange={(event, value) => setopening_balance(value)}
                   />
+                  <h5 className="pt-2"></h5>
+                  <TextValidator
+                className="w-full mb-4"
+                label="شركة"
+                variant="outlined"
+                type="text"
+                size="small"
+                name="email"
+                value={setState.email}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
               {/* <TextValidator
                 className="w-full mb-4"
                 label="Company"

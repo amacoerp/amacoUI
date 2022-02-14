@@ -106,7 +106,7 @@ const columns = [
       customHeadRender: ({index, ...column}) =>{
         return (
           <TableCell key={index} style={columnStyleWithWidth} inputProps={{style: {textTransform: 'capitalize'}}}>  
-            <span style={{paddingLeft:15}}>COMPANY NAME</span>
+            <span style={{paddingLeft:15}}>DIVISION NAME</span>
           </TableCell>
         )
      },

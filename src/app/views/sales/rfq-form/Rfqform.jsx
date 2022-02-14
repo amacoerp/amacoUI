@@ -6,6 +6,7 @@ import history from "history.js";
 import url, { GDIV, getrfq, getVendorList, navigatePath } from "../../invoice/InvoiceService";
 import clsx from "clsx";
 import MemberEditorDialog from '../../party/partycontact';
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
 
 // import { Button } from 'react-bootstrap';
@@ -19,6 +20,7 @@ import {
   Icon,
   Button,
   Tooltip,
+  IconButton
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -108,20 +110,39 @@ const InvoiceForm = ({ }) => {
     setshouldOpenConfirmationDialogparty(false)
   }
 
+  const filterName= (e) => {
+    let res=CustomerList.filter(obj=>obj.name==e.target.value)
+    setCustomerList(res)
+  }
+
   useEffect(() => {
     getVendorList().then(({ data }) => {
       setCustomerList(data);
     });
   }, []);
 
-  const setrfq = (event) => {
-    setparty_id(event.target.value);
+  const setrfq = (event,newValue) => {
+    if(newValue)
+    {
+    setparty_id(newValue?.id);
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+    url.get("parties/" + newValue?.id).then(({ data }) => {
+      setcustomercontact(data[0]?.contacts);
 
       setrfqstatus(true);
     });
+  }
+  else
+  {
+    setparty_id()
+  }
+    // setparty_id(event.target.value);
+
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+    //   setcustomercontact(data[0].contacts);
+
+    //   setrfqstatus(true);
+    // });
   };
   const [
     shouldOpenConfirmationDialogparty,
@@ -237,12 +258,13 @@ const InvoiceForm = ({ }) => {
                   <Grid item xs>
                     <div className="flex justify-between">
                       <div className="flex">
-                        <TextField
+                        {/* <TextField
                           label="Supplier Name"
                           style={{ minWidth: 200, maxWidth: "250px" }}
                           name="party_id"
                           size="small"
                           variant="outlined"
+                          
                           value={values.party_id}
                           select
                           onClick={(event) => setrfq(event)}
@@ -255,14 +277,68 @@ const InvoiceForm = ({ }) => {
                           >
                             <Icon>add</Icon>new
                           </MenuItem>
+                         
                           {CustomerList.filter(obj => obj.div_id).map((item) => (
                             <MenuItem value={item.id} key={item.id}>
                               {item.firm_name}
                             </MenuItem>
                           ))}
-                        </TextField>
+                        </TextField> */}
+
+
+
+                        <Autocomplete
+                          className="w-full"
+                          size="small"
+                          // id="disable-close-on-select"
+                          // disableCloseOnSelect
+                          options={CustomerList}
+                         
+                          // onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
+                          // value={item?.product_id ? item?.product_id : " "}
+                          // value={item?.product_id}
+                          // filterOptions={filterOptions}
+                          // renderOption={option => option.name}
+                          onChange={(event, newValue) => setrfq(event, newValue)}
+                          getOptionLabel={(option) => option?.firm_name ? option?.firm_name : " "}
+                          renderInput={(params) => (
+                            <div ref={params.InputProps.ref}>
+                               <Button
+                  color="primary"
+                  
+                  variant="contained"
+                  onClick={() => {history.push("/party/addparty")}}
+                  ><Icon>+</Icon></Button>
+                              <TextField variant="outlined" size="small" type="text" {...params.inputProps} />
+                            </div>
+                          )}
+                          
+                         
+                          
+//                           renderInput={(params) => (
+                         
+//                             <>
+//                             <Icon  onClick={() => {
+//                               history.push("/party/addparty");
+//                             }}>add</Icon>
+//                     <div style={{overflow: 'hidden', 'padding-right': '.5em'}}>
+//                     <input {...params}
+                             
+//                              variant="outlined" name="product_id" fullWidth />
+//       </div>
+// </>
+                           
+                             
+                            
+//                           )}
+
+                          
+
+
+                        />
                       </div>
-                    </div>
+                      </div>
+                
                   </Grid>
                   <Grid item xs>
                     <div className="flex">
@@ -282,6 +358,10 @@ const InvoiceForm = ({ }) => {
                         <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}>
                           <Icon>add</Icon>New
                         </MenuItem>
+                        {/* <MenuItem>
+                        <TextField name="search" variant="outlined"></TextField>
+                        </MenuItem> */}
+
                         {customercontact.map((item) => (
                           <MenuItem value={item.id} key={item.id}>
                             {item.fname}

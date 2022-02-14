@@ -309,14 +309,19 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       size="small"
                       onKeyDown={(e) => { controlKeyPress(e, ind + 'quantity', ind + 'unit_of_measure', ind + 'product_id') }}
                       variant="outlined"
-                      type="number"
+                      type="text"
+
                       disabled={!item?.name}
                       fullWidth
                       inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(ind + 'quantity') }}
                       defaultValue={item?.quantity}
                       // defaultValue={item.quantity || ""}
                       onChange={handleChange}
-                      required
+                      validators={["required", "isNumber"]}
+                          errorMessages={[
+                            "this field is required",
+                            "Input is not Valid",
+                        ]}
                     />
                   </TableCell>
                   {console.log('dsds', item?.unit_of_measure)}
