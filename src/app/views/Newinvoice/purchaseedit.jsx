@@ -57,6 +57,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   let inputRef = [];
   let priceRef = [];
+  let descriptionRef = [];
+  let qtyRef = [];
+  let unit_of_measureRef = [];
+  let purchase_priceRef = [];
+  let purchase_price = [];
   const [getRef, setRef] = useDynamicRefs();
 
   const [isAlive, setIsAlive] = useState(true);
@@ -378,71 +383,104 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const controlKeyPress = (e, id, nextid, prev) => {
-    // console.log(e?.keyCode)
-    // console.log(id)
 
-    // if (e?.keyCode == 39) {
-    //   if (nextid?.includes('purchase_price')) {
-    //     priceRef[parseInt(nextid)].focus();
-    //   } else if (nextid == null) {
-    //     // if (e?.keyCode == 13) {
 
-    //     // }
-    //   } else {
-    //     getRef(nextid).current.focus();
-    //   }
-    // } else if (e?.keyCode == 38) {
-    //   const a = id.split(parseInt(id));
-    //   let i = parseInt(id)
-    //   if (--i >= 0) {
-    //     const r = i + a[1];
-    //     if (r?.includes('purchase_price')) {
-    //       priceRef[parseInt(r)].focus();
-    //     } else if (r.includes('product_id')) {
-    //       inputRef[parseInt(r)].focus();
-    //     } else {
-    //       getRef(r).current.focus();
-    //     }
+    if (e?.keyCode == 39) {
+      if (false) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('description')) {
+        descriptionRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('unit_of_measure')) {
+        unit_of_measureRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('purschases_price')) {
+        console.log(purchase_priceRef[parseInt(nextid)]?.current)
+        // purchase_priceRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('quantity')) {
+        qtyRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
 
-    //   }
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
 
-    // } else if (e?.keyCode == 40) {
-    //   const a = id.split(parseInt(id));
-    //   let i = parseInt(id)
-    //   // if (++i) {
-    //   const r = ++i + a[1];
-    //   try {
-    //     if (r?.includes('purchase_price')) {
-    //       priceRef[parseInt(r)].focus();
-    //     } else if (r.includes('product_id')) {
-    //       inputRef[parseInt(r)].focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r?.includes('purchase_pridce')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r?.includes('description')) {
+          descriptionRef[parseInt(r)].focus();
+        } else if (r?.includes('purchase_prsiceRef')) {
+          purchase_priceRef[parseInt(r)].focus();
+        } else if (r?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(r)].focus();
+        } else if (r?.includes('quantity')) {
+          qtyRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          console.log(getRef(r).current?.focus())
+        }
 
-    //       // inputRef.focus();
-    //     } else {
-    //       getRef(r).current.focus();
-    //     }
-    //   } catch (error) {
-    //     console.error('eror')
-    //     addItemToInvoiceList();
-    //   }
+      }
 
-    //   // }
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('purchasse_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
 
-    // } else if (e?.keyCode == 37) {
-    //   if (prev == null) {
+          // inputRef.focus();
+        } else if (r?.includes('description')) {
+          descriptionRef[parseInt(r)].focus();
+        } else if (r?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(r)].focus();
+        } else if (r?.includes('purchase_pricseRef')) {
+          purchase_priceRef[parseInt(r)].focus();
+        } else if (r?.includes('quantity')) {
+          qtyRef[parseInt(r)].focus();
+        } else {
+          console.log(getRef(r).current?.focus())
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList();
+      }
 
-    //   } else {
-    //     if (prev.includes('product_id')) {
-    //       inputRef[parseInt(prev)].focus();
+      // }
 
-    //       // inputRef.focus();
-    //     } else if (prev?.includes('purchase_price')) {
-    //       priceRef[parseInt(prev)].focus();
-    //     } else {
-    //       getRef(prev).current.focus();
-    //     }
-    //   }
-    // }
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('description')) {
+          descriptionRef[parseInt(prev)].focus();
+        } else if (prev?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(prev)].focus();
+        } else if (prev?.includes('quantity')) {
+          qtyRef[parseInt(prev)].focus();
+        } else if (prev?.includes('purchasse_pricseRef')) {
+          purchase_priceRef[parseInt(prev)].focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          console.log(getRef(prev).current?.focus())
+        }
+      }
+    }
   }
 
   const handleSubmit = () => {
@@ -824,7 +862,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
-
+                          inputProps={{
+                            ref: setRef(index + 'product_id')
+                          }}
                           renderInput={(params) => (
                             <TextField inputRef={input => {
                               inputRef[index] = input;
@@ -846,9 +886,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="descriptionss"
                           required
-                          inputProps={{
-                            ref: setRef(index + 'description')
+                          inputRef={input => {
+                            descriptionRef[index] = input;
                           }}
+                          // inputProps={{
+                          //   ref: setRef(index + 'description')
+                          // }}
                           // ref={setRef(index + 'description')}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
 
@@ -867,9 +910,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity') }}
+                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
-
+                          inputRef={input => {
+                            qtyRef[index] = input;
+                          }}
                           name="quantity"
                           value={item?.quantity ? item?.quantity : ""}
                           validators={["isNumber"]}
@@ -889,8 +934,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="unit_of_measure"
                           onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
 
-                          inputProps={{
-                            ref: setRef(index + 'unit_of_measure')
+                          inputRef={input => {
+                            unit_of_measureRef[index] = input;
                           }}
                           style={{ width: '100%', float: 'left' }}
                           fullWidth
@@ -956,12 +1001,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           //   return option.price;
                           // }}
                           // freeSolo
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
-
                           inputProps={{
                             ref: setRef(index + 'purchase_price')
                           }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
+                          inputRef={input => {
+                            purchase_priceRef[index] = input;
+                          }}
                           // renderInput={(params) => (
                           //   <TextField inputRef={input => {
                           //     priceRef[index] = input;
