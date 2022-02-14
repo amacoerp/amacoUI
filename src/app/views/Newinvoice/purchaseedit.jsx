@@ -378,71 +378,71 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const controlKeyPress = (e, id, nextid, prev) => {
-    console.log(e?.keyCode)
-    console.log(id)
+    // console.log(e?.keyCode)
+    // console.log(id)
 
-    if (e?.keyCode == 39) {
-      if (nextid?.includes('purchase_price')) {
-        priceRef[parseInt(nextid)].focus();
-      } else if (nextid == null) {
-        // if (e?.keyCode == 13) {
+    // if (e?.keyCode == 39) {
+    //   if (nextid?.includes('purchase_price')) {
+    //     priceRef[parseInt(nextid)].focus();
+    //   } else if (nextid == null) {
+    //     // if (e?.keyCode == 13) {
 
-        // }
-      } else {
-        getRef(nextid).current.focus();
-      }
-    } else if (e?.keyCode == 38) {
-      const a = id.split(parseInt(id));
-      let i = parseInt(id)
-      if (--i >= 0) {
-        const r = i + a[1];
-        if (r?.includes('purchase_price')) {
-          priceRef[parseInt(r)].focus();
-        } else if (r.includes('product_id')) {
-          inputRef[parseInt(r)].focus();
-        } else {
-          getRef(r).current.focus();
-        }
+    //     // }
+    //   } else {
+    //     getRef(nextid).current.focus();
+    //   }
+    // } else if (e?.keyCode == 38) {
+    //   const a = id.split(parseInt(id));
+    //   let i = parseInt(id)
+    //   if (--i >= 0) {
+    //     const r = i + a[1];
+    //     if (r?.includes('purchase_price')) {
+    //       priceRef[parseInt(r)].focus();
+    //     } else if (r.includes('product_id')) {
+    //       inputRef[parseInt(r)].focus();
+    //     } else {
+    //       getRef(r).current.focus();
+    //     }
 
-      }
+    //   }
 
-    } else if (e?.keyCode == 40) {
-      const a = id.split(parseInt(id));
-      let i = parseInt(id)
-      // if (++i) {
-      const r = ++i + a[1];
-      try {
-        if (r?.includes('purchase_price')) {
-          priceRef[parseInt(r)].focus();
-        } else if (r.includes('product_id')) {
-          inputRef[parseInt(r)].focus();
+    // } else if (e?.keyCode == 40) {
+    //   const a = id.split(parseInt(id));
+    //   let i = parseInt(id)
+    //   // if (++i) {
+    //   const r = ++i + a[1];
+    //   try {
+    //     if (r?.includes('purchase_price')) {
+    //       priceRef[parseInt(r)].focus();
+    //     } else if (r.includes('product_id')) {
+    //       inputRef[parseInt(r)].focus();
 
-          // inputRef.focus();
-        } else {
-          getRef(r).current.focus();
-        }
-      } catch (error) {
-        console.error('eror')
-        addItemToInvoiceList();
-      }
+    //       // inputRef.focus();
+    //     } else {
+    //       getRef(r).current.focus();
+    //     }
+    //   } catch (error) {
+    //     console.error('eror')
+    //     addItemToInvoiceList();
+    //   }
 
-      // }
+    //   // }
 
-    } else if (e?.keyCode == 37) {
-      if (prev == null) {
+    // } else if (e?.keyCode == 37) {
+    //   if (prev == null) {
 
-      } else {
-        if (prev.includes('product_id')) {
-          inputRef[parseInt(prev)].focus();
+    //   } else {
+    //     if (prev.includes('product_id')) {
+    //       inputRef[parseInt(prev)].focus();
 
-          // inputRef.focus();
-        } else if (prev?.includes('purchase_price')) {
-          priceRef[parseInt(prev)].focus();
-        } else {
-          getRef(prev).current.focus();
-        }
-      }
-    }
+    //       // inputRef.focus();
+    //     } else if (prev?.includes('purchase_price')) {
+    //       priceRef[parseInt(prev)].focus();
+    //     } else {
+    //       getRef(prev).current.focus();
+    //     }
+    //   }
+    // }
   }
 
   const handleSubmit = () => {
@@ -957,7 +957,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // }}
                           // freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
-                          
+
                           inputProps={{
                             ref: setRef(index + 'purchase_price')
                           }}

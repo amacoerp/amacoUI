@@ -777,7 +777,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
         const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
-        element['discount'] = (isNaN(parseFloat(event.target.value)))?0:parseFloat(event.target.value);
+        element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
 
 
         element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
@@ -1576,6 +1576,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           />
           <img className="w-48" src={item.src} alt="" /> */}
 
+
                         {localStorage.getItem('division') == 3 ? (
                           <>
 
@@ -1624,14 +1625,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             <Icon>add</Icon>Add New
                           </MenuItem>
 
-                        {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
-                          
-                          
+                          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
+
+
                             <MenuItem value={item.id} >
                               {item.name}
                             </MenuItem>
-                           
-                        ))}
+
+                          ))}
                         </TextValidator>
                       </TableCell>
                       {
@@ -1903,7 +1904,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="sell_price"
                           value={parseFloat(item.sell_price)}
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          // onBlur={(e, value) => calculatemargin(e, index, value)}
+                        // onBlur={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
