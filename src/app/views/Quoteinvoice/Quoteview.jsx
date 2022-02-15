@@ -100,6 +100,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         height: '1px !important', /* overwrites any other rules */
         backgroundColor: '#FFFFFF',
       },
+      "#editIcon":{
+        display:'none'
+      },
 
 
       "#header": {
@@ -391,6 +394,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       }
       else if (s == "accept") {
         settab(1)
+      }
+      else if(s=="history")
+      {
+        settab(4)
       }
       else {
         settab(2)
@@ -721,7 +728,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           >
             Edit Quote
           </Button> */}
-          <Button
+          {s!=="history" &&<Button
             variant="outlined"
             color="primary"
             className="mr-4 py-2"
@@ -730,7 +737,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             onClick={handleClick}
           >
             ACTION<Icon>expand_more</Icon>
-          </Button>
+          </Button>}
           <Menu
 
             id="simple-menu"
@@ -1346,12 +1353,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
                                 {item.index1}
                               </TableCell> : <TableCell className={qdetails.length - 1 === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
-                                {item?.file ? <img className="w-60" src={item.file} /> : ""}
+                                {/* {item?.file ? <img className="w-60" src={item.file} /> : ""} */}
                               </TableCell>}
                               {
                                 localStorage.getItem('division') == 1 &&
                                 <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-
+                                   {item?.file ? <img className="w-60" src={item.file} /> : ""}
                                 </TableCell>
                               }
 
@@ -1409,7 +1416,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                       })} */}
                                 {item?.unit_of_measure}
                               </TableCell>
-                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              <TableCell className="pr-2" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
@@ -1422,7 +1429,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                                       })} */}
                                 {isNaN(parseFloat(item?.sell_price)) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                               </TableCell>
-                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              <TableCell className="pr-2" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                                 {/* {(obj).map((item, ind) => {
                                         return (
                                           <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
@@ -1738,10 +1745,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             <td >{sign[0]?.designation}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign[0]?.email}</td>
+                            <td>{sign[0]?.email} | {sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td>
+                            {/* <td>{sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td> */}
                           </tr>
                           {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td></td>

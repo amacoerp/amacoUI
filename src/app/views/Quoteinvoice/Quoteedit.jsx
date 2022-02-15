@@ -996,7 +996,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     tempItemList.map((answer, i) => {
+      
       answer.file && (answer.file = answer.file.replace(spl, ''))
+      console.log("2",answer)
+      
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
       answer.files && (formData.append(`files${i}`, answer.files))
     })
@@ -1004,7 +1007,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.post(`sale-quotation-update`, formData)
       .then(function (response) {
 
-
+        console.log(tempItemList)
         Swal.fire({
           title: 'Success',
           type: 'success',
@@ -1025,7 +1028,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
       .catch(function (error) {
 
-      })
+       })
   };
   function cancelform() {
     let mode = "full"
@@ -1573,7 +1576,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {item.index1 + 1}
+                        {item.index1}
                         {/* <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} /> */}
 
                       </TableCell>

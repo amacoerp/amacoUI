@@ -1,13 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import logo from './../invoice/amaco-logo.png';
 import url from '../invoice/InvoiceService';
+import {
+  Dialog,
+  Button,
+  Grid,
+  Divider,
+  Icon,
+  TextField
+} from "@material-ui/core";
+import Swal from "sweetalert2";
 function Header() {
   const [state, setstate] = useState([])
+  const [company, setcompany] = useState([])
+  const [name, setname] = useState('');
+  const [opening_balance, setopening_balance] = useState('');
+  const [status, setstatus] = useState(false)
+  const [company_name, setcompany_name] = useState('');
+  const [company_arabic, setcompany_arabic] = useState('');
+  const [cr_no, setcr_no] = useState('');
+  const [vat_no, setvat_no] = useState('');
+  const [isAlive, setisAlive] = useState(false);
+
   useEffect(() => {
     url.get('company').then(({ data }) => {
       setstate(data[0])
     })
-  }, [])
+    url.get(`singleDivision/${localStorage.getItem('division')}`).then(({ data }) => {
+      setcompany(data)
+      setname(data[0].name)
+      setopening_balance(data[0].opening_balance)
+      setcompany_arabic(data[0].company_arabic)
+      setcompany_name(data[0].company_name)
+      setcr_no(data[0].cr_no)
+      setvat_no(data[0].vat_no)
+    })
+    return setisAlive(true);
+  }, [isAlive])
+  const savedata=()=>{
+    const frmdetails = {
+
+      name: name,
+      opening_bal:opening_balance,
+      id:localStorage.getItem('division'),
+      company_name:company_name,
+      company_arabic:company_arabic,
+      cr_no:cr_no,
+      vat_no:vat_no,
+      
+
+
+    }
+    url.put(`division/${localStorage.getItem('division')}`,frmdetails)
+      .then(function (response) {
+      
+        Swal.fire({
+          icon: 'success',
+          type: 'success',
+          text: 'Data updated successfully.',
+        });
+        setstatus(false)
+        setisAlive(false)
+  })
+}
   return (
     <thead style={{ display: "table-header-group", marginTop: '20px' }} >
       <tr>
@@ -28,53 +83,70 @@ function Header() {
                 </div>
 
                 <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                
                 </div>
               </div>
+              
               <div className="flex pr-4 mr-1">
                 <div style={{ marginLeft: '50px' }}>
-                  <h2 style={{ color: '#1d2257', textAlign: 'right' }}>
+                  
+                {status==false ?(<h2 style={{ color: '#1d2257', textAlign: 'right' }}>
                     {
-                      localStorage.getItem('division') == 3 ? <>
-                        شركة أماكو مانيفاكترنج اند أندستريل سيرفيزيس المحدودة
-                      </> : <>
-                        {state?.arabic_name}
+                      // localStorage.getItem('division') == 3 ? <>
+                      //   شركة أماكو مانيفاكترنج اند أندستريل سيرفيزيس المحدودة
+                      // </> : 
+                      <>
+                        {company[0]?.company_arabic}<Icon  id="editIcon" onClick={()=>setstatus(true)}>edit</Icon>
                       </>
                     }
 
 
-                  </h2>
+                  </h2>):(<><TextField value={company_arabic} onChange={(e)=>setcompany_arabic(e.target.value)}></TextField><Icon onClick={()=>savedata()}>done</Icon><br></br></>)}
 
                   {
-                    localStorage.getItem('division') == 3 ? <>
-                      <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
-                        {/* AMACO ARABIA CONTRACTING COMPANY */}
-                        Amaco Manufacturing & Industrial Services Pvt. Ltd.
+                    // localStorage.getItem('division') == 3 ? <>
+                    //   <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
+                       
+                    //     Amaco Manufacturing & Industrial Services Pvt. Ltd.
 
-                      </h3>
-                    </> : <>
-                      <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
+                    //   </h3>
+                    // </> :
+                     <>
+                      {status==false ?(<h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
                         {/* AMACO ARABIA CONTRACTING COMPANY */}
-                        {state?.name}
+                        {company[0]?.company_name}
 
-                      </h3>
+                      </h3>):<TextField value={company_name} onChange={(e)=>setcompany_name(e.target.value)}></TextField>}
                     </>
                   }
                   <h5 style={{ color: '#555', textAlign: 'right', fontSize: 17 }} className="font-normal b-4 capitalize">
-                    C.R.
-                    {localStorage.getItem('division') == 3 ? <>2055017282</> : <> {state?.cr_no} </>}
-                    | VAT  {localStorage.getItem('division') == 3 ? <>310398615200003</> : <>{state?.vat_no}</>}
+                   
+                    
+                     
+                    {status==false ?(<> C.R.
+                     {company[0]?.cr_no} </>): <><TextField value={cr_no} onChange={(e)=>setcr_no(e.target.value)}></TextField><br></br></>}
+                     
+                     
+                   
+                   
+                    {status==false ?(<>| VAT {company[0]?.vat_no}</>):<TextField value={vat_no} onChange={(e)=>setvat_no(e.target.value)}></TextField>}
 
 
                   </h5>
 
                 </div>
               </div>
+             
+              
+
             </div>
+            
             {/* </header> */}
           </div>
+          
+
         </td>
-
-
+        
       </tr>
     </thead>
 

@@ -28,6 +28,10 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
   });
   const [name, setname] = useState('');
   const [opening_balance, setopening_balance] = useState('');
+  const [company_name, setcompany_name] = useState('');
+  const [company_arabic, setcompany_arabic] = useState('');
+  const [cr_no, setcr_no] = useState('');
+  const [vat_no, setvat_no] = useState('');
   const [userList, setUserList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
  
@@ -44,7 +48,13 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
 
       name: name?capitalize_arr(name):'',
       opening_bal:opening_balance,
-      id:divid
+      id:divid,
+      company_name:company_name,
+      company_arabic:company_arabic,
+      cr_no:cr_no,
+      vat_no:vat_no,
+      
+
 
     }
     const formData=new FormData()
@@ -52,6 +62,11 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
     // setcname('')
     formData.append("name",name)
     formData.append("opening_balance",opening_balance)
+    formData.append("company_arabic",company_arabic)
+    formData.append("company_name",company_name)
+    formData.append("cr_no",cr_no)
+    formData.append("vat_no",vat_no)
+   
    
    if(divid)
    {
@@ -157,7 +172,10 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
        
         setname(data[0].name);
         setopening_balance(data[0].opening_bal);
-       
+        setcompany_name(data[0].company_name)
+        setcompany_arabic(data[0].company_arabic)
+        setcr_no(data[0].cr_no)
+        setvat_no(data[0].vat_no)
       
   
      
@@ -230,6 +248,7 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
               <TextValidator
                 className="w-full mb-4"
                 label="Name"
+                size="small"
                 autoComplete="none"
                 variant="outlined"
                 onChange={e => setname(e.target.value)
@@ -243,16 +262,31 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
                 inputProps={{style: {textTransform: 'capitalize'}}}
                 errorMessages={["this field is required"]}
               />
-              {/* <TextValidator
+              <h5>COMPANY INFO</h5>
+              <TextValidator
                 className="w-full mb-4"
-                label="Email"
-                onChange={handleChange}
+                label="Company Name"
+                variant="outlined"
                 type="text"
+                size="small"
                 name="email"
-                value={setState.email}
+                value={company_name}
+                onChange={e => setcompany_name(e.target.value)}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              /> */}
+              />
+              <TextValidator
+                className="w-full mb-4"
+                label="شركة"
+                variant="outlined"
+                type="text"
+                size="small"
+                name="email"
+                value={company_arabic}
+                onChange={e => setcompany_arabic(e.target.value)}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+              />
 
               {/* <TextValidator
                 className="w-full mb-4"
@@ -282,6 +316,7 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
               <CurrencyTextField
                     className="mb-4 w-full"
                     label="Amount"
+                    size="small"
                     name="Amount"
                     variant="outlined"
                     value={opening_balance}
@@ -290,6 +325,32 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
                     required
                     onChange={(event, value) => setopening_balance(value)}
                   />
+                <h5 className="pt-4"></h5>
+                <TextValidator
+                className="w-full mb-4"
+                label="C.R No."
+                variant="outlined"
+                type="text"
+                size="small"
+                name="email"
+                value={cr_no}
+                onChange={e => setcr_no(e.target.value)}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
+
+          <TextValidator
+                className="w-full mb-4"
+                label="VAT No."
+                variant="outlined"
+                type="text"
+                size="small"
+                name="vat_no"
+                value={vat_no}
+                onChange={e =>setvat_no(e.target.value)}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+              />
               {/* <TextValidator
                 className="w-full mb-4"
                 label="Company"

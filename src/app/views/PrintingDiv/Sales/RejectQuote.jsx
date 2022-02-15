@@ -33,7 +33,10 @@ const RejectQuote = () => {
     left: "0px",
     zIndex: "100",
     position: "sticky",
-    backgroundColor: "#fff",
+    
+    
+    
+    ckgroundColor: "#fff",
     width: "400px",
      wordBreak: "break-word",
     // wordWrap: "break-word",
