@@ -7,6 +7,7 @@ import {
     Card,
     MenuItem,
     Table,
+    Grid,
     TableHead,
     TableRow,
     TableCell,
@@ -59,6 +60,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [isAlive, setIsAlive] = useState(true);
     const [state, setState] = useState(initialValues);
     const [party_id, setparty_id] = useState('');
+    const [cname, setCname] = useState('');
     const [discounts, setdiscounts] = useState('0');
     const [proList, setproList] = useState([]);
     const [validity, setvalidity] = useState('3 Days')
@@ -603,13 +605,15 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setvalues({
                 ...values,
                 vendorList: data,
-                status: false
+                status: true
             })
         });
         url.get("product-price").then(({ data }) => {
             setPriceList(data)
         });
         url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
+            setcontacts(data.cont)
+            setcontactid(data.data[0].contact_id)
             setcurrency_type(data.data[0].currency_type)
             setcharge(data.data[0].vat_in_value)
             setDLN(data.Odata);
@@ -717,14 +721,38 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             </div>
                         </div>
 
-                        <div className="viewer__order-info px-4 mb-6 flex justify-between">
-                            <div >
-                                {/* <h5 className="font-normal capitalize">
-              <strong>Customer: </strong>{" "}
-              <span>
-                {id}
-              </span>
-            </h5> */}
+
+                        <Grid container spacing={2} className="mb-4">
+                            <Grid item className="ml-4">
+
+
+                                {/* <TextField
+
+label="Customer Name"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
+
+
+onClick={(event) => setcontact(event)}
+required
+select
+>
+<MenuItem onClick={() => {
+  history.push("/party/addparty");
+}}>
+
+  <Icon>add</Icon>New
+
+</MenuItem>
+{CustomerList.map((item) => (
+  <MenuItem value={item.id} key={item.id}>
+    {item.firm_name}
+  </MenuItem>
+))}
+</TextField> */}
+
                                 <TextField
 
                                     label="Currency Type"
@@ -746,6 +774,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         </MenuItem>
                                     ))}
                                 </TextField>
+                            </Grid>
+                            <Grid item>
 
                                 <TextField
 
@@ -781,8 +811,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-
-
+                            </Grid>
+                            <Grid item>
                                 {values.status &&
                                     <TextField
 
@@ -793,9 +823,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                         size="small"
                                         variant="outlined"
                                         select
-                                        value={values.contact_id}
+                                        value={contactid}
                                         onChange={(e) => setcontactid(e.target.value)}
-
                                     >
                                         <MenuItem value=" "> <em>None</em></MenuItem>
                                         {contacts?.map((item) => (
@@ -806,43 +835,85 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                     </TextField>
                                 }
-                            </div>
+
+                            </Grid>
+                            <Grid item >
+                                {/*   
+  {rfqstatus &&
+                  <TextField
+
+                    label="Contact Person"
+                    className="ml-2"
+                    style={{ minWidth: 200, maxWidth: '250px' }}
+                    name="contact_id"
+                    size="small"
+                    variant="outlined"
+                    select
+                    
+                    onChange={(e) => setcontactid(e.target.value)}
+
+                  >
+                    <MenuItem value=" "> <em>None</em></MenuItem>
+                    {customercontact.map((item) => (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.fname}
+                      </MenuItem>
+                    ))}
+
+                  </TextField>
+                } */}
+
+                                {/* {rfqstatus&&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={customercontact}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e) => setcontactid(e.target.value)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />} */}
+
+                            </Grid>
+                            <Grid item>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        className=""
+                                        margin="none"
+                                        label="Date"
+                                        format="dd MMMM yyyy"
+                                        inputVariant="outlined"
+                                        type="text"
+                                        size="small"
+                                        selected={Quote_date}
+                                        value={Quote_date}
+                                        onChange={(date) => {
+                                            setQuote_date(moment(date).format('DD MMM YYYY'))
+                                            // return date
+                                        }}
+                                    />
+                                </MuiPickersUtilsProvider>
 
 
-                            <div>
+                            </Grid>
+                            {/* <Grid item xs>
 
-
-                                <div className="text-right pt-4">
-                                    {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            className="m-2"
-                                            margin="none"
-                                            label="Date"
-                                            format="dd MMMM yyyy"
-                                            inputVariant="outlined"
-                                            type="text"
-                                            size="small"
-                                            selected={Quote_date}
-                                            value={Quote_date}
-                                            onChange={(date) => {
-                                                setQuote_date(moment(date).format('DD MMM YYYY'))
-                                                // return date
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-
-
-                                </div>
-
-                            </div>
-
-
-
-
-                        </div>
+                            </Grid> */}
+                        </Grid>
 
                         <Divider />
 
