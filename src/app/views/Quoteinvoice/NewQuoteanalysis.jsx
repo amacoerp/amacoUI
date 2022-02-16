@@ -15,6 +15,7 @@ import {
   Icon,
   TextField,
   Tooltip,
+  Grid,
   FormGroup,
   IconButton,
   useMediaQuery
@@ -1444,6 +1445,92 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               </div>
             </div>
+
+            <Grid container spacing={2}>
+  <Grid item xs={8}>
+    
+                <TextField
+
+                  label="Customer Name"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
+                  required
+
+                  onClick={(event) => setcontact(event)}
+                  required
+                  select
+                >
+                  <MenuItem onClick={() => {
+                    history.push(navigatePath + "/party/addparty");
+                  }}>
+
+                    <Icon>add</Icon>New
+
+                  </MenuItem>
+
+                  {CustomerList.map((item) => (
+
+                    <MenuItem value={item.id} key={item.id}>
+                      {item.firm_name}
+                    </MenuItem>
+                  ))}
+                  {/* {CustomerList.map((item) => (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.firm_name}
+                      </MenuItem>
+                    ))} */}
+
+                </TextField>
+  </Grid>
+  <Grid item xs={4}>
+  {rfqstatus &&
+                  <TextField
+
+                    label="Contact Person"
+                    className="ml-2"
+                    style={{ minWidth: 200, maxWidth: '250px' }}
+                    name="contact_id"
+                    size="small"
+                    variant="outlined"
+                    select
+                    // value={values.contact_id}
+                    onChange={(e) => setcontactid(e.target.value)}
+
+                  >
+                    <Button onClick={() => setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
+                    {customercontact.map((item) => (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.fname}
+                      </MenuItem>
+                    ))}
+
+                  </TextField>
+                }
+  </Grid>
+  <Grid item xs={4}>
+  <TextField
+                    name="rfq_no"
+                    value={rfq_no}
+                    className="m-2"
+                    label="RFQ No"
+                    size="small"
+                    variant="outlined"
+                    onChange={(e) => {
+                      setrfq_no(e.target.value)
+                      // return date
+                    }}
+
+                  >
+
+                  </TextField>
+
+  </Grid>
+  <Grid item xs={8}>
+  
+  </Grid>
+</Grid>
             <div className="pl-4">
               <h5 className="font-normal capitalize">
                 <strong>Subject: </strong>{" "}
@@ -1463,6 +1550,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 errorMessages={["this field is required"]}
               /></div>
 
+
+                
 
             <Divider />
 

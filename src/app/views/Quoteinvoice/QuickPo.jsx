@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Card,
+  Grid,
   MenuItem,
   Table,
   TableHead,
@@ -592,18 +593,37 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       }
     }
   }
-  const setcontact = (event) => {
+  const setcontact = (event,newValue) => {
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+
+    //   setcontacts(data[0].contacts)
+    //   setparty_id(event.target.value)
+
+    //   setvalues({ ...values, status: true });
+
+
+    // });
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
 
       setcontacts(data[0].contacts)
-      setparty_id(event.target.value)
+      setparty_id(newValue?.id)
 
       setvalues({ ...values, status: true });
 
 
     });
+    }
+    else
+    {
+      setcontacts([])
+      setparty_id()
+
+      setvalues({ ...values, status: false });
+    }
   }
 
   let subTotalCost = 0;
@@ -663,6 +683,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {id}
               </span>
             </h5> */}
+           <div>
                 <TextField
 
                   label="Currency Type"
@@ -685,7 +706,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   ))}
                 </TextField>
 
-                <TextField
+                {/* <TextField
 
                   label="Customer Name"
                   style={{ minWidth: 200, maxWidth: '250px' }}
@@ -694,30 +715,79 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   className="pl-2"
                   value={party_id}
-                  // onChange={handleChange}
+                 
                   onChange={(event) => setcontact(event)}
                   required
                   select
-                >
-                  <MenuItem onClick={() => {
+                > */}
+                  {/* <MenuItem onClick={() => {
                     history.push(navigatePath + "/party/addparty");
                   }}>
 
                     <Icon>add</Icon>New
-                    {/* </Button> */}
+                   
                   </MenuItem>
                   {values?.vendorList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
+               
+                <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={values?.vendorList}
+     
+      style={{ position:'relative',top:'-37px',left:'220px' }}
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" />}
+    />
+    
+     {values.status &&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={contacts}
+     
+      style={{position:'relative',top:'-74px',left:'440px' }}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e,newValue) => setcontactid(newValue.id)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />}
 
 
 
 
-
-                {values.status &&
+                {/* {values.status &&
                   <TextField
 
                     label="Contact Person"
@@ -739,7 +809,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     ))}
 
                   </TextField>
-                }
+                } */}
+              </div>
               </div>
 
 

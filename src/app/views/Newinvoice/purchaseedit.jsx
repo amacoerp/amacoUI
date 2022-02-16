@@ -90,6 +90,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [charge, setcharge] = useState(0.00);
   const [total, settotal] = useState(0.00);
   const [catid, setcatid] = useState();
+
+  // customer name and contact person name
+  const [cname, setcname] = useState('');
+  const [contactname, setcontactname] = useState('');
+  
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
   const history = useHistory();
@@ -581,6 +586,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("purchase-quotation/" + id).then(({ data }) => {
       // setparty_id(data[0]?.party_id)
+      setcname(data[0]?.party?.firm_name)
+     
+      // setvalues({ ...values, status: true });
+      setcontactname(data[0]?.contact?.fname)
       setQuote_date(moment(data[0].ps_date).format('DD MMM YYYY'))
       updateCont(data[0]?.party_id, data[0].contact?.id);
       setcurrency_type(data[0]?.currency_type)
@@ -604,19 +613,41 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setShouldOpenEditorDialog(true);
 
   }
-  const setcontact = (event) => {
-    url.get("parties/" + event.target.value).then(({ data }) => {
+  const setcontact = (event,newValue) => {
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+    //   setcontacts(data[0].contacts)
+    //   setparty_id(event.target.value)
+    //   setvalues({ ...values, status: true });
+    // });
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
+
       setcontacts(data[0].contacts)
-      setparty_id(event.target.value)
+      setparty_id(newValue?.id)
+      setcname(newValue.firm_name)
+
       setvalues({ ...values, status: true });
+
+
     });
+    }
+    else
+    {
+      setcontacts([])
+      setparty_id()
+
+      setvalues({ ...values, status: false });
+    }
   }
 
   const updateCont = async (id, cid) => {
     await url.get("parties/" + id).then(({ data }) => {
       setcontacts(data[0].contacts)
       setparty_id(id)
-      // setvalues({ ...values, status: true });
+     
+      // setcontactname(data[0]?.contact?.fname)
+      setvalues({ ...values, status: true });
       setcontactid(cid)
     });
   }
@@ -699,8 +730,36 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </MenuItem>
                   ))}
                 </TextField>
+                
+                <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={values?.vendorList}
+      value={cname}
+      
+     
+      style={{ position:'relative',top:'-37px',left:'220px' }}
+      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" value={cname} label="Customer Name" />}
+    />
+    
 
-                <TextField
+                {/* <TextField
 
                   label="Customer Name"
                   style={{ minWidth: 200, maxWidth: '250px' }}
@@ -709,7 +768,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   className="pl-2"
                   value={party_id}
-                  // onChange={handleChange}
+                 
                   onChange={(event) => setcontact(event)}
                   required
                   select
@@ -719,21 +778,21 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   }}>
 
                     <Icon>add</Icon>New
-                    {/* </Button> */}
+                
                   </MenuItem>
-                  {/* {values?.vendorList.filter(obj => obj?.party_division[0]?.div_id === divisionId).map((item) => ( */}
+                  
                   {values?.vendorList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
 
 
 
 
 
-                {
+                {/* {
                   <TextField
 
                     label="Contact Person"
@@ -755,7 +814,32 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     ))}
 
                   </TextField>
-                }
+                } */}
+                {values.status &&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={contacts}
+      value={contactname}
+      style={{position:'relative',top:'-74px',left:'440px' }}
+      getOptionLabel={(option) => option.fname?option.fname:contactname}
+
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e,newValue) => {setcontactid(newValue?.id)}}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />}
               </div>
 
 

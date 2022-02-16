@@ -189,7 +189,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfq, setrfq] = useState([]);
   const [rdate, setrdate] = useState([]);
   const [ddate, setddate] = useState([]);
-  const [cname, setcname] = useState('abcd');
+  const [cname, setcname] = useState(" ");
   const [party_id, setparty_id] = useState('');
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
@@ -930,18 +930,43 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const setcontact = (event) => {
+  const setcontact = (event,newValue) => {
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+    //   setcustomercontact(data[0].contacts);
+
+    //   setparty_id(event.target.value)
+
+    //   setrfqstatus(true);
+
+
+    // });
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
+
       setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
-
+      setparty_id(newValue?.id)
+      setcname(newValue?.firm_name)
       setrfqstatus(true);
+
+     
 
 
     });
+    }
+    else
+    {
+      setcustomercontact([]);
+
+      setparty_id()
+  
+      setrfqstatus(false);
+
+      // setvalues({ ...values, status: false });
+    }
   }
 
   useEffect(() => {
@@ -968,6 +993,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0]?.discount_in_percentage ? data[0]?.discount_in_percentage : 0);
       setcurrency_type(data[0]?.currency_type);
       setparty_id(data[0]?.party_id)
+      setcname(data[0]?.party?.firm_name)
+      console.log(data[0]?.party?.firm_name)
       setcontactid(data[0]?.contact?.id)
       setQuote_date(moment(data[0]?.issue_date).format('DD MMM YYYY'))
       setponumber(data[0]?.invoice_no == null || data[0]?.invoice_no == 'null' ? '' : data[0]?.invoice_no)
@@ -1192,60 +1219,50 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
-                <h5 className="font-normal capitalize">
-                  {/* <strong>Vendore: </strong>{" "} */}
-                  <span>
-
-                  </span>
-                </h5>
-
-                <TextField
-
-                  label="Vendore Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
-
-                  value={party_id}
-                  // onChange={handleChange}
-                  onClick={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push("/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-                    {/* </Button> */}
-                  </MenuItem>
-                  {CustomerList.map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-
-
-
-                <TextField
-
+            
+            <Grid container spacing={2} className="mb-4">
+  <Grid item xs>
+  <Autocomplete
+      id="filter-demo"
+      className="pl-2"
+      variant="outlined"
+      options={CustomerList}
+      value={cname}
+      
+      
+      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params}  
+      variant="outlined" label="Vendor Name" />}
+    />
+  </Grid>
+  <Grid item >
+  <TextField
+                  className="pl-2"
                   label="Currency Type"
-                  className="pl-4"
-
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
+                  // style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{  minWidth: 200, maxWidth: '250px' }}
+                  name="currency_type"
                   size="small"
                   variant="outlined"
-                  inputProps={{ width: 20 }}
 
                   value={currency_type}
                   // onChange={handleChange}
                   onChange={(event) => setcurrency_type(event.target.value)}
-                  // required
+                  required
                   select
                 >
 
@@ -1256,43 +1273,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   ))}
                 </TextField>
 
-
-                {/* {rfqstatus && */}
-                {/* <TextField
-                    
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="contact_id"
-                    size="small"
-                    variant="outlined"
-                    select
-                    value={contactid}
-                    onChange={(e)=>setcontactid(e.target.value)}
-                   
-                  >
-                    <MenuItem value=" "> <em>None</em></MenuItem>
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField> */}
-                {/* } */}
-              </div>
-
-
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  </Grid>
+  <Grid item >
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      className="m-2"
+                      className="pl-2"
                       margin="none"
                       label="Date"
                       format="dd MMMM yyyy"
@@ -1307,23 +1292,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       }}
                     />
                   </MuiPickersUtilsProvider>
-
-                  <TextField
+  </Grid>
+  <Grid item xs>
+  <TextField
                     type="text"
-                    label="INVOICE NUMBER"
-                    className="m-2"
+                    label="Invoice Number"
+                    className="pl-2"
                     style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="invoice_no"
+                    name="ponumber"
                     size="small"
                     variant="outlined"
-                    value={ponumber ? ponumber : ''}
+                    value={ponumber ? ponumber : " "}
                     onChange={(e) => setponumber(e.target.value)}
 
                   />
-                </div>
-
-              </div>
-            </div>
+  </Grid>
+</Grid>
 
             <Divider />
 

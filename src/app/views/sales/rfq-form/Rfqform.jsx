@@ -64,6 +64,7 @@ const InvoiceForm = ({ }) => {
   const { user } = useAuth();
   let listrfq = [];
   let { loading } = state;
+  const filter = createFilterOptions();
 
   let isEmpty = !!!files.length;
   const handleSingleRemove = (index) => {
@@ -110,10 +111,22 @@ const InvoiceForm = ({ }) => {
     setshouldOpenConfirmationDialogparty(false)
   }
 
-  const filterName= (e) => {
-    let res=CustomerList.filter(obj=>obj.name==e.target.value)
-    setCustomerList(res)
-  }
+  const filterPrice = (options, params) => {
+    
+      const filtered = filter(options, params);
+      if (params.inputValue !== " ") {
+        filtered.unshift({
+          inputValue: params.inputValue,
+          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=>history.push("/party/addparty")}>+Add New</Button>)
+        });
+      }
+      
+     
+      return filtered;
+    
+  };
+
+  
 
   useEffect(() => {
     getVendorList().then(({ data }) => {
@@ -122,6 +135,7 @@ const InvoiceForm = ({ }) => {
   }, []);
 
   const setrfq = (event,newValue) => {
+    console.log(newValue)
     if(newValue)
     {
     setparty_id(newValue?.id);
@@ -135,6 +149,8 @@ const InvoiceForm = ({ }) => {
   else
   {
     setparty_id()
+    setcustomercontact([]);
+    setrfqstatus(false);
   }
     // setparty_id(event.target.value);
 
@@ -287,55 +303,19 @@ const InvoiceForm = ({ }) => {
 
 
 
-                        <Autocomplete
-                          className="w-full"
-                          size="small"
-                          // id="disable-close-on-select"
-                          // disableCloseOnSelect
-                          options={CustomerList}
-                         
-                          // onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
-                          // value={item?.product_id ? item?.product_id : " "}
-                          // value={item?.product_id}
-                          // filterOptions={filterOptions}
-                          // renderOption={option => option.name}
-                          onChange={(event, newValue) => setrfq(event, newValue)}
-                          getOptionLabel={(option) => option?.firm_name ? option?.firm_name : " "}
-                          renderInput={(params) => (
-                            <div ref={params.InputProps.ref}>
-                               <Button
-                  color="primary"
-                  
-                  variant="contained"
-                  onClick={() => {history.push("/party/addparty")}}
-                  ><Icon>+</Icon></Button>
-                              <TextField variant="outlined" size="small" type="text" {...params.inputProps} />
-                            </div>
-                          )}
-                          
-                         
-                          
-//                           renderInput={(params) => (
-                         
-//                             <>
-//                             <Icon  onClick={() => {
-//                               history.push("/party/addparty");
-//                             }}>add</Icon>
-//                     <div style={{overflow: 'hidden', 'padding-right': '.5em'}}>
-//                     <input {...params}
-                             
-//                              variant="outlined" name="product_id" fullWidth />
-//       </div>
-// </>
-                           
-                             
-                            
-//                           )}
-
-                          
-
-
-                        />
+                        
+                         <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={CustomerList}
+      style={{ minWidth: 200, maxWidth: "250px" }}
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={filterPrice}
+      onChange={(event, newValue) => setrfq(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} maxHeight="10px"
+      variant="outlined" label="Custom filter" />}
+    />
                       </div>
                       </div>
                 
@@ -343,7 +323,7 @@ const InvoiceForm = ({ }) => {
                   <Grid item xs>
                     <div className="flex">
                       {/* {rfqstatus && ( */}
-                      <TextField
+                      {/* <TextField
                         label="Contact Person"
                         style={{ minWidth: 200, maxWidth: "250px" }}
                         name="contact_id"
@@ -357,17 +337,31 @@ const InvoiceForm = ({ }) => {
                       >
                         <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}>
                           <Icon>add</Icon>New
-                        </MenuItem>
-                        {/* <MenuItem>
-                        <TextField name="search" variant="outlined"></TextField>
                         </MenuItem> */}
+                       
 
-                        {customercontact.map((item) => (
+                        {/* {customercontact.map((item) => (
                           <MenuItem value={item.id} key={item.id}>
                             {item.fname}
                           </MenuItem>
                         ))}
-                      </TextField>
+                      </TextField> */}
+
+
+      <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      label="Contact Person"
+      disabled={!rfqstatus}
+      options={customercontact}
+      onChange={handleChange}
+      style={{ minWidth: 200, maxWidth: "250px" }}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={filterPrice}
+      size="small"
+      renderInput={(params) => <TextField {...params} maxHeight="10px"
+      variant="outlined" label="Custom filter" />}
+    />
                       {/* )} */}
                     </div>
                   </Grid>
