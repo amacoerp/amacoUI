@@ -23,6 +23,7 @@ import {
 import useDynamicRefs from 'use-dynamic-refs';
 
 import useSettings from "app/hooks/useSettings";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   MuiPickersUtilsProvider,
@@ -40,14 +41,14 @@ import url, { getusers, divisionId, data, getcompanybank } from "../invoice/Invo
 
 // import Select from 'react-select';
 import useAuth from 'app/hooks/useAuth';
-import logo from "../../views/invoice/amaco-logo(1).png"
+// import logo from "../../views/invoice/amaco-logo(1).png"
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
-import FormDialog from "../product/productprice";
+// import FormDialog from "../product/productprice";
 import MemberEditorDialog from "../product/productprice";
 import MemberEditorDialogcontact from "../party/partycontact";
 
-import FormDialog_product from "../../views/product/Addproduct_popup"
+// import FormDialog_product from "../../views/product/Addproduct_popup"
 import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import moment from "moment";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
@@ -177,16 +178,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { settings, updateSettings } = useSettings();
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
-  const [rfq, setrfq] = useState([]);
+  // const [rfq, setrfq] = useState([]);
   const [testArr, setTestArr] = useState([{ 'note': 'Quoted prices are for complete lot,any partial order is subject to reconfirmation.' }, { 'note': 'This is a system generated quote and hence does not required any signature.' }])
-  const [rdate, setrdate] = useState([]);
-  const [ddate, setddate] = useState([]);
-  const [cname, setcname] = useState('abcd');
+  // const [rdate, setrdate] = useState([]);
+  // const [ddate, setddate] = useState([]);
+  // const [cname, setcname] = useState('abcd');
   const [party_id, setparty_id] = useState('');
-  const [rfq_details, setrfqdetails] = useState([]);
+  // const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
-  const [ProductList, setProductList] = useState([]);
+  // const [ProductList, setProductList] = useState([]);
   const [ProductList1, setProductList1] = useState([]);
   const [validity, setvalidity] = useState('3 Days')
   const [payment_terms, setpayment_terms] = useState('100% Advance')
@@ -201,7 +202,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [productname, setproductname] = useState('');
   const [indexvalue, setindexvalue] = useState();
   const [CustomerList, setCustomerList] = useState([]);
-  const [partyDivision, setpartyDivision] = useState([]);
+  // const [partyDivision, setpartyDivision] = useState([]);
   const [customercontact, setcustomercontact] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [users, setusers] = useState([]);
@@ -219,6 +220,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [transport, settransport] = useState('0.00');
   const [other, setother] = useState('0.00');
   const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+  const filter = createFilterOptions();
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -1050,18 +1052,28 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event) => {
+  const setcontact = (event,newValue) => {
 
-
-    url.get("parties/" + event.target.value).then(({ data }) => {
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
       setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
+      setparty_id(newValue?.id)
 
       setrfqstatus(true);
 
 
     });
+   }
+   else
+   {
+    setcustomercontact([]);
+
+    setparty_id()
+
+    setrfqstatus(false);
+   }
   }
 
   useEffect(() => {
@@ -1322,7 +1334,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
+            {/* <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
                 <h5 className="font-normal capitalize">
                   <strong>Customer: </strong>{" "}
@@ -1358,11 +1370,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       {item.firm_name}
                     </MenuItem>
                   ))}
-                  {/* {CustomerList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))} */}
+                 
 
                 </TextField>
 
@@ -1380,7 +1388,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     variant="outlined"
                     select
-                    // value={values.contact_id}
+                   
                     onChange={(e) => setcontactid(e.target.value)}
 
                   >
@@ -1400,9 +1408,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
+                 
                   <TextField
                     name="rfq_no"
                     value={rfq_no}
@@ -1412,7 +1418,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     onChange={(e) => {
                       setrfq_no(e.target.value)
-                      // return date
+                     
                     }}
 
                   >
@@ -1432,7 +1438,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       value={Quote_date}
                       onChange={(date) => {
                         setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
+                       
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -1444,76 +1450,74 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
               </div>
-            </div>
+            </div> */}
 
             <Grid container spacing={2}>
-  <Grid item xs={8}>
+        <Grid item className="ml-4">
     
-                <TextField
+               
+                    <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={CustomerList}
+     
+      
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" />}
+    />
 
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
-                  required
-
-                  onClick={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push(navigatePath + "/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-
-                  </MenuItem>
-
-                  {CustomerList.map((item) => (
-
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                  {/* {CustomerList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))} */}
-
-                </TextField>
+               
   </Grid>
-  <Grid item xs={4}>
-  {rfqstatus &&
-                  <TextField
-
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
-                    size="small"
-                    variant="outlined"
-                    select
-                    // value={values.contact_id}
-                    onChange={(e) => setcontactid(e.target.value)}
-
-                  >
-                    <Button onClick={() => setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField>
-                }
+  <Grid item >
+  
+                {rfqstatus &&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={customercontact}
+     
+      
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontactid(newValue?.id)}
+      
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />}
   </Grid>
-  <Grid item xs={4}>
+  <Grid item>
   <TextField
                     name="rfq_no"
                     value={rfq_no}
-                    className="m-2"
+                    className=""
                     label="RFQ No"
                     size="small"
                     variant="outlined"
@@ -1527,13 +1531,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TextField>
 
   </Grid>
-  <Grid item xs={8}>
-  
+  <Grid item xs>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      className=""
+                      margin="none"
+                      label="Quote Date"
+                      format="dd MMMM yyyy"
+                      inputVariant="outlined"
+                      type="text"
+                      size="small"
+                      selected={Quote_date}
+                      value={Quote_date}
+                      onChange={(date) => {
+                        setQuote_date(moment(date).format('DD MMM YYYY'))
+                        // return date
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
   </Grid>
 </Grid>
             <div className="pl-4">
               <h5 className="font-normal capitalize">
-                <strong>Subject: </strong>{" "}
+                {/* <strong>Subject: </strong>{" "} */}
 
               </h5>
               <TextValidator

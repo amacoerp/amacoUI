@@ -890,6 +890,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     size="small"
                                                     options={proList ? proList : []}
                                                     name="product_id"
+                                                    clearOnEscape
+                                                    id="clear-on-escape"
                                                     value={item?.name}
                                                     filterOptions={filterOptions}
                                                     renderOption={option => option.name}

@@ -7,6 +7,7 @@ import {
   FormControl,
   Divider,
   Card,
+  Grid,
   Select,
   MenuItem,
   Table,
@@ -35,6 +36,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import useAuth from "app/hooks/useAuth";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import url, { getusers, divisionId, getCustomerList, data, getcompanybank, navigatePath } from "../../invoice/InvoiceService";
 
 // expandable table
@@ -245,7 +247,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [subject, setsubject] = useState('')
   const [productprice, setproductprice] = useState([])
   const formData = new FormData()
-
+  const filter = createFilterOptions();
 
   const addRow = async e => {
     var obj = {
@@ -1096,19 +1098,43 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event) => {
+  // const setcontact = (event) => {
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
+  //   url.get("parties/" + event.target.value).then(({ data }) => {
+  //     setcustomercontact(data[0].contacts);
+
+  //     setparty_id(event.target.value)
+
+  //     setrfqstatus(true);
+
+
+  //   });
+  // }
+  const setcontact = (event,newValue) => {
+
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
       setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
+      setparty_id(newValue?.id)
 
       setrfqstatus(true);
 
 
     });
+   }
+   else
+   {
+    setcustomercontact([]);
+
+    setparty_id()
+
+    setrfqstatus(false);
+   }
   }
+
 
   useEffect(() => {
     console.log("sign", user.name)
@@ -1382,88 +1408,74 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
-                <h5 className="font-normal capitalize">
-                  <strong>Customer: </strong>{" "}
-                  <span>
-                    {id}
-                  </span>
-                </h5>
+            
 
-                <TextField
+            <Grid container spacing={2}>
+        <Grid item className="ml-4">
+    
+               
+                    <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={CustomerList}
+     
+      
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" />}
+    />
 
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
-                  required
-
-                  onClick={(event) => setcontact(event)}
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push(navigatePath + "/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-
-                  </MenuItem>
-
-                  {CustomerList.map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                  {/* {CustomerList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))} */}
-
-                </TextField>
-
-
-
-
-
-                {rfqstatus &&
-                  <TextField
-
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
-                    size="small"
-                    variant="outlined"
-                    select
-                    // value={values.contact_id}
-                    onChange={(e) => setcontactid(e.target.value)}
-
-                  >
-                    <MenuItem>
-                      <Button onClick={() => setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
-                    </MenuItem>
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField>
-                }
-              </div>
-
-
-              <div>
-
-
-                <div className="text-right pt-4">
-                  <TextField
+               
+  </Grid>
+  <Grid item >
+  
+                {rfqstatus &&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={customercontact}
+     
+      
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontactid(newValue?.id)}
+      
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />}
+  </Grid>
+  <Grid item>
+  <TextField
                     name="rfq_no"
                     value={rfq_no}
-                    className="m-2"
+                    className=""
                     label="RFQ No"
                     size="small"
                     variant="outlined"
@@ -1475,12 +1487,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   >
 
                   </TextField>
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+  </Grid>
+  <Grid item xs>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      className="m-2"
+                      className=""
                       margin="none"
                       label="Quote Date"
                       format="dd MMMM yyyy"
@@ -1495,17 +1507,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       }}
                     />
                   </MuiPickersUtilsProvider>
-
-
-                </div>
-
-              </div>
-            </div>
-            <div>
+  </Grid>
+</Grid>
               {/* <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div> */}
               <div className="pl-4">
                 <h5 className="font-normal capitalize">
-                  <strong>Subject: </strong>{" "}
+                  {/* <strong>Subject: </strong>{" "} */}
 
                 </h5>
                 <TextValidator
@@ -1521,7 +1528,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   validators={["required"]}
                   errorMessages={["this field is required"]}
                 /></div>
-            </div>
+              
+            
 
             <Divider />
 

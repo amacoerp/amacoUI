@@ -1042,18 +1042,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event) => {
+  const setcontact = (event,newValue) => {
 
-
-    url.get("parties/" + event.target.value).then(({ data }) => {
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
       setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
+      setparty_id(newValue?.id)
 
       setrfqstatus(true);
 
 
     });
+  }
+  else
+  {
+    setcustomercontact([]);
+
+    setparty_id()
+
+    setrfqstatus(false);
+
+  }
   }
 
   useEffect(() => {
@@ -1300,48 +1311,67 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
-                <h5 className="font-normal capitalize">
-                  <strong>Customer: </strong>{" "}
-                  <span>
-                    {id}
-                  </span>
-                </h5>
+            <Grid container spacing={2} className="mb-4">
+        <Grid item className="ml-4">
+    
+               
+        {/* <TextField
 
-                <TextField
-
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
-
-                  // value={values.CustomerList}
-                  // onChange={handleChange}
-                  onClick={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push("/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-                    {/* </Button> */}
-                  </MenuItem>
-                  {CustomerList.map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+label="Customer Name"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
 
 
+onClick={(event) => setcontact(event)}
+required
+select
+>
+<MenuItem onClick={() => {
+  history.push("/party/addparty");
+}}>
 
+  <Icon>add</Icon>New
 
+</MenuItem>
+{CustomerList.map((item) => (
+  <MenuItem value={item.id} key={item.id}>
+    {item.firm_name}
+  </MenuItem>
+))}
+</TextField> */}
 
-                {rfqstatus &&
+<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={CustomerList}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" />}
+    />
+
+               
+  </Grid>
+  <Grid item >
+{/*   
+  {rfqstatus &&
                   <TextField
 
                     label="Contact Person"
@@ -1351,7 +1381,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     variant="outlined"
                     select
-                    // value={values.contact_id}
+                    
                     onChange={(e) => setcontactid(e.target.value)}
 
                   >
@@ -1363,20 +1393,38 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     ))}
 
                   </TextField>
-                }
-              </div>
+                } */}
 
+{/* {rfqstatus&&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={customercontact}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e) => setcontactid(e.target.value)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />} */}
 
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  </Grid>
+  <Grid item>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      className="m-2"
+                      className=""
                       margin="none"
                       label="Date"
                       format="dd MMMM yyyy"
@@ -1392,10 +1440,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     />
                   </MuiPickersUtilsProvider>
 
-                  <TextField
+
+  </Grid>
+  <Grid item xs>
+  <TextField
 
                     label="P.O Number"
-                    className="m-2"
+                    className=""
                     style={{ minWidth: 200, maxWidth: '250px' }}
                     name="contact_id"
                     size="small"
@@ -1404,10 +1455,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     onChange={(e) => setponumber(e.target.value)}
 
                   />
-                </div>
-
-              </div>
-            </div>
+  </Grid>
+</Grid>
 
             <Divider />
 

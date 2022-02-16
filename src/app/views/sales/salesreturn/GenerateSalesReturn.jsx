@@ -466,7 +466,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
+                // element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
                 element[event.target.name] = event.target.value;
                 element['remark'] = "";
 
@@ -947,7 +947,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                 <TextValidator
                                                     label="Qty"
                                                     onChange={(event) => calcualteprice(event, index)}
-                                                    type="number"
+                                                    type="text"
                                                     variant="outlined"
                                                     size="small"
                                                     fullWidth
@@ -956,8 +956,8 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
                                                     name="quantity"
                                                     value={item.quantity ? item.quantity : ""}
-                                                    validators={["required"]}
-                                                    errorMessages={["this field is required"]}
+                                                    validators={["isNumber"]}
+                                                    errorMessages={["Number is not valid"]}
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>

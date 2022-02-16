@@ -88,6 +88,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rdate, setrdate] = useState([]);
   const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState('abcd');
+  const [contactname, setcontactname] = useState('');
+
   const [party_id, setparty_id] = useState(0);
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
@@ -249,7 +251,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   }
   const filterPrice = (options, params) => {
-    // console.log(params.inputValue)
+    // //console.log(params.inputValue)
     const filtered = filter(options, params);
 
     // if (params.inputValue == "") {
@@ -409,7 +411,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         let tempItemList = [...state.item];
 
         let count = tempItemList.filter(obj => obj.index1 == i).length;
-        console.log(id)
+        //console.log(id)
 
         if (id) {
           tempItemList.splice(index, 1);
@@ -533,7 +535,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
         element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
 
-        // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
+        // //console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
         element.sell_price = d_val
@@ -690,7 +692,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
+        //console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
       }
       return element;
 
@@ -763,7 +765,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
 
         element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
-        console.log(element.discount)
+        //console.log(element.discount)
         element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
 
 
@@ -998,7 +1000,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.map((answer, i) => {
       
       answer.file && (answer.file = answer.file.replace(spl, ''))
-      console.log("2",answer)
+      //console.log("2",answer)
       
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
       answer.files && (formData.append(`files${i}`, answer.files))
@@ -1007,7 +1009,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.post(`sale-quotation-update`, formData)
       .then(function (response) {
 
-        console.log(tempItemList)
+        //console.log(tempItemList)
         Swal.fire({
           title: 'Success',
           type: 'success',
@@ -1088,20 +1090,45 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
   };
-  const setcontact = (event) => {
+  // const setcontact = (event) => {
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
+  //   url.get("parties/" + event.target.value).then(({ data }) => {
 
+  //     setcustomercontact(data[0].contacts);
+
+  //     setparty_id(event.target.value)
+
+  //     setrfqstatus(true);
+
+
+  //   });
+  // }
+  const setcontact = (event,newValue) => {
+
+    if(newValue?.id)
+    {
+    url.get("parties/" + newValue?.id).then(({ data }) => {
       setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
-
+      setparty_id(newValue?.id)
+      setcname(newValue?.firm_name)
+      setcontactname()
       setrfqstatus(true);
 
 
     });
+   }
+   else
+   {
+    setcustomercontact([]);
+
+    setparty_id()
+    setcname()
+    setrfqstatus(false);
+   }
   }
+
 
   useEffect(() => {
     getCustomerList().then(({ data }) => {
@@ -1110,7 +1137,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     });
     url.get('designation').then(({ data }) => {
-      console.log(data)
+      //console.log(data)
       setusers(data);
 
 
@@ -1128,6 +1155,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
       setinco_terms(data[0].inco_terms)
+      setcname(data[0].party.firm_name)
+      setcontactname(data[0].contact.fname);
       setdiscounts(data[0].discount_in_p)
       setdiscount(data[0].discount_in_p)
       setvalidity(data[0].validity)
@@ -1155,7 +1184,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         url.get("parties/" + data[0].party_id).then(({ data }) => {
 
           setcustomercontact(data[0].contacts);
-
+          // setcustomercontact(data[0].contacts);
+          
 
 
           setrfqstatus(true);
@@ -1164,6 +1194,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
       }
       setparty_id(data[0].party_id)
+     
       setTestArr([...data[0].notes]);
 
       setState({
@@ -1341,7 +1372,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
+            {/* <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
                 <h5 className="font-normal capitalize">
                   <strong>Customer: </strong>{" "}
@@ -1359,18 +1390,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
 
                   value={party_id}
-                  // onChange={handleChange}
+                 
                   onClick={(event) => setcontact(event)}
                   required
                   select
                 >
-                  {/* <MenuItem onClick={() => {
-                          history.push("/party/addparty");
-                        }}>
-                      
-                        <Icon>add</Icon>new
-               
-                    </MenuItem> */}
+                 
                   {CustomerList.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.firm_name}
@@ -1382,7 +1407,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                {/* {rfqstatus && */}
                 <TextField
 
                   label="Contact Person"
@@ -1405,7 +1429,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   ))}
 
                 </TextField>
-                {/* } */}
+                
               </div>
 
               <div>
@@ -1421,7 +1445,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     onChange={(e) => {
                       setrfq_no(e.target.value)
-                      // return date
+                      
                     }}
 
                   >
@@ -1440,7 +1464,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       value={Quote_date}
                       onChange={(date) => {
                         setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
+                        
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -1449,10 +1473,109 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
 
               </div>
-            </div>
+            </div> */}
+             <Grid container spacing={2}>
+        <Grid item className="ml-4">
+    
+               
+                    <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={CustomerList}
+      value={cname}
+      
+      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" value={cname} />}
+    />
+
+               
+  </Grid>
+  <Grid item >
+  
+                {rfqstatus &&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      style={{ minWidth: 200, maxWidth: '250px' }}
+      options={customercontact}
+     
+      value={contactname}
+      getOptionLabel={(option) => option?.fname?option?.fname:contactname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => {setcontactid(newValue?.id);setcontactname(newValue?.fname)}}
+      
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />}
+  </Grid>
+  <Grid item>
+  <TextField
+                    name="rfq_no"
+                    value={rfq_no}
+                    className=""
+                    label="RFQ No"
+                    size="small"
+                    variant="outlined"
+                    onChange={(e) => {
+                      setrfq_no(e.target.value)
+                      // return date
+                    }}
+
+                  >
+
+                  </TextField>
+
+  </Grid>
+  <Grid item xs>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      className=""
+                      margin="none"
+                      label="Quote Date"
+                      format="dd MMMM yyyy"
+                      inputVariant="outlined"
+                      type="text"
+                      size="small"
+                      selected={Quote_date}
+                      value={Quote_date}
+                      onChange={(date) => {
+                        setQuote_date(moment(date).format('DD MMM YYYY'))
+                        // return date
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+  </Grid>
+</Grid>
             <div className="pl-4">
               <h5 className="font-normal capitalize">
-                <strong>Subject: </strong>{" "}
+                {/* <strong>Subject: </strong>{" "} */}
 
               </h5>
               <TextValidator
@@ -2204,7 +2327,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <option value="">--Select--</option>
 
                         {users.map((item, ind) => (
-                          // {console.log(item.id)}
+                          // {//console.log(item.id)}
                           <option value={item.id} defaultValue={item.name}>{item.name}-{item.designation}</option>
                         ))}
                       </Select>
