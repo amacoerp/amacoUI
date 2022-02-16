@@ -729,10 +729,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
             return (
               <span className="showPageNumber" style={{
-
                 position: 'relative',
                 top: pos,
-                display: 'none',
+                // display: 'none',
               }}> <center>{item}</center></span>
             )
           })}
@@ -926,7 +925,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="300px" align="center">DESCRIPTION</TableCell>
                             {/* <TableCell className="px-0" colspan={3} style={{border: "1px solid #ccc",fontFamily: "Calibri",width:200,color:"#fff",fontWeight:'1000',fontSize: 16}}  align="center">REMARK</TableCell> */}
                             <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 90, color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">QTY</TableCell>
-                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">UOM</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16, width: '50px' }} align="center">UOM</TableCell>
 
                             <TableCell className="px-0" style={{ border: "1px solid #ccc", width: 100, fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">UNIT PRICE</TableCell>
                             <TableCell className="px-0" style={{ border: "1px solid #ccc", width: 100, fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">TOTAL</TableCell>
