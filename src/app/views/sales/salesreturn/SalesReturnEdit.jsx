@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
     Button,
     Divider,
@@ -111,6 +113,94 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         shouldOpenConfirmationDialog,
         setShouldOpenConfirmationDialog,
     ] = useState(false);
+
+
+    let inputRef = [];
+    let priceRef = [];
+    let proRef = [];
+    const [getRef, setRef] = useDynamicRefs();
+
+
+    const controlKeyPress = (e, id, nextid, prev) => {
+
+
+        if (e?.keyCode == 39) {
+            if (nextid?.includes('product_id')) {
+                proRef[parseInt(nextid)].focus();
+            } else if (nextid?.includes('purcha3se_price')) {
+                priceRef[parseInt(nextid)].focus();
+            } else if (nextid == null) {
+                // if (e?.keyCode == 13) {
+
+                // }
+            } else {
+                console.log(getRef(nextid).current?.focus())
+            }
+        } else if (e?.keyCode == 38) {
+            const a = id.split(parseInt(id));
+            let i = parseInt(id)
+            if (--i >= 0) {
+                const r = i + a[1];
+                if (r?.includes('product_id')) {
+                    proRef[parseInt(r)].focus();
+                } else if (r?.includes('purch3ase_price')) {
+                    priceRef[parseInt(r)].focus();
+                } else if (r?.includes('invoice_no')) {
+                    inputRef[parseInt(r)].focus();
+                } else {
+                    getRef(r).current.focus();
+                }
+
+            }
+
+        } else if (e?.keyCode == 40) {
+            const a = id.split(parseInt(id));
+            let i = parseInt(id)
+            // if (++i) {
+            const r = ++i + a[1];
+            try {
+                if (r.includes('product_id')) {
+                    proRef[parseInt(r)].focus();
+                } else if (r.includes('purchas3e_price')) {
+                    priceRef[parseInt(r)].focus();
+                } else if (r.includes('invoice_no')) {
+                    inputRef[parseInt(r)].focus();
+
+                    // inputRef.focus();
+                } else {
+                    getRef(r).current.focus();
+                }
+            } catch (error) {
+                console.error('eror')
+                addItemToInvoiceList();
+            }
+
+            // }
+
+        } else if (e?.keyCode == 37) {
+            if (prev == null) {
+
+            } else {
+                if (prev.includes('product_id')) {
+                    proRef[parseInt(prev)].focus();
+
+                    // inputRef.focus();
+                } else if (prev.includes('purc3hase_price')) {
+                    priceRef[parseInt(prev)].focus();
+                } if (prev.includes('invoice_no')) {
+                    inputRef[parseInt(prev)].focus();
+
+                    // inputRef.focus();
+                } else if (false) {
+                    priceRef[parseInt(prev)].focus();
+                } else {
+                    console.log(prev)
+                    console.log(getRef(prev)?.current?.focus())
+                }
+            }
+        }
+    }
+
 
     const generateRandomId = useCallback(() => {
         let tempId = Math.random().toString();
@@ -780,8 +870,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         return option?.invoice_no ? option?.invoice_no : " ";
                                                     }}
                                                     freeSolo
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}
+
                                                     renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="invoice_no" required fullWidth />
+                                                        <TextField {...params} inputRef={input => {
+                                                            inputRef[index] = input;
+                                                        }} variant="outlined" name="invoice_no" required fullWidth />
                                                     )}
                                                     // onChange={handleChanges}
                                                     onChange={(event, newValue) => handleChangesPO(event, newValue, index)}
@@ -811,8 +905,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                         return option?.name ? option.name : '';
                                                     }}
                                                     freeSolo
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}
+
                                                     renderInput={(params) => (
-                                                        <TextField {...params} variant="outlined" name="product_id" fullWidth />
+                                                        <TextField {...params} inputRef={input => {
+                                                            proRef[index] = input;
+                                                        }} variant="outlined" name="product_id" fullWidth />
                                                     )}
                                                     // onChange={handleChanges}
                                                     onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -830,6 +928,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     size="small"
                                                     name="product_description"
                                                     multiline
+                                                    inputProps={{
+                                                        ref: setRef(index + 'description')
+                                                    }}
+                                                    // ref={setRef(index + 'description')}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
+
                                                     fullWidth
                                                     onChange={(event) => po_description(event, index)}
                                                     value={item.product_description}
@@ -844,7 +948,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     size="small"
                                                     fullWidth
-                                                    inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
+
+                                                    inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
                                                     name="quantity"
                                                     value={item.quantity ? item.quantity : ""}
                                                     validators={["required"]}
@@ -859,6 +965,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     size="small"
                                                     name="unit_of_measure"
+                                                    onChange={(event) => po_description(event, index)}
+                                                    inputProps={{
+                                                        ref: setRef(index + 'unit_of_measure')
+                                                    }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+
                                                     style={{ width: '140px', float: 'left' }}
                                                     fullWidth
                                                     value={item.unit_of_measure ? item.unit_of_measure : null}
@@ -910,6 +1022,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={item?.purchase_price}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+                                                    inputProps={{
+                                                        ref: setRef(index + 'purchase_price')
+                                                    }}
                                                     onChange={(event) => calcualteprice(event, index)}
                                                 // filterOptions={filterPrice}
                                                 // renderOption={option => option.price}
@@ -959,6 +1075,12 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     variant="outlined"
                                                     fullWidth
                                                     readOnly
+                                                    inputProps={{
+                                                        ref: setRef(index + 'total_amount')
+                                                    }}
+                                                    // ref={setRef(index + 'description')}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
+
                                                     size="small"
                                                     currencySymbol=''
                                                     name="total_amount"
