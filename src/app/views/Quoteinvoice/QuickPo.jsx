@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import MemberEditorDialogcontact from "../party/partycontact";
+
 import {
   Button,
   Divider,
@@ -63,6 +65,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let priceRef = [];
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
+  const [customercontact, setcustomercontact] = useState([]);
+
   const [party_id, setparty_id] = useState('');
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
@@ -102,6 +106,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   })
+  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -593,7 +599,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       }
     }
   }
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
 
     // url.get("parties/" + event.target.value).then(({ data }) => {
@@ -605,20 +611,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     // });
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
 
-      setcontacts(data[0].contacts)
-      setparty_id(newValue?.id)
+        setcontacts(data[0].contacts)
+        setparty_id(newValue?.id)
 
-      setvalues({ ...values, status: true });
+        setvalues({ ...values, status: true });
 
 
-    });
+      });
     }
-    else
-    {
+    else {
       setcontacts([])
       setparty_id()
 
@@ -683,30 +687,30 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {id}
               </span>
             </h5> */}
-           <div>
-                <TextField
+                <div>
+                  <TextField
 
-                  label="Currency Type"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
+                    label="Currency Type"
+                    style={{ minWidth: 200, maxWidth: '250px' }}
+                    name="party_id"
+                    size="small"
+                    variant="outlined"
 
-                  value={currency_type}
-                  // onChange={handleChange}
-                  onChange={(event) => setcurrency_type(event.target.value)}
-                  required
-                  select
-                >
+                    value={currency_type}
+                    // onChange={handleChange}
+                    onChange={(event) => setcurrency_type(event.target.value)}
+                    required
+                    select
+                  >
 
-                  {currency.map((item) => (
-                    <MenuItem value={item.value} key={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                    {currency.map((item) => (
+                      <MenuItem value={item.value} key={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
 
-                {/* <TextField
+                  {/* <TextField
 
                   label="Customer Name"
                   style={{ minWidth: 200, maxWidth: '250px' }}
@@ -733,61 +737,61 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </MenuItem>
                   ))}
                 </TextField> */}
-               
-                <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={values?.vendorList}
-     
-      style={{ position:'relative',top:'-37px',left:'220px' }}
-      getOptionLabel={(option) => option.firm_name}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" />}
-    />
-    
-     {values.status &&<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={contacts}
-     
-      style={{position:'relative',top:'-74px',left:'440px' }}
-      getOptionLabel={(option) => option.fname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(e,newValue) => setcontactid(newValue.id)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Contact Person" />}
-    />}
+
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    options={values?.vendorList}
+
+                    style={{ position: 'relative', top: '-37px', left: '220px' }}
+                    getOptionLabel={(option) => option.firm_name}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        });
+                      }
+
+
+                      return filtered;
+                    }}
+                    onChange={(event, newValue) => setcontact(event, newValue)}
+                    size="small"
+                    renderInput={(params) => <TextField {...params}
+                      variant="outlined" label="Customer Name" />}
+                  />
+
+                  {values.status && <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    options={contacts}
+
+                    style={{ position: 'relative', top: '-74px', left: '440px' }}
+                    getOptionLabel={(option) => option.fname}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (<Button variant="outlined" color="primary" size="small" onClick={(e) => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                        });
+                      }
+
+
+                      return filtered;
+                    }}
+                    onChange={(e, newValue) => setcontactid(newValue?.id)}
+                    size="small"
+                    renderInput={(params) => <TextField {...params}
+                      variant="outlined" label="Contact Person" />}
+                  />}
 
 
 
 
-                {/* {values.status &&
+                  {/* {values.status &&
                   <TextField
 
                     label="Contact Person"
@@ -810,7 +814,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   </TextField>
                 } */}
-              </div>
+                </div>
               </div>
 
 
@@ -1333,6 +1337,20 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text="Are you sure to delete?"
         />
       )}
+
+      {
+        shouldOpenConfirmationDialogparty && (
+          <MemberEditorDialogcontact
+            open={shouldOpenConfirmationDialogparty}
+            onConfirmDialogClose={handleDialogClose}
+            handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+            customercontact={setcontacts}
+            partyid={party_id}
+
+            text="Are you sure to delete?"
+          />
+        )
+      }
       {shouldOpenEditorDialogAnnexure && (
         <Annexure
           handleClose={handleDialogClose}

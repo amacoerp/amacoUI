@@ -729,10 +729,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
             return (
               <span className="showPageNumber" style={{
-
                 position: 'relative',
                 top: pos,
-                display: 'none',
+                // display: 'none',
               }}> <center>{item}</center></span>
             )
           })}
