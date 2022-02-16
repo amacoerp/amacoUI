@@ -357,7 +357,18 @@ const InvoiceForm = ({ }) => {
       onChange={handleChange}
       style={{ minWidth: 200, maxWidth: "250px" }}
       getOptionLabel={(option) => option.fname}
-      filterOptions={filterPrice}
+      filterOptions={(options,params)=>{
+        const filtered = filter(options, params);
+        if (params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+ Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
       size="small"
       renderInput={(params) => <TextField {...params} maxHeight="10px"
       variant="outlined" label="Custom filter" />}

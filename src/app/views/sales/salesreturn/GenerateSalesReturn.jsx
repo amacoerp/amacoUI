@@ -5,6 +5,7 @@ import {
     Button,
     Divider,
     Card,
+    Grid,
     MenuItem,
     Table,
     TableHead,
@@ -605,16 +606,16 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setShouldOpenEditorDialog(true);
 
     }
-    const setcontact = (event) => {
+    const setcontact = (event,newValue) => {
 
-        url.get("parties/" + event.target.value).then(({ data }) => {
+        url.get("parties/" + newValue?.id).then(({ data }) => {
             console.log(data[0].contacts)
             setcontacts(data[0].contacts)
-            setparty_id(event.target.value)
+            setparty_id(newValue?.id)
             setvalues({ ...values, status: true });
         });
 
-        url.get(`getSalesFormData/${event.target.value}`).then(({ data }) => {
+        url.get(`getSalesFormData/${newValue?.id}`).then(({ data }) => {
             console.log(data);
             // const poN = data.getPurchaseReturnData.map((item, i) => {
             //     return (
@@ -675,110 +676,174 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             </div>
                         </div>
 
-                        <div className="viewer__order-info px-4 mb-6 flex justify-between">
-                            <div >
-                                {/* <h5 className="font-normal capitalize">
-              <strong>Customer: </strong>{" "}
-              <span>
-                {id}
-              </span>
-            </h5> */}
-                                <TextField
+                        
+                        <Grid container spacing={2} className="mb-4">
+                            <Grid item>
+                            <TextField
 
-                                    label="Currency Type"
-                                    style={{ minWidth: 200, maxWidth: '250px' }}
-                                    name="party_id"
-                                    size="small"
-                                    variant="outlined"
+label="Currency Type"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
 
-                                    value={currency_type}
-                                    // onChange={handleChange}
-                                    onChange={(event) => setcurrency_type(event.target.value)}
-                                    required
-                                    select
-                                >
+value={currency_type}
+// onChange={handleChange}
+onChange={(event) => setcurrency_type(event.target.value)}
+required
+select
+>
 
-                                    {currency.map((item) => (
-                                        <MenuItem value={item.value} key={item.id}>
-                                            {item.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+{currency.map((item) => (
+    <MenuItem value={item.value} key={item.id}>
+        {item.name}
+    </MenuItem>
+))}
+</TextField>
 
-                                <TextField
-                                    className="pl-2"
-                                    label="Customer Name"
-                                    style={{ minWidth: 200, maxWidth: '250px' }}
-                                    name="party_id"
-                                    size="small"
-                                    variant="outlined"
-                                    onClick={(event) => setcontact(event)}
-                                    required
-                                    select
-                                >
-                                    <MenuItem onClick={() => {
-                                        history.push("/party/addparty");
-                                    }}>
+                            </Grid>
 
-                                        <Icon>add</Icon>New
+        <Grid item className="ml-4">
+    
+               
+        {/* <TextField
 
-                                    </MenuItem>
+label="Customer Name"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
 
-                                    {CustomerList.map((item) => (
 
-                                        <MenuItem value={item.id} key={item.id}>
-                                            {item.firm_name}
-                                        </MenuItem>
-                                    ))}
-                                    {/* {CustomerList.map((item) => (
+onClick={(event) => setcontact(event)}
+required
+select
+>
+<MenuItem onClick={() => {
+  history.push("/party/addparty");
+}}>
+
+  <Icon>add</Icon>New
+
+</MenuItem>
+{CustomerList.map((item) => (
+  <MenuItem value={item.id} key={item.id}>
+    {item.firm_name}
+  </MenuItem>
+))}
+</TextField> */}
+
+<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={CustomerList}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.firm_name}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event, newValue) => setcontact(event, newValue)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Customer Name" />}
+    />
+
+               
+  </Grid>
+  <Grid item>
+  <Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={contacts}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(event,newValue) => setcontactid(newValue?.id)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />
+
+  </Grid>
+
+  <Grid item >
+{/*   
+  {rfqstatus &&
+                  <TextField
+
+                    label="Contact Person"
+                    className="ml-2"
+                    style={{ minWidth: 200, maxWidth: '250px' }}
+                    name="contact_id"
+                    size="small"
+                    variant="outlined"
+                    select
+                    
+                    onChange={(e) => setcontactid(e.target.value)}
+
+                  >
+                    <MenuItem value=" "> <em>None</em></MenuItem>
+                    {customercontact.map((item) => (
                       <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
+                        {item.fname}
                       </MenuItem>
-                    ))} */}
+                    ))}
 
-                                </TextField>
+                  </TextField>
+                } */}
 
+{/* {rfqstatus&&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={customercontact}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e) => setcontactid(e.target.value)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />} */}
 
-
-
-
-
-                                {values.status &&
-                                    <TextField
-
-                                        label="Contact Person"
-                                        className="ml-2"
-                                        style={{ minWidth: 200, maxWidth: '250px' }}
-                                        name="contact_id"
-                                        size="small"
-                                        variant="outlined"
-                                        select
-                                        value={values.contact_id}
-                                        onChange={(e) => setcontactid(e.target.value)}
-
-                                    >
-                                        <MenuItem value=" "> <em>None</em></MenuItem>
-                                        {contacts?.map((item) => (
-                                            <MenuItem value={item.id} key={item.id}>
-                                                {item.fname}
-                                            </MenuItem>
-                                        ))}
-
-                                    </TextField>
-                                }
-                            </div>
-
-
-                            <div>
-
-
-                                <div className="text-right pt-4">
-                                    {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  </Grid>
+  <Grid item>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <KeyboardDatePicker
-                                            className="m-2"
+                                            className=""
                                             margin="none"
                                             label="Date"
                                             format="dd MMMM yyyy"
@@ -795,14 +860,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     </MuiPickersUtilsProvider>
 
 
-                                </div>
-
-                            </div>
-
-
-
-
-                        </div>
+  </Grid>
+  
+</Grid>
 
                         <Divider />
 

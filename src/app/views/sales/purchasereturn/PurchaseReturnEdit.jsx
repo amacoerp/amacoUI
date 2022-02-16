@@ -844,6 +844,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                         </div>
 
+
+                        
+
                         <Divider />
 
                         <Table className="mb-4">
