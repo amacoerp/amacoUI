@@ -5,6 +5,7 @@ import {
   Button,
   Divider,
   Card,
+  Grid,
   MenuItem,
   Table,
   TableHead,
@@ -580,7 +581,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setvalues({
         ...values,
         vendorList: data,
-        status: false
+        status: true
       })
 
 
@@ -630,6 +631,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setcontacts(data[0].contacts)
         setparty_id(newValue?.id)
         setcname(newValue.firm_name)
+        setcontactname()
 
         setvalues({ ...values, status: true });
 
@@ -650,7 +652,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setparty_id(id)
 
       // setcontactname(data[0]?.contact?.fname)
-      setvalues({ ...values, status: true });
+      // setvalues({ ...values, status: true });
       setcontactid(cid)
     });
   }
@@ -704,44 +706,50 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-6 flex justify-between">
-              <div >
+            {/* <div className="viewer__order-info px-4 mb-6 flex justify-between">
+              <div > */}
                 {/* <h5 className="font-normal capitalize">
               <strong>Customer: </strong>{" "}
               <span>
                 {id}
               </span>
             </h5> */}
-                <TextField
 
-                  label="Currency Type"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
 
-                  value={currency_type}
-                  // onChange={handleChange}
-                  onChange={(event) => setcurrency_type(event.target.value)}
-                  required
-                  select
-                >
 
-                  {currency.map((item) => (
-                    <MenuItem value={item.value} key={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                {console.log(values?.vendorList)}
-                <Autocomplete
+<Grid container spacing={2}>
+  <Grid item >
+  <TextField
+
+label="Currency Type"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
+
+value={currency_type}
+// onChange={handleChange}
+onChange={(event) => setcurrency_type(event.target.value)}
+required
+select
+>
+
+{currency.map((item) => (
+  <MenuItem value={item.value} key={item.id}>
+    {item.name}
+  </MenuItem>
+))}
+</TextField>
+  </Grid>
+  <Grid item >
+  <Autocomplete
                   id="filter-demo"
                   variant="outlined"
                   options={values?.vendorList}
                   value={cname}
 
-
-                  style={{ position: 'relative', top: '-37px', left: '220px' }}
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  // style={{ position: 'relative', top: '-37px', left: '220px' }}
                   getOptionLabel={(option) => option.firm_name ? option?.firm_name : cname}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
@@ -761,101 +769,39 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined" value={cname} label="Customer Name" />}
                 />
 
-
-                {/* <TextField
-
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
-                  variant="outlined"
-                  className="pl-2"
-                  value={party_id}
-                 
-                  onChange={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push("/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-                
-                  </MenuItem>
-                  
-                  {values?.vendorList.map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
-
-
-
-
-
-                {/* {
-                  <TextField
-
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
-                    size="small"
-                    variant="outlined"
-                    select
-                    value={contactid}
-                    onChange={(e) => setcontactid(e.target.value)}
-
-                  >
-                    <MenuItem value=" "> <em>None</em></MenuItem>
-                    {contacts?.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField>
-                } */}
-                {values.status && <Autocomplete
+  </Grid>
+  <Grid item >
+  <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  options={contacts}
-                  value={contactname}
-                  style={{ position: 'relative', top: '-74px', left: '440px' }}
-                  getOptionLabel={(option) => option.fname ? option.fname : contactname}
+                  options={values?.vendorList}
+                  value={cname}
 
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  // style={{ position: 'relative', top: '-37px', left: '220px' }}
+                  getOptionLabel={(option) => option.firm_name ? option?.firm_name : cname}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        fname: (<Button variant="outlined" color="primary" size="small" onClick={(e) => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
 
                     return filtered;
                   }}
-                  onChange={(e, newValue) => { setcontactid(newValue?.id) }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
                   renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Contact Person" />}
-                />}
-              </div>
-
-
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    variant="outlined" value={cname} label="Customer Name" />}
+                />
+  </Grid>
+  <Grid item >
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      className="m-2"
+                      className=""
                       margin="none"
                       label="Date"
                       format="dd MMMM yyyy"
@@ -870,16 +816,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       }}
                     />
                   </MuiPickersUtilsProvider>
-
-
-                </div>
-
-              </div>
-
-
-
-
-            </div>
+  </Grid>
+</Grid>
 
             <Divider />
 
