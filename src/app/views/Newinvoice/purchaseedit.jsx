@@ -601,6 +601,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcurrency_type(data[0]?.currency_type)
       setcharge(data[0]?.vat_in_value)
       settotal(data[0]?.net_amount)
+      console.log(data[0]?.quotation_details)
       setState({
         ...state,
         item: data[0]?.quotation_details,
@@ -717,7 +718,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-<Grid container spacing={2}>
+<Grid container spacing={2} className="p-4">
   <Grid item >
   <TextField
 
@@ -839,14 +840,14 @@ select
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
-                    subTotalCost += parseFloat(item.total_amount)
+                    subTotalCost += parseFloat(item?.total_amount)
                     vat = ((subTotalCost * 15) / 100).toFixed(2)
                     // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
                     GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                   }
                   else {
 
-                    subTotalCost += parseFloat(item.total_amount)
+                    subTotalCost += parseFloat(item?.total_amount)
                     dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
                     vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
@@ -1010,7 +1011,7 @@ select
                           size="small"
                           // options={item?.product_price_list ? item?.product_price_list : []}
                           name="purchase_price"
-                          value={parseFloat(item?.purchase_price)}
+                          value={isNaN(item?.purchase_price)?0:parseFloat(item?.purchase_price)}
                           currencySymbol=""
                           variant="outlined"
                           // filterOptions={filterPrice}
@@ -1079,7 +1080,7 @@ select
                           currencySymbol=''
                           // currencySymbol={currency_type}
                           name="total_amount"
-                          value={item.total_amount ? item.total_amount : ""}
+                          value={item?.total_amount ? item?.total_amount : ""}
                         />
                       </TableCell>
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'80px'}}>

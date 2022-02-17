@@ -16,6 +16,7 @@ import { Translator, Translate } from 'react-auto-translate';
 import { toArabic } from 'arabic-digits';
 import Header from '../../views/statements/Header';
 import Footer from '../../views/statements/Footer';
+import Box from '@material-ui/core/Box';
 import {
     Icon,
     Divider,
@@ -747,7 +748,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         <tbody style={{ marginBottom: '50px' }}>
                             <tr>
                                 <td>
-                                    <div className="px-2 pt-5 flex justify-between">
+                                    {/* <div className="px-2 pt-5 flex justify-between">
                                         <div className="flex">
                                             <div className="pl-2 px-4 mb-4">
                                                 <h3 style={{ fontSize: 20 }}><strong>PURCHASE INVOICE</strong></h3>
@@ -810,7 +811,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                                                         <br></br>
                                                         {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
-                                                    </div>
+                                                    </div> */}
                                                     {/* <div className="justify-center" style={{visibility:'hidden'}}>
            
             <span style={{fontWeight:1000}}></span>
@@ -818,7 +819,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               <div></div>
           
             </div> */}
-
+{/* 
 
                                                     <div className="">
                                                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
@@ -839,8 +840,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 <div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="px-2 flex justify-center">
+                                        </div> */}
+                                        {/* <div className="px-2 flex justify-center">
                                             <div className="flex " >
                                                 <div className="pr-12">
                                                     <div className="pb-3" align="right">
@@ -852,7 +853,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                     </div>
 
-                                                    <div className="justify-center" style={{ visibility: 'hidden' }}>
+                                                    <div className="justify-center" style={{ visibility: 'hidden' }}> */}
 
                                                         {/* <span style={{fontWeight:1000}}></span>
               <div></div>
@@ -864,7 +865,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               
             </div> */}
 
-                                                    </div>
+                                                    {/* </div>
                                                     <div className="" align="right">
                                                         <span style={{ fontWeight: 1000, fontSize: 18 }} >
                                                             رقم ضريبة القيمة المضافة
@@ -876,8 +877,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 <div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="px-0 mr-2 flex justify-end">
+                                        </div> */}
+                                        {/* <div className="px-0 mr-2 flex justify-end">
                                             <div className="flex " >
                                                 <div className="pr-2">
                                                     <div className="mr-0 pr-0 pb-3" align="right">
@@ -887,23 +888,23 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                         {moment(issue_date).format('DD MMM YYYY')}
 
-                                                    </div>
-                                                    <div className="mr-0 pr-0 pb-3" align="right">
-                                                        <span style={{ fontWeight: 1000, fontSize: 18 }}>
+                                                    </div> */}
+                                                    {/* <div className="mr-0 pr-0 pb-3" align="right">
+                                                        <span style={{ fontWeight: 1000, fontSize: 18 }}> */}
                                                             {/* <IntlProvider locale={locale} messages={Arabic}>
                   <FormattedMessage
                     id="companyname"
 
                   />
                 </IntlProvider> */}
-                                                            اسم الشركة وعنوانها
+                                                            {/* اسم الشركة وعنوانها
 
                                                         </span><br></br>
-                                                        <span>{cname_ar == null || cname_ar == 'null' ? '--' : cname_ar}</span><br></br>
+                                                        <span>{cname_ar == null || cname_ar == 'null' ? '--' : cname_ar}</span><br></br> */}
                                                         {/* <span>{companyaddress}</span> */}
-                                                        <span>
+                                                        {/* <span> */}
                                                             {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
-
+{/* 
                                                             {street_ar ? street_ar + (city_ar ? "," + city_ar + (zipcode ? "," + (toArabic(zipcode)) : " ") : (zipcode ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + (toArabic(zipcode)) : "") : (zipcode ? toArabic(zipcode) : ""))}
 
 
@@ -924,7 +925,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
 
 
@@ -949,6 +950,92 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           </div>
           <div />
         </div> */}
+
+
+<Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={4} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>ISSUE DATE</span><br></br>
+                        {moment(issue_date).format('DD MMM YYYY')}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs>
+                        <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span><br></br>
+                        {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>                                                            رقم الفاتورة
+                        </span><br></br>
+                        {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-2" align="right" style={{ width: 300 }} >
+                        <span style={{ fontWeight: 1000 }} xs={8}>                              تاريخ الاصدار
+                        </span><br></br>
+                        {moment(issue_date).format('DD MMM YYYY')}
+
+
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={4} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>COMPANY NAME</span><br></br>
+                        {company}
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs>
+                        <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span><br></br>
+                        {pono !== null ? pono : "--"}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" xs align="right">
+                        <span style={{ fontWeight: 1000 }}>                              رقم أمر الشراء
+                        </span><br></br>
+                        {pono !== null ? pono : "--"}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-2" align="right" style={{ width: 300 }} >
+                        <span style={{ fontWeight: 1000 }} xs={8}>اسم الشركة
+                        </span><br></br>
+                        {cname_ar}
+
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4" xs={4} style={{ wordBreak: 'break-word' }} >
+                        <span style={{ fontWeight: 1000 }}>COMPANY ADDRESS</span><br></br>
+                        {street ? street + (city ? "," + city + (zipcode ? "," + (zipcode) : " ") : (zipcode ? "," + (zipcode) : " ")) : (city ? city + (zipcode ? " ," + (zipcode) : " ") : (zipcode ? zipcode : " "))}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs>
+                        <span style={{ fontWeight: 1000 }}>VAT NUMBER</span><br></br>
+                        {vatno}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>                          رقم ضريبة
+                        </span><br></br>
+                        {toArabic(vatno) == 'null' || toArabic(vatno) == null ? '--' : toArabic(vatno)}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-2" align="right" style={{ width: 300 }}>
+                        <span style={{ fontWeight: 1000 }} xs={8}>الشركة عنوان
+                        </span><br></br>
+                        {street_ar ? street_ar + (city_ar ? "," + city_ar + (zipcode ? "," + toArabic(zipcode) : " ") : (zipcode ? "," + toArabic(zipcode) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + toArabic(zipcode) : " ") : (zipcode ? toArabic(zipcode) : " "))}
+
+                      </Grid>
+                    </Grid>
+                  </Box>
 
                                     <Card className="mb-4" elevation={0} borderRadius="borderRadius">
                                         <div className="viewer__order-info px-4 pt-4 mb-4 flex justify-between">

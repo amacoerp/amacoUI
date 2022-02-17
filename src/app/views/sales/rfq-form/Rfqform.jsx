@@ -120,8 +120,8 @@ const InvoiceForm = ({ }) => {
           firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=>history.push("/party/addparty")}>+Add New</Button>)
         });
       }
-      
-     
+      console.log(filtered)
+      // setCustomerList(filtered)
       return filtered;
     
   };
@@ -357,18 +357,8 @@ const InvoiceForm = ({ }) => {
       onChange={handleChange}
       style={{ minWidth: 200, maxWidth: "250px" }}
       getOptionLabel={(option) => option.fname}
-      filterOptions={(options,params)=>{
-        const filtered = filter(options, params);
-        if (params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+ Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
+      filterOptions={filterPrice}
+    
       size="small"
       renderInput={(params) => <TextField {...params} maxHeight="10px"
       variant="outlined" label="Custom filter" />}

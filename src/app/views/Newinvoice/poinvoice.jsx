@@ -1067,6 +1067,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 <div style={{ float: "left" }} className="pl-14"> {currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                  
 
                                 </div>
                                 <div style={{ clear: "left" }} />
