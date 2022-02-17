@@ -1138,35 +1138,35 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
-      setcname(data[0].party.firm_name)
-      setcontactname(data[0].contact.fname)
-      setinco_terms(data[0].inco_terms)
-      setdiscounts(data[0].discount_in_p)
-      setdiscount(data[0].discount_in_p)
-      setvalidity(data[0].validity)
-      setdelivery_time(data[0].delivery_time)
-      setpayment_terms(data[0].payment_terms)
-      setwarranty(data[0].warranty)
-      setQuote_date(data[0].ps_date)
+      setcname(data[0]?.party?.firm_name)
+      setcontactname(data[0]?.contact?.fname)
+      setinco_terms(data[0]?.inco_terms)
+      setdiscounts(data[0]?.discount_in_p)
+      setdiscount(data[0]?.discount_in_p)
+      setvalidity(data[0]?.validity)
+      setdelivery_time(data[0]?.delivery_time)
+      setpayment_terms(data[0]?.payment_terms)
+      setwarranty(data[0]?.warranty)
+      setQuote_date(data[0]?.ps_date)
       setsubject(data[0]?.subject)
-      setquotation_no(data[0].quotation_no)
-      setsign(data[0].sign[0]?.id)
-      setrfq_no(data[0].rfq_no)
+      setquotation_no(data[0]?.quotation_no)
+      setsign(data[0]?.sign[0]?.id)
+      setrfq_no(data[0]?.rfq_no)
 
       setbank_id(parseInt(data[0]?.bank?.id))
       settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseInt(data[0]?.transport))
       setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
 
 
-      setProductList1(data[0].quotation_details[0].product_price_list)
+      setProductList1(data[0]?.quotation_details[0]?.product_price_list)
       if (data[0].quotation_details[0].product_price_list) {
         setquickstatus(true)
       }
-      if (data[0].contact !== null) {
-        setcontactid(data[0].contact.id)
+      if (data[0]?.contact !== null) {
+        setcontactid(data[0]?.contact.id)
         setrfqstatus(true);
       }
-      setparty_id(data[0].party_id)
+      setparty_id(data[0]?.party_id)
 
 
       let tempItemList = [...data[0].notes];

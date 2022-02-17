@@ -1154,24 +1154,24 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
-      setinco_terms(data[0].inco_terms)
-      setcname(data[0].party.firm_name)
-      setcontactname(data[0].contact.fname);
-      setdiscounts(data[0].discount_in_p)
-      setdiscount(data[0].discount_in_p)
-      setvalidity(data[0].validity)
-      setdelivery_time(data[0].delivery_time)
-      setwarranty(data[0].warranty)
-      setpayment_terms(data[0].payment_terms)
-      setQuote_date(data[0].ps_date)
-      setsubject(data[0].subject)
+      setinco_terms(data[0]?.inco_terms)
+      setcname(data[0]?.party?.firm_name)
+      setcontactname(data[0]?.contact?.fname);
+      setdiscounts(data[0]?.discount_in_p)
+      setdiscount(data[0]?.discount_in_p)
+      setvalidity(data[0]?.validity)
+      setdelivery_time(data[0]?.delivery_time)
+      setwarranty(data[0]?.warranty)
+      setpayment_terms(data[0]?.payment_terms)
+      setQuote_date(data[0]?.ps_date)
+      setsubject(data[0]?.subject)
 
-      setsign(data[0].sign[0]?.id)
+      setsign(data[0]?.sign[0]?.id)
       // rfq no
-      setrfq_no(data[0].rfq_no)
-      setbank_id(parseInt(data[0].bank?.id))
-      setother(isNaN(parseFloat(data[0].other)) ? 0 : parseFloat(data[0].other))
-      settransport(isNaN(parseFloat(data[0].transport)) ? 0 : parseFloat(data[0].transport))
+      setrfq_no(data[0]?.rfq_no)
+      setbank_id(parseInt(data[0]?.bank?.id))
+      setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
+      settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseFloat(data[0]?.transport))
 
 
       setProductList1(data[0]?.quotation_details[0]?.product_price_list)
@@ -1179,11 +1179,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (data[0]?.quotation_details[0]?.product_price_list) {
         setquickstatus(true)
       }
-      if (data[0].contact !== null) {
-        setcontactid(data[0].contact.id)
-        url.get("parties/" + data[0].party_id).then(({ data }) => {
+      if (data[0]?.contact !== null) {
+        setcontactid(data[0]?.contact.id)
+        url.get("parties/" + data[0]?.party_id).then(({ data }) => {
 
-          setcustomercontact(data[0].contacts);
+          setcustomercontact(data[0]?.contacts);
           // setcustomercontact(data[0].contacts);
           
 
@@ -1193,13 +1193,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         });
       }
-      setparty_id(data[0].party_id)
+      setparty_id(data[0]?.party_id)
      
-      setTestArr([...data[0].notes]);
+      setTestArr([...data[0]?.notes]);
 
       setState({
         ...state,
-        item: data[0].quotation_details,
+        item: data[0]?.quotation_details,
       });
 
     });

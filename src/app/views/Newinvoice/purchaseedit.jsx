@@ -775,28 +775,28 @@ select
   <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  options={values?.vendorList}
-                  value={cname}
+                  options={contacts}
+                  value={contactname}
 
                   style={{ minWidth: 200, maxWidth: '250px' }}
                   // style={{ position: 'relative', top: '-37px', left: '220px' }}
-                  getOptionLabel={(option) => option.firm_name ? option?.firm_name : cname}
+                  getOptionLabel={(option) => option.fname ? option?.fname : contactname}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
 
                     return filtered;
                   }}
-                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  onChange={(event, newValue) => {setcontactid(newValue?.id);setcontactname(newValue?.fname)}}
                   size="small"
                   renderInput={(params) => <TextField {...params}
-                    variant="outlined" value={cname} label="Customer Name" />}
+                    variant="outlined" value={cname} label="Contact Person" />}
                 />
   </Grid>
   <Grid item >

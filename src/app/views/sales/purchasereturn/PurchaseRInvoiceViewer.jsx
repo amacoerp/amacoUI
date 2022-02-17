@@ -428,231 +428,44 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         );
       }
     });
+    // setnoteList(Note)
+    // Note.map((item, i) => {
 
-
-    const handlePrinting = () => {
-
-        var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-        // totalPages = totalPages - 2
-        let a = [];
-        for (var i = 0; i < totalPages; i++) {
-            var j = i;
-            j = ++j;
-            var q = ("Page " + j + " of " + (totalPages));
-            a[i] = q;
-        }
-        setPageNumber(a)
-        setTimeout(() => {
-            handlePrintingCur()
-        }, 500);
-    }
-
-    useEffect(() => {
-
-        // updateSidebarMode({ mode: "close" })
-        document.title = "Purchase Order - Amaco"
-        url.get(`getPurchaseReturnDetails/${id}`).then(({ data }) => {
-
-            setParty(data.getReturnParty);
-            setTableData(data.getReturnItems);
-            // setcname(data[0].party.fname)
-            // setpo_number(data[0].po_number)
-
-            // setqid(data[0].id)
-            // setrno(data[0]?.rfq?.id)
-            // setrdate(moment(data[0].updated_at).format('DD MMM YYYY'))
-            // setcompany(data[0].party.firm_name)
-            // setcity(data[0].party.city)
-            // setstreet(data[0].party.street)
-            // setzipcode(data[0].party.zip_code)
-            // setpo(data[0].party.post_box_no)
-            // setregno(data[0].party.registration_no)
-            // setvatno(data[0].party.vat_no)
-            // setqdetails(data[0].quotation_details)
-            // setnet_amount(data[0].net_amount)
-            // setvat_in_value(data[0].vat_in_value)
-            // settotal_value(data[0].total_value)
-            // setcurrency_type(data[0].currency_type)
-            // setfreight_type(data[0].freight_type)
-            // setvalidity(data[0].validity)
-            // setwarranty(data[0].warranty)
-            // setinco_terms(data[0].inco_terms)
-            // setpayment_terms(data[0].payment_terms)
-            // setdelivery_time(data[0].delivery_time)
-            // setcontactperson(data[0].contact?.fname)
-            // setcontactpersonemail(data[0].contact?.email)
-            // setcontactpersoncontact(data[0].party.contact)
-            // setdesignation(data[0].contact?.designation)
-            // setvendor_id(data[0].party.vendor_id)
-            // setparty_code(data[0].party?.party_code)
-            // setaddress({ ...address, street: data[0].party.street, city: data[0].party.city, po_no: data[0].party.post_box_no })
-            let words = toWords.convert(parseFloat(data.getReturnParty[0].net_amount));
-            let riyal = words.replace("Rupees", "Riyals");
-            let halala = riyal.replace("Paise", "Halala")
-            let words1 = numberToWords.toWords(data.getReturnParty[0].net_amount);
-            let decimal = parseFloat(parseFloat(data.getReturnParty[0].net_amount).toFixed(2).split('.')[1]);
-
-
-            if (data.getReturnParty[0].currency_type == "SAR") {
-                setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
-            }
-            if (data.getReturnParty[0].currency_type == "AED") {
-                setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
-            }
-            if (data.getReturnParty[0].currency_type == "USD") {
-                setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
-            }
-
-
-
-        });
-        // setnoteList(Note)
-        // Note.map((item, i) => {
-
-        // })
-        // if (id !== "add")
-        //   getInvoiceById(id).then((res) => {
-        //     setState({ ...res.data });
-        //   });
-    }, [id]);
-    const updateSidebarMode = (sidebarSettings) => {
-        if (sidebarSettings.mode == "close") {
-            let activeLayoutSettingsName = settings.activeLayout + "Settings";
-            let activeLayoutSettings = settings[activeLayoutSettingsName];
-            updateSettings({
-                ...settings,
-                [activeLayoutSettingsName]: {
-                    ...activeLayoutSettings,
-                    leftSidebar: {
-                        ...activeLayoutSettings.leftSidebar,
-                        ...sidebarSettings,
-                    },
-                },
-            });
-        }
-        else {
-            window.location.href = `../Newinvoiceview`
-            history.push("/Newinvoiceview")
-            // let activeLayoutSettingsName = settings.activeLayout + "Settings";
-            // let activeLayoutSettings = settings[activeLayoutSettingsName];
-            // updateSettings({
-            //   ...settings,
-            //   [activeLayoutSettingsName]: {
-            //     ...activeLayoutSettings,
-            //     leftSidebar: {
-            //       ...activeLayoutSettings.leftSidebar,
-            //       ...sidebarSettings,
-            //     },
-            //   },
-            // });
-
-        }
-
-    }
-    const editpurchase = () => {
-
-        // window.location.href=`../purchaseedit/${id}`
-        history.push(navigatePath + `/purchasereturnedit/${id}`)
-
-    }
-    const updateCompany = () => {
-        const val = {
-            id: id,
-            company_address: company_address
-        }
-        // window.location.href=`../purchaseedit/${id}`
-        setedit(false)
-        url.post('update_company', val).then(() => {
-
-        })
-
-    }
-    const invoicegenrate = (sidebarSettings) => {
-        // alert(id)
-        // const postatus={
-        //   status:"po"
-        // }
-
-        // Swal.fire({
-        //   title: 'Are you sure?',
-        //   text: 'You want to create Invoice !',
-        //   icon: 'danger',
-        //   showCancelButton: true,
-        //   confirmButtonText: 'Yes,!',
-        //   icon: 'warning',
-        //   cancelButtonText: 'No, keep it'
-        // }).then((result) => {
-        //   if (result.value) {
-
-
-
-        //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
-        // let activeLayoutSettings = settings[activeLayoutSettingsName];
-        // updateSettings({
-        //   ...settings,
-        //   [activeLayoutSettingsName]: {
-        //     ...activeLayoutSettings,
-        //     leftSidebar: {
-        //       ...activeLayoutSettings.leftSidebar,
-        //       ...sidebarSettings,
-        //     },
-        //   },
-        // });
-
-
-
-        window.location.href = `../poinvoicegenerate/${id}`
-
-
-
-
-
-
-        //   } else if (result.dismiss === Swal.DismissReason.cancel) {
-        //     Swal.fire(
-        //       'Cancelled',
-        //       '........:)',
-        //       'error'
-        //     )
-        //   }
-        // })
-
-    }
-    const deletepo = () => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this Purchase Return!',
-            icon: 'danger',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            icon: 'warning',
-            cancelButtonText: 'No, keep it'
-        }).then((result) => {
-            if (result.value) {
-                url.delete(`purchase-return-delete/${id}`)
-                    .then(res => {
-
-                        Swal.fire(
-                            'Deleted!',
-                            'Purchase Return has been deleted.',
-                            'success'
-                        )
-
-                        history.push(navigatePath + "/purchasereturn")
-                        // history.push('/quoateview')
-
-                    })
-
-
-
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                    'Cancelled',
-                    'Your Purchase Return is safe :)',
-                    'error'
-                )
-            }
-        })
+    // })
+    // if (id !== "add")
+    //   getInvoiceById(id).then((res) => {
+    //     setState({ ...res.data });
+    //   });
+  }, [id]);
+  const updateSidebarMode = (sidebarSettings) => {
+    if (sidebarSettings.mode == "close") {
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
+        },
+      });
+    } else {
+      window.location.href = `../Newinvoiceview`;
+      history.push("/Newinvoiceview");
+      // let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      // let activeLayoutSettings = settings[activeLayoutSettingsName];
+      // updateSettings({
+      //   ...settings,
+      //   [activeLayoutSettingsName]: {
+      //     ...activeLayoutSettings,
+      //     leftSidebar: {
+      //       ...activeLayoutSettings.leftSidebar,
+      //       ...sidebarSettings,
+      //     },
+      //   },
+      // });
     }
   };
   const editpurchase = () => {

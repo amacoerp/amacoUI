@@ -76,8 +76,8 @@ const StockViewer = () => {
        
         item['sum_sales_qty']= item?.product_sales?.reduce((obj,val)=>obj+parseFloat(val?.quantity),0)
         item['initial_qty'] =console.log(parseFloat(item?.initial_quantity))
-         item['sum_purchase_return_qty']=item.purchase_sale__return.filter(objs=>objs.po_number!='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
-        item['sum_sales_return_qty']=item.purchase_sale__return.filter(objs=>objs.po_number=='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
+         item['sum_purchase_return_qty']=item.purchase_sale__return?.filter(objs=>objs?.po_number!='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
+        item['sum_sales_return_qty']=item.purchase_sale__return?.filter(objs=>objs?.po_number=='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
         return item;
             })
      

@@ -181,6 +181,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [rdate, setrdate] = useState([]);
   const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState([]);
+  const [email, setemail] = useState(" ");
   const [company, setcompany] = useState("");
   const [city, setcity] = useState("");
   const [street, setstreet] = useState("");
