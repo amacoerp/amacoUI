@@ -671,7 +671,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     validators={["required", "isNumber"]}
                                                     errorMessages={[
                                                         "this field is required",
-                                                            "Input is not Valid",
+                                                        "Input is not Valid",
                                                     ]}
                                                 />
                                             </TableCell>
@@ -829,7 +829,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             fullWidth
                                             readOnly
                                             size="small"
-                                            currencySymbol="SAR"
+                                            currencySymbol={currency_type}
                                             value={dis_per}
                                         />
                                     </div>
@@ -857,7 +857,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             readOnly
                                             size="small"
                                             style={{ width: '250px' }}
-                                            currencySymbol="SAR"
+                                            currencySymbol={currency_type}
                                             name="vat"
                                             value={subTotalCost ? vat : 0}
                                         />
@@ -883,7 +883,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                             style={{ width: '250px' }}
                                             size="small"
                                             readOnly
-                                            currencySymbol="SAR"
+                                            currencySymbol={currency_type}
                                             name="net_amount"
                                             value={subTotalCost ? GTotal : 0.00}
                                         />

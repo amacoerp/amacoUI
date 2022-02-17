@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import MemberEditorDialogcontact from "../../party/partycontact";
 
 import {
     Button,
@@ -96,6 +97,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [pData, setPData] = useState([]);
     const [dln, setDLN] = useState([]);
 
+    const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
 
 
 
@@ -587,7 +589,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             // setvalues({
             //     ...values,
             //     contacts: data.data[0].contact,
-               
+
             // })
             setcontacts(data.contact)
             setcontactid(data.data[0].contact_id)
@@ -684,37 +686,37 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             </div>
                         </div>
 
-                       
+
                         <Grid container spacing={2} className="mb-4">
                             <Grid item className="pl-4">
-                            <TextField
+                                <TextField
 
-label="Currency Type"
-style={{ minWidth: 200, maxWidth: '250px' }}
-name="party_id"
-size="small"
-variant="outlined"
+                                    label="Currency Type"
+                                    style={{ minWidth: 200, maxWidth: '250px' }}
+                                    name="party_id"
+                                    size="small"
+                                    variant="outlined"
 
-value={currency_type}
-// onChange={handleChange}
-onChange={(event) => setcurrency_type(event.target.value)}
-required
-select
->
+                                    value={currency_type}
+                                    // onChange={handleChange}
+                                    onChange={(event) => setcurrency_type(event.target.value)}
+                                    required
+                                    select
+                                >
 
-{currency.map((item) => (
-    <MenuItem value={item.value} key={item.id}>
-        {item.name}
-    </MenuItem>
-))}
-</TextField>
+                                    {currency.map((item) => (
+                                        <MenuItem value={item.value} key={item.id}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
 
                             </Grid>
 
-        <Grid item className="ml-4">
-    
-               
-        {/* <TextField
+                            <Grid item className="ml-4">
+
+
+                                {/* <TextField
 
 label="Customer Name"
 style={{ minWidth: 200, maxWidth: '250px' }}
@@ -741,7 +743,7 @@ select
 ))}
 </TextField> */}
 
-{/* <Autocomplete
+                                {/* <Autocomplete
       id="filter-demo"
       variant="outlined"
       options={values.vendorList}
@@ -767,45 +769,45 @@ select
       renderInput={(params) => <TextField {...params} 
       variant="outlined" label="Customer Name" readOnly />}
     /> */}
-     <TextField
+                                <TextField
 
-label="Customer Name"
-style={{ minWidth: 200, maxWidth: '250px' }}
-name="party_id"
-size="small"
-inputProps={{
-    readOnly: true
-}}
+                                    label="Customer Name"
+                                    style={{ minWidth: 200, maxWidth: '250px' }}
+                                    name="party_id"
+                                    size="small"
+                                    inputProps={{
+                                        readOnly: true
+                                    }}
 
-variant="outlined"
-className="pl-2"
-value={party_id}
-// onChange={handleChange}
-onChange={(event) => setcontact(event)}
-required
-select
->
-<MenuItem onClick={() => {
-    history.push("/party/addparty");
-}}>
+                                    variant="outlined"
+                                    className="pl-2"
+                                    value={party_id}
+                                    // onChange={handleChange}
+                                    onChange={(event) => setcontact(event)}
+                                    required
+                                    select
+                                >
+                                    <MenuItem onClick={() => {
+                                        history.push("/party/addparty");
+                                    }}>
 
-    <Icon>add</Icon>New
-    {/* </Button> */}
-</MenuItem>
-{values?.vendorList.map((item) => (
-    <MenuItem value={item.id} key={item.id}>
-        {item.firm_name}
-    </MenuItem>
-))}
-</TextField>
-
-
+                                        <Icon>add</Icon>New
+                                        {/* </Button> */}
+                                    </MenuItem>
+                                    {values?.vendorList.map((item) => (
+                                        <MenuItem value={item.id} key={item.id}>
+                                            {item.firm_name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
 
 
-               
-  </Grid>
-  <Grid item>
-  {values.status &&
+
+
+
+                            </Grid>
+                            <Grid item>
+                                {values.status &&
                                     <TextField
 
                                         label="Contact Person"
@@ -819,7 +821,7 @@ select
                                         onChange={(e) => setcontactid(e.target.value)}
 
                                     >
-                                        <MenuItem value=" "> <em>None</em></MenuItem>
+                                        <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}> + Add New</MenuItem>
                                         {contacts?.map((item) => (
                                             <MenuItem value={item.id} key={item.id}>
                                                 {item.fname}
@@ -828,10 +830,10 @@ select
 
                                     </TextField>
                                 }
-  </Grid>
+                            </Grid>
 
-  <Grid item >
-{/*   
+                            <Grid item >
+                                {/*   
   {rfqstatus &&
                   <TextField
 
@@ -856,7 +858,7 @@ select
                   </TextField>
                 } */}
 
-{/* {rfqstatus&&<Autocomplete
+                                {/* {rfqstatus&&<Autocomplete
       id="filter-demo"
       variant="outlined"
       options={customercontact}
@@ -881,30 +883,30 @@ select
       variant="outlined" label="Contact Person" />}
     />} */}
 
-  </Grid>
-  <Grid item>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            className=""
-                                            margin="none"
-                                            label="Date"
-                                            format="dd MMMM yyyy"
-                                            inputVariant="outlined"
-                                            type="text"
-                                            size="small"
-                                            selected={Quote_date}
-                                            value={Quote_date}
-                                            onChange={(date) => {
-                                                setQuote_date(moment(date).format('DD MMM YYYY'))
-                                                // return date
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
+                            </Grid>
+                            <Grid item>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        className=""
+                                        margin="none"
+                                        label="Date"
+                                        format="dd MMMM yyyy"
+                                        inputVariant="outlined"
+                                        type="text"
+                                        size="small"
+                                        selected={Quote_date}
+                                        value={Quote_date}
+                                        onChange={(date) => {
+                                            setQuote_date(moment(date).format('DD MMM YYYY'))
+                                            // return date
+                                        }}
+                                    />
+                                </MuiPickersUtilsProvider>
 
 
-  </Grid>
-  
-</Grid>
+                            </Grid>
+
+                        </Grid>
                         <Divider />
 
                         <Table className="mb-4">
@@ -1409,6 +1411,19 @@ select
                     productprice={setproductprice}
                 />
             )}
+            {
+                shouldOpenConfirmationDialogparty && (
+                    <MemberEditorDialogcontact
+                        open={shouldOpenConfirmationDialogparty}
+                        onConfirmDialogClose={handleDialogClose}
+                        handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+                        customercontact={setcontacts}
+                        partyid={party_id}
+
+                        text="Are you sure to delete?"
+                    />
+                )
+            }
             {shouldOpenConfirmationDialog && (
                 <ConfirmationDialog
                     open={shouldOpenConfirmationDialog}

@@ -299,6 +299,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setregno(data[0]?.party[0]?.registration_no)
       setcontactperson(data[0]?.contact?.fname)
       setcontactpersonemail(data[0]?.contact?.email)
+      console.log('ss', data[0])
       setcontactpersoncontact(data[0]?.contact?.mobno)
       setdesignation(data[0]?.contact?.designation)
 
@@ -643,13 +644,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <div className="flex " >
                       <div className="">
                         <div className="pl-2 pb-4">
-                          <span style={{ fontWeight: 1000 }}>Supplier Name</span>
+                          <span style={{ fontWeight: 1000 }}>SUPPLIER NAME</span>
                           <br></br>
                           {company}
 
                         </div>
                         <div className="pl-2 pb-4 ">
-                          <span style={{ fontWeight: 1000 }}>Email ID</span>
+                          <span style={{ fontWeight: 1000 }}>EMAIL ID</span>
                           <br></br>
                           {contactpersonemail}
 
@@ -665,13 +666,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <div className="flex " >
                       <div className="">
                         <div className="pl-2 pb-4">
-                          <span style={{ fontWeight: 1000 }}>RFQ Date</span>
+                          <span style={{ fontWeight: 1000 }}>RFQ DATE</span>
                           <br></br>
                           {moment(rdate).format('DD MMM YYYY')}
 
                         </div>
                         <div className="pl-2 pb-4 ">
-                          <span style={{ fontWeight: 1000 }}>Bid closing date</span>
+                          <span style={{ fontWeight: 1000 }}>BID CLOSING DATE</span>
                           <br></br>
                           {moment(ddate).format('DD MMM YYYY')}
 
@@ -728,7 +729,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <TableBody>
                         {rfq_details?.map((item, index) => {
 
-                          console.log(item)
 
                           subTotalCost += item.unit * item.price;
 

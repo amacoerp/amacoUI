@@ -269,6 +269,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
         var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
         // totalPages = totalPages - 2
+
+        if (componentRef.current.scrollHeight < 1490) {
+            totalPages = 1
+        }
+
         let a = [];
         for (var i = 0; i < totalPages; i++) {
             var j = i;
@@ -973,58 +978,61 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                         return (
 
-                                                            <TableRow key={index} style={{ border: "1px solid #ccc", fontSize: 18 }}>
-                                                                <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {index + 1}
-                                                                </TableCell>
+                                                            <>
+                                                                <TableRow key={index} style={{ border: "1px solid #ccc", fontSize: 18 }}>
+                                                                    <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
+                                                                        {index + 1}
+                                                                    </TableCell>
 
 
-                                                                <TableCell className="pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc", wordBreak: "break-word", fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    <div>
-                                                                        <span style={{ textAlign: "center" }}>
-                                                                            <center>{item?.description}</center>
+                                                                    <TableCell className="pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc", wordBreak: "break-word", fontFamily: "Calibri", fontSize: 16 }}>
+                                                                        <div>
+                                                                            <span style={{ textAlign: "center" }}>
+                                                                                <center>{item?.description}</center>
+                                                                            </span>
+                                                                        </div>
+                                                                        <span style={{ float: "right" }}>
+                                                                            {item.arabic_description ? item.arabic_description : ''}
                                                                         </span>
-                                                                    </div>
-                                                                    <span style={{ float: "right" }}>
-                                                                        {item.arabic_description ? item.arabic_description : ''}
-                                                                    </span>
 
 
 
 
 
-                                                                </TableCell>
+                                                                    </TableCell>
 
 
-                                                                <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {item.unit_of_measure}
-                                                                </TableCell>
-                                                                <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2} >
-                                                                    {parseInt(item.quantity).toLocaleString()}
+                                                                    <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
+                                                                        {item.unit_of_measure}
+                                                                    </TableCell>
+                                                                    <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2} >
+                                                                        {parseInt(item.quantity).toLocaleString()}
 
-                                                                </TableCell>
-                                                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
-                                                                    {parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) == 'NaN' ?
-                                                                        0
-                                                                        :
-                                                                        parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })
-                                                                    }
-                                                                    {/* {isNaN(parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 'Nam=n' : 'not na'} */}
-                                                                </TableCell>
-                                                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+                                                                    </TableCell>
+                                                                    <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+                                                                        {parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) == 'NaN' ?
+                                                                            0
+                                                                            :
+                                                                            parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                                                        }
+                                                                        {/* {isNaN(parseFloat(item.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 })) ? 'Nam=n' : 'not na'} */}
+                                                                    </TableCell>
+                                                                    <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
 
-                                                                    {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                                                </TableCell>
-                                                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
-                                                                    {/* {item.total_amount} */}
-                                                                    {parseFloat((item.total_amount * 15) / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                                                </TableCell>
-                                                                <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
-                                                                    {(parseFloat(item.total_amount) + (item.total_amount * 15) / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                                                </TableCell>
+                                                                        {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                                    </TableCell>
+                                                                    <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+                                                                        {/* {item.total_amount} */}
+                                                                        {parseFloat((item.total_amount * 15) / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                                    </TableCell>
+                                                                    <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} >
+                                                                        {(parseFloat(item.total_amount) + (item.total_amount * 15) / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                                    </TableCell>
 
 
-                                                            </TableRow>
+                                                                </TableRow>
+
+                                                            </>
 
                                                         );
                                                     })}

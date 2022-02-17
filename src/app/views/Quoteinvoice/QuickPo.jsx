@@ -760,7 +760,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     onChange={(event, newValue) => setcontact(event, newValue)}
                     size="small"
                     renderInput={(params) => <TextField {...params}
-                      variant="outlined" label="Customer Name" />}
+                      variant="outlined" label="Vendor Name" />}
                   />
 
                   {values.status && <Autocomplete

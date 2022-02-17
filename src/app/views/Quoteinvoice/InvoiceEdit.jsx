@@ -1002,7 +1002,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   let inputRef = [];
   let priceRef = [];
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
 
     url.get("parties/" + newValue?.id).then(({ data }) => {
@@ -1041,7 +1041,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setdiscount(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
       setcname(data[0]?.party.firm_name)
-     
+
       setrfqstatus(true)
       setcontactid(data[0]?.contact?.id)
       if (data[0]?.po_number) {
@@ -1268,14 +1268,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            
+
 
 
             <Grid container spacing={2} className="mb-4">
-        <Grid item className="ml-4">
-    
-               
-        {/* <TextField
+              <Grid item className="ml-4">
+
+
+                {/* <TextField
 
 label="Customer Name"
 style={{ minWidth: 200, maxWidth: '250px' }}
@@ -1301,37 +1301,37 @@ select
   </MenuItem>
 ))}
 </TextField> */}
-{console.log(party_id)}
-<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={CustomerList}
-      
-      style={{width:200}}
-      value={cname}
-      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" />}
-    />
+                {console.log(party_id)}
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  options={CustomerList}
 
-               
-  </Grid>
-  <Grid item >
-{/*   
+                  style={{ width: 200 }}
+                  value={cname}
+                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
+
+
+              </Grid>
+              <Grid item >
+                {/*   
   {rfqstatus &&
                   <TextField
 
@@ -1356,7 +1356,7 @@ select
                   </TextField>
                 } */}
 
-{/* {rfqstatus&&<Autocomplete
+                {/* {rfqstatus&&<Autocomplete
       id="filter-demo"
       variant="outlined"
       options={customercontact}
@@ -1382,43 +1382,43 @@ select
       variant="outlined" label="Contact Person" />}
     />} */}
 
-  </Grid>
-  <Grid item>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
+                    size="small"
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
 
 
-  </Grid>
-  <Grid item xs>
-  <TextField
+              </Grid>
+              <Grid item xs>
+                <TextField
 
-label="P.O Number"
-className=""
-style={{ minWidth: 200, maxWidth: '250px' }}
-name="contact_id"
-size="small"
-variant="outlined"
-value={ponumber}
-onChange={(e) => setponumber(e.target.value)}
+                  label="P.O Number"
+                  className=""
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="contact_id"
+                  size="small"
+                  variant="outlined"
+                  value={ponumber}
+                  onChange={(e) => setponumber(e.target.value)}
 
-/>
-    </Grid>
-    </Grid>
+                />
+              </Grid>
+            </Grid>
 
             <Divider />
 
@@ -1709,7 +1709,7 @@ onChange={(e) => setponumber(e.target.value)}
                             ref: setRef(index + 'purchase_price')
                           }}
                           name="purchase_price"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           // inputProps={{ min: 0, style: { textAlign: 'center' } }}
 
                           onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
