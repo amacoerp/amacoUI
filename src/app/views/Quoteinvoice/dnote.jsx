@@ -151,7 +151,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const json = Object.assign({}, arr);
 
-    console.log(tempItemList)
 
 
     url.post('delivery-notes', json)
@@ -187,7 +186,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get("sale-quotation/" + id).then(({ data }) => {
 
       setcname(data[0].party.firm_name)
-      
+
       setqno(data[0].quotation_no)
       setpono(data[0].po_number)
 
@@ -416,7 +415,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="delivery quantity"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           type="text"
-                          inputProps={{min: -1, style: { textAlign: 'center' }}}
+                          inputProps={{ min: -1, style: { textAlign: 'center' } }}
                           name="delivering_quantity"
                           validators={["required", "isNumber"]}
                           errorMessages={[

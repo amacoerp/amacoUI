@@ -169,7 +169,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 } else if (false) {
                     priceRef[parseInt(prev)].focus();
                 } else {
-                    console.log(prev)
                     console.log(getRef(prev)?.current?.focus())
                 }
             }
@@ -301,10 +300,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             return item.product_id
         });
 
-        console.log(newValue?.invoice_no)
-        console.log(dln)
-        console.log(nd)
-
+       
         const a = nd.map((item) => {
             const b = dl;
             return b.filter(obj => obj.id == item)
@@ -556,7 +552,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-        console.log(json)
         url.post('purchase-return-update', json)
             .then(function (response) {
 
@@ -615,7 +610,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setPriceList(data)
         });
         url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
-            console.log('ss', data)
             setcontacts(data.cont)
             setQuote_date(data.data[0].ps_date)
             setcontactid(data.data[0].contact_id)
@@ -628,7 +622,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ...state,
                 item: data.datas,
             });
-            console.log(data.datas)
         })
 
         return setIsAlive(false)

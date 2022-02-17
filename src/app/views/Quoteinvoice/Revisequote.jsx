@@ -714,7 +714,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
       }
       return element;
 
@@ -977,7 +976,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.post(`sale-quotation`, formData)
       .then(function (response) {
-        console.log(arr)
 
         Swal.fire({
           title: 'Success',
@@ -1140,7 +1138,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
-      console.log(data[0].discount_in_p)
       setcname(data[0].party.firm_name)
       setcontactname(data[0].contact.fname)
       setinco_terms(data[0].inco_terms)
@@ -1153,7 +1150,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setQuote_date(data[0].ps_date)
       setsubject(data[0]?.subject)
       setquotation_no(data[0].quotation_no)
-      console.log(data[0].sign[0]?.id)
       setsign(data[0].sign[0]?.id)
       setrfq_no(data[0].rfq_no)
 
@@ -1819,7 +1815,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="quantity"
                           value={item.quantity}
                         />
-                        {console.log('item.quantity', item.quantity)}
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
                         <TextField

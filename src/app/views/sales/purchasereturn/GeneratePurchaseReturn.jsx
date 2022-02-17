@@ -280,7 +280,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 } else if (false) {
                     priceRef[parseInt(prev)].focus();
                 } else {
-                    console.log(prev)
                     console.log(getRef(prev)?.current?.focus())
                 }
             }
@@ -561,7 +560,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         delete tempState.loading;
         let tempItemList = [...state.item];
 
-        console.log(tempItemList);
 
 
         arr.quotation_details = tempItemList

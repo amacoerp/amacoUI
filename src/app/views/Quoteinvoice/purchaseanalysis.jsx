@@ -306,7 +306,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
     const json = Object.assign({}, arr);
-    console.log(tempItemList)
     url.post('purchase-quotation', json)
       .then(function (response) {
 

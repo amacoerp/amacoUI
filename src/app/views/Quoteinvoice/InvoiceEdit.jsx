@@ -702,7 +702,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
           let dval = newValue ? newValue : event.target.value;
-          console.log(parseFloat(dval))
+
           element[name] = parseFloat(dval)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
@@ -1301,7 +1301,6 @@ select
   </MenuItem>
 ))}
 </TextField> */}
-                {console.log(party_id)}
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"

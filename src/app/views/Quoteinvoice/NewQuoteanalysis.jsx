@@ -656,7 +656,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         if (parseFloat(element.purchase_price)) {
 
-          console.log(element)
           element['purchase_price'] = event.target.value ? event.target.value : (event.target.value == null ? 0 : event.target.value);
 
           element.sell_price = parseFloat(element.purchase_price) ? (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price) : parseFloat(element.purchase_price) * parseFloat(element.quantity);
@@ -703,7 +702,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
-      console.log(element)
       let sum = 0;
 
       if (index == i) {
@@ -753,7 +751,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const discountPer = (event, index, value) => {
 
-    console.log(event.target.value)
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {

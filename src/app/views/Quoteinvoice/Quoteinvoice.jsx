@@ -181,7 +181,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       })
     // }, 5000);
-    console.log(arr)
   };
   function cancelform() {
     history.push(navigatePath + `/quote/${id}/accept`)
@@ -211,7 +210,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element['product'] = element.description
         return element;
       })
-      console.log(tempItemList)
 
       setState({
         ...state,

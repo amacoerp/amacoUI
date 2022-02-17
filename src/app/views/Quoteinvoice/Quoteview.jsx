@@ -324,7 +324,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       var q = ("Page " + j + " of " + (totalPages));
       a[i] = q;
     }
-    console.log(a)
     setPageNumber(a)
     setTimeout(() => {
       handlePrintingCur()
@@ -384,7 +383,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
-    console.log(document.querySelectorAll(".footer").length, 'dsds');
     url.get("sale-quotation/" + id).then(({ data }) => {
       if (s == "new") {
         settab(0)
@@ -435,8 +433,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         return item
       })
 
-      console.log('ssss', uniqueAddresses)
-      console.log('sss', res)
+    
 
       let result = data[0]?.quotation_details.filter(function (o1) {
         return res.some(function (o2) {
@@ -454,7 +451,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setqdetails(result)
       // setqdetails(data[0]?.quotation_details)
       setnet_amount(data[0]?.net_amount)
-      console.log(data[0]?.net_amount)
       setvat_in_value(data[0]?.vat_in_value)
       settotal_value(data[0]?.total_value)
       setvalidity(data[0]?.validity)
