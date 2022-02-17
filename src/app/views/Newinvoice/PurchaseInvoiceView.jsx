@@ -1031,7 +1031,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                                                                 </TableRow>
-                                                             
+
                                                             </>
 
                                                         );

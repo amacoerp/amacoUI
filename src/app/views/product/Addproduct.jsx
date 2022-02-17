@@ -546,34 +546,36 @@ const SimpleForm = ({ open, handleClose }) => {
               // errorMessages={["this field is required"]}
               />
             </div>
-            <div className="flex mb-4">
-              <TextField
+            <div className="flex mb-4 w-6">
+              <TextValidator
                 className="mr-2"
                 label="Initial quantity"
                 variant="outlined"
                 onChange={e => setiq(e.target.value)}
                 value={iq}
                 size="small"
-                type="number"
+                type="text"
                 validators={[
-                  "required",
+                  "isNumber",
                 ]}
-                errorMessages={["this field is required"]}
-                fullWidth
+                errorMessages={["Invalid Number"]}
+                // inputProps={{width:'800px'}}
+                style={{width:285}}
               />
               <TextField
                 className="ml-2"
                 label="Minimum Quantity"
                 variant="outlined"
                 value={mq}
-                type="number"
+                type="text"
                 size="small"
                 validators={[
-                  "required",
+                  "isNumber",
                 ]}
-                errorMessages={["this field is required"]}
+                errorMessages={["Invalid Number"]}
                 onChange={e => setmq(e.target.value)}
-                fullWidth
+                // inputProps={{width:'200%'}}
+                style={{width:290}}
               />
             </div>
             <div className="flex mb-4">

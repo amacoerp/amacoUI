@@ -392,36 +392,36 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     url.get("purchase-quotation/" + id).then(({ data }) => {
       document.title = `AMACO PURCHASE ORDER - ${data[0]?.party?.firm_name} - ${data[0]?.po_number}`
       // setcname(data[0].party.fname)
-      setpo_number(data[0].po_number)
+      setpo_number(data[0]?.po_number)
 
-      setqid(data[0].id)
+      setqid(data[0]?.id)
       setrno(data[0]?.rfq?.id)
       setrdate(moment(data[0].ps_date).format('DD MMM YYYY'))
-      setcompany(data[0].party.firm_name)
-      setcity(data[0].party.city)
-      setstreet(data[0].party.street)
-      setzipcode(data[0].party.zip_code)
-      setpo(data[0].party.post_box_no)
-      setregno(data[0].party.registration_no)
-      setvatno(data[0].party.vat_no)
-      setqdetails(data[0].quotation_details)
-      setnet_amount(data[0].net_amount)
-      setvat_in_value(data[0].vat_in_value)
-      settotal_value(data[0].total_value)
-      setcurrency_type(data[0].currency_type)
-      setfreight_type(data[0].freight_type)
-      setvalidity(data[0].validity)
-      setwarranty(data[0].warranty)
-      setinco_terms(data[0].inco_terms)
-      setpayment_terms(data[0].payment_terms)
-      setdelivery_time(data[0].delivery_time)
-      setcontactperson(data[0].contact?.fname)
-      setcontactpersonemail(data[0].contact?.email)
-      setcontactpersoncontact(data[0].party.contact)
-      setdesignation(data[0].contact?.designation)
-      setvendor_id(data[0].party.vendor_id)
-      setparty_code(data[0].party?.party_code)
-      setaddress({ ...address, street: data[0].party.street, city: data[0].party.city, po_no: data[0].party.post_box_no })
+      setcompany(data[0]?.party?.firm_name)
+      setcity(data[0]?.party?.city)
+      setstreet(data[0]?.party?.street)
+      setzipcode(data[0]?.party?.zip_code)
+      setpo(data[0]?.party?.post_box_no)
+      setregno(data[0]?.party?.registration_no)
+      setvatno(data[0]?.party?.vat_no)
+      setqdetails(data[0]?.quotation_details)
+      setnet_amount(data[0]?.net_amount)
+      setvat_in_value(data[0]?.vat_in_value)
+      settotal_value(data[0]?.total_value)
+      setcurrency_type(data[0]?.currency_type)
+      setfreight_type(data[0]?.freight_type)
+      setvalidity(data[0]?.validity)
+      setwarranty(data[0]?.warranty)
+      setinco_terms(data[0]?.inco_terms)
+      setpayment_terms(data[0]?.payment_terms)
+      setdelivery_time(data[0]?.delivery_time)
+      setcontactperson(data[0]?.contact?.fname)
+      setcontactpersonemail(data[0]?.contact?.email)
+      setcontactpersoncontact(data[0]?.party?.contact)
+      setdesignation(data[0]?.contact?.designation)
+      setvendor_id(data[0]?.party?.vendor_id)
+      setparty_code(data[0]?.party?.party_code)
+      setaddress({ ...address, street: data[0]?.party?.street, city: data[0]?.party?.city, po_no: data[0]?.party?.post_box_no })
       let words = toWords.convert(parseFloat(data[0].net_amount));
       let riyal = words.replace("Rupees", "Riyals");
       let halala = riyal.replace("Paise", "Halala")
@@ -456,7 +456,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       // setress(halala);
 
       if (data[0].currency_type == "SAR") {
-        setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+        if(data[0].net_amount)
+        {
+        setress(words1?.split(",").join(" ") + " Riyals " + ((parseFloat(data[0]?.net_amount?.split('.')[1]) !== NaN) ? (parseFloat(data[0]?.net_amount?.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+        }
+        else
+        {
+          setress()
+        }
       }
       if (data[0].currency_type == "AED") {
         setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
@@ -1067,6 +1074,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 <div style={{ float: "left" }} className="pl-14"> {currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                  
 
                                 </div>
                                 <div style={{ clear: "left" }} />

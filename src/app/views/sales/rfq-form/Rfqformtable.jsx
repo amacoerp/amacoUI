@@ -19,6 +19,8 @@ import { Autocomplete } from "@material-ui/lab";
 import { calculateAmount, getCustomerList } from "./Rfqformservice";
 import { getProductList, data } from "../../../../app/views/invoice/InvoiceService"
 import { SettingsInputAntenna } from "@material-ui/icons";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+
 
 const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList }) => {
   const [isAlive, setIsAlive] = useState(true);
@@ -309,7 +311,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       size="small"
                       onKeyDown={(e) => { controlKeyPress(e, ind + 'quantity', ind + 'unit_of_measure', ind + 'product_id') }}
                       variant="outlined"
-                      type="text"
+                      type="number"
 
                       disabled={!item?.name}
                       fullWidth
@@ -323,8 +325,9 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                             "Input is not Valid",
                         ]}
                     />
+                   
                   </TableCell>
-                  {console.log('dsds', item?.unit_of_measure)}
+                  
                   <TableCell colSpan={2} className="pl-0" align="left">
                     <TextField
                       name={`rfq_details[${ind}].unit_of_measure`}

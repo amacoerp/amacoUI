@@ -559,23 +559,31 @@ const SimpleForm = () => {
 
 
             <div className="flex mb-4">
-              <TextField
+              <TextValidator
                 className="mr-2"
                 label="Initial quantity"
                 variant="outlined"
                 onChange={e => setiq(e.target.value)}
                 value={iq}
                 size="small"
-                fullWidth
+                validators={[
+                  "isNumber",
+                ]}
+                errorMessages={["Invalid Number"]}
+                style={{width:285}}
               />
-              <TextField
+              <TextValidator
                 className="ml-2"
                 label="Minimum Quantity"
                 variant="outlined"
                 value={mq}
                 size="small"
                 onChange={e => setmq(e.target.value)}
-                fullWidth
+                validators={[
+                  "isNumber",
+                ]}
+                errorMessages={["Invalid Number"]}
+                style={{width:285}}
               />
             </div>
 

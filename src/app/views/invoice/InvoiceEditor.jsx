@@ -701,6 +701,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
               </div>
             </div>
+            
 
             <Divider />
 

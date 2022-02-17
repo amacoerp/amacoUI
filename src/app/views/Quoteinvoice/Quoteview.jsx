@@ -1537,7 +1537,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   </TableCell> */}
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
                                 {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1578,7 +1578,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                               <div>
-                                <div style={{ float: "left" }} className="pl-20">SAR</div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
                                 <div style={{ float: "right" }}>
                                   {discount_per == 0 ? 0.00 : parseFloat(discount_per * (total_value + other + transport) / 100).toFixed(2)}
 
@@ -1600,7 +1600,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   </TableCell> */}
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
                                 {isNaN(parseFloat(vat_in_value)) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1634,7 +1634,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", width: "500px", fontFamily: "Calibri", fontSize: '14pt', color: '#000' }} colspan={2}>
 
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
                                 <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>
 

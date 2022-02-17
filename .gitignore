@@ -11,6 +11,7 @@ package.json
 .env
 .env.host
 .env.backup
+package.json
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

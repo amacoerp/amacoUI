@@ -1207,7 +1207,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div>
 
             
-            <Grid container spacing={2} className="mb-4">
+            <Grid container spacing={2} className="p-4">
   <Grid item xs>
   <Autocomplete
       id="filter-demo"
@@ -1675,7 +1675,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // ref={setRef(index + 'description')}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
 
-                          currencySymbol={currency_type}
+                          currencySymbol=""
                           name="total_amount"
                           readOnly
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
