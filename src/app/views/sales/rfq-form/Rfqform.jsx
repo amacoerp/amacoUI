@@ -114,21 +114,21 @@ const InvoiceForm = ({ }) => {
   }
 
   const filterPrice = (options, params) => {
-    
-      const filtered = filter(options, params);
-      if (params.inputValue !== " ") {
-        filtered.unshift({
-          inputValue: params.inputValue,
-          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=>history.push("/party/addparty")}>+Add New</Button>)
-        });
-      }
-      console.log(filtered)
-      // setCustomerList(filtered)
-      return filtered;
-    
+
+    const filtered = filter(options, params);
+    if (params.inputValue !== " ") {
+      filtered.unshift({
+        inputValue: params.inputValue,
+        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push("/party/addparty")}>+Add New</Button>)
+      });
+    }
+
+
+    return filtered;
+
   };
 
-  
+
 
   useEffect(() => {
     getVendorList().then(({ data }) => {
@@ -136,24 +136,22 @@ const InvoiceForm = ({ }) => {
     });
   }, []);
 
-  const setrfq = (event,newValue) => {
+  const setrfq = (event, newValue) => {
     console.log(newValue)
-    if(newValue)
-    {
-    setparty_id(newValue?.id);
+    if (newValue) {
+      setparty_id(newValue?.id);
 
-    url.get("parties/" + newValue?.id).then(({ data }) => {
-      setcustomercontact(data[0]?.contacts);
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0]?.contacts);
 
-      setrfqstatus(true);
-    });
-  }
-  else
-  {
-    setparty_id()
-    setcustomercontact([]);
-    setrfqstatus(false);
-  }
+        setrfqstatus(true);
+      });
+    }
+    else {
+      setparty_id()
+      setcustomercontact([]);
+      setrfqstatus(false);
+    }
     // setparty_id(event.target.value);
 
     // url.get("parties/" + event.target.value).then(({ data }) => {
@@ -305,22 +303,22 @@ const InvoiceForm = ({ }) => {
 
 
 
-                        
-                         <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={CustomerList}
-      style={{ minWidth: 200, maxWidth: "250px" }}
-      getOptionLabel={(option) => option.firm_name}
-      filterOptions={filterPrice}
-      onChange={(event, newValue) => setrfq(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} maxHeight="10px"
-      variant="outlined" label="Custom filter" />}
-    />
+
+                        <Autocomplete
+                          id="filter-demo"
+                          variant="outlined"
+                          options={CustomerList}
+                          style={{ minWidth: 200, maxWidth: "250px" }}
+                          getOptionLabel={(option) => option.firm_name}
+                          filterOptions={filterPrice}
+                          onChange={(event, newValue) => setrfq(event, newValue)}
+                          size="small"
+                          renderInput={(params) => <TextField {...params} maxHeight="10px"
+                            variant="outlined" label="Vendor Name" />}
+                        />
                       </div>
-                      </div>
-                
+                    </div>
+
                   </Grid>
                   <Grid item xs>
                     <div className="flex">
@@ -340,9 +338,9 @@ const InvoiceForm = ({ }) => {
                         <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}>
                           <Icon>add</Icon>New
                         </MenuItem> */}
-                       
 
-                        {/* {customercontact.map((item) => (
+
+                      {/* {customercontact.map((item) => (
                           <MenuItem value={item.id} key={item.id}>
                             {item.fname}
                           </MenuItem>
@@ -350,21 +348,31 @@ const InvoiceForm = ({ }) => {
                       </TextField> */}
 
 
-      <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      label="Contact Person"
-      disabled={!rfqstatus}
-      options={customercontact}
-      onChange={handleChange}
-      style={{ minWidth: 200, maxWidth: "250px" }}
-      getOptionLabel={(option) => option.fname}
-      filterOptions={filterPrice}
-    
-      size="small"
-      renderInput={(params) => <TextField {...params} maxHeight="10px"
-      variant="outlined" label="Custom filter" />}
-    />
+                      <Autocomplete
+                        id="filter-demo"
+                        variant="outlined"
+                        label="Contact Person"
+                        disabled={!rfqstatus}
+                        options={customercontact}
+                        onChange={handleChange}
+                        style={{ minWidth: 200, maxWidth: "250px" }}
+                        getOptionLabel={(option) => option.fname}
+                        filterOptions={(options, params) => {
+                          const filtered = filter(options, params);
+                          if (params.inputValue !== " ") {
+                            filtered.unshift({
+                              inputValue: params.inputValue,
+                              fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+ Add New</Button>)
+                            });
+                          }
+
+
+                          return filtered;
+                        }}
+                        size="small"
+                        renderInput={(params) => <TextField {...params} maxHeight="10px"
+                          variant="outlined" label="Contact Person" />}
+                      />
                       {/* )} */}
                     </div>
                   </Grid>

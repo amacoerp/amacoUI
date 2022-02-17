@@ -767,7 +767,7 @@ select
                   onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
                   renderInput={(params) => <TextField {...params}
-                    variant="outlined" value={cname} label="Customer Name" />}
+                    variant="outlined" value={cname} label="Vendor Name" />}
                 />
 
   </Grid>

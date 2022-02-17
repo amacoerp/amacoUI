@@ -459,13 +459,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   }
   const dnotegenrate = (sidebarSettings) => {
 
-    if(res)
-    {
+    if (res) {
       history.push(navigatePath + `/dnote/${quoteid}`)
     }
-    else
-    {
-    history.push(navigatePath + `/invoice_dnote/${id}`)
+    else {
+      history.push(navigatePath + `/invoice_dnote/${id}`)
     }
 
   }

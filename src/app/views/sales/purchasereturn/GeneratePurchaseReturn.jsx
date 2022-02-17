@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import MemberEditorDialogcontact from "../../party/partycontact";
 
 import {
     Button,
@@ -188,6 +189,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     }
+    const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+
 
     const filterOptions = (options, params) => {
         const filtered = filter(options, params);
@@ -277,7 +280,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 } else if (false) {
                     priceRef[parseInt(prev)].focus();
                 } else {
-                    console.log(prev)
                     console.log(getRef(prev)?.current?.focus())
                 }
             }
@@ -287,7 +289,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const handleChangesPO = (event, newValue, index) => {
 
         const d = allData;
-        console.log('dsdsa', d);
         const nd = allData.filter(obj => obj.invoice_no == newValue?.invoice_no).map((item, i) => {
             const b = item.details;
             return b.map((it) => {
@@ -295,7 +296,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             })
         })
 
-        console.log('dsd', dl);
 
 
 
@@ -310,7 +310,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 return b.filter(obj => obj.id == it)
             })
         })
-        console.log('dsd', a[0]);
 
         const c = a[0]?.map((i) => {
             return i?.map((n) => {
@@ -321,7 +320,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         const dta = c?.map((item, n) => {
             return item[0]
         })
-        setproList(dta)
+        setproList(dta.filter(Boolean))
 
 
 
@@ -424,7 +423,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const deleteItemFromInvoiceList = (index) => {
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You want to Delete this Quotation Details!',
+            text: 'You want to Delete this Return Details!',
             icon: 'danger',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -443,7 +442,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
                     'Cancelled',
-                    'Your Quotation Details is safe :)',
+                    'Your Return Details is safe :)',
                     'error'
                 )
             }
@@ -561,7 +560,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         delete tempState.loading;
         let tempItemList = [...state.item];
 
-        console.log(tempItemList);
 
 
         arr.quotation_details = tempItemList
@@ -665,14 +663,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             setcontacts(data.contacts)
             setparty_id(newValue?.id)
             setvalues({ ...values, status: true });
-            setPoNumbers(data.data[0]?.inv);
-            setAllData(data.data[0]?.inv);
+            setPoNumbers(data.data[0]?.inv.filter(obj => obj.div_id == localStorage.getItem('division')));
+            setAllData(data.data[0]?.inv.filter(obj => obj.div_id == localStorage.getItem('division')));
         });
 
-        url.get(`purchase-return-data/${newValue?.id}`).then(({ data }) => {
-            console.log(data.getPurchaseReturnData)
-            setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
-        });
+        // url.get(`purchase-return-data/${newValue?.id}`).then(({ data }) => {
+        //     console.log(data.getPurchaseReturnData)
+        //     setPoNumbers(data.getPurchaseReturnData.filter(obj => obj.div_id == localStorage.getItem('division')));
+        // });
     }
 
     let subTotalCost = 0;
@@ -819,7 +817,7 @@ select
                                         if (params.inputValue !== " ") {
                                             filtered.unshift({
                                                 inputValue: params.inputValue,
-                                                fname: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                                                fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
                                             });
                                         }
 
@@ -965,7 +963,7 @@ select
                                                 <Autocomplete
                                                     className="w-full"
                                                     size="small"
-                                                    options={poNumbers ? poNumbers : []}
+                                                    options={poNumbers ? poNumbers.filter(Boolean) : []}
                                                     name="invoice_no"
                                                     value={item?.invoice_no}
                                                     filterOptions={filterOptions}
@@ -1391,6 +1389,9 @@ select
                                                 variant="outlined"
                                                 fullWidth
                                                 size="small"
+                                                inputProps={{
+                                                    readOnly: true
+                                                }}
                                                 currencySymbol={currency_type}
                                                 name="net_amount"
                                                 value={charge ? total : GTotal}
@@ -1424,6 +1425,19 @@ select
                     text="Are you sure to delete?"
                 />
             )}
+            {
+                shouldOpenConfirmationDialogparty && (
+                    <MemberEditorDialogcontact
+                        open={shouldOpenConfirmationDialogparty}
+                        onConfirmDialogClose={handleDialogClose}
+                        handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+                        customercontact={setcontacts}
+                        partyid={party_id}
+
+                        text="Are you sure to delete?"
+                    />
+                )
+            }
             {shouldOpenEditorDialogAnnexure && (
                 <Annexure
                     handleClose={handleDialogClose}

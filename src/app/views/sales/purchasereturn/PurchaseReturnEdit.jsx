@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import MemberEditorDialogcontact from "../../party/partycontact";
 
 import {
     Button,
@@ -79,6 +80,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [productprice, setproductprice] = useState([])
     const [contacts, setcontacts] = useState([])
     const [PriceList, setPriceList] = useState([]);
+    const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+
     const [DataList, setDataList] = useState("ghhhhh");
     const [dl, setDL] = useState("ghhhhh");
     const [currency_type, setcurrency_type] = useState('SAR');
@@ -166,7 +169,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 } else if (false) {
                     priceRef[parseInt(prev)].focus();
                 } else {
-                    console.log(prev)
                     console.log(getRef(prev)?.current?.focus())
                 }
             }
@@ -298,10 +300,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             return item.product_id
         });
 
-        console.log(newValue?.invoice_no)
-        console.log(dln)
-        console.log(nd)
-
+       
         const a = nd.map((item) => {
             const b = dl;
             return b.filter(obj => obj.id == item)
@@ -553,7 +552,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
         const json = Object.assign({}, arr);
-        console.log(json)
         url.post('purchase-return-update', json)
             .then(function (response) {
 
@@ -613,6 +611,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
         url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
             setcontacts(data.cont)
+            setQuote_date(data.data[0].ps_date)
             setcontactid(data.data[0].contact_id)
             setcurrency_type(data.data[0].currency_type)
             setcharge(data.data[0].vat_in_value)
@@ -623,7 +622,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ...state,
                 item: data.datas,
             });
-            console.log(data.datas)
         })
 
         return setIsAlive(false)
@@ -826,7 +824,9 @@ select
                                         value={contactid}
                                         onChange={(e) => setcontactid(e.target.value)}
                                     >
-                                        <MenuItem value=" "> <em>None</em></MenuItem>
+                                        <MenuItem onClick={() => setshouldOpenConfirmationDialogparty(true)}>
+                                            + Add New
+                                        </MenuItem>
                                         {contacts?.map((item) => (
                                             <MenuItem value={item.id} key={item.id}>
                                                 {item.fname}
@@ -916,7 +916,7 @@ select
                         </Grid>
 
 
-                        
+
 
                         <Divider />
 
@@ -1424,6 +1424,19 @@ select
                     productprice={setproductprice}
                 />
             )}
+            {
+                shouldOpenConfirmationDialogparty && (
+                    <MemberEditorDialogcontact
+                        open={shouldOpenConfirmationDialogparty}
+                        onConfirmDialogClose={handleDialogClose}
+                        handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+                        customercontact={setcontacts}
+                        partyid={party_id}
+
+                        text="Are you sure to delete?"
+                    />
+                )
+            }
             {shouldOpenConfirmationDialog && (
                 <ConfirmationDialog
                     open={shouldOpenConfirmationDialog}

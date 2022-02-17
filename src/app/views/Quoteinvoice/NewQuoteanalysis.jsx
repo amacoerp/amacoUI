@@ -656,7 +656,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         if (parseFloat(element.purchase_price)) {
 
-          console.log(element)
           element['purchase_price'] = event.target.value ? event.target.value : (event.target.value == null ? 0 : event.target.value);
 
           element.sell_price = parseFloat(element.purchase_price) ? (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price) : parseFloat(element.purchase_price) * parseFloat(element.quantity);
@@ -703,7 +702,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
-      console.log(element)
       let sum = 0;
 
       if (index == i) {
@@ -753,7 +751,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const discountPer = (event, index, value) => {
 
-    console.log(event.target.value)
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -1052,28 +1049,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
 
-      setparty_id(newValue?.id)
+        setparty_id(newValue?.id)
 
-      setrfqstatus(true);
+        setrfqstatus(true);
 
 
-    });
-   }
-   else
-   {
-    setcustomercontact([]);
+      });
+    }
+    else {
+      setcustomercontact([]);
 
-    setparty_id()
+      setparty_id()
 
-    setrfqstatus(false);
-   }
+      setrfqstatus(false);
+    }
   }
 
   useEffect(() => {
@@ -1453,104 +1448,104 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div> */}
 
             <Grid container spacing={2}>
-        <Grid item className="ml-4">
-    
-               
-                    <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={CustomerList}
-     
-      
-      getOptionLabel={(option) => option.firm_name}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" />}
-    />
+              <Grid item className="ml-4">
 
-               
-  </Grid>
-  <Grid item >
-  
-                {rfqstatus &&<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={customercontact}
-     
-      
-      getOptionLabel={(option) => option.fname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontactid(newValue?.id)}
-      
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Contact Person" />}
-    />}
-  </Grid>
-  <Grid item>
-  <TextField
-                    name="rfq_no"
-                    value={rfq_no}
+
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={CustomerList}
+
+
+                  getOptionLabel={(option) => option.firm_name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
+
+
+              </Grid>
+              <Grid item >
+
+                {rfqstatus && <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={customercontact}
+
+
+                  getOptionLabel={(option) => option.fname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontactid(newValue?.id)}
+
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Contact Person" />}
+                />}
+              </Grid>
+              <Grid item>
+                <TextField
+                  name="rfq_no"
+                  value={rfq_no}
+                  className=""
+                  label="RFQ No"
+                  size="small"
+                  variant="outlined"
+                  onChange={(e) => {
+                    setrfq_no(e.target.value)
+                    // return date
+                  }}
+
+                >
+
+                </TextField>
+
+              </Grid>
+              <Grid item xs>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     className=""
-                    label="RFQ No"
+                    margin="none"
+                    label="Quote Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    onChange={(e) => {
-                      setrfq_no(e.target.value)
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
                       // return date
                     }}
-
-                  >
-
-                  </TextField>
-
-  </Grid>
-  <Grid item xs>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Quote Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-  </Grid>
-</Grid>
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
             <div className="pl-4">
               <h5 className="font-normal capitalize">
                 {/* <strong>Subject: </strong>{" "} */}
@@ -1571,7 +1566,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               /></div>
 
 
-                
+
 
             <Divider />
 
@@ -1718,7 +1713,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
                           inputProps={{
-                            ref: setRef(index + 'product_id')
+                            ref: setRef(index + 'product_id'),
+
                           }}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
 

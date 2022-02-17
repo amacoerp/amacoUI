@@ -683,7 +683,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       margin="none"
                       className="ml-2"
                       id="mui-pickers-date"
-                      label="Bit Closing Date"
+                      label="Bid Closing Date"
                       inputVariant="outlined"
                       type="text"
                       autoOk={true}
@@ -711,10 +711,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-2 text-center" width={50} >S.NO.</TableCell>
                   <TableCell className="pl-2 text-center" width={100} ></TableCell>
 
-                  <TableCell className="pl-2" width={200} >ITEM NAzME</TableCell>
+                  <TableCell className="pl-2" width={300} >ITEM NAME</TableCell>
 
                   <TableCell className="px-0" width={100}>QUANTITY</TableCell>
-                  <TableCell className="px-0" width={100}>UOM</TableCell>
+                  <TableCell className="px-0" width={120}>UOM</TableCell>
                   <TableCell className="px-0" width={400}>DESCRIPTION</TableCell>
                   {/* <TableCell className="px-0">Cost</TableCell> */}
                   <TableCell className="p-0" align="center">ACTION</TableCell>

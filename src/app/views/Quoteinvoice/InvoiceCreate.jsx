@@ -570,7 +570,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const deleteItemFromInvoiceList = (index) => {
     let tempItemList = [...state.item];
-    console.log(tempItemList)
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Invoice Details!',
@@ -586,7 +585,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         tempItemList.splice(index, 1);
 
-        console.log(tempItemList)
         setState({
           ...state,
           item: tempItemList,
@@ -745,7 +743,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
           let dval = newValue ? newValue : event.target.value;
-          console.log(parseFloat(dval))
           element[name] = parseFloat(dval)
           element.sell_price = parseFloat((element.margin * dval / 100) + parseFloat(dval)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
@@ -787,7 +784,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
           let dval = newValue ? newValue : event.target.value;
-          console.log(parseFloat(dval))
           element[name] = parseFloat(dval)
           element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
@@ -926,7 +922,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // formData.append('ps_date',Quote_date)
     // formData.append('rfq_id',null)
     // formData.append('transaction_type',"sale")
-    console.log(tempItemList)
 
 
     tempItemList.map((answer, i) => {
@@ -1080,7 +1075,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       { color: 'black', size: 'M' }
     ]
 
-    console.log(list.sort((a, b) => (a.color > b.color) ? 1 : -1))
+    // console.log(list.sort((a, b) => (a.color > b.color) ? 1 : -1))
 
     url.get("products").then(({ data }) => {
       setproList(data)
@@ -1162,7 +1157,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct(true)
   }
   const setProductdescription = (event, index, id, newValue) => {
-    console.log(newValue)
 
     //   if(newValue!=="false")
     //   {

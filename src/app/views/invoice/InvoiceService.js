@@ -82,7 +82,7 @@ export const getrfq = () => {
   return url.get("rfq");
 };
 export const getProductList = () => {
-return url.get("products");
+  return url.get("products");
 };
 export const getVendorList = () => {
   return url.get(`parties-vendor/${localStorage.getItem("division")}`);

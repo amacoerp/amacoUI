@@ -181,7 +181,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       })
     // }, 5000);
-    console.log(arr)
   };
   function cancelform() {
     history.push(navigatePath + `/quote/${id}/accept`)
@@ -211,7 +210,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element['product'] = element.description
         return element;
       })
-      console.log(tempItemList)
 
       setState({
         ...state,
@@ -573,7 +571,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="sell_price"
                           value={item ? item.sell_price : null}
                         />
@@ -598,10 +596,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <CurrencyTextField
                           className="w-full"
                           label="Total"
-                          variant="outlined" z
+                          variant="outlined"
                           fullWidth
+                          readOnly
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="total_amount"
                           value={item.total_amount}
                         />

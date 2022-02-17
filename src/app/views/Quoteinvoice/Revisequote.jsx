@@ -714,7 +714,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
         element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
         element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
       }
       return element;
 
@@ -977,7 +976,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.post(`sale-quotation`, formData)
       .then(function (response) {
-        console.log(arr)
 
         Swal.fire({
           title: 'Success',
@@ -1066,29 +1064,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   //   });
   // }
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
 
-      setparty_id(newValue?.id)
-      setcname(newValue?.firm_name)
-      setcontactname()
-      setrfqstatus(true);
+        setparty_id(newValue?.id)
+        setcname(newValue?.firm_name)
+        setcontactname()
+        setrfqstatus(true);
 
 
-    });
-   }
-   else
-   {
-    setcustomercontact([]);
+      });
+    }
+    else {
+      setcustomercontact([]);
 
-    setparty_id()
-    setcname()
-    setrfqstatus(false);
-   }
+      setparty_id()
+      setcname()
+      setrfqstatus(false);
+    }
   }
   // Toggle
   const updateSidebarMode = (sidebarSettings) => {
@@ -1142,7 +1138,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
-      console.log(data[0].discount_in_p)
       setcname(data[0].party.firm_name)
       setcontactname(data[0].contact.fname)
       setinco_terms(data[0].inco_terms)
@@ -1155,10 +1150,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setQuote_date(data[0].ps_date)
       setsubject(data[0]?.subject)
       setquotation_no(data[0].quotation_no)
-      console.log(data[0].sign[0]?.id)
       setsign(data[0].sign[0]?.id)
       setrfq_no(data[0].rfq_no)
-      
+
       setbank_id(parseInt(data[0]?.bank?.id))
       settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseInt(data[0]?.transport))
       setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
@@ -1457,104 +1451,104 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div> */}
             <Grid container spacing={2}>
-        <Grid item className="ml-4">
-    
-               
-                    <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={CustomerList}
-      value={cname}
-      
-      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" value={cname} />}
-    />
+              <Grid item className="ml-4">
 
-               
-  </Grid>
-  <Grid item >
-  
-                {rfqstatus &&<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={customercontact}
-     
-      value={contactname}
-      getOptionLabel={(option) => option?.fname?option?.fname:contactname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => {setcontactid(newValue?.id);setcontactname(newValue?.fname)}}
-      
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Contact Person" />}
-    />}
-  </Grid>
-  <Grid item>
-  <TextField
-                    name="rfq_no"
-                    value={rfq_no}
+
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={CustomerList}
+                  value={cname}
+
+                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" value={cname} />}
+                />
+
+
+              </Grid>
+              <Grid item >
+
+                {rfqstatus && <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={customercontact}
+
+                  value={contactname}
+                  getOptionLabel={(option) => option?.fname ? option?.fname : contactname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => { setcontactid(newValue?.id); setcontactname(newValue?.fname) }}
+
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Contact Person" />}
+                />}
+              </Grid>
+              <Grid item>
+                <TextField
+                  name="rfq_no"
+                  value={rfq_no}
+                  className=""
+                  label="RFQ No"
+                  size="small"
+                  variant="outlined"
+                  onChange={(e) => {
+                    setrfq_no(e.target.value)
+                    // return date
+                  }}
+
+                >
+
+                </TextField>
+
+              </Grid>
+              <Grid item xs>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     className=""
-                    label="RFQ No"
+                    margin="none"
+                    label="Quote Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    onChange={(e) => {
-                      setrfq_no(e.target.value)
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
                       // return date
                     }}
-
-                  >
-
-                  </TextField>
-
-  </Grid>
-  <Grid item xs>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Quote Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-  </Grid>
-</Grid>
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
             <div className="pl-4">
               <h5 className="font-normal capitalize">
                 {/* <strong>Subject: </strong>{" "} */}
@@ -1819,7 +1813,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             "Input is not Valid",
                           ]}
                           name="quantity"
-                          vaaalue={item.quantity}
+                          value={item.quantity}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
