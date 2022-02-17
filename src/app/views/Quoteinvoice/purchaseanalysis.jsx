@@ -420,11 +420,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("rfq/" + id).then(({ data }) => {
 
-      setcname(data[0].party[0].firm_name)
-      setcontactid(data[0].contact?.id)
-      setrdate(moment(data[0].created_at).format('DD MMM YYYY'))
-      setddate(moment(data[0].require_date).format('DD MMM YYYY'))
-      setparty_id(data[0].party_id)
+      setcname(data[0]?.party[0]?.firm_name)
+      setcontactid(data[0]?.contact?.id)
+      setrdate(moment(data[0]?.created_at).format('DD MMM YYYY'))
+      setddate(moment(data[0]?.require_date).format('DD MMM YYYY'))
+      setparty_id(data[0]?.party_id)
 
       setState({
         ...state,
@@ -673,7 +673,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Quantity"
                           onChange={(event) => calcualteprice(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           fullWidth
@@ -686,8 +686,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           name="quantity"
                           value={item.quantity ? item.quantity : ""}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          validators={["isNumber"]}
+                          errorMessages={["Invalid Number"]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>

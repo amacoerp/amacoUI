@@ -1675,7 +1675,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // ref={setRef(index + 'description')}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
 
-                          currencySymbol={currency_type}
+                          currencySymbol=""
                           name="total_amount"
                           readOnly
                           value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {

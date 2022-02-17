@@ -6,6 +6,8 @@ import history from "history.js";
 import url, { GDIV, getrfq, getVendorList, navigatePath } from "../../invoice/InvoiceService";
 import clsx from "clsx";
 import MemberEditorDialog from '../../party/partycontact';
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
 
@@ -247,7 +249,7 @@ const InvoiceForm = ({ }) => {
             resetForm,
           }) => (
             <div>
-              <form
+              <ValidatorForm
                 className="p-4"
                 onSubmit={handleSubmit}
                 encType="multipart/form-data"
@@ -523,7 +525,7 @@ const InvoiceForm = ({ }) => {
                     })}
                   </div>
                 </Card>
-              </form>
+              </ValidatorForm>
             </div>
           )}
         </Formik>

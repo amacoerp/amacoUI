@@ -1164,7 +1164,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
                               <div>
-                                <div style={{ float: "left" }} className="pl-24">SAR</div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1199,7 +1199,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 </TableCell> */}
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
                               <div>
-                                <div style={{ float: "left" }} className="pl-24">SAR</div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1224,7 +1224,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 </TableCell> */}
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
                               <div>
-                                <div style={{ float: "left" }} className="pl-24">SAR</div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
                                 <div style={{ float: "right" }}> <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></div>
                                 <div style={{ clear: "left" }} />
                               </div>
