@@ -3,8 +3,10 @@
 /public/storage
 /storage/*.key
 /vendor
+package-lock.json
 /package-lock.json
 /package.json
+package.json
 /build
 .env
 .env.host
