@@ -167,9 +167,9 @@ const StockViewer = () => {
                                     <div className="col prodCol">
                                         {prod.name}
                                     </div>
-                                    <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0}</div>
+                                    <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined,{minimumFractionDigits:2}) : 0}</div>
                                     <div className="col stockCol">{sum}</div>
-                                    <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0))}</div>
+                                    <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined,{minimumFractionDigits:2})}</div>
 
                                 </div>
 

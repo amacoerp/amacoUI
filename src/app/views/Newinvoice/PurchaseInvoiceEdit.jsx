@@ -773,7 +773,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // formData.append('transaction_type',"sale")
     // console.log(arr)
 
-    // console.log(tempItemList)
+    console.log(tempItemList)
     // tempItemList.map((answer, i) => {  
     formData.append(`invoice_details`, JSON.stringify(tempItemList))
     //   answer.files&& (formData.append(`file${i}`,answer.files))
