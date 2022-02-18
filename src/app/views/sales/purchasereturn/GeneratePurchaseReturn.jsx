@@ -1132,6 +1132,7 @@ select
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={parseFloat(item?.purchase_price)}
+                                                    currencySymbol=""
                                                     // filterOptions={filterPrice}
                                                     // renderOption={option => option.price}
                                                     // getOptionLabel={option => {

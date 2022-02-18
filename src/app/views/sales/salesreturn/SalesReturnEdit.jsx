@@ -433,7 +433,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     };
 
 
-    const calcualteprice = (event, index) => {
+    const calcualteprice = (event, index,newValue) => {
         event.persist()
         let tempItemList = [...state.item];
 
@@ -444,8 +444,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
-                element[event.target.name] = event.target.value;
+                // element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
+                // element[event.target.name] = event.target.value;
+                // element['remark'] = "";
+                element['total_amount'] = ((newValue.price ? newValue.price : newValue) * element.quantity).toFixed(2);
+                element['purchase_price'] = newValue.price ? newValue.price : newValue;
+                // element[event.target.name] = event.target.value;
+                element.margin = "";
+                element.sell_price = "";
                 element['remark'] = "";
 
 
@@ -1120,20 +1126,20 @@ select
                         ))} 
                     </TextField> */}
 
-                                                <TextField
+                                                <CurrencyTextField
 
                                                     className="w-full"
                                                     size="small"
                                                     variant="outlined"
-
+                                                    currencySymbol=""
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
-                                                    value={item?.purchase_price}
+                                                    value={parseFloat(item?.purchase_price)}
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
                                                     inputProps={{
                                                         ref: setRef(index + 'purchase_price')
                                                     }}
-                                                    onChange={(event) => calcualteprice(event, index)}
+                                                    onChange={(event,newValue) => calcualteprice(event, index,newValue)}
                                                 // filterOptions={filterPrice}
                                                 // renderOption={option => option.price}
                                                 // getOptionLabel={option => {

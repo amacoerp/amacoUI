@@ -427,7 +427,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     };
 
 
-    const calcualteprice = (event, index) => {
+    const calcualteprice = (event, index,newValue) => {
         event.persist()
         let tempItemList = [...state.item];
 
@@ -438,8 +438,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                element['total_amount'] = ((event.target.value) * element.quantity).toFixed(2);
-                element[event.target.name] = parseFloat(event.target.value);
+                // element['total_amount'] = ((event.target.value) * element.quantity).toFixed(2);
+                // element[event.target.name] = parseFloat(event.target.value);
+                // element['remark'] = "";
+                element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element?.quantity).toFixed(2);
+                element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
+                // element[event.target.name] = event.target.value;
+                element.margin = "";
+                element.sell_price = "";
                 element['remark'] = "";
 
 
@@ -1132,7 +1138,7 @@ select
                         ))} 
                     </TextField> */}
 
-                                                <TextField
+                                                <CurrencyTextField
 
                                                     className="w-full"
                                                     size="small"
@@ -1142,11 +1148,11 @@ select
                                                     }}
                                                     // ref={setRef(index + 'description')}
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
-
+                                                    currencySymbol=""
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
-                                                    value={item?.purchase_price}
-                                                    onChange={(event) => calcualteprice(event, index)}
+                                                    value={parseFloat(item?.purchase_price)}
+                                                    onChange={(event,newValue) => calcualteprice(event, index,newValue)}
                                                 // filterOptions={filterPrice}
                                                 // renderOption={option => option.price}
                                                 // getOptionLabel={option => {
