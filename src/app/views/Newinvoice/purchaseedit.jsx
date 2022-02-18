@@ -545,7 +545,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       history.push("../Newinvoiceview")
     })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
 
   };
@@ -709,7 +716,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             {/* <div className="viewer__order-info px-4 mb-6 flex justify-between">
               <div > */}
-                {/* <h5 className="font-normal capitalize">
+            {/* <h5 className="font-normal capitalize">
               <strong>Customer: </strong>{" "}
               <span>
                 {id}
@@ -718,32 +725,32 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-<Grid container spacing={2} className="p-4">
-  <Grid item >
-  <TextField
+            <Grid container spacing={2} className="p-4">
+              <Grid item >
+                <TextField
 
-label="Currency Type"
-style={{ minWidth: 200, maxWidth: '250px' }}
-name="party_id"
-size="small"
-variant="outlined"
+                  label="Currency Type"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="party_id"
+                  size="small"
+                  variant="outlined"
 
-value={currency_type}
-// onChange={handleChange}
-onChange={(event) => setcurrency_type(event.target.value)}
-required
-select
->
+                  value={currency_type}
+                  // onChange={handleChange}
+                  onChange={(event) => setcurrency_type(event.target.value)}
+                  required
+                  select
+                >
 
-{currency.map((item) => (
-  <MenuItem value={item.value} key={item.id}>
-    {item.name}
-  </MenuItem>
-))}
-</TextField>
-  </Grid>
-  <Grid item >
-  <Autocomplete
+                  {currency.map((item) => (
+                    <MenuItem value={item.value} key={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item >
+                <Autocomplete
                   id="filter-demo"
                   variant="outlined"
                   options={values?.vendorList}
@@ -770,9 +777,9 @@ select
                     variant="outlined" value={cname} label="Vendor Name" />}
                 />
 
-  </Grid>
-  <Grid item >
-  <Autocomplete
+              </Grid>
+              <Grid item >
+                <Autocomplete
                   id="filter-demo"
                   variant="outlined"
                   options={values?.vendorList}
@@ -798,27 +805,27 @@ select
                   renderInput={(params) => <TextField {...params}
                     variant="outlined" value={cname} label="Customer Name" />}
                 />
-  </Grid>
-  <Grid item >
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-  </Grid>
-</Grid>
+              </Grid>
+              <Grid item >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
+                    size="small"
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
 
             <Divider />
 
@@ -1011,7 +1018,7 @@ select
                           size="small"
                           // options={item?.product_price_list ? item?.product_price_list : []}
                           name="purchase_price"
-                          value={isNaN(item?.purchase_price)?0:parseFloat(item?.purchase_price)}
+                          value={isNaN(item?.purchase_price) ? 0 : parseFloat(item?.purchase_price)}
                           currencySymbol=""
                           variant="outlined"
                           // filterOptions={filterPrice}
