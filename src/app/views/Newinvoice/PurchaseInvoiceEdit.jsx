@@ -570,7 +570,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
+      text: 'You want to Delete this Purchase Invoice Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -579,15 +579,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         let tempItemList = [...state.item];
-        // tempItemList.splice(index, 1);
+        tempItemList.splice(index, 1);
 
         setState({
           ...state,
           item: tempItemList,
         });
         if (i) {
-          url.delete(`purchase-invoice/${i}`).then(data)
-          setIsAlive(true)
+          console.log(i)
+          url.delete(`purchaseinvoiceitem/${i}`).then(data)
+          // setIsAlive(true)
         }
 
       }
@@ -930,7 +931,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
 
     // url.get("parties/" + event.target.value).then(({ data }) => {
@@ -942,27 +943,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     // });
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
 
-      setcustomercontact(data[0].contacts);
+        setcustomercontact(data[0].contacts);
 
-      setparty_id(newValue?.id)
-      setcname(newValue?.firm_name)
-      setrfqstatus(true);
-
-     
+        setparty_id(newValue?.id)
+        setcname(newValue?.firm_name)
+        setrfqstatus(true);
 
 
-    });
+
+
+      });
     }
-    else
-    {
+    else {
       setcustomercontact([]);
 
       setparty_id()
-  
+
       setrfqstatus(false);
 
       // setvalues({ ...values, status: false });
@@ -1219,42 +1218,42 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            
+
             <Grid container spacing={2} className="mb-4">
-  <Grid item xs>
-  <Autocomplete
-      id="filter-demo"
-      className="pl-2"
-      variant="outlined"
-      options={CustomerList}
-      value={cname}
-      
-      
-      getOptionLabel={(option) => option.firm_name?option.firm_name:cname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params}  
-      variant="outlined" label="Vendor Name" />}
-    />
-  </Grid>
-  <Grid item >
-  <TextField
+              <Grid item xs>
+                <Autocomplete
+                  id="filter-demo"
+                  className="pl-2"
+                  variant="outlined"
+                  options={CustomerList}
+                  value={cname}
+
+
+                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Vendor Name" />}
+                />
+              </Grid>
+              <Grid item >
+                <TextField
                   className="pl-2"
                   label="Currency Type"
                   // style={{ minWidth: 200, maxWidth: '250px' }}
-                  style={{  minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 200, maxWidth: '250px' }}
                   name="currency_type"
                   size="small"
                   variant="outlined"
@@ -1273,41 +1272,41 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   ))}
                 </TextField>
 
-  </Grid>
-  <Grid item >
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="pl-2"
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-  </Grid>
-  <Grid item xs>
-  <TextField
-                    type="text"
-                    label="Invoice Number"
+              </Grid>
+              <Grid item >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     className="pl-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="ponumber"
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    value={ponumber ? ponumber : " "}
-                    onChange={(e) => setponumber(e.target.value)}
-
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
                   />
-  </Grid>
-</Grid>
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  type="text"
+                  label="Invoice Number"
+                  className="pl-2"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="ponumber"
+                  size="small"
+                  variant="outlined"
+                  value={ponumber ? ponumber : " "}
+                  onChange={(e) => setponumber(e.target.value)}
+
+                />
+              </Grid>
+            </Grid>
 
             <Divider />
 
