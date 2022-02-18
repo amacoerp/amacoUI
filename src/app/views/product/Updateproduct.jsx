@@ -447,6 +447,7 @@ const SimpleForm = () => {
               label="description"
               type="text"
               size="small"
+              multiline
               value={description}
               onChange={e => setdescription(e.target.value)}
               name="description"

@@ -6,6 +6,7 @@ import { IntlProvider, FormattedNumber } from 'react-intl';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useReactToPrint } from 'react-to-print';
+import Box from '@material-ui/core/Box';
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from 'react-intl';
 import moment from "moment";
@@ -759,14 +760,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                 {vat}
                                             </div>
                                         </div>
-                                        <div className="flex">
+                                        {/* <div className="flex">
                                             <div className="pr-2 px-4 mb-4">
                                                 <h4>
 
                                                     <strong>فاتورة ضريبة القيمة المضافة</strong>
                                                 </h4>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
 
 
@@ -775,161 +776,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
 
-                                    <div className="px-2 flex justify-between">
-                                        <div className="px-2 flex justify-end">
-                                            <div className="flex " >
-                                                <div className="pr-12">
-
-
-                                                    <div className="pl-2 pb-4">
-                                                        <span style={{ fontWeight: 1000 }}>ISSUE DATE</span><br></br>
-                                                        {moment(issue_date).format('DD MMM YYYY')}
-
-                                                    </div>
-
-
-                                                    <div className="pl-2 pb-4">
-                                                        <span style={{ fontWeight: 1000 }}>COMPANY NAME & ADDRESS</span><br></br>
-                                                        <span>{company}</span><br></br>
-                                                        <span>{street ? street + (city ? "," + city + (zipcode ? "," + (zipcode) : " ") : (zipcode ? "," + (zipcode) : " ")) : (city ? city + (zipcode ? " ," + (zipcode) : " ") : (zipcode ? zipcode : " "))}</span>
-
-
-                                                    </div>
-
-
-
-
-                                                </div>
-
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="px-2 flex justify-center">
-                                            <div className="flex " >
-
-                                                <div className="pr-12">
-
-
-                                                    <div className="pb-4" >
-                                                        <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
-                                                        <br></br>
-                                                        {invoiceno == null || invoiceno == "null" ? '--' : invoiceno}
-                                                    </div>
-                                                    {/* <div className="justify-center" style={{visibility:'hidden'}}>
-           
-            <span style={{fontWeight:1000}}></span>
-              <div></div>
-              <div></div>
-          
-            </div> */}
-
-
-                                                    <div className="">
-                                                        <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
-                                                        <br></br>
-                                                        {vatno ? vatno : '--'}
-
-                                                    </div>
-                                                    <div className="">
-                                                        <span style={{ fontWeight: 1000 }}>PO NUMBER</span>
-                                                        <br></br>
-                                                        {pono == null ? '--' : pono}
-
-
-                                                    </div>
-
-
-                                                </div>
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="px-2 flex justify-center">
-                                            <div className="flex " >
-                                                <div className="pr-12">
-                                                    <div className="pb-3" align="right">
-                                                        <span style={{ fontWeight: 1000, fontSize: 18 }}>
-                                                            رقم الفاتورة
-                                                        </span><br></br>
-                                                        {invoiceno == null || invoiceno == 'null' ? '--' : invoiceno}
-
-
-                                                    </div>
-
-                                                    <div className="justify-center" style={{ visibility: 'hidden' }}>
-
-                                                        {/* <span style={{fontWeight:1000}}></span>
-              <div></div>
-              <div></div> */}
-
-
-
-                                                        {/* <div>
-              
-            </div> */}
-
-                                                    </div>
-                                                    <div className="" align="right">
-                                                        <span style={{ fontWeight: 1000, fontSize: 18 }} >
-                                                            رقم ضريبة القيمة المضافة
-                                                        </span><br></br>
-                                                        {vatno ? toArabic(vatno) : "--"}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="px-0 mr-2 flex justify-end">
-                                            <div className="flex " >
-                                                <div className="pr-2">
-                                                    <div className="mr-0 pr-0 pb-3" align="right">
-                                                        <span align="right" style={{ fontWeight: 1000, fontSize: 18 }} >
-                                                            تاريخ الاصدار
-                                                        </span><br></br>
-
-                                                        {moment(issue_date).format('DD MMM YYYY')}
-
-                                                    </div>
-                                                    <div className="mr-0 pr-0 pb-3" align="right">
-                                                        <span style={{ fontWeight: 1000, fontSize: 18 }}>
-                                                            {/* <IntlProvider locale={locale} messages={Arabic}>
-                  <FormattedMessage
-                    id="companyname"
-
-                  />
-                </IntlProvider> */}
-                                                            اسم الشركة وعنوانها
-
-                                                        </span><br></br>
-                                                        <span>{cname_ar == null || cname_ar == 'null' ? '--' : cname_ar}</span><br></br>
-                                                        {/* <span>{companyaddress}</span> */}
-                                                        <span>
-                                                            {/* {street_ar && street_ar + '-'}{city_ar && city_ar + ','} {toArabic(zipcode) == undefined || toArabic(zipcode) == 'undefined' ? '--' : toArabic(zipcode)} */}
-
-                                                            {street_ar ? street_ar + (city_ar ? "," + city_ar + (zipcode ? "," + (toArabic(zipcode)) : " ") : (zipcode ? "," + (toArabic(zipcode)) : " ")) : (city_ar ? city_ar + (zipcode ? " ," + (toArabic(zipcode)) : "") : (zipcode ? toArabic(zipcode) : ""))}
-
-
-                                                        </span>
-
-
-
-                                                    </div>
-                                                    <div className="mr-0 pr-0" align="right">
-                                                        <span align="right" style={{ fontWeight: 1000, fontSize: 18 }}>
-                                                            رقم أمر الشراء
-                                                        </span><br></br>
-                                                        {pono == null ? '--' : pono}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
 
 
 

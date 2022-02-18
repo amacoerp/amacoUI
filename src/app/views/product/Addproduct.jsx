@@ -360,6 +360,7 @@ const SimpleForm = ({ open, handleClose }) => {
               className="mb-4 w-full"
               label="Description"
               value={description}
+              multiline
               inputProps={{ style: { textTransform: 'capitalize' } }}
               onChange={e => setdescription(e.target.value)}
               type="textarea"
