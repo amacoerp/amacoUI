@@ -777,7 +777,7 @@ select
                                 </TextField>
                             </Grid>
                             <Grid item>
-                                <CurrencyTextField
+                                <Autocomplete
                                     id="filter-demo"
                                     variant="outlined"
                                     options={values?.vendorList}
