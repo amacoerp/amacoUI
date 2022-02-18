@@ -947,7 +947,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // window.location.href="../quoateview"
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
     // },5000)
   };
@@ -1037,29 +1044,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
 
-      setparty_id(newValue?.id)
+        setparty_id(newValue?.id)
 
-      setrfqstatus(true);
+        setrfqstatus(true);
 
 
-    });
-  }
-  else
-  {
-    setcustomercontact([]);
+      });
+    }
+    else {
+      setcustomercontact([]);
 
-    setparty_id()
+      setparty_id()
 
-    setrfqstatus(false);
+      setrfqstatus(false);
 
-  }
+    }
   }
 
   useEffect(() => {
@@ -1306,10 +1311,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div>
 
             <Grid container spacing={2} className="mb-4">
-        <Grid item className="ml-4">
-    
-               
-        {/* <TextField
+              <Grid item className="ml-4">
+
+
+                {/* <TextField
 
 label="Customer Name"
 style={{ minWidth: 200, maxWidth: '250px' }}
@@ -1336,35 +1341,35 @@ select
 ))}
 </TextField> */}
 
-<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={CustomerList}
-     
-      style={{width:200}}
-      getOptionLabel={(option) => option.firm_name}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" />}
-    />
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  options={CustomerList}
 
-               
-  </Grid>
-  <Grid item >
-{/*   
+                  style={{ width: 200 }}
+                  getOptionLabel={(option) => option.firm_name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
+
+
+              </Grid>
+              <Grid item >
+                {/*   
   {rfqstatus &&
                   <TextField
 
@@ -1389,7 +1394,7 @@ select
                   </TextField>
                 } */}
 
-{/* {rfqstatus&&<Autocomplete
+                {/* {rfqstatus&&<Autocomplete
       id="filter-demo"
       variant="outlined"
       options={customercontact}
@@ -1414,43 +1419,43 @@ select
       variant="outlined" label="Contact Person" />}
     />} */}
 
-  </Grid>
-  <Grid item>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-
-
-  </Grid>
-  <Grid item xs>
-  <TextField
-
-                    label="P.O Number"
+              </Grid>
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     className=""
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    value={ponumber}
-                    onChange={(e) => setponumber(e.target.value)}
-
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
                   />
-  </Grid>
-</Grid>
+                </MuiPickersUtilsProvider>
+
+
+              </Grid>
+              <Grid item xs>
+                <TextField
+
+                  label="P.O Number"
+                  className=""
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="contact_id"
+                  size="small"
+                  variant="outlined"
+                  value={ponumber}
+                  onChange={(e) => setponumber(e.target.value)}
+
+                />
+              </Grid>
+            </Grid>
 
             <Divider />
 

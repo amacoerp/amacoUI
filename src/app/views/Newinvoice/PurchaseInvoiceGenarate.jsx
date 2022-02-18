@@ -868,7 +868,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // window.location.href="../quoateview"
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
     // },5000)
   };
