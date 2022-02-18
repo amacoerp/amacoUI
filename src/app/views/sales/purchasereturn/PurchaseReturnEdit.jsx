@@ -300,7 +300,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             return item.product_id
         });
 
-       
+
         const a = nd.map((item) => {
             const b = dl;
             return b.filter(obj => obj.id == item)
@@ -427,7 +427,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     };
 
 
-    const calcualteprice = (event, index,newValue) => {
+    const calcualteprice = (event, index, newValue) => {
         event.persist()
         let tempItemList = [...state.item];
 
@@ -574,7 +574,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             })
             .catch(function (error) {
-
+                Swal.fire({
+                    title: "Error",
+                    type: "error",
+                    icon: "warning",
+                    text: "Something Went Wrong.",
+                }).then((result) => {
+                    setState({ ...state, loading: false });
+                });
             })
 
     };
@@ -1152,7 +1159,7 @@ select
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={parseFloat(item?.purchase_price)}
-                                                    onChange={(event,newValue) => calcualteprice(event, index,newValue)}
+                                                    onChange={(event, newValue) => calcualteprice(event, index, newValue)}
                                                 // filterOptions={filterPrice}
                                                 // renderOption={option => option.price}
                                                 // getOptionLabel={option => {
