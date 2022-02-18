@@ -211,9 +211,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
         if (e?.keyCode == 39) {
-            if (nextid.includes('product_id')) {
+            if (nextid?.includes('product_id')) {
                 proRef[parseInt(nextid)].focus();
-            } else if (nextid.includes('purchase_price')) {
+            } else if (nextid?.includes('purchsassse_price')) {
                 priceRef[parseInt(nextid)].focus();
             } else if (nextid == null) {
                 // if (e?.keyCode == 13) {
@@ -229,7 +229,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 const r = i + a[1];
                 if (r.includes('product_id')) {
                     proRef[parseInt(r)].focus();
-                } else if (r.includes('purchase_price')) {
+                } else if (r.includes('purschase_price')) {
                     priceRef[parseInt(r)].focus();
                 } else if (r.includes('invoice_no')) {
                     inputRef[parseInt(r)].focus();
@@ -247,7 +247,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             try {
                 if (r.includes('product_id')) {
                     proRef[parseInt(r)].focus();
-                } else if (r.includes('purchase_price')) {
+                } else if (r.includes('purcshase_price')) {
                     priceRef[parseInt(r)].focus();
                 } else if (r.includes('invoice_no')) {
                     inputRef[parseInt(r)].focus();
@@ -271,7 +271,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     proRef[parseInt(prev)].focus();
 
                     // inputRef.focus();
-                } else if (prev.includes('purchase_price')) {
+                } else if (prev.includes('purchases_price')) {
                     priceRef[parseInt(prev)].focus();
                 } if (prev.includes('invoice_no')) {
                     inputRef[parseInt(prev)].focus();
@@ -777,7 +777,7 @@ select
                                 </TextField>
                             </Grid>
                             <Grid item>
-                                <CurrencyTextField
+                                <Autocomplete
                                     id="filter-demo"
                                     variant="outlined"
                                     options={values?.vendorList}
@@ -1129,6 +1129,8 @@ select
                                                     className="w-full"
                                                     size="small"
                                                     label="Price"
+                                                    variant="outlined"
+
                                                     // options={item?.product_price_list}
                                                     name="purchase_price"
                                                     value={parseFloat(item?.purchase_price)}
@@ -1136,7 +1138,7 @@ select
                                                     // filterOptions={filterPrice}
                                                     // renderOption={option => option.price}
                                                     // getOptionLabel={option => {
-                                                       
+
                                                     //     if (typeof option === "string") {
                                                     //         return option;
                                                     //     }
@@ -1147,8 +1149,10 @@ select
                                                     // }}
                                                     // freeSolo
 
-                                                    
-                                                    // onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+                                                    inputProps={{
+                                                        ref: setRef(index + 'purchase_price')
+                                                    }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
                                                     // renderInput={(params) => (
                                                     //     <TextField {...params}

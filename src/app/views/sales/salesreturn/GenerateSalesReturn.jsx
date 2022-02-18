@@ -175,7 +175,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (e?.keyCode == 39) {
             if (nextid?.includes('product_id')) {
                 proRef[parseInt(nextid)].focus();
-            } else if (nextid?.includes('purchase_price')) {
+            } else if (nextid?.includes('purchasee_price')) {
                 priceRef[parseInt(nextid)].focus();
             } else if (nextid == null) {
                 // if (e?.keyCode == 13) {
@@ -191,7 +191,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 const r = i + a[1];
                 if (r?.includes('product_id')) {
                     proRef[parseInt(r)].focus();
-                } else if (r?.includes('purchase_price')) {
+                } else if (r?.includes('purchase_eprice')) {
                     priceRef[parseInt(r)].focus();
                 } else if (r?.includes('invoice_no')) {
                     inputRef[parseInt(r)].focus();
@@ -209,7 +209,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             try {
                 if (r.includes('product_id')) {
                     proRef[parseInt(r)].focus();
-                } else if (r.includes('purchase_price')) {
+                } else if (r.includes('purchase_preeice')) {
                     priceRef[parseInt(r)].focus();
                 } else if (r.includes('invoice_no')) {
                     inputRef[parseInt(r)].focus();
@@ -233,7 +233,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     proRef[parseInt(prev)].focus();
 
                     // inputRef.focus();
-                } else if (prev.includes('purchase_price')) {
+                } else if (prev.includes('purchase_perice')) {
                     priceRef[parseInt(prev)].focus();
                 } if (prev.includes('invoice_no')) {
                     inputRef[parseInt(prev)].focus();
@@ -1102,6 +1102,9 @@ select
                                                     //     return option.price;
                                                     // }}
                                                     // freeSolo
+                                                    inputProps={{
+                                                        ref: setRef(index + 'purchase_price')
+                                                    }}
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
                                                     // renderInput={(params) => (
