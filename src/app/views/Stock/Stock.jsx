@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Divider, Tab, Tabs, Button } from "@material-ui/core";
 import { Breadcrumb, ConfirmationDialog } from "matx";
+import './sty.css';
 import {
     IconButton,
     Table,
@@ -71,119 +72,24 @@ const StockViewer = () => {
     useEffect(() => {
 
         url.get("stock").then(({ data }) => {
-           const arr= data.map((item)=>{
-        item['sum_purchase_qty']=item.product_purchase?.reduce((obj,val)=>obj+parseFloat(val?.quantity),0)
-       
-        item['sum_sales_qty']= item?.product_sales?.reduce((obj,val)=>obj+parseFloat(val?.quantity),0)
-        item['initial_qty'] =console.log(parseFloat(item?.initial_quantity))
-         item['sum_purchase_return_qty']=item.purchase_sale__return?.filter(objs=>objs?.po_number!='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
-        item['sum_sales_return_qty']=item.purchase_sale__return?.filter(objs=>objs?.po_number=='').reduce((obj,val)=>obj+parseFloat(val.quantity),0)
-        return item;
+            const arr = data.map((item) => {
+                item['sum_purchase_qty'] = item.product_purchase?.reduce((obj, val) => obj + parseFloat(val?.quantity), 0)
+
+                item['sum_sales_qty'] = item?.product_sales?.reduce((obj, val) => obj + parseFloat(val?.quantity), 0)
+                item['initial_qty'] = console.log(parseFloat(item?.initial_quantity))
+                item['sum_purchase_return_qty'] = item.purchase_sale__return?.filter(objs => objs.po_number != '').reduce((obj, val) => obj + parseFloat(val.quantity), 0)
+                item['sum_sales_return_qty'] = item.purchase_sale__return?.filter(objs => objs.po_number == '').reduce((obj, val) => obj + parseFloat(val.quantity), 0)
+                return item;
             })
-     
-            setDataList(arr) 
+
+            setDataList(arr)
             console.log(arr)
         });
-         
+
 
         // setIsAlive(false)
     }, [isAlive])
 
-    const columns = [
-
-        {
-            name: "no", // field name in the row object
-            label: "#", // column title that will be shown in table
-            options: {
-                customBodyRender: (
-                    value, tableMeta, updatedValue
-                ) => {
-                    return (
-                        <>
-                            {tableMeta.rowData[0]}
-                        </>
-                    );
-                },
-                filter: true,
-            },
-        },
-        {
-            name: "emp_id", // field name in the row object
-            label: "PRODUCT NAME", // column title that will be shown in table
-            options: {
-                filter: true,
-            },
-        },
-        {
-            name: "NAME", // field name in the row object
-            label: "PRICE", // column title that will be shown in table
-            options: {
-                filter: true,
-            },
-        },
-        // {
-        //     name: "cont", // field name in the row object
-        //     label: "QUANTITY", // column title that will be shown in table
-        //     options: {
-        //         filter: true,
-        //     },
-        // },
-        {
-            name: "EMAIL", // field name in the row object
-            label: "STOCK AVAILABLE", // column title that will be shown in table
-            options: {
-                filter: true,
-            },
-        },
-        {
-            name: "PRESENTADD", // field name in the row object
-            label: "STOCK VALUE", // column title that will be shown in table
-            options: {
-                filter: true,
-            },
-        },
-
-
-        {
-            name: "action",
-            label: "ACTION",
-            options: {
-                customBodyRender: (
-                    value, tableMeta, updatedValue
-                ) => {
-                    return (
-                        <>
-                            <IconButton
-                                onClick={() => {
-                                    setUid(tableMeta.rowData[8]);
-                                    setShouldOpenViewDialog(true);
-                                }}
-                                tooltip="Employee Details"
-                            >
-                                <Icon color="secondary">visibility</Icon>
-                            </IconButton>
-                            {/* <IconButton
-                                onClick={() => {
-                                    setUid(tableMeta.rowData[8]);
-                                    setShouldOpenEditorDialog(true);
-                                }}
-                                tooltip="Update Employee Details"
-                            >
-                                <Icon color="primary">edit</Icon>
-                            </IconButton> */}
-                            <IconButton
-                                tooltip="Delete Employee"
-                                onClick={(e) => deleteUser(tableMeta.rowData[8])}
-                            >
-                                <Icon color="error">delete</Icon>
-                            </IconButton>
-                        </>
-                    );
-                },
-                filter: true,
-            },
-        },
-    ];
 
 
     return (
@@ -192,80 +98,108 @@ const StockViewer = () => {
                 <div className="viewer_actions px-0 flex justify-between">
                     <Breadcrumb
                         routeSegments={[
-                            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
                             { name: "STOCK" },
                         ]}
                     />
 
                 </div>
             </div>
+            <Card className="mb-4" style={{ padding: '10px' }} elevation={0} borderRadius="borderRadius" >
 
-            <MUIDataTable
+                <div className="row " >
+                    <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
+                    <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
+                    <div className="col subHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>SUB CATEGORY</div>
+                    <div className="col prodHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRODUCT</div>
+                    <div className="col priceHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRICE</div>
+                    <div className="col stockHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK</div>
+                    <div className="col stockValue" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK VALUE</div>
+                </div>
+                <div className="">
+                    {dataList?.map((item, i) => {
+                        return <div className="row" key={i}>
+                            <div className="col slno">
+                                {++i}
+                            </div>
+                            <div className="col capitalize catCol">{item?.name}</div>
+                            <div className="col">{item?.product_category?.map((subItem, si) => {
+                                return <>
+                                    <div className="row" key={si}>
+                                        <div className="col capitalize subCol">{subItem?.name}</div>
+                                        <div className="col">{subItem?.product?.map((prod, pi) => {
+                                            const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + parseInt(prod?.initial_quantity)) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
+                                            return <>
+                                                <div className="row" key={pi}>
+                                                    <div className="col prodCol">{prod.name}</div>
+                                                    <div className="col priceHead">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0}</div>
+                                                    <div className="col stockHead">{sum}</div>
+                                                    <div className="col stockValue">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0))}</div>
+                                                </div>
+                                            </>
+                                        })}</div>
+                                    </div>
 
-                title={""}
-                data={
-                    dataList.map((item, index) => {
-                        return [
-                            ++index,
-                            item.name,
-                            item.name,
-                            // item.contact_number,
-                            ((item.sum_purchase_qty)+(item.sum_sales_return_qty)+item.initial_quantity)-((item.sum_sales_qty)+item.sum_purchase_return_qty),
-                            item.present_address,
-                            item.designation,
-                            item.grosssalary,
-                            item.emp_id,
-                        ]
+                                </>
+                            })}</div>
+                        </div>
+
+                    })}
+                </div>
+                {/* 
+                <br />
+                <br />
+                <br />
+                <br />
+                <Table>
+                    <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
+                        <TableRow>
+                            <TableCell className="pl-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">S.No.</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">CATEGORY</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">SUB CATEGORY</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">PRODUCT</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">PRICE</TableCell>
+                            <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">STOCK</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {dataList?.map((item, i) => {
+                            return <TableRow key={i}>
+                                <TableCell align='center'>{++i}</TableCell>
+                                <TableCell width="300" align='center'>{item?.name}</TableCell>
+                                {item.product_category?.map((subItem, si) => {
+                                    return <>
+                                        <TableRow key={si}>
+                                            <TableCell colSpan={15} align='center'>{subItem?.name}</TableCell>
+                                            {subItem.product?.map((proItem, pi) => {
+                                                const sum = ((parseInt(proItem?.purchaseQuantity) + parseInt(proItem?.salesReturnQuantity) + parseInt(proItem?.initial_quantity)) + (parseInt(proItem?.salesQuantity) - parseInt(proItem?.purchaseReturnQuantity)));
+                                                return <>
+                                                    <TableRow key={pi}>
+                                                        <TableCell style={{}}>
+                                                            {proItem?.name}
+                                                        </TableCell >
+                                                        <TableCell style={{}}>
+                                                            {proItem?.latestPrice[0]?.purchase_price}
+                                                        </TableCell>
+                                                        <TableCell style={{}}>
+                                                            {sum}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </>
+                                            })}
+                                        </TableRow>
+                                    </>
+                                })}
+
+                            </TableRow>
+                        })}
+
+                    </TableBody>
+                </Table> */}
+
+            </Card>
 
 
-                    })
-                }
-                columns={columns}
-                options={{
-                    filterType: "textField",
-                    responsive: "simple",
-
-                    selectableRows: "none", // set checkbox for each row
-                    // search: false, // set search option
-                    // filter: false, // set data filter option
-                    // download: false, // set download option
-                    // print: false, // set print option
-                    // pagination: true, //set pagination option
-                    // viewColumns: false, // set column option
-                    elevation: 0,
-                    rowsPerPageOptions: [10, 20, 40, 80, 100],
-                }}
-            />
-
-            {/* {shouldOpenEditorDialog && (
-                <MemberEditorDialog
-                    handleClose={handleDialogClose}
-                    open={shouldOpenEditorDialog}
-                    userid={uid}
-                    data={dataList}
-                    userList={setUserList}
-                />
-            )} */}
-            {/* 
-            {shouldOpenViewDialog && (
-                <ViewDialog
-                    handleClose={handleDialogClose}
-                    open={shouldOpenViewDialog}
-                    userid={uid}
-                    data={dataList}
-                    userList={setUserList}
-                />
-            )}
-            {shouldOpenConfirmationDialog && (
-                <ConfirmationDialog
-                    open={shouldOpenConfirmationDialog}
-                    onConfirmDialogClose={handleDialogClose}
-                    onYesClick={handleConfirmationResponse}
-                    text="Are you sure to delete?"
-                />
-            )} */}
-
-        </div>
+        </div >
     );
 };
 

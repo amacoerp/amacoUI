@@ -122,8 +122,8 @@ const InvoiceForm = ({ }) => {
         firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push("/party/addparty")}>+Add New</Button>)
       });
     }
-
-
+    console.log(filtered)
+    // setCustomerList(filtered)
     return filtered;
 
   };

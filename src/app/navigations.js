@@ -208,6 +208,6 @@ export const navigations = [
   {
     name: "STOCK",
     icon: "show_chart",
-    path: navigatePath+"/stock",
+    path: navigatePath + "/stock",
   },
 ];
