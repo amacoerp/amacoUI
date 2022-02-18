@@ -681,7 +681,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </div>
 
 
-                        <Grid container spacing={2} className="mb-4">
+                        <Grid container spacing={2} className="p-4">
                             <Grid item>
                                 <TextField
 

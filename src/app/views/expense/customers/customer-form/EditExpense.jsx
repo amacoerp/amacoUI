@@ -815,7 +815,7 @@ const [employeeList, setemployeeList] = useState([ ]);
     formData.append("bank_slip", bank_slip);
     formData.append("file_path", file_path);
     formData.append("company", div_company?div_company:'');
-    formData.append("div_id", user.division);
+    formData.append("div_id", localStorage.getItem('division'));
     formData.append("user_id", user.id);
     formData.append("utilize_div_id",utilize_id);
 

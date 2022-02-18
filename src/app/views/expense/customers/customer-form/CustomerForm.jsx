@@ -502,7 +502,7 @@ const CustomerForm = () => {
     formData.append("bank_ref_no", bank_ref_no);
     formData.append("file_path", file_path);
     formData.append("company", div_company?div_company:'');
-    formData.append("div_id", user.division);
+    formData.append("div_id", localStorage.getItem('division'));
     formData.append("utilize_div_id",utilize_id);
     formData.append("payment_type",payment_mode);
     formData.append("bank_slip",bank_slip);

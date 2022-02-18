@@ -169,13 +169,13 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
     if(divid)
     {
       url.get(`singleDivision/${divid}`).then(({ data }) => {
-       
-        setname(data[0].name);
-        setopening_balance(data[0].opening_bal);
-        setcompany_name(data[0].company_name)
-        setcompany_arabic(data[0].company_arabic)
-        setcr_no(data[0].cr_no)
-        setvat_no(data[0].vat_no)
+       console.log(data)
+        setname(data.div[0]?.name);
+        setopening_balance(data.div[0]?.opening_bal);
+        setcompany_name(data.div[0]?.company_name)
+        setcompany_arabic(data.div[0]?.company_arabic)
+        setcr_no(data.div[0]?.cr_no)
+        setvat_no(data.div[0]?.vat_no)
       
   
      
