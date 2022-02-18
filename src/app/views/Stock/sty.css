@@ -1,0 +1,104 @@
+.slno {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 13px;
+}
+.catCol {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+  text-transform: capitalize;
+}
+.subCol {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.prodCol {
+  -ms-flex: 0 0 300px;
+  flex: 0 0 300px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.priceHead {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.stockHead {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.stockValue {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 150px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.slHead {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+}
+.catHead {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+}
+.subHead {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+}
+.prodHead {
+  -ms-flex: 0 0 300px;
+  flex: 0 0 300px;
+}
+.priceHead {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 100px;
+}
+.stockHead {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 100px;
+}
+.stockValue {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 150px;
+}

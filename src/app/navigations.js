@@ -205,9 +205,9 @@ export const navigations = [
     icon: "badge",
     path: navigatePath + "/employees",
   },
-  // {
-  //   name: "STOCK",
-  //   icon: "show_chart",
-  //   path: navigatePath+"/stock",
-  // },
+  {
+    name: "STOCK",
+    icon: "show_chart",
+    path: navigatePath + "/stock",
+  },
 ];
