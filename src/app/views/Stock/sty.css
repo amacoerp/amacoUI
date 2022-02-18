@@ -41,7 +41,7 @@
   font-size: 16px;
   padding: 12px;
 }
-.priceHead {
+.priceCol {
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
   text-transform: capitalize;
@@ -52,7 +52,7 @@
   font-size: 16px;
   padding: 12px;
 }
-.stockHead {
+.stockCol {
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
   text-transform: capitalize;
@@ -63,7 +63,7 @@
   font-size: 16px;
   padding: 12px;
 }
-.stockValue {
+.stockVCol {
   -ms-flex: 0 0 150px;
   flex: 0 0 150px;
   text-transform: capitalize;

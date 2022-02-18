@@ -472,7 +472,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
 
   };

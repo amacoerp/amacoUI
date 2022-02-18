@@ -195,22 +195,35 @@ const InvoiceForm = ({ }) => {
 
     setState({ ...state, loading: true });
     if (values.rfq_details) {
-      url
-        .post("rfq", formData)
-        .then(function (response) {
-          Swal.fire({
-            title: "Success",
-            type: "success",
-            icon: "success",
-            text: "Data saved successfully.",
-          }).then((result) => {
-            getrfq();
-            history.push(navigatePath + "/sales/rfq-form/rfqview");
-          });
-        })
+      try {
 
-        .catch(function (error) { });
-      resetForm({ values: "" });
+        url
+          .post("rfq", formData)
+          .then(function (response) {
+            Swal.fire({
+              title: "Success",
+              type: "success",
+              icon: "success",
+              text: "Data saved successfully.",
+            }).then((result) => {
+              getrfq();
+              history.push(navigatePath + "/sales/rfq-form/rfqview");
+            });
+          })
+
+          .catch(function (error) { });
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
+
+      } catch (error) {
+        console.log('err')
+      }
     } else {
       setmessage(true);
     }
