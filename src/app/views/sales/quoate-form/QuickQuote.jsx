@@ -924,7 +924,14 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           })
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
   };
 
@@ -1111,28 +1118,26 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   //   });
   // }
-  const setcontact = (event,newValue) => {
+  const setcontact = (event, newValue) => {
 
-    if(newValue?.id)
-    {
-    url.get("parties/" + newValue?.id).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
 
-      setparty_id(newValue?.id)
+        setparty_id(newValue?.id)
 
-      setrfqstatus(true);
+        setrfqstatus(true);
 
 
-    });
-   }
-   else
-   {
-    setcustomercontact([]);
+      });
+    }
+    else {
+      setcustomercontact([]);
 
-    setparty_id()
+      setparty_id()
 
-    setrfqstatus(false);
-   }
+      setrfqstatus(false);
+    }
   }
 
 
@@ -1408,128 +1413,128 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            
+
 
             <Grid container spacing={2}>
-        <Grid item className="ml-4">
-    
-               
-                    <Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={CustomerList}
-     
-      
-      getOptionLabel={(option) => option.firm_name}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            firm_name: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontact(event, newValue)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Customer Name" />}
-    />
+              <Grid item className="ml-4">
 
-               
-  </Grid>
-  <Grid item >
-  
-                {rfqstatus &&<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      style={{ minWidth: 200, maxWidth: '250px' }}
-      options={customercontact}
-     
-      
-      getOptionLabel={(option) => option.fname}
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(event, newValue) => setcontactid(newValue?.id)}
-      
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Contact Person" />}
-    />}
-  </Grid>
-  <Grid item>
-  <TextField
-                    name="rfq_no"
-                    value={rfq_no}
+
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={CustomerList}
+
+
+                  getOptionLabel={(option) => option.firm_name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
+
+
+              </Grid>
+              <Grid item >
+
+                {rfqstatus && <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={customercontact}
+
+
+                  getOptionLabel={(option) => option.fname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontactid(newValue?.id)}
+
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Contact Person" />}
+                />}
+              </Grid>
+              <Grid item>
+                <TextField
+                  name="rfq_no"
+                  value={rfq_no}
+                  className=""
+                  label="RFQ No"
+                  size="small"
+                  variant="outlined"
+                  onChange={(e) => {
+                    setrfq_no(e.target.value)
+                    // return date
+                  }}
+
+                >
+
+                </TextField>
+
+              </Grid>
+              <Grid item xs>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     className=""
-                    label="RFQ No"
+                    margin="none"
+                    label="Quote Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    onChange={(e) => {
-                      setrfq_no(e.target.value)
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
                       // return date
                     }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
+            {/* <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div> */}
+            <div className="pl-4">
+              <h5 className="font-normal capitalize">
+                {/* <strong>Subject: </strong>{" "} */}
 
-                  >
+              </h5>
+              <TextValidator
+                label="Subject"
+                className="mb-4"
+                type="text"
+                variant="outlined"
+                size="small"
+                style={{ width: 500 }}
+                onChange={e => setsubject(e.target.value)
+                }
+                value={subject}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              /></div>
 
-                  </TextField>
 
-  </Grid>
-  <Grid item xs>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className=""
-                      margin="none"
-                      label="Quote Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-  </Grid>
-</Grid>
-              {/* <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div> */}
-              <div className="pl-4">
-                <h5 className="font-normal capitalize">
-                  {/* <strong>Subject: </strong>{" "} */}
-
-                </h5>
-                <TextValidator
-                  label="Subject"
-                  className="mb-4"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  style={{ width: 500 }}
-                  onChange={e => setsubject(e.target.value)
-                  }
-                  value={subject}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
-                /></div>
-              
-            
 
             <Divider />
 
