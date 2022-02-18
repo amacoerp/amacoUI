@@ -1081,34 +1081,34 @@ select
                         ))} 
                     </TextField> */}
 
-                                                <Autocomplete
+                                                <CurrencyTextField
                                                     className="w-full pl-2"
                                                     size="small"
                                                     options={item?.product_price_list}
                                                     name="purchase_price"
-                                                    value={item?.purchase_price}
+                                                    value={parseFloat(item?.purchase_price)}
                                                     // filterOptions={filterPrice}
-                                                    renderOption={option => option.price}
-                                                    getOptionLabel={option => {
-                                                        // e.g value selected with enter, right from the input
-                                                        if (typeof option === "string") {
-                                                            return option;
-                                                        }
-                                                        if (option.inputValue) {
-                                                            return option.inputValue;
-                                                        }
-                                                        return option.price;
-                                                    }}
-                                                    freeSolo
+                                                    // renderOption={option => option.price}
+                                                    // getOptionLabel={option => {
+                                                    //     // e.g value selected with enter, right from the input
+                                                    //     if (typeof option === "string") {
+                                                    //         return option;
+                                                    //     }
+                                                    //     if (option.inputValue) {
+                                                    //         return option.inputValue;
+                                                    //     }
+                                                    //     return option.price;
+                                                    // }}
+                                                    // freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
-                                                    renderInput={(params) => (
-                                                        <TextField {...params} inputRef={input => {
-                                                            priceRef[index] = input;
-                                                        }} variant="outlined" name="purchase_price" required fullWidth />
-                                                    )}
+                                                    // renderInput={(params) => (
+                                                    //     <TextField {...params} inputRef={input => {
+                                                    //         priceRef[index] = input;
+                                                    //     }} variant="outlined" name="purchase_price" required fullWidth />
+                                                    // )}
                                                     // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                                                    onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                                                    // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                                                     onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                                                 />
                                             </TableCell>

@@ -901,7 +901,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           renderInput={(params) => (
                             <TextField inputRef={input => {
                               inputRef[index] = input;
-                            }}  {...params} variant="outlined" name="product_id" required fullWidth />
+
+                            }}  {...params} variant="outlined" multiline name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
