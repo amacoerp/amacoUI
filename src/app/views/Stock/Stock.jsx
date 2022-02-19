@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Divider, Tab, Tabs, Button } from "@material-ui/core";
+import React, { useState, useEffect, useRef } from "react";
 import { Breadcrumb, ConfirmationDialog } from "matx";
+import { useReactToPrint } from 'react-to-print';
+import Footer from '../../../app/views/statements/Footer';
+
 import './sty.css';
 import {
-    IconButton,
-    Table,
+    IconButton, Button,
+    Table, TextField, InputAdornment,
     TableHead,
     TableBody,
     TableRow,
@@ -40,6 +42,11 @@ const StockViewer = () => {
     const [did, setdlid] = useState('');
     const [uid, setUid] = useState('');
     const [isAlive, setIsAlive] = useState(true);
+    const [allOther, setAllOther] = useState([])
+    const [allDataList, setAllDataList] = useState([])
+    const [msg, setMsg] = useState('')
+    const componentRef = useRef();
+
 
     const [
         shouldOpenConfirmationDialog,
@@ -70,6 +77,11 @@ const StockViewer = () => {
 
     };
 
+    const handlePrinting = useReactToPrint({
+        content: () => componentRef.current,
+        header: () => componentRef.current
+    });
+
 
     useEffect(() => {
 
@@ -77,13 +89,24 @@ const StockViewer = () => {
             setDataList(data.category)
             setOther(data.other)
             console.log(data)
+            setAllOther(data.other)
+            setAllDataList(data.category)
         });
 
 
         // setIsAlive(false)
     }, [isAlive])
 
+    const handleInputChange = (event) => {
 
+        setDataList(allDataList.filter(obj => obj.name.toLowerCase().includes(event.target.value.toLowerCase())))
+        setOther(allOther.filter(obj => obj.name.toLowerCase().includes(event.target.value.toLowerCase())))
+        if (!other.length && !dataList.length) {
+            setMsg('Sorry, no matching records found')
+        } else {
+            setMsg('')
+        }
+    };
 
     return (
         <div className="m-sm-30">
@@ -98,8 +121,28 @@ const StockViewer = () => {
                 </div>
             </div>
             <Card className="mb-4" style={{ padding: '20px' }} elevation={0} borderRadius="borderRadius" >
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ float: 'right' }}
 
-                <div style={{ position: 'relative', left: 20 }}>
+                    className="mr-4 p-2"
+                    onClick={(e) => { handlePrinting() }}>PRINT</Button>
+                <TextField
+                    className="mt-4"
+                    onChange={handleInputChange}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Icon>search</Icon>
+                            </InputAdornment>
+                        ),
+                    }}
+                ></TextField>
+                <br />
+                <br />
+                <br />
+                <div ref={componentRef} style={{ position: 'relative', left: 20 }}>
                     <div className="row " >
                         <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
                         <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
@@ -110,6 +153,10 @@ const StockViewer = () => {
                         <div className="col stockValue" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK VALUE</div>
                     </div>
                     <div className="">
+                        {msg &&
+                            <div style={{ padding: '10px' }}>
+                                <center>{msg}</center></div>
+                        }
                         {dataList?.map((item, i) => {
 
                             return <div className="row" key={i}>
@@ -167,14 +214,18 @@ const StockViewer = () => {
                                     <div className="col prodCol">
                                         {prod.name}
                                     </div>
-                                    <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined,{minimumFractionDigits:2}) : 0}</div>
+                                    <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</div>
                                     <div className="col stockCol">{sum}</div>
-                                    <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined,{minimumFractionDigits:2})}</div>
+                                    <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
 
                                 </div>
 
                             </>
                         })}
+                    </div>
+                    <div class="footerss">
+
+                        <Footer></Footer>
                     </div>
                 </div>
                 {/* 

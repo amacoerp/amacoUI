@@ -102,3 +102,9 @@
   -ms-flex: 0 0 150px;
   flex: 0 0 150px;
 }
+.footerss {
+  position: fixed;
+  height: 100px;
+  bottom: 0;
+  width: 100%;
+}
