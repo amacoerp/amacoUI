@@ -204,12 +204,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("sale-quotation/" + id).then(({ data }) => {
 
-      setcname(data[0].party.firm_name)
-      setqno(data[0].quotation_no)
-      setpono(data[0].po_number)
+      setcname(data[0].party?.firm_name)
+      setqno(data[0]?.quotation_no)
+      setpono(data[0]?.po_number)
       // setrdate(data[0].requested_date)
-      setparty_id(data[0].party.id)
-      setdiscount(data[0].discount_in_p)
+      setparty_id(data[0]?.party?.id)
+      setdiscount(data[0]?.discount_in_p)
       let tempItemList = data[0].quotation_details;
       tempItemList.map((element, i) => {
         let sum = 0;
@@ -400,7 +400,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2" width={80}>S.NO.</TableCell>
+                  <TableCell className="pl-2" align="center" width={80}>S.NO.</TableCell>
                   {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
                   <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell>
                   <TableCell className="px-0" align="center" width={100}>UOM</TableCell>
@@ -470,7 +470,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       {/* </div> */}
 
-                      <TableCell className="pl-2 capitalize" align="left">
+                      <TableCell className="pl-2 capitalize" align="center">
                         {index + 1}
                         {/* <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

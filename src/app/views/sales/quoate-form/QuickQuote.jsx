@@ -1541,7 +1541,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-0" style={{ width: 50 }} align="left">S.NO.</TableCell>
+                  <TableCell className="pl-0" style={{ width: 50 }} align="center">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }}></TableCell>
                   {/* <TableCell className="px-0" style={{width:'150px'}}>ITEM NAME</TableCell> */}
                   {
@@ -1637,7 +1637,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <TableRow key={index}>
 
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: 50 }}>
+                      <TableCell className="pl-0 capitalize" align="center" style={{ width: 50 }}>
                         {item.index1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
