@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Breadcrumb, ConfirmationDialog } from "matx";
 import { useReactToPrint } from 'react-to-print';
 import Footer from '../../../app/views/statements/Footer';
+import { makeStyles } from "@material-ui/core/styles";
+
 
 import './sty.css';
 import {
@@ -16,7 +18,8 @@ import {
 
     Card,
 } from "@material-ui/core";
-import url from "../invoice/InvoiceService"
+import url from "../invoice/InvoiceService";
+import Header from "../statements/Header";
 
 
 import MUIDataTable from "mui-datatables";
@@ -29,7 +32,157 @@ import { Link } from "react-router-dom";
 // import ViewDialog from "./ViewEmployee";
 // import AcceptQuote from "./Acceptquote";
 // import UserTrash from "./userTrash";
+const useStyles = makeStyles(({ palette, ...theme }) => ({
 
+
+  "@global": {
+
+
+
+    "@media print": {
+
+
+      "body, html,div,h3,h4,h5,h6": {
+        visibility: "hidden",
+        size: "auto",
+
+        content: 'none !important',
+        "-webkit-print-color-adjust": "exact !important",
+        // marginTop:'10px',
+        counterIncrement: 'page',
+        fontSize: '11pt'
+
+
+
+
+
+
+
+
+      },
+
+      "#table": {
+        'font-family': "Calibri",
+        'font-size': '11pt',
+        'empty-cells': "hide"
+      },
+      /* You can add additional styles here which you need */
+      "#abc": {
+        height: '1px !important', /* overwrites any other rules */
+        backgroundColor: '#FFFFFF',
+      },
+      "#editIcon":{
+        display:'none'
+      },
+
+
+      "#header": {
+        // padding: "10px",
+
+        /* These do the magic */
+        position: "fixed",
+        marginTop: '100px',
+        left: 0,
+        paddingTop: 130,
+        justifySelf: "end"
+
+      },
+      ".empty-header": {
+        height: "100px",
+        marginTop: '10px',
+
+
+      },
+      ".empty-footer": {
+        height: "100px",
+        marginTop: '10px',
+
+
+
+      },
+      ".header": {
+        position: "fixed",
+        height: "100px",
+        top: 0,
+
+
+      },
+      ".footer": {
+        position: "fixed",
+        height: "100px",
+        bottom: 0,
+        width: "100%",
+
+      },
+
+
+
+      "#footer": {
+
+        backgroundColor: "#F8F8F8",
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+
+        bottom: "0",
+        position: 'fixed',
+        width: "100%",
+        justifySelf: "end"
+        // 'counter-increment': page,
+        // eslint-disable-next-line no-undef
+
+        // content: counter(pageBreakAfter),
+
+
+      },
+
+      // "#table": {
+      //   // display: "-webkit-box",
+      //   // display: "-ms-flexbox",
+      //   // // display: "right",
+      //   // width: "650px",
+      //   // margin: "15px",
+      //   // position: "absolute",
+      //   fontSize:6
+
+
+
+      //   // top: "38.9cm !important",
+      //   // paddingRight: "24cm !important"
+      // },
+      //   "#footer": {
+      //     display:"-webkit-box",
+      // display: "-ms-flexbox",
+      // display: "center",
+      // width: "100%",
+      // position: "absolute",
+
+      // top: "38.9cm !important",
+      // paddingRight: "12cm !important"
+      //    },
+      "#print-area": {
+        // top: 10,
+        left: 0,
+        right: 0,
+
+        // height: "100%",
+        // marginTop: "10px",
+        // marginBottom:'30px',
+        boxDecorationBreak: 'clone',
+        position: 'relative',
+
+
+
+        "& *": {
+          visibility: "visible",
+        },
+      },
+
+
+    },
+
+  },
+
+}))
 const StockViewer = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -142,7 +295,10 @@ const StockViewer = () => {
                 <br />
                 <br />
                 <br />
+               
                 <div ref={componentRef} style={{ position: 'relative', left: 20 }}>
+                <table >
+                    <Header></Header>
                     <div className="row " >
                         <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
                         <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
@@ -222,11 +378,16 @@ const StockViewer = () => {
 
                             </>
                         })}
+                      
                     </div>
-                    <div class="footerss">
-
-                        <Footer></Footer>
-                    </div>
+                    
+                    <tfoot><div class="empty-footer"></div>
+          </tfoot>
+        </table>
+        <div class="footer">
+          
+          <Footer></Footer>
+        </div>
                 </div>
                 {/* 
                 <br />
