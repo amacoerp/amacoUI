@@ -10,7 +10,7 @@ function Footer({ p }) {
     console.log('sss', p)
   }, [])
   return (
-    <footer >
+    <footer style={{ visibility: "hidden" }}>
       <div >
         <div id="outer" class="outer" style={{ "position": "relative", width: '1050px', backgroundColor: '#c1c1c1', "transform": "skew(-20deg)", marginLeft: '40px', marginRight: '50px' }}>
           <p style={{ color: '#fff', paddingTop: 5, paddingBottom: 5, "transform": "skew(20deg)" }} align="center"> Tel.: {state.contact}| Fax: {state.fax} | P.O.Box {state.po_box} | Jubail 31951 | Kingdom of Saudi Arabia</p>
