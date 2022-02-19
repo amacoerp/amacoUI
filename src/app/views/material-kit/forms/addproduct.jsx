@@ -309,6 +309,7 @@ const SimpleForm = ({open, handleClose}) => {
   return (
     
     <div>
+      <Card className="p-4" elevation={3}>
       <ValidatorForm onSubmit={submitValue} onError={() => null}>
         <Grid container spacing={6}>
         
@@ -633,6 +634,7 @@ const SimpleForm = ({open, handleClose}) => {
         )}
 
       </card>
+      </Card>
     </div>
 
 

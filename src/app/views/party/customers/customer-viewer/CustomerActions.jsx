@@ -20,7 +20,7 @@ const CustomerActions = () => {
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this contact details!',
+      text: 'You will not be able to recover this Company details!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',

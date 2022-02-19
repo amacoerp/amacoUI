@@ -7,6 +7,7 @@ import { toArabic } from 'arabic-digits';
 import {
   Icon,
   Grid,
+  Card,
   TextField,
   MenuItem,
   Button
@@ -259,7 +260,7 @@ const Addparty = ({ open, handleClose }) => {
         />
       </div>
       <div>
-
+        <Card elevation={3} className="p-4">
         <ValidatorForm onError={() => null} onSubmit={handleSubmit} autoComplete="none">
           <Grid container spacing={6}>
             <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -824,6 +825,7 @@ const Addparty = ({ open, handleClose }) => {
           </div>
 
         </ValidatorForm>
+        </Card>
       </div>
     </div>
   );

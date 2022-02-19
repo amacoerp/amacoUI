@@ -145,7 +145,7 @@ function Header() {
                     <>
                       {status == false ? (<h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
                         {/* AMACO ARABIA CONTRACTING COMPANY */}
-                        {company[0]?.company_name}
+                        {company[0]?.company_name.toUpperCase()}
 
                       </h3>) : <TextField value={company_name} onChange={(e) => setcompany_name(e.target.value)}></TextField>}
                     </>

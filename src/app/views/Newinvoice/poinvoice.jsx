@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { borders } from '@material-ui/system';
 import jsPDF from 'jspdf';
 import Editor from "./a/Editor";
+import Header from "../statements/Header";
 
 import {
   Icon,
@@ -744,79 +745,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           })}
           {/* <header id="header"> */}
           <table >
-            <thead style={{ display: "table-header-group" }} >
-              <tr>
+            
 
-                <td>
-                  <div class="empty-header">
-
-                    <div className="px-2 flex justify-between">
-                      <div className="flex">
-                        <div className="pr-12">
-                          <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
-
-                        </div>
-                        {/* <div className="pr-12">
-    <h4><IntlProvider locale={locale} messages={Arabic}>
-        <FormattedMessage
-          id="app.channel.plug"
-          defaultMessage="Amaco Arabia Contracting Company"
-          values="Amaco Arabia Contracting Company"
-        />
-      </IntlProvider></h4>
-      <h5 className="font-normal b-4 capitalize">
-        <strong>AMACO ARABIA CONTRACTING COMPANY
-      
-      </strong>
-      </h5>
-      <h6 className="font-normal b-4 capitalize">
-       C.R No 205500334 | VAT 810398615200003
-
-
-      </h6>
-      
-    </div> */}
-                        <div className="viewer__order-info px-4 mb-4 flex justify-between">
-                        </div>
-                      </div>
-                      <div className="flex">
-                        <div>
-                          <h2 style={{ color: '#1d2257', textAlign: 'right' }}>
-                            {/* <IntlProvider locale={locale} messages={Arabic}> */}
-                            {/* <strong><FormattedMessage
-          id="app.channel.plug"
-          defaultMessage="Amaco Arabia Contracting Company"
-          values="Amaco Arabia Contracting Company"
-        />
-        </strong> */}
-                            {/* </IntlProvider></h2> */}
-                            شركة أماكو العربية للمقاولات</h2>
-
-                          <h3 style={{ color: '#1d2257', textAlign: 'right', fontSize: 20 }}>
-
-                            AMACO ARABIA CONTRACTING COMPANY
-
-                          </h3>
-                          <h5 style={{ color: '#555', textAlign: 'right', fontSize: 17 }} className="font-normal b-4 capitalize">
-                            C.R No. 2055003404 | VAT No. 310398615200003
-
-
-                          </h5>
-
-
-                        </div>
-                      </div>
-                    </div>
-
-
-                    {/* </header> */}
-                  </div>
-                </td>
-              </tr>
-            </thead>
-
-
-
+          <Header></Header>
             <hr></hr>
             <tbody style={{ marginBottom: '50px' }}>
               <tr>

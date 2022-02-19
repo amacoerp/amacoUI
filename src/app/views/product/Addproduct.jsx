@@ -17,7 +17,8 @@ import {
   Grid,
   TextField,
   MenuItem,
-  Button
+  Button,
+  Card
 } from "@material-ui/core";
 import "date-fns";
 import Axios from "axios";
@@ -321,7 +322,8 @@ const SimpleForm = ({ open, handleClose }) => {
           ]}
         />
       </div>
-
+      
+      <Card className="p-4">
       <ValidatorForm onSubmit={submitValue} onError={() => null}>
         <Grid container spacing={6}>
 
@@ -378,7 +380,7 @@ const SimpleForm = ({ open, handleClose }) => {
             <div className="flex mb-4">
               <TextField
                 className="mr-2"
-                label="Unit of measure"
+                label="Unit of Measure"
                 onChange={e => setunit_of_measue(e.target.value)}
                 type="text"
                 size="small"
@@ -530,7 +532,7 @@ const SimpleForm = ({ open, handleClose }) => {
               </TextField>
               <TextField
                 className="ml-2"
-                label="HSN number"
+                label="HSN Number"
                 size="small"
                 variant="outlined"
                 value={hsn}
@@ -547,10 +549,10 @@ const SimpleForm = ({ open, handleClose }) => {
               // errorMessages={["this field is required"]}
               />
             </div>
-            <div className="flex mb-4 w-6">
+            <div className="flex mb-4">
               <TextValidator
                 className="mr-2"
-                label="Initial quantity"
+                label="Initial Quantity"
                 variant="outlined"
                 onChange={e => setiq(e.target.value)}
                 value={iq}
@@ -560,8 +562,8 @@ const SimpleForm = ({ open, handleClose }) => {
                   "isNumber",
                 ]}
                 errorMessages={["Invalid Number"]}
-                // inputProps={{width:'800px'}}
-                style={{width:285}}
+                inputProps={{width:'800px'}}
+                // style={{Width:800}}
               />
               <TextField
                 className="ml-2"
@@ -576,7 +578,7 @@ const SimpleForm = ({ open, handleClose }) => {
                 errorMessages={["Invalid Number"]}
                 onChange={e => setmq(e.target.value)}
                 // inputProps={{width:'200%'}}
-                style={{width:290}}
+                style={{minwidth:285,maxWidth:290}}
               />
             </div>
             <div className="flex mb-4">
@@ -606,6 +608,7 @@ const SimpleForm = ({ open, handleClose }) => {
           <span className="pl-2 capitalize">RESET</span>
         </Button>
       </ValidatorForm>
+      </Card>
       <card>
         {shouldOpenEditorDialog && (
           <MemberEditorDialog

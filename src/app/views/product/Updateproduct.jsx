@@ -14,6 +14,7 @@ import {
   Button,
   Icon,
   Grid,
+  Card,
   // Radio,
   // RadioGroup,
   TextField,
@@ -409,7 +410,7 @@ const SimpleForm = () => {
         />
       </div>
 
-
+      <Card className="p-4">
       <ValidatorForm onSubmit={submitValue} onError={() => null}>
         <Grid container spacing={6}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -559,9 +560,9 @@ const SimpleForm = () => {
             </div>
 
 
-            <div className="flex mb-4">
+            <div className="flex mb-4 w-full">
               <TextValidator
-                className="mr-2"
+                className=" w-full"
                 label="Initial quantity"
                 variant="outlined"
                 onChange={e => setiq(e.target.value)}
@@ -571,10 +572,10 @@ const SimpleForm = () => {
                   "isNumber",
                 ]}
                 errorMessages={["Invalid Number"]}
-                style={{width:285}}
+                // style={{width:285}}
               />
               <TextValidator
-                className="ml-2"
+                className="ml-2 w-full"
                 label="Minimum Quantity"
                 variant="outlined"
                 value={mq}
@@ -584,7 +585,7 @@ const SimpleForm = () => {
                   "isNumber",
                 ]}
                 errorMessages={["Invalid Number"]}
-                style={{width:285}}
+                // style={{width:285}}
               />
             </div>
 
@@ -706,8 +707,13 @@ const SimpleForm = () => {
             <span className="pl-2 capitalize">CANCEL</span>
           </Button>
         </div>
+
       </ValidatorForm>
-    </div >
+      </Card>
+
+      
+    </div>
+  
   );
 };
 
