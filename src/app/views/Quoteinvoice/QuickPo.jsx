@@ -865,7 +865,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
+                  <TableCell className="pl-2" style={{ width: 100 }} align="center">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
@@ -897,7 +897,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   return (
                     <TableRow key={index}>
-                      <TableCell className="pl-2 capitalize" align="left" style={{ width: 100 }}>
+                      <TableCell className="pl-2 capitalize" align="center" style={{ width: 100 }}>
                         {index + 1}
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>

@@ -519,7 +519,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Table className="mb-4">
                             <TableHead>
                                 <TableRow className="bg-default">
-                                    <TableCell className="pl-2" width={80}>S.NO.</TableCell>
+                                    <TableCell className="pl-2" width={80} align="center">S.NO.</TableCell>
                                     {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
                                     <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell>
                                     <TableCell className="px-0" align="center" width={100}>UOM</TableCell>
@@ -590,7 +590,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                             {/* </div> */}
 
-                                            <TableCell className="pl-2 capitalize" align="left">
+                                            <TableCell className="pl-2 capitalize" align="center">
                                                 {index + 1}
                                                 {/* <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

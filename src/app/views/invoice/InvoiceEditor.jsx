@@ -715,7 +715,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2 text-center" width={50} >S.NO.</TableCell>
+                  <TableCell className="pl-2 text-center" width={50} align='center' >S.NO.</TableCell>
                   <TableCell className="pl-2 text-center" width={100} ></TableCell>
 
                   <TableCell className="pl-2" width={300} >ITEM NAME</TableCell>
@@ -734,7 +734,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   return (
                     <TableRow key={index}>
-                      <TableCell className="pl-2 capitalize" align="lcenter" width={50}>
+                      <TableCell className="pl-2 capitalize" align="center" width={50}>
                         {index + 1}
                       </TableCell>
 

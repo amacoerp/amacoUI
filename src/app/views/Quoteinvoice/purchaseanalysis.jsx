@@ -593,7 +593,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2" style={{ width: 50 }} align="left">S.NO.</TableCell>
+                  <TableCell className="pl-2" style={{ width: 50 }} align="center">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '300px' }}>ITEM</TableCell>
                   <TableCell className="px-0" style={{ width: '300px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '80px' }}>QTY</TableCell>
@@ -628,7 +628,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <TableRow key={index}>
 
 
-                      <TableCell className="pl-2 capitalize" align="left" style={{ width: 50 }}>
+                      <TableCell className="pl-2 capitalize" align="center" style={{ width: 50 }}>
                         {index + 1}
 
                       </TableCell>

@@ -118,7 +118,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
           <Table className="whitespace-pre min-w-750">
             <TableHead>
               <TableRow>
-                <TableCell colSpan={2}>S.NO.</TableCell>
+                <TableCell align='center' colSpan={2}>S.NO.</TableCell>
                 <TableCell colSpan={4}>ITEM DETAILS</TableCell>
                 <TableCell colSpan={2}>QUANTITY </TableCell>
                 <TableCell colSpan={2}>UOM</TableCell>
@@ -131,9 +131,8 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
               {values?.rfq_details?.map((item, ind) => (
 
                 <TableRow className="position-relative" key={ind}>
-                  <TableCell className="pl-0" align="left">
+                  <TableCell className="pl-0" colSpan={2} align="center">
                     {ind + 1}
-                    {console.log(item)}
 
                   </TableCell>
                   <TableCell>
@@ -320,14 +319,14 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       // defaultValue={item.quantity || ""}
                       onChange={handleChange}
                       validators={["required", "isNumber"]}
-                          errorMessages={[
-                            "this field is required",
-                            "Input is not Valid",
-                        ]}
+                      errorMessages={[
+                        "this field is required",
+                        "Input is not Valid",
+                      ]}
                     />
-                   
+
                   </TableCell>
-                  
+
                   <TableCell colSpan={2} className="pl-0" align="left">
                     <TextField
                       name={`rfq_details[${ind}].unit_of_measure`}
