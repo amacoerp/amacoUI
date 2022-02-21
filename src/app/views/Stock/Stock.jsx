@@ -275,13 +275,13 @@ const StockViewer = () => {
                 </div>
             </div>
             <Card className="mb-4" style={{ padding: '20px' }} elevation={0} borderRadius="borderRadius" >
-                <Button
+                {/* <Button
                     variant="outlined"
                     color="primary"
                     style={{ float: 'right' }}
 
                     className="mr-4 p-2"
-                    onClick={(e) => { handlePrinting() }}>PRINT</Button>
+                    onClick={(e) => { handlePrinting() }}>PRINT</Button> */}
                 <TextField
                     className="mt-4"
                     onChange={handleInputChange}
@@ -297,47 +297,36 @@ const StockViewer = () => {
                 <br />
                 <br />
 
-                <div ref={componentRef} style={{ position: 'relative', left: 20}}>
+                <div ref={componentRef} style={{ position: 'relative', left: 20 }}>
                     {/* <div style={{ display: 'none' }} className="printHead"> */}
                     {/* <br /> */}
                     <table>
-                        <thead>
-                            <tr style={{ marginLeft:200 }}>
+
+                        {/* <Header id='header'></Header> */}
+
+                        <tbody>
+
+                            <tr>
+
                                 <td>
-                                    {/* <Header></Header> */}
                                 </td>
                             </tr>
-                        </thead>
-                        <tbody >
-                        <tr>
-                        <td>
 
 
                             {/* </div> */}
-                       
+
                             <div className='print-body'>
 
                                 <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
 
                                     <div className="flex">
                                         <div className="pl-0 px-0 mb-4 mr-24 justify-center">
-                                            {/* <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><strong> STOCK DETAILS</strong></h3></center>
-                                            <center><h3><st rong> STOCK DETAILS</st></h3></center> */}
+                                            {/* <center><h3><strong> STOCK DETAILS</strong></h3></center> */}
+                                            
                                         </div>
                                     </div>
                                 </div>
-                               
-                                <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table" >
-                        <TableHead style={{  display: 'table-row-group' }}>
-                        <TableRow style={{ pageBreakInside: 'avoid' }} id="table">   
-                                <div style={{display:'flex',flexWrap:'nowrap',marginLeft:'-15px',marginRight:'-15px'}}>
-                                
+                                <div className="row" style={{flexWrap:'nowrap'}}>
                                     <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
                                     <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
                                     <div className="col subHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>SUB CATEGORY</div>
@@ -345,13 +334,7 @@ const StockViewer = () => {
                                     <div className="col priceHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRICE</div>
                                     <div className="col stockHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK</div>
                                     <div className="col stockValue" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK VALUE</div>
-                                  
                                 </div>
-                                </TableRow>
-                                </TableHead>
-                                </Table>
-                                
-                                <TableRow style={{  pageBreakInside: 'avoid' }}>
                                 <div className="pbdody">
                                     {msg &&
                                         <div style={{ padding: '10px' }}>
@@ -422,56 +405,16 @@ const StockViewer = () => {
 
                                         </>
                                     })}
-                                      {other?.map((prod, i) => {
-                                        const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + (prod?.initial_quantity == null ? 0 : parseInt(prod?.initial_quantity))) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
-
-                                        return <>
-                                            <div className="row"  style={{flexWrap:'nowrap'}}>
-                                                <div className="col slno">{(parseInt(dataList.length) + (++i))}</div>
-                                                <div className="col catCol">--</div>
-                                                <div className="col subCol">--</div>
-                                                <div className="col prodCol">
-                                                    {prod.name}
-                                                </div>
-                                                <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</div>
-                                                <div className="col stockCol">{sum}</div>
-                                                <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-
-                                            </div>
-
-                                        </>
-                                    })}
-                                        </div>
-                                        </TableRow>
-
-                               
-                            </div>
-                  
-                      
-
-
-                   
-              </td>
-            </tr>
-          </tbody>
-          <tfoot><tr><div className="empty-footer"></div></tr>
-          {/* <tr>
-          <div style={{ display: 'block' }} className="footer">
-                        <footer>
-                            <div >
-                                <div id="outer" class="outer" style={{ "position": "relative", width: '1050px', backgroundColor: '#c1c1c1', "transform": "skew(-20deg)", marginLeft: '40px', marginRight: '50px' }}>
-                                    <p style={{ color: '#fff', paddingTop: 5, paddingBottom: 5, "transform": "skew(20deg)" }} align="center"> Tel.: {state.contact}| Fax: {state.fax} | P.O.Box {state.po_box} | Jubail 31951 | Kingdom of Saudi Arabia</p>
-                                    <div id="spacer" style={{ width: "200px", height: "10px", marginRight: 0, }}></div>
-                                    <div style={{ "position": "fixed", bottom: 0, width: "100%", height: 30, backgroundColor: "#1d2257", }}> <p style={{ textAlign: 'center', color: 'white', fontFamily: "Calibri", paddingTop: 5, paddingBottom: 10, "transform": "skew(20deg)" }}>E-mail: {state.email} | Website: {state.website}</p></div>
                                 </div>
                             </div>
-                        </footer>
-                    </div>
-            </tr> */}
-          </tfoot>
-        </table>
-                   
-                    <div >
+                        </tbody>
+
+
+
+                        <tfoot><div class="empty-footer"></div>
+                        </tfoot>
+                    </table>
+                    <div style={{ display: 'none' }} class="footer">
                         <footer>
                             <div >
                                 <div id="outer" class="outer" style={{ "position": "relative", width: '1050px', backgroundColor: '#c1c1c1', "transform": "skew(-20deg)", marginLeft: '40px', marginRight: '50px' }}>

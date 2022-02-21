@@ -139,3 +139,6 @@
   /* display: none !important; */
   margin-right: -70.75rem !important;
 }
+.col.prodCol {
+  width:300px
+}
