@@ -198,6 +198,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+
+    console.log(componentRef.current.scrollHeight)
+    if (componentRef.current.scrollHeight <= 1529) {
+      totalPages = 1
+    }
     console.log(totalPages)
     // totalPages = totalPages - 2
     let a = [];
@@ -404,8 +409,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
             return (
               <span className="showPageNumber" style={{
-                position: 'relative',
+                position: 'fixed',
                 top: pos,
+                left: '50%',
                 display: 'none',
               }}> <center>{item}</center></span>
             )
@@ -582,6 +588,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   </div>
                   <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
                     <Grid container spacing={3} className="p-4">
+
                       <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>CUSTOMER NAME</span><br></br>
                         {company}
@@ -589,10 +596,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                       </Grid>
                       <Grid className="pl-0 pb-4" xs={4}>
+
                         <span style={{ fontWeight: 1000 }}>DELIVERY DATE</span><br></br>
                         {moment(createdate).format('DD MMM YYYY')}
 
 
+                      </Grid>
+
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span><br></br>
+                        {po ? po : "--"}
                       </Grid>
 
 
@@ -612,25 +625,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                       </Grid>
-
-
-                    </Grid>
-                  </Box>
-                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
-                    <Grid container spacing={3} className="p-4">
-                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
-                        <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span><br></br>
-                        {po ? po : "--"}
-
-
-                      </Grid>
-                      <Grid className="pl-0 pb-4" xs={4}>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}>{s == "invoice" ? "INVOICE NUMBER" : "QUOTATION NUMBER"}</span><br></br>
                         {quotationno}
-
-
                       </Grid>
-
 
                     </Grid>
                   </Box>

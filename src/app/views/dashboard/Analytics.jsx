@@ -110,9 +110,9 @@ const Analytics = () => {
       // );
 
       // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-      setresponseData(data.filter(obj=>obj.div_id==localStorage.getItem('division')))
-      let dataList=data.filter(obj=>obj.div_id==localStorage.getItem('division'))
-   
+      setresponseData(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+
       var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
         item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
         item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
@@ -159,10 +159,10 @@ const Analytics = () => {
 
 
 
-  }, [ ])
+  }, [])
 
   const handleChange = (i) => {
-   
+
     // setPerList(compPer);
     // setdate(moment(i).format('YYYY'));
     getpaidDivision().then(({ data }) => {
@@ -174,9 +174,9 @@ const Analytics = () => {
     //  setlinegraph(option)
     url.get('invoice').then(({ data }) => {
 
-      let dataList=data.filter(obj=>obj.div_id==localStorage.getItem('division'))
+      let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       const result = responseData.filter(obj => moment(obj.created_at).format('YYYY') == parseInt(i)).map((item, i) => {
-        
+
         item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
         item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
         item['month'] = moment(item.created_at).format('MMM');
@@ -213,7 +213,7 @@ const Analytics = () => {
 
       setmaxVal(Math.max(...finalArray))
       if (result.length) {
-        
+
         setdata1(finalArray);
         // setmaxVal(Math.max(...finalArray))
       }
@@ -240,35 +240,43 @@ const Analytics = () => {
 
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
 
-          <TextField
-            select
-            style={{ float: "right", width: 250, }}
-            InputLabelProps={{
-              style: { color: 'white' },
-            }}
+          <div class="changeDateColor">
+            <TextField
+              select
+              style={{ float: "right", width: 250, }}
+              InputLabelProps={{
+                style: { color: 'white' },
+              }}
 
-            onChange={(e) => {
-              setdate(e.target.value)
-              handleChange(e.target.value)
-              // return date
-            }}
-            value={date}
-            label="Choose Year"
-          >
-            <MenuItem>Choose Year</MenuItem>
-            {/* <MenuItem value="2019">2019</MenuItem> */}
-            <MenuItem value="2021">2021</MenuItem>
-            <MenuItem value="2022">2022</MenuItem>
-            <MenuItem value="2023">2023</MenuItem>
-            <MenuItem value="2024">2024</MenuItem>
-            <MenuItem value="2025">2025</MenuItem>
-            <MenuItem value="2026">2026</MenuItem>
-            <MenuItem value="2027">2027</MenuItem>
-            <MenuItem value="2028">2028</MenuItem>
-            <MenuItem value="2029">2029</MenuItem>
-            <MenuItem value="2030">2030</MenuItem>
+              onChange={(e) => {
+                setdate(e.target.value)
+                handleChange(e.target.value)
+                // return date
+              }}
+              value={date}
+              label="Choose Year"
+            >
+              <MenuItem>Choose Year</MenuItem>
+              {/* <MenuItem value="2019">2019</MenuItem> */}
+              <MenuItem value="2020">2020</MenuItem>
+              <MenuItem value="2021">2021</MenuItem>
+              <MenuItem value="2022">2022</MenuItem>
+              <MenuItem value="2023">2023</MenuItem>
+              <MenuItem value="2024">2024</MenuItem>
+              <MenuItem value="2025">2025</MenuItem>
+              <MenuItem value="2026">2026</MenuItem>
+              <MenuItem value="2027">2027</MenuItem>
+              <MenuItem value="2028">2028</MenuItem>
+              <MenuItem value="2029">2029</MenuItem>
+              <MenuItem value="2030">2030</MenuItem>
+              <MenuItem value="2031">2031</MenuItem>
+              <MenuItem value="2032">2032</MenuItem>
+              <MenuItem value="2033">2033</MenuItem>
+              <MenuItem value="2034">2034</MenuItem>
+              <MenuItem value="2035">2035</MenuItem>
 
-          </TextField>
+            </TextField>
+          </div>
           <div>
             Last 12 months sales
 

@@ -237,9 +237,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
     if (e?.keyCode == 39) {
-      // if (nextid?.includes('purchase_price')) {
-      if (false) {
-        priceRef[parseInt(nextid)].focus();
+      if (nextid?.includes('product_id')) {
+        // if (false) {
+        inputRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
         // if (e?.keyCode == 13) {
 
@@ -255,8 +255,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // if (r?.includes('purchase_price')) {
         if (false) {
           priceRef[parseInt(r)].focus();
-          // } else if (r.includes('product_id')) {
-        } else if (false) {
+        } else if (r.includes('product_id')) {
+          // } else if (false) {
           inputRef[parseInt(r)].focus();
         } else {
           getRef(r).current.focus();
@@ -273,8 +273,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // if (r?.includes('purchase_price')) {
         if (false) {
           priceRef[parseInt(r)].focus();
-          // } else if (r.includes('product_id')) {
-        } else if (false) {
+        } else if (r.includes('product_id')) {
+          // } else if (false) {
           inputRef[parseInt(r)].focus();
 
           // inputRef.focus();
@@ -292,8 +292,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (prev == null) {
 
       } else {
-        // if (prev.includes('product_id')) {
-        if (false) {
+        if (prev.includes('product_id')) {
+          // if (false) {
           inputRef[parseInt(prev)].focus();
 
           // inputRef.focus();
@@ -1748,30 +1748,35 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           ))}
                         </TextValidator> */}
                         <Autocomplete
-                  id="filter-demo"
-                  variant="outlined"
-                  style={{ minWidth:100, maxWidth: '150px' }}
-                  options={proList}
+                          id="filter-demo"
+                          variant="outlined"
+                          style={{ minWidth: 100, maxWidth: '150px' }}
+                          options={proList}
 
 
-                  getOptionLabel={(option) => option?.name?option?.name:' '}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    if (params?.inputValue !== " ") {
-                      filtered.unshift({
-                        inputValue: params?.inputValue,
-                        name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event,newValue) => setProductdescription(event, index,false)}>+Add New</Button>)
-                      });
-                    }
+                          getOptionLabel={(option) => option?.name ? option?.name : ' '}
+                          filterOptions={(options, params) => {
+                            const filtered = filter(options, params);
+                            if (params?.inputValue !== " ") {
+                              filtered.unshift({
+                                inputValue: params?.inputValue,
+                                name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event, newValue) => setProductdescription(event, index, false)}>+Add New</Button>)
+                              });
+                            }
 
 
-                    return filtered;
-                  }}
-                  onChange={(event,newValue) => setProductdescription(event, index,newValue)}
-                  size="small"
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Item" />}
-                />
+                            return filtered;
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+                          onChange={(event, newValue) => setProductdescription(event, index, newValue)}
+                          size="small"
+                          renderInput={(params) => <TextField
+                            inputRef={input => {
+                              inputRef[index] = input;
+                            }}
+                            {...params}
+                            variant="outlined" label="Item" />}
+                        />
 
                         {/* <Select
           labelId="demo-multiple-name-label"

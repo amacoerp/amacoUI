@@ -35,12 +35,12 @@ export default function LoginLog() {
                 customHeadRender: ({ index, ...column }) => {
                     return (
                         <TableCell key={index} style={{ width: 50 }}>
-                            <span align="center">S.NO.</span>
+                            <span align="left">S.NO.</span>
                         </TableCell>
                     )
                 },
                 setCellProps: () => ({
-                    align: "center",
+                    align: "left",
 
                 })
             }

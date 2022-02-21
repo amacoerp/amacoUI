@@ -8,7 +8,7 @@
   font-size: 16px;
   padding: 13px;
 }
- .catCol {
+.catCol {
   -ms-flex: 0 0 200px;
   flex: 0 0 200px;
   text-align: center;
@@ -40,7 +40,6 @@
   font-family: Calibri;
   font-size: 16px;
   padding: 12px;
-  width:300 !important;
 }
 .priceCol {
   -ms-flex: 0 0 100px;
@@ -104,48 +103,39 @@
   flex: 0 0 150px;
 }
 
- @media print { 
-  .printHead {
+@media print {
+  /* .printHead {
     display: block !important;
     position: fixed;
     top: 0;
     left: 0;
-  }
+  } */
 
   .print-body {
-    box-decoration-break: clone;
-    margin-bottom: 15px;
+    display: block;
   }
 
   .print-body .pbdody div {
     break-inside: avoid;
     page-break-after: avoid;
+    display: block;
   }
 
-  .extra-spacing-tr {
+  /* .extra-spacing-tr {
     margin-top: 50mm;
-  }
+  } */
   .footer {
     display: block !important;
     position: fixed;
-    height: 100px;
+    text-align: center;
     bottom: 0;
+    height: 100px;
     width: 100%;
-    
+    background: #fff;
+    margin: 0 auto 0 auto;
   }
-  .empty-footer {
-    height: "100px";
-    margin-top: '50px';
-
-
-
-}
-
 }
 .printHead .mr-1 {
-  display: none !important;
+  /* display: none !important; */
   margin-right: -70.75rem !important;
-}
-.col.prodCol {
-  width: 300px;
 }
