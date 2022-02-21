@@ -111,10 +111,6 @@
     left: 0;
   } */
 
-  .print-body {
-    display: block;
-  }
-
   .print-body .pbdody div {
     break-inside: avoid;
     page-break-after: avoid;
