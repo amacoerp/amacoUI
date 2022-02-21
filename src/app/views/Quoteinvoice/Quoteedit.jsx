@@ -87,7 +87,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfq, setrfq] = useState([]);
   const [rdate, setrdate] = useState([]);
   const [ddate, setddate] = useState([]);
-  const [cname, setcname] = useState('abcd');
+  const [cname, setcname] = useState('');
   const [contactname, setcontactname] = useState('');
 
   const [party_id, setparty_id] = useState(0);

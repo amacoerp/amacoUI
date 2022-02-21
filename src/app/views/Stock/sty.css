@@ -102,9 +102,38 @@
   -ms-flex: 0 0 150px;
   flex: 0 0 150px;
 }
-.footerss {
-  position: fixed;
-  height: 100px;
-  bottom: 0;
-  width: 100%;
+
+@media print {
+  .printHead {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  @page {
+    margin: 5mm;
+    page-break-inside: avoid;
+  }
+
+  .print-body {
+    position: relative;
+    top: 5;
+  }
+  @media print {
+    .print-body .pbdody div {
+      break-inside: avoid;
+      page-break-after: avoid;
+    }
+  }
+  .footer {
+    display: block !important;
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
+  }
+}
+.printHead .mr-1 {
+  /* display: none !important; */
+  margin-right: -70.75rem !important;
 }

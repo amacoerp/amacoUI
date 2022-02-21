@@ -100,8 +100,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         height: '1px !important', /* overwrites any other rules */
         backgroundColor: '#FFFFFF',
       },
-      "#editIcon":{
-        display:'none'
+      "#editIcon": {
+        display: 'none'
       },
 
 
@@ -393,8 +393,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       else if (s == "accept") {
         settab(1)
       }
-      else if(s=="history")
-      {
+      else if (s == "history") {
         settab(4)
       }
       else {
@@ -433,7 +432,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         return item
       })
 
-    
+
 
       let result = data[0]?.quotation_details.filter(function (o1) {
         return res.some(function (o2) {
@@ -724,7 +723,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           >
             Edit Quote
           </Button> */}
-          {s!=="history" &&<Button
+          {s !== "history" && <Button
             variant="outlined"
             color="primary"
             className="mr-4 py-2"
@@ -949,49 +948,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             }}> <center>{item}</center></span>
           )
         })}
-        <table >
-          {/* <thead   style={{display:"table-header-group",marginTop:'20px'}} >
-            <tr>
-              
-              <td>
-              <div class="empty-header"> 
-
-<div className="px-2 flex justify-between">
-  <div className="flex">
-    <div className="pr-12">
-      <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
-
-    </div>
-   
-    <div className="viewer__order-info px-4 mb-4 flex justify-between">
-    </div>
-  </div>
-  <div className="flex">
-  <div style={{marginLeft:'50px'}}>
-    <h2 style={{color:'#1d2257',textAlign:'right'}}>
-      
-    شركة أماكو العربية للمقاولات</h2>
-
-      <h3 style={{color:'#1d2257',textAlign:'right',fontSize:20}}>
-        AMACO ARABIA CONTRACTING COMPANY
-        
-      </h3>
-      <h5 style={{color:'#555',textAlign:'right',fontSize:17}} className="font-normal b-4 ">
-       C.R No. 2055003404 | VAT No. 310398615200003
-
-
-      </h5>
-      
-    </div>
-  </div>
-</div>
-
-</div>
-    </td>
-    
-    
-  </tr>
-</thead> */}
+        <table>
           <Header></Header>
 
           <tbody style={{ marginBottom: '50px' }}>
@@ -1295,7 +1252,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                     <Table>
                       <TableRow style={{ marginBottom: 200 }} >
-                        Subject: {subject == null || subject == 'null' ? '--' : subject}
+                        Subject: {subject == null || subject == 0 || subject == 'null' ? '--' : subject}
                       </TableRow>
                     </Table>
                   </div>
@@ -1354,7 +1311,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               {
                                 localStorage.getItem('division') == 1 &&
                                 <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
-                                   {item?.file ? <img className="w-60" src={item.file} /> : ""}
+                                  {item?.file ? <img className="w-60" src={item.file} /> : ""}
                                 </TableCell>
                               }
 
