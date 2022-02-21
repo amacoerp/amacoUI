@@ -310,9 +310,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-
-    if (componentRef.current.scrollHeight <= 1630) {
+    // console.log(componentRef.current.scrollHeight)
+    if (componentRef.current.scrollHeight <= 1720) {
       totalPages = 1
+    } else {
+      totalPages = totalPages - 1
     }
 
 
@@ -937,13 +939,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           if (i == 0) {
             pos = 1557;
           } else {
-            pos = pos + 1571;
+            pos = pos + 1592;
           }
 
           return (
             <span className="showPageNumber" style={{
-              position: 'relative',
+              position: 'absolute',
               top: pos,
+              left: '50%',
               display: 'none',
             }}> <center>{item}</center></span>
           )
@@ -1399,11 +1402,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           )
 
                         })}
-
-
-
-
-
 
                         {/* {qdetails.map((item, index) => {
                           return (

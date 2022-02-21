@@ -317,29 +317,29 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
 
     }
     console.log('dsds');
-    if (catid) {
-      url.post('products', frmdetails)
-        .then(function (response) {
+    // if (catid) {
+    url.post('products', frmdetails)
+      .then(function (response) {
 
 
-          Swal.fire({
-            title: 'Success',
-            type: 'success',
-            icon: 'success',
-            text: 'Data saved successfully.',
+        Swal.fire({
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Data saved successfully.',
+        })
+          .then((result) => {
+            handleClose()
           })
-            .then((result) => {
-              handleClose()
-            })
-        })
-        .catch(function (error) {
+      })
+      .catch(function (error) {
 
-        })
-      resetform()
-    }
-    else {
-      setmessage(false)
-    }
+      })
+    resetform()
+    // }
+    // else {
+    //   setmessage(false)
+    // }
     // })
 
   }

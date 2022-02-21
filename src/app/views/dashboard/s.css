@@ -1,3 +1,15 @@
-.new {
+.changeDateColor .MuiSelect-select.MuiSelect-select {
   color: white;
+  border-bottom: 2px solid white;
+}
+.changeDateColor .MuiSelect-select.MuiSelect-select :hover {
+  color: white;
+  border-bottom: 2px solid white;
+}
+.changeDateColor .MuiSelect-icon {
+  color: white;
+}
+
+.changeDateColor .MuiInput-input {
+  border-bottom: 1px solid white;
 }

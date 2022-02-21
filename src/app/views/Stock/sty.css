@@ -111,14 +111,14 @@
     left: 0;
   } */
 
-  /* .print-body {
-    box-decoration-break: clone;
-    margin-bottom: 15px;
-  } */
+  .print-body {
+    display: block;
+  }
 
   .print-body .pbdody div {
     break-inside: avoid;
     page-break-after: avoid;
+    display: block;
   }
 
   /* .extra-spacing-tr {
@@ -127,9 +127,12 @@
   .footer {
     display: block !important;
     position: fixed;
-    height: 100px;
+    text-align: center;
     bottom: 0;
+    height: 100px;
     width: 100%;
+    background: #fff;
+    margin: 0 auto 0 auto;
   }
 }
 .printHead .mr-1 {

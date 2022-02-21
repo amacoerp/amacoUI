@@ -1621,7 +1621,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                 console.log(item)
                   if (!dstatus) {
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
                     // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
@@ -1727,75 +1726,75 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       </TableCell>
 
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                         {quickstatus ? (
-                        //   <TextValidator
-                        //   label="Item"
-                        //   onChange={(event) => setProductdescription(event, index)}
-                        //   type="text"
-                        //   name="product_id"
-                        //   fullWidth
-                        //   variant="outlined"
+                        {quickstatus ? (
+                          //   <TextValidator
+                          //   label="Item"
+                          //   onChange={(event) => setProductdescription(event, index)}
+                          //   type="text"
+                          //   name="product_id"
+                          //   fullWidth
+                          //   variant="outlined"
 
-                        //   // inputProps={{style: {textTransform: 'capitalize'}}}
+                          //   // inputProps={{style: {textTransform: 'capitalize'}}}
 
-                        //   size="small"
-                        //   value={item.product_id ? item.product_id : ""}
-                        //   //   validators={["required"]}
-                        //   inputProps={{
-                        //     ref: setRef(index + 'product_id')
-                        //   }}
-                        //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+                          //   size="small"
+                          //   value={item.product_id ? item.product_id : ""}
+                          //   //   validators={["required"]}
+                          //   inputProps={{
+                          //     ref: setRef(index + 'product_id')
+                          //   }}
+                          //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
 
-                        //   //   errorMessages={["this field is required"]}
-                        //   select
-                        // >
-                        //   <MenuItem value="false">
-                        //     <Icon>add</Icon>Add New
-                        //   </MenuItem>
-                        //   {proList.map((item) => (
-                        //     <MenuItem value={item.id} key={item.id}>
-                        //       {item.name}
-                        //     </MenuItem>
-                        //   ))}
-                        // </TextValidator> 
-                         <Autocomplete
-                         id="filter-demo"
-                         variant="outlined"
-                         style={{ minWidth:100, maxWidth: '150px' }}
-                         options={proList?proList:[]}
-       
-                         value={item?.name}
-                         getOptionLabel={option => {
+                          //   //   errorMessages={["this field is required"]}
+                          //   select
+                          // >
+                          //   <MenuItem value="false">
+                          //     <Icon>add</Icon>Add New
+                          //   </MenuItem>
+                          //   {proList.map((item) => (
+                          //     <MenuItem value={item.id} key={item.id}>
+                          //       {item.name}
+                          //     </MenuItem>
+                          //   ))}
+                          // </TextValidator> 
+                          <Autocomplete
+                            id="filter-demo"
+                            variant="outlined"
+                            style={{ minWidth: 100, maxWidth: '150px' }}
+                            options={proList ? proList : []}
 
-                          // e.g value selected with enter, right from the input
-                          if (typeof option === "string") {
-                            return option;
-                          }
-                          if (option?.inputValue) {
-                            return option?.inputValue;
-                          }
+                            value={item?.name}
+                            getOptionLabel={option => {
 
-                          return option?.name ? option?.name : " ";
-                        }}
+                              // e.g value selected with enter, right from the input
+                              if (typeof option === "string") {
+                                return option;
+                              }
+                              if (option?.inputValue) {
+                                return option?.inputValue;
+                              }
 
-                         filterOptions={(options, params) => {
-                           const filtered = filter(options, params);
-                           if (params?.inputValue !== " ") {
-                             filtered.unshift({
-                               inputValue: params?.inputValue,
-                               name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event,newValue) => setProductdescription(event, index,false)}>+Add New</Button>)
-                             });
-                           }
-       
-       
-                           return filtered
-                         }}
-                         onChange={(event,newValue) => setProductdescription(event, index,newValue)}
-                         size="small"
-                         renderInput={(params) => <TextField {...params}
-                           variant="outlined" label="Item"   />}
-                       />
-       
+                              return option?.name ? option?.name : " ";
+                            }}
+
+                            filterOptions={(options, params) => {
+                              const filtered = filter(options, params);
+                              if (params?.inputValue !== " ") {
+                                filtered.unshift({
+                                  inputValue: params?.inputValue,
+                                  name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event, newValue) => setProductdescription(event, index, false)}>+Add New</Button>)
+                                });
+                              }
+
+
+                              return filtered
+                            }}
+                            onChange={(event, newValue) => setProductdescription(event, index, newValue)}
+                            size="small"
+                            renderInput={(params) => <TextField {...params}
+                              variant="outlined" label="Item" />}
+                          />
+
                         ) :
                           (<TextValidator
                             label="Item"
