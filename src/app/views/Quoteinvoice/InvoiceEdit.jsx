@@ -1047,7 +1047,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // setproList(data)
       setdiscount(data[0].discount_in_percentage);
       setparty_id(data[0]?.party_id)
-      setcname(data[0]?.party.firm_name)
+      setcname(data[0]?.party?.firm_name)
 
       setrfqstatus(true)
       setcontactid(data[0]?.contact?.id)

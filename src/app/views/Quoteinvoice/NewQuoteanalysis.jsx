@@ -1156,9 +1156,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const product_popup = () => {
     setshouldOpenConfirmationDialogproduct(true)
   }
-  const setProductdescription = (event, index, id) => {
-    if (event.target.value !== "false") {
-      url.get("products/" + event.target.value).then(({ data }) => {
+  const setProductdescription = (event, index, newValue) => {
+    console.log(newValue)
+    if (newValue !== false) {
+      url.get("products/" + newValue?.id).then(({ data }) => {
         let tempItemList = [...state.item];
         data.prices.map((element, i) => {
 
@@ -1172,7 +1173,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           if (index === i) {
 
-            element['product_id'] = event.target.value;
+            element['product_id'] = newValue?.id;
             element['descriptionss'] = data.product[0].description;
 
             if (element.product_price_list.length >= 1) {
@@ -1711,7 +1712,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextValidator
+                        {/* <TextValidator
                           label="Item"
                           onChange={(event) => setProductdescription(event, index)}
                           type="text"
@@ -1745,7 +1746,55 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             </MenuItem>
 
                           ))}
-                        </TextValidator>
+                        </TextValidator> */}
+                        <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth:100, maxWidth: '150px' }}
+                  options={proList}
+
+
+                  getOptionLabel={(option) => option?.name?option?.name:' '}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params?.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params?.inputValue,
+                        name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event,newValue) => setProductdescription(event, index,false)}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event,newValue) => setProductdescription(event, index,newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Item" />}
+                />
+
+                        {/* <Select
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          name="product_id"
+          // multiple
+          // value={personName}
+          value={item.product_id ? item.product_id : ""}
+          onChange={handleChange}
+          // input={<OutlinedInput label="Name" />}
+          // MenuProps={MenuProps}
+        >
+          
+          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
+
+
+<MenuItem value={item.id} >
+  {item.name}
+</MenuItem>
+
+))}
+
+        </Select> */}
                       </TableCell>
                       {
                         localStorage.getItem('division') == 3 ? <></> : <>
