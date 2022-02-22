@@ -267,6 +267,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     if (componentRef.current.scrollHeight < 1490) {
       totalPages = 1
     }
+    console.log('E')
     let a = [];
     for (var i = 0; i < totalPages; i++) {
       var j = i;
