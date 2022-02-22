@@ -1416,7 +1416,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               return option?.inputValue;
                             }
 
-                            return option?.name ? option?.name : " ";
+                            return option?.name ? option?.name :(item?.description?item?.description:" ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}

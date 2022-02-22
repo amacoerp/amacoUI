@@ -1021,6 +1021,7 @@ select
                                                     options={proList ? proList : []}
                                                     name="product_id"
                                                     value={item?.name}
+                                                    clearOnBlur
                                                     filterOptions={filterOptions}
                                                     renderOption={option => option?.name}
                                                     multiline

@@ -535,9 +535,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       id: 0,
       product_id: "",
       src: '',
-      description: "",
+      description: " ",
       invoice_id: 0,
-      descriptions: "",
+      descriptions: " ",
       quantity: 0,
       quotation_detail_id: " ",
       product_price_list: [
@@ -566,7 +566,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
+      text: 'You want to Delete this Invoice Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -589,7 +589,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your Quotation Details is safe :)',
+          'Your Invoice Details is safe :)',
           'error'
         )
       }
@@ -1529,7 +1529,7 @@ select
                               return option?.inputValue;
                             }
 
-                            return option?.name ? option?.name : " ";
+                            return option?.name ? option?.name :(item?.description?item?.description:" ");
                           }}
                           freeSolo
                           renderInput={(params) => (

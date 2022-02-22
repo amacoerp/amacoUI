@@ -333,6 +333,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
         element['product'] = newValue?.id ? newValue?.name : newValue
+        element['item_name'] = newValue?.id ? newValue?.name : newValue
         element['description'] = newValue?.id ? newValue?.name : newValue
         element['product_id'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
@@ -610,6 +611,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: 0,
       product_id: "",
+      item_name:" ",
       src: '',
       description: "",
       invoice_id: 0,
@@ -1386,7 +1388,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.description}
+                          value={item?.item_name}
                           // filterOptions={filterOptions?filterOptions:[]}
                           // renderOption={option => option.name}
 
@@ -1402,7 +1404,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               return option?.inputValue;
                             }
 
-                            return option?.name ? option?.name : " ";
+                            return option?.name ? option?.name : item?.item_name;
                           }}
                           freeSolo
                           renderInput={(params) => (

@@ -329,8 +329,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       id: null,
       product_id: "",
       index1: i,
-      description: "",
-      descriptionss: "",
+      name: " ",
+      description: " ",
+      descriptionss: " ",
       descriptions: '---',
       quantity: 0,
       unit_of_measure: " ",
@@ -1774,7 +1775,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 return option?.inputValue;
                               }
 
-                              return option?.name ? option?.name : " ";
+                              return option?.name ? option?.name : (item?.name?item?.name:" ");
                             }}
 
                             filterOptions={(options, params) => {

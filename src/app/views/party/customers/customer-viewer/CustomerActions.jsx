@@ -32,7 +32,7 @@ const CustomerActions = () => {
         
         Swal.fire(
           'Deleted!',
-          'Your contact details has been deleted.',
+          'Your Company details has been deleted.',
           'success'
         )
         history.push(navigatePath+'/party/viewparty')
@@ -45,7 +45,7 @@ const CustomerActions = () => {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your Contact Detail is safe :)',
+          'Your Company Detail is safe :)',
           'error'
         )
       }

@@ -516,6 +516,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
+      item_name:" ",
       src: '',
       index1: lastIndexarr + 1,
       description: "",
@@ -551,10 +552,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList_Index = (id) => {
     let tempItemList = [...state.item];
-
+    console.log(tempItemList)
     tempItemList.push({
       product_id: "",
       src: '',
+      item_name:"  ",
       index1: id,
       description: "",
       descriptions: "",
@@ -1174,6 +1176,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           if (index === i) {
 
             element['product_id'] = newValue?.id;
+            element['item_name'] = newValue?.name;
             element['descriptionss'] = data.product[0].description;
 
             if (element.product_price_list.length >= 1) {
@@ -1604,7 +1607,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-
+                  console.log(item.product_id)
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
@@ -1753,8 +1756,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           style={{ minWidth: 100, maxWidth: '150px' }}
                           options={proList}
 
-
-                          getOptionLabel={(option) => option?.name ? option?.name : ' '}
+                          value={item.item_name}
+                          getOptionLabel={(option,index) => option?.name ? option?.name : item.item_name}
                           filterOptions={(options, params) => {
                             const filtered = filter(options, params);
                             if (params?.inputValue !== " ") {

@@ -129,10 +129,11 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
             <TableBody>
 
               {values?.rfq_details?.map((item, ind) => (
-
+                 
                 <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" colSpan={2} align="center">
                     {ind + 1}
+                   
 
                   </TableCell>
                   <TableCell>
@@ -232,6 +233,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                         className="w-full"
                         size="small"
                         options={productList ? productList : []}
+                        value={item?.name}
                         getOptionLabel={option => {
                           // e.g value selected with enter, right from the input
                           if (typeof option === "string") {
@@ -240,7 +242,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           if (option.inputValue) {
                             return option.inputValue;
                           }
-                          return option?.name ? option?.name : " ";
+                          return option?.name ? option?.name : (`${item.name}`);
                         }}
                         freeSolo
                         onKeyDown={(e) => { controlKeyPress(e, ind + 'product_id', ind + 'quantity', null) }}
@@ -251,7 +253,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                             inputRef[ind] = input;
                           }} {...params} variant="outlined" required fullWidth />
                         )}
-                        value={item?.name}
+                        
                         onInputChange={(event, newValue) => {
 
                           handleChange({
@@ -266,8 +268,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
                             }
                           })
-                          console.log('dsd')
-                          console.log(newValue)
+                         
 
                           let m = productList.filter(obj => obj.name == newValue).map((it) => {
                             return it.unit_of_measure

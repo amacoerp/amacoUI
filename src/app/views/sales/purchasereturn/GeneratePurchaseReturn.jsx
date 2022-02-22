@@ -1008,6 +1008,8 @@ select
                                                     options={proList ? proList : []}
                                                     name="product_id"
                                                     value={item?.id}
+                                                    id="clear-on-escape"
+                                                    clearOnBlur
                                                     // filterOptions={filterOptions}
                                                     renderOption={option => option?.name}
                                                     // multiline
