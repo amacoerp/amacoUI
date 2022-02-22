@@ -951,7 +951,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         
         <p className="mb-8">Quotation Validity:</p>
-              <p className="mb-8">payment Terms:</p>
+              <p className="mb-8">Payment Terms:</p>
               <p className="mb-8">Freight type:</p>
               <p className="mb-8">Delivery Time:</p>
               <p className="mb-8">Inco-Term:</p>
@@ -1040,112 +1040,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <p className="mb-8">Net Total ({currency_type})</p>
               </strong>
             </div>
-
-            <h6 className="pl-4"><strong>TERMS</strong></h6>
-            <div className="px-4 flex justify-between">
-              <div className="flex">
-
-                <div className="pr-12">
-
-
-
-                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
-                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Payment Terms:</p>
-                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Freight type:</p>
-                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Delivery Time:</p>
-                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Inco-Term:</p>
-                </div>
-                <div>
-                  <TextValidator
-                    label="Quotation Validity"
-                    className="mb-4"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    style={{ width: 500 }}
-                    onChange={e => setvalidity(e.target.value)
-                    }
-                    value={validity}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
-                  />
-                  <TextValidator
-                    label="payment Terms"
-                    className="mb-4"
-                    onChange={e => setpayment_terms(e.target.value)
-                    }
-                    type="text"
-                    style={{ width: 500 }}
-                    variant="outlined"
-                    size="small"
-                    name="net_amount"
-                    value={payment_terms}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
-                  />
-                  <TextValidator
-                    label="Freight"
-                    onChange={e => setfreight(e.target.value)
-                    }
-                    className="mb-4"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    name="net_amount"
-                    style={{ width: 500 }}
-                    value={freight}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
-                  />
-                  <TextValidator
-                    label="Delivery Time"
-                    className="mb-4"
-                    onChange={e => setdelivery_time(e.target.value)
-                    }
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    style={{ width: 500 }}
-                    name="net_amount"
-                    value={delivery_time}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
-                  />
-                  <TextValidator
-                    label="Inco-Term"
-                    onChange={e => setinco_terms(e.target.value)
-                    }
-                    type="text"
-                    className="mb-4"
-                    variant="outlined"
-                    size="small"
-                    name="net_amount"
-                    style={{ width: 500 }}
-                    value={inco_terms}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
-                  />
-                </div>
-
-              </div>
-              <div className="px-4 flex justify-end">
-                <div className="flex " >
-                  <div className="pr-12">
-                    <p className="mb-8">Total Amount  ({currency_type}) :</p>
-                    {/* <p className="mb-8">Discount:</p> */}
-                    <p className="mb-8">Freight Charges ({currency_type})</p>
-                    {/* <p className="mb-5">currency:</p> */}
-                    <strong>
-                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
-                    </strong>
-                  </div>
-                  <div>
-
-                    <p className="mb-4" align="right">{subTotalCost ? subTotalCost.toLocaleString(undefined, {
-                      minimumFractionDigits: 2
-                    }) : '0.00'}</p>
-
-                    {/* <TextValidator
+            <div>
+              
+              <p className="mb-4" align="right">{subTotalCost?subTotalCost.toLocaleString(undefined,{
+                minimumFractionDigits:2
+              }):'0.00'}</p>
+              
+              {/* <TextValidator
                 className="mb-4 "
                 label="Vat"
                 type="text"
