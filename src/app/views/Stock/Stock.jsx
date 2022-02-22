@@ -131,7 +131,7 @@ const StockViewer = () => {
                     style={{ float: 'right' }}
 
                     className="mr-4 p-2"
-                    onClick={(e) => { handlePrinting() }}>PRINT</Button> 
+                    onClick={(e) => { handlePrinting() }}>PRINT</Button>
                 <TextField
                     className="mt-4"
                     onChange={handleInputChange}
