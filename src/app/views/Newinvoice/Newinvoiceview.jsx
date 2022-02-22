@@ -262,8 +262,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-    console.log(totalPages)
+    console.log(componentRef.current.scrollHeight)
     // totalPages = totalPages - 2
+    if (componentRef.current.scrollHeight < 1490) {
+      totalPages = 1
+    }
     let a = [];
     for (var i = 0; i < totalPages; i++) {
       var j = i;

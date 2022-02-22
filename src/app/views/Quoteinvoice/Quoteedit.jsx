@@ -2276,7 +2276,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
                   <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
-                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Waranty:</p>
+                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Warranty:</p>
                   <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
                   <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
                   <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>

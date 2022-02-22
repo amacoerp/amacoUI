@@ -192,13 +192,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("sale-quotation/" + id).then(({ data }) => {
 
-      setcname(data[0].party.firm_name)
+      setcname(data[0]?.party?.firm_name)
 
-      setqno(data[0].quotation_no)
-      setpono(data[0].po_number)
+      setqno(data[0]?.quotation_no)
+      setpono(data[0]?.po_number)
 
 
-      setdiscount(data[0].discount_in_p)
+      setdiscount(data[0]?.discount_in_p)
 
 
 

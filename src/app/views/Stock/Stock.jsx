@@ -25,157 +25,6 @@ import MUIDataTable from "mui-datatables";
 
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles(({ palette, ...theme }) => ({
-
-
-    "@global": {
-
-
-
-        "@media print": {
-
-
-            "body, html,div,h3,h4,h5,h6": {
-                visibility: "hidden",
-                size: "auto",
-
-                content: 'none !important',
-                "-webkit-print-color-adjust": "exact !important",
-                // marginTop:'10px',
-                counterIncrement: 'page',
-                fontSize: '11pt'
-
-
-
-
-
-
-
-
-            },
-
-            "#table": {
-                'font-family': "Calibri",
-                'font-size': '11pt',
-                'empty-cells': "hide"
-            },
-            /* You can add additional styles here which you need */
-            "#abc": {
-                height: '1px !important', /* overwrites any other rules */
-                backgroundColor: '#FFFFFF',
-            },
-            "#editIcon": {
-                display: 'none'
-            },
-
-
-            "#header": {
-                // padding: "10px",
-
-                /* These do the magic */
-                position: "fixed",
-                marginTop: '100px',
-                left: 0,
-                paddingTop: 130,
-                justifySelf: "end"
-
-            },
-            ".empty-header": {
-                height: "100px",
-                marginTop: '10px',
-
-
-            },
-            ".empty-footer": {
-                height: "100px",
-                marginTop: '10px',
-
-
-
-            },
-            ".header": {
-                position: "fixed",
-                height: "100px",
-                top: 0,
-
-
-            },
-            ".footer": {
-                position: "fixed",
-                height: "100px",
-                bottom: 0,
-                width: "100%",
-
-            },
-
-
-
-            "#footer": {
-
-                backgroundColor: "#F8F8F8",
-                borderTop: "1px solid #E7E7E7",
-                textAlign: "center",
-
-                bottom: "0",
-                position: 'fixed',
-                width: "100%",
-                justifySelf: "end"
-                // 'counter-increment': page,
-                // eslint-disable-next-line no-undef
-
-                // content: counter(pageBreakAfter),
-
-
-            },
-
-            // "#table": {
-            //   // display: "-webkit-box",
-            //   // display: "-ms-flexbox",
-            //   // // display: "right",
-            //   // width: "650px",
-            //   // margin: "15px",
-            //   // position: "absolute",
-            //   fontSize:6
-
-
-
-            //   // top: "38.9cm !important",
-            //   // paddingRight: "24cm !important"
-            // },
-            //   "#footer": {
-            //     display:"-webkit-box",
-            // display: "-ms-flexbox",
-            // display: "center",
-            // width: "100%",
-            // position: "absolute",
-
-            // top: "38.9cm !important",
-            // paddingRight: "12cm !important"
-            //    },
-            "#print-area": {
-                // top: 10,
-                left: 0,
-                right: 0,
-
-                // height: "100%",
-                // marginTop: "10px",
-                // marginBottom:'30px',
-                boxDecorationBreak: 'clone',
-                position: 'relative',
-
-
-
-                "& *": {
-                    visibility: "visible",
-                },
-            },
-
-
-        },
-
-    },
-
-}))
 
 const StockViewer = () => {
 
@@ -253,8 +102,8 @@ const StockViewer = () => {
 
     const handleInputChange = (event) => {
 
-        setDataList(allDataList.filter(obj => obj.name.toLowerCase().includes(event.target.value.toLowerCase())))
-        setOther(allOther.filter(obj => obj.name.toLowerCase().includes(event.target.value.toLowerCase())))
+        setDataList(allDataList.filter(obj => obj.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
+        setOther(allOther.filter(obj => obj.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
         if (!other.length && !dataList.length) {
             setMsg('Sorry, no matching records found')
         } else {
@@ -298,122 +147,122 @@ const StockViewer = () => {
                 <br />
 
                 <div ref={componentRef} style={{ position: 'relative', left: 20 }}>
-                    {/* <div style={{ display: 'none' }} className="printHead"> */}
-                    {/* <br /> */}
+
                     <table>
-
-                        {/* <Header id='header'></Header> */}
-
-                        <tbody>
-
+                        <thead>
                             <tr>
-
-                                <td>
-                                </td>
+                                <td>   <div class="header-space">&nbsp;</div> </td>
                             </tr>
+                        </thead>
+                        <tbody class="tableBodyStock">
+                            <tr>
+                                <td>
 
+                                    <div className='print-body'>
 
-                            {/* </div> */}
+                                        <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
 
-                            <div className='print-body'>
+                                            <div className="flex">
+                                                <div className="pl-0 px-0 mb-4 mr-24 justify-center">
+                                                    <center><h3><strong> STOCK DETAILS</strong></h3></center>
 
-                                <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
-
-                                    <div className="flex">
-                                        <div className="pl-0 px-0 mb-4 mr-24 justify-center">
-                                            {/* <center><h3><strong> STOCK DETAILS</strong></h3></center> */}
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row" style={{flexWrap:'nowrap'}}>
-                                    <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
-                                    <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
-                                    <div className="col subHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>SUB CATEGORY</div>
-                                    <div className="col prodHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRODUCT</div>
-                                    <div className="col priceHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRICE</div>
-                                    <div className="col stockHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK</div>
-                                    <div className="col stockValue" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK VALUE</div>
-                                </div>
-                                <div className="pbdody">
-                                    {msg &&
-                                        <div style={{ padding: '10px' }}>
-                                            <center>{msg}</center></div>
-                                    }
-                                    {dataList?.map((item, i) => {
-
-                                        return <div className="row" key={i} style={{flexWrap:'nowrap'}}>
-                                            <div className="col slno">
-                                                {++i}
+                                                </div>
                                             </div>
-                                            <div className="col capitalize catCol">{item?.name}</div>
-                                            {item?.product_category.length ? <div className="col">{item?.product_category?.map((subItem, si) => {
+                                        </div>
+                                        <div className="row" >
+                                            <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
+                                            <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
+                                            <div className="col subHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>SUB CATEGORY</div>
+                                            <div className="col prodHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRODUCT</div>
+                                            <div className="col priceHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>PRICE</div>
+                                            <div className="col stockHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK</div>
+                                            <div className="col stockValue" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>STOCK VALUE</div>
+                                        </div>
+                                        <div className="pbdody">
+                                            {msg &&
+                                                <div style={{ padding: '10px' }}>
+                                                    <center>{msg}</center></div>
+                                            }
+                                            {dataList?.map((item, i) => {
+
+                                                return <div className="row" key={i}>
+                                                    <div className="col slno">
+                                                        {++i}
+                                                    </div>
+                                                    <div className="col capitalize catCol">{item?.name}</div>
+                                                    {item?.product_category.length ? <div className="col">{item?.product_category?.map((subItem, si) => {
+                                                        return <>
+                                                            <div className="row" key={si}>
+                                                                <div className="col capitalize subCol">{subItem?.name}</div>
+                                                                {subItem?.product.length ? <div className="col">{subItem?.product?.map((prod, pi) => {
+                                                                    const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + parseInt(prod?.initial_quantity)) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
+                                                                    return <>
+                                                                        <div className="row" key={pi}>
+                                                                            <div className="col prodCol">{prod.name}</div>
+                                                                            <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0}</div>
+                                                                            <div className="col stockCol">{sum}</div>
+                                                                            <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0))}</div>
+                                                                        </div>
+                                                                    </>
+                                                                })}</div> :
+                                                                    <>
+                                                                        <div className="col prodCol">--</div>
+                                                                        <div className="col priceCol">--</div>
+                                                                        <div className="col stockCol">--</div>
+                                                                        <div className="col stockVCol">--</div>
+                                                                    </>
+                                                                }
+
+                                                            </div>
+
+                                                        </>
+                                                    })}</div> :
+                                                        <>
+                                                            <div className="col subCol">--</div>
+                                                            <div className="col prodCol">--</div>
+                                                            <div className="col priceCol">--</div>
+                                                            <div className="col stockCol">--</div>
+                                                            <div className="col stockVCol">--</div>
+                                                        </>
+                                                    }
+
+                                                </div>
+
+                                            })}
+                                            {other?.map((prod, i) => {
+                                                const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + (prod?.initial_quantity == null ? 0 : parseInt(prod?.initial_quantity))) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
+
                                                 return <>
-                                                    <div className="row" key={si} style={{flexWrap:'nowrap'}}>
-                                                        <div className="col capitalize subCol">{subItem?.name}</div>
-                                                        {subItem?.product.length ? <div className="col">{subItem?.product?.map((prod, pi) => {
-                                                            const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + parseInt(prod?.initial_quantity)) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
-                                                            return <>
-                                                                <div className="row" key={pi} style={{flexWrap:'nowrap'}}>
-                                                                    <div className="col prodCol">{prod.name}</div>
-                                                                    <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0}</div>
-                                                                    <div className="col stockCol">{sum}</div>
-                                                                    <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0))}</div>
-                                                                </div>
-                                                            </>
-                                                        })}</div> :
-                                                            <>
-                                                                <div className="col prodCol">--</div>
-                                                                <div className="col priceCol">--</div>
-                                                                <div className="col stockCol">--</div>
-                                                                <div className="col stockVCol">--</div>
-                                                            </>
-                                                        }
+                                                    <div className="row">
+                                                        <div className="col slno">{(parseInt(dataList.length) + (++i))}</div>
+                                                        <div className="col catCol">--</div>
+                                                        <div className="col subCol">--</div>
+                                                        <div className="col prodCol">
+                                                            {prod.name}
+                                                        </div>
+                                                        <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</div>
+                                                        <div className="col stockCol">{sum}</div>
+                                                        <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
 
                                                     </div>
 
                                                 </>
-                                            })}</div> :
-                                                <>
-                                                    <div className="col subCol">--</div>
-                                                    <div className="col prodCol">--</div>
-                                                    <div className="col priceCol">--</div>
-                                                    <div className="col stockCol">--</div>
-                                                    <div className="col stockVCol">--</div>
-                                                </>
-                                            }
-
+                                            })}
                                         </div>
-
-                                    })}
-                                    {other?.map((prod, i) => {
-                                        const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + (prod?.initial_quantity == null ? 0 : parseInt(prod?.initial_quantity))) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
-
-                                        return <>
-                                            <div className="row" style={{flexWrap:'nowrap'}}>
-                                                <div className="col slno">{(parseInt(dataList.length) + (++i))}</div>
-                                                <div className="col catCol">--</div>
-                                                <div className="col subCol">--</div>
-                                                <div className="col prodCol">
-                                                    {prod.name}
-                                                </div>
-                                                <div className="col priceCol">{parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price).toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0}</div>
-                                                <div className="col stockCol">{sum}</div>
-                                                <div className="col stockVCol">{(sum * (parseFloat(prod?.latestPrice[0]?.purchase_price) ? parseFloat(prod?.latestPrice[0]?.purchase_price) : 0.00)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-
-                                            </div>
-
-                                        </>
-                                    })}
-                                </div>
-                            </div>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
-
-
-
-                        <tfoot><div class="empty-footer"></div>
+                        <tfoot>
+                            <tr>
+                                <td>  <div class="footer-space">&nbsp;</div></td>
+                            </tr>
                         </tfoot>
                     </table>
+                    <div style={{ display: 'none' }} class="header fixHeader">
+
+                        <Header></Header>
+                    </div>
                     <div style={{ display: 'none' }} class="footer">
                         <footer>
                             <div >
@@ -429,6 +278,7 @@ const StockViewer = () => {
                 </div>
 
             </Card>
+
 
 
         </div >
