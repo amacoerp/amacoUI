@@ -124,6 +124,7 @@ const StockViewer = () => {
                 </div>
             </div>
             <Card className="mb-4" style={{ padding: '20px' }} elevation={0} borderRadius="borderRadius" >
+                {console.log('ds')}
                 <Button
                     variant="outlined"
                     color="primary"
