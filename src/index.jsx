@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import App from "./app/App";
+import { HashRouter } from 'react-router-dom'
 
 
 // cssVars();
@@ -35,7 +36,7 @@ import App from "./app/App";
 // window.onload = function () {
 //           window.localStorage.isMySessionActive = "true";
 // };
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById("root"));
 
 // for IE-11 support un-comment cssVars() and it's import in this file
 // and in MatxTheme file
