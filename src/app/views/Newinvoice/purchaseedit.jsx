@@ -1127,7 +1127,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
             </div>
 
-            <h6 className="pl-4"><strong>Terms</strong></h6>
+            <h6 className="pl-4"><strong>TERMS</strong></h6>
             <div className="px-4 flex justify-between">
               <div className="flex">
 
@@ -1136,7 +1136,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                   <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
-                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>payment Terms:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Payment Terms:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Freight type:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Delivery Time:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Inco-Term:</p>

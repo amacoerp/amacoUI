@@ -366,37 +366,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     event.persist()
 
     let tempItemList = [...state.item];
-
     tempItemList.map((element, i) => {
-
-
       if (index === i) {
-
-
         element['src'] = URL.createObjectURL(event.target.files[0]);
         let files = event.target.files[0];
-
-
-
         element[`files`] = event.target.files[0]
-
-
         return element;
-
       }
-
-
     });
-
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-
-
-
   };
   const deleteFileSelect = (event, index) => {
 
@@ -2206,7 +2187,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   <p className="mb-6" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '17px' }}>Payment Terms:</p>
-                  <p className="mb-10" style={{ position: 'relative', top: '18px' }}>Waranty:</p>
+                  <p className="mb-10" style={{ position: 'relative', top: '18px' }}>Warranty:</p>
                   <p className="mb-10" style={{ position: 'relative', top: '15px' }}>Delivery Time:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Inco-Term:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Signature:</p>

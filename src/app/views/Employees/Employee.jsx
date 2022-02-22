@@ -47,7 +47,7 @@ const EmployeeViewer = () => {
         setShouldOpenEditorDialog(false);
         setShouldOpenConfirmationDialog(false);
         setShouldOpenViewDialog(false);
-
+        setUid(null)
         setIsAlive(true);
     };
 
@@ -70,7 +70,7 @@ const EmployeeViewer = () => {
 
     useEffect(() => {
 
-        url.get("getEmp").then(({ data }) => {
+        url.get(`getEmp/${localStorage.getItem('division')}`).then(({ data }) => {
             setDataList(data.getData);
         });
 

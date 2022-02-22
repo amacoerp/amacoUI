@@ -1705,7 +1705,7 @@ select
                         <CurrencyTextField
                           className="w-full"
                           autoComplete="none"
-                          label="purchase_price"
+                          label="Purchase Price"
                           decimalPlaces={3}
                           variant="outlined"
                           fullWidth

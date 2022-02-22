@@ -444,7 +444,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
               <div className="flex mb-4">
                 <TextField
                   className="mr-2"
-                  label="Unit of measure"
+                  label="Unit of Measure"
                   onChange={e => setunit_of_measue(e.target.value)}
                   type="text"
                   size="small"
@@ -650,7 +650,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
               <div className="flex mb-4">
                 <TextField
                   className="mr-2"
-                  label="Initial quantity"
+                  label="Initial Quantity"
                   variant="outlined"
                   onChange={e => setiq(e.target.value)}
                   value={iq}

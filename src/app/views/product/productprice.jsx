@@ -34,7 +34,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
   const [customerList, setcustomerList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
   const [isAlivecat, setIsAlivecat] = useState('');
-
+  const [disable, setDisable] = useState(false)
   const { user } = useAuth();
 
 
@@ -47,7 +47,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
   const handleFormSubmit = () => {
 
 
-
+    setDisable(true)
     const frmdetails = {
 
       product_id: catid,
@@ -297,7 +297,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
           </Grid>
 
           <div className="flex  items-center">
-            <Button variant="outlined" className="mr-4 py-2" color="primary" type="submit">
+            <Button variant="outlined" disabled={disable} className="mr-4 py-2" color="primary" type="submit">
               <Icon>save</Icon>SAVE
             </Button>
             <Button

@@ -457,12 +457,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       // setress(halala);
 
       if (data[0].currency_type == "SAR") {
-        if(data[0].net_amount)
-        {
-        setress(words1?.split(",").join(" ") + " Riyals " + ((parseFloat(data[0]?.net_amount?.split('.')[1]) !== NaN) ? (parseFloat(data[0]?.net_amount?.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+        if (data[0].net_amount) {
+          setress(words1?.split(",").join(" ") + " Riyals " + ((parseFloat(data[0]?.net_amount?.split('.')[1]) !== NaN) ? (parseFloat(data[0]?.net_amount?.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
         }
-        else
-        {
+        else {
           setress()
         }
       }
@@ -738,6 +736,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             return (
               <span className="showPageNumber" style={{
                 position: 'relative',
+                display: 'none',
                 top: pos,
                 // display: 'none',
               }}> <center>{item}</center></span>
@@ -745,9 +744,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           })}
           {/* <header id="header"> */}
           <table >
-            
 
-          <Header></Header>
+
+            <Header></Header>
             <hr></hr>
             <tbody style={{ marginBottom: '50px' }}>
               <tr>
@@ -1005,7 +1004,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 <div style={{ float: "left" }} className="pl-14"> {currency_type} </div>
                                 <div style={{ float: "right" }}>
                                   {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                  
+
 
                                 </div>
                                 <div style={{ clear: "left" }} />

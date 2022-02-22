@@ -103,39 +103,44 @@
   flex: 0 0 150px;
 }
 
-@media print {
-  /* .printHead {
-    display: block !important;
-    position: fixed;
-    top: 0;
-    left: 0;
-  } */
+.print-body .row {
+  flex-wrap: nowrap !important;
+}
 
+.prodCol .col {
+  width: 300px !important;
+}
+
+@media print {
   .print-body .pbdody div {
     break-inside: avoid;
     page-break-after: avoid;
-    display: block;
   }
-
-  /* .extra-spacing-tr {
-    margin-top: 50mm;
-  } */
-  .footer {
-    display: block !important;
+  .tableBodyStock {
+    padding: 20px !important;
+  }
+  .header,
+  .header-space {
+    height: 110px;
+  }
+  .footer,
+  .footer-space {
+    height: 80px;
+  }
+  .header {
     position: fixed;
-    text-align: center;
+    top: 10px;
+    display: block !important;
+  }
+  .footer {
+    position: fixed;
     bottom: 0;
-    height: 100px;
-    width: 100%;
-    background: #fff;
-    margin: 0 auto 0 auto;
+    display: block !important;
   }
 }
-.printHead .mr-1 {
-  /* display: none !important; */
-  margin-right: -70.75rem !important;
+.fixHeader .mr-1 {
+  margin-right: -70.6rem !important;
 }
-
 /* 
 
 <!DOCTYPE html>
@@ -170,154 +175,14 @@
 <h2>HTML Table</h2>
 <table>
 <button onclick='window.print()'>print</button>
-  <thead><tr><td>
+  <thead>
+  <tr>
+  <td>
     <div class="header-space">&nbsp;</div>
-  </td></tr></thead>
+  </td>
+  </tr>
+  </thead>
   <tbody><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
-    <div class="content">dsdsadsad...</div>
-  </td></tr><tr><td>
     <div class="content">dsdsadsad...</div>
   </td></tr></tbody>
   <tfoot><tr><td>
