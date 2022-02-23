@@ -139,6 +139,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
   ] = useState(false);
+  const routerHistory = useHistory();
+
   const [
     shouldOpenConfirmationDialogproduct,
     setshouldOpenConfirmationDialogproduct,
@@ -1020,11 +1022,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           .then((result) => {
 
             if (status == "New") {
-              history.push(navigatePath + "/quote/" + response.data + "/New")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/New")
 
             }
             else {
-              history.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/3")
             }
             // window.location.href="../quoateview"
           })
@@ -1043,7 +1045,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    history.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/0")
   }
 
   const handleDialogClose = () => {
@@ -1498,7 +1500,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
@@ -1775,7 +1777,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 return option?.inputValue;
                               }
 
-                              return option?.name ? option?.name : (item?.name?item?.name:" ");
+                              return option?.name ? option?.name : (item?.name ? item?.name : " ");
                             }}
 
                             filterOptions={(options, params) => {

@@ -102,6 +102,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const handleDateChange = (date) => {
     setState({ ...state, date });
   };
+  const routerHistory = useHistory();
 
   const handleSubmit = () => {
     setState({ ...state, loading: true });
@@ -110,7 +111,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     if (isNewInvoice)
       addInvoice(tempState).then(() => {
         setState({ ...state, loading: false });
-        history.push(`/invoice/${state.id}`);
+        routerHistory.push(`/invoice/${state.id}`);
         toggleInvoiceEditor();
       });
     else
@@ -188,17 +189,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             />
             <h5 className="mb-2">Address</h5>
             <TextValidator
-                label="Buyer Address"
-                onChange={(event) => handleSellerBuyerChange(event, "buyer")}
-                type="text"
-                name="address"
-                fullWidth
-                multiline={true}
-                rowsMax={4}
-                value={buyer ? buyer.address : null}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
+              label="Buyer Address"
+              onChange={(event) => handleSellerBuyerChange(event, "buyer")}
+              type="text"
+              name="address"
+              fullWidth
+              multiline={true}
+              rowsMax={4}
+              value={buyer ? buyer.address : null}
+              validators={["required"]}
+              errorMessages={["this field is required"]}
+            />
           </div>
           <div>
             {/* <FormControl component="fieldset" className="w-full mb-4">

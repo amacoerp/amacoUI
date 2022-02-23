@@ -95,8 +95,9 @@ const MemberEditorDialog1 = ({
 }) => {
   const [state, setState] = useState(initialValues);
   const [isAlive, setIsAlive] = useState(true);
+  const routerHistory = useHistory();
+
   const [field, setfield] = useState([]);
-  const history = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const generateRandomId = useCallback(() => {
@@ -154,7 +155,7 @@ const MemberEditorDialog1 = ({
   }
 
   const handleSubmit = () => {
-    
+
     // setState({ ...state, loading: true });
 
     // let tempState = { ...state };
@@ -173,17 +174,17 @@ const MemberEditorDialog1 = ({
     //   handleClose();
     // });
     Swal.fire({
-          title: "Success",
-          type: "success",
-          icon: "success",
-          text: "Data saved successfully.",
-        });
-       
-        handleClose();
-        if(jobtime==="StartTime")
-        history.push(`/print_Joborder_tabid/1`);
-        else
-        history.push(`/print_Joborder_tabid/2`);
+      title: "Success",
+      type: "success",
+      icon: "success",
+      text: "Data saved successfully.",
+    });
+
+    handleClose();
+    if (jobtime === "StartTime")
+      routerHistory.push(`/print_Joborder_tabid/1`);
+    else
+      routerHistory.push(`/print_Joborder_tabid/2`);
   };
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
@@ -340,7 +341,7 @@ const MemberEditorDialog1 = ({
               name="username"
               variant="outlined"
               // value={username || ""}
-             
+
               errorMessages={["this field is required"]}
             />
 
@@ -365,7 +366,7 @@ const MemberEditorDialog1 = ({
                 variant="outlined"
                 color="primary"
                 type="submit"
-                onClick={()=>handleSubmit}
+                onClick={() => handleSubmit}
                 className="py-2 mr-4"
               >
                 <Icon>save</Icon> Save

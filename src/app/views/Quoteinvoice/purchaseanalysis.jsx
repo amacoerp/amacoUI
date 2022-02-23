@@ -87,7 +87,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -318,7 +318,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             // console.log(response)
-            history.push("../Newinvoiceview")
+            routerHistory.push("../Newinvoiceview")
           })
 
       })
@@ -335,7 +335,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   function cancelform() {
-    history.push(navigatePath + "/sales/rfq-form/rfqview")
+    routerHistory.push(navigatePath + "/sales/rfq-form/rfqview")
   }
 
 

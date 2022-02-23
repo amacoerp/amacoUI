@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Formik } from "formik";
 import moment from "moment";
-import history from "history.js";
+import { useHistory } from 'react-router';
+
 import url, { GDIV, getrfq, getVendorList, navigatePath } from "../../invoice/InvoiceService";
 import clsx from "clsx";
 import MemberEditorDialog from '../../party/partycontact';
@@ -112,6 +113,8 @@ const InvoiceForm = ({ }) => {
   const handleDialogClose = () => {
     setshouldOpenConfirmationDialogparty(false)
   }
+  const routerHistory = useHistory();
+
 
   const filterPrice = (options, params) => {
 
@@ -119,7 +122,7 @@ const InvoiceForm = ({ }) => {
     if (params.inputValue !== " ") {
       filtered.unshift({
         inputValue: params.inputValue,
-        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push("/party/addparty")}>+Add New</Button>)
+        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push("/party/addparty")}>+Add New</Button>)
       });
     }
     console.log(filtered)
@@ -207,7 +210,7 @@ const InvoiceForm = ({ }) => {
               text: "Data saved successfully.",
             }).then((result) => {
               getrfq();
-              history.push(navigatePath + "/sales/rfq-form/rfqview");
+              routerHistory.push(navigatePath + "/sales/rfq-form/rfqview");
             });
           })
 
@@ -301,7 +304,7 @@ const InvoiceForm = ({ }) => {
                         >
                           <MenuItem
                             onClick={() => {
-                              history.push("/party/addparty");
+                              routerHistory.push("/party/addparty");
                             }}
                           >
                             <Icon>add</Icon>new

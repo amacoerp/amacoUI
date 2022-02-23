@@ -216,7 +216,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [users, setusers] = useState([]);
   const [sign, setsign] = useState('');
   const [rfq_no, setrfq_no] = useState('');
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -915,11 +915,11 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             if (s == "New") {
-              history.push(navigatePath + "/quote/" + response.data + "/new")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
 
             }
             else {
-              history.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/3")
             }
           })
       })
@@ -1024,7 +1024,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    history.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/0")
   }
 
   const readUploadFile = (e) => {
@@ -1432,7 +1432,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 

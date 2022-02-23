@@ -93,7 +93,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
-  const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -128,7 +127,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
-      item_name:" ",
+      item_name: " ",
       src: '',
       description: "",
       descriptions: "",
@@ -203,6 +202,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     vat = e.target.value
     GTotal = 50 + vat
   }
+
+  const routerHistory = useHistory();
+
 
   const handleChanges = (event, newValue, index) => {
 
@@ -469,7 +471,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
 
-            history.push(navigatePath + "/Newinvoiceview")
+            routerHistory.push(navigatePath + "/Newinvoiceview")
           })
 
       })
@@ -486,7 +488,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   function cancelform() {
-    history.push(navigatePath + "/Newinvoiceview")
+    routerHistory.push(navigatePath + "/Newinvoiceview")
   }
 
   const handleDialogClose = () => {
@@ -734,7 +736,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   select
                 > */}
                   {/* <MenuItem onClick={() => {
-                    history.push(navigatePath + "/party/addparty");
+                    routerHistory.push(navigatePath + "/party/addparty");
                   }}>
 
                     <Icon>add</Icon>New
@@ -759,7 +761,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       if (params.inputValue !== " ") {
                         filtered.unshift({
                           inputValue: params.inputValue,
-                          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                         });
                       }
 

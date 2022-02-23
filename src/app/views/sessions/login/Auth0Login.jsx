@@ -31,9 +31,9 @@ const Auth0Login = () => {
   const handleLogin = async (event) => {
     try {
       await loginWithPopup();
-      history.push("/");
+      routerHistory.push("/");
     } catch (e) {
-      
+
       setMessage(e.message);
     }
   };

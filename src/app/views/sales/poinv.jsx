@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url from "../invoice/InvoiceService";
 import moment from "moment";
@@ -32,23 +32,22 @@ const SimpleMuiTable = () => {
     url.get("purchase-invoice").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-     
+
       if (isAlive) setUserList(data);
-     
-      if(data.length)
-      {
-     
-      setpoid(data[0].id)
-      setpodetails(data);
+
+      if (data.length) {
+
+        setpoid(data[0].id)
+        setpodetails(data);
       }
     });
     return () => setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-   
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -113,7 +112,7 @@ const SimpleMuiTable = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-    
+
 
     // })
     // getrow()
@@ -138,7 +137,7 @@ const SimpleMuiTable = () => {
         filter: true,
       },
     },
-    
+
     {
       name: "issue_date",
       label: "Issue Date",
@@ -187,20 +186,20 @@ const SimpleMuiTable = () => {
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-      
+
           return (
             <span>
-            <Link to={"/poinvview/"+tableMeta.rowData[5]}>
-              <IconButton>
-                <Icon color="primary">remove_red_eye</Icon>
-              </IconButton>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <Link to={"/poinvview/" + tableMeta.rowData[5]}>
+                <IconButton>
+                  <Icon color="primary">remove_red_eye</Icon>
+                </IconButton>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </span>
+            </span>
 
           )
 
@@ -219,9 +218,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -232,15 +231,15 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-        <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
-            { name: "Invoice" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <Breadcrumb
+            routeSegments={[
+              // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
+              { name: "Invoice" },
+            ]}
+          />
 
-        {/* <div className="text-right">
+          {/* <div className="text-right">
           <Link to={"/sales/rfq-form/Rfqform"}>
             <Button
               className="py-2"
@@ -251,11 +250,11 @@ const SimpleMuiTable = () => {
           </Button>
           </Link>
         </div> */}
-      </div>
-      <MUIDataTable
-        title={"Invoice"}
-        data={podetails.map((item, index) => {
-          
+        </div>
+        <MUIDataTable
+          title={"Invoice"}
+          data={podetails.map((item, index) => {
+
             return [
               ++index,
               item.invoice_no,
@@ -267,29 +266,29 @@ const SimpleMuiTable = () => {
               // (parseFloat(item.net_amount)).toFixed(2),
               // item.id
             ]
-          
-        })}
-        columns={columns}
-        options={{
-          // filterType: "textField",
-          // responsive: "simple",
-          // selectableRows: "none", // set checkbox for each row
-          // search: false, // set search option
-          // filter: false, // set data filter option
-          // download: false, // set download option
-          // print: false, // set print option
-          // pagination: true, //set pagination option
-          // viewColumns: false, // set column option
-          // elevation: 0,
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-        }}
-      />
-    </div>
+
+          })}
+          columns={columns}
+          options={{
+            // filterType: "textField",
+            // responsive: "simple",
+            // selectableRows: "none", // set checkbox for each row
+            // search: false, // set search option
+            // filter: false, // set data filter option
+            // download: false, // set download option
+            // print: false, // set print option
+            // pagination: true, //set pagination option
+            // viewColumns: false, // set column option
+            // elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+          }}
+        />
+      </div>
     </div>
   );
 }

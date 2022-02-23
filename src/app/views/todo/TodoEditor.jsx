@@ -54,7 +54,7 @@ class TodoEditor extends Component {
       if (todoId !== "add") {
         getTodoById(todoId).then(({ data }) => {
           if (!data) {
-            this.props.history.push("/todo/list");
+            this.props.routerHistory.push("/todo/list");
             return;
           }
           this.setState({
@@ -73,7 +73,7 @@ class TodoEditor extends Component {
   addNewTodo = () => {
     let id = this.state.tagList.length + 1;
     addTodo({ ...this.state.todo, id }).then(() => {
-      this.props.history.push("/todo/list");
+      this.props.routerHistory.push("/todo/list");
     });
   };
 
@@ -124,7 +124,7 @@ class TodoEditor extends Component {
 
   handleTodoDelete = () => {
     deleteTodo({ ...this.state.todo }).then(() => {
-      this.props.history.push("/todo/list");
+      this.props.routerHistory.push("/todo/list");
     });
   };
 
@@ -156,7 +156,7 @@ class TodoEditor extends Component {
       this.addNewTodo();
     } else {
       updateTodoById({ ...this.state.todo }).then(() => {
-        this.props.history.push("/todo/list");
+        this.props.routerHistory.push("/todo/list");
       });
     }
   };

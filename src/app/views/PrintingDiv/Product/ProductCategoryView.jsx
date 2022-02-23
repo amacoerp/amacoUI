@@ -12,7 +12,7 @@ import MemberEditorDialog from "./Addcategory";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useParams, useHistory } from "react-router-dom";
-import url,{ getcategories } from "../../invoice/InvoiceService";
+import url, { getcategories } from "../../invoice/InvoiceService";
 import history from "history.js";
 import MatxSearchBox from "./ProductSearch";
 import {
@@ -61,19 +61,19 @@ const SimpleMuiTable = () => {
   const [catid, setcatid] = useState(null);
   const [originalList, setOriginalList] = useState([]);
   const [list, setList] = useState([]);
-  const dummydata=[{
-    name:"Industry"
+  const dummydata = [{
+    name: "Industry"
   },
-{
-  name:'Stationary'
-}]
-const dummysub=[{
-  name:"hand wash"
-}]
+  {
+    name: 'Stationary'
+  }]
+  const dummysub = [{
+    name: "hand wash"
+  }]
   function handleClick(event, id) {
-   
+
     // url.get("sub-category/" + id).then(({ data }) => {
-      
+
     //   setsubcatList(data);
     //   setcatid(id)
     // })
@@ -82,8 +82,11 @@ const dummysub=[{
     setAnchorEl(event.currentTarget);
   }
 
+  const routerHistory = useHistory();
+
+
   function handleClose() {
-    
+
     setAnchorEl(null);
   }
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -95,7 +98,7 @@ const dummysub=[{
 
 
   useEffect(() => {
-    
+
     url.get("products").then(({ data }) => {
       setUserList(data);
 
@@ -211,7 +214,7 @@ const dummysub=[{
     //     setUserList(response.data)
 
     //   })
-    history.push(`/print_viewproduct/${user}`)
+    routerHistory.push(`/print_viewproduct/${user}`)
 
     setAnchorEl(null);
   };
@@ -408,38 +411,38 @@ const dummysub=[{
 
     <div className="m-sm-30">
       <div className="mb-sm-30">
-      <div className="flex flex-wrap justify-between mb-6">
-        <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "./Addproduct" },
-            { name: "Product Category" }
-          ]}
-        />
-      <div className="flex justify-end pr-4" >
-      
-        <TextField
-          className="mt-4"
-          onChange={handleInputChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon>search</Icon>
-              </InputAdornment>
-            ),
-          }}
-        ></TextField>
-        <Button className="py-2 ml-4"
-           color="primary"
-           size="small"
-           variant="outlined"
-           onClick={() => {
-            setShouldOpenEditorDialog(true);
-          }} >
-          <Icon>add</Icon>
-          Add New
-        </Button>
-      </div>
-      </div>
+        <div className="flex flex-wrap justify-between mb-6">
+          <Breadcrumb
+            routeSegments={[
+              // { name: "Add new", path: "./Addproduct" },
+              { name: "Product Category" }
+            ]}
+          />
+          <div className="flex justify-end pr-4" >
+
+            <TextField
+              className="mt-4"
+              onChange={handleInputChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon>search</Icon>
+                  </InputAdornment>
+                ),
+              }}
+            ></TextField>
+            <Button className="py-2 ml-4"
+              color="primary"
+              size="small"
+              variant="outlined"
+              onClick={() => {
+                setShouldOpenEditorDialog(true);
+              }} >
+              <Icon>add</Icon>
+              Add New
+            </Button>
+          </div>
+        </div>
       </div>
       <div className="viewer_actions px-4 flex justify-end">
 
@@ -452,7 +455,7 @@ const dummysub=[{
 
 
           <Grid container spacing={3}>
-          
+
             {/* <Card elevation={20} className="p-2" style={{ maxWidth: 50,maxHeight: 50,marginTop:10, whiteSpace: 'pre-line' }} onClick={() => {
               setShouldOpenEditorDialog(true);
             }} >
@@ -463,45 +466,45 @@ const dummysub=[{
 
               </Tooltip>
             </Card> */}
-           
+
             {dummydata.map((item, ind) => (
               <Grid item xs>
                 <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
-                <div className="text-right">
-                <IconButton size="small"  aria-owns={anchorEl ? "simple-menu" : undefined}
-                        aria-haspopup="true"
-                        onClick={(event) => handleClick(event, item.id)}
-                        >
-                        <Tooltip title="Subcategory list">
-                          <Icon color="primary" style={{paddingRight:12}}>expand_more</Icon>
-                        </Tooltip>
-                      </IconButton>
-                      </div>
-                      <Menu
+                  <div className="text-right">
+                    <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
+                      aria-haspopup="true"
+                      onClick={(event) => handleClick(event, item.id)}
+                    >
+                      <Tooltip title="Subcategory list">
+                        <Icon color="primary" style={{ paddingRight: 12 }}>expand_more</Icon>
+                      </Tooltip>
+                    </IconButton>
+                  </div>
+                  <Menu
 
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem onClick={() => {
-                          setShouldOpenEditorDialog(true);
-                          setAnchorEl(null)
-                        }}>
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={() => {
+                      setShouldOpenEditorDialog(true);
+                      setAnchorEl(null)
+                    }}>
                       <Icon align="left">add</Icon> Add Sub Category
+                    </MenuItem>
+                    {subcatList.map((item) => (
+                      <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)}>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.name}
                       </MenuItem>
-                        {subcatList.map((item) => (
-                          <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)}>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.name}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                <div className="pb-5 flex justify-between">
+                    ))}
+                  </Menu>
+                  <div className="pb-5 flex justify-between">
                     <div style={{ display: 'flex', marginLeft: '0.5rem' }}>
 
-                      <strong><h6 align="center" style={{ display: 'inline-block'}} >{item.name}</h6></strong>
-                      </div>
-                      <div className="px-4">
+                      <strong><h6 align="center" style={{ display: 'inline-block' }} >{item.name}</h6></strong>
+                    </div>
+                    <div className="px-4">
                       {/* <IconButton size="small"  aria-owns={anchorEl ? "simple-menu" : undefined}
                         aria-haspopup="true"
                         onClick={(event) => handleClick(event, item.id)}
@@ -530,11 +533,11 @@ const dummysub=[{
                           </MenuItem>
                         ))}
                       </Menu> */}
-                      </div>
                     </div>
-                    {/* <p className="m-0 " style={{color:'blue'}}>{item.name}</p> */}
+                  </div>
+                  {/* <p className="m-0 " style={{color:'blue'}}>{item.name}</p> */}
 
-                
+
                 </Card>
               </Grid>
             ))}

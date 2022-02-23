@@ -29,7 +29,6 @@ const ForgotPassword = () => {
   const [hash, setHash] = useState('')
   const [message, setMessage] = useState('');
   const [color, setColor] = useState(false);
-  const history = useHistory();
 
 
 
@@ -39,12 +38,13 @@ const ForgotPassword = () => {
       [name]: value,
     });
   };
+  const routerHistory = useHistory();
 
   const checkOtp = async (otp, hash) => {
 
     const isMatch = await bcrypt.compare(otp, hash);
     if (isMatch) {
-      history.push("/session/change-password/" + state.email)
+      routerHistory.push("/session/change-password/" + state.email)
     } else {
       setColor(false)
       setMessage('Entered OTP is Wrong')

@@ -83,10 +83,10 @@ const SimpleMuiTable = () => {
     return () => setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
 
-    history.push(`/rfqanalysis/${invoiceId}`);
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -365,7 +365,7 @@ const SimpleMuiTable = () => {
 
               item?.status,
               item?.id,
-              item?.quotation_id?"quote":"invoice"
+              item?.quotation_id ? "quote" : "invoice"
               // moment(item.created_at).format('DD-MM-YYYY'),
               // (parseFloat(item.net_amount)).toFixed(2),
               // item.id

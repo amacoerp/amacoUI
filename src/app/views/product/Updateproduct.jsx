@@ -4,7 +4,7 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Select from 'react-select';
 // import Select from "@material-ui/core/Select";
 // import { MDBSelect } from "mdbreact";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import { Breadcrumb } from "matx";
 import useAuth from '../../hooks/useAuth';
 
@@ -184,6 +184,7 @@ const SimpleForm = () => {
   const [cat, setCat] = useState([]);
   const [subCat, setSubCat] = useState([]);
   const [selectCat, setselectedCat] = useState("hide");
+  const routerHistory = useHistory();
 
   const ooptions = [
     {
@@ -329,7 +330,7 @@ const SimpleForm = () => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + `/product/Viewproduct/${selectedOption1}`)
+            routerHistory.push(navigatePath + `/product/Viewproduct/${selectedOption1}`)
           })
       })
       .catch(function (error) {
@@ -411,53 +412,53 @@ const SimpleForm = () => {
       </div>
 
       <Card className="p-4">
-      <ValidatorForm onSubmit={submitValue} onError={() => null}>
-        <Grid container spacing={6}>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <h6>UPDATE PRODUCT DETAILS</h6>
-            <TextValidator
-              className="mb-4 mt-2 w-full"
-              label="Product Name"
-              variant="outlined"
-              size="small"
-              value={product}
-              onChange={e => setproduct(e.target.value)}
-              type="text"
-              name="product"
-              inputProps={{ style: { textTransform: 'capitalize' } }}
+        <ValidatorForm onSubmit={submitValue} onError={() => null}>
+          <Grid container spacing={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <h6>UPDATE PRODUCT DETAILS</h6>
+              <TextValidator
+                className="mb-4 mt-2 w-full"
+                label="Product Name"
+                variant="outlined"
+                size="small"
+                value={product}
+                onChange={e => setproduct(e.target.value)}
+                type="text"
+                name="product"
+                inputProps={{ style: { textTransform: 'capitalize' } }}
 
-            />
-            <TextValidator
-              className="mb-4 w-full"
-              label="اسم المنتج"
-              variant="outlined"
-              size="small"
+              />
+              <TextValidator
+                className="mb-4 w-full"
+                label="اسم المنتج"
+                variant="outlined"
+                size="small"
 
-              value={name_in_ar}
-              onChange={e => setname_in_ar(e.target.value)}
-              type="text"
-              name="product"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
+                value={name_in_ar}
+                onChange={e => setname_in_ar(e.target.value)}
+                type="text"
+                name="product"
+                validators={[
+                  "required",
+                ]}
+                errorMessages={["this field is required"]}
 
-            />
-            <TextValidator
-              className="mb-4 w-full"
-              label="description"
-              type="text"
-              size="small"
-              multiline
-              value={description}
-              onChange={e => setdescription(e.target.value)}
-              name="description"
-              variant="outlined"
-              inputProps={{ style: { textTransform: 'capitalize' } }}
-            // validators={["required"]}
-            // errorMessages={["this field is required"]}
-            />
-            {/* <TextValidator
+              />
+              <TextValidator
+                className="mb-4 w-full"
+                label="description"
+                type="text"
+                size="small"
+                multiline
+                value={description}
+                onChange={e => setdescription(e.target.value)}
+                name="description"
+                variant="outlined"
+                inputProps={{ style: { textTransform: 'capitalize' } }}
+              // validators={["required"]}
+              // errorMessages={["this field is required"]}
+              />
+              {/* <TextValidator
                 className="mb-4 w-full"
                 label="Unit of measure"
                 value={unit_of_measure}
@@ -470,78 +471,78 @@ const SimpleForm = () => {
                 // errorMessages={["this field is required"]}
               /> */}
 
-            <div className="flex mb-4">
-              <div style={{ width: '300px' }} className="mr-2">
-                <InputLabel htmlFor="UOM" style={{ fontSize: 10 }}>UOM</InputLabel>
-                <Select
-                  menuPortalTarget={document.body}
-                  menuPosition={'fixed'}
-                  label="UOM"
-                  name="UOM"
-                  placeholder="Select Option"
-                  value={data.find(obj => obj.value === unit_of_measure)} // set selected value
-                  options={data
+              <div className="flex mb-4">
+                <div style={{ width: '300px' }} className="mr-2">
+                  <InputLabel htmlFor="UOM" style={{ fontSize: 10 }}>UOM</InputLabel>
+                  <Select
+                    menuPortalTarget={document.body}
+                    menuPosition={'fixed'}
+                    label="UOM"
+                    name="UOM"
+                    placeholder="Select Option"
+                    value={data.find(obj => obj.value === unit_of_measure)} // set selected value
+                    options={data
 
-                  }
-                  onChange={e => setunit_of_measure(e.value)
-                  }
-                />
+                    }
+                    onChange={e => setunit_of_measure(e.value)
+                    }
+                  />
+                </div>
+                <div style={{ width: '350px' }} className="ml-2">
+                  <InputLabel style={{ fontSize: 10 }}>Manufacture</InputLabel>
+                  <Select
+
+                    name="Manufacture"
+                    menuPortalTarget={document.body}
+                    size="small"
+                    fullWidth
+                    InputLabel="Manufacture"
+                    onChange={e => setmanid(e.value)
+                    }
+                    variant="contained"
+                    value={manufacture.find(obj => obj.value === manid)}
+                    options={manufacture}
+                  />
+                </div>
+
               </div>
-              <div style={{ width: '350px' }} className="ml-2">
-                <InputLabel style={{ fontSize: 10 }}>Manufacture</InputLabel>
-                <Select
+            </Grid>
 
-                  name="Manufacture"
-                  menuPortalTarget={document.body}
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+
+              <div className="flex mb-4 mt-8">
+                <TextField
+                  className="mr-2"
+                  variant="outlined"
+                  label="Product Type"
                   size="small"
+                  value={ptype}
                   fullWidth
-                  InputLabel="Manufacture"
-                  onChange={e => setmanid(e.value)
-                  }
-                  variant="contained"
-                  value={manufacture.find(obj => obj.value === manid)}
-                  options={manufacture}
+                  onChange={e => setptype(e.target.value)}
+                  select
+                >
+                  {product_type.map((item) => (
+                    <MenuItem value={item} key={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+
+                <TextField
+                  className="ml-2"
+                  label="HSN number"
+                  size="small"
+                  variant="outlined"
+                  onChange={e => sethsn(e.target.value)}
+                  type="text"
+                  name="hsn"
+                  value={hsn}
+                  fullWidth
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
                 />
-              </div>
-
-            </div>
-          </Grid>
-
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-
-            <div className="flex mb-4 mt-8">
-              <TextField
-                className="mr-2"
-                variant="outlined"
-                label="Product Type"
-                size="small"
-                value={ptype}
-                fullWidth
-                onChange={e => setptype(e.target.value)}
-                select
-              >
-                {product_type.map((item) => (
-                  <MenuItem value={item} key={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </TextField>
-
-
-              <TextField
-                className="ml-2"
-                label="HSN number"
-                size="small"
-                variant="outlined"
-                onChange={e => sethsn(e.target.value)}
-                type="text"
-                name="hsn"
-                value={hsn}
-                fullWidth
-              // validators={["required"]}
-              // errorMessages={["this field is required"]}
-              />
-              {/* <MenuItem>
+                {/* <MenuItem>
                <Button
                   onClick={() => {
                     pushData();
@@ -557,39 +558,39 @@ const SimpleForm = () => {
                 </MenuItem>
               ))} */}
 
-            </div>
+              </div>
 
 
-            <div className="flex mb-4 w-full">
-              <TextValidator
-                className=" w-full"
-                label="Initial quantity"
-                variant="outlined"
-                onChange={e => setiq(e.target.value)}
-                value={iq}
-                size="small"
-                validators={[
-                  "isNumber",
-                ]}
-                errorMessages={["Invalid Number"]}
+              <div className="flex mb-4 w-full">
+                <TextValidator
+                  className=" w-full"
+                  label="Initial quantity"
+                  variant="outlined"
+                  onChange={e => setiq(e.target.value)}
+                  value={iq}
+                  size="small"
+                  validators={[
+                    "isNumber",
+                  ]}
+                  errorMessages={["Invalid Number"]}
                 // style={{width:285}}
-              />
-              <TextValidator
-                className="ml-2 w-full"
-                label="Minimum Quantity"
-                variant="outlined"
-                value={mq}
-                size="small"
-                onChange={e => setmq(e.target.value)}
-                validators={[
-                  "isNumber",
-                ]}
-                errorMessages={["Invalid Number"]}
+                />
+                <TextValidator
+                  className="ml-2 w-full"
+                  label="Minimum Quantity"
+                  variant="outlined"
+                  value={mq}
+                  size="small"
+                  onChange={e => setmq(e.target.value)}
+                  validators={[
+                    "isNumber",
+                  ]}
+                  errorMessages={["Invalid Number"]}
                 // style={{width:285}}
-              />
-            </div>
+                />
+              </div>
 
-            {/* <TextField
+              {/* <TextField
                     
                     className="mb-4 w-full"
                     name="selectedOption1"
@@ -608,65 +609,65 @@ const SimpleForm = () => {
                     ))}
                   </TextField> */}
 
-            {/* <Select
+              {/* <Select
                    className="mb-4 w-full"
    value={options.find(obj => obj.value === selectedOption1)}
    onChange={e => setselectedOption1(e.value)
    }
    options={options}
 /> */}
-            <div className="flex mb-4">
-              {selectedOption == null ? <TextField
-                className="mr-2"
-                label="Category"
-                variant="outlined"
-                select
-                // onChange={ }
-                onChange={handleChange3}
-                fullWidth
-                size="small"
-              >
-                <MenuItem>Choose Category</MenuItem>
-                {cat.filter(obj => obj.parent_id == null).map((item, i) => {
-                  return (
-                    <MenuItem key={i} value={item.id}>{item.name}</MenuItem>
-                  )
-                })}
-              </TextField> :
-                <TextField
+              <div className="flex mb-4">
+                {selectedOption == null ? <TextField
+                  className="mr-2"
+                  label="Category"
+                  variant="outlined"
+                  select
+                  // onChange={ }
+                  onChange={handleChange3}
+                  fullWidth
+                  size="small"
+                >
+                  <MenuItem>Choose Category</MenuItem>
+                  {cat.filter(obj => obj.parent_id == null).map((item, i) => {
+                    return (
+                      <MenuItem key={i} value={item.id}>{item.name}</MenuItem>
+                    )
+                  })}
+                </TextField> :
+                  <TextField
+                    className="mr-2"
+                    label="Sub Category"
+                    variant="outlined"
+                    onChange={e => setselectedOption(e.value)
+                    }
+                    value={selectedOption}
+                    fullWidth
+                    size="small"
+                    readonly
+                  >
+
+                  </TextField>}
+
+
+                {subCat.length > 0 && (< TextField
                   className="mr-2"
                   label="Sub Category"
                   variant="outlined"
-                  onChange={e => setselectedOption(e.value)
-                  }
-                  value={selectedOption}
+                  select
+                  onChange={handleChange4}
                   fullWidth
                   size="small"
-                  readonly
                 >
-
-                </TextField>}
-
-
-              {subCat.length > 0 && (< TextField
-                className="mr-2"
-                label="Sub Category"
-                variant="outlined"
-                select
-                onChange={handleChange4}
-                fullWidth
-                size="small"
-              >
-                <MenuItem>Choose Sub Category</MenuItem>
-                {subCat.filter(obj => obj.parent_id !== null).map((item, i) => {
-                  return (
-                    <MenuItem value={item.id} key={i}>{item.name}</MenuItem>
-                  )
-                })}
-              </TextField>)}
+                  <MenuItem>Choose Sub Category</MenuItem>
+                  {subCat.filter(obj => obj.parent_id !== null).map((item, i) => {
+                    return (
+                      <MenuItem value={item.id} key={i}>{item.name}</MenuItem>
+                    )
+                  })}
+                </TextField>)}
 
 
-              {/* <TextField
+                {/* <TextField
                 className="ml-2"
                 label="maufacturer"
                 variant="outlined"
@@ -675,45 +676,45 @@ const SimpleForm = () => {
                 onChange={e => setmanid(e.target.value)}
                 fullWidth
               /> */}
-              <TextField
-                className="ml-2"
-                label="Model number"
-                size="small"
-                variant="outlined"
-                onChange={e => setmodelno(e.target.value)}
-                type="text"
-                name="hsn"
-                value={modelno}
-                fullWidth
-              // validators={["required"]}
-              // errorMessages={["this field is required"]}
-              />
-            </div>
-            <div className="flex mb-4">
+                <TextField
+                  className="ml-2"
+                  label="Model number"
+                  size="small"
+                  variant="outlined"
+                  onChange={e => setmodelno(e.target.value)}
+                  type="text"
+                  name="hsn"
+                  value={modelno}
+                  fullWidth
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+                />
+              </div>
+              <div className="flex mb-4">
 
 
-            </div>
+              </div>
 
 
+            </Grid>
           </Grid>
-        </Grid>
-        <div className="flex mb-4">
-          <Button color="primary" className="mr-4 py-2" variant="outlined" type="submit">
-            <Icon>save</Icon>
-            <span className="pl-2 capitalize">SAVE</span>
-          </Button>
-          <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => history.push(`../singleproduct?id=${foo}`)}>
-            <Icon>cancel</Icon>
-            <span className="pl-2 capitalize">CANCEL</span>
-          </Button>
-        </div>
+          <div className="flex mb-4">
+            <Button color="primary" className="mr-4 py-2" variant="outlined" type="submit">
+              <Icon>save</Icon>
+              <span className="pl-2 capitalize">SAVE</span>
+            </Button>
+            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../singleproduct?id=${foo}`)}>
+              <Icon>cancel</Icon>
+              <span className="pl-2 capitalize">CANCEL</span>
+            </Button>
+          </div>
 
-      </ValidatorForm>
+        </ValidatorForm>
       </Card>
 
-      
+
     </div>
-  
+
   );
 };
 

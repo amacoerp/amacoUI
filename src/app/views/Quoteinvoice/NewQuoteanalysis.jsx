@@ -207,7 +207,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfqstatus, setrfqstatus] = useState(false);
   const [users, setusers] = useState([]);
   const [sign, setsign] = useState();
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -497,7 +497,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
-      item_name:" ",
+      item_name: " ",
       src: '',
       index1: lastIndexarr + 1,
       description: "",
@@ -537,7 +537,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: "",
       src: '',
-      item_name:"  ",
+      item_name: "  ",
       index1: id,
       description: "",
       descriptions: "",
@@ -958,11 +958,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             if (s == "New") {
-              history.push(navigatePath + "/quote/" + response.data + "/new")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
 
             }
             else {
-              history.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/3")
             }
           })
       })
@@ -980,7 +980,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    history.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/0")
   }
 
   const handleDialogClose = () => {
@@ -1344,7 +1344,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   select
                 >
                   <MenuItem onClick={() => {
-                    history.push(navigatePath + "/party/addparty");
+                    routerHistory.push(navigatePath + "/party/addparty");
                   }}>
 
                     <Icon>add</Icon>New
@@ -1456,7 +1456,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
@@ -1738,7 +1738,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList}
 
                           value={item.item_name}
-                          getOptionLabel={(option,index) => option?.name ? option?.name : item.item_name}
+                          getOptionLabel={(option, index) => option?.name ? option?.name : item.item_name}
                           filterOptions={(options, params) => {
                             const filtered = filter(options, params);
                             if (params?.inputValue !== " ") {

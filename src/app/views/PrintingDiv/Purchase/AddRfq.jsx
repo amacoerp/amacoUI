@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Formik } from "formik";
 import axios from "axios";
 import moment from "moment";
-import history from "history.js";
-import url, { getrfq,getVendorList } from "../../invoice/InvoiceService";
+import { useHistory } from 'react-router';
+import url, { getrfq, getVendorList } from "../../invoice/InvoiceService";
 import clsx from "clsx";
 
 
@@ -45,12 +45,12 @@ const InvoiceForm = ({ }) => {
   const onChange = (imageList) => {
     // data for submit
     //Getting total number of images
-    
+
     var images = imageList.length
- 
+
     // Create an object of formData 
     // const formData = new FormData();
- 
+
 
 
     //Saving multiple images in formadta varibale
@@ -71,7 +71,7 @@ const InvoiceForm = ({ }) => {
       });
 
     }
-   
+
     // axios.post("http://localhost/file/controller/post.php", formData);
   };
 
@@ -94,8 +94,8 @@ const InvoiceForm = ({ }) => {
   const [rfqstatus, setrfqstatus] = useState(false);
   const [customercontact, setcustomercontact] = useState([]);
   const el = useRef();
-  var count=1;
-  var sum=0;
+  var count = 1;
+  var sum = 0;
   let listrfq = [];
 
 
@@ -121,7 +121,7 @@ const InvoiceForm = ({ }) => {
       return item;
     });
     setFiles([...allFiles]);
- 
+
 
     const config = {
       headers: {
@@ -129,7 +129,7 @@ const InvoiceForm = ({ }) => {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    
+
     setQueProgress(35);
   };
 
@@ -154,10 +154,10 @@ const InvoiceForm = ({ }) => {
     setupload(event.target.files)
     let files = event.target.files;
     let filesd = event.target.files;
-   
-    
 
-   
+
+
+
     // for (let a = 0; a < files.length; a++) {
     //   formData.append(
     //     "myFile" + a,
@@ -165,40 +165,40 @@ const InvoiceForm = ({ }) => {
     //     files[a].name,
     //   );
 
-     
-         
+
+
     // }
     // setrfqFiles(event.taraget.files)
-   
-    
-  
-  
+
+
+
+
     for (let iterator of filesd) {
-      
+
       listrfq.push({
         src: URL.createObjectURL(iterator),
-        name:iterator.name
+        name: iterator.name
       });
- 
 
-     
- 
-    
-  }
- 
-  
-  
-  setrfqFiles(listrfq)
+
+
+
+
+    }
+
+
+
+    setrfqFiles(listrfq)
 
     // setstatus(true)
   };
   useEffect(() => {
     getVendorList().then(({ data }) => {
       setCustomerList(data);
-      
+
 
     });
-    
+
 
   }, []);
   const calculateSubTotal = (itemList = []) => {
@@ -209,18 +209,18 @@ const InvoiceForm = ({ }) => {
 
     return subTotal;
   };
-  const setrfq= (event) => {
+  const setrfq = (event) => {
     setparty_id(event.target.value)
-   
+
     url.get("parties/" + event.target.value).then(({ data }) => {
       setcustomercontact(data[0].contacts);
-     
-     
-   
+
+
+
 
       setrfqstatus(true);
-      
-      
+
+
     });
   }
 
@@ -232,9 +232,11 @@ const InvoiceForm = ({ }) => {
 
     return total;
   };
+  const routerHistory = useHistory();
+
 
   const handleSubmit = async (values, { isSubmitting, resetForm }) => {
-    
+
     for (let a = 0; a < upload.length; a++) {
       formData.append(
         "myFile" + a,
@@ -242,26 +244,26 @@ const InvoiceForm = ({ }) => {
         upload[a].name,
       );
 
-     
-         
+
+
     }
-    values.party_id=party_id
+    values.party_id = party_id
     const myObjStr = JSON.stringify(values);
 
-    
-    
+
+
     for (const [key, value] of Object.entries(values)) {
-     
+
       let list = [];
       if (`${key}` === "rfq_details") {
         for (const iterator of values.rfq_details) {
           list.push({
             file: iterator,
           });
-          
-        
+
+
           formData.append('rfq_details', JSON.stringify(values.rfq_details));
-          
+
         }
       }
       else {
@@ -272,10 +274,10 @@ const InvoiceForm = ({ }) => {
 
 
 
-   
+
     const res = { ...values, arr }
 
-    
+
     // const config = {
     //   headers: {
     //     "content-type": "multipart/form-data",
@@ -284,12 +286,12 @@ const InvoiceForm = ({ }) => {
     // };
     if (values.rfq_details) {
 
-    // url.post('http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/post.php',formData)
+      // url.post('http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/post.php',formData)
 
-      
-    url.post('rfq', formData)
+
+      url.post('rfq', formData)
         .then(function (response) {
-          
+
 
           Swal.fire({
             title: 'Success',
@@ -297,14 +299,14 @@ const InvoiceForm = ({ }) => {
             icon: 'success',
             text: 'Data saved successfully.',
           })
-          
+
           getrfq()
           // window.location.href = "/sales/rfq-form/rfqview"
-          history.push("/sales/rfq-form/rfqview")
+          routerHistory.push("/sales/rfq-form/rfqview")
         })
 
         .catch(function (error) {
-        
+
         })
       resetForm({ values: '' })
     }
@@ -327,7 +329,7 @@ const InvoiceForm = ({ }) => {
       </div>
 
       <Card elevation={3}>
-        
+
 
         <Formik
           className=".bg-green"
@@ -346,189 +348,189 @@ const InvoiceForm = ({ }) => {
             setSubmitting,
             setFieldValue,
             resetForm,
-            
+
           }) => (
             <div>
-             
-        
-            <form className="p-4" onSubmit={handleSubmit} encType="multipart/form-data">
-            <div className="flex justify-between">
-            <div className="flex p-4">
-          <h4 className="m-0">New RFQ</h4>
-        </div>
-        <div className="">
-                <Button color="primary" className="mt-2 py-2" variant="outlined" type="submit" fullWidth>
-                  <Icon>save</Icon> Save
-                                </Button>
 
-          </div>
-        </div>
-        <Divider className="mb-2" />
-              <Grid container spacing={3} alignItems="center">
-                {/* <Grid item md={2} sm={4} xs={12}>
+
+              <form className="p-4" onSubmit={handleSubmit} encType="multipart/form-data">
+                <div className="flex justify-between">
+                  <div className="flex p-4">
+                    <h4 className="m-0">New RFQ</h4>
+                  </div>
+                  <div className="">
+                    <Button color="primary" className="mt-2 py-2" variant="outlined" type="submit" fullWidth>
+                      <Icon>save</Icon> Save
+                    </Button>
+
+                  </div>
+                </div>
+                <Divider className="mb-2" />
+                <Grid container spacing={3} alignItems="center">
+                  {/* <Grid item md={2} sm={4} xs={12}>
                                     customer name
                                     </Grid> */}
-                <Grid item xs={6}>
-                <div className="flex justify-between">
-                  <div className="flex">
-                  <TextField
-                    
-                    label="Supplier Name"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="party_id"
-                    size="small"
-                    variant="outlined"
-                    value={values.party_id}
-                    select
-                    
-                   
-                    // onChange={handleChange}
-                    onClick={(event)=>setrfq(event)}
-                    required
-                  >
-                    <MenuItem onClick={() => {
-                          history.push("/party/addparty");
-                        }}>
-                      
-                        <Icon>add</Icon>new
-                {/* </Button> */}
-                    </MenuItem>
-                    {/* {CustomerList.map((item) => (
+                  <Grid item xs={6}>
+                    <div className="flex justify-between">
+                      <div className="flex">
+                        <TextField
+
+                          label="Supplier Name"
+                          style={{ minWidth: 200, maxWidth: '250px' }}
+                          name="party_id"
+                          size="small"
+                          variant="outlined"
+                          value={values.party_id}
+                          select
+
+
+                          // onChange={handleChange}
+                          onClick={(event) => setrfq(event)}
+                          required
+                        >
+                          <MenuItem onClick={() => {
+                            routerHistory.push("/party/addparty");
+                          }}>
+
+                            <Icon>add</Icon>new
+                            {/* </Button> */}
+                          </MenuItem>
+                          {/* {CustomerList.map((item) => (
                       <MenuItem value={item.id} key={item.id}>
                         {item.firm_name}
                       </MenuItem>
                     ))} */}
-                    <MenuItem value="1">Qatrat Hobar
-                    </MenuItem>
-                    <MenuItem value="2">Jade Saudi
-                    </MenuItem>
-                  </TextField>
-                  
-                  </div>
-                  </div>
+                          <MenuItem value="1">Qatrat Hobar
+                          </MenuItem>
+                          <MenuItem value="2">Jade Saudi
+                          </MenuItem>
+                        </TextField>
 
-                </Grid>
-                <Grid item xs>
+                      </div>
+                    </div>
 
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="m-2"
-                      margin="none"
-                      label="RFQ Date"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={values.requested_date}
-                      value={values.requested_date}
-                      onChange={(date) => {
-                        setFieldValue("requested_date", moment(date).format('YYYY-MM-DD'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
+                  </Grid>
+                  <Grid item xs>
+
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        className="m-2"
+                        margin="none"
+                        label="RFQ Date"
+                        inputVariant="outlined"
+                        type="text"
+                        size="small"
+                        selected={values.requested_date}
+                        value={values.requested_date}
+                        onChange={(date) => {
+                          setFieldValue("requested_date", moment(date).format('YYYY-MM-DD'))
+                          // return date
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
 
 
 
-                </Grid>
-                {/* <Grid item md={2}>
+                  </Grid>
+                  {/* <Grid item md={2}>
                                     Due date
                                     </Grid> */}
-                <Grid item xs>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="m-2"
-                      margin="none"
-                      label="Bid Closing Date"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      autoOk={true}
-                      value={values.require_date}
-                      onChange={(date) => setFieldValue("require_date", moment(date).format('YYYY-MM-DD'))}
-                    />
-                  </MuiPickersUtilsProvider>
+                  <Grid item xs>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        className="m-2"
+                        margin="none"
+                        label="Bid Closing Date"
+                        inputVariant="outlined"
+                        type="text"
+                        size="small"
+                        autoOk={true}
+                        value={values.require_date}
+                        onChange={(date) => setFieldValue("require_date", moment(date).format('YYYY-MM-DD'))}
+                      />
+                    </MuiPickersUtilsProvider>
 
 
 
-                </Grid>
-                <Grid item xs={4}>
-                <div className="flex">
-                {rfqstatus &&
-                  <TextField
-                    
-                    label="Contact Person"
-                    style={{minWidth:200,maxWidth:'250px'}}
-                    name="contact_id"
-                    size="small"
-                    variant="outlined"
-                    select
-                    value={values.contact_id}
-                    onChange={handleChange}
-                    required
-                   
-                  >
-                    
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
+                  </Grid>
+                  <Grid item xs={4}>
+                    <div className="flex">
+                      {rfqstatus &&
+                        <TextField
 
-                  </TextField>
-                  }
-                  </div>
+                          label="Contact Person"
+                          style={{ minWidth: 200, maxWidth: '250px' }}
+                          name="contact_id"
+                          size="small"
+                          variant="outlined"
+                          select
+                          value={values.contact_id}
+                          onChange={handleChange}
+                          required
+
+                        >
+
+                          {customercontact.map((item) => (
+                            <MenuItem value={item.id} key={item.id}>
+                              {item.fname}
+                            </MenuItem>
+                          ))}
+
+                        </TextField>
+                      }
+                    </div>
                   </Grid>
 
 
 
 
 
-                <Grid item xs={12}>
-                  <Divider />
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
                 </Grid>
-              </Grid>
-              
 
 
-              <div className="mb-8">
-                <InvoiceItemTable
-                  values={values}
-                  setFieldValue={setFieldValue}
-                  handleChange={handleChange}
 
-                />
-              </div>
-              {message && (
-                <h6 style={{ color: 'red' }}>Please Enter RFQ Details</h6>
-              )}
-              <div className="mt-6 px-4 mb-5 flex items-center justify-between">
+                <div className="mb-8">
+                  <InvoiceItemTable
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    handleChange={handleChange}
 
-                <label htmlFor="upload-multiple-file">
-                  <Button
-                    className="capitalize"
-                    className="py-2"
-                    color="primary"
-                    component="span"
-                    variant="contained"
-                    size="small"
-                  >
+                  />
+                </div>
+                {message && (
+                  <h6 style={{ color: 'red' }}>Please Enter RFQ Details</h6>
+                )}
+                <div className="mt-6 px-4 mb-5 flex items-center justify-between">
 
-                    <Icon className="pr-8">cloud_upload</Icon>
-                    <span>Attach File</span>
+                  <label htmlFor="upload-multiple-file">
+                    <Button
+                      className="capitalize"
+                      className="py-2"
+                      color="primary"
+                      component="span"
+                      variant="contained"
+                      size="small"
+                    >
 
-                  </Button>
-                </label>
-                <input
-                  className="hidden"
-                  onChange={handleFileSelect}
-                  id="upload-multiple-file"
-                  ref={el}
-                  type="file"
-                  multiple
-                  name="myFile[]"
-                />
+                      <Icon className="pr-8">cloud_upload</Icon>
+                      <span>Attach File</span>
 
-                {/* <ImageUploading
+                    </Button>
+                  </label>
+                  <input
+                    className="hidden"
+                    onChange={handleFileSelect}
+                    id="upload-multiple-file"
+                    ref={el}
+                    type="file"
+                    multiple
+                    name="myFile[]"
+                  />
+
+                  {/* <ImageUploading
                   onChange={onChange}
                   maxNumber={maxNumber}
                   multiple
@@ -554,29 +556,29 @@ const InvoiceForm = ({ }) => {
                 </ImageUploading>
                  */}
 
-                {status && (
-                  <span>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      size="small"
-                      className="py-2"
-                      onClick={handleAllRemove}
-                    >
-                      Remove All
-              </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disabled={isEmpty}
-                      onClick={uploadAllFile}
-                    >
-                      Upload All
-            </Button>
-                  </span>
-                )}
-              </div>
-             
+                  {status && (
+                    <span>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        className="py-2"
+                        onClick={handleAllRemove}
+                      >
+                        Remove All
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={isEmpty}
+                        onClick={uploadAllFile}
+                      >
+                        Upload All
+                      </Button>
+                    </span>
+                  )}
+                </div>
+
                 <Card className="mb-6" elevation={2}>
                   <div className="p-4">
                     <Grid
@@ -604,48 +606,48 @@ const InvoiceForm = ({ }) => {
                     </Grid>
                   </div>
                   <Divider></Divider>
- 
+
                   <div className="flex flex-wrap justify-center items-center m--2">
-                  {rfqFiles.map((item, index) => {
-                  
-                 
-                    return (
-                      
-                        
-                          <Card
+                    {rfqFiles.map((item, index) => {
+
+
+                      return (
+
+
+                        <Card
                           elevation={6}
                           className={clsx({
                             "flex-column justify-center items-center py-6 px-8 m-2 cursor-pointer": true,
                           })}>
-                          <Tooltip title="Remove"><span style={{paddingRight:0}}><Icon color="error" className="" onClick={(event) => handleSingleRemove(index)}>close</Icon></span></Tooltip>
-                          {item.name.split('.')[1]!=='pdf'?(<img src={item.src} style={{width:'100px',height:'100px'}}/>):(<Icon
-                          className="bg-error"
-                          style={{width:'100px',height:'100px'}}
-                >
-                 picture_as_pdf
-              </Icon>)}
+                          <Tooltip title="Remove"><span style={{ paddingRight: 0 }}><Icon color="error" className="" onClick={(event) => handleSingleRemove(index)}>close</Icon></span></Tooltip>
+                          {item.name.split('.')[1] !== 'pdf' ? (<img src={item.src} style={{ width: '100px', height: '100px' }} />) : (<Icon
+                            className="bg-error"
+                            style={{ width: '100px', height: '100px' }}
+                          >
+                            picture_as_pdf
+                          </Icon>)}
                           {/* <span><Icon color="error" onClick={(event) => handleSingleRemove(index)}>close</Icon><img className="w-48" src={item.src} alt="" ></img></span> */}
-                          </Card>
-                          
-                      
-                     
-                  
-                    );
-                  })}
-                      </div>
+                        </Card>
+
+
+
+
+                      );
+                    })}
+                  </div>
                 </Card>
-          
-              {/* <div className="mt-8">
+
+                {/* <div className="mt-8">
                 <Button color="primary" variant="outlined" type="submit">
                   <Icon>save</Icon>Save
                                 </Button>
 
               </div> */}
-            </form>
+              </form>
             </div>
           )}
         </Formik>
-      
+
       </Card>
     </div>
   );

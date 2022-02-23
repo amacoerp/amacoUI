@@ -67,10 +67,10 @@ const SimpleMuiTable = () => {
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
 
-    history.push(`/rfqanalysis/${invoiceId}`);
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -222,20 +222,20 @@ const SimpleMuiTable = () => {
       name: "id",
       label: "AMOUNT",
       options: {
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} className="pr-2" style={{width:200,textAlign:'right'}}>  
-            <span textAlign="right" >AMOUNT</span> 
-          </TableCell>
-        )
-     },
-    
-     setCellProps:()=>({
-        align:"right",
-        // paddingLeft:24
-     })
-    }
-  },
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} className="pr-2" style={{ width: 200, textAlign: 'right' }}>
+              <span textAlign="right" >AMOUNT</span>
+            </TableCell>
+          )
+        },
+
+        setCellProps: () => ({
+          align: "right",
+          // paddingLeft:24
+        })
+      }
+    },
 
     //   {
     //     name: "id",

@@ -61,7 +61,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [ProductList, setProductList] = useState([]);
     const [discount, setdiscount] = useState('0')
     const [dstatus, setdstatus] = useState(false);
-    const history = useHistory();
+    const routerHistory = useHistory();
+
     const { id } = useParams();
     const classes = useStyles();
     const formData = new FormData();
@@ -199,7 +200,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     icon: 'success',
                     text: 'Data saved successfully.',
                 });
-                history.push(navigatePath + "/purchaseinvoiceview")
+                routerHistory.push(navigatePath + "/purchaseinvoiceview")
                 //  window.location.href="../quoateview"
             })
             .catch(function (error) {
@@ -223,7 +224,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     }
     function cancelform() {
-        history.push(`/Newinvoiceview`)
+        routerHistory.push(`/Newinvoiceview`)
     }
 
     useEffect(() => {

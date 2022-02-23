@@ -125,7 +125,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [users, setusers] = useState([])
   const [companybank, setcompanybank] = useState([])
   let calculateAmount = [];
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -422,7 +422,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: null,
       index1: id,
-      name:" ",
+      name: " ",
       product_id: "",
       description: "",
       descriptions: "",
@@ -985,7 +985,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "/quoateview/0")
+            routerHistory.push(navigatePath + "/quoateview/0")
             // window.location.href="../quoateview"
           })
       })
@@ -1003,7 +1003,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    history.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/0")
   }
 
   const handleDialogClose = () => {
@@ -1476,7 +1476,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
@@ -1709,72 +1709,72 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         {quickstatus ? (
                           <Autocomplete
-                          id="filter-demo"
-                          variant="outlined"
-                          style={{ minWidth:100, maxWidth: '150px' }}
-                          options={proList?proList:[]}
-        
-                          value={item?.name?item?.name:' '}
-                          getOptionLabel={option => {
- 
-                           // e.g value selected with enter, right from the input
-                           if (typeof option === "string") {
-                             return option;
-                           }
-                           if (option?.inputValue) {
-                             return option?.inputValue;
-                           }
- 
-                           return option?.name ? option?.name : (item?.name?item?.name:" ");
-                         }}
- 
-                          filterOptions={(options, params) => {
-                            const filtered = filter(options, params);
-                            if (params?.inputValue !== " ") {
-                              filtered.unshift({
-                                inputValue: params?.inputValue,
-                                name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event,newValue) => setProductdescription(event, index,false)}>+Add New</Button>)
-                              });
-                            }
-        
-        
-                            return filtered
-                          }}
-                          onChange={(event,newValue) => setProductdescription(event, index,newValue)}
-                          size="small"
-                          renderInput={(params) => <TextField {...params}
-                            variant="outlined" label="Item"   />}
-                        />
-                        // <TextValidator
-                        //   label="Item"
-                        //   onChange={(event) => setProductdescription(event, index)}
-                        //   type="text"
-                        //   name="product_id"
-                        //   fullWidth
-                        //   inputProps={{
-                        //     ref: setRef(index + 'product_id')
-                        //   }}
-                        //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+                            id="filter-demo"
+                            variant="outlined"
+                            style={{ minWidth: 100, maxWidth: '150px' }}
+                            options={proList ? proList : []}
 
-                        //   variant="outlined"
-                        //   // inputProps={{style: {textTransform: 'capitalize'}}}
+                            value={item?.name ? item?.name : ' '}
+                            getOptionLabel={option => {
 
-                        //   size="small"
-                        //   value={item.product_id ? item.product_id : ""}
-                        //   //   validators={["required"]}
+                              // e.g value selected with enter, right from the input
+                              if (typeof option === "string") {
+                                return option;
+                              }
+                              if (option?.inputValue) {
+                                return option?.inputValue;
+                              }
 
-                        //   //   errorMessages={["this field is required"]}
-                        //   select
-                        // >
-                        //   <MenuItem value="false">
-                        //     <Icon>add</Icon>Add New
-                        //   </MenuItem>
-                        //   {proList.map((item) => (
-                        //     <MenuItem value={item.id} key={item.id}>
-                        //       {item.name}
-                        //     </MenuItem>
-                        //   ))}
-                        // </TextValidator>
+                              return option?.name ? option?.name : (item?.name ? item?.name : " ");
+                            }}
+
+                            filterOptions={(options, params) => {
+                              const filtered = filter(options, params);
+                              if (params?.inputValue !== " ") {
+                                filtered.unshift({
+                                  inputValue: params?.inputValue,
+                                  name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event, newValue) => setProductdescription(event, index, false)}>+Add New</Button>)
+                                });
+                              }
+
+
+                              return filtered
+                            }}
+                            onChange={(event, newValue) => setProductdescription(event, index, newValue)}
+                            size="small"
+                            renderInput={(params) => <TextField {...params}
+                              variant="outlined" label="Item" />}
+                          />
+                          // <TextValidator
+                          //   label="Item"
+                          //   onChange={(event) => setProductdescription(event, index)}
+                          //   type="text"
+                          //   name="product_id"
+                          //   fullWidth
+                          //   inputProps={{
+                          //     ref: setRef(index + 'product_id')
+                          //   }}
+                          //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+
+                          //   variant="outlined"
+                          //   // inputProps={{style: {textTransform: 'capitalize'}}}
+
+                          //   size="small"
+                          //   value={item.product_id ? item.product_id : ""}
+                          //   //   validators={["required"]}
+
+                          //   //   errorMessages={["this field is required"]}
+                          //   select
+                          // >
+                          //   <MenuItem value="false">
+                          //     <Icon>add</Icon>Add New
+                          //   </MenuItem>
+                          //   {proList.map((item) => (
+                          //     <MenuItem value={item.id} key={item.id}>
+                          //       {item.name}
+                          //     </MenuItem>
+                          //   ))}
+                          // </TextValidator>
                         ) : (<TextValidator
                           label="Item"
                           onChange={(event) => setProductdescription(event, index)}

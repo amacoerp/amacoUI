@@ -37,7 +37,7 @@ function ShoppingCart({ container }) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { user } = useAuth();
   const { cartList } = useSelector((state) => state.ecommerce);
   const { settings } = useSettings();
@@ -53,7 +53,7 @@ function ShoppingCart({ container }) {
 
   const handleCheckoutClick = () => {
     if (totalCost > 0) {
-      history.push("/ecommerce/checkout");
+      routerHistory.push("/ecommerce/checkout");
       setPanelOpen(false);
     }
   };

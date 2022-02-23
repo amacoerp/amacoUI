@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { GDIV, navigatePath } from "../../invoice/InvoiceService";
 import moment from "moment";
@@ -34,13 +34,13 @@ const SimpleMuiTable = () => {
     position: "sticky",
     backgroundColor: "#fff",
     width: "400px",
-     wordBreak: "break-word",
+    wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
-    hyphens:"auto",
-    textAlign:"center",
-    paddingRight:30
-    
+    hyphens: "auto",
+    textAlign: "center",
+    paddingRight: 30
+
   }
   const columnStyleWithWidth = {
     top: "0px",
@@ -50,27 +50,27 @@ const SimpleMuiTable = () => {
     backgroundColor: "#fff",
     width: "140px",
     wordBreak: "break-word",
-    
+
   }
   useEffect(() => {
     url.get("sales-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-    
+
       // if(data.length)
       // {
-        setUserList(data);
-     
-       setqdetails(data);
+      setUserList(data);
+
+      setqdetails(data);
       // }
     });
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -135,7 +135,7 @@ const SimpleMuiTable = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-    
+
 
     // })
     // getrow()
@@ -150,65 +150,65 @@ const SimpleMuiTable = () => {
       name: "id",
       label: "S.NO.",
       options: {
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} style={{width:100,textAlign:'center'}}>  
-            <span textAlign="center" >S.NO.</span> 
-          </TableCell>
-        )
-     },
-    
-     setCellProps:()=>({
-        align:"center",
-        // paddingLeft:24
-     })
-    }
-  },
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ width: 100, textAlign: 'center' }}>
+              <span textAlign="center" >S.NO.</span>
+            </TableCell>
+          )
+        },
+
+        setCellProps: () => ({
+          align: "center",
+          // paddingLeft:24
+        })
+      }
+    },
     {
       name: "quotation_no", // field name in the row object
       label: "QUOTATION NO", // column title that will be shown in table
       options: {
         filter: true,
-        wordBreak:'break-word',
-        customHeadRender: ({index, ...column}) =>{
+        wordBreak: 'break-word',
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth} >  
-              <span style={{marginLeft:18}}>QUOTATION NO</span> 
+            <TableCell key={index} style={columnStyleWithWidth} >
+              <span style={{ marginLeft: 18 }}>QUOTATION NO</span>
             </TableCell>
           )
-       }
-        
+        }
+
       },
     },
     {
       name: "fname", // field name in the row object
       label: "COMPANY NAME", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1} textAlign="center" >  
-              <span textAlign="center">COMPANY NAME</span> 
+            <TableCell key={index} style={columnStyleWithWidth1} textAlign="center" >
+              <span textAlign="center">COMPANY NAME</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-        align:"center",
-        // width:600,
-        wordWrap:'break'
-      })
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
     {
       name: "name",
       label: "Quote Date",
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} >  
-              <span style={{marginLeft:18}}>QUOTE DATE</span> 
+            <TableCell key={index} >
+              <span style={{ marginLeft: 18 }}>QUOTE DATE</span>
             </TableCell>
           )
-       }
+        }
       },
     },
     // {
@@ -222,20 +222,20 @@ const SimpleMuiTable = () => {
       name: "id",
       label: "AMOUNT",
       options: {
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} className="pr-2" style={{width:200,textAlign:'right'}}>  
-            <span textAlign="right" >AMOUNT</span> 
-          </TableCell>
-        )
-     },
-    
-     setCellProps:()=>({
-        align:"right",
-        // paddingLeft:24
-     })
-    }
-  },
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} className="pr-2" style={{ width: 200, textAlign: 'right' }}>
+              <span textAlign="right" >AMOUNT</span>
+            </TableCell>
+          )
+        },
+
+        setCellProps: () => ({
+          align: "right",
+          // paddingLeft:24
+        })
+      }
+    },
 
     //   {
     //     name: "id",
@@ -262,28 +262,28 @@ const SimpleMuiTable = () => {
       label: "ACTION",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"right"}} className="pr-8" >  
-              <span style={{marginLeft:18}}>ACTION</span> 
+            <TableCell key={index} style={{ textAlign: "right" }} className="pr-8" >
+              <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
           )
-       },
+        },
         customBodyRender: (value, tableMeta, updateValue) => {
-         
+
           return (
-            <div style={{textAlign:"right"}} className="pr-8">
-            <Link to={navigatePath+"/Quoteedit/" + tableMeta.rowData[5]}>
-              <Tooltip title="Edit">
-                <Icon color="secondary">edit</Icon>
-           </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+            <div style={{ textAlign: "right" }} className="pr-8">
+              <Link to={navigatePath + "/Quoteedit/" + tableMeta.rowData[5]}>
+                <Tooltip title="Edit">
+                  <Icon color="secondary">edit</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </div>
+            </div>
 
           )
 
@@ -302,9 +302,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -315,8 +315,8 @@ const SimpleMuiTable = () => {
   return (
     <div >
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-        {/* <Breadcrumb
+        <div className="mb-sm-30">
+          {/* <Breadcrumb
           routeSegments={[
             // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
             { name: "Sales Quotation" },
@@ -334,42 +334,42 @@ const SimpleMuiTable = () => {
           </Button>
           </Link>
         </div> */}
-      </div>
-      <MUIDataTable
-        title={"SALES QUOTATION"}
-        
-        data={qdetails.filter(obj=>obj.div_id==localStorage.getItem('division') && obj.status=="draft").map((item, index) => {
-       
+        </div>
+        <MUIDataTable
+          title={"SALES QUOTATION"}
+
+          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division') && obj.status == "draft").map((item, index) => {
+
             return [
               ++index,
               item.quotation_no,
               item.party?.firm_name,
               moment(item.created_at).format('DD MMM YYYY'),
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
-              (parseFloat(item.net_amount)).toLocaleString(undefined, {minimumFractionDigits:2}),
+              (parseFloat(item.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item.id
               // item.party[index].firm_name,
               // item.requested_date,
               // item.require_date,
             ]
-          
-        })}
-        
-        columns={columns}
-        options={{
-         
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          // responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-          // expandableRows: true,
-          // expandableRowsOnClick: true,
-          
-        }}
-      />
-    </div>
+
+          })}
+
+          columns={columns}
+          options={{
+
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            // responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+            // expandableRows: true,
+            // expandableRowsOnClick: true,
+
+          }}
+        />
+      </div>
     </div>
   );
 }

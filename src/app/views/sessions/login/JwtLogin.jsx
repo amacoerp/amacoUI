@@ -247,14 +247,14 @@ const JwtLogin = () => {
                   {/* <span className="mr-2 ml-5">or</span> */}
                   {/* <Button
                     className="capitalize"
-                    onClick={() => history.push("/session/signup")}
+                    onClick={() => routerHistory.push("/session/signup")}
                   >
                     Sign up
                   </Button> */}
                 </div>
                 <Button
                   className="text-primary"
-                  onClick={() => history.push("/session/forgot-password")}
+                  onClick={() => routerHistory.push("/session/forgot-password")}
                 >
                   Forgot password?
                 </Button>

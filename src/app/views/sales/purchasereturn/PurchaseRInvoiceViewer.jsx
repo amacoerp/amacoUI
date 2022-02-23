@@ -268,6 +268,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const [state, setState] = useState({});
+    const routerHistory = useHistory();
+
     const [po_number, setpo_number] = useState();
     const [rdate, setrdate] = useState([]);
     const [company, setcompany] = useState("");
@@ -301,7 +303,6 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const classes = useStyles();
     var fval = 10;
     const { settings, updateSettings } = useSettings();
-    const history = useHistory()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [res, setres] = useState("");
     const [ress, setress] = useState("");
@@ -470,7 +471,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         }
         else {
             window.location.href = `../Newinvoiceview`
-            history.push("/Newinvoiceview")
+            routerHistory.push("/Newinvoiceview")
             // let activeLayoutSettingsName = settings.activeLayout + "Settings";
             // let activeLayoutSettings = settings[activeLayoutSettingsName];
             // updateSettings({
@@ -490,7 +491,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const editpurchase = () => {
 
         // window.location.href=`../purchaseedit/${id}`
-        history.push(navigatePath + `/purchasereturnedit/${id}`)
+        routerHistory.push(navigatePath + `/purchasereturnedit/${id}`)
 
     }
     const updateCompany = () => {
@@ -576,8 +577,8 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                             'success'
                         )
 
-                        history.push(navigatePath + "/purchasereturn")
-                        // history.push('/quoateview')
+                        routerHistory.push(navigatePath + "/purchasereturn")
+                        // routerHistory.push('/quoateview')
 
                     })
 

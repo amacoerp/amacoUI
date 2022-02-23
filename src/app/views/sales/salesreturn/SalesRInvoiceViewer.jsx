@@ -246,6 +246,8 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [delivery_time, setdelivery_time] = useState();
   const [qid, setqid] = useState();
   const [rno, setrno] = useState();
+  const routerHistory = useHistory();
+
   const componentRef = useRef();
   const [inco_terms, setinco_terms] = useState();
   const [contactpersoncontact, setcontactpersoncontact] = useState("");
@@ -261,7 +263,6 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
   const classes = useStyles();
   var fval = 10;
   const { settings, updateSettings } = useSettings();
-  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [res, setres] = useState("");
   const [ress, setress] = useState("");
@@ -391,43 +392,43 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       if (data.getReturnParty[0].currency_type == "SAR") {
         setress(
           words1.split(",").join(" ") +
-            " Riyals " +
-            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-                0.0
-                ? "."
-                : decimal
+          " Riyals " +
+          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+              0.0
+              ? "."
+              : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " Halalas."
                 : ""
-              : " ")
+            : " ")
         );
       }
       if (data.getReturnParty[0].currency_type == "AED") {
         setress(
           words1.split(",").join(" ") +
-            " Dirham " +
-            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-                0.0
-                ? "."
-                : decimal
+          " Dirham " +
+          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+              0.0
+              ? "."
+              : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " fils."
                 : ""
-              : " ")
+            : " ")
         );
       }
       if (data.getReturnParty[0].currency_type == "USD") {
         setress(
           words1.split(",").join(" ") +
-            " Dollars" +
-            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-                0.0
-                ? "."
-                : decimal
+          " Dollars" +
+          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+              0.0
+              ? "."
+              : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " Cents."
                 : ""
-              : " ")
+            : " ")
         );
       }
     });
@@ -456,7 +457,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       });
     } else {
       window.location.href = `../Newinvoiceview`;
-      history.push("/Newinvoiceview");
+      routerHistory.push("/Newinvoiceview");
       // let activeLayoutSettingsName = settings.activeLayout + "Settings";
       // let activeLayoutSettings = settings[activeLayoutSettingsName];
       // updateSettings({
@@ -473,7 +474,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
   };
   const editpurchase = () => {
     // window.location.href=`../purchaseedit/${id}`
-    history.push(navigatePath + `/salesreturnedit/${id}`);
+    routerHistory.push(navigatePath + `/salesreturnedit/${id}`);
   };
   const updateCompany = () => {
     const val = {
@@ -482,7 +483,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     };
     // window.location.href=`../purchaseedit/${id}`
     setedit(false);
-    url.post("update_company", val).then(() => {});
+    url.post("update_company", val).then(() => { });
   };
   const invoicegenrate = (sidebarSettings) => {
     // alert(id)
@@ -539,8 +540,8 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         url.delete(`purchase-return-delete/${id}`).then((res) => {
           Swal.fire("Deleted!", "Sales Return has been deleted.", "success");
 
-          history.push("/salesreturn");
-          // history.push('/quoateview')
+          routerHistory.push("/salesreturn");
+          // routerHistory.push('/quoateview')
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your Sales Return is safe :)", "error");

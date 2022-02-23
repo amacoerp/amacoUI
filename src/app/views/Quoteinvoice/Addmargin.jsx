@@ -3,16 +3,16 @@ import {
   Dialog,
   Tooltip
 } from "@material-ui/core";
-import history from "history.js";
+import { useHistory } from 'react-router';
 
 
 import { ValidatorForm } from "react-material-ui-form-validator";
 import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
 import Swal from "sweetalert2";
-import url, {getcategories}from "../invoice/InvoiceService"
+import url, { getcategories } from "../invoice/InvoiceService"
 
-const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,marginprice,calcualteprice,productname }) => {
+const MemberEditorDialog = ({ uid, open, handleClose, productid, margin, pprice, marginprice, calcualteprice, productname }) => {
   const [state, setState] = useState({
     name: "abc",
     email: "",
@@ -29,16 +29,17 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
   const [arr, setarr] = useState([]);
   const [marginList, setmarginList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
-  
 
-  
+
+  const routerHistory = useHistory();
+
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("md");
 
 
 
   const handleFormSubmit = () => {
-    
+
     const frmdetails = {
 
       name: cname,
@@ -46,44 +47,44 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
 
 
     }
-    
+
 
     url.post('categories', frmdetails)
       .then(function (response) {
         Swal.fire({
           title: 'Success',
           type: 'success',
-          icon:'success',
+          icon: 'success',
           text: 'Data saved successfully.',
         });
         getcategories()
-        history.push('/product/viewproduct');
+        routerHistory.push('/product/viewproduct');
       })
       .catch(function (error) {
-       
+
       })
     setcdescription('')
     setcname('')
-    
+
 
   };
-  const setmargin = (m,p,s) => {
-    
-    calcualteprice(p,m)
+  const setmargin = (m, p, s) => {
+
+    calcualteprice(p, m)
     handleClose()
-      
+
   }
-  
+
   useEffect(() => {
-    
+
     url.get(`product-quotation-detail/${productid}`).then(({ data }) => {
-    if (isAlive) setmarginList(data);
-      
+      if (isAlive) setmarginList(data);
+
 
     });
-    
-  },[])
-  
+
+  }, [])
+
   const columns = [
     {
       name: "firm_name", // field name in the row object
@@ -100,19 +101,19 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
       },
     },
     {
-        name: "margin",
-        label: "Margin",
-        options: {
-          filter: true,
-        },
+      name: "margin",
+      label: "Margin",
+      options: {
+        filter: true,
       },
-      {
-        name: "sellprice",
-        label: "Sell Price",
-        options: {
-          filter: true,
-        },
+    },
+    {
+      name: "sellprice",
+      label: "Sell Price",
+      options: {
+        filter: true,
       },
+    },
     {
       name: "id",
       label: "Select",
@@ -120,12 +121,12 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
 
-        
+
           return (
             <Tooltip title="Select">
-              <Icon color="primary" onClick={() => setmargin(tableMeta.rowData[2],tableMeta.rowData[1],tableMeta.rowData[3])
-            }>check_circle</Icon>
-           </Tooltip> 
+              <Icon color="primary" onClick={() => setmargin(tableMeta.rowData[2], tableMeta.rowData[1], tableMeta.rowData[3])
+              }>check_circle</Icon>
+            </Tooltip>
 
 
 
@@ -138,22 +139,22 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
 
 
   return (
-    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{zIndex:1000}} fullWidth={fullWidth}
-    maxWidth={maxWidth}>
+    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{ zIndex: 1000 }} fullWidth={fullWidth}
+      maxWidth={maxWidth}>
       <div className="p-6"  >
         <ValidatorForm onSubmit={handleFormSubmit} autoComplete="off">
 
-          
-            <div className="flex justify-end">
-            
-         
-        
-              <Icon  onClick={() => handleClose()} style={{cursor:'pointer'}}>close</Icon>
-           
-            </div>
-         
+
+          <div className="flex justify-end">
+
+
+
+            <Icon onClick={() => handleClose()} style={{ cursor: 'pointer' }}>close</Icon>
+
+          </div>
+
         </ValidatorForm>
-     
+
         {isAlive && (
           <MUIDataTable
             title={`Quotation Reference For ${productname}`}
@@ -170,7 +171,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,productid,margin,pprice,mar
         )}
       </div>
     </Dialog>
-    
+
   );
 };
 

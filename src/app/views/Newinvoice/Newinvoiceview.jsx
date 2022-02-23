@@ -13,7 +13,7 @@ import './print.css';
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from 'react-intl';
 import moment from "moment";
-import history from "history.js";
+import { useHistory } from 'react-router';
 // import translate from 'google-translate-api';
 import { Translator, Translate } from 'react-auto-translate';
 import { toArabic } from 'arabic-digits';
@@ -215,6 +215,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [cname_ar, setcname_ar] = useState([]);
   const [company, setcompany] = useState("");
   const [city, setcity] = useState("");
+  const routerHistory = useHistory();
+
   const [city_ar, setcity_ar] = useState("");
   const [street, setstreet] = useState("");
   const [street_ar, setstreet_ar] = useState("");
@@ -440,7 +442,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }
     else {
 
-      history.push(navigatePath + "/inv")
+      routerHistory.push(navigatePath + "/inv")
       // let activeLayoutSettingsName = settings.activeLayout + "Settings";
       // let activeLayoutSettings = settings[activeLayoutSettingsName];
       // updateSettings({
@@ -464,10 +466,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const dnotegenrate = (sidebarSettings) => {
 
     if (res) {
-      history.push(navigatePath + `/dnote/${quoteid}`)
+      routerHistory.push(navigatePath + `/dnote/${quoteid}`)
     }
     else {
-      history.push(navigatePath + `/invoice_dnote/${id}`)
+      routerHistory.push(navigatePath + `/invoice_dnote/${id}`)
     }
 
   }
@@ -552,7 +554,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             )
 
 
-            history.push(navigatePath + "/inv")
+            routerHistory.push(navigatePath + "/inv")
 
           })
 
@@ -645,7 +647,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               <MenuItem onClick={() => handlePrinting()}>
                 PRINT INVOICE
               </MenuItem>
-              <MenuItem onClick={() => history.push(navigatePath + '/InvoiceEdit/' + id)}>
+              <MenuItem onClick={() => routerHistory.push(navigatePath + '/InvoiceEdit/' + id)}>
                 EDIT INVOICE
               </MenuItem>
 

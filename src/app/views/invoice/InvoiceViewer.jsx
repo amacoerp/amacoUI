@@ -24,7 +24,7 @@ import { cond, identity } from "lodash";
 import logo from './amaco-logo.png';
 import logos from './vision2030.png';
 import useSettings from '../../hooks/useSettings';
-import history from "history.js";
+import { useHistory } from 'react-router';
 import url from "../invoice/InvoiceService";
 import Arabic from '../../../lang/ar.json';
 import { IntlProvider } from 'react-intl';
@@ -222,6 +222,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     content: () => componentRef.current,
     header: () => componentRef.current
   });
+  const routerHistory = useHistory();
 
 
   const handlePrinting = () => {
@@ -348,7 +349,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               'success'
             )
 
-            history.push(navigatePath + '/sales/rfq-form/rfqview')
+            routerHistory.push(navigatePath + '/sales/rfq-form/rfqview')
 
           })
 
@@ -375,7 +376,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const updateRfq = () => {
     // updateSidebarMode({ mode: "close" })
     // window.location.href = `../edit/${id}`
-    history.push(`../edit/${id}`)
+    routerHistory.push(`../edit/${id}`)
   }
   const quoteView = (sidebarSettings) => {
     // let activeLayoutSettingsName = settings.activeLayout + "Settings";
@@ -391,7 +392,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //   },
     // });
 
-    history.push(navigatePath + `/purchaseanalysis/${id}`)
+    routerHistory.push(navigatePath + `/purchaseanalysis/${id}`)
     // window.location.href = `/purchaseanalysis/${id}`
   }
 

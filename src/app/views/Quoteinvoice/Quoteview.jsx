@@ -42,7 +42,7 @@ import { IntlProvider, FormattedNumber } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
 import Swal from "sweetalert2";
 import Axios from "axios";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import moment from "moment";
@@ -257,6 +257,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [shouldOpenAddList, setShouldOpenAddList] = useState(false);
   const [rfq_no, setrfq_no] = useState("");
   const [prefix, setprefix] = useState("");
+  const routerHistory = useHistory();
+
   const [srcfile, setsrcfile] = useState("");
   // const [sign, setsign] = useState("");
   const [sign, setsign] = useState([]);
@@ -529,7 +531,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           },
         },
       });
-      // history.push("/quoateview")
+      // routerHistory.push("/quoateview")
 
     }
 
@@ -555,7 +557,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               ' Quotation has been deleted.',
               'success'
             )
-            history.push(navigatePath + "/quoateview/2")
+            routerHistory.push(navigatePath + "/quoateview/2")
 
           })
 
@@ -573,7 +575,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const invoicegenrate = (sidebarSettings) => {
 
 
-    history.push(navigatePath + `/Quoteinvoice/${id}`)
+    routerHistory.push(navigatePath + `/Quoteinvoice/${id}`)
 
 
 
@@ -582,18 +584,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const dnotegenrate = (sidebarSettings) => {
 
 
-    history.push(navigatePath + `/dnote/${id}`)
+    routerHistory.push(navigatePath + `/dnote/${id}`)
 
   }
   const editqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    history.push(navigatePath + `/Quoteedit/${id}`)
+    routerHistory.push(navigatePath + `/Quoteedit/${id}`)
   }
   const reviseqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    history.push(navigatePath + `/revisequote/${id}`)
+    routerHistory.push(navigatePath + `/revisequote/${id}`)
   }
 
   const handlePrint = () => {
@@ -678,7 +680,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             icon: 'success',
             text: `Quotation has been ${status}ed.`,
           })
-          history.push(navigatePath + '/quoateview/' + tab_status)
+          routerHistory.push(navigatePath + '/quoateview/' + tab_status)
         }
       })
 

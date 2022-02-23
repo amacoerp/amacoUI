@@ -4,7 +4,7 @@ import converter from 'number-to-words';
 import Arabic from '../../../lang/ar.json';
 import { IntlProvider } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
-import history from "history.js";
+import { useHistory } from 'react-router';
 import moment from "moment";
 import Header from '../../views/statements/Header';
 import Box from '@material-ui/core/Box';
@@ -185,6 +185,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const { settings, updateSettings } = useSettings();
   let fval;
 
+  const routerHistory = useHistory();
 
   const [pageNumber, setPageNumber] = useState([])
 
@@ -339,7 +340,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }
     else {
 
-      history.push(navigatePath + "/dnoteview")
+      routerHistory.push(navigatePath + "/dnoteview")
       // let activeLayoutSettingsName = settings.activeLayout + "Settings";
       // let activeLayoutSettings = settings[activeLayoutSettingsName];
       // updateSettings({

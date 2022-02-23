@@ -147,7 +147,7 @@ const Layout1Topbar = () => {
     // window.location.reload();
 
     routerHistory.push('/dashboard/alternative');
-    // history.push('/dashboard/alternative');
+    // routerHistory.push('/dashboard/alternative');
   }
 
 
@@ -232,7 +232,7 @@ const Layout1Topbar = () => {
                   <span className="pl-4"> Profile </span>
                 </Link>
               </MenuItem>
-              <MenuItem className={classes.menuItem} onClick={e => history.push(navigatePath + '/changepass')}>
+              <MenuItem className={classes.menuItem} onClick={e => routerHistory.push(navigatePath + '/changepass')}>
                 <Icon > settings </Icon>
                 <span className="pl-4" >Change Password</span>
                 {shouldOpenEditorDialog && (

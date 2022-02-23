@@ -220,7 +220,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [fstatus, setfstatus] = useState(-1);
   const [currency_type, setcurrency_type] = useState('SAR');
   let calculateAmount = [];
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -791,7 +791,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "/piview/" + id)
+            routerHistory.push(navigatePath + "/piview/" + id)
           })
         // window.location.href="../quoateview"
       })
@@ -808,7 +808,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // },5000)
   };
   function cancelform() {
-    history.push(navigatePath + "/piview/" + id)
+    routerHistory.push(navigatePath + "/piview/" + id)
   }
 
   const handleDialogClose = () => {
@@ -1242,7 +1242,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
@@ -1416,7 +1416,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               return option?.inputValue;
                             }
 
-                            return option?.name ? option?.name :(item?.description?item?.description:" ");
+                            return option?.name ? option?.name : (item?.description ? item?.description : " ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}

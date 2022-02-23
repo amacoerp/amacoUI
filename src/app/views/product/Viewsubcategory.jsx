@@ -15,7 +15,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 // import { useParams, useHistory } from "react-router-dom";
 // import { getcategories } from "../invoice/InvoiceService";
-import history from "history.js";
+import { useHistory } from 'react-router';
 // import MatxSearchBox from "./productsearch";
 import {
   // Table,
@@ -74,6 +74,8 @@ const SimpleMuiTable = () => {
     })
     setAnchorEl(event.currentTarget);
   }
+
+  const routerHistory = useHistory();
 
   function handleClose() {
     setcatid()
@@ -210,7 +212,7 @@ const SimpleMuiTable = () => {
     //     setUserList(response.data)
 
     //   })
-    history.push(navigatePath + `/product/viewproduct/${user}`)
+    routerHistory.push(navigatePath + `/product/viewproduct/${user}`)
 
     setAnchorEl(null);
   };
@@ -404,7 +406,7 @@ const SimpleMuiTable = () => {
 
   const productUpdate = () => {
 
-    history.push(navigatePath + '/product/other');
+    routerHistory.push(navigatePath + '/product/other');
   }
 
 

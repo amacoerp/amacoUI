@@ -103,7 +103,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const history = useHistory();
+    const routerHistory = useHistory();
     const { id } = useParams();
     const classes = useStyles();
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -550,7 +550,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 })
                     .then((result) => {
                         // console.log(response)
-                        history.push(navigatePath + "/salesreturn")
+                        routerHistory.push(navigatePath + "/salesreturn")
                     })
 
             })
@@ -567,7 +567,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push(navigatePath + "/salesreturn")
+        routerHistory.push(navigatePath + "/salesreturn")
     }
 
     const handleDialogClose = () => {
@@ -731,7 +731,7 @@ required
 select
 >
 <MenuItem onClick={() => {
-  history.push("/party/addparty");
+  routerHistory.push("/party/addparty");
 }}>
 
   <Icon>add</Icon>New
@@ -756,7 +756,7 @@ select
                                         if (params.inputValue !== " ") {
                                             filtered.unshift({
                                                 inputValue: params.inputValue,
-                                                firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                                                firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                                             });
                                         }
 
@@ -837,7 +837,7 @@ select
         if(params.inputValue !== " ") {
           filtered.unshift({
             inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
           });
         }
         

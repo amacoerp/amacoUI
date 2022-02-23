@@ -308,7 +308,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const classes = useStyles();
   var fval = 10;
   const { settings, updateSettings } = useSettings();
-  const history = useHistory()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [res, setres] = useState("");
   const [ress, setress] = useState("");
@@ -375,10 +374,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
   }
+  const routerHistory = useHistory();
+
 
   const genPurchaseInv = () => {
 
-    history.push(navigatePath + `/purchaseinvoice/${id}`)
+    routerHistory.push(navigatePath + `/purchaseinvoice/${id}`)
 
   }
 
@@ -498,7 +499,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }
     else {
       window.location.href = `../Newinvoiceview`
-      history.push("/Newinvoiceview")
+      routerHistory.push("/Newinvoiceview")
       // let activeLayoutSettingsName = settings.activeLayout + "Settings";
       // let activeLayoutSettings = settings[activeLayoutSettingsName];
       // updateSettings({
@@ -518,7 +519,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const editpurchase = () => {
 
     // window.location.href=`../purchaseedit/${id}`
-    history.push(navigatePath + `/purchaseedit/${id}`)
+    routerHistory.push(navigatePath + `/purchaseedit/${id}`)
 
   }
   const updateCompany = () => {
@@ -604,8 +605,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               'success'
             )
 
-            history.push(navigatePath + "/Newinvoiceview")
-            // history.push('/quoateview')
+            routerHistory.push(navigatePath + "/Newinvoiceview")
+            // routerHistory.push('/quoateview')
 
           })
 
