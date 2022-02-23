@@ -32,6 +32,8 @@
 }
 .prodCol {
   -ms-flex: 0 0 300px;
+  width: 547px;
+
   flex: 0 0 300px;
   text-transform: capitalize;
   text-align: center;
