@@ -128,6 +128,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
+      item_name:" ",
       src: '',
       description: "",
       descriptions: "",
@@ -219,6 +220,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         element['product_name'] = newValue?.id ? newValue?.name : newValue
         element['product'] = newValue?.id ? newValue?.name : newValue
+        element['item_name'] = newValue?.id ? newValue?.name : newValue
         element['productId'] = newValue?.id ? newValue?.id : null
         // element.product_id=newValue?.id?newValue?.id:null
         element['product_price_list'] = price ? price : null
@@ -907,12 +909,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList?.map(option => option)}
                           name="product_id"
                           multiline
+                          value={item.item_name}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
                           filterOptions={filterOptions}
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) => option?.name ? option?.name : " "}
+                          getOptionLabel={(option) => option?.name ? option?.name : item?.item_name}
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input

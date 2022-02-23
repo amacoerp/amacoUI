@@ -422,6 +422,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: null,
       index1: id,
+      name:" ",
       product_id: "",
       description: "",
       descriptions: "",
@@ -1713,7 +1714,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           style={{ minWidth:100, maxWidth: '150px' }}
                           options={proList?proList:[]}
         
-                          value={item?.name}
+                          value={item?.name?item?.name:' '}
                           getOptionLabel={option => {
  
                            // e.g value selected with enter, right from the input
@@ -1724,7 +1725,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                              return option?.inputValue;
                            }
  
-                           return option?.name ? option?.name : " ";
+                           return option?.name ? option?.name : (item?.name?item?.name:" ");
                          }}
  
                           filterOptions={(options, params) => {

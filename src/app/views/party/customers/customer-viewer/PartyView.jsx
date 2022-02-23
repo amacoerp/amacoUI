@@ -84,7 +84,7 @@ const PartyInfo = () => {
               <TableCell>{userList.proviance}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="pl-4">Zip code</TableCell>
+              <TableCell className="pl-4">Zip Code</TableCell>
               <TableCell>{userList.zip_code}</TableCell>
             </TableRow>
             <TableRow>

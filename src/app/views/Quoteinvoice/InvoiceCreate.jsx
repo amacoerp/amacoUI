@@ -262,6 +262,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
         element['product'] = newValue?.id ? newValue?.name : newValue
+        element['item_name'] = newValue?.id ? newValue?.name : newValue
         element['productId'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -540,6 +541,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: " ",
       src: '',
+      item_name:' ',
       invoice_id: 0,
       id: 0,
       description: " ",
@@ -1534,7 +1536,7 @@ select
                           size="small"
                           options={proList.filter(obj => obj.div_id == localStorage.getItem('division'))}
                           name="product_id"
-                          value={item?.product_id}
+                          value={item?.item_name}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           // multiline
@@ -1546,7 +1548,7 @@ select
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : "";
+                            return option?.name ? option?.name : item?.item_name;
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
