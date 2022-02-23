@@ -106,6 +106,7 @@ const JwtLogin = () => {
 
 
       history.push("/");
+      window.location.reload(false);
       // Swal.fire({
       //   title: 'Submit your Github username',
       //   input: 'select',

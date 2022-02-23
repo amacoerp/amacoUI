@@ -14,19 +14,19 @@ import { HashRouter } from 'react-router-dom'
 //       // localStorage.removeItem('rememberMe');
 //       localStorage.clear();
 //     }
-   
+
 // }
 // window.onbeforeunload = function (e) {
 //   window.onunload = function () {
 //           window.localStorage.isMySessionActive = "false";
-        
+
 //   }
 //   return undefined;
 // };
 // window.onload = function () {
 //   window.localStorage.isMySessionActive = "true";
 
-  
+
 // };
 // if(window.localStorage.isMySessionActive==='true')
 // {
@@ -36,7 +36,7 @@ import { HashRouter } from 'react-router-dom'
 // window.onload = function () {
 //           window.localStorage.isMySessionActive = "true";
 // };
-ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById("root"));
+ReactDOM.render(<><App /></>, document.getElementById("root"));
 
 // for IE-11 support un-comment cssVars() and it's import in this file
 // and in MatxTheme file
