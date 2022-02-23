@@ -47,8 +47,8 @@ const redirectRoute = [
   {
     path: "/",
     exact: true,
-    
-    component: () => <Redirect to={navigatePath+"/dashboard/alternative"} />,
+
+    component: () => <Redirect to={navigatePath + "/dashboard/alternative"} />,
   },
 ];
 
@@ -60,7 +60,7 @@ const redirectRoute = [
 
 const routes = [
   ...dashboardRoutes,
-   ...StockRoute,
+  ...StockRoute,
   ...EmployeeRoute,
   ...statementRoutes,
   ...userRoutes,
@@ -99,7 +99,7 @@ const routes = [
   ...PrintReportRoutes,
   ...PrintPurRoutes,
   ...PermissionRoute,
-  
+
   // ...errorRoute,
 ];
 

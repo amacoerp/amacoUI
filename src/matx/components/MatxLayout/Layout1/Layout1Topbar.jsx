@@ -7,6 +7,7 @@ import {
   useMediaQuery,
   Hidden, Button,
 } from "@material-ui/core";
+import { useHistory } from 'react-router';
 import { MatxMenu, MatxSearchBox, ConfirmationDialog } from "matx";
 import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
@@ -139,12 +140,14 @@ const Layout1Topbar = () => {
       })
 
   }
-
+  const routerHistory = useHistory();
   const changeDivision = (div_id) => {
     setDv(div_id);
     localStorage.setItem('division', div_id)
     // window.location.reload();
-    history.push('/dashboard/alternative');
+
+    routerHistory.push('/dashboard/alternative');
+    // history.push('/dashboard/alternative');
   }
 
 

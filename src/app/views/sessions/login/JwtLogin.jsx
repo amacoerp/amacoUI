@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import { makeStyles } from "@material-ui/core/styles";
 import history from "history.js";
 import clsx from "clsx";
+import { useHistory } from 'react-router';
+
 import useAuth from 'app/hooks/useAuth';
 import { getpaidDivision, version } from "app/views/invoice/InvoiceService";
 
@@ -82,6 +84,7 @@ const JwtLogin = () => {
   const [message, setMessage] = useState('');
   const [division, setdivision] = useState([]);
   const { login } = useAuth();
+  const routerHistory = useHistory();
 
   const classes = useStyles();
 
@@ -105,8 +108,7 @@ const JwtLogin = () => {
       await login(userInfo.email, userInfo.password);
 
 
-      history.push("/");
-      window.location.reload(false);
+      routerHistory.push("/");
       // Swal.fire({
       //   title: 'Submit your Github username',
       //   input: 'select',
