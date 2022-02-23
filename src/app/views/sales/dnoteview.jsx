@@ -61,9 +61,9 @@ const SimpleMuiTable = () => {
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    history.push(`/rfqanalysis/${invoiceId}`);
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {

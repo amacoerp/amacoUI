@@ -780,7 +780,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     text: 'Data saved successfully.',
                 })
                     .then((result) => {
-                        history.push(navigatePath + "/inv")
+                        routerHistory.push(navigatePath + "/inv")
                     })
                 // window.location.href="../quoateview"
             })
@@ -790,7 +790,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // },5000)
     };
     function cancelform() {
-        history.push(navigatePath + "/inv")
+        routerHistory.push(navigatePath + "/inv")
     }
 
     const handleDialogClose = () => {
@@ -1136,7 +1136,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                     select
                                 >
                                     <MenuItem onClick={() => {
-                                        history.push("/party/addparty");
+                                        routerHistory.push("/party/addparty");
                                     }}>
 
                                         <Icon>add</Icon>New

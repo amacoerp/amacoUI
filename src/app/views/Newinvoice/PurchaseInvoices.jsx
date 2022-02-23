@@ -63,7 +63,7 @@ const SimpleMuiTable = () => {
     const [podetails, setpodetails] = useState([]);
     const [poid, setpoid] = useState("");
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-    
+
     const classes = useStyles();
     useEffect(() => {
 
@@ -85,10 +85,10 @@ const SimpleMuiTable = () => {
         return () => setIsAlive(false);
     }, [isAlive]);
     const [count, setCount] = useState(0);
-    const history = useHistory();
+    const routerHistory = useHistory();
     const handeViewClick = (invoiceId) => {
 
-        history.push(`/rfqanalysis/${invoiceId}`);
+        routerHistory.push(`/rfqanalysis/${invoiceId}`);
     };
 
     function getrow(id) {

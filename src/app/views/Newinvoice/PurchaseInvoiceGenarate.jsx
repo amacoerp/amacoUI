@@ -219,7 +219,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [ponumber, setponumber] = useState('');
   const [fstatus, setfstatus] = useState(-1);
   let calculateAmount = [];
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -611,7 +611,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       id: 0,
       product_id: "",
-      item_name:" ",
+      item_name: " ",
       src: '',
       description: "",
       invoice_id: 0,
@@ -865,7 +865,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + "purchaseinvoiceview")
+            routerHistory.push(navigatePath + "purchaseinvoiceview")
           })
         // window.location.href="../quoateview"
       })
@@ -882,7 +882,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // },5000)
   };
   function cancelform() {
-    history.push(navigatePath + "/piview/" + id)
+    routerHistory.push(navigatePath + "/piview/" + id)
   }
 
   const handleDialogClose = () => {
@@ -1228,7 +1228,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 

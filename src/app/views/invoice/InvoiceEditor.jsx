@@ -260,10 +260,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setrdate(moment(rdate).format("MMMM DD, YYYY"))
 
   };
+  const routerHistory = useHistory();
+
   const Rfqpush = () => {
 
     // updateSidebarMode({ mode: "close" })
-    history.push(navigatePath + `/invoice/${id}`)
+    routerHistory.push(navigatePath + `/invoice/${id}`)
 
   };
   const handleRDateChange = (ddate) => {
@@ -491,7 +493,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           })
             .then((result) => {
 
-              history.push(navigatePath + `/invoice/${id}`)
+              routerHistory.push(navigatePath + `/invoice/${id}`)
               getrfq()
             })
 

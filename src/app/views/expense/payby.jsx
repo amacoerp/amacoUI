@@ -18,9 +18,9 @@ import { Icon } from "@material-ui/core";
 // import { Link } from "react-router-dom";
 // import Axios from "axios";
 import Swal from "sweetalert2";
-import url, {getcategories}from "../invoice/InvoiceService"
+import url, { getcategories } from "../invoice/InvoiceService"
 
-const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
+const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
   const [state, setState] = useState({
     name: "abc",
     email: "",
@@ -52,9 +52,9 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
   //       ...state,
   //       isActive: event.target.checked,
   //     });
-      
+
   //   }
-   
+
   //   setState({
   //     ...state,
   //     [event.target.name]: event.target.value,
@@ -67,73 +67,70 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
 
 
   const handleFormSubmit = () => {
-    var arr=[]
-     getcategories().then(({ data }) => {
-       
-      for(const list in data)
-      {
-        
+    var arr = []
+    getcategories().then(({ data }) => {
+
+      for (const list in data) {
+
         arr.push(
-         data[list].name
+          data[list].name
         )
 
       }
-     
-      
 
-      if(arr.indexOf(cname)>-1) 
-      {
-        
+
+
+      if (arr.indexOf(cname) > -1) {
+
 
         setIsAlivecat(true)
-        catid=null
+        catid = null
       }
-       else
-       {
-        
+      else {
+
         const frmdetails = {
 
           name: cname,
           description: cdescription,
-          parent_id:catid
-    
-    
+          parent_id: catid
+
+
         }
-      
+
         url.post('categories', frmdetails)
           .then(function (response) {
             getcategories()
             Swal.fire({
               title: 'Success',
               type: 'success',
-              icon:'success',
+              icon: 'success',
               text: 'Data saved successfully.',
             });
-            
-          
-           getcategories().then(({ data }) => {
-            catList(data)
-    
+
+
+            getcategories().then(({ data }) => {
+              catList(data)
+
             });
             handleClose()
-            // history.push('/product/viewsubcategory');
+            // routerHistory.push('/product/viewsubcategory');
           })
           .catch(function (error) {
-           
+
           })
         setcdescription('')
         setcname('')
-        catid=null
-       
-    
-       } 
-        
-  
-     })
+        catid = null
 
-    
-  
-  
+
+      }
+
+
+    })
+
+
+
+
   };
   const removeData = (id) => {
     Swal.fire({
@@ -150,34 +147,34 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
       if (result.value) {
         url.delete(`categories/${id}`)
           .then(res => {
-            
+
             getcategories().then(({ data }) => {
               catList(data)
-      
-              });
+
+            });
           })
-          handleClose()
-          Swal.fire({
-            customClass:{
-              zIndex: 1000
-            },
-             text:'Category Deleted Successfully',
-             icon: "success"
-            // 'Cancelled',
-            // 'Your imaginary file is safe :)',
-            // 'error',
-            
-          })
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        handleClose()
         Swal.fire({
-          customClass:{
+          customClass: {
             zIndex: 1000
           },
-           title:'Cancelled'
+          text: 'Category Deleted Successfully',
+          icon: "success"
           // 'Cancelled',
           // 'Your imaginary file is safe :)',
           // 'error',
-          
+
+        })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          customClass: {
+            zIndex: 1000
+          },
+          title: 'Cancelled'
+          // 'Cancelled',
+          // 'Your imaginary file is safe :)',
+          // 'error',
+
         })
       }
     })
@@ -192,7 +189,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
     });
     // Axios.get("http://dataqueuesystems.com/amaco/amaco/public/api/products-in-category").then(({ data }) => {
     //   if (isAlive) setUserList(data);
-    
+
 
     // Object.keys(data).forEach(function(key) {
 
@@ -203,7 +200,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
 
     // });
     return () => setIsAlive(false);
-  },[])
+  }, [])
   function getrow(e) {
     url.get("categories").then(({ data }) => {
       setUserList(data);
@@ -233,7 +230,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
 
-  
+
           return (
             <IconButton onClick={() => removeData(tableMeta.rowData[2])
             }
@@ -252,14 +249,14 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
 
 
   return (
-    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{zIndex:1000}} fullWidth={fullWidth}
-    maxWidth={maxWidth}>
+    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{ zIndex: 1000 }} fullWidth={fullWidth}
+      maxWidth={maxWidth}>
       <div className="p-6"  >
-        {catid &&(
-        <h4 className="mb-5">Add Sub Category</h4>
+        {catid && (
+          <h4 className="mb-5">Add Sub Category</h4>
         )}
-        {!catid &&(
-         <h4 className="mb-5">Add Category</h4>   
+        {!catid && (
+          <h4 className="mb-5">Add Category</h4>
         )}
         <ValidatorForm onSubmit={handleFormSubmit} autoComplete="off">
           <Grid className="mb-4" container spacing={4}>
@@ -267,7 +264,7 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
               <TextValidator
                 className="w-full mb-4"
                 label="Name"
-                
+
                 variant="outlined"
                 onChange={e => setcname(e.target.value)
                   // .log(isAlive)
@@ -278,20 +275,20 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               />
-              {isAlivecat &&(
-            
-            <span><Icon className="mr-2" fontSize="small" color="error">
-              info
-            </Icon>
-            <small style={{color:"red"}}>
-              Category already Exists
-            </small>
-            </span>
-         
+              {isAlivecat && (
+
+                <span><Icon className="mr-2" fontSize="small" color="error">
+                  info
+                </Icon>
+                  <small style={{ color: "red" }}>
+                    Category already Exists
+                  </small>
+                </span>
+
               )}
-             
+
             </Grid>
-            
+
 
             <Grid item sm={6} xs={12}>
               <TextValidator
@@ -304,53 +301,53 @@ const MemberEditorDialog = ({ uid, open, handleClose,catid,catList }) => {
                 name="cdescription"
                 value={cdescription}
               />
-              
+
             </Grid>
           </Grid>
-          
+
           <div className="flex justify-between items-center">
             <Button variant="contained" color="primary" type="submit">
               Save
             </Button>
             <div className="flex justify-between items-center">
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => handleClose()}
-            >
-              Cancel
-            </Button>
-            
-            <Button
-            
-              variant="outlined"
-              color="primary"
-              onClick={() => getrow()}
-            >
-              view
-            </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleClose()}
+              >
+                Cancel
+              </Button>
+
+              <Button
+
+                variant="outlined"
+                color="primary"
+                onClick={() => getrow()}
+              >
+                view
+              </Button>
             </div>
           </div>
-          
+
         </ValidatorForm>
         <Divider className="mb-2" />
-       
-          <MUIDataTable
-            title={"Category"}
-            columns={columns}
-            data={userList}
-            options={{
-              filterType: "textField",
-              responsive: "simple",
-              selectableRows: "none", // set checkbox for each row
-              elevation: 0,
-              rowsPerPageOptions: [10, 20, 40, 80, 100],
-            }}
-          />
-     
+
+        <MUIDataTable
+          title={"Category"}
+          columns={columns}
+          data={userList}
+          options={{
+            filterType: "textField",
+            responsive: "simple",
+            selectableRows: "none", // set checkbox for each row
+            elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+          }}
+        />
+
       </div>
     </Dialog>
-    
+
   );
 };
 

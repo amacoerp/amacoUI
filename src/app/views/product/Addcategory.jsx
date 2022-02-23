@@ -7,7 +7,7 @@ import {
   Divider,
   IconButton,
 } from "@material-ui/core";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
@@ -32,6 +32,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
   const [cdescription, setcdescription] = useState('');
   const [userList, setUserList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
+  const routerHistory = useHistory();
 
 
 
@@ -64,7 +65,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
           text: 'Data saved successfully.',
         });
         getcategories()
-        history.push('/product/viewproduct');
+        routerHistory.push('/product/viewproduct');
       })
       .catch(function (error) {
 

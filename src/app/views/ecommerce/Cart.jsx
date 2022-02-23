@@ -29,7 +29,8 @@ const Cart = () => {
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const routerHistory = useHistory();
+
   const classes = useStyles();
 
   const getTotalCost = () => {
@@ -202,7 +203,7 @@ const Cart = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => history.push("/ecommerce/checkout")}
+            onClick={() => routerHistory.push("/ecommerce/checkout")}
           >
             Checkout
           </Button>

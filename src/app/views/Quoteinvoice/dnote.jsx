@@ -55,6 +55,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
+  const routerHistory = useHistory();
 
 
   const generateRandomId = useCallback(() => {
@@ -163,7 +164,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           icon: 'success',
           text: 'Data saved successfully.',
         });
-        history.push(navigatePath + "/dnoteview")
+        routerHistory.push(navigatePath + "/dnoteview")
 
       })
       .catch(function (error) {
@@ -178,7 +179,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    history.push(navigatePath + `/quote/${id}/accept`)
+    routerHistory.push(navigatePath + `/quote/${id}/accept`)
   }
 
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Icon, IconButton, Tooltip} from "@material-ui/core";
+import { Icon, IconButton, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import url, {getcategories}from "../../invoice/InvoiceService"
-import history from "history.js";
+import url, { getcategories } from "../../invoice/InvoiceService"
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   root: {
@@ -33,32 +33,34 @@ const MatxSearchBox = () => {
   const [open, setOpen] = useState(false);
   const [catList, setcatList] = useState([]);
   const classes = useStyles();
+  const routerHistory = useHistory();
+
 
   const toggle = () => {
     setOpen(!open);
   };
   const searching = (name) => {
-    
-  url.get("category/"+name).then(({ data }) => {
 
-    
-    getcategories().then(({ data }) => {
-      setcatList(data)
+    url.get("category/" + name).then(({ data }) => {
 
-    });
-    history.push('/product/viewsubcategory')
-    
-  })
-}
-  
+
+      getcategories().then(({ data }) => {
+        setcatList(data)
+
+      });
+      routerHistory.push('/product/viewsubcategory')
+
+    })
+  }
+
   return (
     <React.Fragment>
       {!open && (
-          <Tooltip title="Search Category">
-        <IconButton onClick={toggle}>
-            
-          <Icon>search</Icon>
-        </IconButton>
+        <Tooltip title="Search Category">
+          <IconButton onClick={toggle}>
+
+            <Icon>search</Icon>
+          </IconButton>
         </Tooltip>
       )}
 

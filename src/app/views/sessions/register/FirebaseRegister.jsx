@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import useAuth from 'app/hooks/useAuth';
-import history from "history.js";
+import { useHistory } from 'react-router';
 import { navigatePath } from "app/views/invoice/InvoiceService";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -56,14 +56,16 @@ const FirebaseRegister = () => {
       [name]: value,
     });
   };
+  const routerHistory = useHistory();
+
   const handleGoogleRegister = async (event) => {
     try {
       await signInWithGoogle();
-      history.push("/");
-    } catch(e) {
+      routerHistory.push("/");
+    } catch (e) {
       setMessage(e.message);
       setLoading(false);
-      
+
     }
   }
 
@@ -71,10 +73,10 @@ const FirebaseRegister = () => {
     try {
       setLoading(true);
       await createUserWithEmailAndPassword(state.email, state.password);
-      history.push("/");
-    } catch(e) {
+      routerHistory.push("/");
+    } catch (e) {
       setLoading(false);
-     
+
       setMessage(e.message);
     }
   };
@@ -102,7 +104,7 @@ const FirebaseRegister = () => {
           <Grid item lg={7} md={7} sm={7} xs={12}>
             <div className="px-8 pt-8">
               <Button onClick={handleGoogleRegister} variant="contained" className={classes.socialButton}>
-                <img src="/assets/images/logos/google.svg" alt=""/>
+                <img src="/assets/images/logos/google.svg" alt="" />
                 Sign Up With Google
               </Button>
             </div>
@@ -151,7 +153,7 @@ const FirebaseRegister = () => {
                 />
                 {message && <p className="text-error">{message}</p>}
                 <div className="flex items-center">
-                <div className="relative">
+                  <div className="relative">
                     <Button
                       variant="contained"
                       color="primary"
@@ -168,7 +170,7 @@ const FirebaseRegister = () => {
                     )}
                   </div>
                   <span className="mx-2 ml-5">or</span>
-                  <Link to={navigatePath+"/session/signin"}>
+                  <Link to={navigatePath + "/session/signin"}>
                     <Button className="capitalize">Sign In</Button>
                   </Link>
                 </div>

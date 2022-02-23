@@ -102,10 +102,11 @@ const JwtLogin = () => {
         temp[name] = value;
         setUserInfo(temp);
     };
+    const routerHistory = useHistory();
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
-            history.push("/session/signin")
+            routerHistory.push("/session/signin")
         }
         // {0:"a", 1:"b", 2:"c"}inputOptionsPromise)
     }, [])
@@ -130,7 +131,7 @@ const JwtLogin = () => {
                     });
                     resetform()
                     localStorage.clear();
-                    history.push("/session/signin")
+                    routerHistory.push("/session/signin")
 
                 } else {
                     setmessage('Old password is Incorrect')
@@ -239,7 +240,7 @@ const JwtLogin = () => {
                                     {/* <span className="mr-2 ml-5">or</span> */}
                                     {/* <Button
                     className="capitalize"
-                    onClick={() => history.push("/session/signup")}
+                    onClick={() => routerHistory.push("/session/signup")}
                   >
                     Sign up
                   </Button> */}

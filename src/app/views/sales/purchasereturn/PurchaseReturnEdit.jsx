@@ -191,7 +191,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    const history = useHistory();
+    const routerHistory = useHistory();
     const { id } = useParams();
     const classes = useStyles();
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -569,7 +569,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     text: 'Data saved successfully.',
                 })
                     .then((result) => {
-                        history.push(navigatePath + "../purchasereturn")
+                        routerHistory.push(navigatePath + "../purchasereturn")
                     })
 
             })
@@ -586,7 +586,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
     function cancelform() {
-        history.push(navigatePath + "/purchasereturn")
+        routerHistory.push(navigatePath + "/purchasereturn")
     }
 
     const handleDialogClose = () => {
@@ -751,7 +751,7 @@ required
 select
 >
 <MenuItem onClick={() => {
-  history.push("/party/addparty");
+  routerHistory.push("/party/addparty");
 }}>
 
   <Icon>add</Icon>New
@@ -807,7 +807,7 @@ select
                                     select
                                 >
                                     <MenuItem onClick={() => {
-                                        history.push("/party/addparty");
+                                        routerHistory.push("/party/addparty");
                                     }}>
 
                                         <Icon>add</Icon>New
@@ -888,7 +888,7 @@ select
         if(params.inputValue !== " ") {
           filtered.unshift({
             inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
           });
         }
         

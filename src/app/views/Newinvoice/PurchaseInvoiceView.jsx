@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import { FormattedMessage } from 'react-intl';
 import moment from "moment";
 import './print.css';
-import history from "history.js";
+import { useHistory } from 'react-router';
 // import translate from 'google-translate-api';
 import { Translator, Translate } from 'react-auto-translate';
 import { toArabic } from 'arabic-digits';
@@ -237,6 +237,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [ress, setress] = useState("");
   const { id } = useParams();
   const classes = useStyles();
+  const routerHistory = useHistory();
+
   const { settings, updateSettings } = useSettings();
   const [arcompany, setarcompany] = useState("");
   const [araddress, setaraddress] = useState("");
@@ -443,7 +445,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }
     else {
 
-      history.push(navigatePath + "/purchaseinvoiceview")
+      routerHistory.push(navigatePath + "/purchaseinvoiceview")
       // let activeLayoutSettingsName = settings.activeLayout + "Settings";
       // let activeLayoutSettings = settings[activeLayoutSettingsName];
       // updateSettings({
@@ -467,7 +469,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const dnotegenrate = (sidebarSettings) => {
 
 
-    history.push(`/dnote/${quoteid}`)
+    routerHistory.push(`/dnote/${quoteid}`)
 
   }
   const invoicegenrate = (sidebarSettings) => {
@@ -552,7 +554,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             )
 
 
-            history.push("/purchaseinvoiceview")
+            routerHistory.push("/purchaseinvoiceview")
 
           })
 
@@ -653,7 +655,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               <MenuItem onClick={() => handlePrinting()}>
                 PRINT INVOICE
               </MenuItem>
-              <MenuItem onClick={() => history.push(`/piedit/${id}`)}>
+              <MenuItem onClick={() => routerHistory.push(`/piedit/${id}`)}>
                 EDIT INVOICE
               </MenuItem>
 

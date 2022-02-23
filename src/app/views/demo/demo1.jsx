@@ -18,8 +18,8 @@ const InvoiceList = () => {
   const [invoice, setInvoice] = useState(null);
   const [open, setOpen] = useState(false);
   const [isAlive, setIsAlive] = useState(true);
+  const routerHistory = useHistory();
 
-  const history = useHistory();
 
   useEffect(() => {
     getAllInvoice().then((res) => {
@@ -30,27 +30,27 @@ const InvoiceList = () => {
   }, [isAlive]);
 
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/demo/${invoiceId}`);
+
+    routerHistory.push(`/demo/${invoiceId}`);
   };
 
-//   const handeDeleteClick = (invoice) => {
-//     setInvoice(invoice);
-//     setOpen(true);
-//   };
+  //   const handeDeleteClick = (invoice) => {
+  //     setInvoice(invoice);
+  //     setOpen(true);
+  //   };
 
-//   const handleConfirmationResponse = () => {
-//     deleteInvoice(invoice).then((res) => {
-//       if (isAlive) {
-//         setInvoiceList(res.data);
-//         setOpen(false);
-//       }
-//     });
-//   };
+  //   const handleConfirmationResponse = () => {
+  //     deleteInvoice(invoice).then((res) => {
+  //       if (isAlive) {
+  //         setInvoiceList(res.data);
+  //         setOpen(false);
+  //       }
+  //     });
+  //   };
 
-//   const handleDialogClose = () => {
-//     setOpen(false);
-//   };
+  //   const handleDialogClose = () => {
+  //     setOpen(false);
+  //   };
 
   return (
     <div className="m-sm-30">
@@ -104,7 +104,7 @@ const InvoiceList = () => {
                   </Button>
                   <Button
                     color="secondary"
-                    // onClick={() => handeDeleteClick(invoice)}
+                  // onClick={() => handeDeleteClick(invoice)}
                   >
                     Delete
                   </Button>

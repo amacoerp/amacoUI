@@ -6,20 +6,20 @@ export const RESET_NAVIGATION = "RESET_NAVIGATION";
 
 export function getNavigation(user) {
   return {
-    type: GET_NAVIGATION
-  }
+    type: GET_NAVIGATION,
+  };
 }
 
 export function logoutUser() {
   return dispatch => {
     jwtAuthService.logout();
 
-    history.push({
-      pathname: navigatePath+"/session/signin"
+    routerHistory.push({
+      pathname: navigatePath + "/session/signin",
     });
 
     dispatch({
-      type: USER_LOGGED_OUT
+      type: USER_LOGGED_OUT,
     });
   };
 }

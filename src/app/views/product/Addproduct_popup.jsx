@@ -349,7 +349,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
 
 
     // });
-    // history.push(`/product/Viewproduct/${id}`)
+    // routerHistory.push(`/product/Viewproduct/${id}`)
   }
 
   function getcategory(e) {

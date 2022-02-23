@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Breadcrumb,ConfirmationDialog } from "matx";
+import { Breadcrumb, ConfirmationDialog } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import MaterialTable from "mui-datatables";
 import { Divider, Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url from "../invoice/InvoiceService";
 import moment from "moment";
@@ -35,12 +35,12 @@ const Bank_Account = () => {
     setShouldOpenConfirmationDialog,
   ] = useState(false);
   const handleDialogClose = () => {
-    
+
     setShouldOpenEditorDialog(false);
     setIsAlive(true)
   };
 
-  const deletebank = (id)=>{
+  const deletebank = (id) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this Bank details!',
@@ -49,24 +49,23 @@ const Bank_Account = () => {
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, keep it'
     }).then((result) => {
-    if (result.value) {
-    url.delete("company-bank/"+id).then(({ data }) => {
-      Swal.fire(
-        'Deleted!',
-        'Your Bank details has been deleted.',
-        'success'
-      )
-      setIsAlive(true)
-    })
-  }
-  else
-  {
-    Swal.fire(
-      'Cancelled',
-      'Your Bank Details is safe :)',
-      'error'
-    )
-  }
+      if (result.value) {
+        url.delete("company-bank/" + id).then(({ data }) => {
+          Swal.fire(
+            'Deleted!',
+            'Your Bank details has been deleted.',
+            'success'
+          )
+          setIsAlive(true)
+        })
+      }
+      else {
+        Swal.fire(
+          'Cancelled',
+          'Your Bank Details is safe :)',
+          'error'
+        )
+      }
 
     })
 
@@ -80,7 +79,7 @@ const Bank_Account = () => {
     backgroundColor: "#fff",
     width: "250px",
     wordBreak: "break-all",
-    
+
   }
   const columnStyleWithWidth = {
     top: "0px",
@@ -90,27 +89,28 @@ const Bank_Account = () => {
     backgroundColor: "#fff",
     width: "250px",
     wordBreak: "break-word",
-    
+
   }
   useEffect(() => {
     url.get("company-bank").then(({ data }) => {
       // if (isAlive) setBankList(data);
       // var myJSON = JSON.stringify(data.id);
-      
+
       // if(data.length)
       // {
-        setBankList(data);
-     
-       setqdetails(data);
+      setBankList(data);
+
+      setqdetails(data);
       // }
     });
     return setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
+
   const handeViewClick = (invoiceId) => {
-   
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -139,7 +139,7 @@ const Bank_Account = () => {
       }
     ]);
   };
-  const editbank=(id) =>{
+  const editbank = (id) => {
     setbid(id)
     setShouldOpenEditorDialog(true)
   }
@@ -179,77 +179,77 @@ const Bank_Account = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-  
+
 
     // })
     // getrow()
     // url.delete(url).then(res => {
     //     const del = employees.filter(employee => id !== employee.id)
     //     setEmployees(del)
-    
+
     // })
   }
   const columns = [
     {
       name: "id", // field name in the row object
-      label: "S.No.", 
-     // column title that will be shown in table
+      label: "S.No.",
+      // column title that will be shown in table
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
-      return (
-        <TableCell key={index} style={{width:50}}>  
-          <span style={{marginLeft:15}}>S.NO.</span> 
-        </TableCell>
-      )
-   },
-       
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ width: 50 }}>
+              <span style={{ marginLeft: 15 }}>S.NO.</span>
+            </TableCell>
+          )
+        },
+
         // cellStyle: {
         //   width: 20,
         //   maxWidth: 20
         // },
-        
+
       },
-     
+
     },
     {
       name: "quotation_no", // field name in the row object
       label: "BANK NAME", // column title that will be shown in table
       options: {
         filter: true,
-        wordBreak:'break-word',
+        wordBreak: 'break-word',
         editComponent: ({ value, onChange }) => {
           return (
             <TextField
               onChange={e => onChange(e.target.value)}
               value={value}
-              style={{wordBreak:'break-word'}}
+              style={{ wordBreak: 'break-word' }}
               multiline
             />
           );
         }
-      //   customHeadRender: ({index, ...column}) =>{
-      //     return (
-      //       <TableCell key={index} style={columnStyleWithWidth} >  
-      //         <span style={{marginLeft:18}}>BANK NAME</span> 
-      //       </TableCell>
-      //     )
-      //  }
-      
-        
+        //   customHeadRender: ({index, ...column}) =>{
+        //     return (
+        //       <TableCell key={index} style={columnStyleWithWidth} >  
+        //         <span style={{marginLeft:18}}>BANK NAME</span> 
+        //       </TableCell>
+        //     )
+        //  }
+
+
       },
     },
     {
       name: "fname", // field name in the row object
       label: "ACCOUNT NUMBER", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1} >  
-              <span style={{marginLeft:18}}>ACCOUNT NUMBER</span> 
+            <TableCell key={index} style={columnStyleWithWidth1} >
+              <span style={{ marginLeft: 18 }}>ACCOUNT NUMBER</span>
             </TableCell>
           )
-       }
+        }
       },
     },
     {
@@ -292,29 +292,29 @@ const Bank_Account = () => {
       label: "Action",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"right"}} className="pr-2" >  
-              <span style={{marginLeft:18}}>ACTION</span> 
+            <TableCell key={index} style={{ textAlign: "right" }} className="pr-2" >
+              <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
           )
-       },
+        },
         customBodyRender: (value, tableMeta, updateValue) => {
-         
+
           return (
-            <div style={{textAlign:"right"}} className="">
-            {/* <Link to={`/quote/${tableMeta.rowData[5]}/reject`}>
+            <div style={{ textAlign: "right" }} className="">
+              {/* <Link to={`/quote/${tableMeta.rowData[5]}/reject`}>
               <Tooltip title="View More">
                 <Icon color="primary">remove_red_eye</Icon>
            </Tooltip>
             </Link> */}
-            <Tooltip title="Delete"><Icon color="error" className="pr-2" onClick={e=>deletebank(tableMeta.rowData[4])}>delete</Icon></Tooltip><Tooltip title="Edit"><Icon color="secondary"  onClick={e=>editbank(tableMeta.rowData[4])}>edit</Icon></Tooltip>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <Tooltip title="Delete"><Icon color="error" className="pr-2" onClick={e => deletebank(tableMeta.rowData[4])}>delete</Icon></Tooltip><Tooltip title="Edit"><Icon color="secondary" onClick={e => editbank(tableMeta.rowData[4])}>edit</Icon></Tooltip>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </div >
+            </div >
 
           )
 
@@ -333,9 +333,9 @@ const Bank_Account = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -346,21 +346,21 @@ const Bank_Account = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-      <div className="text-right">
-               
-               <Button  onClick={e=>setShouldOpenEditorDialog(true)} className="py-2"  variant="outlined" color="primary" type="submit" aignItem="right">
-          <Icon>add</Icon>
-          <span className="pl-2 capitalize">ADD NEW</span>
-        </Button>
-        
-         
-         </div>
+        <div className="mb-sm-30">
+          <div className="text-right">
+
+            <Button onClick={e => setShouldOpenEditorDialog(true)} className="py-2" variant="outlined" color="primary" type="submit" aignItem="right">
+              <Icon>add</Icon>
+              <span className="pl-2 capitalize">ADD NEW</span>
+            </Button>
+
+
+          </div>
         </div>
-       
-        
-               
-            {/* <div className="mb-8">
+
+
+
+        {/* <div className="mb-8">
             {BankList.map((item,i)=>(
               <>
               <div>
@@ -390,52 +390,52 @@ const Bank_Account = () => {
         </Button>
         </div> */}
         <MaterialTable
-                // title={"DIVISION"}
-                data={
-                  BankList.map((item, index) => {
-                    // console.log(item)
-                   
-                      return [
-          
-                        ++index,
-                        item.name,
-                        item.ac_no,
-                        item.iban_no,
-                        // item.bank_address,
-                        item.id,
-                      ]
-                    
-                  })
-                }
-                columns={columns}
-                options={{
-                    filterType: "textField",
-                    responsive: "simple",
-                    selectableRows: "none", 
-                    rowsPerPageOptions: [10, 20, 40, 80, 100],
-                }}
-            />
-        {shouldOpenEditorDialog && (
-        <MemberEditorDialog
-          handleClose={handleDialogClose}
-          open={shouldOpenEditorDialog}
-          bid={bid}
-         
+          // title={"DIVISION"}
+          data={
+            BankList.map((item, index) => {
+              // console.log(item)
 
+              return [
+
+                ++index,
+                item.name,
+                item.ac_no,
+                item.iban_no,
+                // item.bank_address,
+                item.id,
+              ]
+
+            })
+          }
+          columns={columns}
+          options={{
+            filterType: "textField",
+            responsive: "simple",
+            selectableRows: "none",
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+          }}
         />
-      )}
-      {shouldOpenConfirmationDialog && (
-        <ConfirmationDialog
-          open={shouldOpenConfirmationDialog}
-          onConfirmDialogClose={handleDialogClose}
-          text="Are you sure to delete?"
-        />
-      )}
+        {shouldOpenEditorDialog && (
+          <MemberEditorDialog
+            handleClose={handleDialogClose}
+            open={shouldOpenEditorDialog}
+            bid={bid}
+
+
+          />
+        )}
+        {shouldOpenConfirmationDialog && (
+          <ConfirmationDialog
+            open={shouldOpenConfirmationDialog}
+            onConfirmDialogClose={handleDialogClose}
+            text="Are you sure to delete?"
+          />
+        )}
+      </div>
     </div>
-    </div>
-         
-    
-    
+
+
+
   );
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import {
   Button,
   Icon,
@@ -67,6 +67,7 @@ const SimpleForm = () => {
   const [paiddivision_account, setpaiddivision_account] = useState([]);
   const [division, setdivision] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
+  const routerHistory = useHistory();
 
 
   // get the id value
@@ -185,7 +186,7 @@ const SimpleForm = () => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + `/pages/view-customer?id=${foo}`)
+            routerHistory.push(navigatePath + `/pages/view-customer?id=${foo}`)
           })
       })
       .catch(function (error) {
@@ -747,7 +748,7 @@ const SimpleForm = () => {
               <Icon>save</Icon>
               <span className="pl-2 capitalize">SAVE</span>
             </Button>
-            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => history.push(`../pages/view-customer?id=${foo}`)}>
+            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../pages/view-customer?id=${foo}`)}>
               <Icon>cancel</Icon>
               <span className="pl-2 capitalize">CANCEL</span>
             </Button>

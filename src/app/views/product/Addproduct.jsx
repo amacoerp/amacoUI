@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Breadcrumb } from "matx";
 import MemberEditorDialog from "../product/Addcategory";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import { getVendorList, getmanufacturer, ApiKey, navigatePath, data } from "../invoice/InvoiceService"
 import MemberEditorDialog1 from "./manufacture";
 import useAuth from '../../hooks/useAuth';
@@ -191,6 +191,7 @@ const SimpleForm = ({ open, handleClose }) => {
 
   };
 
+  const routerHistory = useHistory();
 
   useEffect(() => {
     getVendorList().then(({ data }) => {
@@ -270,7 +271,7 @@ const SimpleForm = ({ open, handleClose }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            history.push(navigatePath + `/product/viewproduct/${id}`)
+            routerHistory.push(navigatePath + `/product/viewproduct/${id}`)
           })
       })
       .catch(function (error) {
@@ -609,7 +610,7 @@ const SimpleForm = ({ open, handleClose }) => {
             <span className="pl-2 capitalize">SAVE</span>
           </Button>
 
-          <Button className="mr-4 py-2" color="secondary" variant="outlined" onClick={() => history.push(navigatePath + `/product/viewproduct/${id}`)}>
+          <Button className="mr-4 py-2" color="secondary" variant="outlined" onClick={() => routerHistory.push(navigatePath + `/product/viewproduct/${id}`)}>
             <Icon>cancel</Icon>
             <span className="pl-2 capitalize">CANCEL</span>
           </Button>

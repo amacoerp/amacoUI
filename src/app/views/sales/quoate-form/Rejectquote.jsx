@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { GDIV, navigatePath } from "../../invoice/InvoiceService";
 import moment from "moment";
@@ -34,13 +34,13 @@ const RejectQuote = () => {
     position: "sticky",
     backgroundColor: "#fff",
     width: "400px",
-     wordBreak: "break-word",
+    wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
-    hyphens:"auto",
-    textAlign:"center",
-    paddingRight:30
-    
+    hyphens: "auto",
+    textAlign: "center",
+    paddingRight: 30
+
   }
   const columnStyleWithWidth = {
     top: "0px",
@@ -50,27 +50,27 @@ const RejectQuote = () => {
     backgroundColor: "#fff",
     width: "140px",
     wordBreak: "break-word",
-    
+
   }
   useEffect(() => {
     url.get("quotations-rejected-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-      
+
       // if(data.length)
       // {
-        setUserList(data);
-     
-       setqdetails(data);
+      setUserList(data);
+
+      setqdetails(data);
       // }
     });
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-   
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -135,14 +135,14 @@ const RejectQuote = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-  
+
 
     // })
     // getrow()
     // url.delete(url).then(res => {
     //     const del = employees.filter(employee => id !== employee.id)
     //     setEmployees(del)
-    
+
     // })
   }
   const columns = [
@@ -150,52 +150,52 @@ const RejectQuote = () => {
       name: "id",
       label: "S.NO.",
       options: {
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} style={{width:100,textAlign:'center'}}>  
-            <span textAlign="center" >S.NO.</span> 
-          </TableCell>
-        )
-     },
-    
-     setCellProps:()=>({
-        align:"center",
-        // paddingLeft:24
-     })
-    }
-  },
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ width: 100, textAlign: 'center' }}>
+              <span textAlign="center" >S.NO.</span>
+            </TableCell>
+          )
+        },
+
+        setCellProps: () => ({
+          align: "center",
+          // paddingLeft:24
+        })
+      }
+    },
     {
       name: "quotation_no", // field name in the row object
       label: "Quotation No", // column title that will be shown in table
       options: {
         filter: true,
-        wordBreak:'break-word',
-        customHeadRender: ({index, ...column}) =>{
+        wordBreak: 'break-word',
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth} >  
-              <span style={{marginLeft:18}}>QUOTATION NO</span> 
+            <TableCell key={index} style={columnStyleWithWidth} >
+              <span style={{ marginLeft: 18 }}>QUOTATION NO</span>
             </TableCell>
           )
-       }
-        
+        }
+
       },
     },
     {
       name: "fname", // field name in the row object
       label: "Company Name", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1} >  
-              <span >COMPANY NAME</span> 
+            <TableCell key={index} style={columnStyleWithWidth1} >
+              <span >COMPANY NAME</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-        align:"center",
-        // width:600,
-        wordWrap:'break'
-      })
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
     {
@@ -216,20 +216,20 @@ const RejectQuote = () => {
       name: "id",
       label: "AMOUNT",
       options: {
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} style={{width:200,textAlign:'right'}} className="pr-2">  
-            <span textAlign="right" >AMOUNT</span> 
-          </TableCell>
-        )
-     },
-    
-     setCellProps:()=>({
-        align:"right",
-        // paddingLeft:24
-     })
-    }
-  },
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ width: 200, textAlign: 'right' }} className="pr-2">
+              <span textAlign="right" >AMOUNT</span>
+            </TableCell>
+          )
+        },
+
+        setCellProps: () => ({
+          align: "right",
+          // paddingLeft:24
+        })
+      }
+    },
 
     //   {
     //     name: "id",
@@ -256,28 +256,28 @@ const RejectQuote = () => {
       label: "Action",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:'right'}} className="pr-8" >  
-              <span style={{marginLeft:18}}>ACTION</span> 
+            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-8" >
+              <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
           )
-       },
+        },
         customBodyRender: (value, tableMeta, updateValue) => {
-         
+
           return (
-            <div style={{textAlign:'right'}} className="pr-8">
-            <Link to={navigatePath+`/quote/${tableMeta.rowData[5]}/reject`}>
-              <Tooltip title="View More">
-                <Icon color="primary">remove_red_eye</Icon>
-           </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+            <div style={{ textAlign: 'right' }} className="pr-8">
+              <Link to={navigatePath + `/quote/${tableMeta.rowData[5]}/reject`}>
+                <Tooltip title="View More">
+                  <Icon color="primary">remove_red_eye</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </div>
+            </div>
 
           )
 
@@ -296,9 +296,9 @@ const RejectQuote = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -309,8 +309,8 @@ const RejectQuote = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-        {/* <Breadcrumb
+        <div className="mb-sm-30">
+          {/* <Breadcrumb
           routeSegments={[
             // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
             { name: "Sales Quotation" },
@@ -328,52 +328,52 @@ const RejectQuote = () => {
           </Button>
           </Link>
         </div> */}
-      </div>
-      <MUIDataTable
-        title={"SALES QUOTATION"}
-        
-        data={qdetails.filter(obj=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
-         
+        </div>
+        <MUIDataTable
+          title={"SALES QUOTATION"}
+
+          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+
             return [
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
               moment(item?.created_at).format('DD MMM YYYY'),
-              (parseFloat(item?.net_amount)).toLocaleString(undefined, {minimumFractionDigits:2}),
+              (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id
               // item.party[index].firm_name,
               // item.requested_date,
               // item.require_date,
             ]
-          
-        })}
-        
-        columns={columns}
-        options={{
-         
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          // responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-          // expandableRows: true,
-          // expandableRowsOnClick: true,
-          renderExpandableRow: (rowData, rowMeta) => {
-            
-            return (
-              <tr>
-                <td colSpan={6}>
-                  <Table style={{ minWidth: "650",border:"1px solid black" }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>product Name</TableCell>
-                        <TableCell>description</TableCell>
-                        <TableCell>Quantity</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {/* {userList.map((item, index) => {
+
+          })}
+
+          columns={columns}
+          options={{
+
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            // responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+            // expandableRows: true,
+            // expandableRowsOnClick: true,
+            renderExpandableRow: (rowData, rowMeta) => {
+
+              return (
+                <tr>
+                  <td colSpan={6}>
+                    <Table style={{ minWidth: "650", border: "1px solid black" }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>product Name</TableCell>
+                          <TableCell>description</TableCell>
+                          <TableCell>Quantity</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {/* {userList.map((item, index) => {
                         if(rowData[0]===item.id)
                       {
                       {item.qdetails.map((row,index) => {
@@ -387,33 +387,35 @@ const RejectQuote = () => {
                        )
                       })}
                       } */}
-                      {userList.map((item, index) => {
-                        
-                        {item.qdetails.map(row => (
-                          <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                              {row.id}
-                            </TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                          </TableRow>
-                        ))}
-                      
-                      })}
-                      
-                    {/* })} */}
-                   
-                    </TableBody>
-                  </Table>
-                </td>
-              </tr>
-            )
-          }
-        }}
-      />
-    </div>
+                        {userList.map((item, index) => {
+
+                          {
+                            item.qdetails.map(row => (
+                              <TableRow key={row.name}>
+                                <TableCell component="th" scope="row">
+                                  {row.id}
+                                </TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                              </TableRow>
+                            ))
+                          }
+
+                        })}
+
+                        {/* })} */}
+
+                      </TableBody>
+                    </Table>
+                  </td>
+                </tr>
+              )
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }

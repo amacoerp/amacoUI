@@ -14,8 +14,8 @@ import {
   Card
 } from "@material-ui/core";
 import MemberEditorDialog from "../../product/Addcategory";
-import history from "history.js";
-import {getVendorList,getcategories,getmanufacturer} from "../../invoice/InvoiceService"
+import { useHistory } from 'react-router';
+import { getVendorList, getcategories, getmanufacturer } from "../../invoice/InvoiceService"
 import FormDialog1 from "../../../views/product/manufacture";
 import MemberEditorDialog1 from "../../../views/product/manufacture";
 
@@ -42,7 +42,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import ReactSelectMaterialUi from "react-select-material-ui";
 import Axios from "axios";
 // import Addparty from "./addparty"
-import url,{capitalize_arr} from "../../invoice/InvoiceService"
+import url, { capitalize_arr } from "../../invoice/InvoiceService"
 const ooptions = [
   {
     id: 3,
@@ -65,7 +65,7 @@ const options = [
   { value: '3', label: 'Vanilla' },
 ];
 
-const SimpleForm = ({open, handleClose}) => {
+const SimpleForm = ({ open, handleClose }) => {
   const [state, setState] = useState({
     date: new Date(),
   });
@@ -82,7 +82,7 @@ const SimpleForm = ({open, handleClose}) => {
       value: "UNT",
       label: "UNT-UNITS"
     },
-    
+
     {
       value: "YDS",
       label: "YDS-YARDS"
@@ -103,7 +103,7 @@ const SimpleForm = ({open, handleClose}) => {
       value: "THD",
       label: "THD-THOUSANDS"
     },
-    
+
     {
       value: "KLR",
       label: "KLR-KILOLITER"
@@ -176,7 +176,7 @@ const SimpleForm = ({open, handleClose}) => {
       value: "GRS",
       label: "GRS-GROSS"
     },
-    
+
   ];
 
   // const [selectedOption, setSelectedOption] = useState(data);
@@ -246,19 +246,21 @@ const SimpleForm = ({open, handleClose}) => {
   }
   const handleChange = e => {
     setSelectedValue(e.value);
-    
+
   }
   const handleChange1 = e => {
     setSelectedValue1(e.value);
-   
+
   }
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-    
+
 
   };
+  const routerHistory = useHistory();
+
   const pushData = () => {
-    history.push("/party/addparty")
+    routerHistory.push("/party/addparty")
   }
   const pushData1 = () => {
     setShouldOpenEditorDialog1(true);
@@ -271,38 +273,38 @@ const SimpleForm = ({open, handleClose}) => {
 
   useEffect(() => {
     getVendorList().then(({ data }) => {
-    
+
       setCustomerList(data)
       getcategory()
-    
+
     });
-   
+
     url.get("products-in-category").then(({ data }) => {
       setooptions(data);
     })
     getmanufacturer().then(({ data }) => {
-        
-        setmanufacture(data);
-     
+
+      setmanufacture(data);
+
 
 
     });
-    url.get("categories/"+id).then(({ data }) => {
-      
+    url.get("categories/" + id).then(({ data }) => {
+
       setsubcategory(data.name)
-     
+
 
 
     });
-    
-    
-  },[]);
+
+
+  }, []);
 
   const submitValue = () => {
     const frmdetails = {
-      party_id:vendors,
+      party_id: vendors,
       name: capitalize_arr(product),
-      description:capitalize_arr(description),
+      description: capitalize_arr(description),
       unit_price: unit_Price,
       unit_of_measure: unit_of_measue,
       category_id: id,
@@ -311,41 +313,41 @@ const SimpleForm = ({open, handleClose}) => {
       hsn_code: hsn,
       initial_quantity: iq,
       minimum_quantity: mq,
-      manufacturer_id:manid,
-      model_no:modelno,
-      name_in_ar:name_in_ar
+      manufacturer_id: manid,
+      model_no: modelno,
+      name_in_ar: name_in_ar
 
     }
- 
-    
+
+
     url.post('products', frmdetails)
       .then(function (response) {
-        
-        
+
+
         Swal.fire({
           title: 'Success',
           type: 'success',
-          icon:'success',
+          icon: 'success',
           text: 'Data saved successfully.',
         })
-        .then((result) => {
-        history.push(`/product/viewproduct/${id}`)
-        })
+          .then((result) => {
+            routerHistory.push(`/product/viewproduct/${id}`)
+          })
       })
       .catch(function (error) {
-        
+
       })
     resetform()
-    
+
 
   }
   function cancelform() {
     // window.location.href="./Viewproduct"
     // getcategories().then(({ data }) => {
-            
-    
+
+
     // });
-    // history.push(`/product/Viewproduct/${id}`)
+    // routerHistory.push(`/product/Viewproduct/${id}`)
   }
 
   function getcategory(e) {
@@ -388,123 +390,123 @@ const SimpleForm = ({open, handleClose}) => {
   } = state;
 
   return (
-    
-   <div className="m-sm-30">
-        <div className="mb-sm-30">
-          <Breadcrumb
-            routeSegments={[
 
-              { name: "Product Category", path: `/print_categoryview` },
-              { name: "New Product" }
-            ]}
-          />
-        </div>
+    <div className="m-sm-30">
+      <div className="mb-sm-30">
+        <Breadcrumb
+          routeSegments={[
 
-        <Card className="px-6 pt-2 pb-4">
-      <ValidatorForm onSubmit={submitValue} onError={() => null}>
-        <Grid container spacing={6}>
-        
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-          <h6>Product Details</h6>
-            <TextValidator
-              className="mb-4 w-full"
-              label="Product Name"
-              variant="outlined"
-              size="small"
-              value={product}
-              inputProps={{style: {textTransform: 'capitalize'}}}
-              onChange={e => setproduct(e.target.value)}
-              type="text"
-              name="product"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
+            { name: "Product Category", path: `/print_categoryview` },
+            { name: "New Product" }
+          ]}
+        />
+      </div>
 
-            />
-             <TextValidator
-              className="mb-4 w-full"
-              label="اسم المنتج"
-              variant="outlined"
-              size="small"
-              
-              value={name_in_ar}
-              onChange={e => setname_in_ar(e.target.value)}
-              type="text"
-              name="product"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
+      <Card className="px-6 pt-2 pb-4">
+        <ValidatorForm onSubmit={submitValue} onError={() => null}>
+          <Grid container spacing={6}>
 
-            />
-            <TextValidator
-              className="mb-4 w-full"
-              label="Description"
-              value={description}
-              inputProps={{style: {textTransform: 'capitalize'}}}
-              onChange={e => setdescription(e.target.value)}
-              type="textarea"
-              size="small"
-              name="description"
-              variant="outlined"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
-
-            // validators={["required"]}
-            // errorMessages={["this field is required"]}
-            />
-              <div className="flex mb-4">
-            <TextField
-              className="mr-2"
-              label="Unit of measure"
-              onChange={e => setunit_of_measue(e.target.value)}
-              type="text"
-              size="small"
-              value={unit_of_measue}
-              name="unit_of_measue"
-              variant="outlined"
-              validators={[
-                "required",
-              ]}
-              fullWidth
-              errorMessages={["this field is required"]}
-              select
-            // validators={["required"]}
-            // errorMessages={["this field is required"]}
-            >
-              {data.map((item, ind) => (
-                <MenuItem value={item.value} key={item}>
-                  {item.label}
-                </MenuItem>
-              ))}
-              </TextField>
-              <TextField
-                className="ml-2"
-                label="Modal Number"
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <h6>Product Details</h6>
+              <TextValidator
+                className="mb-4 w-full"
+                label="Product Name"
                 variant="outlined"
-                value={modelno}
                 size="small"
+                value={product}
+                inputProps={{ style: { textTransform: 'capitalize' } }}
+                onChange={e => setproduct(e.target.value)}
+                type="text"
+                name="product"
                 validators={[
                   "required",
                 ]}
                 errorMessages={["this field is required"]}
-              
-                onChange={e => setmodelno(e.target.value)}
-                fullWidth
+
               />
+              <TextValidator
+                className="mb-4 w-full"
+                label="اسم المنتج"
+                variant="outlined"
+                size="small"
+
+                value={name_in_ar}
+                onChange={e => setname_in_ar(e.target.value)}
+                type="text"
+                name="product"
+                validators={[
+                  "required",
+                ]}
+                errorMessages={["this field is required"]}
+
+              />
+              <TextValidator
+                className="mb-4 w-full"
+                label="Description"
+                value={description}
+                inputProps={{ style: { textTransform: 'capitalize' } }}
+                onChange={e => setdescription(e.target.value)}
+                type="textarea"
+                size="small"
+                name="description"
+                variant="outlined"
+                validators={[
+                  "required",
+                ]}
+                errorMessages={["this field is required"]}
+
+              // validators={["required"]}
+              // errorMessages={["this field is required"]}
+              />
+              <div className="flex mb-4">
+                <TextField
+                  className="mr-2"
+                  label="Unit of measure"
+                  onChange={e => setunit_of_measue(e.target.value)}
+                  type="text"
+                  size="small"
+                  value={unit_of_measue}
+                  name="unit_of_measue"
+                  variant="outlined"
+                  validators={[
+                    "required",
+                  ]}
+                  fullWidth
+                  errorMessages={["this field is required"]}
+                  select
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+                >
+                  {data.map((item, ind) => (
+                    <MenuItem value={item.value} key={item}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  className="ml-2"
+                  label="Modal Number"
+                  variant="outlined"
+                  value={modelno}
+                  size="small"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+
+                  onChange={e => setmodelno(e.target.value)}
+                  fullWidth
+                />
               </div>
-              
 
-            
 
-          </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-          <div className="flex mb-4 mt-6">
-            {/* <TextValidator
+
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <div className="flex mb-4 mt-6">
+                {/* <TextValidator
               className="mr-2"
               label="category type"
               name="selectedvalue"
@@ -535,7 +537,7 @@ const SimpleForm = ({open, handleClose}) => {
                 </MenuItem>
               ))}
             </TextValidator> */}
-            {/* <TextField
+                {/* <TextField
                 className="mr-2"
                 label="category type"
                 name="selectedvalue"
@@ -547,163 +549,163 @@ const SimpleForm = ({open, handleClose}) => {
                 fullWidth
                 
               />   */}
-            <TextField
-                className="mr-2"
-                label="Sub Category"
-                variant="outlined"
-                value={subcategory}
-                size="small"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
-              
-                onChange={e => setmq(e.target.value)}
-                fullWidth
-              />
-              <TextField
-                className="ml-2 "
-                label="Manufacturer"
-                variant="outlined"
-                onChange={e => setmanid(e.target.value)}
-                value={manid}
-                size="small"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
-                select
-                fullWidth
-              > 
-              <MenuItem  onClick={() => {
+                <TextField
+                  className="mr-2"
+                  label="Sub Category"
+                  variant="outlined"
+                  value={subcategory}
+                  size="small"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+
+                  onChange={e => setmq(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  className="ml-2 "
+                  label="Manufacturer"
+                  variant="outlined"
+                  onChange={e => setmanid(e.target.value)}
+                  value={manid}
+                  size="small"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+                  select
+                  fullWidth
+                >
+                  <MenuItem onClick={() => {
                     setShouldOpenEditorDialog1(true);
                   }}>
-               
-                  <Icon >add</Icon>New
-              
-               </MenuItem>
-               {manufacture.map((item, ind) => (
-                <MenuItem value={item.id} key={item}>
-                  {item.name}
-                </MenuItem>
-              ))}
-              </TextField>  
+
+                    <Icon >add</Icon>New
+
+                  </MenuItem>
+                  {manufacture.map((item, ind) => (
+                    <MenuItem value={item.id} key={item}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
-            <div className="flex mb-4">
-            <TextField
-              className="mr-2"
-              label="Product Type"
-              name="selectedvalue"
-              size="small"
-              fullWidth
-              variant="outlined"
-              select
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
-            
-              value={ptype}
-              onChange={e => setptype(e.target.value)
-              }
-            >
-              {product_type.map((item, ind) => (
-                <MenuItem value={item} key={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              </TextField>
-                 <TextField
-              className="ml-2"
-              label="HSN number"
-              size="small"
-              variant="outlined"
-              value={hsn}
-              onChange={e => sethsn(e.target.value)}
-              type="text"
-              name="hsn"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
-              fullWidth
-            
-            // validators={["required"]}
-            // errorMessages={["this field is required"]}
-            />
-          </div>
-            <div className="flex mb-4">
-              <TextField
-                className="mr-2"
-                label="Initial quantity"
-                variant="outlined"
-                onChange={e => setiq(e.target.value)}
-                value={iq}
-                size="small"
-                type="number"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
-              
-                fullWidth
-              />
-              <TextField
-                className="ml-2"
-                label="Minimum Quantity"
-                variant="outlined"
-                value={mq}
-                type="number"
-                size="small"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
-              
-                onChange={e => setmq(e.target.value)}
-                fullWidth
-              />
-            </div>
-            <div className="flex mb-4">
-            
-            
-           
-              
-              
-            </div>
+              <div className="flex mb-4">
+                <TextField
+                  className="mr-2"
+                  label="Product Type"
+                  name="selectedvalue"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  select
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+
+                  value={ptype}
+                  onChange={e => setptype(e.target.value)
+                  }
+                >
+                  {product_type.map((item, ind) => (
+                    <MenuItem value={item} key={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  className="ml-2"
+                  label="HSN number"
+                  size="small"
+                  variant="outlined"
+                  value={hsn}
+                  onChange={e => sethsn(e.target.value)}
+                  type="text"
+                  name="hsn"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+                  fullWidth
+
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+                />
+              </div>
+              <div className="flex mb-4">
+                <TextField
+                  className="mr-2"
+                  label="Initial quantity"
+                  variant="outlined"
+                  onChange={e => setiq(e.target.value)}
+                  value={iq}
+                  size="small"
+                  type="number"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+
+                  fullWidth
+                />
+                <TextField
+                  className="ml-2"
+                  label="Minimum Quantity"
+                  variant="outlined"
+                  value={mq}
+                  type="number"
+                  size="small"
+                  validators={[
+                    "required",
+                  ]}
+                  errorMessages={["this field is required"]}
+
+                  onChange={e => setmq(e.target.value)}
+                  fullWidth
+                />
+              </div>
+              <div className="flex mb-4">
 
 
 
+
+
+              </div>
+
+
+
+            </Grid>
           </Grid>
-        </Grid>
-        
-        <Button className="mr-4 py-2" color="primary" variant="outlined" type="submit">
-           <Icon>save</Icon> 
-          <span className="pl-2 capitalize">Save</span>
-        </Button>
-        
-        <Button className="mr-4 py-2" color="secondary" variant="outlined" onClick={() => history.push(`/print_viewproduct/${id}`)}>
-          <Icon>cancel</Icon>
-          <span className="pl-2 capitalize">cancel</span>
-        </Button>
-        <Button color=".bg-green" className="mr-4 py-2" variant="outlined" type="submit" onClick={resetform}>
-          <Icon>loop</Icon>
-          <span className="pl-2 capitalize">reset</span>
-        </Button>
-      </ValidatorForm>
+
+          <Button className="mr-4 py-2" color="primary" variant="outlined" type="submit">
+            <Icon>save</Icon>
+            <span className="pl-2 capitalize">Save</span>
+          </Button>
+
+          <Button className="mr-4 py-2" color="secondary" variant="outlined" onClick={() => routerHistory.push(`/print_viewproduct/${id}`)}>
+            <Icon>cancel</Icon>
+            <span className="pl-2 capitalize">cancel</span>
+          </Button>
+          <Button color=".bg-green" className="mr-4 py-2" variant="outlined" type="submit" onClick={resetform}>
+            <Icon>loop</Icon>
+            <span className="pl-2 capitalize">reset</span>
+          </Button>
+        </ValidatorForm>
       </Card>
 
       <card>
         {shouldOpenEditorDialog && (
-           
+
           <MemberEditorDialog
             handleClose={handleDialogClose}
             open={shouldOpenEditorDialog}
           />
-          
+
         )}
         {shouldOpenConfirmationDialog && (
-          
+
           <ConfirmationDialog
             open={shouldOpenConfirmationDialog}
             onConfirmDialogClose={handleDialogClose}
@@ -714,17 +716,17 @@ const SimpleForm = ({open, handleClose}) => {
       </card>
       <card>
         {shouldOpenEditorDialog1 && (
-           
+
           <MemberEditorDialog1
             handleClose={handleDialogClose1}
             open={shouldOpenEditorDialog1}
             setid={setproductcatid}
             manufacture={setmanufacture}
           />
-          
+
         )}
         {shouldOpenConfirmationDialog1 && (
-          
+
           <ConfirmationDialog
             open={shouldOpenConfirmationDialog1}
             onConfirmDialogClose={handleDialogClose1}

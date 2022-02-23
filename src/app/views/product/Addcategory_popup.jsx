@@ -127,7 +127,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
 
               })
             handleClose()
-            // history.push('/product/viewsubcategory');
+            // routerHistory.push('/product/viewsubcategory');
           })
           .catch(function (error) {
 

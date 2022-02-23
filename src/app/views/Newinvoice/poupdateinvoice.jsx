@@ -83,10 +83,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [discount, setdiscount] = useState('0')
   const [dstatus, setdstatus] = useState(false);
   let calculateAmount = [];
-  const history = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const routerHistory = useHistory();
 
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
@@ -235,7 +235,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           icon: 'success',
           text: 'Data saved successfully.',
         });
-        history.push("/inv")
+        routerHistory.push("/inv")
         //  window.location.href="../quoateview"
       })
       .catch(function (error) {
@@ -243,7 +243,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    history.push("/Newinvoiceview")
+    routerHistory.push("/Newinvoiceview")
   }
 
   useEffect(() => {

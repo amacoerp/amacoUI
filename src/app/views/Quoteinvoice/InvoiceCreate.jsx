@@ -223,7 +223,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [ponumber, setponumber] = useState(null);
   const [fstatus, setfstatus] = useState(-1);
   let calculateAmount = [];
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -541,7 +541,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       product_id: " ",
       src: '',
-      item_name:' ',
+      item_name: ' ',
       invoice_id: 0,
       id: 0,
       description: " ",
@@ -944,7 +944,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
 
           .then((result) => {
-            history.push(navigatePath + "/inv")
+            routerHistory.push(navigatePath + "/inv")
           })
         // window.location.href="../quoateview"
       })
@@ -985,7 +985,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   function cancelform() {
-    history.push(navigatePath + "/inv")
+    routerHistory.push(navigatePath + "/inv")
   }
 
   const handleDialogClose = () => {
@@ -1330,7 +1330,7 @@ required
 select
 >
 <MenuItem onClick={() => {
-  history.push("/party/addparty");
+  routerHistory.push("/party/addparty");
 }}>
 
   <Icon>add</Icon>New
@@ -1355,7 +1355,7 @@ select
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                       });
                     }
 
@@ -1408,7 +1408,7 @@ select
         if(params.inputValue !== " ") {
           filtered.unshift({
             inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
           });
         }
         
