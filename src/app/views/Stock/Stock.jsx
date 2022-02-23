@@ -124,15 +124,14 @@ const StockViewer = () => {
                 </div>
             </div>
             <Card className="mb-4" style={{ padding: '20px' }} elevation={0} borderRadius="borderRadius" >
-                {console.log('ds')}
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    style={{ float: 'right' }}
-
-                    className="mr-4 p-2"
-                    onClick={(e) => { handlePrinting() }}>PRINT</Button>
-                <TextField
+<div className="flex justify-between">
+ 
+    <div>
+    <h2>STOCK DETAILS</h2>
+    </div>
+    <div>  </div>
+    <div>
+    <TextField
                     className="mt-4"
                     onChange={handleInputChange}
                     InputProps={{
@@ -143,6 +142,20 @@ const StockViewer = () => {
                         ),
                     }}
                 ></TextField>
+    <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ float: 'right' }}
+
+                    className="mr-4 p-2"
+                    onClick={(e) => { handlePrinting() }}>PRINT</Button>
+    </div>
+
+</div>
+
+
+                
+              
                 <br />
                 <br />
                 <br />
@@ -158,18 +171,21 @@ const StockViewer = () => {
                         <tbody class="tableBodyStock">
                             <tr>
                                 <td>
+                              {/* <center>  <h2>STOCK DETAILS</h2></center>
+                              <br />
+                              <br /> */}
+                                                                 <div className='print-body'>
 
-                                    <div className='print-body'>
+                                        {/* <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}> */}
 
-                                        <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
-
-                                            <div className="flex">
+                                            {/* <div className="flex">
                                                 <div className="pl-0 px-0 mb-4 mr-24 justify-center">
                                                     <center><h3><strong> STOCK DETAILS</strong></h3></center>
 
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div> */}
+                                        {/* </div> */}
+                                      
                                         <div className="row" >
                                             <div className="col slHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>S.NO.</div>
                                             <div className="col catHead" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontWeight: '1000', backgroundColor: '#1d2257', color: 'white', fontSize: 16, padding: 10, textAlign: 'center' }}>CATEGORY</div>
