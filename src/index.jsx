@@ -36,7 +36,7 @@ import { HashRouter } from 'react-router-dom'
 // window.onload = function () {
 //           window.localStorage.isMySessionActive = "true";
 // };
-ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById("root"));
+ReactDOM.render(<><App /></>, document.getElementById("root"));
 
 // for IE-11 support un-comment cssVars() and it's import in this file
 // and in MatxTheme file

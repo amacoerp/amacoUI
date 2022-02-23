@@ -1,7 +1,7 @@
 // import "../fake-db";
 import React from "react";
 import { Provider } from "react-redux";
-import { Router, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import AppContext from "./contexts/AppContext";
 import history from "history.js";
 import routes from "./RootRoutes";
@@ -19,7 +19,7 @@ const App = () => {
         <SettingsProvider>
           <MatxTheme>
             <GlobalCss />
-            <Router history={history}>
+            <HashRouter history={history}>
               <AuthProvider>
                 <MatxSuspense>
                   <Switch>
@@ -38,7 +38,7 @@ const App = () => {
                   </Switch>
                 </MatxSuspense>
               </AuthProvider>
-            </Router>
+            </HashRouter>
           </MatxTheme>
         </SettingsProvider>
       </Provider>
