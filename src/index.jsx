@@ -13,19 +13,19 @@ import App from "./app/App";
 //       // localStorage.removeItem('rememberMe');
 //       localStorage.clear();
 //     }
-   
+
 // }
 // window.onbeforeunload = function (e) {
 //   window.onunload = function () {
 //           window.localStorage.isMySessionActive = "false";
-        
+
 //   }
 //   return undefined;
 // };
 // window.onload = function () {
 //   window.localStorage.isMySessionActive = "true";
 
-  
+
 // };
 // if(window.localStorage.isMySessionActive==='true')
 // {
