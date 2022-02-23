@@ -1548,7 +1548,7 @@ select
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : item?.item_name;
+                            return option?.name ? option?.name : (item?.item_name?item?.item_name:" ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}

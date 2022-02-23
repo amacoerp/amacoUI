@@ -136,8 +136,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       product_name: "",
       src: '',
       id: 0,
-      description: "",
-      descriptions: "",
+      description: " ",
+      descriptions: " ",
       quantity: 0,
       product_price_list: [
         {
@@ -207,7 +207,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleChanges = (event, newValue, index) => {
-
+    console.log("fgghagdxjs",event.target.value)
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -222,7 +222,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         element['product'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
         element['descriptions'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
-        element['product_name'] = newValue?.id ? newValue?.name : newValue?.name
+        element['description'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
+        element['product_name'] = newValue?.id ? newValue?.name : event?.target?.value
         element['product_id'] = newValue?.id ? newValue?.id : 0
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -608,7 +609,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcurrency_type(data[0]?.currency_type)
       setcharge(data[0]?.vat_in_value)
       settotal(data[0]?.net_amount)
-      console.log(data[0]?.quotation_details)
       setState({
         ...state,
         item: data[0]?.quotation_details,
@@ -616,7 +616,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
     return setIsAlive(false)
-  }, [id, isNewInvoice, isAlive, generateRandomId]);
+  }, [ ]);
+  // }, [id, isNewInvoice, isAlive, generateRandomId]);
 
 
   const setMargin = (id, index, name) => {
@@ -879,7 +880,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.descriptions ? item?.descriptions : item?.description}
+                          value={item?.description}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           multiline
@@ -891,7 +892,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : " ";
+                            return option?.name ? option?.name : (item?.description?item?.description:" ")
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
@@ -899,14 +900,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'product_id')
                           }}
                           renderInput={(params) => (
-                            <TextField inputRef={input => {
+                            <TextField  onChange={(event, newValue) => handleChanges(event, newValue, index)} inputRef={input => {
                               inputRef[index] = input;
 
                             }}  {...params} variant="outlined" multiline name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                          // onBlur={(event, newValue) => {handleChanges(event, newValue, index)}}
 
 
                         />
