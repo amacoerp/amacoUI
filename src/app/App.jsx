@@ -19,7 +19,7 @@ const App = () => {
         <SettingsProvider>
           <MatxTheme>
             <GlobalCss />
-            <HashRouter history={history}>
+            <HashRouter>
               <AuthProvider>
                 <MatxSuspense>
                   <Switch>
