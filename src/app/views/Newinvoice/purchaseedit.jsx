@@ -836,7 +836,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>UOM</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>UOM</TableCell>
                   <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
                   <TableCell className="px-0" style={{ width: '150px' }}>TOTAL</TableCell>
 
@@ -958,7 +958,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           ]}
                         />
                       </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextField
                           label="UOM"
                           required
@@ -1022,6 +1022,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={isNaN(item?.purchase_price) ? 0 : parseFloat(item?.purchase_price)}
                           currencySymbol=""
                           variant="outlined"
+                          label="Price"
                           // filterOptions={filterPrice}
                           // renderOption={option => option.price}
                           // getOptionLabel={option => {
