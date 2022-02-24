@@ -10,10 +10,12 @@ import ContactDetails from "./ContactDetails";
 // import PartyInfo from "./PartyView";
 import BankDetails from "./BankDetails";
 import { navigatePath } from "app/views/invoice/InvoiceService";
+import { useParams } from "react-router-dom";
 
 const CustomerViewer = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
+  const { id } = useParams();
 
   const [
     shouldOpenConfirmationDialog,
@@ -74,9 +76,9 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-      {tabIndex === 0 && <PartyDetails />}
-      {tabIndex === 1 && <ContactDetails />}
-      {tabIndex === 2 && <BankDetails />}
+      {tabIndex === 0 && <PartyDetails ids={id} />}
+      {tabIndex === 1 && <ContactDetails ids={id} />}
+      {tabIndex === 2 && <BankDetails ids={id} />}
     </div>
   );
 };
