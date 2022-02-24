@@ -308,15 +308,9 @@ const StockViewer = () => {
                                         <div className="col capitalize subCol">
                                           {subItem?.name}
                                         </div>
-<<<<<<< HEAD
-                                        {subItem?.product?.length ? (
-                                          <div className="col">
-                                            {subItem?.product?.map(
-=======
                                         {subItem?.product?.filter(obj=>obj?.type=="Inventory")?.length ? (
                                           <div className="col">
                                             {subItem?.product?.filter(obj=>obj?.type=="Inventory")?.map(
->>>>>>> 9832a9e0ba62bfcd32db4a9d134f5bd7fe062f50
                                               (prod, pi) => {
                                                 const sum =
                                                   parseInt(
