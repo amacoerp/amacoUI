@@ -945,7 +945,7 @@ select
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.invoice_no ?option?.invoice_no:" ";
+                                                        return option?.invoice_no ?option?.invoice_no:(item?.invoice_no?item?.invoice_no:" ");
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}

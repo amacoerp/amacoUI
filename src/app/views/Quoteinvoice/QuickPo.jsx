@@ -207,7 +207,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleChanges = (event, newValue, index) => {
-
+    
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -239,6 +239,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       ...state,
       item: tempItemList,
     });
+
+    
 
 
   };
@@ -911,7 +913,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList?.map(option => option)}
                           name="product_id"
                           multiline
-                          // value={item.item_name}
+                          value={item?.item_name}
+                          getOptionSelected={(option, value) => option?.name === item?.item_name}
+                       
+                         
                           // defaultValue={item.item_name}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
@@ -942,13 +947,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               multiline
+                              
                               variant="outlined" name="product_id" fullWidth 
                               
                               />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
