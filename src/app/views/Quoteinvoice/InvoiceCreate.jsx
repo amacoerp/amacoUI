@@ -198,6 +198,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
+  const [proListAll, setproListAll] = useState([]);
   const [ProductList, setProductList] = useState([]);
   const [ProductList1, setProductList1] = useState([]);
   const [validity, setvalidity] = useState('3 Days')
@@ -250,6 +251,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const formData = new FormData()
   const handleChanges = (event, newValue, index) => {
 
+    console.log('fsdfs', event.target.value)
+    if (!newValue) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
+
+    }
+    // proListAll
+    // setproList(proListAll.filter(obj => obj.name?.toLowerCase?.includes(newValue?.toLowerCase)))
+
     const price = PriceList?.filter(el => el.product_id === newValue?.id);
 
     let tempItemList = [...state.item];
@@ -261,8 +270,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue
-        element['item_name'] = newValue?.id ? newValue?.name : newValue
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
         element['productId'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -1040,6 +1049,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
       setproList(data)
+      setproListAll(data)
 
 
     });
@@ -1086,6 +1096,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("products").then(({ data }) => {
       setproList(data)
+      setproListAll(data)
 
 
       // setState({
@@ -1548,7 +1559,7 @@ select
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : (item?.item_name?item?.item_name:" ");
+                            return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
@@ -1556,11 +1567,13 @@ select
                           renderInput={(params) => (
                             <TextField {...params} inputRef={input => {
                               inputRef[index] = input;
-                            }} variant="outlined" value={item.product_id} name="product_id" required fullWidth />
+                            }} onChange={(event, newValue) => handleChanges(event, newValue, index)}
+
+                              variant="outlined" value={item.product_id} name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
