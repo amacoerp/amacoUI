@@ -20,11 +20,13 @@ import url, { GDIV } from "../../../invoice/InvoiceService"
 import MemberEditorDialog from "../../productprice"
 import FormDialog from "../../productprice"
 import history from "history.js";
+import { useParams, useHistory } from "react-router-dom";
 
 const ProductPrice = () => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
+  const { id } = useParams();
 
   var i = 1;
   const [productprice, setproductprice] = useState([]);
@@ -35,7 +37,7 @@ const ProductPrice = () => {
   const [email, setemail] = useState('');
   const [contact1, setcontact1] = useState('');
   const [contact2, setcontact2] = useState('');
-  const [catid, setcatid] = useState(foo);
+  const [catid, setcatid] = useState(id);
   const [designation, setdesignation] = useState('');
   const [status, setstatus] = useState('');
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState('');
@@ -70,7 +72,7 @@ const ProductPrice = () => {
   useEffect(() => {
 
 
-    url.get("products/" + foo).then(({ data }) => {
+    url.get("products/" + id).then(({ data }) => {
       setproductprice(data.prices);
 
 
@@ -118,7 +120,7 @@ const ProductPrice = () => {
 
   }
   const getData = () => {
-    url.get("products/" + foo).then(({ data }) => {
+    url.get("products/" + id).then(({ data }) => {
       setproductprice(data.prices);
 
     });

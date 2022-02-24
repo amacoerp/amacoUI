@@ -302,7 +302,7 @@ const SimpleMuiTable = () => {
                 <Icon color="secondary">edit</Icon>
               </IconButton>
             </Link> */}
-                            <Link to={navigatePath + "/singleproduct?id=" + tableMeta.rowData[2]}>
+                            <Link to={navigatePath + "/singleproduct/" + tableMeta.rowData[2]}>
                                 <Tooltip title="View Product">
                                     <Icon color="primary" style={{
                                         transform: "rotate(270deg)",

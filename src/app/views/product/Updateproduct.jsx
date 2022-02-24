@@ -4,7 +4,7 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Select from 'react-select';
 // import Select from "@material-ui/core/Select";
 // import { MDBSelect } from "mdbreact";
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Breadcrumb } from "matx";
 import useAuth from '../../hooks/useAuth';
 
@@ -237,12 +237,13 @@ const SimpleForm = () => {
   const { user } = useAuth()
   let search = window.location.search;
   let params = new URLSearchParams(search);
-  const foo = parseInt(params.get('id'));
+  // const foo = parseInt(params.get('id'));
+  const { id } = useParams();
 
 
   useEffect(() => {
 
-    url.get("products/" + foo).then(({ data }) => {
+    url.get("products/" + id).then(({ data }) => {
       if (isAlive) setUserList(data);
 
       setdescription(data.product[0].description)
@@ -320,7 +321,7 @@ const SimpleForm = () => {
     }
 
 
-    url.put("products/" + foo, frmdetails)
+    url.put("products/" + id, frmdetails)
       .then(function (response) {
 
         Swal.fire({
@@ -561,22 +562,24 @@ const SimpleForm = () => {
               </div>
 
 
-              <div className="flex mb-4 w-full">
-                <TextValidator
-                  className=" w-full"
+              <div className="flex mb-4 mt-8">
+                <TextField
+                  className="mr-2"
                   label="Initial quantity"
                   variant="outlined"
                   onChange={e => setiq(e.target.value)}
                   value={iq}
                   size="small"
+                  fullWidth
                   validators={[
                     "isNumber",
                   ]}
                   errorMessages={["Invalid Number"]}
                 // style={{width:285}}
                 />
-                <TextValidator
-                  className="ml-2 w-full"
+                <TextField
+                  className="ml-2"
+                  fullWidth
                   label="Minimum Quantity"
                   variant="outlined"
                   value={mq}
@@ -703,7 +706,7 @@ const SimpleForm = () => {
               <Icon>save</Icon>
               <span className="pl-2 capitalize">SAVE</span>
             </Button>
-            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../singleproduct?id=${foo}`)}>
+            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../singleproduct/${id}`)}>
               <Icon>cancel</Icon>
               <span className="pl-2 capitalize">CANCEL</span>
             </Button>
