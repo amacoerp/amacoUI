@@ -204,7 +204,6 @@ const Analytics2 = () => {
           return item
         })
         var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem[0].party_id === ele[0].party_id));
-        console.log(Due);
 
         // return the ones with equal id
 
@@ -249,7 +248,6 @@ const Analytics2 = () => {
 
 
             var filterResult = result.filter(o1 => parentData.map(o2 => o1.parent_account.id === o2.id))
-            console.log(filterResult)
             // console.log(filterResult.filter( (ele, ind) => ind === filterResult.findIndex( elem => elem.parent_account.id === ele.parent_account.id)))
 
 

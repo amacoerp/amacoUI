@@ -111,8 +111,8 @@ const Analytics = () => {
 
       // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
       setresponseData(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
 
+      let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
         item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
         item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
@@ -121,26 +121,26 @@ const Analytics = () => {
         return item
       })
 
+
       var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
 
-      var finalResult = months.filter(function (o1) {
 
+      var finalResult = months.filter(function (o1) {
         return Due.map(function (o2) {
           if (o1.name == o2.month) {
             o1['count'] = o2.count
             // return o1;
-
-
           }
-
-
           // return the ones with equal id
         });
       });
 
+
       var finalArray = finalResult.map(function (obj) {
-        return obj.count;
+        return obj?.count ? obj?.count : 0;
       });
+
+
 
       setdata1(finalArray);
 
