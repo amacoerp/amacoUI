@@ -191,6 +191,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.push({
       created_at: "",
       description: "",
+      product_name: " ",
       id: "",
       party: [],
       prices: [],
@@ -816,7 +817,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : " ";
+                            return option?.name ? option?.name :(item?.product_name?item?.product_name: " ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
@@ -840,10 +841,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" width={100}>
                         <TextValidator
                           label="Qty"
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           name="quantity"
+                          validators={["isNumber"]}
+                      
+                          errorMessages={["Invalid Number"]}
                           value={item.quantity}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
                           required

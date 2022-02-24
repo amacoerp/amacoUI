@@ -220,6 +220,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.push({
             product_id: "",
             prd_id: 0,
+            invoice_no:" ",
+            name:" ",
             src: '',
             description: "",
             descriptions: "",
@@ -360,6 +362,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
                 element['description'] = newValue?.id ? newValue?.name : newValue
+                element['name'] = newValue?.id ? newValue?.name : newValue
 
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
@@ -1022,7 +1025,7 @@ select
                                                         if (option.inputValue) {
                                                             return option.inputValue;
                                                         }
-                                                        return option?.name ? option.name : '';
+                                                        return option?.name ? option.name : (item?.name?item?.name:" ")
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}

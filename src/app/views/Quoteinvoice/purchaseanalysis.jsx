@@ -756,38 +756,41 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           </MenuItem>
                         ))} 
                     </TextField> */}
-                        <Autocomplete
+                        <CurrencyTextField
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+                          // onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
 
                           className="w-full"
                           size="small"
-                          options={(item.product) ? (item?.product[0]?.product_price ? item?.product[0]?.product_price : []).filter(x => x.party.id === party_id) : []}
+                          // options={(item.product) ? (item?.product[0]?.product_price ? item?.product[0]?.product_price : []).filter(x => x.party.id === party_id) : []}
                           name="purchase_price"
+                          label="Price"
+                          variant="outlined"
                           value={item?.purchase_price}
+                          currencySymbol=" "
                           // filterOptions={filterPrice}
-                          renderOption={option => option.price}
-                          getOptionLabel={option => {
-                            // e.g value selected with enter, right from the input
-                            if (typeof option === "string") {
-                              return option;
-                            }
-                            if (option.inputValue) {
-                              return option.inputValue;
-                            }
-                            return option.price;
-                          }}
-                          freeSolo
-                          // inputProps={{
-                          //   ref: setRef(index + 'purchase_price')
+                          // renderOption={option => option.price}
+                          // getOptionLabel={option => {
+                          //   // e.g value selected with enter, right from the input
+                          //   if (typeof option === "string") {
+                          //     return option;
+                          //   }
+                          //   if (option.inputValue) {
+                          //     return option.inputValue;
+                          //   }
+                          //   return option.price;
                           // }}
-                          renderInput={(params) => (
-                            <TextField inputRef={input => {
-                              priceRef[index] = input;
-                            }} {...params} variant="outlined" name="purchase_price" required fullWidth />
-                          )}
+                          // freeSolo
+                          // // inputProps={{
+                          // //   ref: setRef(index + 'purchase_price')
+                          // // }}
+                          // renderInput={(params) => (
+                          //   <TextField inputRef={input => {
+                          //     priceRef[index] = input;
+                          //   }} {...params} variant="outlined" name="purchase_price" required fullWidth />
+                          // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                          onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                          // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                           onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
 
                         />

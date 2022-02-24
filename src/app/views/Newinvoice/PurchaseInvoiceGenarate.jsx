@@ -1404,7 +1404,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               return option?.inputValue;
                             }
 
-                            return option?.name ? option?.name : item?.item_name;
+                            return option?.name ? option?.name : (item?.item_name?item?.item_name:" ");
                           }}
                           freeSolo
                           renderInput={(params) => (
@@ -1416,7 +1416,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
