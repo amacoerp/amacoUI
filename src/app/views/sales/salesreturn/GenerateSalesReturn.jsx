@@ -139,6 +139,8 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.push({
             product_id: "",
             src: '',
+            invoice_no:" ",
+            item_name:" ",
             description: "",
             name:" ",
             descriptions: "",
@@ -339,6 +341,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
                 element['product_name'] = newValue?.id ? newValue?.name : newValue
                 element['product'] = newValue?.id ? newValue?.name : newValue
+                element['item_name'] = newValue?.id ? newValue?.name : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
                 element['name'] = newValue?.id ? newValue?.id : newValue
                 // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
@@ -942,7 +945,7 @@ select
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.invoice_no;
+                                                        return option?.invoice_no ?option?.invoice_no:" ";
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}
@@ -965,7 +968,7 @@ select
                                                     size="small"
                                                     options={proListt ? proListt : []}
                                                     name="product_id"
-                                                    value={item?.name}
+                                                    value={item?.item_name}
                                                     filterOptions={filterOptions}
                                                     renderOption={option => option?.name}
                                                     multiline
@@ -977,7 +980,7 @@ select
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name ? option?.name : " ";
+                                                        return option?.name ? option?.name : (item?.item_name?item?.item_name:" ")
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}

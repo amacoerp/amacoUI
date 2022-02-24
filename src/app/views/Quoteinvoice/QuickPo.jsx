@@ -915,7 +915,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
-                          filterOptions={filterOptions}
+                          
+
                           // renderOption={option => option.name}
                           getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name?item?.item_name:" ")}
                           // getOptionLabel={option => {
@@ -940,7 +941,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               multiline
-                              variant="outlined" name="product_id" fullWidth />
+                              variant="outlined" name="product_id" fullWidth 
+                              
+                              />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
