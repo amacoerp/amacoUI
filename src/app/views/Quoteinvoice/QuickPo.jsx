@@ -911,7 +911,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           options={proList?.map(option => option)}
                           name="product_id"
                           multiline
-                          value={item.item_name}
+                          // value={item.item_name}
+                          // defaultValue={item.item_name}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
