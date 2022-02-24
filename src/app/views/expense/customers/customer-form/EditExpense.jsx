@@ -104,7 +104,7 @@ const CustomerForm = () => {
   const [amount, setamount] = useState("");
   const [payment_account_id, setpayment_account_id] = useState("");
   const [payment_account_name, setpayment_account_name] = useState("");
-  const [description, setdescription] = useState();
+  const [description, setdescription] = useState('');
   const [taxamount, settaxamount] = useState(0.0);
   const [referrence_bill_no, setreferrence_bill_no] = useState();
   const [tax, settax] = useState(false);
@@ -1142,13 +1142,13 @@ const CustomerForm = () => {
 
                       </FormGroup>
                     </div>
-                    <div>
+                    <div style={{ paddingLeft: '5px' }}>
                       <Button
                         className="mb-4 w-full"
                         variant="outlined"
                         size="small"
                         onClick={handleRightClick}
-                        style={{ width: 320, height: 37 }}
+                        style={{ width: 235, height: 37 }}
                       >
                         <span style={{ textAlign: "left" }}>
                           Expenses Category
@@ -1614,11 +1614,11 @@ inputProps={{
                         </React.Fragment>
 
                       )}
-                      style={{ width: 500 }}
+                      // style={{ width: 500 }}
 
                       renderInput={(params) => (
 
-                        <TextField {...params} variant="outlined" label="PAID ACCOUNT" style={{ width: 650 }} />)
+                        <TextField {...params} variant="outlined" label="Paid Account" />)
                       }
                     />
                   ) : (
@@ -1870,7 +1870,7 @@ inputProps={{
                     name="workPhone"
                     size="small"
                     variant="outlined"
-                    value={description}
+                    value={description ? description : ''}
                     inputProps={{ style: { textTransform: "capitalize" } }}
                     // autoComplete="Disabled"
                     onChange={(e) => setdescription(e.target.value)}
@@ -1996,7 +1996,7 @@ inputProps={{
           )}
         </Formik>
       </Card>
-    </div>
+    </div >
   );
 };
 

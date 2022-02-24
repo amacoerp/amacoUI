@@ -1002,35 +1002,36 @@ const CustomerForm = () => {
                       <FormGroup variant="outlined" style={{ width: 200, height: 37 }}>
                         <FormControl variant="outlined" size="small"
                           className="mb-4 mr-20 mr-20" style={{ width: 280, height: 37, marginRight: "20px" }} >
-                          <InputLabel htmlFor="outlined-age-native-simple">Utilized Division</InputLabel>
-                          <Select
-                            native
+                          {/* <InputLabel htmlFor="outlined-age-native-simple">Utilized Division</InputLabel> */}
+                          <TextField
+                            select
                             value={utilize_id}
                             // onChange={handleChange}
                             onChange={e => setutilize_id(e.target.value)}
                             size="small"
+                            variant="outlined"
                             label="Utilized Division"
-                            inputProps={{
-                              name: 'utilize_id',
-                              id: 'outlined-age-native-simple',
-                            }}
+                          // inputProps={{
+                          //   name: 'utilize_id',
+                          //   id: 'outlined-age-native-simple',
+                          // }}
                           >
-                            <option value=""></option>
-                            {paiddivision_account.filter(obj => obj.type === "division").map((item, ind) => (
-                              <option value={item.id}>{item.name}</option>
-                            ))}
-                          </Select>
+                            <MenuItem value="">Choose Utilized Division</MenuItem>
+                            {paiddivision_account.filter(obj => obj.type === "division").map((item, ind) => {
+                              return <MenuItem value={item.id}>{item.name}</MenuItem>
+                            })}
+                          </TextField>
                         </FormControl>
 
                       </FormGroup>
                     </div>
-                    <div>
+                    <div style={{ paddingLeft: '73px' }}>
                       <Button
                         className="px-4 mb-4 w-full ml-4"
                         variant="outlined"
                         size="small"
                         onClick={handleRightClick}
-                        style={{ width: 280, height: 37 }}
+                        style={{ width: 267, height: 37 }}
                       >
                         <span style={{ textAlign: "left" }}>
                           Expenses Category
@@ -1493,7 +1494,7 @@ const CustomerForm = () => {
 
                       renderInput={(params) => (
 
-                        <TextField {...params} variant="outlined" label="PAID ACCOUNT" />)
+                        <TextField {...params} variant="outlined" label="Paid Account" />)
                       }
                     />
 
@@ -1560,26 +1561,27 @@ const CustomerForm = () => {
                     {payment_mode === 'banktransfer' &&
                       <FormControl variant="outlined" size="small"
                         className="mb-4">
-                        <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
-                        <Select
-                          native
+                        {/* <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel> */}
+                        <TextField
+                          select
                           value={bank_id}
                           // onChange={handleChange}
                           onChange={e => setbank_id(e.target.value)}
                           size="small"
                           label="Bank"
-                          inputProps={{
-                            name: 'Bank',
-                            id: 'outlined-age-native-simple',
-                          }}
+                          variant="outlined"
+                        // inputProps={{
+                        //   name: 'Bank',
+                        //   id: 'outlined-age-native-simple',
+                        // }}
                         >
-                          <option value="" disabled>
-                            --select--
-                          </option>
+                          <MenuItem value="" disabled>
+                            Choose Item
+                          </MenuItem>
                           {companybank.map((item, ind) => (
-                            <option value={item.id}>{item.name}-{item.ac_no}</option>
+                            <MenuItem value={item.id}>{item.name}-{item.ac_no}</MenuItem>
                           ))}
-                        </Select>
+                        </TextField>
                       </FormControl>
                     }
                   </FormGroup>
