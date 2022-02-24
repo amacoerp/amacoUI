@@ -28,6 +28,7 @@ const ContactDetails = () => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
+
   
   // var i = 1;
   const [customercontact, setcustomercontact] = useState([]);
