@@ -133,7 +133,8 @@ const Layout1Topbar = () => {
     url.post(`logoutLog/${user.id}`,)
       .then(function (response) {
         localStorage.clear();
-        window.location.href = `../dashboard/alternative`;
+        window.location.reload();
+        // routerHistory.push('/session/signin');
       })
       .catch(function (error) {
 

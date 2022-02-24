@@ -254,7 +254,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     console.log('fsdfs', event.target.value)
     if (!newValue) {
       setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
-
     }
     // proListAll
     // setproList(proListAll.filter(obj => obj.name?.toLowerCase?.includes(newValue?.toLowerCase)))
