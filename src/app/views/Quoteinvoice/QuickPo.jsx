@@ -917,7 +917,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // value={item?.product_id}
                           filterOptions={filterOptions}
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) => option?.name ? option?.name : item?.item_name}
+                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name?item?.item_name:" ")}
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input
