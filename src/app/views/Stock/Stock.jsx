@@ -205,7 +205,7 @@ const StockViewer = () => {
                                                         return <>
                                                             <div className="row" key={si}>
                                                                 <div className="col capitalize subCol">{subItem?.name}</div>
-                                                                {subItem?.product?.length ? <div className="col">{subItem?.product?.map((prod, pi) => {
+                                                                {subItem?.product?.filter(ob => ob.type == 'Inventory')?.length ? <div className="col">{subItem?.product?.map((prod, pi) => {
                                                                     const sum = ((parseInt(prod?.purchaseQuantity) + parseInt(prod?.salesReturnQuantity) + parseInt(prod?.initial_quantity)) + (parseInt(prod?.salesQuantity) - parseInt(prod?.purchaseReturnQuantity)));
                                                                     return <>
                                                                         <div className="row" key={pi}>
