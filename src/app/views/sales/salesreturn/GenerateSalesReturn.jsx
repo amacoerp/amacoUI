@@ -140,6 +140,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             product_id: "",
             src: '',
             description: "",
+            name:" ",
             descriptions: "",
             quantity: 0,
             product_price_list: [
@@ -339,6 +340,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 element['product_name'] = newValue?.id ? newValue?.name : newValue
                 element['product'] = newValue?.id ? newValue?.name : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
+                element['name'] = newValue?.id ? newValue?.id : newValue
                 // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
