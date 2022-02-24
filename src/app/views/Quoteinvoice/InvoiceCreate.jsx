@@ -546,11 +546,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
-
+    setproList(proListAll)
     tempItemList.push({
       product_id: " ",
       src: '',
-      item_name: ' ',
+      item_name: '',
       invoice_id: 0,
       id: 0,
       description: " ",

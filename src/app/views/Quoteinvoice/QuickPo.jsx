@@ -70,6 +70,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [party_id, setparty_id] = useState('');
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
+  const [proListAll, setproListAll] = useState([]);
   const [validity, setvalidity] = useState('3 Days')
   const [payment_terms, setpayment_terms] = useState('100% Advance')
   const [freight, setfreight] = useState('Air Freight')
@@ -124,10 +125,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     let tempItemList = [...state.item];
 
-
+    setproList(proListAll)
     tempItemList.push({
       product_id: "",
-      item_name: " ",
+      item_name:"",
       src: '',
       description: "",
       descriptions: "",
@@ -212,7 +213,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
     let tempItemList = [...state.item];
+    if (!newValue) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
 
+    }
     tempItemList.map((element, i) => {
       let sum = 0;
 
@@ -220,9 +224,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product_name'] = newValue?.id ? newValue?.name : newValue
-        element['product'] = newValue?.id ? newValue?.name : newValue
-        element['item_name'] = newValue?.id ? newValue?.name : newValue
+        element['product_name'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
+        element['product'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
+        element['item_name'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
         element['productId'] = newValue?.id ? newValue?.id : null
         // element.product_id=newValue?.id?newValue?.id:null
         element['product_price_list'] = price ? price : null
@@ -514,6 +518,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("products").then(({ data }) => {
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
     getVendorList().then(({ data }) => {
@@ -910,11 +915,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <Autocomplete
                           className="w-full"
                           size="small"
-                          options={proList?.map(option => option)}
+                          options={proList}
                           name="product_id"
                           multiline
                           value={item?.item_name}
-                          getOptionSelected={(option, value) => option?.name === item?.item_name}
+                          
                        
                          
                           // defaultValue={item.item_name}
@@ -924,7 +929,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           
 
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name?item?.item_name:" ")}
+                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name?item?.item_name:"")}
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input
@@ -949,7 +954,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               multiline
                               
                               variant="outlined" name="product_id" fullWidth 
-                              
+                              onChange={(event, newValue) => handleChanges(event, newValue, index)}
                               />
                           )}
                           // onChange={handleChanges}

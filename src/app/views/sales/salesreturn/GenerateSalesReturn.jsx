@@ -134,6 +134,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     const addItemToInvoiceList = () => {
+       
         let tempItemList = [...state.item];
 
         tempItemList.push({

@@ -38,6 +38,7 @@ import MemberEditorDialog from "../product/productprice";
 import moment from "moment";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { TextField } from "@material-ui/core";
+import ProductList from "../pages/products/ProductList";
 
 
 
@@ -97,6 +98,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   // customer name and contact person name
   const [cname, setcname] = useState(' ');
   const [contactname, setcontactname] = useState(' ');
+  const [proListAll, setproListAll] = useState([]);
 
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
@@ -130,13 +132,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
-
+    setproList(proListAll)
     tempItemList.push({
       product_id: "",
       product_name: "",
       src: '',
       id: 0,
-      description: " ",
+      description: "",
       descriptions: " ",
       quantity: 0,
       product_price_list: [
@@ -207,12 +209,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleChanges = (event, newValue, index) => {
-    console.log("fgghagdxjs",event.target.value)
+    
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
     let tempItemList = [...state.item];
+    
+    if (!newValue) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
 
+    }
     tempItemList.map((element, i) => {
       let sum = 0;
 
@@ -892,7 +898,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : (item?.description?item?.description:" ")
+                            return option?.name ? option?.name : (item?.description?item?.description:"")
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
@@ -900,10 +906,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'product_id')
                           }}
                           renderInput={(params) => (
-                            <TextField  onChange={(event, newValue) => handleChanges(event, newValue, index)} inputRef={input => {
-                              inputRef[index] = input;
-
-                            }}  {...params} variant="outlined" multiline name="product_id" required fullWidth />
+                            <TextField   {...params} variant="outlined" multiline name="product_id" onChange={(event, newValue) => handleChanges(event, newValue, index)} required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}

@@ -194,6 +194,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
+  const [proListAll, setproListAll] = useState([]);
   const [ProductList, setProductList] = useState([]);
   const [ProductList1, setProductList1] = useState([]);
   const [validity, setvalidity] = useState('3 Days')
@@ -248,7 +249,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const price = PriceList?.filter(el => el.product_id === newValue?.id);
 
     let tempItemList = [...state.item];
+    if (!newValue) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
 
+    }
     tempItemList.map((element, i) => {
       let sum = 0;
 
@@ -256,8 +260,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue
-        element['description'] = newValue?.id ? newValue?.name : newValue
+        element['product'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
+        element['description'] = newValue?.id ? newValue?.name :  newValue?newValue:event.target.value
         element['product_id'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -530,12 +534,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
-
+    setproList(proListAll)
     tempItemList.push({
       id: 0,
       product_id: "",
       src: '',
-      description: " ",
+      description: "",
       invoice_id: 0,
       descriptions: " ",
       quantity: 0,
@@ -1035,6 +1039,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("products").then(({ data }) => {
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
 
       // setState({
@@ -1535,11 +1540,13 @@ select
                           renderInput={(params) => (
                             <TextField {...params} inputRef={input => {
                               inputRef[index] = input;
-                            }} variant="outlined" name="product_id" required fullWidth />
+                            }} 
+                            onChange={(event, newValue) => handleChanges(event, newValue, index)}
+                            variant="outlined" name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
@@ -1609,6 +1616,8 @@ select
 
                           name="quantity"
                           value={item?.quantity}
+                          validators={["isNumber"]}
+                        errorMessages={["Invalid Number"]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left">
