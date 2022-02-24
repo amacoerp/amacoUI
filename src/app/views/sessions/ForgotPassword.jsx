@@ -82,6 +82,7 @@ const ForgotPassword = () => {
       const emails = data.filter(obj => obj.email !== null).map((item, i) => {
         return item.email
       })
+      console.log(emails)
       setEmails(emails)
     })
 

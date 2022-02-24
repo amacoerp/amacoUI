@@ -1500,7 +1500,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   options={customercontact}
 
                   value={contactname}
-                  getOptionLabel={(option) => option?.fname ? option?.fname : contactname}
+                  getOptionLabel={(option) => option?.fname ? option?.fname : (contactname?contactname:" ")}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {

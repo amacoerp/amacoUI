@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import MemberEditorDialogcontact from "../party/partycontact";
+
 import {
   Button,
   Divider,
   Card,
+  Grid,
   MenuItem,
   Table,
   TableHead,
@@ -12,6 +15,8 @@ import {
   Icon,
   TextareaAutosize
 } from "@material-ui/core";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "../Quoteinvoice/Annexure";
@@ -53,6 +58,15 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
+  let inputRef = [];
+  let priceRef = [];
+  let descriptionRef = [];
+  let qtyRef = [];
+  let unit_of_measureRef = [];
+  let purchase_priceRef = [];
+  let purchase_price = [];
+  const [getRef, setRef] = useDynamicRefs();
+
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [party_id, setparty_id] = useState('');
@@ -65,7 +79,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
   const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
   const [discount, setdiscount] = useState('0')
-  const [contactid, setcontactid] = useState('')
+  const [contactid, setcontactid] = useState(0)
   const [dstatus, setdstatus] = useState(false);
   const [productid, setproductid] = useState('1');
   const [indexset, setindex] = useState(0);
@@ -79,8 +93,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [charge, setcharge] = useState(0.00);
   const [total, settotal] = useState(0.00);
   const [catid, setcatid] = useState();
+
+  // customer name and contact person name
+  const [cname, setcname] = useState(' ');
+  const [contactname, setcontactname] = useState(' ');
+
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
+  const history = useHistory();
+  const formData = new FormData()
   const { id } = useParams();
   const classes = useStyles();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -96,6 +117,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
   ] = useState(false);
+  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+
 
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
@@ -110,8 +133,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.push({
       product_id: "",
+      product_name: "",
       src: '',
-      id: '',
+      id: 0,
       description: "",
       descriptions: "",
       quantity: 0,
@@ -141,7 +165,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   };
-  const routerHistory = useHistory();
 
   const setremark = (event, index) => {
     event.persist()
@@ -197,8 +220,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue
-        // element['product'] = newValue?.inputValue?newValue?.inputValue:newValue?.id
+        element['product'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
+        element['descriptions'] = newValue?.id ? (newValue?.name ? newValue?.name : event?.target?.value) : (event?.target?.value)
+        element['product_name'] = newValue?.id ? newValue?.name : newValue?.name
+        element['product_id'] = newValue?.id ? newValue?.id : 0
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
 
@@ -208,7 +233,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       return element;
 
     });
-    console.log(tempItemList)
     setState({
       ...state,
       item: tempItemList,
@@ -284,7 +308,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
   };
   const filterPrice = (options, params) => {
-    // console.log(params.inputValue)
 
     // const filtered = filter(options, params);
 
@@ -369,6 +392,106 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setShouldOpenEditorDialog(true)
   }
 
+  const controlKeyPress = (e, id, nextid, prev) => {
+
+
+    if (e?.keyCode == 39) {
+      if (false) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('description')) {
+        descriptionRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('unit_of_measure')) {
+        unit_of_measureRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('purschases_price')) {
+        console.log(purchase_priceRef[parseInt(nextid)]?.current)
+        // purchase_priceRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('quantity')) {
+        qtyRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
+
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r?.includes('purchase_pridce')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r?.includes('description')) {
+          descriptionRef[parseInt(r)].focus();
+        } else if (r?.includes('purchase_prsiceRef')) {
+          purchase_priceRef[parseInt(r)].focus();
+        } else if (r?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(r)].focus();
+        } else if (r?.includes('quantity')) {
+          qtyRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          console.log(getRef(r).current?.focus())
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('purchasse_price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else if (r?.includes('description')) {
+          descriptionRef[parseInt(r)].focus();
+        } else if (r?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(r)].focus();
+        } else if (r?.includes('purchase_pricseRef')) {
+          purchase_priceRef[parseInt(r)].focus();
+        } else if (r?.includes('quantity')) {
+          qtyRef[parseInt(r)].focus();
+        } else {
+          console.log(getRef(r).current?.focus())
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('description')) {
+          descriptionRef[parseInt(prev)].focus();
+        } else if (prev?.includes('unit_of_measure')) {
+          unit_of_measureRef[parseInt(prev)].focus();
+        } else if (prev?.includes('quantity')) {
+          qtyRef[parseInt(prev)].focus();
+        } else if (prev?.includes('purchasse_pricseRef')) {
+          purchase_priceRef[parseInt(prev)].focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          console.log(getRef(prev).current?.focus())
+        }
+      }
+    }
+  }
 
   const handleSubmit = () => {
 
@@ -383,48 +506,58 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-    arr.quotation_details = tempItemList
-    arr.discount_in_p = 0
-    arr.total_value = parseFloat(subTotalCost).toFixed(2)
-    arr.net_amount = GTotal
-    arr.freight = freight
-    arr.vat_in_value = parseFloat(charge).toFixed(2)
-    arr.rfq_id = id
-    arr.po_number = id
-    arr.party_id = party_id
-    arr.warranty = warranty
-    arr.validity = validity
-    arr.delivery_time = delivery_time
-    arr.inco_terms = inco_terms
-    arr.payment_terms = payment_terms
-    arr.contact_id = contactid
-    arr.transaction_type = "purchase"
-    arr.status = "New"
-    arr.ps_date = Quote_date
-    arr.currency_type = currency_type
-    arr.id = id
+
+    formData.append('discount_in_p', 0);
+    formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', GTotal)
+    formData.append('freight', freight)
+    formData.append('vat_in_value', parseFloat(charge).toFixed(2))
+    formData.append('rfq_id', id)
+    formData.append('po_number', id)
+    formData.append('party_id', party_id)
+    formData.append('warranty', warranty)
+    formData.append('validity', validity)
+    formData.append('delivery_time', delivery_time)
+    formData.append('inco_terms', inco_terms)
+    formData.append('payment_terms', payment_terms)
+    formData.append('contact_id', contactid ? contactid : 0)
+    formData.append('transaction_type', "purchase")
+    formData.append('status', "New")
+    formData.append('ps_date', Quote_date)
+    formData.append('currency_type', currency_type)
+    formData.append('id', id)
+    tempItemList.map((answer, i) => {
+      formData.append(`quotation_detail${i}`, JSON.stringify(answer))
+
+    })
     const json = Object.assign({}, arr);
+    console.log(tempItemList);
+
+    url.post(`purchaseUpdate`, formData).then((response) => {
 
 
-    url.put(`purchase-quotation/${id}`, json)
-      .then(function (response) {
-
-
-        Swal.fire({
-          title: 'Success',
-          type: 'success',
-          icon: 'success',
-          text: 'Data saved successfully.',
-        });
-        routerHistory.push("../Newinvoiceview")
-      })
+      Swal.fire({
+        title: 'Success',
+        type: 'success',
+        icon: 'success',
+        text: 'Data saved successfully.',
+      });
+      history.push("../Newinvoiceview")
+    })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
 
   };
   function cancelform() {
-    routerHistory.push(navigatePath + "/Newinvoiceview")
+    history.push(navigatePath + "/Newinvoiceview")
   }
 
   const handleDialogClose = () => {
@@ -448,34 +581,34 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
     getVendorList().then(({ data }) => {
-
       setvalues({
         ...values,
         vendorList: data,
-        status: false
+        status: true
       })
+
+
 
     });
     url.get("product-price").then(({ data }) => {
       setPriceList(data)
-
-
-
-
     });
     url.get("purchase-quotation/" + id).then(({ data }) => {
+      // setparty_id(data[0]?.party_id)
+      setcname(data[0]?.party?.firm_name)
 
-
-
-      setcontactid(data[0].contact?.id)
-
-      setparty_id(data[0]?.party_id)
+      // setvalues({ ...values, status: true });
+      setcontactname(data[0]?.contact?.fname)
+      setQuote_date(moment(data[0].ps_date).format('DD MMM YYYY'))
+      updateCont(data[0]?.party_id, data[0].contact?.id);
+      setcurrency_type(data[0]?.currency_type)
       setcharge(data[0]?.vat_in_value)
       settotal(data[0]?.net_amount)
+      console.log(data[0]?.quotation_details)
       setState({
         ...state,
         item: data[0]?.quotation_details,
@@ -494,18 +627,41 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setShouldOpenEditorDialog(true);
 
   }
-  const setcontact = (event) => {
+  const setcontact = (event, newValue) => {
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+    //   setcontacts(data[0].contacts)
+    //   setparty_id(event.target.value)
+    //   setvalues({ ...values, status: true });
+    // });
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+
+        setcontacts(data[0].contacts)
+        setparty_id(newValue?.id)
+        setcname(newValue.firm_name)
+        setcontactname()
+
+        setvalues({ ...values, status: true });
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
+      });
+    }
+    else {
+      setcontacts([])
+      setparty_id()
 
+      setvalues({ ...values, status: false });
+    }
+  }
 
+  const updateCont = async (id, cid) => {
+    await url.get("parties/" + id).then(({ data }) => {
       setcontacts(data[0].contacts)
-      setparty_id(event.target.value)
+      setparty_id(id)
 
-      setvalues({ ...values, status: true });
-
-
+      // setcontactname(data[0]?.contact?.fname)
+      // setvalues({ ...values, status: true });
+      setcontactid(cid)
     });
   }
 
@@ -529,10 +685,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
-                <h4 align="left"> CREATE PURCHASE ORDER</h4>
+                <h4 align="left"> UPDATE PURCHASE ORDER</h4>
               </div>
               <div className="mb-6">
 
@@ -558,14 +714,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-6 flex justify-between">
-              <div >
-                {/* <h5 className="font-normal capitalize">
+            {/* <div className="viewer__order-info px-4 mb-6 flex justify-between">
+              <div > */}
+            {/* <h5 className="font-normal capitalize">
               <strong>Customer: </strong>{" "}
               <span>
                 {id}
               </span>
             </h5> */}
+
+
+
+            <Grid container spacing={2} className="p-4">
+              <Grid item >
                 <TextField
 
                   label="Currency Type"
@@ -587,128 +748,113 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </MenuItem>
                   ))}
                 </TextField>
-
-                <TextField
-
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
+              </Grid>
+              <Grid item >
+                <Autocomplete
+                  id="filter-demo"
                   variant="outlined"
-                  className="pl-2"
-                  value={party_id}
-                  // onChange={handleChange}
-                  onChange={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    routerHistory.push("/party/addparty");
-                  }}>
+                  options={values?.vendorList}
+                  value={cname}
 
-                    <Icon>add</Icon>New
-                    {/* </Button> */}
-                  </MenuItem>
-                  {values?.vendorList.filter(obj => obj?.party_division[0]?.div_id === divisionId).map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  // style={{ position: 'relative', top: '-37px', left: '220px' }}
+                  getOptionLabel={(option) => option.firm_name ? option?.firm_name : cname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
 
 
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" value={cname} label="Vendor Name" />}
+                />
+
+              </Grid>
+              <Grid item >
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  options={contacts}
+                  value={contactname}
+
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  // style={{ position: 'relative', top: '-37px', left: '220px' }}
+                  getOptionLabel={(option) => option.fname ? option?.fname : (contactname?contactname:' ')}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => history.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
 
 
-
-                {values.status &&
-                  <TextField
-
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => { setcontactid(newValue?.id); setcontactname(newValue?.fname) }}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" value={cname} label="Contact Person" />}
+                />
+              </Grid>
+              <Grid item >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    select
-                    value={values.contact_id}
-                    onChange={(e) => setcontactid(e.target.value)}
-
-                  >
-                    <MenuItem value=" "> <em>None</em></MenuItem>
-                    {contacts?.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField>
-                }
-              </div>
-
-
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="m-2"
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-
-
-                </div>
-
-              </div>
-
-
-
-
-            </div>
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
 
             <Divider />
 
             <Table className="mb-4" style={{ width: '100%' }}>
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2" style={{ width: 100 }} align="left">S.NO.</TableCell>
+                  <TableCell className="pl-2" style={{ width: 100 }} align="center">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
-                  <TableCell className="px-0" style={{ width: '350px' }}>OUR DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }}>UOM</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>PRICE</TableCell>
-                  <TableCell className="px-0" style={{ width: '120px' }}>TOTAL</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>TOTAL</TableCell>
 
-                  <TableCell className="pr-2" style={{ textAlign: "right" }}>Action</TableCell>
+                  <TableCell className="pr-2" style={{ textAlign: "right" }}>ACTION</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
-                    subTotalCost += parseFloat(item.total_amount)
+                    subTotalCost += parseFloat(item?.total_amount)
                     vat = ((subTotalCost * 15) / 100).toFixed(2)
                     // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
                     GTotal = parseFloat(subTotalCost) + parseFloat(charge)
                   }
                   else {
 
-                    subTotalCost += parseFloat(item.total_amount)
+                    subTotalCost += parseFloat(item?.total_amount)
                     dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
                     vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
@@ -720,7 +866,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <TableRow key={index}>
 
 
-                      <TableCell className="pl-2 capitalize" align="left" style={{ width: 100 }}>
+                      <TableCell className="pl-2 capitalize" align="center" style={{ width: 100 }}>
                         {index + 1}
 
                       </TableCell>
@@ -733,7 +879,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList ? proList : []}
                           name="product_id"
-                          value={item?.description}
+                          value={item?.descriptions ? item?.descriptions : item?.description}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           multiline
@@ -748,8 +894,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             return option?.name ? option?.name : " ";
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
+                          inputProps={{
+                            ref: setRef(index + 'product_id')
+                          }}
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField inputRef={input => {
+                              inputRef[index] = input;
+
+                            }}  {...params} variant="outlined" multiline name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -758,7 +911,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                         />
                       </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '350px' }}>
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         <TextField
                           label="Our description"
                           type="text"
@@ -767,6 +920,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="descriptionss"
                           required
+                          inputRef={input => {
+                            descriptionRef[index] = input;
+                          }}
+                          // inputProps={{
+                          //   ref: setRef(index + 'description')
+                          // }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
+
                           multiline
                           fullWidth
                           onChange={(event) => po_description(event, index)}
@@ -778,15 +940,22 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualteprice(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
+                          inputRef={input => {
+                            qtyRef[index] = input;
+                          }}
                           name="quantity"
                           value={item?.quantity ? item?.quantity : ""}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            // "this field is required",
+                            "Input is not Valid",
+                          ]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
@@ -797,6 +966,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           name="unit_of_measure"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+
+                          inputRef={input => {
+                            unit_of_measureRef[index] = input;
+                          }}
                           style={{ width: '100%', float: 'left' }}
                           fullWidth
                           value={item?.unit_of_measure ? item?.unit_of_measure : null}
@@ -839,31 +1013,43 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         ))} 
                     </TextField> */}
 
-                        <Autocomplete
+                        <CurrencyTextField
 
                           className="w-full"
                           size="small"
-                          options={item?.product_price_list ? item?.product_price_list : []}
+                          // options={item?.product_price_list ? item?.product_price_list : []}
                           name="purchase_price"
-                          value={item?.purchase_price}
+                          value={isNaN(item?.purchase_price) ? 0 : parseFloat(item?.purchase_price)}
+                          currencySymbol=""
+                          variant="outlined"
                           // filterOptions={filterPrice}
-                          renderOption={option => option.price}
-                          getOptionLabel={option => {
-                            // e.g value selected with enter, right from the input
-                            if (typeof option === "string") {
-                              return option;
-                            }
-                            if (option.inputValue) {
-                              return option.inputValue;
-                            }
-                            return option.price;
+                          // renderOption={option => option.price}
+                          // getOptionLabel={option => {
+                          //   // e.g value selected with enter, right from the input
+                          //   if (typeof option === "string") {
+                          //     return option;
+                          //   }
+                          //   if (option.inputValue) {
+                          //     return option.inputValue;
+                          //   }
+                          //   return option.price;
+                          // }}
+                          // freeSolo
+                          inputProps={{
+                            ref: setRef(index + 'purchase_price')
                           }}
-                          freeSolo
-                          renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="purchase_price" required fullWidth />
-                          )}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+
+                          inputRef={input => {
+                            purchase_priceRef[index] = input;
+                          }}
+                          // renderInput={(params) => (
+                          //   <TextField inputRef={input => {
+                          //     priceRef[index] = input;
+                          //   }} {...params} variant="outlined" name="purchase_price" required fullWidth />
+                          // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
-                          onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+                          // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
                           onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
 
                         />
@@ -891,12 +1077,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <CurrencyTextField
                           className="w-full"
                           label="Total"
+                          readOnly
                           variant="outlined"
                           fullWidth
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
                           size="small"
-                          currencySymbol={currency_type}
+                          currencySymbol=''
+                          // currencySymbol={currency_type}
                           name="total_amount"
-                          value={item.total_amount ? item.total_amount : ""}
+                          value={item?.total_amount ? item?.total_amount : ""}
                         />
                       </TableCell>
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'80px'}}>
@@ -943,11 +1135,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-8">Quotation Validity:</p>
-                  <p className="mb-8">Payment Terms:</p>
-                  <p className="mb-8">Freight type:</p>
-                  <p className="mb-8">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Quotation Validity:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>payment Terms:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Freight type:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Delivery Time:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '14px' }}>Inco-Term:</p>
                 </div>
                 <div>
                   <TextValidator
@@ -1025,12 +1217,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Amount{currency_type} :</p>
+                    <p className="mb-8">Total Amount  ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
                     <p className="mb-8">Freight Charges ({currency_type})</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Net Total ({currency_type})</p>
+                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
                     </strong>
                   </div>
                   <div>
@@ -1086,6 +1278,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <CurrencyTextField
                         className="w-full mb-4"
                         label="Grand Total"
+                        readOnly
                         variant="outlined"
                         fullWidth
                         size="small"
@@ -1115,6 +1308,20 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           productprice={setproductprice}
         />
       )}
+
+      {
+        shouldOpenConfirmationDialogparty && (
+          <MemberEditorDialogcontact
+            open={shouldOpenConfirmationDialogparty}
+            onConfirmDialogClose={handleDialogClose}
+            handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+            customercontact={setcontacts}
+            partyid={party_id}
+
+            text="Are you sure to delete?"
+          />
+        )
+      }
       {shouldOpenConfirmationDialog && (
         <ConfirmationDialog
           open={shouldOpenConfirmationDialog}
