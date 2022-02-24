@@ -221,7 +221,7 @@ const SimpleMuiTable = () => {
 
             >
 
-              <Link style={{ textAlign: "right", paadingRight: 20 }} to={navigatePath + "/pages/view-customer?id=" + tableMeta.rowData[5]}>
+              <Link style={{ textAlign: "right", paadingRight: 20 }} to={navigatePath + "/pages/view-customer/" + tableMeta.rowData[5]}>
 
                 <Tooltip title="Party contact details">
                   <Icon color="primary" style={{

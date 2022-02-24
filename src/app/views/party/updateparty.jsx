@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import {
   Button,
   Icon,
@@ -77,11 +77,13 @@ const SimpleForm = () => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const { user } = useAuth();
+  const { id } = useParams();
+
 
   useEffect(() => {
 
     var obj;
-    url.get("parties/" + foo).then(({ data }) => {
+    url.get("parties/" + id).then(({ data }) => {
 
       getparties()
       if (isAlive) setUserList(data);
@@ -114,7 +116,7 @@ const SimpleForm = () => {
 
 
     })
-    url.get("parties/" + foo).then(response => response)
+    url.get("parties/" + id).then(response => response)
       .then(data => obj = data)
       .then(() =>
 
@@ -176,7 +178,7 @@ const SimpleForm = () => {
 
 
 
-    url.put("parties/" + foo, frmdetails)
+    url.put("parties/" + id, frmdetails)
       .then(function (response) {
 
         Swal.fire({
@@ -186,7 +188,7 @@ const SimpleForm = () => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            routerHistory.push(navigatePath + `/pages/view-customer?id=${foo}`)
+            routerHistory.push(`/pages/view-customer/${id}`)
           })
       })
       .catch(function (error) {
@@ -220,7 +222,7 @@ const SimpleForm = () => {
           <Breadcrumb
             routeSegments={[
               { name: "PARTY", path: "./Viewparty" },
-              { name: "PARTY DETAILS", path: `${navigatePath}/pages/view-customer?id=${foo}` },
+              { name: "PARTY DETAILS", path: `/pages/view-customer/${id}` },
               { name: "PARTY EDIT " }
             ]}
           />
@@ -748,7 +750,7 @@ const SimpleForm = () => {
               <Icon>save</Icon>
               <span className="pl-2 capitalize">SAVE</span>
             </Button>
-            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../pages/view-customer?id=${foo}`)}>
+            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../pages/view-customer/${id}`)}>
               <Icon>cancel</Icon>
               <span className="pl-2 capitalize">CANCEL</span>
             </Button>

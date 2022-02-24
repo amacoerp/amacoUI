@@ -8,14 +8,14 @@ import url, { navigatePath } from "../../../invoice/InvoiceService"
 import { useHistory } from 'react-router';
 
 
-const CustomerActions = () => {
+const CustomerActions = ({ ids }) => {
   const routerHistory = useHistory();
 
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
   const pushdata = (id) => {
-    routerHistory.push(navigatePath + `/party/updateparty?id=${id}`)
+    routerHistory.push(navigatePath + `/party/updateparty/${id}`)
 
   }
 
@@ -73,13 +73,13 @@ const CustomerActions = () => {
         </div>
 
         <span>
-          <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }} onClick={() => pushdata(foo)}>
+          <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }} onClick={() => pushdata(ids)}>
             <Icon className="mr-2" fontSize="small">
               edit
             </Icon>{" "}
             EDIT PARTY
           </Button>
-          <Button className="py-2 " variant="outlined" onClick={() => removeData(foo)} style={{ border: '1px solid #ff3d57', color: '#ff3d57' }}>
+          <Button className="py-2 " variant="outlined" onClick={() => removeData(ids)} style={{ border: '1px solid #ff3d57', color: '#ff3d57' }}>
             <Icon className="mr-2" fontSize="small">
               delete
             </Icon>{" "}
