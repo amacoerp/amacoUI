@@ -462,6 +462,9 @@ const CustomerForm = () => {
     setpayment_account_name("");
     setreferrence_bill_no('')
     setpaid_by('')
+    setbank_id('')
+    setpayment_mode('')
+    setcheque_no('')
     setpaid_date(new Date())
     setpaid_to('')
     setdescription('')

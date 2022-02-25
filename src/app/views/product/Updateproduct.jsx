@@ -439,10 +439,10 @@ const SimpleForm = () => {
                 onChange={e => setname_in_ar(e.target.value)}
                 type="text"
                 name="product"
-                validators={[
-                  "required",
-                ]}
-                errorMessages={["this field is required"]}
+              // validators={[
+              //   "required",
+              // ]}
+              // errorMessages={["this field is required"]}
 
               />
               <TextValidator
