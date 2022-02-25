@@ -9,7 +9,7 @@ import {
   Icon,
   Grid,
   Table,
-  TextField,
+  TextField, Card,
   TableHead,
   TableRow,
   TableCell,
@@ -23,7 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import logo from "./../invoice/amaco-logo.png";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import url, {  getpaymentaccount, navigatePath } from "../invoice/InvoiceService";
+import url, { getpaymentaccount, navigatePath } from "../invoice/InvoiceService";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import moment from "moment";
@@ -143,7 +143,7 @@ const Customer = ({
   const [payment_account_id, setpayment_account_id] = useState("");
   const [IsAlive, setIsAlive] = useState(false);
   const [thstatus, setthstatus] = useState(false);
-  const [from_date, setfrom_date] = useState('01-01-'+new Date().getFullYear());
+  const [from_date, setfrom_date] = useState('01-01-' + new Date().getFullYear());
   const [to_date, setto_date] = useState(new Date());
   const [fdate, setfdate] = useState();
   const [tdate, settdate] = useState();
@@ -167,37 +167,37 @@ const Customer = ({
     vertical: "top",
     horizontal: "center",
   });
-  const { id,s } = useParams();
+  const { id, s } = useParams();
   const { vertical, horizontal, open } = state;
   const classes = useStyles();
-  let finalbal=0.00;
+  let finalbal = 0.00;
 
   const formData = new FormData();
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
     document.title = "Request for quoatation - Amaco";
     getpaymentaccount().then(({ data }) => {
-       
+
       setUserList(data);
     });
     url
       .post(
         "all-advance-payment-statement?" +
-          "from_date=" +
-          moment(from_date).format("YYYY-MM-DD") +
-          "&to_date=" +
-          moment(to_date).format("YYYY-MM-DD")+
-          "&payment_account_id="+id
+        "from_date=" +
+        moment(from_date).format("YYYY-MM-DD") +
+        "&to_date=" +
+        moment(to_date).format("YYYY-MM-DD") +
+        "&payment_account_id=" + id
       )
       .then(({ data }) => {
-        
+
         const myArr = Object.values(data[0].data).sort(
           (a, b) => new Date(b[0].date) - new Date(a[0].date)
         );
         setresponse_data(myArr);
         setstatements(myArr);
         setarr_length(Object.keys(myArr).length);
-      
+
 
         var sum = parseFloat(data[0].opening_balance);
         var sum1 = 0.0;
@@ -221,16 +221,16 @@ const Customer = ({
         setcredit_days(data[0].credit_days);
         setcname(data[0].name);
         setopening_balance((data[0].opening_balance));
-        setclosing_bal((data[0].opening_balance)-sum+sum1);
+        setclosing_bal((data[0].opening_balance) - sum + sum1);
         setbalance((data[0].balance));
-       
+
         setthstatus(true);
       });
-    
-  
+
+
   }, []);
 
-  
+
   window.onafterprint = function () {
     window.close();
     window.location.href = ``;
@@ -240,31 +240,31 @@ const Customer = ({
     header: () => componentRef.current,
   });
 
-  
-  const calBalance = (cBalance, amount, sign,i) => {
-  
- 
- 
-  
-    
-    
-    let temp=amount;
-    
+
+  const calBalance = (cBalance, amount, sign, i) => {
+
+
+
+
+
+
+    let temp = amount;
+
     cBalance = parseFloat(cBalance?.split(",").join(""));
     let tempAmt = parseFloat(amount);
 
     sign === "-" && (cBalance -= tempAmt);
     sign === "+" && (cBalance += tempAmt);
 
-    
+
 
     // return cBalance.toFixed(2)
-    
-    
-    currentBalance=parseFloat(cBalance).toLocaleString(undefined,{
-      minimumFractionDigits:2
+
+
+    currentBalance = parseFloat(cBalance).toLocaleString(undefined, {
+      minimumFractionDigits: 2
     });
-   
+
     current_bal.push(cBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2,
     }))
@@ -272,121 +272,119 @@ const Customer = ({
       minimumFractionDigits: 2,
     });
   };
-  
+
 
   const handleSubmit = () => {
-    
-   
-    
-    if(payment_account_id==="All")
-    {
+
+
+
+    if (payment_account_id === "All") {
       url
-      .post(
-        "all-advance-payment-statement?" +
+        .post(
+          "all-advance-payment-statement?" +
           "from_date=" +
           moment(from_date).format("YYYY-MM-DD") +
           "&to_date=" +
           moment(to_date).format("YYYY-MM-DD")
-      )
-      .then(({ data }) => {
-       
-        const myArr = Object.values(data[0].data).sort(
-          (a, b) => new Date(b[0].date) - new Date(a[0].date)
-        );
+        )
+        .then(({ data }) => {
 
-        setstatements(myArr);
-        setarr_length(Object.keys(myArr).length);
-      
+          const myArr = Object.values(data[0].data).sort(
+            (a, b) => new Date(b[0].date) - new Date(a[0].date)
+          );
 
-        var sum = parseFloat(data[0].opening_balance);
-        var sum1 = 0.0;
-        Object.values(data[0].data).map((item, i) => {
-          if (item[0].debit) {
-            sum += parseFloat(item[0].debit);
-            
-          }
-          if (item[0].credit) {
-            sum1 += parseFloat(item[0].credit);
-            
-          }
+          setstatements(myArr);
+          setarr_length(Object.keys(myArr).length);
+
+
+          var sum = parseFloat(data[0].opening_balance);
+          var sum1 = 0.0;
+          Object.values(data[0].data).map((item, i) => {
+            if (item[0].debit) {
+              sum += parseFloat(item[0].debit);
+
+            }
+            if (item[0].credit) {
+              sum1 += parseFloat(item[0].credit);
+
+            }
+          });
+
+
+
+          setfrom_date(from_date)
+          setto_date(new Date())
+          setpayment_account_id('')
+          setdsum(sum);
+          setcsum(sum1);
+          setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+
+          settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+
+          setcredit_days(data[0].credit_days);
+          setcname(data[0].name);
+          setopening_balance((data[0].opening_balance));
+          setthstatus(true);
         });
-       
-       
-        
-        setfrom_date(from_date)
-        setto_date(new Date())
-        setpayment_account_id('')
-        setdsum(sum);
-        setcsum(sum1);
-        setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
-
-        settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
-
-        setcredit_days(data[0].credit_days);
-        setcname(data[0].name);
-        setopening_balance((data[0].opening_balance));
-        setthstatus(true);
-      });
     }
-    else
-    {
-    url
-      .post(
-        "advance-payment-statement?" +
+    else {
+      url
+        .post(
+          "advance-payment-statement?" +
           "payment_account_id=" +
           payment_account_id +
           "&from_date=" +
           moment(from_date).format("YYYY-MM-DD") +
           "&to_date=" +
           moment(to_date).format("YYYY-MM-DD")
-      )
-      .then(({ data }) => {
-        const myArr = Object.values(data[0].data).sort(
-          (a, b) => new Date(a[0].date) - new Date(b[0].date)
-        );
-         
-        setstatements(myArr);
-        setarr_length(Object.keys(myArr).length);
-      
+        )
+        .then(({ data }) => {
+          const myArr = Object.values(data[0].data).sort(
+            (a, b) => new Date(a[0].date) - new Date(b[0].date)
+          );
 
-        var sum = parseFloat(data[0].opening_balance);
-        var sum1 = 0.0;
-      
-        Object.values(data[0].data).map((item, i) => {
-          if (item[0].debit) {
-            sum += parseFloat(item[0].debit);
-           
-            
-           
-          }
-          if (item[0].credit) {
-            sum1 += parseFloat(item[0].credit);
-            
-            
-          }
-          
+          setstatements(myArr);
+          setarr_length(Object.keys(myArr).length);
+
+
+          var sum = parseFloat(data[0].opening_balance);
+          var sum1 = 0.0;
+
+          Object.values(data[0].data).map((item, i) => {
+            if (item[0].debit) {
+              sum += parseFloat(item[0].debit);
+
+
+
+            }
+            if (item[0].credit) {
+              sum1 += parseFloat(item[0].credit);
+
+
+            }
+
+          });
+
+
+          setdsum(sum);
+          setcsum(sum1);
+          setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+          settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+
+          setcredit_days(data[0].credit_days);
+          setcname(data[0].name);
+          setopening_balance((data[0].opening_balance));
+          setthstatus(true);
         });
-        
-        
-        setdsum(sum);
-        setcsum(sum1);
-        setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
-        settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
-
-        setcredit_days(data[0].credit_days);
-        setcname(data[0].name);
-        setopening_balance((data[0].opening_balance));
-        setthstatus(true);
-      });
     }
   };
   const handleDateChange = (date) => {
-    filter_data(payment_account_id,date,to_date)
+    filter_data(payment_account_id, date, to_date)
     setfrom_date(date);
   };
 
   const handleDateChange1 = (date) => {
-    filter_data(payment_account_id,from_date,date)
+    filter_data(payment_account_id, from_date, date)
     setto_date(date);
   };
 
@@ -394,79 +392,79 @@ const Customer = ({
   let osum = parseFloat(opening_balance).toLocaleString(undefined, {
     minimumFractionDigits: 2,
   });
-  const filter_data=(id,fDate,tDate)=>{
-   
-    
+  const filter_data = (id, fDate, tDate) => {
+
+
     setpayment_account_id(id);
-    
+
     // console.log(response_data)
-    
-    var result=response_data.filter(obj=>(moment(obj[0].created_at).format('YYYY-MM-DD')>=moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD')<=moment(tDate).format('YYYY-MM-DD')));
+
+    var result = response_data.filter(obj => (moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
     var date2 = new Date(fDate);
-    let debitSum=0.00;
-    let creditSum=0.00;
-    let dSum=0.00;
-    let cSum=0.00;
-    response_data.filter(obj=>(moment(obj[0].created_at).format('YYYY-MM-DD')<moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
-      
-     
+    let debitSum = 0.00;
+    let creditSum = 0.00;
+    let dSum = 0.00;
+    let cSum = 0.00;
+    response_data.filter(obj => (moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
+
+
       if (item[0].debit) {
         dSum += parseFloat(item[0].debit);
-        
-       
-        
-       
+
+
+
+
       }
       if (item[0].credit) {
         cSum += parseFloat(item[0].credit);
-       
-        
+
+
       }
-      
+
     });
-    
+
     let openingBal;
     // if(id!=='All')
     // {
     // openingBal=DivisionList.filter(obj=>obj.id==id).reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.balance), 0)
-    
+
     // }
     // else
     // {
-      openingBal=DivisionList.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.balance?currentValue.balance:0),0)
-      // console.log(openingBal)
-      
+    openingBal = DivisionList.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.balance ? currentValue.balance : 0), 0)
+    // console.log(openingBal)
+
     // }
     // console.log(result)
-   result.map((item,id)=>{
+    result.map((item, id) => {
       if (item[0].debit) {
         debitSum += parseFloat(item[0].debit);
-      //  console.log(debitSum)
-        
-       
+        //  console.log(debitSum)
+
+
       }
       if (item[0].credit) {
         creditSum += parseFloat(item[0].credit);
         // console.log(item)
-        
+
       }
-   })
+    })
     setstatements(result);
-  //  console.log(dSum)
-  //  console.log(cSum)
+    //  console.log(dSum)
+    //  console.log(cSum)
     setcsum(creditSum);
     setdsum(debitSum)
-    setopening_balance(cSum-dSum);
-    setclosing_bal((cSum-dSum)+creditSum-debitSum)
-   
-  
-  
-    
-    
-    
+    setopening_balance(cSum - dSum);
+    setclosing_bal((cSum - dSum) + creditSum - debitSum)
+
+
+
+
+
+
   }
-  
-  
+
+
 
   return (
     <div className="m-sm-30">
@@ -474,8 +472,8 @@ const Customer = ({
         <div className="flex flex-wrap justify-between mb-2">
           <Breadcrumb
             routeSegments={[
-              { name: "PERSONAL ACCOUNT", path: navigatePath+"/personalTab" },
-              { name: "ACCOUNT STATEMENTS"},
+              { name: "PERSONAL ACCOUNT", path: navigatePath + "/personalTab" },
+              { name: "ACCOUNT STATEMENTS" },
               // { name: "ACCOUNT STATEMENTS" },
             ]}
           />
@@ -578,18 +576,19 @@ const Customer = ({
           </div>
         </div>
 
-        <div
-          id="print-area"
-          ref={componentRef}
-          style={{ fontFamily: "Calibri", fontSize: 16 }}
-        >
-          <table>
-            <thead style={{ display: "table-header-group", marginTop: "20px" }}>
-              <tr>
-                <td>
-                  <div class="empty-header">
-                   
-                    {/* <div className="px-2 flex justify-between">
+        <Card className="p-8">
+          <div
+            id="print-area"
+            ref={componentRef}
+            style={{ fontFamily: "Calibri", fontSize: 16 }}
+          >
+            <table>
+              <thead style={{ display: "table-header-group", marginTop: "20px" }}>
+                <tr>
+                  <td>
+                    <div class="empty-header">
+
+                      {/* <div className="px-2 flex justify-between">
                       <div className="flex">
                         <div className="pr-12">
                           <img
@@ -629,187 +628,187 @@ const Customer = ({
                         </div>
                       </div>
                     </div> */}
-                   
-                  </div>
-                </td>
-              </tr>
-            </thead>
 
-            <tbody style={{ marginBottom: "50px" }}>
-              <tr>
-                <td>
-                  <div>
-                    <div className="px-4 mb-2 pl-4 pt-4 flex ">
-                      <Table
-                        style={{ width: "100%", fontSize: 12, border: "none" }}
-                        className="pl-4"
-                      >
-                        <TableRow
-                          style={{
-                            border: "1px solid #ccc",
-                            pageBreakInside: "avoid",
-                          }}
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody style={{ marginBottom: "50px" }}>
+                <tr>
+                  <td>
+                    <div>
+                      <div className="px-4 mb-2 pl-4 pt-4 flex ">
+                        <Table
+                          style={{ width: "100%", fontSize: 12, border: "none" }}
+                          className="pl-4"
                         >
-                          <TableCell
-                            className="pl-2"
-                            align="left"
+                          <TableRow
                             style={{
                               border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
+                              pageBreakInside: "avoid",
                             }}
                           >
-                            Name
-                          </TableCell>
-                          <TableCell
-                            className="pl-2"
-                            align="left"
-                            colSpan={3}
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            {cname}
-                          </TableCell>
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              Name
+                            </TableCell>
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              colSpan={3}
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              {cname}
+                            </TableCell>
 
-                          
-                          <TableCell
-                            className="pr-0 capitalize"
-                            align="center"
-                            rowSpan={3}
-                            colSpan={2}
-                            style={{
-                              border: "1px solid #ccc",
-                              wordBreak: "break-word",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            <h3>STATEMENT OF ACCOUNT</h3>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow
-                          style={{
-                            border: "1px solid #ccc",
-                            pageBreakInside: "avoid",
-                          }}
-                        >
-                          <TableCell
-                            className="pl-2"
-                            align="left"
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            Period
-                          </TableCell>
-                          <TableCell
-                            className="pl-2"
-                            align="left"
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            {moment(from_date).format("DD MMM YYYY")}
-                          </TableCell>
 
-                          <TableCell
-                            className="pl-2 capitalize"
-                            align="left"
+                            <TableCell
+                              className="pr-0 capitalize"
+                              align="center"
+                              rowSpan={3}
+                              colSpan={2}
+                              style={{
+                                border: "1px solid #ccc",
+                                wordBreak: "break-word",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              <h3>STATEMENT OF ACCOUNT</h3>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
                             style={{
                               border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
+                              pageBreakInside: "avoid",
                             }}
                           >
-                            to
-                          </TableCell>
-                          <TableCell
-                            className="pl-2 capitalize"
-                            align="left"
-                            style={{
-                              border: "1px solid #ccc",
-                              wordBreak: "break-word",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                             {moment(to_date).format("DD MMM YYYY")}
-                          </TableCell>
-                          
-                        </TableRow>
-                        <TableRow
-                          style={{
-                            border: "1px solid #ccc",
-                            pageBreakInside: "avoid",
-                          }}
-                        >
-                          <TableCell
-                            className="pl-2"
-                            align="left"
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            {/* Current Balance  */}
-                            Opening Balance
-                          </TableCell>
-                          <TableCell
-                            className="pl-2"
-                            align="left"
-                            colSpan={1}
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                            }}
-                          >
-                            {/* 45,99999999.00 */}
-                            {parseFloat((opening_balance)).toLocaleString(
-                              undefined,
-                              {
-                                minimumFractionDigits: 2,
-                              }
-                            )}
-                          </TableCell>
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              Period
+                            </TableCell>
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              {moment(from_date).format("DD MMM YYYY")}
+                            </TableCell>
 
-                          <TableCell
-                            className="pl-2 capitalize"
-                            align="left"
+                            <TableCell
+                              className="pl-2 capitalize"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              to
+                            </TableCell>
+                            <TableCell
+                              className="pl-2 capitalize"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                wordBreak: "break-word",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              {moment(to_date).format("DD MMM YYYY")}
+                            </TableCell>
+
+                          </TableRow>
+                          <TableRow
                             style={{
                               border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                              
+                              pageBreakInside: "avoid",
                             }}
                           >
-                            Current Balance
-                          </TableCell>
-                          <TableCell
-                            className="pl-0 capitalize"
-                            align="right"
-                            style={{
-                              border: "1px solid #ccc",
-                              fontFamily: "Calibri",
-                              fontSize: 16,
-                              fontWeight:1000
-                            }}
-                          >
-                            {/* {(current_bal.slice(current_bal.length-1))} */}
-                            {closing_bal.toLocaleString(undefined,{
-                                    minimumFractionDigits:2
-                                  })}
-                          </TableCell>
-                         
-                          {/* <TableCell
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              {/* Current Balance  */}
+                              Opening Balance
+                            </TableCell>
+                            <TableCell
+                              className="pl-2"
+                              align="left"
+                              colSpan={1}
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                              }}
+                            >
+                              {/* 45,99999999.00 */}
+                              {parseFloat((opening_balance)).toLocaleString(
+                                undefined,
+                                {
+                                  minimumFractionDigits: 2,
+                                }
+                              )}
+                            </TableCell>
+
+                            <TableCell
+                              className="pl-2 capitalize"
+                              align="left"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+
+                              }}
+                            >
+                              Current Balance
+                            </TableCell>
+                            <TableCell
+                              className="pl-0 capitalize"
+                              align="right"
+                              style={{
+                                border: "1px solid #ccc",
+                                fontFamily: "Calibri",
+                                fontSize: 16,
+                                fontWeight: 1000
+                              }}
+                            >
+                              {/* {(current_bal.slice(current_bal.length-1))} */}
+                              {closing_bal.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                              })}
+                            </TableCell>
+
+                            {/* <TableCell
                             className="pl-2 capitalize"
                             align="left"
                             style={{
@@ -821,7 +820,7 @@ const Customer = ({
                           >
                             
                           </TableCell> */}
-                          {/* <TableCell
+                            {/* <TableCell
                             className="pr-0 capitalize"
                             align="center"
                             colspan={2}
@@ -834,39 +833,39 @@ const Customer = ({
                           >
                           
                           </TableCell> */}
-                        </TableRow>
-                      </Table>
-                    </div>
+                          </TableRow>
+                        </Table>
+                      </div>
 
-                    <div className="px-4 mb-2 pl-4 pt-4 pb-8 flex justify-between">
-                      <Table
-                        style={{ width: "100%", fontSize: 12, border: "none" }}
-                        className="pl-4"
-                      >
-                        <TableHead
-                          style={{
-                            backgroundColor: "#1d2257",
-                            display: "table-row-group",
-                          }}
+                      <div className="px-4 mb-2 pl-4 pt-4 pb-8 flex justify-between">
+                        <Table
+                          style={{ width: "100%", fontSize: 12, border: "none" }}
+                          className="pl-4"
                         >
-                          <TableRow style={{ pageBreakInside: "avoid" }}>
-                            <TableCell
-                              className="pr-0"
-                              colSpan={1}
-                              style={{
-                                border: "1px solid #ccc",
-                                width: 100,
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              DATE
-                            </TableCell>
-                            
-                            {/* <TableCell
+                          <TableHead
+                            style={{
+                              backgroundColor: "#1d2257",
+                              display: "table-row-group",
+                            }}
+                          >
+                            <TableRow style={{ pageBreakInside: "avoid" }}>
+                              <TableCell
+                                className="pr-0"
+                                colSpan={1}
+                                style={{
+                                  border: "1px solid #ccc",
+                                  width: 100,
+                                  fontFamily: "Calibri",
+                                  color: "#fff",
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                }}
+                                align="center"
+                              >
+                                DATE
+                              </TableCell>
+
+                              {/* <TableCell
                               className="px-0"
                               style={{
                                 border: "1px solid #ccc",
@@ -883,102 +882,102 @@ const Customer = ({
                               DOCUMENT #
                             </TableCell> */}
 
-                            <TableCell
-                              className="px-0"
+                              <TableCell
+                                className="px-0"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  color: "#fff",
+                                  fontColor: "#fff",
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                  width: 200
+                                }}
+                                align="center"
+                              >
+                                PARTICULARS
+                              </TableCell>
+                              <TableCell
+                                className="px-0"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  color: "#fff",
+                                  width: 80,
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                }}
+                                align="center"
+                              >
+                                USER
+                              </TableCell>
+                              <TableCell
+                                className="px-0"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  width: 80,
+                                  color: "#fff",
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                }}
+                                align="center"
+                              >
+                                DEBIT
+                              </TableCell>
+                              <TableCell
+                                className="px-0"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  color: "#fff",
+                                  width: 80,
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                }}
+                                align="center"
+                              >
+                                CREDIT
+                              </TableCell>
+
+                              <TableCell
+                                className="px-0"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  width: 80,
+                                  color: "#fff",
+                                  fontWeight: 1000,
+                                  fontSize: 16,
+                                }}
+                                align="center"
+                              >
+                                BALANCE
+                              </TableCell>
+
+
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow
                               style={{
                                 border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontColor: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                                width:200
-                              }}
-                              align="center"
-                            >
-                              PARTICULARS
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                width: 80,
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              USER
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                width: 80,
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              DEBIT
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                width: 80,
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              CREDIT
-                            </TableCell>
-                            
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                width: 80,
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              BALANCE
-                            </TableCell>
-                            
-                            
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow
-                            style={{
-                              border: "1px solid #ccc",
-                              pageBreakInside: "avoid",
-                            }}
-                          >
-                            <TableCell
-                              className="pr-0"
-                              align="center"
-                              colSpan={1}
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
+                                pageBreakInside: "avoid",
                               }}
                             >
-                              {fdate}
-                            </TableCell>
-{/* 
+                              <TableCell
+                                className="pr-0"
+                                align="center"
+                                colSpan={1}
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+                                {fdate}
+                              </TableCell>
+                              {/* 
                             
                             <TableCell
                               className="pl-2 capitalize"
@@ -993,137 +992,137 @@ const Customer = ({
                             >
                               ---
                             </TableCell> */}
-                            <TableCell
-                              className="pl-2 capitalize"
-                              align="center"
-                              style={{
-                                border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                                width:250
-                              }}
-                            >
-                              opening_balance
-                            </TableCell>
+                              <TableCell
+                                className="pl-2 capitalize"
+                                align="center"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  wordBreak: "break-word",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                  width: 250
+                                }}
+                              >
+                                opening_balance
+                              </TableCell>
 
-                            {opening_balance >= 0 ? (
-                              <TableCell
-                                className="pl-0 capitalize"
-                                align="center"
-                                style={{
-                                  border: "1px solid #ccc",
-                                  fontFamily: "Calibri",
-                                  fontSize: 16,
-                                  width:150
-                                }}
-                              >
-                                {/* {parseFloat((opening_balance)).toLocaleString(
-                                  undefined,
-                                  {
-                                    minimumFractionDigits: 2,
-                                  }
-                                )} */}---
-                              </TableCell>
-                            ) : (
-                              <TableCell
-                                className="pr-0 capitalize"
-                                align="center"
-                                style={{
-                                  border: "1px solid #ccc",
-                                  fontFamily: "Calibri",
-                                  fontSize: 16,
-                                }}
-                              >---</TableCell>
-                            )}
-                            {opening_balance < 0 ? (
-                              <TableCell
-                                className=" capitalize"
-                                align="center"
-                                style={{
-                                  border: "1px solid #ccc",
-                                  fontFamily: "Calibri",
-                                  fontSize: 16,
-                                }}
-                              >
-                               {/* {parseFloat((opening_balance)).toLocaleString(
-                                  undefined,
-                                  {
-                                    minimumFractionDigits: 2,
-                                  }
-                                )} */}---
-                              </TableCell>
-                            ) : (
-                              <TableCell
-                                className="pr-0 capitalize"
-                                align="center"
-                                style={{
-                                  border: "1px solid #ccc",
-                                  fontFamily: "Calibri",
-                                  fontSize: 16,
-                                }}
-                              > ---</TableCell>
-                            )}
-                            <TableCell
-                              className="pl-0 capitalize"
-                              style={{
-                                textAlign: "center",
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                              {/* {parseFloat((opening_balance)).toLocaleString(
-                                undefined,
-                                {
-                                  minimumFractionDigits: 2,
-                                }
-                              )} */}---
-                            </TableCell>
-                            <TableCell
-                              className="pl-0 capitalize"
-                              style={{
-                                textAlign: "right",
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                              {parseFloat((opening_balance)).toLocaleString(
-                              undefined,
-                              {
-                                minimumFractionDigits: 2,
-                              }
-                            )}
-                              </TableCell>
-                            
-                          </TableRow>
-                          {statements.map((item, index) => {
-                            
-                           
-
-                            return (
-                              <TableRow
-                                style={{
-                                  border: "1px solid #ccc",
-                                  pageBreakInside: "avoid",
-                                }}
-                              >
+                              {opening_balance >= 0 ? (
                                 <TableCell
-                                  className="pr-0"
+                                  className="pl-0 capitalize"
                                   align="center"
-                                  colSpan={1}
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    fontFamily: "Calibri",
+                                    fontSize: 16,
+                                    width: 150
+                                  }}
+                                >
+                                  {/* {parseFloat((opening_balance)).toLocaleString(
+                                  undefined,
+                                  {
+                                    minimumFractionDigits: 2,
+                                  }
+                                )} */}---
+                                </TableCell>
+                              ) : (
+                                <TableCell
+                                  className="pr-0 capitalize"
+                                  align="center"
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    fontFamily: "Calibri",
+                                    fontSize: 16,
+                                  }}
+                                >---</TableCell>
+                              )}
+                              {opening_balance < 0 ? (
+                                <TableCell
+                                  className=" capitalize"
+                                  align="center"
                                   style={{
                                     border: "1px solid #ccc",
                                     fontFamily: "Calibri",
                                     fontSize: 16,
                                   }}
                                 >
-                                  {moment(item[0].date).format("DD-MMM-YYYY")}
+                                  {/* {parseFloat((opening_balance)).toLocaleString(
+                                  undefined,
+                                  {
+                                    minimumFractionDigits: 2,
+                                  }
+                                )} */}---
                                 </TableCell>
+                              ) : (
+                                <TableCell
+                                  className="pr-0 capitalize"
+                                  align="center"
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    fontFamily: "Calibri",
+                                    fontSize: 16,
+                                  }}
+                                > ---</TableCell>
+                              )}
+                              <TableCell
+                                className="pl-0 capitalize"
+                                style={{
+                                  textAlign: "center",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+                                {/* {parseFloat((opening_balance)).toLocaleString(
+                                undefined,
+                                {
+                                  minimumFractionDigits: 2,
+                                }
+                              )} */}---
+                              </TableCell>
+                              <TableCell
+                                className="pl-0 capitalize"
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+                                {parseFloat((opening_balance)).toLocaleString(
+                                  undefined,
+                                  {
+                                    minimumFractionDigits: 2,
+                                  }
+                                )}
+                              </TableCell>
 
-                                
-                                {/* <TableCell
+                            </TableRow>
+                            {statements.map((item, index) => {
+
+
+
+                              return (
+                                <TableRow
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    pageBreakInside: "avoid",
+                                  }}
+                                >
+                                  <TableCell
+                                    className="pr-0"
+                                    align="center"
+                                    colSpan={1}
+                                    style={{
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+                                      fontSize: 16,
+                                    }}
+                                  >
+                                    {moment(item[0].date).format("DD-MMM-YYYY")}
+                                  </TableCell>
+
+
+                                  {/* <TableCell
                                   className="pl-2 capitalize"
                                   align="center"
                                   style={{
@@ -1136,87 +1135,87 @@ const Customer = ({
                                 >
                                   ---
                                 </TableCell> */}
-                                <TableCell
-                                  className="pl-2 capitalize"
-                                  align="center"
-                                  style={{
-                                    border: "1px solid #ccc",
-                                    wordBreak: "break-word",
-                                    fontFamily: "Calibri",
-                                    fontSize: 16,
-                                  }}
-                                >
-                                  {item[0]?.description?item[0]?.description:item[0].narration}
-                                </TableCell>
-                                <TableCell
-                              className="px-0"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                width: 80,
-                               
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                            {item[0].name}
-                            </TableCell>
-                                
-                                <TableCell
-                                  className="capitalize"
-                                  align="right"
-                                  style={{
-                                    border: "1px solid #ccc",
-                                    fontFamily: "Calibri",
-                                    fontSize: 16,
-                                  }}
-                                >
-                                  {/* {item[0].credit === null
+                                  <TableCell
+                                    className="pl-2 capitalize"
+                                    align="center"
+                                    style={{
+                                      border: "1px solid #ccc",
+                                      wordBreak: "break-word",
+                                      fontFamily: "Calibri",
+                                      fontSize: 16,
+                                    }}
+                                  >
+                                    {item[0]?.description ? item[0]?.description : item[0].narration}
+                                  </TableCell>
+                                  <TableCell
+                                    className="px-0"
+                                    style={{
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+                                      width: 80,
+
+                                      fontSize: 16,
+                                    }}
+                                    align="center"
+                                  >
+                                    {item[0].name}
+                                  </TableCell>
+
+                                  <TableCell
+                                    className="capitalize"
+                                    align="right"
+                                    style={{
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+                                      fontSize: 16,
+                                    }}
+                                  >
+                                    {/* {item[0].credit === null
                                     ? ""
                                     : parseFloat(item[0].credit).toLocaleString(undefined,{
                                       minimumFractionDigits:2
                                     })} */}
-                                    {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined,{
-                                    minimumFractionDigits:2
-                                  })}
-                                  
-                                </TableCell>
-                                <TableCell
-                                  className=" capitalize"
-                                  align="right"
-                                  style={{
-                                    border: "1px solid #ccc",
-                                    fontFamily: "Calibri",
-                                    fontSize: 16,
-                                  }}
-                                >
-                                  {/* {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined,{
+                                    {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
+                                      minimumFractionDigits: 2
+                                    })}
+
+                                  </TableCell>
+                                  <TableCell
+                                    className=" capitalize"
+                                    align="right"
+                                    style={{
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+                                      fontSize: 16,
+                                    }}
+                                  >
+                                    {/* {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined,{
                                     minimumFractionDigits:2
                                   })} */}
-                                  {item[0].credit === null
-                                    ? ""
-                                    : parseFloat(item[0].credit).toLocaleString(undefined,{
-                                      minimumFractionDigits:2
-                                    })}
-                                  
-                                </TableCell>
-                                {item[0].debit&&(<TableCell
-                                  className="pl-0 capitalize"
-                                  style={{
-                                    textAlign: "right",
-                                    border: "1px solid #ccc",
-                                    fontFamily: "Calibri",
+                                    {item[0].credit === null
+                                      ? ""
+                                      : parseFloat(item[0].credit).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                      })}
 
-                                    fontSize: 16,
-                                  }}
-                                >
-                                  {osum = calBalance(
-                                        osum,
-                                        item[0].debit,
-                                        "-",
-                                        index,
-                                      )}
-                                  {/* {item[0].debit
+                                  </TableCell>
+                                  {item[0].debit && (<TableCell
+                                    className="pl-0 capitalize"
+                                    style={{
+                                      textAlign: "right",
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+
+                                      fontSize: 16,
+                                    }}
+                                  >
+                                    {osum = calBalance(
+                                      osum,
+                                      item[0].debit,
+                                      "-",
+                                      index,
+                                    )}
+                                    {/* {item[0].debit
                                     ? (osum = calBalance(
                                         osum,
                                         item[0].debit,
@@ -1229,59 +1228,59 @@ const Customer = ({
                                         "-",
                                         index
                                       ))} */}
-                                </TableCell>)}
-                                {item[0].credit&&(<TableCell
-                                  className="pl-0 capitalize"
-                                  style={{
-                                    textAlign: "right",
-                                    border: "1px solid #ccc",
-                                    fontFamily: "Calibri",
-                                    fontSize: 16,
-                                    
-                                    
-                                   
-                                    
-                                  }}
-                                 
-                                >
-                                  {osum = calBalance(
-                                        osum,
-                                        item[0].credit,
-                                        "+",
-                                        index,
-                                      )}
-                                 
-                                </TableCell>)}
-                                
-                                
-                                
-                                
-                               
-                              
-                             
-                              </TableRow>
-                            );
-                           
-                          })}
-                          <TableRow
-                            style={{
-                              border: "1px solid #ccc",
-                              pageBreakInside: "avoid",
-                              backgroundColor:'#ccc'
-                            }}
-                          >
-                            <TableCell
-                              className="pr-0"
-                              align="center"
-                              colSpan={1}
+                                  </TableCell>)}
+                                  {item[0].credit && (<TableCell
+                                    className="pl-0 capitalize"
+                                    style={{
+                                      textAlign: "right",
+                                      border: "1px solid #ccc",
+                                      fontFamily: "Calibri",
+                                      fontSize: 16,
+
+
+
+
+                                    }}
+
+                                  >
+                                    {osum = calBalance(
+                                      osum,
+                                      item[0].credit,
+                                      "+",
+                                      index,
+                                    )}
+
+                                  </TableCell>)}
+
+
+
+
+
+
+
+                                </TableRow>
+                              );
+
+                            })}
+                            <TableRow
                               style={{
                                 border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
+                                pageBreakInside: "avoid",
+                                backgroundColor: '#ccc'
                               }}
-                            ></TableCell>
+                            >
+                              <TableCell
+                                className="pr-0"
+                                align="center"
+                                colSpan={1}
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              ></TableCell>
 
-                            {/* <TableCell
+                              {/* <TableCell
                               className="pr-0 capitalize"
                               align="center"
                               style={{
@@ -1291,7 +1290,7 @@ const Customer = ({
                               }}
                               colSpan={2}
                             ></TableCell> */}
-                            {/* <TableCell
+                              {/* <TableCell
                               className="pl-2 capitalize"
                               align="left"
                               style={{
@@ -1301,131 +1300,131 @@ const Customer = ({
                                 fontSize: 16,
                               }}
                             ></TableCell> */}
-                            <TableCell
-                              className="pl-2 capitalize"
-                              align="left"
-                              style={{
-                                border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                             
-                            </TableCell>
-                            <TableCell
-                              className="pl-2 capitalize"
-                              align="left"
-                              style={{
-                                border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                             
-                            </TableCell>
-                            <TableCell
-                              className="pl-0 capitalize"
-                              align="right"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                              
-                              {parseFloat(dsum).toLocaleString(undefined,{
-                                minimumFractionDigits:2
-                              })}
-                            </TableCell>
-                            <TableCell
-                              className="pl-0 capitalize"
-                              align="right"
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                               {parseFloat(csum).toLocaleString(undefined,{
-                                minimumFractionDigits:2
-                              })}
-                            </TableCell>
-                            
-                            {closing_bal<0 ?<TableCell
-                              className="pl-0 capitalize text-error"
-                              style={{
-                                textAlign: "right",
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                               
-                              }}
-                              
-                            >
-                             
-                             {closing_bal.toLocaleString(undefined,{
-                                    minimumFractionDigits:2
-                              })}
-                            </TableCell>:<TableCell
-                              className="pl-0 capitalize"
-                              style={{
-                                textAlign: "right",
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                             
-                             {closing_bal.toLocaleString(undefined,{
-                                    minimumFractionDigits:2
-                              })}
-                            </TableCell>}
-                           
-                             
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </div>
-                    <div className="px-4 mb-2 pl-4 pt-8 flex justify-between">
-                      <Table
-                        style={{ width: "100%", fontSize: 12, border: "none" }}
-                        className="pl-4"
-                      >
-                        <tr
-                          style={{
-                            borderColor: "#fff",
-                            pageBreakInside: "avoid",
-                          }}
+                              <TableCell
+                                className="pl-2 capitalize"
+                                align="left"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  wordBreak: "break-word",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+
+                              </TableCell>
+                              <TableCell
+                                className="pl-2 capitalize"
+                                align="left"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  wordBreak: "break-word",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+
+                              </TableCell>
+                              <TableCell
+                                className="pl-0 capitalize"
+                                align="right"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+
+                                {parseFloat(dsum).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                                })}
+                              </TableCell>
+                              <TableCell
+                                className="pl-0 capitalize"
+                                align="right"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+                                {parseFloat(csum).toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                                })}
+                              </TableCell>
+
+                              {closing_bal < 0 ? <TableCell
+                                className="pl-0 capitalize text-error"
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+
+                                }}
+
+                              >
+
+                                {closing_bal.toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                                })}
+                              </TableCell> : <TableCell
+                                className="pl-0 capitalize"
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                }}
+                              >
+
+                                {closing_bal.toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                                })}
+                              </TableCell>}
+
+
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </div>
+                      <div className="px-4 mb-2 pl-4 pt-8 flex justify-between">
+                        <Table
+                          style={{ width: "100%", fontSize: 12, border: "none" }}
+                          className="pl-4"
                         >
-                         
+                          <tr
+                            style={{
+                              borderColor: "#fff",
+                              pageBreakInside: "avoid",
+                            }}
+                          >
 
-                          
-                        </tr>
-                      </Table>
+
+
+                          </tr>
+                        </Table>
+                      </div>
+
+
+                      <br></br>
+
+                      <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                        <div></div>
+                      </div>
+                      <br></br>
+                      <div className="viewer__order-info px-4 mb-4 flex justify-between"></div>
+                      <br></br>
                     </div>
-
-                   
-                    <br></br>
-
-                    <div className="viewer__order-info px-4 mb-4 flex justify-between">
-                      <div></div>
-                    </div>
-                    <br></br>
-                    <div className="viewer__order-info px-4 mb-4 flex justify-between"></div>
-                    <br></br>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <div class="empty-footer"></div>
-            </tfoot>
-          </table>
-          <div class="footer">
-            <footer style={{ visibility: "hidden" }}>
-              {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <div class="empty-footer"></div>
+              </tfoot>
+            </table>
+            <div class="footer">
+              <footer style={{ visibility: "hidden" }}>
+                {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
           
           <p style={{color:'#fff',paddingTop:5,paddingBottom:5}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
                 
@@ -1435,64 +1434,65 @@ const Customer = ({
         <p   style={{textAlign: 'center',backgroundColor: '#1d2257',color:'white',fontFamily: "Calibri",paddingTop:5,paddingBottom:5}}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p>
         </div>
          */}
-              <div>
-                <div
-                  id="outer"
-                  style={{
-                    position: "relative",
-                    width: "1050px",
-                    backgroundColor: "#c1c1c1",
-                    transform: "skew(-20deg)",
-                    marginLeft: "40px",
-                    marginRight: "50px",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: "#fff",
-                      paddingTop: 5,
-                      paddingBottom: 5,
-                      transform: "skew(20deg)",
-                    }}
-                    align="center"
-                  >
-                    {" "}
-                    Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290
-                    | Jubail 31951 | Kingdom of Saudi Arabia
-                  </p>
+                <div>
                   <div
-                    id="spacer"
-                    style={{ width: "200px", height: "10px", marginRight: 0 }}
-                  ></div>
-                  <div
+                    id="outer"
                     style={{
-                      position: "fixed",
-                      bottom: 0,
-                      width: "100%",
-                      height: 30,
-                      backgroundColor: "#1d2257",
+                      position: "relative",
+                      width: "1050px",
+                      backgroundColor: "#c1c1c1",
+                      transform: "skew(-20deg)",
+                      marginLeft: "40px",
+                      marginRight: "50px",
                     }}
                   >
-                    {" "}
                     <p
                       style={{
-                        textAlign: "center",
-                        color: "white",
-                        fontFamily: "Calibri",
+                        color: "#fff",
                         paddingTop: 5,
-                        paddingBottom: 10,
+                        paddingBottom: 5,
                         transform: "skew(20deg)",
                       }}
+                      align="center"
                     >
-                      E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa
+                      {" "}
+                      Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290
+                      | Jubail 31951 | Kingdom of Saudi Arabia
                     </p>
+                    <div
+                      id="spacer"
+                      style={{ width: "200px", height: "10px", marginRight: 0 }}
+                    ></div>
+                    <div
+                      style={{
+                        position: "fixed",
+                        bottom: 0,
+                        width: "100%",
+                        height: 30,
+                        backgroundColor: "#1d2257",
+                      }}
+                    >
+                      {" "}
+                      <p
+                        style={{
+                          textAlign: "center",
+                          color: "white",
+                          fontFamily: "Calibri",
+                          paddingTop: 5,
+                          paddingBottom: 10,
+                          transform: "skew(20deg)",
+                        }}
+                      >
+                        E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* <h6 style={{textAlign:"center"}}>page 1 of 1</h6> */}
-            </footer>
+                {/* <h6 style={{textAlign:"center"}}>page 1 of 1</h6> */}
+              </footer>
+            </div>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

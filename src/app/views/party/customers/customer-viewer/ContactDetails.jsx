@@ -24,7 +24,7 @@ import MemberEditorDialog from "../../partycontact"
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 
-const ContactDetails = (ids) => {
+const ContactDetails = ({ ids }) => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
@@ -127,7 +127,6 @@ const ContactDetails = (ids) => {
   // };
 
   useEffect(() => {
-
 
     url.get("parties/" + ids).then(({ data }) => {
       setcustomercontact(data[0].contacts);

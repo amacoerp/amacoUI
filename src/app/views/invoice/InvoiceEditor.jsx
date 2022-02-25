@@ -266,7 +266,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const Rfqpush = () => {
 
     // updateSidebarMode({ mode: "close" })
-    routerHistory.push(navigatePath + `/invoice/${id}`)
+    routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`)
 
   };
   const handleRDateChange = (ddate) => {
@@ -817,7 +817,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name :(item?.product_name?item?.product_name: " ");
+                            return option?.name ? option?.name : (item?.product_name ? item?.product_name : " ");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
@@ -846,7 +846,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="quantity"
                           validators={["isNumber"]}
-                      
+
                           errorMessages={["Invalid Number"]}
                           value={item.quantity}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}

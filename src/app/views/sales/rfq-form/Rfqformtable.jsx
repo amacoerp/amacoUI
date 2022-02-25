@@ -20,11 +20,13 @@ import { calculateAmount, getCustomerList } from "./Rfqformservice";
 import { getProductList, data } from "../../../../app/views/invoice/InvoiceService"
 import { SettingsInputAntenna } from "@material-ui/icons";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
 
 const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [getRef, setRef] = useDynamicRefs();
+  const filter = createFilterOptions();
 
   let inputRef = [];
   let priceRef = [];
@@ -129,11 +131,11 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
             <TableBody>
 
               {values?.rfq_details?.map((item, ind) => (
-                 
+
                 <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" colSpan={2} align="center">
                     {ind + 1}
-                   {console.log(item.name)}
+                    {console.log(item.name)}
 
                   </TableCell>
                   <TableCell>
@@ -242,7 +244,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           if (option.inputValue) {
                             return option.inputValue;
                           }
-                          return option?.name ? option?.name : (item?.name?item?.name:" ");
+                          return option?.name ? option?.name : (item?.name ? item?.name : " ");
                         }}
                         freeSolo
                         onKeyDown={(e) => { controlKeyPress(e, ind + 'product_id', ind + 'quantity', null) }}
@@ -253,7 +255,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                             inputRef[ind] = input;
                           }} {...params} variant="outlined" required fullWidth />
                         )}
-                        
+
                         onInputChange={(event, newValue) => {
 
                           handleChange({
@@ -268,7 +270,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
                             }
                           })
-                         
+
 
                           let m = productList.filter(obj => obj.name == newValue).map((it) => {
                             return it.unit_of_measure
@@ -380,7 +382,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                       size="small"
                       // onClick={(e) => arrayHelpers.remove(values?.rfq_details.findind(e))}
                       // onClick={() => console.log(ind+","+values.rfq_details)}
-                      onClick={() => {arrayHelpers.remove(ind)}}
+                      onClick={() => { arrayHelpers.remove(ind) }}
                     >
                       <Icon color="error" fontSize="small">
                         delete
