@@ -58,14 +58,11 @@ const StockViewer = () => {
 
     const deleteUser = (id) => {
         setdlid(id);
-        console.log(id);
-        console.log(did);
         setShouldOpenConfirmationDialog(true);
     };
 
     const handleConfirmationResponse = () => {
         url.delete(`delete-emp/${did}`);
-        console.log(did);
         handleDialogClose();
     };
 
@@ -78,7 +75,6 @@ const StockViewer = () => {
         url.get("stock").then(({ data }) => {
             setDataList(data.category);
             setOther(data.other);
-            console.log(data);
             setAllOther(data.other);
             setAllDataList(data.category);
         });
