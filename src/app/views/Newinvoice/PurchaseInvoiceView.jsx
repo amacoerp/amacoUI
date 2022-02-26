@@ -823,16 +823,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-0 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                         <br></br>
-                        {invoiceno == null || invoiceno == "null"
+                        {invoiceno == null || invoiceno == "null" ||invoiceno=="true"
                           ? "--"
                           : invoiceno}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}> رقم الفاتورة</span>
                         <br></br>
-                        {invoiceno == null || invoiceno == "null"
+                        {invoiceno == null || invoiceno == "null"||invoiceno == "true"
                           ? "--"
-                          : invoiceno}
+                          : (invoiceno!=="true"?invoiceno:"--")}
                       </Grid>
                       <Grid
                         className="pl-2 pb-4 pr-2"

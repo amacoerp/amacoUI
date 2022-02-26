@@ -358,7 +358,7 @@ const SimpleMuiTable = () => {
                         return [
                             ++index,
                             item?.po_number ? item?.po_number : "--",
-                            item?.invoice_no ? item?.invoice_no : "--",
+                            item?.invoice_no ? (item?.invoice_no!=="true"?item?.invoice_no:"--") : "--",
 
                             item?.party?.firm_name,
 

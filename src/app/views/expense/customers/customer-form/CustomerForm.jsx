@@ -364,6 +364,8 @@ const CustomerForm = () => {
 
       setaccountstatus(true);
       setpayment_account_id(i);
+      setemployee_status(false)
+      setvendor_status(false)
       if (i == 33) {
         setvendor_status(true)
       }

@@ -140,18 +140,18 @@ export const navigations = [
     icon: "assignment",
 
     children: [
-      // {
-      //   name: "BALANCE SHEET",
-      //   icon:"description",
-      //   path: "/balanceSheet",
+      {
+        name: "BALANCE SHEET",
+        icon:"description",
+        path: "/balanceSheet",
 
-      // },
-      // {
-      //   name: "PROFIT LOSS",
-      //   icon:"swap_vert",
-      //   path: "/ProfitLoss",
+      },
+      {
+        name: "PROFIT LOSS",
+        icon:"swap_vert",
+        path: "/ProfitLoss",
 
-      // },
+      },
       {
         name: "TAX",
         path: "/product/producthistory",

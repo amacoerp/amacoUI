@@ -419,7 +419,7 @@ const Vendor = ({
         <Grid container spacing={2}>
           <Grid item lg={3} xs={12}>
             <TextField
-              className="mb-4 w-full"
+              className="mb-4 w-full ml-6"
               label="Name"
               name="party_id"
               size="small"
@@ -446,7 +446,7 @@ const Vendor = ({
           <Grid item lg={3} md={6} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full ml-6"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -463,7 +463,7 @@ const Vendor = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full ml-6 pl-2"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
@@ -823,7 +823,7 @@ const Vendor = ({
                                 INV.#
                               </TableCell>
 
-                              <TableCell
+                              {/* <TableCell
                                 className="px-0"
                                 style={{
                                   border: "1px solid #ccc",
@@ -837,7 +837,7 @@ const Vendor = ({
                                 align="center"
                               >
                                 DOCUMENT#
-                              </TableCell>
+                              </TableCell> */}
                               <TableCell
                                 className="px-0"
                                 style={{
@@ -859,14 +859,14 @@ const Vendor = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 90,
+                                  width: 100,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
                                 }}
                                 align="center"
                               >
-                                DEBIT
+                                BILL AMOUNT
                               </TableCell>
                               <TableCell
                                 className="px-0"
@@ -874,13 +874,13 @@ const Vendor = ({
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
                                   color: "#fff",
-                                  width: 90,
+                                  width: 100,
                                   fontWeight: 1000,
                                   fontSize: 16,
                                 }}
                                 align="center"
                               >
-                                CREDIT
+                                PAYMENT AMOUNT
                               </TableCell>
 
                               <TableCell
@@ -888,7 +888,7 @@ const Vendor = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 90,
+                                  width: 100,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
@@ -916,7 +916,7 @@ const Vendor = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 100,
+                                  width: 80,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
@@ -959,7 +959,7 @@ const Vendor = ({
                               >
                                 --
                               </TableCell>
-                              <TableCell
+                              {/* <TableCell
                                 className="pl-2 capitalize"
                                 align="left"
                                 style={{
@@ -970,7 +970,7 @@ const Vendor = ({
                                 }}
                               >
 
-                              </TableCell>
+                              </TableCell> */}
 
                               <TableCell
                                 className="pl-2 capitalize"
@@ -1109,9 +1109,9 @@ const Vendor = ({
                                   >
                                     {item[0].code_no === null
                                       ? ""
-                                      : item[0].code_no}
+                                      : (item[0].code_no=="true"?" ":item[0].code_no)}
                                   </TableCell>
-
+{/* 
                                   <TableCell
                                     className="pl-2 capitalize"
                                     align="center"
@@ -1122,10 +1122,8 @@ const Vendor = ({
                                       fontSize: 16,
                                     }}
                                   >
-                                    {/* {item[0].po_number === null
-                                    ? ""
-                                    : item[0].po_number} */}
-                                  </TableCell>
+                                    
+                                  </TableCell> */}
                                   <TableCell
                                     className="pl-2 capitalize"
                                     align="center"
@@ -1149,9 +1147,15 @@ const Vendor = ({
                                       fontSize: 16,
                                     }}
                                   >
-                                    {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
+                                    {/* {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
                                       minimumFractionDigits: 2
-                                    })}
+                                    })} */}
+
+                            {item[0].credit === null
+                                      ? ""
+                                      : parseFloat(item[0].credit).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                      })}
                                   </TableCell>
                                   <TableCell
                                     className="capitalize"
@@ -1162,11 +1166,14 @@ const Vendor = ({
                                       fontSize: 16,
                                     }}
                                   >
-                                    {item[0].credit === null
+                                    {/* {item[0].credit === null
                                       ? ""
                                       : parseFloat(item[0].credit).toLocaleString(undefined, {
                                         minimumFractionDigits: 2
-                                      })}
+                                      })} */}
+                                       {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
+                                      minimumFractionDigits: 2
+                                    })}
                                   </TableCell>
                                   <TableCell
                                     className="pl-0 capitalize"
@@ -1304,7 +1311,7 @@ const Vendor = ({
                                 }}
                                 colSpan={2}
                               ></TableCell>
-                              <TableCell
+                              {/* <TableCell
                                 className="pl-2 capitalize"
                                 align="left"
                                 style={{
@@ -1315,7 +1322,7 @@ const Vendor = ({
                                 }}
                               >
 
-                              </TableCell>
+                              </TableCell> */}
                               <TableCell
                                 className="pl-2 capitalize"
                                 align="left"

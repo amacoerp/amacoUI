@@ -237,10 +237,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
 
-        if (id) {
-          url.delete(`rfq_details/${id}`).then(data)
-          setIsAlive(true);
-        } else {
+        
           let tempItemList = [...state.item];
           tempItemList.splice(index, 1);
 
@@ -248,7 +245,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             ...state,
             item: tempItemList,
           });
-        }
+        
         // let tempItemList = [...state.item];
         // tempItemList.splice(index, 1);
 

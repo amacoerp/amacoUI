@@ -415,7 +415,7 @@ const Customer = ({
           </div>
         </div>
       </div>
-      <ValidatorForm className="px-0 pb-0 ml-4" >
+      <ValidatorForm className="px-0 pb-0 ml-4 ml-6" >
         <Grid container spacing={2}>
           <Grid item lg={3} xs={12}>
             <TextField
@@ -446,7 +446,7 @@ const Customer = ({
           <Grid item lg={3} md={6} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full pl-4"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -463,7 +463,7 @@ const Customer = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full pl-4"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
@@ -859,14 +859,14 @@ const Customer = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 90,
+                                  width: 100,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
                                 }}
                                 align="center"
                               >
-                                DEBIT
+                                BILL AMOUNT
                               </TableCell>
                               <TableCell
                                 className="px-0"
@@ -874,13 +874,13 @@ const Customer = ({
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
                                   color: "#fff",
-                                  width: 90,
+                                  width: 100,
                                   fontWeight: 1000,
                                   fontSize: 16,
                                 }}
                                 align="center"
                               >
-                                CREDIT
+                                RECEIVED AMOUNT
                               </TableCell>
 
                               <TableCell
@@ -888,7 +888,7 @@ const Customer = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 90,
+                                  width: 100,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
@@ -916,7 +916,7 @@ const Customer = ({
                                 style={{
                                   border: "1px solid #ccc",
                                   fontFamily: "Calibri",
-                                  width: 100,
+                                  width: 80,
                                   color: "#fff",
                                   fontWeight: 1000,
                                   fontSize: 16,
