@@ -46,7 +46,7 @@ const columnStyleWithWidthSno = {
   textAlign: "center"
 }
 
-const SimpleMuiTable = ({ logData }) => {
+const SimpleMuiTable = ({ logData, alive, setAlive }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userid, setuserid] = useState(null);
@@ -59,9 +59,11 @@ const SimpleMuiTable = ({ logData }) => {
 
     });
     setLogData(logData)
+    console.log(alive)
+    setIsAlive(false);
+    setAlive(false)
 
-    return () => setIsAlive(false);
-  }, [isAlive]);
+  }, [isAlive, alive]);
 
   const [count, setCount] = useState(0);
 
@@ -83,7 +85,8 @@ const SimpleMuiTable = ({ logData }) => {
     setShouldOpenConfirmationDialog,
   ] = useState(false);
   const handleDialogClose = () => {
-    setuserid()
+    console.log('dd')
+    setuserid(null)
     setShouldOpenEditorDialog(false);
     setShouldOpenPermissionDialog(false);
     setShouldOpenLogDialog(false);
@@ -133,7 +136,7 @@ const SimpleMuiTable = ({ logData }) => {
         url.get(`Userstatus/${id}`)
           .then(res => {
 
-            setIsAlive(false)
+            setIsAlive(true)
             Swal.fire(
               'Deleted!',
               'User  has been deleted.',
@@ -330,6 +333,7 @@ const SimpleMuiTable = ({ logData }) => {
               handleClose={handleDialogClose}
               open={shouldOpenEditorDialog}
               userid={userid}
+              setIsAlive2={setIsAlive}
               userList={setUserList}
             />
           )}
