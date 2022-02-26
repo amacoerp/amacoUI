@@ -433,7 +433,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           getRef(r).current.focus();
         }
       } catch (error) {
-        console.error('eror')
         addItemToInvoiceList();
       }
 
@@ -666,7 +665,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       </div>
       <Card elevation={6} className="m-sm-30">
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm onSubmit={handleSubmit} autocomplete='off' onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-end">
               <div className="mb-6">
                 <Button

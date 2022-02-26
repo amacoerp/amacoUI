@@ -171,8 +171,8 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, logData 
             options: {
                 customHeadRender: ({ index, ...column }) => {
                     return (
-                        <TableCell key={index} style={{ width: 50 }}>
-                            <span align="center">S.NO.</span>
+                        <TableCell key={index} align="center" style={{ width: 50 }}>
+                            <span >S.NO.</span>
                         </TableCell>
                     )
                 },
