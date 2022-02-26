@@ -16,7 +16,7 @@ import url, { capitalize_arr } from "../invoice/InvoiceService"
 import { FormGroup } from "@material-ui/core";
 import MemberEditorDialog1 from "./designation";
 
-const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
+const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userList }) => {
   const [state, setState] = useState({
     name: "abc",
     email: "",
@@ -103,7 +103,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
   };
 
 
-  const handleDialogClose = () => {
+  const handleDialogCloses = () => {
     setshouldOpenEditorDialog1(false);
 
   };
@@ -111,6 +111,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
   const error = divisions.filter(v => v).length !== 1;
 
   useEffect(() => {
+    console.log(setIsAlive2, 'ss')
     let tempList;
     url.get('roles').then(({ data }) => {
       setRoles(data)
@@ -536,7 +537,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
         </ValidatorForm>
         {shouldOpenEditorDialog1 && (
           <MemberEditorDialog1
-            handleClose={handleDialogClose}
+            handleClose={handleDialogCloses}
             open={shouldOpenEditorDialog1}
             userid={userid}
             designationList={designationList}

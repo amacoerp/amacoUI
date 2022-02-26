@@ -19,6 +19,7 @@ const CustomerViewer = () => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [userList, setUserList] = useState([]);
   const [userid, setuserid] = useState(null);
+  const [alive, setAlive] = useState(false)
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -26,8 +27,9 @@ const CustomerViewer = () => {
   const [logData, setLogData] = useState([]);
 
   const handleDialogClose = () => {
-    setShouldOpenEditorDialog(false);
 
+    setShouldOpenEditorDialog(false);
+    setAlive(true)
   };
 
   const handleDeleteUser = (user) => {
@@ -90,6 +92,7 @@ const CustomerViewer = () => {
           handleClose={handleDialogClose}
           open={shouldOpenEditorDialog}
           userid={userid}
+          alive={setAlive}
           userList={setUserList}
         />
       )}
@@ -114,7 +117,7 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-      {tabIndex === 0 && <SimpleMuiTable logData={logData} />}
+      {tabIndex === 0 && <SimpleMuiTable alive={alive} logData={logData} />}
       {/* {/* {tabIndex === 1 && <AcceptQuote />} */}
       {tabIndex === 1 && <UserTrash />}
       {tabIndex === 2 && <LoginLog />}
