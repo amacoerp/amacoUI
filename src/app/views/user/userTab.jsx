@@ -117,7 +117,7 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-      {tabIndex === 0 && <SimpleMuiTable alive={alive} logData={logData} />}
+      {tabIndex === 0 && <SimpleMuiTable alive={alive} setAlive={setAlive} logData={logData} />}
       {/* {/* {tabIndex === 1 && <AcceptQuote />} */}
       {tabIndex === 1 && <UserTrash />}
       {tabIndex === 2 && <LoginLog />}

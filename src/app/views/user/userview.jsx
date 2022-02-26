@@ -46,7 +46,7 @@ const columnStyleWithWidthSno = {
   textAlign: "center"
 }
 
-const SimpleMuiTable = ({ logData, alive }) => {
+const SimpleMuiTable = ({ logData, alive, setAlive }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userid, setuserid] = useState(null);
@@ -59,9 +59,10 @@ const SimpleMuiTable = ({ logData, alive }) => {
 
     });
     setLogData(logData)
-
+    console.log(alive)
     setIsAlive(false);
-    alive = false
+    setAlive(false)
+
   }, [isAlive, alive]);
 
   const [count, setCount] = useState(0);
@@ -135,7 +136,7 @@ const SimpleMuiTable = ({ logData, alive }) => {
         url.get(`Userstatus/${id}`)
           .then(res => {
 
-            setIsAlive(false)
+            setIsAlive(true)
             Swal.fire(
               'Deleted!',
               'User  has been deleted.',

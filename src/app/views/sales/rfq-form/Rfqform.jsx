@@ -34,6 +34,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import MemberEditorDialog from '../../party/partycontact';
 
 import axios from "axios";
 import url, { getProductList, capitalize_arr, data } from "../../invoice/InvoiceService.js";
@@ -61,13 +62,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [cname, setcname] = useState([]);
   const [rfq_details, setrfqdetails] = useState([]);
   const [CustomerList, setCustomerList] = useState([]);
+  const [contId, setContId] = useState([]);
   const [ProductList, setProductList] = useState([]);
   const [listrfq, setlistrfq] = useState([]);
   const [files, setfiles] = useState([]);
   const [upload, setupload] = useState([]);
   const [proList, setproList] = useState([]);
   const history = useHistory();
+  const [customercontact, setcustomercontact] = useState([]);
+  const [
+    shouldOpenConfirmationDialogparty,
+    setshouldOpenConfirmationDialogparty,
+  ] = useState(false);
+
   const [party_id, setPartyId] = useState()
+  const [rfqstatus, setrfqstatus] = useState(false);
+
   let inputRef = [];
   let priceRef = [];
   const [getRef, setRef] = useDynamicRefs();
@@ -157,6 +167,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     event.persist();
     setState({ ...state, [event.target.name]: event.target.value });
   };
+  const handleDialogClose = () => {
+    setshouldOpenConfirmationDialogparty(false)
+  }
 
   const handleSellerBuyerChange = (event, fieldName) => {
     event.persist();
@@ -443,6 +456,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
+  const getContacts = (pid) => {
+    if (pid) {
+      url.get("parties/" + pid).then(({ data }) => {
+        setcustomercontact(data[0]?.contacts);
+
+        setrfqstatus(true);
+      });
+
+    } else {
+      setrfqstatus(false);
+    }
+
+    console.log('ds', pid)
+  }
+
   const filter = createFilterOptions();
 
   const filterPrice = (options, params) => {
@@ -493,6 +521,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       formData.append('rfq_id', id)
       formData.append('party_id', party_id)
       formData.append('user_id', user.id)
+      formData.append('contact_id', contId)
       formData.append('div_id', localStorage.getItem('division'))
       tempItemList.map((answer, i) => {
 
@@ -662,23 +691,58 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div>
 
             <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
+              <div className="flex justify-between px-4 mb-4">
+                <div>
 
-                <Autocomplete
-                  id="filter-demo"
-                  variant="outlined"
-                  options={CustomerList}
-                  style={{ minWidth: 200, maxWidth: "250px" }}
-                  getOptionLabel={(option) => option.firm_name}
-                  filterOptions={filterPrice}
-                  required={true}
-                  onChange={(event, newValue) => setPartyId(newValue.id ? newValue.id : 0)}
-                  size="small"
-                  renderInput={(params) => <TextField {...params} maxHeight="10px"
-                    variant="outlined" label="Vendor Name" />}
-                />
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    options={CustomerList}
+                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    getOptionLabel={(option) => option?.firm_name}
+                    filterOptions={filterPrice}
+                    required={true}
+                    onChange={(event, newValue) => {
+                      setPartyId(newValue?.id ? newValue?.id : 0)
+                      getContacts(newValue?.id ? newValue?.id : 0)
+                    }}
+                    size="small"
+                    renderInput={(params) => <TextField {...params} maxHeight="10px"
+                      variant="outlined" label="Vendor Name" />}
+                  />
 
+                </div>
+                <div style={{ marginLeft: 9 }}>
+
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    label="Contact Person"
+                    disabled={!rfqstatus}
+                    options={customercontact}
+                    onChange={(e, newValue) => { setContId(newValue?.id) }}
+                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    getOptionLabel={(option) => option.fname}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+ Add New</Button>)
+                        });
+                      }
+
+
+                      return filtered;
+                    }}
+                    size="small"
+                    renderInput={(params) => <TextField {...params} maxHeight="10px"
+                      variant="outlined" label="Contact Person" />}
+                  />
+
+                </div>
               </div>
+
               <div className="flex justify-between px-4 mb-4">
                 <div className="flex">
 
@@ -1034,6 +1098,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         </div>
       </Card>
+      {shouldOpenConfirmationDialogparty && (
+        <MemberEditorDialog
+          open={shouldOpenConfirmationDialogparty}
+          onConfirmDialogClose={handleDialogClose}
+          handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+          customercontact={setcustomercontact}
+          partyid={party_id}
+
+          text="Are you sure to delete?"
+        />
+      )}
     </div>
   );
 };
