@@ -78,11 +78,11 @@ export const navigations = [
     name: "ACCOUNT",
     icon: "developer_board",
     children: [
-      {
-        name: "ACCOUNT DASHBOARD",
-        icon: "dashboard",
-        path: navigatePath + "/dashboard",
-      },
+      // {
+      //   name: "ACCOUNT DASHBOARD",
+      //   icon: "dashboard",
+      //   path: navigatePath + "/dashboard",
+      // },
       {
         name: "EXPENSES",
         icon: "attach_money",

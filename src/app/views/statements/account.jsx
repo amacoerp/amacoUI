@@ -519,7 +519,7 @@ const Customer = ({
           <Grid item lg={3} md={6} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full ml-4"
+                className="mb-4 w-full ml-8"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -536,7 +536,7 @@ const Customer = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full ml-6"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
