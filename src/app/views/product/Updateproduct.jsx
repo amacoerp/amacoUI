@@ -706,7 +706,7 @@ const SimpleForm = () => {
               <Icon>save</Icon>
               <span className="pl-2 capitalize">SAVE</span>
             </Button>
-            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`../singleproduct/${id}`)}>
+            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push(`/singleproduct/${id}`)}>
               <Icon>cancel</Icon>
               <span className="pl-2 capitalize">CANCEL</span>
             </Button>

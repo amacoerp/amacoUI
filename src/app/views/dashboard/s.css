@@ -1,4 +1,4 @@
-.changeDateColor .MuiSelect-select.MuiSelect-select {
+/* .changeDateColor .MuiSelect-select.MuiSelect-select {
   color: white;
   border-bottom: 2px solid white;
 }
@@ -9,7 +9,17 @@
 .changeDateColor .MuiSelect-icon {
   color: white;
 }
-
-.changeDateColor .MuiInput-input {
+*/
+.changeDateColor .MuiInputBase-root {
   border-bottom: 1px solid white;
+}
+
+.changeDateColor .MuiSvgIcon-root {
+  color: white !important;
+}
+.changeDateColor .MuiInputBase-input {
+  color: white !important;
+}
+.changeDateColor .MuiInputLabel-animated {
+  color: white !important;
 }
