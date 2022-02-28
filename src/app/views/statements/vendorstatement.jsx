@@ -1109,9 +1109,9 @@ const Vendor = ({
                                   >
                                     {item[0].code_no === null
                                       ? ""
-                                      : (item[0].code_no=="true"?" ":item[0].code_no)}
+                                      : (item[0].code_no == "true" ? " " : item[0].code_no)}
                                   </TableCell>
-{/* 
+                                  {/* 
                                   <TableCell
                                     className="pl-2 capitalize"
                                     align="center"
@@ -1151,7 +1151,7 @@ const Vendor = ({
                                       minimumFractionDigits: 2
                                     })} */}
 
-                            {item[0].credit === null
+                                    {item[0].credit === null
                                       ? ""
                                       : parseFloat(item[0].credit).toLocaleString(undefined, {
                                         minimumFractionDigits: 2
@@ -1171,7 +1171,7 @@ const Vendor = ({
                                       : parseFloat(item[0].credit).toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                       })} */}
-                                       {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
+                                    {item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
                                       minimumFractionDigits: 2
                                     })}
                                   </TableCell>

@@ -159,7 +159,7 @@ const Analytics = () => {
 
 
 
-  }, [])
+  }, [localStorage.getItem('division')])
 
   const handleChange = (i) => {
 
