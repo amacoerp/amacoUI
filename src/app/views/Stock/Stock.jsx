@@ -87,7 +87,7 @@ const StockViewer = () => {
     }, [isAlive]);
 
     const handleInputChange = (event) => {
-        setMsg(event.target.value?.toLowerCase())
+        // setMsg(event.target.value?.toLowerCase())
         setDataList(
             allDataList.filter((obj) =>
                 obj.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())
@@ -98,11 +98,11 @@ const StockViewer = () => {
                 obj.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())
             )
         );
-        // if (!other?.length && !dataList?.length) {
-        //     setMsg("Sorry, no matching records found");
-        // } else {
-        //     setMsg("");
-        // }
+        if (!other?.length && !dataList?.length) {
+            setMsg("Sorry, no matching records found");
+        } else {
+            setMsg("");
+        }
     };
 
     return (
@@ -284,11 +284,11 @@ const StockViewer = () => {
                                             </div>
                                         </div>
                                         <div className="pbdody">
-                                            {/* {msg && (
+                                            {msg && (
                                                 <div style={{ padding: "10px" }}>
                                                     <center>{msg}</center>
                                                 </div>
-                                            )} */}
+                                            )}
                                             {dataList?.map((item, i) => {
                                                 return (
                                                     <div className="row" key={i}>
@@ -307,7 +307,8 @@ const StockViewer = () => {
                                                                                 </div>
                                                                                 {subItem?.product?.filter(obj => obj?.type == "Inventory")?.length ? (
                                                                                     <div className="col">
-                                                                                        {subItem?.product?.filter(obj => obj?.type == "Inventory")?.filter(ob => ob?.name?.toLowerCase().includes(msg))?.map(
+                                                                                        {/* ?.filter(ob => ob?.name?.toLowerCase().includes(msg)) */}
+                                                                                        {subItem?.product?.filter(obj => obj?.type == "Inventory")?.map(
                                                                                             (prod, pi) => {
                                                                                                 const sum =
                                                                                                     parseInt(

@@ -240,7 +240,7 @@ const Analytics = () => {
 
         <div className="card-title capitalize text-white mb-4 text-white-secondary justify-between">
 
-          <div class="changeDateColor">
+          {/* <div class="changeDateColor">
             <TextField
               select
               style={{ float: "right", width: 250, }}
@@ -257,7 +257,7 @@ const Analytics = () => {
               label="Choose Year"
             >
               <MenuItem>Choose Year</MenuItem>
-              {/* <MenuItem value="2019">2019</MenuItem> */}
+              {/* <MenuItem value="2019">2019</MenuItem> 
               <MenuItem value="2020">2020</MenuItem>
               <MenuItem value="2021">2021</MenuItem>
               <MenuItem value="2022">2022</MenuItem>
@@ -276,54 +276,32 @@ const Analytics = () => {
               <MenuItem value="2035">2035</MenuItem>
 
             </TextField>
-          </div>
-          <div>
-            Last 12 months sales
-
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils} color="white" inputProps={{
-              style: {
-                // color: 'white',
-                borderColor: 'white',
-                // fontFamily: fonts.root,
-                borderStyle: 'solid',
-                borderWidth: 2,
-                borderRadius: 5,
-                outline: 'none',
-              },
-            }}>
+          </div> */}
+          <div className="changeDateColor">
+            <MuiPickersUtilsProvider utils={DateFnsUtils} >
               <KeyboardDatePicker
                 className="m-2"
-                margin="none"
+                // margin="none"
                 label="Select Year"
                 format="yyyy"
-                inputVariant="outlined"
+                // inputVariant="outlined"
                 type="text"
                 size="small"
                 selected={date}
                 value={date}
-                // inputProps={{
-                //   style: {
-                //     // color: 'white',
-                //     borderColor: 'white',
-                //     // fontFamily: fonts.root,
-                //     borderStyle: 'solid',
-                //     borderWidth: 2,
-                //     borderRadius: 5,
-                //     outline: 'none',
-                //   },
-                // }}
-
                 style={{ float: "right" }}
                 views={["year"]}
-
                 onChange={(date) => {
-
                   setdate(moment(date).format('YYYY'))
                   handleChange(moment(date).format('YYYY'))
-                  // return date
                 }}
               />
-            </MuiPickersUtilsProvider> */}
+            </MuiPickersUtilsProvider>
+          </div>
+          <div>
+            Last 12 months sales
+
+
           </div>
 
 
