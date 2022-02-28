@@ -415,11 +415,11 @@ const Customer = ({
           </div>
         </div>
       </div>
-      <ValidatorForm className="px-0 pb-0 ml-4 ml-6" >
+      <ValidatorForm className="px-0 pb-0" >
         <Grid container spacing={2}>
           <Grid item lg={3} xs={12}>
             <TextField
-              className="mb-4 w-full"
+              className="mb-4 w-full ml-10"
               label="Name"
               name="party_id"
               size="small"
@@ -444,9 +444,9 @@ const Customer = ({
           </Grid>
 
           <Grid item lg={3} md={6} xs={12}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils} >
               <KeyboardDatePicker
-                className="mb-4 w-full pl-4"
+                className="mb-4 w-full ml-8"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -463,7 +463,7 @@ const Customer = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full pl-4"
+                className="mb-4 w-full ml-8"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
