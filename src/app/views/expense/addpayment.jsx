@@ -73,6 +73,24 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, catid, catList, id }) => 
       value: 'bankdeposit'
     }
   ]
+  const option1 = [
+    {
+      name: 'Cash',
+      value: 'cash'
+    },
+    //   {
+    //     name:'cheque',
+    //     value:'cheque'
+    // },
+    {
+      name: 'Bank Transfer',
+      value: 'banktransfer'
+    },
+    {
+      name: 'Bank Deposit',
+      value: 'bankdeposit'
+    }
+  ]
   const handleFormSubmit = () => {
 
     const formdata = {
@@ -132,6 +150,22 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, catid, catList, id }) => 
 
 
     handleClose()
+  }
+
+  const [show, setShow] = useState(true)
+
+  const setreceived_byfun = (e) => {
+    setreceived_by(e)
+    console.log(payment_account_id)
+    const r = paymentaccount.filter(obj => obj.id == e)
+    const p = paymentaccount.filter(obj => obj.id == payment_account_id)
+    if (r[0]?.type === 'personal' && p[0]?.type === 'personal') {
+      setShow(false)
+      setpayment_mode('cash')
+    } else {
+      setShow(true)
+      setpayment_mode('')
+    }
   }
 
   useEffect(() => {
@@ -273,7 +307,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, catid, catList, id }) => 
                   value={received_by}
                   // onChange={handleChange}
 
-                  onChange={e => setreceived_by(e.target.value)
+                  onChange={e => setreceived_byfun(e.target.value)
                     //         // .log(isAlive)
                   }
 
@@ -324,26 +358,26 @@ const MemberEditorDialog1 = ({ uid, open, handleClose, catid, catList, id }) => 
               required
             />
           </MuiPickersUtilsProvider>
-
-          <TextField
-            className="w-full mb-4"
-            label="Payment Mode"
-            onChange={e => setpayment_mode(e.target.value)
-            }
-            variant="outlined"
-            type="text"
-            name="cdescription"
-            size="small"
-            value={payment_mode}
-            required
-            select
-          >
-            {option.map((item, ind) => (
-              <MenuItem value={item.value} key={item}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </TextField>
+          {show &&
+            <TextField
+              className="w-full mb-4"
+              label="Payment Mode"
+              onChange={e => setpayment_mode(e.target.value)
+              }
+              variant="outlined"
+              type="text"
+              name="cdescription"
+              size="small"
+              value={payment_mode}
+              required
+              select
+            >
+              {option.map((item, ind) => (
+                <MenuItem value={item.value} key={item}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </TextField>}
           {payment_mode === 'cheque' && (<TextField
             className="w-full mb-4"
             label="Cheque Number"

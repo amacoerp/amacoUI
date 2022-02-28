@@ -331,7 +331,10 @@ const SimpleForm = () => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            routerHistory.push(navigatePath + `/product/Viewproduct/${selectedOption1}`)
+            selectedOption1 ?
+              routerHistory.push(navigatePath + `/product/Viewproduct/${selectedOption1}`)
+              :
+              routerHistory.push(navigatePath + `/product/viewsubcategory`)
           })
       })
       .catch(function (error) {
