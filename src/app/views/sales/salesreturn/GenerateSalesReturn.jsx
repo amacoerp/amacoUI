@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 import MemberEditorDialogcontact from "../../party/partycontact";
+import UOMDialog from '../../invoice/UOMDialog';
 
 import {
     Button,
@@ -31,7 +32,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getUnitOfMeasure, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../../product/productprice";
@@ -134,16 +135,16 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     const addItemToInvoiceList = () => {
-       
+
         let tempItemList = [...state.item];
 
         tempItemList.push({
             product_id: "",
             src: '',
-            invoice_no:" ",
-            item_name:" ",
+            invoice_no: " ",
+            item_name: " ",
             description: "",
-            name:" ",
+            name: " ",
             descriptions: "",
             quantity: 0,
             product_price_list: [
@@ -594,7 +595,13 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     };
 
+    const [data, setData] = useState([])
+    const [uom, setUOM] = useState(false)
+
     useEffect(() => {
+        getUnitOfMeasure().then(({ data }) => {
+            setData(data);
+        });
         url.get("products").then(({ data }) => {
             setproList(data)
         });
@@ -946,7 +953,7 @@ select
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.invoice_no ?option?.invoice_no:(item?.invoice_no?item?.invoice_no:" ");
+                                                        return option?.invoice_no ? option?.invoice_no : (item?.invoice_no ? item?.invoice_no : " ");
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}
@@ -981,7 +988,7 @@ select
                                                         if (option.inputValue) {
                                                             return option?.inputValue;
                                                         }
-                                                        return option?.name ? option?.name : (item?.item_name?item?.item_name:" ")
+                                                        return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ")
                                                     }}
                                                     freeSolo
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}
@@ -1060,6 +1067,8 @@ select
 
 
                                                 >
+                                                    <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                                                     {data.map((item, ind) => (
                                                         <MenuItem value={item.value} key={item}>
                                                             {item.label}
@@ -1385,7 +1394,13 @@ select
                     text="Are you sure to delete?"
                 />
             )}
-
+            {uom && (
+                <UOMDialog
+                    open={uom}
+                    handleClose={() => { setUOM(false) }}
+                    setData={setData}
+                />
+            )}
             {
                 shouldOpenConfirmationDialogparty && (
                     <MemberEditorDialogcontact

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import xlsx from 'xlsx';
 import useDynamicRefs from 'use-dynamic-refs';
+import UOMDialog from '../../invoice/UOMDialog';
 
 import {
   Button,
@@ -37,7 +38,7 @@ import clsx from "clsx";
 import { useCallback } from "react";
 import useAuth from "app/hooks/useAuth";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
-import url, { getusers, divisionId, getCustomerList, data, getcompanybank, navigatePath } from "../../invoice/InvoiceService";
+import url, { getusers, getUnitOfMeasure, divisionId, getCustomerList, data, getcompanybank, navigatePath } from "../../invoice/InvoiceService";
 
 // expandable table
 
@@ -1140,9 +1141,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
-
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
   useEffect(() => {
-    console.log("sign", user.name)
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     getCustomerList().then(({ data }) => {
       console.log(data)
       setCustomerList(data);
@@ -1810,6 +1814,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -2611,6 +2617,13 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
             partyid={party_id}
 
             text="Are you sure to delete?"
+          />
+        )}
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
           />
         )}
       </Card>

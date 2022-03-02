@@ -295,7 +295,6 @@ const SimpleMuiTable = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log(tableMeta.rowData)
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
               <Link to={navigatePath + "/newinvoice/" + tableMeta.rowData[7]}>
@@ -361,7 +360,7 @@ const SimpleMuiTable = () => {
               item?.party?.firm_name,
 
               moment(item?.issue_date).format('DD MMM YYYY'),
-              parseFloat(item?.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+              isNaN(parseFloat(item?.grand_total)) ? 0.00 : parseFloat(item?.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),
 
               item?.status,
               item?.id,

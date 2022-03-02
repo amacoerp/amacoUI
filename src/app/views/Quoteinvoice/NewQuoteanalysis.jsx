@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Button,
   FormControl,
@@ -35,7 +36,8 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { getusers, divisionId, data, getcompanybank } from "../invoice/InvoiceService";
+import url, { getusers, divisionId, getUnitOfMeasure, data, getcompanybank } from "../invoice/InvoiceService";
+import UOMDialog from '../invoice/UOMDialog';
 
 // expandable table
 
@@ -1060,9 +1062,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setrfqstatus(false);
     }
   }
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     getCustomerList().then(({ data }) => {
 
       const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
@@ -1879,6 +1885,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -2656,6 +2664,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             />
           )
         }
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
+          />
+        )}
         {
           shouldOpenEditorDialogproduct && (
             <MemberEditorDialog_product

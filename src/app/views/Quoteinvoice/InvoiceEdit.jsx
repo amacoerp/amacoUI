@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import UOMDialog from '../invoice/UOMDialog';
 
 import {
   Button,
@@ -28,7 +29,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import url, { getInvoiceById, addInvoice, updateInvoice, getCustomerList, ApiKey, navigatePath, data } from "../invoice/InvoiceService";
+import url, { getInvoiceById, addInvoice, getUnitOfMeasure, updateInvoice, getCustomerList, ApiKey, navigatePath, data } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -260,8 +261,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
-        element['description'] = newValue?.id ? newValue?.name :  newValue?newValue:event.target.value
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['description'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
         element['product_id'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -1027,9 +1028,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     });
   }
-
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
   useEffect(() => {
-
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     getCustomerList().then(({ data }) => {
       setCustomerList(data);
 
@@ -1540,13 +1544,13 @@ select
                           renderInput={(params) => (
                             <TextField {...params} inputRef={input => {
                               inputRef[index] = input;
-                            }} 
-                            onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                            variant="outlined" name="product_id" required fullWidth />
+                            }}
+                              onChange={(event, newValue) => handleChanges(event, newValue, index)}
+                              variant="outlined" name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
@@ -1617,7 +1621,7 @@ select
                           name="quantity"
                           value={item?.quantity}
                           validators={["isNumber"]}
-                        errorMessages={["Invalid Number"]}
+                          errorMessages={["Invalid Number"]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left">
@@ -1644,6 +1648,8 @@ select
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.sort((a, b) => a.value > b.value ? 1 : -1).map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -2052,6 +2058,13 @@ select
             open={shouldOpenEditorDialogproduct}
 
 
+          />
+        )}
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
           />
         )}
         {shouldOpenConfirmationDialogproduct && (
