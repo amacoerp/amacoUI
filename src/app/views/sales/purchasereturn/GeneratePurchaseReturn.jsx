@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 import MemberEditorDialogcontact from "../../party/partycontact";
+import UOMDialog from '../../invoice/UOMDialog';
 
 import {
     Button,
@@ -30,7 +31,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getUnitOfMeasure, getVendorList, data, currency, navigatePath } from "../../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../../product/productprice";
@@ -633,9 +634,15 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     };
+    const [data, setData] = useState([])
+
+    const [uom, setUOM] = useState(false)
 
     useEffect(() => {
         // heelloo
+        getUnitOfMeasure().then(({ data }) => {
+            setData(data);
+        });
         url.get("products").then(({ data }) => {
             setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
             setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
@@ -1099,6 +1106,8 @@ select
 
 
                                                 >
+                                                    <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                                                     {data.map((item, ind) => (
                                                         <MenuItem value={item.value} key={item}>
                                                             {item.label}
@@ -1438,6 +1447,14 @@ select
                     open={shouldOpenConfirmationDialog}
                     onConfirmDialogClose={handleDialogClose}
                     text="Are you sure to delete?"
+                />
+            )}
+
+            {uom && (
+                <UOMDialog
+                    open={uom}
+                    handleClose={() => { setUOM(false) }}
+                    setData={setData}
                 />
             )}
             {

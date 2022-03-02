@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import UOMDialog from '../invoice/UOMDialog';
 
 import {
   Button,
@@ -34,7 +35,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import axios from "axios";
-import { getVendorList, capitalize_arr, divisionId } from "../invoice/InvoiceService";
+import { getVendorList, getUnitOfMeasure, capitalize_arr, divisionId } from "../invoice/InvoiceService";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -979,8 +980,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
-  useEffect(() => {
+  const [data, setData] = useState([])
 
+  const [uom, setUOM] = useState(false)
+
+  useEffect(() => {
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     getVendorList().then(({ data }) => {
       setCustomerList(data);
 
@@ -1436,7 +1443,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
@@ -1534,6 +1541,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.sort((a, b) => a.value > b.value ? 1 : -1).map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -1904,6 +1913,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             open={shouldOpenEditorDialog}
             catid={catid}
             productprice={setproductprice}
+          />
+        )}
+
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
           />
         )}
         {shouldOpenConfirmationDialog && (

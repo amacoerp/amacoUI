@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import UOMDialog from '../invoice/UOMDialog';
+
 import {
   Button,
   Radio,
@@ -31,7 +33,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
-import { getInvoiceById, addInvoice, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath, basePath } from "../invoice/InvoiceService";
+import { getInvoiceById, addInvoice, getUnitOfMeasure, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath, basePath } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -1137,8 +1139,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
-
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
   useEffect(() => {
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     getCustomerList().then(({ data }) => {
       setCustomerList(data);
 
@@ -1524,7 +1530,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   options={customercontact}
 
                   value={contactname}
-                  getOptionLabel={(option) => option?.fname ? option?.fname : (contactname?contactname:" ")}
+                  getOptionLabel={(option) => option?.fname ? option?.fname : (contactname ? contactname : " ")}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
@@ -1926,6 +1932,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -2725,6 +2733,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             open={shouldOpenEditorDialogproduct}
 
 
+          />
+        )}
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
           />
         )}
         {shouldOpenConfirmationDialogproduct && (

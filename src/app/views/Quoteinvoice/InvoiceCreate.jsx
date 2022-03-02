@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
+import UOMDialog from '../invoice/UOMDialog';
 
 import {
   Button,
@@ -29,7 +30,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import url, { getInvoiceById, addInvoice, updateInvoice, getCustomerList, ApiKey, navigatePath, data } from "../invoice/InvoiceService";
+import url, { getInvoiceById, addInvoice, getUnitOfMeasure, updateInvoice, getCustomerList, ApiKey, navigatePath, data } from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -1078,7 +1079,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
   useEffect(() => {
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
 
     getCustomerList().then(({ data }) => {
       setCustomerList(data);
@@ -1671,6 +1677,8 @@ select
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.sort((a, b) => a.value > b.value ? 1 : -1).map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -2076,6 +2084,13 @@ select
             open={shouldOpenConfirmationDialog}
             onConfirmDialogClose={handleDialogClose}
             text="Are you sure to delete?"
+          />
+        )}
+        {uom && (
+          <UOMDialog
+            open={uom}
+            handleClose={() => { setUOM(false) }}
+            setData={setData}
           />
         )}
         {shouldOpenEditorDialogproduct && (

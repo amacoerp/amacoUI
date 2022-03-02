@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MemberEditorDialogcontact from "../party/partycontact";
+import UOMDialog from '../invoice/UOMDialog';
 
 import {
   Button,
@@ -30,7 +31,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath } from "../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getUnitOfMeasure, getVendorList, data, currency, navigatePath } from "../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../product/productprice";
@@ -209,12 +210,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const handleChanges = (event, newValue, index) => {
-    
+
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
     let tempItemList = [...state.item];
-    
+
     if (!newValue) {
       setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
 
@@ -584,9 +585,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
+  const [data, setData] = useState([])
+
+  const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     url.get("products").then(({ data }) => {
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
@@ -622,7 +628,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
     return setIsAlive(false)
-  }, [ ]);
+  }, []);
   // }, [id, isNewInvoice, isAlive, generateRandomId]);
 
 
@@ -794,7 +800,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   style={{ minWidth: 200, maxWidth: '250px' }}
                   // style={{ position: 'relative', top: '-37px', left: '220px' }}
-                  getOptionLabel={(option) => option.fname ? option?.fname : (contactname?contactname:' ')}
+                  getOptionLabel={(option) => option.fname ? option?.fname : (contactname ? contactname : ' ')}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
@@ -898,7 +904,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : (item?.description?item?.description:"")
+                            return option?.name ? option?.name : (item?.description ? item?.description : "")
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
@@ -910,7 +916,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          // onBlur={(event, newValue) => {handleChanges(event, newValue, index)}}
+                        // onBlur={(event, newValue) => {handleChanges(event, newValue, index)}}
 
 
                         />
@@ -983,6 +989,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data?.map((item, ind) => (
                             <MenuItem value={item?.value} key={item}>
                               {item?.label}
@@ -1327,6 +1335,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           />
         )
       }
+
+      {uom && (
+        <UOMDialog
+          open={uom}
+          handleClose={() => { setUOM(false) }}
+          setData={setData}
+        />
+      )}
       {shouldOpenConfirmationDialog && (
         <ConfirmationDialog
           open={shouldOpenConfirmationDialog}
