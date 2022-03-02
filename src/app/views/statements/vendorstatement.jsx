@@ -1343,7 +1343,7 @@ const Vendor = ({
                                   fontSize: 16,
                                 }}
                               >
-                                {dsum.toLocaleString(undefined, {
+                                {csum.toLocaleString(undefined, {
                                   minimumFractionDigits: 2,
                                 })}
                               </TableCell>
@@ -1356,7 +1356,7 @@ const Vendor = ({
                                   fontSize: 16,
                                 }}
                               >
-                                {csum.toLocaleString(undefined, {
+                                {dsum.toLocaleString(undefined, {
                                   minimumFractionDigits: 2,
                                 })}
                               </TableCell>
