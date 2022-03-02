@@ -1218,7 +1218,7 @@ const Customer = ({
                                   >
 
                                   </TableCell>) :
-                                    (dsum < parseFloat(osum.split(",").join("")) ? (<TableCell
+                                    (csum < parseFloat(osum.split(",").join("")) ? (<TableCell
                                       className="pl-0 capitalize"
                                       style={{
                                         textAlign: "center",
