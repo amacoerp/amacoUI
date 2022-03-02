@@ -522,7 +522,7 @@ const ExpensePending = () => {
       <MUIDataTable
         title={"PENDING EXPENSES LIST"}
         data={expenseList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
-          
+         
           return [
 
             item?.voucher_no,
