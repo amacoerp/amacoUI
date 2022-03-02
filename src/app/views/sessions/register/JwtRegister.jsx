@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }));
 
 const JwtRegister = () => {
-  
+
   const [state, setState] = useState({});
   const classes = useStyles();
   const { register } = useAuth();
@@ -40,9 +40,9 @@ const JwtRegister = () => {
   const handleFormSubmit = (event) => {
     try {
       register(state.email, state.username, state.password);
-      history.push("/");
-    } catch(e) {
-     
+      routerHistory.push("/");
+    } catch (e) {
+
     }
   };
 

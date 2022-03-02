@@ -48,6 +48,7 @@ const SimpleMuiTable = () => {
   }
   useEffect(() => {
     url.get("delivery-notes").then(({ data }) => {
+      console.log(data)
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
       // if(data.length)
@@ -60,9 +61,9 @@ const SimpleMuiTable = () => {
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    history.push(`/rfqanalysis/${invoiceId}`);
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -143,7 +144,7 @@ const SimpleMuiTable = () => {
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 50 }}>
+            <TableCell key={index} style={{ width: 100 }}>
               <span className="pl-2">S.NO.</span>
             </TableCell>
           )
@@ -156,11 +157,35 @@ const SimpleMuiTable = () => {
       label: "DELIVERY NUMB ER", // column title that will be shown in table
       options: {
         filter: true,
+        setCellProps: () => ({
+          align: "center",
+
+        }),
         wordBreak: 'break-word',
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 200 }}>
-              <span className="pl-2">DELIVERY NUMB ER</span>
+            <TableCell key={index} align="center" >
+              <span className="pl-2">DELIVERY NUMBER</span>
+            </TableCell>
+          )
+        },
+
+      },
+    },
+    {
+      name: "delivery_number", // field name in the row object
+      label: "DELIVERY NUMB ER", // column title that will be shown in table
+      options: {
+        filter: true,
+        setCellProps: () => ({
+          align: "center",
+
+        }),
+        wordBreak: 'break-word',
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align="center" >
+              <span className="pl-2">COMPANY NAME</span>
             </TableCell>
           )
         },
@@ -175,11 +200,15 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 200 }}>
+            <TableCell key={index} align="center">
               <span className="pl-2">P.O. NUMBER</span>
             </TableCell>
           )
         },
+        setCellProps: () => ({
+          align: "center",
+
+        })
       },
     },
     {
@@ -187,6 +216,17 @@ const SimpleMuiTable = () => {
       label: "DATE",
       options: {
         filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align="center" >
+              <span className="pl-2">DATE</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+
+        })
       },
     },
 
@@ -222,10 +262,9 @@ const SimpleMuiTable = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-              <Link to={"/invview/" + tableMeta.rowData[4]}>
+              <Link to={"/invview/" + tableMeta.rowData[5] + "/" + tableMeta.rowData[6]}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -242,24 +281,25 @@ const SimpleMuiTable = () => {
         },
       },
     },
-    //   {
-    //     name: "",
-    //     // label: "Action",
-    //     options: {
-    //       filter: true,
-    //       customBodyRender: (value, tableMeta, updateValue) => {
-    //         return (
-    //           <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
-    //             <IconButton>
-    //               <Icon color="secondary">find_in_page</Icon>
-    //             </IconButton>
-    //           </Link>
+    {
+      name: "",
+      // label: "Action",
+      options: {
+        filter: true,
+        display: 'none',
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <IconButton>
+                <Icon color="secondary">find_in_page</Icon>
+              </IconButton>
+            </Link>
 
-    //         )
+          )
 
-    //       },
-    //     },
-    // },
+        },
+      },
+    },
   ];
 
   return (
@@ -289,14 +329,16 @@ const SimpleMuiTable = () => {
           title={"DELIVERY NOTES"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
-
+            console.log(item.party[0]?.firm_name)
             return [
               ++index,
               item?.delivery_number,
+              item?.party[0]?.firm_name ? item?.party[0]?.firm_name : '--',
               item?.po_number,
+
               moment(item?.created_at).format('DD MMM YYYY'),
-              item?.id
-              // item.party[index].firm_name,
+              item?.id,
+              item.quotation_id ? "quote" : "invoice",
               // item.requested_date,
               // item.require_date,
             ]

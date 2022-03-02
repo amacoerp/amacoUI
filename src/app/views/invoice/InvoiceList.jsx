@@ -30,8 +30,8 @@ const InvoiceList = () => {
   }, [isAlive]);
 
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/invoice/${invoiceId}`);
+
+    routerHistory.push(`/invoice/${invoiceId}`);
   };
 
   const handeDeleteClick = (invoice) => {

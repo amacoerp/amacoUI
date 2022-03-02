@@ -1,10 +1,25 @@
-body {
+/* body {
   position: relative;
 }
 p {
   margin: 20px 0;
   page-break-inside: avoid;
-  position: relative; 
-}
+  position: relative;
+} */
 
-div.onepage {page-break-after: always; }
+/* div.onepage {page-break-after: always; } */
+
+.hidecell {
+  border-bottom: 1px solid white !important;
+  border-top: 1px solid white !important;
+  border-left: 1px solid rgb(204, 204, 204) !important;
+  border-right: 1px solid rgb(204, 204, 204) !important;
+}
+.changeYYY {
+  color: red !important;
+}
+@media print {
+  .showPageNumber {
+    display: block !important;
+  }
+}

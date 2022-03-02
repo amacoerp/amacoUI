@@ -34,7 +34,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
   const [customerList, setcustomerList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
   const [isAlivecat, setIsAlivecat] = useState('');
-
+  const [disable, setDisable] = useState(false)
   const { user } = useAuth();
 
 
@@ -47,7 +47,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
   const handleFormSubmit = () => {
 
 
-
+    setDisable(true)
     const frmdetails = {
 
       product_id: catid,
@@ -77,11 +77,11 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
             // });
           })
-          try {
-            fun(true);
-          } catch (error) {
-            
-          }
+        try {
+          fun(true);
+        } catch (error) {
+
+        }
         handleClose()
 
         setcname('');
@@ -144,9 +144,25 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
   useEffect(() => {
     setcname(partyids)
+    console.log(catid);
     url.get("parties-except/" + catid).then(({ data }) => {
 
-      setcustomerList(data)
+
+      const b = data.ids
+      console.log(data.data);
+      console.log(data.ids);
+      let a = data.data
+      const c = data.ids.map((item) => {
+
+        a = a.filter(obj => obj.id !== item)
+        return a
+      });
+
+      const l = c.length - 1;
+      console.log(c[l]);
+
+      c[l] == undefined ? setcustomerList(data.data) : setcustomerList(c[l])
+
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -281,7 +297,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
           </Grid>
 
           <div className="flex  items-center">
-            <Button variant="outlined" className="mr-4 py-2" color="primary" type="submit">
+            <Button variant="outlined" disabled={disable} className="mr-4 py-2" color="primary" type="submit">
               <Icon>save</Icon>SAVE
             </Button>
             <Button

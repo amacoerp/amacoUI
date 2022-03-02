@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath } from "../invoice/InvoiceService";
 import moment from "moment";
@@ -29,13 +29,13 @@ const SimpleMuiTable = () => {
   const [poid, setpoid] = useState("");
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const columnStyleWithWidth = {
-   
+
     zIndex: "100",
     position: "sticky",
     backgroundColor: "#fff",
     width: "100px",
     wordBreak: "break-all",
-    textAlign:"center"
+    textAlign: "center"
   }
   const columnStyleWithWidth1 = {
     top: "0px",
@@ -45,28 +45,28 @@ const SimpleMuiTable = () => {
     backgroundColor: "#fff",
     width: "480px",
     wordBreak: "break-all",
-    textAlign:"center"
+    textAlign: "center"
   }
 
   useEffect(() => {
     url.get("purchase-invoice-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-    
-      if (data.length){
-      
-     
-      setpoid(data[0]?.id)
-      setpodetails(data);
+
+      if (data.length) {
+
+
+        setpoid(data[0]?.id)
+        setpodetails(data);
       }
     });
     return () => setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -131,14 +131,14 @@ const SimpleMuiTable = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-    
+
 
     // })
     // getrow()
     // url.delete(url).then(res => {
     //     const del = employees.filter(employee => id !== employee.id)
     //     setEmployees(del)
-    
+
     // })
   }
   const columns = [
@@ -146,16 +146,16 @@ const SimpleMuiTable = () => {
       name: "index", // field name in the row object
       label: "S.No.", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth}>  
-              <span >S.NO.</span> 
+            <TableCell key={index} style={columnStyleWithWidth}>
+              <span >S.NO.</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-         align:"center"
-       })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       },
     },
     {
@@ -163,16 +163,16 @@ const SimpleMuiTable = () => {
       label: "PO NUMBER", // column title that will be shown in table
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"center"}} >  
-              <span >PO NUMBER</span> 
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >PO NUMBER</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-         align:"center"
-       })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       },
     },
     {
@@ -180,16 +180,16 @@ const SimpleMuiTable = () => {
       label: "Company Name", // column title that will be shown in table
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1}>  
-              <span style={{marginLeft:18}}>COMPANY NAME</span> 
+            <TableCell key={index} style={columnStyleWithWidth1}>
+              <span style={{ marginLeft: 18 }}>COMPANY NAME</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-        align:"center"
-      })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       },
     },
     {
@@ -197,16 +197,16 @@ const SimpleMuiTable = () => {
       label: "CREATED DATE",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"center"}}>  
-              <span >CREATED DATE</span> 
+            <TableCell key={index} style={{ textAlign: "center" }}>
+              <span >CREATED DATE</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-         align:"center"
-       })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       },
     },
     {
@@ -214,15 +214,15 @@ const SimpleMuiTable = () => {
       label: "AMOUNT",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"right"}} className="pr-2">  
-              <span >AMOUNT</span> 
+            <TableCell key={index} style={{ textAlign: "right" }} className="pr-2">
+              <span >AMOUNT</span>
             </TableCell>
           )
-       },
-        setCellProps:()=>({
-          align:"right"
+        },
+        setCellProps: () => ({
+          align: "right"
         })
       },
     },
@@ -252,29 +252,29 @@ const SimpleMuiTable = () => {
       label: "ACTION",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:"right"}} className="pr-8">  
-              <span style={{marginLeft:18}}>ACTION</span> 
+            <TableCell key={index} style={{ textAlign: "right" }} className="pr-8">
+              <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
           )
-       },
+        },
         customBodyRender: (value, tableMeta, updateValue) => {
-          
+
           return (
-            <div style={{textAlign:"right"}} className="pr-8">
-               {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
-            <Link to={navigatePath+"/poinvoice/"+tableMeta.rowData[5]}>
-              <Tooltip title="View More">
-                <Icon color="primary">remove_red_eye</Icon>
-              </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+            <div style={{ textAlign: "right" }} className="pr-8">
+              {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
+              <Link to={navigatePath + "/poinvoice/" + tableMeta.rowData[5]}>
+                <Tooltip title="View More">
+                  <Icon color="primary">remove_red_eye</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </div>
+            </div>
 
           )
 
@@ -293,9 +293,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -306,66 +306,66 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-      <div className="flex flex-wrap justify-between pt-2">
-        <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
-            { name: "PURCHASE ORDER" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <div className="flex flex-wrap justify-between pt-2">
+            <Breadcrumb
+              routeSegments={[
+                // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
+                { name: "PURCHASE ORDER" },
+              ]}
+            />
 
-        <div className="text-right">
-        <div className="text-right">
-           <Link to={"quickPo"}>
-            <Button
-              className="py-2"
-              variant="outlined"
-              color="primary"
-            >
-              <Icon>add</Icon> GENERATE PURCHASE ORDER 
-          </Button>
-          </Link>
-      </div>
+            <div className="text-right">
+              <div className="text-right">
+                <Link to={"quickPo"}>
+                  <Button
+                    className="py-2"
+                    variant="outlined"
+                    color="primary"
+                  >
+                    <Icon>add</Icon> GENERATE PURCHASE ORDER
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
-      <MUIDataTable
-        title={"PURCHASE ORDER"}
-        data={podetails.filter(obj=>obj.div_id).map((item, index) => {
-          
+        <MUIDataTable
+          title={"PURCHASE ORDER"}
+          data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+
             return [
               ++index,
               item?.po_number,
               item?.party?.firm_name,
               moment(item?.created_at).format('DD MMM YYYY'),
-              parseFloat(item?.net_amount).toLocaleString(undefined, {minimumFractionDigits:2}),
+              parseFloat(item?.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id
             ]
-          
-        })}
-        columns={columns}
-        options={{
-          // filterType: "textField",
-          // responsive: "simple",
-          // selectableRows: "none", // set checkbox for each row
-          // search: false, // set search option
-          // filter: false, // set data filter option
-          // download: false, // set download option
-          // print: false, // set print option
-          // pagination: true, //set pagination option
-          // viewColumns: false, // set column option
-          // elevation: 0,
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          // responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-          
-        }}
-      />
-    </div>
+
+          })}
+          columns={columns}
+          options={{
+            // filterType: "textField",
+            // responsive: "simple",
+            // selectableRows: "none", // set checkbox for each row
+            // search: false, // set search option
+            // filter: false, // set data filter option
+            // download: false, // set download option
+            // print: false, // set print option
+            // pagination: true, //set pagination option
+            // viewColumns: false, // set column option
+            // elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            // responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+
+          }}
+        />
+      </div>
     </div>
   );
 }

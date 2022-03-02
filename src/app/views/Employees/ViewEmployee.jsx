@@ -299,10 +299,10 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, getSalary, data })
 
                                     </TableCell>
                                 </TableRow>
-                                <TableRow>
+                                {/* <TableRow>
                                     <TableCell className="pl-4">Division</TableCell>
                                     <TableCell className="">{empList[0]?.div_name}</TableCell>
-                                </TableRow>
+                                </TableRow> */}
                                 <TableRow>
                                     <TableCell className="pl-4">Employee Number</TableCell>
                                     <TableCell className="">{empList[0]?.emp_no}</TableCell>

@@ -137,14 +137,15 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
 
                 getcategories().then(({ data }) => {
-                  const d = data.filter(obj => obj.div_id == GDIV)
+                  const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
                   catList(d)
 
                 });
 
               })
+            catid = null;
             handleClose()
-            // history.push('/product/viewsubcategory');
+            // routerHistory.push('/product/viewsubcategory');
           })
           .catch(function (error) {
 
@@ -164,6 +165,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
   };
   const removeData = (id) => {
+
     Swal.fire({
       title: 'Are you sure you want to delete?',
       text: 'Any products, services will be uncategorised.',
@@ -178,12 +180,12 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
       if (result.value) {
         url.delete(`categories/${id}`)
           .then(res => {
-
             getcategories().then(({ data }) => {
               catList(data)
 
             });
           })
+        setIsAlive(true);
         handleClose()
         Swal.fire({
           customClass: {
@@ -240,7 +242,9 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
   }, [])
   function getrow() {
+
     if (!catid) {
+
       url.get("categories").then(({ data }) => {
         setUserList(data);
         setIsAlive(!isAlive)
@@ -264,29 +268,29 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
         filter: true,
       },
     },
+    // {
+    //   name: "description",
+    //   lable: "DESCRIPTIONS",
+    //   options: {
+    //     filter: true,
+    //     customHeadRender: ({ index, ...column }) => {
+    //       return (
+
+    //         <TableCell key={index} >
+    //           <TableHead>DESCRIPTIONS</TableHead>
+    //         </TableCell>
+
+    //       )
+
+    //     },
+    //     setCellProps: () => ({
+    //       align: "center"
+    //     })
+
+    //   },
+    // },
     {
-      name: "description",
-      lable: "DESCRIPTIONS",
-      options: {
-        filter: true,
-        customHeadRender: ({ index, ...column }) => {
-          return (
-
-            <TableCell key={index} >
-              <TableHead>DESCRIPTIONS</TableHead>
-            </TableCell>
-
-          )
-
-        },
-        setCellProps: () => ({
-          align: "center"
-        })
-
-      },
-    },
-    {
-      name: "action",
+      name: "id",
       label: "Action",
       options: {
         // filter: true,
@@ -310,7 +314,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
               }}
             // className="pr-8"
             >
-              <IconButton onClick={() => removeData(tableMeta.rowData[2])
+              <IconButton onClick={() => removeData(tableMeta.rowData[1])
               } style={{ columnStyleWithWidth1 }}
               >
                 <Icon color="error">delete</Icon>
@@ -341,7 +345,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
             <Grid item sm={6} xs={12}>
               <TextValidator
                 className="w-full mb-4"
-                label="Category Name"
+                label={catid ? "Sub Category Name" : "Category Name"}
                 autoComplete="off"
                 variant="outlined"
                 onChange={e => setcname(e.target.value)
@@ -441,7 +445,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
           <MUIDataTable
             title={"CATEGORY"}
             columns={columns}
-            data={userList}
+            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
 
             options={{
               filterType: "textField",

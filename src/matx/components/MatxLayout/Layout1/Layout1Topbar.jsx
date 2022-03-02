@@ -7,6 +7,7 @@ import {
   useMediaQuery,
   Hidden, Button,
 } from "@material-ui/core";
+import { useHistory } from 'react-router';
 import { MatxMenu, MatxSearchBox, ConfirmationDialog } from "matx";
 import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
@@ -20,7 +21,7 @@ import { NotificationProvider } from "app/contexts/NotificationContext";
 import history from "history.js";
 import FormDialog from "../../../../app/views/sessions/login/changepassword"
 import MemberEditorDialog from "../../../../app/views/sessions/login/changepassword"
-import { navigatePath } from "app/views/invoice/InvoiceService";
+import url, { navigatePath } from "app/views/invoice/InvoiceService";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   topbar: {
@@ -75,6 +76,7 @@ const Layout1Topbar = () => {
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const fixed = settings?.layout1Settings?.topbar?.fixed;
   const userInfo = localStorage.getItem('user')
+  const [dv, setDv] = useState('');
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [
     shouldOpenConfirmationDialog,
@@ -128,22 +130,34 @@ const Layout1Topbar = () => {
     updateSidebarMode({ mode });
   };
   const logout = () => {
-    localStorage.clear();
-    window.location.href = `../dashboard/alternative`;
-  }
+    url.post(`logoutLog/${user.id}`,)
+      .then(function (response) {
+        localStorage.clear();
+        window.location.reload();
+        // routerHistory.push('/session/signin');
+      })
+      .catch(function (error) {
 
+      })
+
+  }
+  const routerHistory = useHistory();
   const changeDivision = (div_id) => {
+    setDv(div_id);
     localStorage.setItem('division', div_id)
-    window.location.reload();
+    // window.location.reload();
+
+    routerHistory.push('/dashboard/alternative');
+    // routerHistory.push('/dashboard/alternative');
   }
 
 
   useEffect(() => {
-   
     const d = user?.divs?.map((item) => {
       return item.id
     })
     setDivi(d);
+    setDv(localStorage.getItem('division'));
   }, [])
 
 
@@ -151,27 +165,33 @@ const Layout1Topbar = () => {
 
     <div className={classes.topbar}>
       <div className={clsx({ "topbar-hold": true, fixed: fixed })}>
-        <div className="flex justify-between items-center">
-          <div className="flex">
-            <IconButton onClick={handleSidebarToggle} className="hide-on-pc">
+        <div className="flex justify-between items-center h-full">
+          <div className="flex pr-4">
+            <IconButton onClick={handleSidebarToggle} className="pr-4">
               <Icon>menu</Icon>
             </IconButton>
 
-            <div className="hide-on-mobile">
+            <div className="hide-on-mobile" style={{ textAlign: 'right', marginLeft: 40 }}>
               {user?.division?.map((item) => {
                 return (
                   <>
-                    {divi?.includes(item.id) && (
-                      <Button
-                        style={{ width: 180, height: 64, position: "relative", left: -17 }}
-                        variant={item.id == localStorage.getItem('division') && "contained"}
-                        backgroundColor="#c7c7c7"
-                        onClick={() => { changeDivision(item.id) }}>
-                        <div style={{ fontWeight: "bold" }}>
-                          {item.name.toUpperCase()}
-                        </div>
-                      </Button>
-                    )}
+                    {
+                      item.name == "HQ " || item.name == "Manufacturing" ? <>
+                      </> : <>
+                        {divi?.includes(item.id) && (
+                          <Button
+                            style={{ width: 180, height: 64, position: "relative", left: -17 }}
+                            variant={item.id == dv && "contained"}
+                            backgroundColor="#c7c7c7"
+                            onClick={() => { changeDivision(item.id) }}>
+                            <div style={{ fontWeight: "bold" }}>
+                              {item.name.toUpperCase()}
+                            </div>
+                          </Button>
+                        )}
+                      </>
+
+                    }
 
                   </>
                 )
@@ -180,13 +200,6 @@ const Layout1Topbar = () => {
 
 
 
-              {/* <IconButton>
-                <Icon>M</Icon>
-              </IconButton>
-
-              <IconButton>
-                <Icon>H</Icon>
-              </IconButton> */}
 
             </div>
           </div>
@@ -220,7 +233,7 @@ const Layout1Topbar = () => {
                   <span className="pl-4"> Profile </span>
                 </Link>
               </MenuItem>
-              <MenuItem className={classes.menuItem} onClick={e => history.push(navigatePath + '/changepass')}>
+              <MenuItem className={classes.menuItem} onClick={e => routerHistory.push(navigatePath + '/changepass')}>
                 <Icon > settings </Icon>
                 <span className="pl-4" >Change Password</span>
                 {shouldOpenEditorDialog && (

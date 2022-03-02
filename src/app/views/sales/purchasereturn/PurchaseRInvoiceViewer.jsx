@@ -17,8 +17,9 @@ import {
 } from "@material-ui/core";
 import { RichTextEditor, Breadcrumb } from "matx";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { numberToWords } from 'number-to-words';
 import { withStyles } from "@material-ui/core/styles"
-import { getInvoiceById } from "../../invoice/InvoiceService";
+import { getInvoiceById, navigatePath } from "../../invoice/InvoiceService";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -267,6 +268,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const [state, setState] = useState({});
+    const routerHistory = useHistory();
+
     const [po_number, setpo_number] = useState();
     const [rdate, setrdate] = useState([]);
     const [company, setcompany] = useState("");
@@ -300,7 +303,6 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const classes = useStyles();
     var fval = 10;
     const { settings, updateSettings } = useSettings();
-    const history = useHistory()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [res, setres] = useState("");
     const [ress, setress] = useState("");
@@ -311,6 +313,9 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     const [party, setParty] = useState([]);
     const [tableData, setTableData] = useState([]);
+    const [pageNumber, setPageNumber] = useState([])
+
+    let pos = 0;
 
 
 
@@ -354,20 +359,37 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
     }
-    const handlePrinting = useReactToPrint({
+
+    const handlePrintingCur = useReactToPrint({
         content: () => componentRef.current,
         header: () => componentRef.current
-
-
-
     });
 
+
+    const handlePrinting = () => {
+
+        var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+        console.log(totalPages)
+        // totalPages = totalPages - 2
+        let a = [];
+        for (var i = 0; i < totalPages; i++) {
+            var j = i;
+            j = ++j;
+            var q = ("Page " + j + " of " + (totalPages));
+            a[i] = q;
+        }
+        console.log(a)
+        setPageNumber(a)
+        setTimeout(() => {
+            handlePrintingCur()
+        }, 500);
+    }
 
     useEffect(() => {
 
         // updateSidebarMode({ mode: "close" })
         document.title = "Purchase Order - Amaco"
-        url.get(`getPurchaseReturnINV/${id}`).then(({ data }) => {
+        url.get(`getPurchaseReturnDetails/${id}`).then(({ data }) => {
             console.log(data);
 
             setParty(data.getReturnParty);
@@ -406,8 +428,20 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
             let words = toWords.convert(parseFloat(data.getReturnParty[0].net_amount));
             let riyal = words.replace("Rupees", "Riyals");
             let halala = riyal.replace("Paise", "Halala")
+            let words1 = numberToWords.toWords(data.getReturnParty[0].net_amount);
+            let decimal = parseFloat(parseFloat(data.getReturnParty[0].net_amount).toFixed(2).split('.')[1]);
 
-            setress(halala);
+
+            if (data.getReturnParty[0].currency_type == "SAR") {
+                setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
+            }
+            if (data.getReturnParty[0].currency_type == "AED") {
+                setress(words1.split(",").join(" ") + " Dirham " + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " fils." : "")) : " "));
+            }
+            if (data.getReturnParty[0].currency_type == "USD") {
+                setress(words1.split(",").join(" ") + " Dollars" + ((parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) !== NaN) ? (parseFloat(data.getReturnParty[0].net_amount.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Cents." : "")) : " "))
+            }
+
 
 
         });
@@ -437,7 +471,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         }
         else {
             window.location.href = `../Newinvoiceview`
-            history.push("/Newinvoiceview")
+            routerHistory.push("/Newinvoiceview")
             // let activeLayoutSettingsName = settings.activeLayout + "Settings";
             // let activeLayoutSettings = settings[activeLayoutSettingsName];
             // updateSettings({
@@ -457,7 +491,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     const editpurchase = () => {
 
         // window.location.href=`../purchaseedit/${id}`
-        history.push(`/purchaseedit/${id}`)
+        routerHistory.push(navigatePath + `/purchasereturnedit/${id}`)
 
     }
     const updateCompany = () => {
@@ -543,8 +577,8 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                             'success'
                         )
 
-                        history.push("/purchasereturn")
-                        // history.push('/quoateview')
+                        routerHistory.push(navigatePath + "/purchasereturn")
+                        // routerHistory.push('/quoateview')
 
                     })
 
@@ -650,6 +684,21 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                 <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
 
+                    {pageNumber.map((item, i) => {
+                        if (i == 0) {
+                            pos = 1535;
+                        } else {
+                            pos = pos + 1563;
+                        }
+
+                        return (
+                            <span className="showPageNumber" style={{
+                                position: 'relative',
+                                top: pos,
+                                display: 'none',
+                            }}> <center>{item}</center></span>
+                        )
+                    })}
                     {/* <header id="header"> */}
                     <table >
                         <thead style={{ display: "table-header-group" }} >
@@ -770,7 +819,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
               {po_number} */}
                                                         <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
                                                         {party[0]?.firm_name}<br />
-                                                        {party[0]?.street}, {party[0]?.city}- {party[0]?.po_no}
+                                                        {party[0]?.street && party[0]?.street} {party[0]?.city && (',' + party[0]?.city)} {party[0]?.po_no && '-' + party[0]?.po_no}
 
 
                                                     </div>
@@ -870,7 +919,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     </div>
 
                                     <br></br>
-                                    <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius" >
+                                    <Card className="mb-4" elevation={0} borderRadius="borderRadius" >
 
 
 
@@ -881,7 +930,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell className="pl-0" colspan={2} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} align="center">S.No.</TableCell>
 
 
-                                                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">PO NUMBER</TableCell>
+                                                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">INVOICE NUMBER</TableCell>
                                                         <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="0px" align="center">ITEM</TableCell>
 
                                                         <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: "#fff", fontWeight: '1000', fontSize: 16 }} width="300px" align="center">DESCRIPTION</TableCell>
@@ -911,11 +960,11 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                                 </TableCell>
 
                                                                 <TableCell className="pl-2 capitalize" align="left" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {item?.description}
+                                                                    {item?.product_description}
 
                                                                 </TableCell>
                                                                 <TableCell className="pl-2 capitalize" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: 16 }}>
-                                                                    {item?.product_description}
+                                                                    {item?.description}
 
                                                                 </TableCell>
                                                                 {/* <TableCell className="pl-0 capitalize" colspan={3} align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",fontSize: 16}}>
@@ -954,19 +1003,21 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         );
                                                     })}
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
-                                                        <TableCell className="pl-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                                                        <TableCell className="pl-0 capitalize hidecell" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
-                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount ({party[0]?.currency_type})</TableCell>
+                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}
                                                         >
+                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
 
                                                             {/* <IntlProvider locale='en-US' style={{wordBreak:'break-word',fontFamily: "Calibri"}}>
                     <FormattedNumber value={total_value} currency={"SAR"} style="currency" />
                     </IntlProvider> */}
-                                                            {parseFloat(party[0]?.total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  {party[0]?.currency_type}
+                                                            {parseFloat(party[0]?.total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                                                         </TableCell>
 
@@ -977,7 +1028,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell className="pr-0 capitalize" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
                                                         </TableCell>
 
-                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges ({party[0]?.currency_type})</TableCell>
+                                                        <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges </TableCell>
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
@@ -988,7 +1039,9 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                             {/* <IntlProvider locale='en-US' style={{wordBreak:'break-word'}}>
                     <FormattedNumber value={vat_in_value} currency={"SAR"} style="currency" />
                     </IntlProvider> */}
-                                                            {parseFloat(party[0]?.vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {party[0]?.currency_type}
+                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
+                                                            {parseFloat(party[0]?.vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                                         </TableCell>
                                                     </TableRow>
                                                     <TableRow style={{ border: "1px solid #ccc" }}>
@@ -999,7 +1052,6 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                                         <strong>TOTAL IN WORDS</strong><br></br><b>{party[0]?.currency_type}</b> {ress}
                                                                         <br></br>
-                                                                        <p style={{ display: 'inline' }} className="text-error">NOTE</p>: Please refer annexure (1) for terms & condition
 
                                                                     </div>
                                                                 </div>
@@ -1008,14 +1060,16 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}
                                                             colspan={2}
                                                         >
-                                                            <span>Net Total ({party[0]?.currency_type})</span>
+                                                            <span>Net Total </span>
                                                         </TableCell>
 
                                                         {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
                                                         <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 16 }} colspan={2}>
-                                                            {parseFloat(party[0]?.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })} {party[0]?.currency_type}
+                                                            <div style={{ float: "left" }} className="pl-15">{party[0]?.currency_type}</div>
+
+                                                            {parseFloat(party[0]?.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
 
                                                         </TableCell>
@@ -1047,13 +1101,15 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         </div> */}
 
                                         <br></br>
-                                        <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
+                                        {/* <td id="note" style={{ padding: '5vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
                                             <div style={{ breakAfter: 'page' }}></div>
-                                            <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
+                                            <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div>
+                                        </td> */}
                                         <div class="sign" class="onepage">
                                             <p>
-                                                <div className="viewer__order-info px-4 mb-4 flex justify-between" >
-                                                    <div className="ml-24" style={{ fontWeight: 1000 }}>
+                                                <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
+
+                                                    <div className="pl-24" style={{ fontWeight: 1000 }}>
                                                         <h5 className="font-normal t-4 capitalize">
                                                             <IntlProvider locale={locale} messages={Arabic}>
                                                                 <FormattedMessage
@@ -1061,10 +1117,10 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                                                 />
                                                             </IntlProvider>
-                                                        </h5 >
+                                                        </h5>
                                                         Prepared by
                                                     </div>
-                                                    <div style={{ fontWeight: 1000 }}>
+                                                    <div style={{ fontWeight: 1000 }} className="pl-2">
                                                         <h5 className="font-normal t-4 capitalize">
                                                             <IntlProvider locale={locale} messages={Arabic}>
                                                                 <FormattedMessage
@@ -1075,7 +1131,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         </h5>
                                                         Approved by
                                                     </div>
-                                                    <div className="mr-24" style={{ fontWeight: 1000 }}>
+                                                    <div className="mr-0 pr-24" style={{ fontWeight: 1000 }}>
                                                         <h5 className="font-normal t-4 capitalize">
                                                             <IntlProvider locale={locale} messages={Arabic}>
                                                                 <FormattedMessage
@@ -1086,6 +1142,23 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                         </h5>
                                                         Received by
                                                     </div>
+                                                    {/* <div className="mr-28" style={{ fontWeight: 1000 }}>
+
+                        <QRCode
+
+                          level="L"
+                          imageSettings={{
+                            excavate: true,
+                            margin: "50px",
+                            height: "35",
+                            width: "35",
+                            src: NLogo
+                          }}
+                          size="160"
+                          value={qrValue}
+                        />
+                      </div>
+ */}
                                                 </div>
                                             </p>
                                         </div>

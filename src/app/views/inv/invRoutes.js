@@ -3,7 +3,7 @@ import React from "react";
 const invRoutes = [
   
   {
-    path: "/invview/:id",
+    path: "/invview/:id/:s",
     // exact: true,
     component: React.lazy(() => import("./invview"))
   },

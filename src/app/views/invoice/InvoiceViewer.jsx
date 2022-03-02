@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Icon,
   Divider,
@@ -24,7 +24,7 @@ import { cond, identity } from "lodash";
 import logo from './amaco-logo.png';
 import logos from './vision2030.png';
 import useSettings from '../../hooks/useSettings';
-import history from "history.js";
+import { useHistory } from 'react-router';
 import url from "../invoice/InvoiceService";
 import Arabic from '../../../lang/ar.json';
 import { IntlProvider } from 'react-intl';
@@ -36,6 +36,7 @@ import { useReactToPrint } from 'react-to-print';
 import moment from "moment";
 import Header from "../statements/Header";
 import Footer from "../statements/Footer";
+import '../Newinvoice/print.css';
 const locale = navigator.language;
 
 
@@ -46,35 +47,35 @@ const locale = navigator.language;
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
- 
+
   "@global": {
-    
-   
-    
+
+
+
     "@media print": {
       "@page": {
         "@bottom-left": {
-            content: "counter(page)"
-         }
-     },
-      
+          content: "counter(page)"
+        }
+      },
+
       "body, html": {
         visibility: "hidden",
         size: "auto",
-        marginTop:'10px'
-      
+        marginTop: '10px'
+
         // content: 'none !important',
         // "-webkit-print-color-adjust": "exact !important",
-    
-      
-        
-      
 
-      
-       
+
+
+
+
+
+
       },
-      
-     
+
+
       "#header": {
         // padding: "10px",
 
@@ -83,48 +84,48 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         //top: '1em',
         left: 0,
         // paddingBottom:130
-        justifySelf:"end"
-       
+        justifySelf: "end"
+
       },
       ".empty-header": {
-        height:"100px",
-        marginTop:'10px',
-        
-        
-        },
-        ".empty-footer": {
-          height:"100px",
-          marginTop:'10px',
-         
-          
-          },
-        ".header": {
+        height: "100px",
+        marginTop: '10px',
+
+
+      },
+      ".empty-footer": {
+        height: "100px",
+        marginTop: '10px',
+
+
+      },
+      ".header": {
         position: "fixed",
-        height:"100px",
-        top:0,
-        
-        },
-        ".footer": {
-          position: "fixed",
-          height:"100px",
-          bottom:0,
-          width: "100%",
+        height: "100px",
+        top: 0,
 
-        },
+      },
+      ".footer": {
+        position: "fixed",
+        height: "100px",
+        bottom: 0,
+        width: "100%",
 
-        
-        "#footer": {
-          
-          backgroundColor: "#F8F8F8",
-          borderTop: "1px solid #E7E7E7",
-          textAlign: "center",
-          
-          bottom: "0",
-          position:'fixed',
-          width: "100%",
-          justifySelf:"end"
-        },
-    
+      },
+
+
+      "#footer": {
+
+        backgroundColor: "#F8F8F8",
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+
+        bottom: "0",
+        position: 'fixed',
+        width: "100%",
+        justifySelf: "end"
+      },
+
       "#table": {
         display: "-webkit-box",
         display: "-ms-flexbox",
@@ -152,14 +153,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         // top: 10,
         left: 0,
         right: 0,
-       
+
         // height: "100%",
         // marginTop: "10px",
         // marginBottom:'30px',
-        boxDecorationBreak:'clone',
-        position:'relative',
-        
-        
+        boxDecorationBreak: 'clone',
+        position: 'relative',
+
+
 
         "& *": {
           visibility: "visible",
@@ -168,8 +169,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
   },
   invoiceViewer: {
-   
-    
+
+
   },
 }));
 
@@ -180,6 +181,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [rdate, setrdate] = useState([]);
   const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState([]);
+  const [email, setemail] = useState(" ");
   const [company, setcompany] = useState("");
   const [city, setcity] = useState("");
   const [street, setstreet] = useState("");
@@ -196,9 +198,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [contactperson, setcontactperson] = useState('');
   const [contactpersonemail, setcontactpersonemail] = useState('');
   const [contactpersoncontact, setcontactpersoncontact] = useState('');
-  const [vendor_id,setvendor_id]=useState('')
+  const [vendor_id, setvendor_id] = useState('')
   const [designation, setdesignation] = useState('');
-  
+  const [pageNumber, setPageNumber] = useState([])
+
+  let pos = 0;
+
   const { id } = useParams();
   const classes = useStyles();
   const { settings, updateSettings } = useSettings();
@@ -211,13 +216,36 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   function handleClose() {
     setAnchorEl(null);
   }
-  const i=0;
-  
-  const handlePrinting = useReactToPrint({
+  const i = 0;
+
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
-    header:()=> componentRef.current
-    
+    header: () => componentRef.current
   });
+  const routerHistory = useHistory();
+
+
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    console.log(totalPages)
+    // totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    console.log(a)
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
+
+
+
+  }
   const updateSidebarMode = (sidebarSettings) => {
     if (sidebarSettings.mode == "close") {
       let activeLayoutSettingsName = settings.activeLayout + "Settings";
@@ -257,34 +285,35 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     document.title = "Request for quoatation - Amaco"
     url.get("rfq/" + id).then(({ data }) => {
-      
+
 
       setrdate(moment(data[0].requested_date).format('DD MMM YYYY')
       )
       setddate(moment(data[0].require_date).format('DD MMM YYYY'))
-      setcname(data[0].party[0].fname)
-      setcompany(data[0].party[0].firm_name)
-      setfirm_name(data[0].party[0].firm_name_in_ar)
-      setcity(data[0].party[0].city)
-      setstreet(data[0].party[0].street)
-      setzipcode(data[0].party[0].zip_code)
-      setpo(data[0].party[0].post_box_no)
-      setvatno(data[0].party[0].vat_no)
-      setregno(data[0].party[0].registration_no)
-      setcontactperson(data[0].contact?.fname)
-      setcontactpersonemail(data[0].contact?.email)
-      setcontactpersoncontact(data[0].contact?.mobno)
-      setdesignation(data[0].contact?.designation)
-     
+      setcname(data[0]?.party[0]?.fname)
+      setcompany(data[0]?.party[0]?.firm_name)
+      setfirm_name(data[0]?.party[0]?.firm_name_in_ar)
+      setcity(data[0]?.party[0]?.city)
+      setstreet(data[0]?.party[0]?.street)
+      setzipcode(data[0]?.party[0]?.zip_code)
+      setpo(data[0]?.party[0]?.post_box_no)
+      setvatno(data[0]?.party[0]?.vat_no)
+      setregno(data[0]?.party[0]?.registration_no)
+      setcontactperson(data[0]?.contact?.fname)
+      setcontactpersonemail(data[0]?.contact?.email)
+      console.log('ss', data[0])
+      setcontactpersoncontact(data[0]?.contact?.mobno)
+      setdesignation(data[0]?.contact?.designation)
+
       setrfqdetails(data[0]?.rfq_details)
-     
+
       setfiles(data[0].files)
-      setcontact(data[0].party[0].contact)
-      setvendor_id(data[0].party[0].vendor_id)
+      setcontact(data[0]?.party[0]?.contact)
+      setvendor_id(data[0]?.party[0]?.vendor_id)
       // for (var a = 0; a < data[0].files.length; a++) {
       //  
       //   var words = data[0].files[a].file_name.split('.');
-     
+
 
       // }
 
@@ -298,7 +327,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //     setState({ ...res.data });
     //   });
   }, []);
-  const deleteRfq = ()=>{
+  const deleteRfq = () => {
     handleClose()
     Swal.fire({
       title: 'Are you sure?',
@@ -311,20 +340,20 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         url.delete(`rfq/${id}`)
-    .then(res => {
-        
-       
-        Swal.fire(
-          'Deleted!',
-          ' RFQ has been deleted.',
-          'success'
-        )
-        
-        history.push(navigatePath+'/sales/rfq-form/rfqview')
-        
-    })
-    
-        
+          .then(res => {
+
+
+            Swal.fire(
+              'Deleted!',
+              ' RFQ has been deleted.',
+              'success'
+            )
+
+            routerHistory.push(navigatePath + '/sales/rfq-form/rfqview')
+
+          })
+
+
 
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -334,19 +363,20 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         )
       }
     })
-    
+
     // url.delete(url + "rfq/" + id).then(({ data }) => {
-     
+
     // })
   }
   const handlePrint = () => window.print();
-  window.onafterprint = function(){ window.close()
+  window.onafterprint = function () {
+    window.close()
     window.location.href = ``
   };
   const updateRfq = () => {
     // updateSidebarMode({ mode: "close" })
     // window.location.href = `../edit/${id}`
-    history.push(`../edit/${id}`)
+    routerHistory.push(`../edit/${id}`)
   }
   const quoteView = (sidebarSettings) => {
     // let activeLayoutSettingsName = settings.activeLayout + "Settings";
@@ -362,7 +392,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     //   },
     // });
 
-    history.push(navigatePath+`/purchaseanalysis/${id}`)
+    routerHistory.push(navigatePath + `/purchaseanalysis/${id}`)
     // window.location.href = `/purchaseanalysis/${id}`
   }
 
@@ -380,44 +410,44 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   return (
     <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
       <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-        <Link to={navigatePath+"/sales/rfq-form/rfqview"}>
-        <IconButton >
-          <Icon>arrow_back</Icon>
-        </IconButton>
+        <Link to={navigatePath + "/sales/rfq-form/rfqview"}>
+          <IconButton >
+            <Icon>arrow_back</Icon>
+          </IconButton>
         </Link>
 
         <div>
-        <Button
-        variant="outlined"
-        color="primary"
-        className="mr-4 py-2"
-        aria-owns={anchorEl ? "simple-menu" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        ACTION<Icon>expand_more</Icon>
-      </Button>
-      <Menu
-        
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-                   
-                      
-                      <MenuItem  onClick={() => deleteRfq()}>
-                      DELETE RFQ
-                      </MenuItem>
-                      <MenuItem  onClick={handlePrinting}>
-                      PRINT RFQ
-                      </MenuItem>
-                      <MenuItem  onClick={() => updateRfq()}>
-                      EDIT RFQ
-                      </MenuItem>
-                    
+          <Button
+            variant="outlined"
+            color="primary"
+            className="mr-4 py-2"
+            aria-owns={anchorEl ? "simple-menu" : undefined}
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            ACTION<Icon>expand_more</Icon>
+          </Button>
+          <Menu
+
+            id="simple-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+
+
+            <MenuItem onClick={() => deleteRfq()}>
+              DELETE RFQ
+            </MenuItem>
+            <MenuItem onClick={handlePrinting}>
+              PRINT RFQ
+            </MenuItem>
+            <MenuItem onClick={() => updateRfq()}>
+              EDIT RFQ
+            </MenuItem>
+
           </Menu>
-     
+
           <Button
             className="mr-4 py-2"
             color="warnning"
@@ -426,13 +456,29 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           >
             GENERATE PURCHASE ORDER
           </Button>
-          
+
         </div>
       </div>
 
-    <div id="print-area" ref={componentRef} style={{fontFamily: "Calibri",fontSize: 16}}>
-    <table >
-        {/* <thead style={{display:"table-header-group"}} >
+      <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: 16 }}>
+
+        {pageNumber.map((item, i) => {
+          if (i == 0) {
+            pos = 1535;
+          } else {
+            pos = pos + 1563;
+          }
+
+          return (
+            <span className="showPageNumber" style={{
+              position: 'relative',
+              top: pos,
+              display: 'none',
+            }}> <center>{item}</center></span>
+          )
+        })}
+        <table >
+          {/* <thead style={{display:"table-header-group"}} >
             <tr>
               
               <td>
@@ -474,16 +520,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 </td>
 </tr>
 </thead> */}
-<Header></Header>
+          <Header></Header>
 
-        <hr></hr>
-        <tbody style={{marginBottom:'50px'}}>
+          <hr></hr>
+          <tbody style={{ marginBottom: '50px' }}>
             <tr>
               <td>
-        
-          
-      
-        {/* <div className="viewer__order-info px-4 mb-4 flex justify-between">
+
+
+
+                {/* <div className="viewer__order-info px-4 mb-4 flex justify-between">
           
           <div>
           <div>
@@ -595,145 +641,144 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             <h5>BID CLOSING DATE: {ddate}</h5>
         </div>
       </div> */}
-      <div className="px-2 flex justify-between">
-            <div className="px-2 flex justify-end">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2 pb-4">
-              <span style={{fontWeight:1000}}>Supplier Name</span>
-              <br></br>
-            {company}
-        
-            </div>
-            <div className="pl-2 pb-4 ">
-              <span style={{fontWeight:1000}}>Email ID</span>
-              <br></br>
-              {contactpersonemail}
-             
-             
-            </div>
-            
-            </div>
-            <div>
-              </div>
-              </div>
-            </div>
-            <div className="px-2 flex justify-left">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2 pb-4">
-              <span style={{fontWeight:1000}}>RFQ Date</span>
-              <br></br>
-              {moment(rdate).format('DD MMM YYYY')}
-        
-            </div>
-            <div className="pl-2 pb-4 ">
-              <span style={{fontWeight:1000}}>Bid closing date</span>
-              <br></br>
-              {moment(ddate).format('DD MMM YYYY')}
-             
-             
-            </div>
-            
-            </div>
-            <div>
-              </div>
-              </div>
-            </div>
+                <div className="px-2 flex justify-between">
+                  <div className="px-2 flex justify-end">
+                    <div className="flex " >
+                      <div className="">
+                        <div className="pl-2 pb-4">
+                          <span style={{ fontWeight: 1000 }}>SUPPLIER NAME</span>
+                          <br></br>
+                          {company}
+
+                        </div>
+                        <div className="pl-2 pb-4 ">
+                          <span style={{ fontWeight: 1000 }}>EMAIL ID</span>
+                          <br></br>
+                          {contactpersonemail}
+
+
+                        </div>
+
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-2 flex justify-left">
+                    <div className="flex " >
+                      <div className="">
+                        <div className="pl-2 pb-4">
+                          <span style={{ fontWeight: 1000 }}>RFQ DATE</span>
+                          <br></br>
+                          {moment(rdate).format('DD MMM YYYY')}
+
+                        </div>
+                        <div className="pl-2 pb-4 ">
+                          <span style={{ fontWeight: 1000 }}>BID CLOSING DATE</span>
+                          <br></br>
+                          {moment(ddate).format('DD MMM YYYY')}
+
+
+                        </div>
+
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                  </div>
 
 
 
-            <div className="px-2 flex justify-left">
-              <div className="flex " >
-              <div className="">
-              <div className="pl-2">
-              <h5 style={{fontWeight:1000}}></h5>
-              {/* {moment(createdate).format('DD MMM YYYY')} */}
-        
-            </div>
-            <div className="pl-2 ">
-              <h5 style={{fontWeight:1000}}></h5>
-              {/* {deliveryno} */}
-             
-             
-            </div>
-            <div className="pl-2 ">
-          
-              <h5 style={{fontWeight:1000}}></h5>
-              {/* {quotationno} */}
-            
-            </div>
-            </div>
-            <div>
-              </div>
-              </div>
-              </div>
-            </div>
-      
-        <Card className="mb-4" elevation={0} title="Rfq Details">
-        <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-          <Table>
-            <TableHead  style={{border: "1px solid #ccc",fontFamily: "Calibri",backgroundColor:'#1d2257',fontWeight:1000,fontSize: 16}}>
-              <TableRow style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#fff',fontWeight:1000,fontSize: 16}}>
-                <TableCell className="pl-0" colspan={1} align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#fff',fontWeight:1000,fontSize: 16}}>S.No.</TableCell>
-                <TableCell className="px-0" colspan={3}  align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#fff',fontWeight:1000,fontSize: 16}}>DESCRIPTION</TableCell>
-                <TableCell className="px-0"  align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#fff',fontWeight:1000,fontSize: 16}}>QTY</TableCell>
-                <TableCell className="px-0" align="center"  style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#fff',fontWeight:1000,fontSize: 16}}>UOM</TableCell>
+                  <div className="px-2 flex justify-left">
+                    <div className="flex " >
+                      <div className="">
+                        <div className="pl-2">
+                          <h5 style={{ fontWeight: 1000 }}></h5>
+                          {/* {moment(createdate).format('DD MMM YYYY')} */}
 
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rfq_details?.map((item, index) => {
-
-                console.log(item)
-               
-                subTotalCost += item.unit * item.price;
-
-                return (
-                  <TableRow key={index}>
-                    <TableCell className="pr-0 capitalize" align="left" colspan={1} align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#000',fontSize: 16}}>
-                      {index + 1}
-                    </TableCell>
+                        </div>
+                        <div className="pl-2 ">
+                          <h5 style={{ fontWeight: 1000 }}></h5>
+                          {/* {deliveryno} */}
 
 
-                    <TableCell className="pr-0 pl-2 capitalize" align="left" colspan={3} style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#000',fontSize: 16}}>
-                      <strong>{item?.product_name}</strong>
-                      ({item?.description})
-                      {/* <strong></strong>({item?.description}) */}
+                        </div>
+                        <div className="pl-2 ">
 
-                    </TableCell>
+                          <h5 style={{ fontWeight: 1000 }}></h5>
+                          {/* {quotationno} */}
 
-                    <TableCell className="pr-0 capitalize" align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#000',fontSize: 16}}>
-                     {item.quantity} 
-                     
+                        </div>
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                    </TableCell>
-                    <TableCell className="pr-0 capitalize" align="center" style={{border: "1px solid #ccc",fontFamily: "Calibri",color:'#000',fontSize: 16}}>
-                      {item?.unit_of_measure}
-                    </TableCell>
+                <Card className="mb-4" elevation={0} >
+                  <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
+                    <Table>
+                      <TableHead style={{ border: "1px solid #ccc", fontFamily: "Calibri", backgroundColor: '#1d2257', fontWeight: 1000, fontSize: 16 }}>
+                        <TableRow style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: 16 }}>
+                          <TableCell className="pl-0" colspan={1} align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: 16 }}>S.No.</TableCell>
+                          <TableCell className="px-0" colspan={3} align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: 16 }}>DESCRIPTION</TableCell>
+                          <TableCell className="px-0" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: 16 }}>QTY</TableCell>
+                          <TableCell className="px-0" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: 16 }}>UOM</TableCell>
 
-                    {/* <TableCell className="pl-0 capitalize" align="left">
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rfq_details?.map((item, index) => {
+
+
+                          subTotalCost += item.unit * item.price;
+
+                          return (
+                            <TableRow key={index}>
+                              <TableCell className="pr-0 capitalize" align="left" colspan={1} align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#000', fontSize: 16 }}>
+                                {index + 1}
+                              </TableCell>
+
+
+                              <TableCell className="pr-0 pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#000', fontSize: 16 }}>
+                                <strong>{item?.product_name}</strong>
+                                ({item?.description})
+                                {/* <strong></strong>({item?.description}) */}
+
+                              </TableCell>
+
+                              <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#000', fontSize: 16 }}>
+                                {item.quantity}
+
+
+                              </TableCell>
+                              <TableCell className="pr-0 capitalize" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#000', fontSize: 16 }}>
+                                {item?.unit_of_measure}
+                              </TableCell>
+
+                              {/* <TableCell className="pl-0 capitalize" align="left">
                       {item.product[0].unit_price}
                     </TableCell> */}
-                    {/* <TableCell className="pl-0">
+                              {/* <TableCell className="pl-0">
                       <Link to={"/sales/rfq-form/rfqanalysis"}>
                         <Icon>search</Icon>
                       </Link>
                     </TableCell> */}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-          </div>
-        </Card>
-        </td>
-        </tr>
-        </tbody>
-        <tfoot><div class="empty-footer"></div></tfoot>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </Card>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot><div class="empty-footer"></div></tfoot>
         </table>
         <div class="footer">
-      {/* <footer style={{visibility: "hidden" }}>
+          {/* <footer style={{visibility: "hidden" }}>
       
         
     
@@ -748,49 +793,49 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         
         
         </footer> */}
-        <Footer></Footer>
-        </div>
-       
-    
+          <Footer></Footer>
         </div>
 
-        <div className="mb-8">
-          <div className="flex flex-wrap justify-center items-center m--2">
-           
-            
-            {files.map((item, index) => (
-              <Card
-                elevation={6}
-                className={clsx({
-                  "flex-column justify-center items-center py-6 px-8 m-2 cursor-pointer": true,
-                })}
+
+      </div>
+
+      <div className="mb-8">
+        <div className="flex flex-wrap justify-center items-center m--2">
+
+
+          {files.map((item, index) => (
+            <Card
+              elevation={6}
+              className={clsx({
+                "flex-column justify-center items-center py-6 px-8 m-2 cursor-pointer": true,
+              })}
+            >
+              {item.file_name.split(".")[1] === 'jpg' && (<Icon
               >
-                {item.file_name.split(".")[1]==='jpg'&&(<Icon
-                >
-                  photo_library
+                photo_library
               </Icon>)}
-              {item.file_name.split(".")[1]==='png'&&(<Icon
-                >
-                  photo_library
+              {item.file_name.split(".")[1] === 'png' && (<Icon
+              >
+                photo_library
               </Icon>)}
-              {item.file_name.split(".")[1]==='pdf'&&(<Icon
-                >
-                 picture_as_pdf
+              {item.file_name.split(".")[1] === 'pdf' && (<Icon
+              >
+                picture_as_pdf
               </Icon>)}
-                  
-               
-                <a href={item.img_url} target="_blank">{item.file_name.split("/")[2]}</a>
-                {/* <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name}</a> */}
-              </Card>
-            ))}
-            
-          </div>
-              </div>
-       
 
-       
-        
-  
+
+              <a href={item.img_url} target="_blank">{item.file_name.split("/")[2]}</a>
+              {/* <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name}</a> */}
+            </Card>
+          ))}
+
+        </div>
+      </div>
+
+
+
+
+
     </div>
 
 

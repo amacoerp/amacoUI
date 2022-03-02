@@ -63,6 +63,7 @@ const SimpleMuiTable = () => {
     const [podetails, setpodetails] = useState([]);
     const [poid, setpoid] = useState("");
     const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
+
     const classes = useStyles();
     useEffect(() => {
 
@@ -77,16 +78,17 @@ const SimpleMuiTable = () => {
             if (data.length) {
 
                 setpoid(data[0].id)
+                console.log(data);
                 setpodetails(data);
             }
         });
         return () => setIsAlive(false);
     }, [isAlive]);
     const [count, setCount] = useState(0);
-    const history = useHistory();
+    const routerHistory = useHistory();
     const handeViewClick = (invoiceId) => {
 
-        history.push(`/rfqanalysis/${invoiceId}`);
+        routerHistory.push(`/rfqanalysis/${invoiceId}`);
     };
 
     function getrow(id) {
@@ -298,7 +300,7 @@ const SimpleMuiTable = () => {
                     console.log(tableMeta.rowData)
                     return (
                         <div style={{ textAlign: "right" }} className="pr-8">
-                            <Link to={navigatePath+"/piview/" + tableMeta.rowData[7]}>
+                            <Link to={navigatePath + "/piview/" + tableMeta.rowData[7]}>
                                 <Tooltip title="view more">
                                     <Icon color="primary">remove_red_eye</Icon>
                                 </Tooltip>
@@ -338,34 +340,33 @@ const SimpleMuiTable = () => {
                         ]}
                     />
 
-                    {/* <div className="text-right">
-                        <Link to={"/InvoiceCreate"}>
+                    <div className="text-right">
+                        <Link to={"/purchaseinvoicegenarate"}>
                             <Button
                                 className="py-2"
                                 variant="outlined"
                                 color="primary"
                             >
-                                <Icon>add</Icon> GENERATE INVOICES
+                                <Icon>add</Icon> GENERATE PURCHASE INVOICES
                             </Button>
                         </Link>
-                    </div> */}
+                    </div>
                 </div>
                 <MUIDataTable
                     title={"PURCHASE INVOICE"}
-                    data={podetails.map((item, index) => {
-
+                    data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
                         return [
                             ++index,
+                            item?.po_number ? item?.po_number : "--",
+                            item?.invoice_no ? (item?.invoice_no!=="true"?item?.invoice_no:"--") : "--",
 
-                            item?.invoice_no ? item.invoice_no : "--",
-                            item?.po_number ? item.po_number : "--",
-                            item?.party.firm_name,
+                            item?.party?.firm_name,
 
-                            moment(item.issue_date).format('DD MMM YYYY'),
-                            parseFloat(item.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+                            moment(item?.issue_date).format('DD MMM YYYY'),
+                            parseFloat(item?.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),
 
-                            item.status,
-                            item.id
+                            item?.status,
+                            item?.id
                             // moment(item.created_at).format('DD-MM-YYYY'),
                             // (parseFloat(item.net_amount)).toFixed(2),
                             // item.id

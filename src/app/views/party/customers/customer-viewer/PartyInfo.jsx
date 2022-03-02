@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 
-const PartyInfo = () => {
+const PartyInfo = ({ ids }) => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
@@ -23,7 +23,7 @@ const PartyInfo = () => {
   useEffect(() => {
 
 
-    url.get("parties/" + foo).then(({ data }) => {
+    url.get("parties/" + ids).then(({ data }) => {
       setUserList(data[0]);
       setdivisionsList(data[0].partyDivision.filter(obj => obj.division_id == localStorage.getItem('division')))
     });

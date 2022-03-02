@@ -5,25 +5,25 @@ import { Grid, Fade } from "@material-ui/core";
 import PartyView from "./PartyView";
 import CustomerActions from "./CustomerActions";
 import PartyInfo from "./PartyInfo";
-const PartyDetails = () => {
+const PartyDetails = ({ ids }) => {
   return (
     <Fade in timeout={300}>
       <Grid container spacing={2}>
         <Grid item lg={6} md={6} xs={12}>
-          <PartyView />
+          <PartyView ids={ids} />
         </Grid>
         <Grid item lg={6} md={6} xs={12}>
-          <PartyInfo />
+          <PartyInfo ids={ids} />
           <br></br>
-          <CustomerActions  />
-           
-         
-        
+          <CustomerActions ids={ids} />
+
+
+
         </Grid>
-      
-       
-     
-         
+
+
+
+
       </Grid>
     </Fade>
   );

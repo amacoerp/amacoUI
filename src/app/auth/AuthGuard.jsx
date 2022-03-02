@@ -1,10 +1,10 @@
-import React, { 
-  useContext, 
-  useEffect, 
-  useState 
+import React, {
+  useContext,
+  useEffect,
+  useState
 } from "react";
 import { Redirect, useLocation } from "react-router-dom";
- import AppContext from "app/contexts/AppContext";
+import AppContext from "app/contexts/AppContext";
 import useAuth from "app/hooks/useAuth";
 import { navigatePath } from "app/views/invoice/InvoiceService";
 
@@ -22,7 +22,7 @@ const getUserRoleAuthStatus = (pathname, user, routes) => {
 const AuthGuard = ({ children }) => {
   const {
     isAuthenticated,
-     user
+    user
   } = useAuth();
 
   const [previouseRoute, setPreviousRoute] = useState(null);
@@ -31,7 +31,7 @@ const AuthGuard = ({ children }) => {
   const { routes } = useContext(AppContext);
   const isUserRoleAuthenticated = getUserRoleAuthStatus(pathname, user, routes);
   let authenticated = isAuthenticated && isUserRoleAuthenticated;
-  
+
 
   // IF YOU NEED ROLE BASED AUTHENTICATION,
   // UNCOMMENT ABOVE TWO LINES, getUserRoleAuthStatus METHOD AND user VARIABLE
@@ -48,7 +48,7 @@ const AuthGuard = ({ children }) => {
     return (
       <Redirect
         to={{
-          pathname:navigatePath+"/session/signin",
+          pathname: navigatePath + "/session/signin",
           state: { redirectUrl: previouseRoute },
         }}
       />

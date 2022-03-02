@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
   Button,
   FormControl,
@@ -196,6 +198,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
+  const [proListAll, setproListAll] = useState([]);
   const [ProductList, setProductList] = useState([]);
   const [ProductList1, setProductList1] = useState([]);
   const [validity, setvalidity] = useState('3 Days')
@@ -218,10 +221,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [PriceList, setPriceList] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [pricestatus, setpricestatus] = useState(false);
-  const [ponumber, setponumber] = useState();
+  const [ponumber, setponumber] = useState(null);
   const [fstatus, setfstatus] = useState(-1);
   let calculateAmount = [];
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -248,6 +251,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const formData = new FormData()
   const handleChanges = (event, newValue, index) => {
 
+    console.log('fsdfs', event.target.value)
+    if (!newValue) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
+    }
+    // proListAll
+    // setproList(proListAll.filter(obj => obj.name?.toLowerCase?.includes(newValue?.toLowerCase)))
+
     const price = PriceList?.filter(el => el.product_id === newValue?.id);
 
     let tempItemList = [...state.item];
@@ -259,10 +269,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
         element['productId'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
+        // element['product_id'] = newValue?.id ? newValue?.id : null
 
 
 
@@ -490,6 +502,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const calculatemargin = (event, index, value) => {
+
     let tempItemList = [...state.item];
     let d_val = value ? value : event.target.value;
     tempItemList.map((element, i) => {
@@ -498,12 +511,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-
+        element['sell_price'] = value;
         if (parseInt(element.purchase_price) !== 0) {
 
           element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
           element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.sell_price = d_val
+
           // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
           // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
           // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
@@ -532,21 +545,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList = () => {
     let tempItemList = [...state.item];
-
+    setproList(proListAll)
     tempItemList.push({
-      product_id: "",
+      product_id: " ",
       src: '',
+      item_name: '',
       invoice_id: 0,
       id: 0,
-      description: "",
-      descriptions: "",
+      description: " ",
+      descriptions: " ",
+      unit_of_measure: " ",
       quantity: 0,
       product_price_list: [
         {
           price: ""
         }
       ],
-      purchase_price: 0.00,
+      purchase_price: 0,
       margin: 0,
       sell_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
@@ -564,6 +579,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const deleteItemFromInvoiceList = (index) => {
+    let tempItemList = [...state.item];
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Invoice Details!',
@@ -574,7 +590,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        let tempItemList = [...state.item];
+
+
+
         tempItemList.splice(index, 1);
 
         setState({
@@ -636,6 +654,84 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
   };
+
+
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('product_id')) {
+        // if (false) {
+        inputRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        // if (r?.includes('purchase_price')) {
+        if (false) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('product_id')) {
+          // } else if (false) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r?.includes('product_id')) {
+          // if (false) {
+          inputRef[parseInt(r)].focus();
+          // } else if (r.includes('product_id')) {
+        } else if (false) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        // console.error('eror')
+        addItemToInvoiceList(invoiceItemList);
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          // if (false) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+          // } else if (prev?.includes('purchase_price')) {
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
+
+  const [getRef, setRef] = useDynamicRefs();
+
+  let inputRef = [];
+  let priceRef = [];
   const expandData = (id) => {
 
     var filtered = proList.filter(a => a.id == id);
@@ -645,6 +741,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const calcualtep = (event, index, newValue, name) => {
 
+
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -652,11 +749,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
-        if (element.purchase_price) {
+        if (parseFloat(element?.purchase_price)) {
           // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
           // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
-          element[name] = newValue ? newValue : event.target.value
-          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(2);
+          let dval = newValue ? newValue : event.target.value;
+          element[name] = parseFloat(dval)
+          element.sell_price = parseFloat((element.margin * dval / 100) + parseFloat(dval)).toFixed(3);
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
 
           // element['id']=null;
@@ -680,6 +778,82 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   }
+
+
+  const calcualte_margin = (event, index, newValue, name) => {
+
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index == i) {
+        if (parseFloat(element?.purchase_price)) {
+          // element.sell_price=parseFloat((element.margin * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
+          // element.total_amount=((element.sell_price)*element.quantity).toFixed(2);
+          let dval = newValue ? newValue : event.target.value;
+          element[name] = parseFloat(dval)
+          element.sell_price = parseFloat((element.margin * element.purchase_price / 100) + parseFloat(element.purchase_price)).toFixed(3);
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+          // element['id']=null;
+        }
+        else {
+          element[name] = newValue ? newValue : event.target.value
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+          // element['id']=null;
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
+
+
+
+
+  const calcualte_qty = (event, index, newValue, name) => {
+
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index == i) {
+
+        element[name] = newValue ? newValue : event.target.value
+
+        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+
+        // element['id']=null;
+
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
 
   const handleSubmit = () => {
     let mode = "full"
@@ -758,7 +932,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // formData.append('ps_date',Quote_date)
     // formData.append('rfq_id',null)
     // formData.append('transaction_type',"sale")
-    console.log(tempItemList)
 
 
     tempItemList.map((answer, i) => {
@@ -779,12 +952,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
 
           .then((result) => {
-            history.push(navigatePath + "/inv")
+            routerHistory.push(navigatePath + "/inv")
           })
         // window.location.href="../quoateview"
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
     // },5000)
   };
@@ -813,7 +993,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   function cancelform() {
-    history.push(navigatePath + "/inv")
+    routerHistory.push(navigatePath + "/inv")
   }
 
   const handleDialogClose = () => {
@@ -868,24 +1048,34 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
       setproList(data)
+      setproListAll(data)
 
 
     });
 
 
   };
-  const setcontact = (event) => {
+  const setcontact = (event, newValue) => {
+
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
+
+        setparty_id(newValue?.id)
+
+        setrfqstatus(true);
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+      });
+    }
+    else {
+      setcustomercontact([]);
 
-      setparty_id(event.target.value)
+      setparty_id()
 
-      setrfqstatus(true);
+      setrfqstatus(false);
 
-
-    });
+    }
   }
 
   useEffect(() => {
@@ -901,10 +1091,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       { color: 'black', size: 'M' }
     ]
 
-    console.log(list.sort((a, b) => (a.color > b.color) ? 1 : -1))
+    // console.log(list.sort((a, b) => (a.color > b.color) ? 1 : -1))
 
     url.get("products").then(({ data }) => {
       setproList(data)
+      setproListAll(data)
 
 
       // setState({
@@ -983,7 +1174,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct(true)
   }
   const setProductdescription = (event, index, id, newValue) => {
-    console.log(newValue)
 
     //   if(newValue!=="false")
     //   {
@@ -1132,48 +1322,67 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
-                <h5 className="font-normal capitalize">
-                  <strong>Customer: </strong>{" "}
-                  <span>
-                    {id}
-                  </span>
-                </h5>
+            <Grid container spacing={2} className="mb-4">
+              <Grid item className="ml-4">
 
-                <TextField
 
-                  label="Customer Name"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
-                  size="small"
+                {/* <TextField
+
+label="Customer Name"
+style={{ minWidth: 200, maxWidth: '250px' }}
+name="party_id"
+size="small"
+variant="outlined"
+
+
+onClick={(event) => setcontact(event)}
+required
+select
+>
+<MenuItem onClick={() => {
+  routerHistory.push("/party/addparty");
+}}>
+
+  <Icon>add</Icon>New
+
+</MenuItem>
+{CustomerList.map((item) => (
+  <MenuItem value={item.id} key={item.id}>
+    {item.firm_name}
+  </MenuItem>
+))}
+</TextField> */}
+
+                <Autocomplete
+                  id="filter-demo"
                   variant="outlined"
+                  options={CustomerList}
 
-                  // value={values.CustomerList}
-                  // onChange={handleChange}
-                  onClick={(event) => setcontact(event)}
-                  required
-                  select
-                >
-                  <MenuItem onClick={() => {
-                    history.push("/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-                    {/* </Button> */}
-                  </MenuItem>
-                  {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  style={{ width: 200 }}
+                  getOptionLabel={(option) => option.firm_name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
 
 
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
 
 
-
-                {rfqstatus &&
+              </Grid>
+              <Grid item >
+                {/*   
+  {rfqstatus &&
                   <TextField
 
                     label="Contact Person"
@@ -1183,7 +1392,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     variant="outlined"
                     select
-                    // value={values.contact_id}
+                    
                     onChange={(e) => setcontactid(e.target.value)}
 
                   >
@@ -1195,51 +1404,70 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     ))}
 
                   </TextField>
-                }
-              </div>
+                } */}
 
+                {/* {rfqstatus&&<Autocomplete
+      id="filter-demo"
+      variant="outlined"
+      options={customercontact}
+     
+      style={{width:200}}
+      getOptionLabel={(option) => option.fname}
+      filterOptions={(options, params)=>{
+        const filtered = filter(options, params);
+        if(params.inputValue !== " ") {
+          filtered.unshift({
+            inputValue: params.inputValue,
+            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+          });
+        }
+        
+       
+        return filtered;
+      }}
+      onChange={(e) => setcontactid(e.target.value)}
+      size="small"
+      renderInput={(params) => <TextField {...params} 
+      variant="outlined" label="Contact Person" />}
+    />} */}
 
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="m-2"
-                      margin="none"
-                      label="Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-
-                  <TextField
-
-                    label="P.O Number"
-                    className="m-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
+              </Grid>
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    value={ponumber}
-                    onChange={(e) => setponumber(e.target.value)}
-
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      // return date
+                    }}
                   />
-                </div>
+                </MuiPickersUtilsProvider>
 
-              </div>
-            </div>
+
+              </Grid>
+              <Grid item xs>
+                <TextField
+
+                  label="P.O Number"
+                  className=""
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  name="contact_id"
+                  size="small"
+                  variant="outlined"
+                  value={ponumber}
+                  onChange={(e) => setponumber(e.target.value)}
+
+                />
+              </Grid>
+            </Grid>
 
             <Divider />
 
@@ -1318,7 +1546,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           options={proList.filter(obj => obj.div_id == localStorage.getItem('division'))}
                           name="product_id"
-                          value={item?.product_id}
+                          value={item?.item_name}
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           // multiline
@@ -1330,15 +1558,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             }
-                            return option?.name ? option?.name : "";
+                            return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ");
                           }}
                           freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+
                           renderInput={(params) => (
-                            <TextField {...params} variant="outlined" name="product_id" required fullWidth />
+                            <TextField {...params} inputRef={input => {
+                              inputRef[index] = input;
+                            }} onChange={(event, newValue) => handleChanges(event, newValue, index)}
+
+                              variant="outlined" value={item.product_id} name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
@@ -1398,15 +1632,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           autoComplete="none"
                           label="Qty"
                           required
-                          onChange={(event, newValue) => calcualtep(event, index, newValue = null, 'quantity')}
+                          onChange={(event, newValue) => calcualte_qty(event, index, newValue = null, 'quantity')}
                           type="text"
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
 
                           name="quantity"
-                          value={item.quantity}
+                          value={isNaN(item.quantity) ? 0 : item.quantity}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left">
@@ -1417,6 +1653,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onChange={e => setunit_of_measure(e.target.value)}
                           type="text"
                           size="small"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+
                           value={item.unit_of_measure}
                           name="unit_of_measure"
                           variant="outlined"
@@ -1469,11 +1710,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''}</>}
                    
                      */}
-                        <Autocomplete
+                        {/* <Autocomplete
 
                           className="w-full"
                           size="small"
-                          options={item.product_price_list}
+                          options={item?.product_price_list?item?.product_price_list:[]}
                           name="purchase_price"
                           required
                           value={item?.purchase_price}
@@ -1496,6 +1737,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyUp={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
                           onInputChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
 
+                        /> */}
+                        <CurrencyTextField
+                          className="w-full"
+                          autoComplete="none"
+                          label="Purchase Price"
+                          // decimalPlaces={3}
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure') }}
+                          inputProps={{
+                            ref: setRef(index + 'purchase_price')
+                          }}
+                          name="purchase_price"
+                          currencySymbol=""
+                          // inputProps={{ min: 0, style: { textAlign: 'center' } }}
+
+                          onChange={(event, newValue) => calcualtep(event, index, newValue, 'purchase_price')}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          // value={item.sell_price}
+                          value={isNaN(item.purchase_price) ? parseFloat(0) : parseFloat(item.purchase_price)}
                         />
 
 
@@ -1508,15 +1770,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left">
                         <TextValidator autoComplete="none"
                           label="Margin"
-                          onChange={(event, newValue) => calcualtep(event, index, newValue = null, 'margin')}
+                          onChange={(event, newValue) => calcualte_margin(event, index, newValue, 'margin')}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
                           variant="outlined"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+
+                          inputProps={{ ref: setRef(index + 'margin'), min: 0, style: { textAlign: 'center' } }}
                           size="small"
                           name="margin"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'sell_price', index + 'purchase_price') }}
+
                           fullWidth
-                          value={item.margin}
+                          value={isNaN(item.margin) ? " " : item.margin}
                           validators={["required"]}
                           errorMessages={["this field is required"]}
 
@@ -1550,13 +1815,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full"
                           autoComplete="none"
                           label="Sell Price"
+                          decimalPlaces={3}
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=''
+                          inputProps={{
+                            ref: setRef(index + 'sell_price')
+                          }}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'margin') }}
+
                           name="sell_price"
+
                           onChange={(e, value) => calculatemargin(e, index, value)}
-                          value={item.sell_price}
+                          // onChange={(e, value) => calculatemargin(e, index, value)}
+                          // value={item.sell_price}
+                          value={parseFloat(item?.sell_price) ? (isNaN(item?.sell_price) ? parseFloat(0) : parseFloat(item.sell_price)) : parseFloat(0)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
@@ -1578,12 +1853,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                         <CurrencyTextField
                           className="w-full"
-                          label="QTotal"
+                          readOnly
+                          label="Total"
                           autoComplete="none"
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price') }}
+
+                          currencySymbol=""
                           name="total_amount"
                           value={item.total_amount.toLocaleString(undefined, {
                             minimumFractionDigits: 2

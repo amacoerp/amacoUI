@@ -9,7 +9,7 @@ import Addpaidaccount from "./Addpaidaccount";
 
 // import ImageZoom from "react-medium-image-zoom";
 
-import history from "history.js";
+import { useHistory } from 'react-router';
 import {
   Grid,
   RadioGroup,
@@ -75,19 +75,19 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
   },
 }));
-const option =[
+const option = [
   {
-      name:'Cash',
-      value:'cash'
+    name: 'Cash',
+    value: 'cash'
   },
   {
-    name:'Cheque',
-    value:'cheque'
-},
-{
-    name:'Bank Transfer',
-    value:'banktransfer'
-}
+    name: 'Cheque',
+    value: 'cheque'
+  },
+  {
+    name: 'Bank Transfer',
+    value: 'banktransfer'
+  }
 ]
 const CustomerForm = () => {
   let formData = new FormData();
@@ -104,7 +104,7 @@ const CustomerForm = () => {
   const [amount, setamount] = useState("");
   const [payment_account_id, setpayment_account_id] = useState("");
   const [payment_account_name, setpayment_account_name] = useState("");
-  const [description, setdescription] = useState();
+  const [description, setdescription] = useState('');
   const [taxamount, settaxamount] = useState(0.0);
   const [referrence_bill_no, setreferrence_bill_no] = useState();
   const [tax, settax] = useState(false);
@@ -158,15 +158,15 @@ const CustomerForm = () => {
   const [disableVal, setdisableVal] = useState(false);
   const [loading, setloading] = useState(false);
   const [vendor_id, setvendor_id] = useState('');
-  const [vendorList, setvendorList] = useState([ ]);
+  const [vendorList, setvendorList] = useState([]);
   const [vendor_status, setvendor_status] = useState(false);
   const [employee_id, setemployee_id] = useState('0');
-const [employeeList, setemployeeList] = useState([ ]);
- const [employee_status, setemployee_status] = useState(false);
+  const [employeeList, setemployeeList] = useState([]);
+  const [employee_status, setemployee_status] = useState(false);
 
-  var demoArr=[];
- 
-  
+  var demoArr = [];
+
+
   const [
     DialogAdddivision,
     setDialogAdddivision,
@@ -181,17 +181,20 @@ const [employeeList, setemployeeList] = useState([ ]);
   // };
   const handleBankSelect = (event, f) => {
     let files = event.target.files[0];
-    const filename=URL.createObjectURL(event.target.files[0]);
-    
+    const filename = URL.createObjectURL(event.target.files[0]);
+
     setbank_slip(files);
     setfileurl(filename)
-   
-  
-    
-    
-  
-   
+
+
+
+
+
+
   };
+
+  const routerHistory = useHistory();
+
 
   const handlebillSelect = (event, f) => {
     let files = event.target.files;
@@ -200,8 +203,8 @@ const [employeeList, setemployeeList] = useState([ ]);
     setfile_path(event.target.files[0]);
     setref_billno(src);
   };
-  const utilizedivisionation = (id,name) => {
-    
+  const utilizedivisionation = (id, name) => {
+
     setutilize_id(id);
     setutilize_name(name);
     setdivPositionutilize(null)
@@ -216,168 +219,158 @@ const [employeeList, setemployeeList] = useState([ ]);
     setisAlive(false);
   };
 
-  let sum=0;
+  let sum = 0;
 
-  const   handleMultipleList = (index) => {
-    
-   
+  const handleMultipleList = (index) => {
+
+
     // sum=paiddivision_account.reduce((a,v) =>  a = a + parseFloat(v.balance) , 0 )
     // statearr?.filter(function(e) { return e !== 'seven' })
-   // sum=paiddivision_account.reduce((a,v) =>  a = a + parseFloat(v.balance) , 0 )
+    // sum=paiddivision_account.reduce((a,v) =>  a = a + parseFloat(v.balance) , 0 )
     // statearr?.filter(function(e) { return e !== 'seven' })
-  
+
     setstatearr([])
-    var calSum=0;
-    var count=0;
-    for(var ind in index)
-    {
-      
+    var calSum = 0;
+    var count = 0;
+    for (var ind in index) {
+
       // eslint-disable-next-line no-loop-func
-      paiddivision_account.filter(f => f.name==index[ind]).map((item)=> {
-      
-        
-          // map array to replace the old comment with the new one
-         
-         if(amount>calSum && count<=0)
-         {
-          calSum=calSum+item.balance
-           item.isdisable=false
-           if(item.type==="personal")
-            {
-              count++;
-            }
-           statearr.push([
+      paiddivision_account.filter(f => f.name == index[ind]).map((item) => {
+
+
+        // map array to replace the old comment with the new one
+
+        if (amount > calSum && count <= 0) {
+          calSum = calSum + item.balance
+          item.isdisable = false
+          if (item.type === "personal") {
+            count++;
+          }
+          statearr.push([
             item.id,
-           
+
             item.name,
             item.balance,
             item.div_id,
             item.type
           ]
           )
-         }
-         else{
-           item.isdisable=true
-         }
-          
-    
-          
-            
-          
-        
-     
-      
-      
-   
-    })
-    
-    }
-    
-    arr=statearr
-    sum=sum+statearr.reduce((a,v) =>  a = a + parseFloat(v[2]) , 0 )
-    
-    
-    setpaymentarr(statearr)
-    setamountVal(sum)
-    if(sum<amount)
-    {
-      
-      // setmessage("Insufficient Amount")
-     
-      // setamountVal(sum)
-    }
-     else
-    {
-      
-      // setmessage("success")
-     
-      // setdisableVal(true)
-      
-      
-      setIsopen(false)
-      
-    }
-    
-    
-    
-  };
-  let count=0;
-  const   handleMultipleListDemo = (index) => {
-    setfilterArr(index);
-    
-    setstatearr([])
-    var calSum=0;
-  
-    for(var ind in index)
-    {
-      
-      // eslint-disable-next-line no-loop-func
-      paiddivision_account.filter(f => f.name==index[ind].name).map((item)=> {
-      
-        
-          // map array to replace the old comment with the new one
-        
-         if(amount>calSum && count<=0)
-         {
-         
-          calSum=calSum+item.balance
-           item.isdisable=false
-           if(item.type==="personal")
-          {
-            count=count+1;
-          
-         }
-          
-          
-           statearr.push([
-            item.id,
-           
-            item.name,
-            item.balance,
-            item.div_id,
-            item.type
-          ]
-          )
-         }
-         
-         else{
-           item.isdisable=true
-         }
-          
-    
-          
-            
-        return item;  
-        
-     
-      
-      
-   
-    })
-    
-    }
-    
-    arr=statearr
-    sum=sum+statearr.reduce((a,v) =>  a = a + parseFloat(v[2]) , 0 )
-    
-   
-    setpaymentarr(statearr)
-    setamountVal(sum)
-    if(sum<amount)
-    {
-      
-      
-    }
-     else
-    {
-      
-     
-      setIsopen(false)
-      
+        }
+        else {
+          item.isdisable = true
+        }
+
+
+
+
+
+
+
+
+
+
+      })
+
     }
 
-    
-    
+    arr = statearr
+    sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+
+
+    setpaymentarr(statearr)
+    setamountVal(sum)
+    if (sum < amount) {
+
+      // setmessage("Insufficient Amount")
+
+      // setamountVal(sum)
+    }
+    else {
+
+      // setmessage("success")
+
+      // setdisableVal(true)
+
+
+      setIsopen(false)
+
+    }
+
+
+
+  };
+  let count = 0;
+  const handleMultipleListDemo = (index) => {
+    setfilterArr(index);
+
+    setstatearr([])
+    var calSum = 0;
+
+    for (var ind in index) {
+
+      // eslint-disable-next-line no-loop-func
+      paiddivision_account.filter(f => f.name == index[ind].name).map((item) => {
+
+
+        // map array to replace the old comment with the new one
+
+        if (amount > calSum && count <= 0) {
+
+          calSum = calSum + item.balance
+          item.isdisable = false
+          if (item.type === "personal") {
+            count = count + 1;
+
+          }
+
+
+          statearr.push([
+            item.id,
+
+            item.name,
+            item.balance,
+            item.div_id,
+            item.type
+          ]
+          )
+        }
+
+        else {
+          item.isdisable = true
+        }
+
+
+
+
+        return item;
+
+
+
+
+
+      })
+
+    }
+
+    arr = statearr
+    sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+
+
+    setpaymentarr(statearr)
+    setamountVal(sum)
+    if (sum < amount) {
+
+
+    }
+    else {
+
+
+      setIsopen(false)
+
+    }
+
+
+
   };
 
 
@@ -402,10 +395,10 @@ const [employeeList, setemployeeList] = useState([ ]);
         element.column_id = f;
       }
     });
-    
+
     setFiles(list);
   };
-  
+
 
   const Menu1 = ({ data }) => {
     return (
@@ -476,7 +469,7 @@ const [employeeList, setemployeeList] = useState([ ]);
       left: event.pageX,
     });
   }
-  const adddiv =()=>{
+  const adddiv = () => {
     setDialogAdddivision(true);
     setdivPositionutilize(null);
     setdivPosition(null)
@@ -489,33 +482,31 @@ const [employeeList, setemployeeList] = useState([ ]);
       setaccountstatus(false);
     } else {
       url.get(`columns/${i}`).then(({ data }) => {
-       let arr= data[0].column.map((item,i)=>{
-          if(item.type==="date")
-          {
-            item.date=moment(new Date()).format('dd MMM YYYY');
-            item.column_id=item.id
+        let arr = data[0].column.map((item, i) => {
+          if (item.type === "date") {
+            item.date = moment(new Date()).format('dd MMM YYYY');
+            item.column_id = item.id
           }
           return item
         })
         setfield(arr);
-       
 
-        
+
+
       });
-      if(i==33)
-      {
+      setemployee_status(false)
+      setvendor_status(false)
+      if (i == 33) {
         setvendor_status(true)
       }
-      if((name.toUpperCase()).includes('SALARY'))
-      {
+      if ((name.toUpperCase()).includes('SALARY')) {
         setemployee_status(true)
       }
-      else
-      {
+      else {
         setemployee_status(false)
       }
       setaccountstatus(true);
-      setvendor_status(true);
+      // setvendor_status(true);
       setpayment_account_id(i);
       setpayment_account_name(name);
       setMenuPosition(null);
@@ -541,8 +532,8 @@ const [employeeList, setemployeeList] = useState([ ]);
     setisAlive(false);
     setdivPositionutilize(false)
   };
-  const paidivisionation = (id,name) => {
-    
+  const paidivisionation = (id, name) => {
+
     setdiv_id(id);
     setdiv_name(name);
     setdivPosition(null)
@@ -566,14 +557,14 @@ const [employeeList, setemployeeList] = useState([ ]);
     //   setaccounttype(data);
 
     // });
-    getVendorList().then(({data})=>{
+    getVendorList().then(({ data }) => {
       setvendorList(data)
     })
     var arrVals
-    
+
     url.get("division").then(({ data }) => {
       setdivision_account(data);
-      
+
     });
     getcompanybank().then(({ data }) => {
       setcompanybank(data);
@@ -588,221 +579,215 @@ const [employeeList, setemployeeList] = useState([ ]);
     url.get("account-categories").then(({ data }) => {
       setcat(data);
     });
-   
-    
-   const datas= getpaidDivision().then(({ data }) => {
-     
-    //   arrVals = data.sort(function (obj1, obj2) {
-    //     return obj1.type.localeCompare(obj2.type);
-    //  });
-    
-    
-     
-    //   setpaiddivision_account(arrVals);
-    return data;
-     
+
+
+    const datas = getpaidDivision().then(({ data }) => {
+
+      //   arrVals = data.sort(function (obj1, obj2) {
+      //     return obj1.type.localeCompare(obj2.type);
+      //  });
+
+
+
+      //   setpaiddivision_account(arrVals);
+      return data;
+
     })
     var obj;
     getpaidDivision()
-    
-  .then(response => response)
-  .then(data => obj = data)
-  .then(() => 
-      
-      url.get(`expense/${id}`).then(({ data }) => {
-        arrVals = obj.data.sort(function (obj1, obj2) {
-        return obj1.type.localeCompare(obj2.type);
-     });
-    
-    console.log(data)
-     
-      setpaiddivision_account(arrVals);
-      setvendor_id(data[0].vendor_id);
-      setcompany(data[0].company_name);
-      setpaid_to(data[0].paid_to!='null'?data[0].paid_to:null);
-     
-      setamount(parseInt(data[0]?.amount));
-      setpaid_date(data[0]?.paid_date);
-      setemployee_id(data[0]?.employee_id)
-      setpaid_by(data[0]?.payment_account_id);
-      setreferrence_bill_no(data[0]?.referrence_bill_no);
-      setdescription(data[0].paid_to!='null'?data[0].description:null);
-      setclose(true);
-      setfield(data[0].column_data);
-      setpayment_mode(data[0].payment_type)
-      var payList;
-      payList = data.mapdata.map((item,i)=>{
-      
-      
-       return item
-      })
-      
-      var merged = [].concat.apply([],payList);
-      var demo=merged.map((item)=>{
-        item.isdisable=true
-        return item
-      })
-      setfilterArr(demo)
-      // setpaid_by_list(merged)
-     
-      setstatearr([])
-      var calSum=0;
-      var count=0;
-      for(var ind in merged)
-      {
-        
-        // eslint-disable-next-line no-loop-func
-        obj.data.filter(f => f.name==merged[ind].name).map((item)=> {
-        
-          
-            // map array to replace the old comment with the new one
-           
-           
-             statearr.push([
-              item.id,
-             
-              item.name,
-              item.balance,
-              item.div_id,
-              item.type
-            ]
-            )
-          
-           
-            
-         
-            
-              
-            
-          
-       
-        
-        
-     
-      })
-      
-      }
-      
-      arr=statearr
-      sum=sum+statearr.reduce((a,v) =>  a = a + parseFloat(v[2]) , 0 )
-      
-      
-      setpaymentarr(statearr)
-     
-      setamountVal(sum)
-      // setpaid_by_list(payList)
-     
-     
-      if(data[0].payment_type==="cheque")
-      {
-          setcheque_no(data[0].check_no)
-      }
-      let arr = [...data[0].column_data];
-      arr.map((element, i) => {
-      if(element.column_id==element.column['id']) 
-      {
-     
-      element['type'] =element.column['type'];
-      if(!element.date)
-      {
-        element.date=new Date()
-      }
-      element[element.column['type']]=element.value;
+
+      .then(response => response)
+      .then(data => obj = data)
+      .then(() =>
+
+        url.get(`expense/${id}`).then(({ data }) => {
+          arrVals = obj.data.sort(function (obj1, obj2) {
+            return obj1.type.localeCompare(obj2.type);
+          });
+
+          console.log(data)
+
+          setpaiddivision_account(arrVals);
+          setvendor_id(data[0].vendor_id);
+          setcompany(data[0].company_name);
+          setpaid_to(data[0].paid_to != 'null' ? data[0].paid_to : null);
+
+          setamount(parseInt(data[0]?.amount));
+          setpaid_date(data[0]?.paid_date);
+          setemployee_id(data[0]?.employee_id)
+          setpaid_by(data[0]?.payment_account_id);
+          setreferrence_bill_no(data[0]?.referrence_bill_no);
+          setdescription(data[0].paid_to != 'null' ? data[0].description : null);
+          setclose(true);
+          setfield(data[0].column_data);
+          setpayment_mode(data[0].payment_type)
+          var payList;
+          payList = data.mapdata.map((item, i) => {
+
+
+            return item
+          })
+
+          var merged = [].concat.apply([], payList);
+          var demo = merged.map((item) => {
+            item.isdisable = true
+            return item
+          })
+          setfilterArr(demo)
+          // setpaid_by_list(merged)
+
+          setstatearr([])
+          var calSum = 0;
+          var count = 0;
+          for (var ind in merged) {
+
+            // eslint-disable-next-line no-loop-func
+            obj.data.filter(f => f.name == merged[ind].name).map((item) => {
+
+
+              // map array to replace the old comment with the new one
+
+
+              statearr.push([
+                item.id,
+
+                item.name,
+                item.balance,
+                item.div_id,
+                item.type
+              ]
+              )
+
+
+
+
+
+
+
+
+
+
+
+
+            })
+
+          }
+
+          arr = statearr
+          sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+
+
+          setpaymentarr(statearr)
+
+          setamountVal(sum)
+          // setpaid_by_list(payList)
+
+
+          if (data[0].payment_type === "cheque") {
+            setcheque_no(data[0].check_no)
+          }
+          let arr = [...data[0].column_data];
+          arr.map((element, i) => {
+            if (element.column_id == element.column['id']) {
+
+              element['type'] = element.column['type'];
+              if (!element.date) {
+                element.date = new Date()
+              }
+              element[element.column['type']] = element.value;
+
+            }
+            return element;
+
+          });
+
+
+          setutilize_id(data[0]?.utilize_div_id);
+
+          setdiv_id(data[0]?.div_id);
+          setvatno(data[0]?.vatno);
+          setdiv_company(data[0]?.company);
+          setinv_no(data[0]?.inv_no);
+
+          url.get("payment-account").then(({ data }) => {
+            setarrVal(data)
+            setpayment_account(data);
+            setaccounttype(data);
+
+
+          })
+
+
+
+
+
+
+
+
+          if (data[0]?.tax) {
+            settax(true);
+            settaxamount(data[0]?.tax);
+          }
+          else {
+            settax(false);
+            settaxamount('0.00')
+          }
+
+          setaccountstatus(true);
+
+
+          setdemo(data[0]?.account_category_id);
+
+        }))
+
+
+
+    url.get(`columns/${eid}`).then(({ data }) => {
+      setpayment_account_name(data[0]?.name);
+      if ((data[0]?.name.toUpperCase()).includes('SALARY')) {
+        setemployee_status(true)
 
       }
-      return element;
-      
+      setpayment_account_id(eid);
+      if (eid == 33) {
+        setvendor_status(true)
+
+      }
+      let result = data[0].column;
+
+      const sum = result.map((item, index) => ({
+        ...item,
+        date: arr[index]?.value,
+        text: arr[index]?.value,
+        value: arr[index]?.value,
+      }));
+
+
+
     });
-    
-      
-      setutilize_id(data[0]?.utilize_div_id);
-      
-      setdiv_id(data[0]?.div_id);
-      setvatno(data[0]?.vatno);
-      setdiv_company(data[0]?.company);
-      setinv_no(data[0]?.inv_no);
-     
-      url.get("payment-account").then(({data})=>{
-        setarrVal(data)
-        setpayment_account(data);
-      setaccounttype(data);
-       
 
-      })
-      
-      
-      
-      
-    
-      
-      
-      
-      if (data[0]?.tax) {
-        settax(true);
-        settaxamount(data[0]?.tax);
-      }
-      else
-      {
-        settax(false);
-        settaxamount('0.00')
-      }
 
-      setaccountstatus(true);
-      
 
-      setdemo(data[0]?.account_category_id);
-     
-    }))
-  
-   
-
-      url.get(`columns/${eid}`).then(({ data }) => {
-        setpayment_account_name(data[0]?.name);
-        if((data[0]?.name.toUpperCase()).includes('SALARY'))
-        {
-          setemployee_status(true)
-        
-        }
-        setpayment_account_id(eid);
-        if(eid==33){
-          setvendor_status(true)
-          
-        }
-        let result = data[0].column;
-
-        const sum = result.map((item, index) => ({
-          ...item,
-          date: arr[index]?.value,
-          text: arr[index]?.value,
-          value: arr[index]?.value,
-        }));
-        
-       
-    
-      });
-    
-    
-   
 
     return setisAlive(true);
-  
+
   }, []);
 
   const handleSubmit = async (values, { isSubmitting, resetForm }) => {
- 
+
     const newItem = new FormData();
     for (const key of Object.keys(files)) {
       newItem.append("item", files[key].file);
     }
     if (tax) {
-      formData.append("tax", tax?(parseFloat(amount)*15)/(100+15).toFixed(2):null);
+      formData.append("tax", tax ? (parseFloat(amount) * 15) / (100 + 15).toFixed(2) : null);
       formData.append("company_name", company);
     }
     formData.append("paid_date", paid_date);
     formData.append("referrence_bill_no", referrence_bill_no);
     formData.append("amount", amount);
-    formData.append("paid_to",paid_to?paid_to:" ");
-    formData.append("description", description?description: " ");
+    formData.append("paid_to", paid_to ? paid_to : " ");
+    formData.append("description", description ? description : " ");
     formData.append("created_by", created_by);
     formData.append("account_category_id", payment_account_id);
     formData.append("paid_by", paid_by);
@@ -814,23 +799,23 @@ const [employeeList, setemployeeList] = useState([ ]);
     formData.append("bank_ref_no", bank_ref_no);
     formData.append("bank_slip", bank_slip);
     formData.append("file_path", file_path);
-    formData.append("company", div_company?div_company:'');
-    formData.append("div_id", user.division);
+    formData.append("company", div_company ? div_company : '');
+    formData.append("div_id", localStorage.getItem('division'));
     formData.append("user_id", user.id);
-    formData.append("utilize_div_id",utilize_id);
+    formData.append("utilize_div_id", utilize_id);
 
     formData.append("vatno", vatno);
     formData.append("inv_no", inv_no);
-    formData.append("payment_type",payment_mode);
-    formData.append("bank_slip",bank_slip);
-    formData.append("cheque_no",cheque_no);
-    formData.append("bank_id",bank_id);
+    formData.append("payment_type", payment_mode);
+    formData.append("bank_slip", bank_slip);
+    formData.append("cheque_no", cheque_no);
+    formData.append("bank_id", bank_id);
     formData.append("id", id);
-    formData.append("vendor_id",vendor_id?vendor_id:0);
-    formData.append("employee_id",employee_id);
+    formData.append("vendor_id", vendor_id ? vendor_id : 0);
+    formData.append("employee_id", employee_id);
     files.map((answer, i) => {
       formData.append(`file${answer.column_id}`, answer.file);
-     
+
     });
 
     // Axios.post(`${urlphp}/php_file/controller/expenseupdate.php`, formData, {
@@ -842,135 +827,118 @@ const [employeeList, setemployeeList] = useState([ ]);
     //     "Content-Type": "multipart/form-data",
     //   },
     // })
-    var sum=0;
-    var count=0;
-    var bal=0;
-    var temp=amount;
-    var utilze_divAmount=0;
-   
-    var status=true;
-    var personExist=paymentarr.some(obj=>obj[4]==="personal")
-    
-    utilze_divAmount=paymentarr.filter(obj=>obj[0]===utilize_id).reduce((a,v) =>  a = a + parseFloat(v[2]) , 0 )
-    if(utilze_divAmount===0)
-    {
-     // utilize division doesn't exists 
-      temp=amount
-      
+    var sum = 0;
+    var count = 0;
+    var bal = 0;
+    var temp = amount;
+    var utilze_divAmount = 0;
+
+    var status = true;
+    var personExist = paymentarr.some(obj => obj[4] === "personal")
+
+    utilze_divAmount = paymentarr.filter(obj => obj[0] === utilize_id).reduce((a, v) => a = a + parseFloat(v[2]), 0)
+    if (utilze_divAmount === 0) {
+      // utilize division doesn't exists 
+      temp = amount
+
     }
-    else
-    {
+    else {
       // utilize division  exists 
-      temp=amount-utilze_divAmount
+      temp = amount - utilze_divAmount
       //do a copy of selected account list without utilized div
     }
-   
-      // sum=sum+key[2];
-      // bal=key[2];
-    
-      if(amount>amountVal)
-      {
-        //insufficient
-       
-        if(personExist)
-        {
-          for (const key of paymentarr) {
-            if(key[0]!==utilize_id)
-            {
-              //its not utilized div
-              
-              if(temp>key[2])
-              {
-                if(key[4]==="personal")
-                {
-                  formData.append('payment_account_ids[]',[key[0],key[1],temp,key[3],key[4]])
-                }
-                else{
-                  formData.append('payment_account_ids[]',key)
-                  temp=temp-key[2];
-                }
-                  
+
+    // sum=sum+key[2];
+    // bal=key[2];
+
+    if (amount > amountVal) {
+      //insufficient
+
+      if (personExist) {
+        for (const key of paymentarr) {
+          if (key[0] !== utilize_id) {
+            //its not utilized div
+
+            if (temp > key[2]) {
+              if (key[4] === "personal") {
+                formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
               }
-              else
-              {
-              formData.append('payment_account_ids[]',[key[0],key[1],temp,key[3],key[4]])
+              else {
+                formData.append('payment_account_ids[]', key)
+                temp = temp - key[2];
               }
 
             }
-            else
-            {
-              formData.append('payment_account_ids[]',key)
+            else {
+              formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
             }
+
           }
-        }
-        
-        else
-        {
-            status=false;
-            
+          else {
+            formData.append('payment_account_ids[]', key)
+          }
         }
       }
-      
-      else
-      {
-        //Sufficicent
-       
-         
-            // consider full list
-            for (const key of paymentarr) {
-            if(key[0]!==utilize_id)
-            {
-              //its not utilized div
-              
-              if(temp>key[2])
-              {
-              formData.append('payment_account_ids[]',key)
-              temp=temp-key[2];
-              }
-              else
-              {
-              formData.append('payment_account_ids[]',[key[0],key[1],temp,key[3],key[4]])
-              }
 
-            }
-            else
-            {
-              formData.append('payment_account_ids[]',key)
-            }
-            
-            
+      else {
+        status = false;
 
-          }
-          
-        
-      
-      
-      
-     
-     
+      }
     }
-   
 
-   if(status)
-   {
-    url.post('expenseUpdate',formData).then(({data}) => {
-    
-      Swal.fire({
-        title: "Success",
-        type: "success",
-        icon: "success",
-        text: "Data updated successfully.",
-      }).then(({data}) => {
-        
-        history.push(navigatePath+`/expenseview`);
+    else {
+      //Sufficicent
+
+
+      // consider full list
+      for (const key of paymentarr) {
+        if (key[0] !== utilize_id) {
+          //its not utilized div
+
+          if (temp > key[2]) {
+            formData.append('payment_account_ids[]', key)
+            temp = temp - key[2];
+          }
+          else {
+            formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
+          }
+
+        }
+        else {
+          formData.append('payment_account_ids[]', key)
+        }
+
+
+
+      }
+
+
+
+
+
+
+
+    }
+
+
+    if (status) {
+      url.post('expenseUpdate', formData).then(({ data }) => {
+
+        Swal.fire({
+          title: "Success",
+          type: "success",
+          icon: "success",
+          text: "Data updated successfully.",
+        }).then(({ data }) => {
+
+          routerHistory.push(navigatePath + `/expenseview`);
+        });
       });
-    });
-  }
-  else
-  {
-    setmessage("Insufficient Amount")
-  }
-   
+    }
+    else {
+      setmessage("Insufficient Amount")
+    }
+
   };
 
   const handleField_Fileremove = (index) => {
@@ -1027,7 +995,7 @@ const [employeeList, setemployeeList] = useState([ ]);
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "EXPENSE", path: navigatePath+"/expenseview" },
+            { name: "EXPENSE", path: navigatePath + "/expenseview" },
             { name: "UPDATE EXPENSE" },
           ]}
         />
@@ -1072,8 +1040,8 @@ const [employeeList, setemployeeList] = useState([ ]);
           open={DialogAdddivision}
           paymentaccount={setpayment_account}
           division={setdivision_account}
-         
-        
+
+
 
         />
       )}
@@ -1083,7 +1051,7 @@ const [employeeList, setemployeeList] = useState([ ]);
           open={shouldOpenConfirmationDialogbox}
           paymentaccount={setpayment_account}
           handleClose={handleDialogClosepayee}
-        
+
 
         />
       )}
@@ -1114,9 +1082,9 @@ const [employeeList, setemployeeList] = useState([ ]);
             <form className="p-4" onSubmit={handleSubmit} autoComplete="off">
               <Grid container spacing={6}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                <div className="px-0 flex justify-between">
-                  <div>
-                {/* <Button
+                  <div className="px-0 flex justify-between">
+                    <div>
+                      {/* <Button
                     className="mb-4 ml-0"
                     variant="outlined"
                     size="small"
@@ -1152,59 +1120,59 @@ const [employeeList, setemployeeList] = useState([ ]);
                       </Menu>
                     </span>
                   </Button> */}
-                  <FormGroup variant="outlined" style={{width:320,height:37}}>
-                                <FormControl variant="outlined" size="small"
-                   className="mb-4" style={{width:320,height:37}} >
-        <InputLabel htmlFor="outlined-age-native-simple">Utilized Division</InputLabel>
-        <Select
-          native
-          value={utilize_id?utilize_id:''}
-          // onChange={handleChange}
-          onChange={e => setutilize_id(e.target.value)}
-          size="small"
-          label="Utilized Division"
-          inputProps={{
-            name: 'utilize_id',
-            id: 'outlined-age-native-simple',
-          }}
-        >
-         {arrVal.filter(obj=>obj.type==="division").map((item, ind) => (
-          <option value={item.id}>{item.name}</option>
-         ))}
-        </Select>
-      </FormControl>
-                              
-                             </FormGroup>
-                  </div>
-                  <div>
-                  <Button
-                    className="mb-4 w-full"
-                    variant="outlined"
-                    size="small"
-                    onClick={handleRightClick}
-                    style={{width:320,height:37}}
-                  >
-                    <span style={{ textAlign: "left" }}>
-                      Expenses Category
-                      <Menu
-                        open={!!menuPosition}
-                        onClose={() => setMenuPosition(null)}
-                        anchorReference="anchorPosition"
-                        anchorPosition={menuPosition}
+                      <FormGroup variant="outlined" style={{ width: 320, height: 37 }}>
+                        <FormControl variant="outlined" size="small"
+                          className="mb-4" style={{ width: 320, height: 37 }} >
+                          <InputLabel htmlFor="outlined-age-native-simple">Utilized Division</InputLabel>
+                          <Select
+                            native
+                            value={utilize_id ? utilize_id : ''}
+                            // onChange={handleChange}
+                            onChange={e => setutilize_id(e.target.value)}
+                            size="small"
+                            label="Utilized Division"
+                            inputProps={{
+                              name: 'utilize_id',
+                              id: 'outlined-age-native-simple',
+                            }}
+                          >
+                            {arrVal.filter(obj => obj.type === "division").map((item, ind) => (
+                              <option value={item.id}>{item.name}</option>
+                            ))}
+                          </Select>
+                        </FormControl>
+
+                      </FormGroup>
+                    </div>
+                    <div style={{ paddingLeft: '5px' }}>
+                      <Button
+                        className="mb-4 w-full"
+                        variant="outlined"
+                        size="small"
+                        onClick={handleRightClick}
+                        style={{ width: 235, height: 37 }}
                       >
-                        {" "}
-                        <MenuItem onClick={(e) => Addnewsubcat(null)}>
-                          <Icon align="left">add</Icon>Add Expenses Category
-                        </MenuItem>
-                        <Menu1 data={cat}></Menu1>
-                      </Menu>
-                    </span>
-                  </Button>
+                        <span style={{ textAlign: "left" }}>
+                          Expenses Category
+                          <Menu
+                            open={!!menuPosition}
+                            onClose={() => setMenuPosition(null)}
+                            anchorReference="anchorPosition"
+                            anchorPosition={menuPosition}
+                          >
+                            {" "}
+                            <MenuItem onClick={(e) => Addnewsubcat(null)}>
+                              <Icon align="left">add</Icon>Add Expenses Category
+                            </MenuItem>
+                            <Menu1 data={cat}></Menu1>
+                          </Menu>
+                        </span>
+                      </Button>
+                    </div>
                   </div>
-                  </div>
-                  
+
                   <div className="px-0 flex justify-between">
-                      {/* <div>
+                    {/* <div>
                       {utilize_id&&(<TextField
                         className="mb-4 w-full"
                         label="Utilized Division"
@@ -1219,136 +1187,136 @@ const [employeeList, setemployeeList] = useState([ ]);
                         // onChange={e => setpayment_account_id(e.target.value)}
                       />)}
                       </div> */}
-                    
-                      <TextField
-                        className="mb-4 w-full"
-                        label="Payment Account"
-                        name="payment_account_name"
-                        size="small"
-                        variant="outlined"
-                        autoComplete="none"
-                        
-                        value={payment_account_name}
-                      />
-                       </div>
-                      {field.map((item, index) => {
-                     
-                        return (
-                          <span>
-                            {item.type === "file" && (
-                              <div>
-                                <label htmlFor="upload-multiple-file">
-                                  {item.name}
-                                </label>
-                                <TextField
-                                  className="mb-4 w-full"
-                                  onChange={(e) => handleFileSelect(e, item.id)}
-                                  id="upload-multiple-file"
-                                  type="file"
-                                  variant="outlined"
-                                  size="small"
-                                  autoComplete="none"
-                                  
-                                />
 
-                                {close && (
-                                  <span>
-                                    {files.map((items, index) => {
-                                      
-                                      return (
+                    <TextField
+                      className="mb-4 w-full"
+                      label="Payment Account"
+                      name="payment_account_name"
+                      size="small"
+                      variant="outlined"
+                      autoComplete="none"
+
+                      value={payment_account_name}
+                    />
+                  </div>
+                  {field.map((item, index) => {
+
+                    return (
+                      <span>
+                        {item.type === "file" && (
+                          <div>
+                            <label htmlFor="upload-multiple-file">
+                              {item.name}
+                            </label>
+                            <TextField
+                              className="mb-4 w-full"
+                              onChange={(e) => handleFileSelect(e, item.id)}
+                              id="upload-multiple-file"
+                              type="file"
+                              variant="outlined"
+                              size="small"
+                              autoComplete="none"
+
+                            />
+
+                            {close && (
+                              <span>
+                                {files.map((items, index) => {
+
+                                  return (
+                                    <span>
+                                      {items.progress === item.id && (
                                         <span>
-                                          {items.progress === item.id && (
-                                            <span>
-                                              {item.src ? (
-                                                <>
-                                                  <img
-                                                    src={items.src}
-                                                    width="50px"
-                                                    height="50px"
-                                                  />
-                                                  <Icon
-                                                    className="bg-error"
-                                                    onClick={() =>
-                                                      handleField_Fileremove(
-                                                        index
-                                                      )
-                                                    }
-                                                  >
-                                                    cancel
-                                                  </Icon>
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <img
-                                                    src={items.file}
-                                                    width="50px"
-                                                    height="50px"
-                                                  />
-                                                  <Icon
-                                                    className="bg-error"
-                                                    onClick={() =>
-                                                      handleField_Fileremove(
-                                                        index
-                                                      )
-                                                    }
-                                                  >
-                                                    cancel
-                                                  </Icon>
-                                                </>
-                                              )}
-                                            </span>
+                                          {item.src ? (
+                                            <>
+                                              <img
+                                                src={items.src}
+                                                width="50px"
+                                                height="50px"
+                                              />
+                                              <Icon
+                                                className="bg-error"
+                                                onClick={() =>
+                                                  handleField_Fileremove(
+                                                    index
+                                                  )
+                                                }
+                                              >
+                                                cancel
+                                              </Icon>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <img
+                                                src={items.file}
+                                                width="50px"
+                                                height="50px"
+                                              />
+                                              <Icon
+                                                className="bg-error"
+                                                onClick={() =>
+                                                  handleField_Fileremove(
+                                                    index
+                                                  )
+                                                }
+                                              >
+                                                cancel
+                                              </Icon>
+                                            </>
                                           )}
                                         </span>
-                                      );
-                                    })}
-                                  </span>
-                                )}
-                              </div>
+                                      )}
+                                    </span>
+                                  );
+                                })}
+                              </span>
                             )}
-                            {item.type === "text" && (
-                              <TextField
-                                className="mb-4 w-full"
-                                label={item.name?item.name:item.column.name}
-                                name="payment_account_id"
-                                size="small"
-                                variant="outlined"
-                                name={item.name}
-                                value={item.value}
-                                autoComplete="none"
-                                onChange={(e) => {
-                                  handleComment(e, item, item.id);
-                                }}
-                                required
-                              />
-                            )}
-                            {item.type === "date" && (
-                              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                  className="mb-4 w-full"
-                                  margin="none"
-                                  label={item.name?item.name:item.column.name}
-                                  inputVariant="outlined"
-                                  name="date"
-                                
-                                  size="small"
-                                  autoOk={false}
-                                  hintText="Portrait Dialog"
-                                  errorText="This is an error message."
-                                  value={item?.date}
-                                  onChange={(e) => {
-                                    handleCommentdate(e, item, item.id);
-                                  }}
-                                  format="MMMM dd yyyy"
-                                  required
-                                />
-                              </MuiPickersUtilsProvider>
-                            )}
-                          </span>
-                        );
-                      })}
-                   
-                 
-                   {vendor_status&&(<TextField
+                          </div>
+                        )}
+                        {item.type === "text" && (
+                          <TextField
+                            className="mb-4 w-full"
+                            label={item.name ? item.name : item.column.name}
+                            name="payment_account_id"
+                            size="small"
+                            variant="outlined"
+                            name={item.name}
+                            value={item.value}
+                            autoComplete="none"
+                            onChange={(e) => {
+                              handleComment(e, item, item.id);
+                            }}
+                            required
+                          />
+                        )}
+                        {item.type === "date" && (
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                              className="mb-4 w-full"
+                              margin="none"
+                              label={item.name ? item.name : item.column.name}
+                              inputVariant="outlined"
+                              name="date"
+
+                              size="small"
+                              autoOk={false}
+                              hintText="Portrait Dialog"
+                              errorText="This is an error message."
+                              value={item?.date}
+                              onChange={(e) => {
+                                handleCommentdate(e, item, item.id);
+                              }}
+                              format="MMMM dd yyyy"
+                              required
+                            />
+                          </MuiPickersUtilsProvider>
+                        )}
+                      </span>
+                    );
+                  })}
+
+
+                  {vendor_status && (<TextField
                     className="mb-4 w-full"
                     label="Vendor"
                     inputProps={{ style: { textTransform: "capitalize" } }}
@@ -1361,12 +1329,12 @@ const [employeeList, setemployeeList] = useState([ ]);
                     select
                   >
                     {vendorList.map((item, ind) => (
-                        <MenuItem value={item.id} key={item}>
-                          {item.firm_name}
-                        </MenuItem>
-                      ))}
-                    </TextField>)}
-                    {employee_status&&(<TextField
+                      <MenuItem value={item.id} key={item}>
+                        {item.firm_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>)}
+                  {employee_status && (<TextField
                     className="mb-4 w-full"
                     label="Employee"
                     inputProps={{ style: { textTransform: "capitalize" } }}
@@ -1379,11 +1347,11 @@ const [employeeList, setemployeeList] = useState([ ]);
                     select
                   >
                     {employeeList.map((item, ind) => (
-                        <MenuItem value={item.emp_id} key={item}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>)}
+                      <MenuItem value={item.emp_id} key={item}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>)}
 
 
                   <TextField
@@ -1394,7 +1362,7 @@ const [employeeList, setemployeeList] = useState([ ]);
                     variant="outlined"
                     type="text"
                     // autoComplete="none"
-                    value={paid_to?paid_to:''}
+                    value={paid_to ? paid_to : ''}
                     onChange={(e) => setpaid_to(e.target.value)}
                   />
 
@@ -1428,7 +1396,7 @@ const [employeeList, setemployeeList] = useState([ ]);
 
                 <Grid item lg={6} md={6} sm={12} xs={12}>
 
-                {/* <div className="px-0 flex justify-between">
+                  {/* <div className="px-0 flex justify-between">
                   <div>
                 <Button
                     className="mb-4 w-full"
@@ -1482,7 +1450,7 @@ const [employeeList, setemployeeList] = useState([ ]);
                     ></TextField>)}
                     </div>
                     </div> */}
-                    {/* <FormGroup>
+                  {/* <FormGroup>
          
          {div_id &&(<FormControl variant="outlined" size="small"
          className="mb-4">
@@ -1507,154 +1475,154 @@ inputProps={{
               </Select>
               </FormControl>)}
               </FormGroup> */}
-              
+
                   {role === "SA" ? (
-//                     <FormGroup variant="outlined">
-//                     <FormControl variant="outlined" size="small"
-//        className="mb-4" >
-// <InputLabel 
+                    //                     <FormGroup variant="outlined">
+                    //                     <FormControl variant="outlined" size="small"
+                    //        className="mb-4" >
+                    // <InputLabel 
 
-// >PAID ACCOUNT</InputLabel>
-// <Select
+                    // >PAID ACCOUNT</InputLabel>
+                    // <Select
 
-// multiple
-// autoClose={amountVal}
+                    // multiple
+                    // autoClose={amountVal}
 
-// displayEmpty
-// onMenuClose={amountVal}
-// className="mb-4"
-// disabled={!amount}
-// inputProps={{
-// name: 'Bank',
-// id: 'outlined-age-native-simple',
-// }}
+                    // displayEmpty
+                    // onMenuClose={amountVal}
+                    // className="mb-4"
+                    // disabled={!amount}
+                    // inputProps={{
+                    // name: 'Bank',
+                    // id: 'outlined-age-native-simple',
+                    // }}
 
-// label="PAID ACCOUNT"
+                    // label="PAID ACCOUNT"
 
 
 
-// value={paid_by_list}
-// onChange={(e,ind) => {setpaid_by_list(e.target.value);handleMultipleList(e.target.value)}}
-// // input={<Input />}
-// renderValue={(selected,id) =>{  if (selected.length === 0) {
-// return <span>PAID ACCOUNT</span>;
-// };return selected.join(',')}}
-// // MenuProps={MenuProps}
-// >
+                    // value={paid_by_list}
+                    // onChange={(e,ind) => {setpaid_by_list(e.target.value);handleMultipleList(e.target.value)}}
+                    // // input={<Input />}
+                    // renderValue={(selected,id) =>{  if (selected.length === 0) {
+                    // return <span>PAID ACCOUNT</span>;
+                    // };return selected.join(',')}}
+                    // // MenuProps={MenuProps}
+                    // >
 
-// <MenuItem  onClick={()=>setShouldOpenConfirmationDialogbox(true)}>
-//           <Icon >
-//               add
-//           </Icon>ADD NEW
-//           </MenuItem>
-// {paiddivision_account.sort(obj=>obj.type).map((item, ind) => (
-           
-//            <MenuItem value={item.name} key={ind} disabled={item.isdisable}  style={{"text-transform": 'uppercase'}} >
-//              <Checkbox checked={paid_by_list.indexOf(item.name) > -1} />
-             
-//              <td width="100px">{item.name}</td><td align="center" width="200px" >{item.type}</td><td style={{textAlign:'right'}}>{parseFloat(item.balance).toLocaleString(undefined,{minimumFractionDigits:2})}</td>
-//            </MenuItem>
-           
-       
-//          ))}
-// </Select>
-// {message &&(<div className="flex-column items-start">
-// <div className="flex items-center ">
-// {message=="Insufficient Amount"?(<Icon className="mr-2" fontSize="small" color="error">
-// info
-// </Icon>):<Icon className="mr-2 text-green" fontSize="small" color=".bg-green">
-// info
-// </Icon>}
-// <small className="text-black">
-// {message} {amountVal}
-// </small>
-// </div>
-// </div>)}
-// </FormControl>
-                  
-//                  </FormGroup>
-<Autocomplete
-      multiple
-      id="checkboxes-tags-demo"
-      className="mb-4"
-      inputProps={{style: {width:'15px'}}}
-      disabled={!amount}
-      value={filterArr}
-      options={paiddivision_account}
-      getOptionSelected={(option, value) => option.id === value.id}
-      // getOptionSelected={(option) => option.name}
-      // defaultValue={[filterArr]}
-      // onChange={(event, newValue) => {
-    
-      //   setfilterArr(newValue);
-      // }}
-      renderTags={(tagValue, getTagProps) =>
-        tagValue.map((option, index) => (
-          
-          <Chip
-            label={option.name}
-            {...getTagProps({ index })}
-            // disabled={filterArr.indexOf(option) !== -1}
-          />
-        ))
-      }
-      size="small"
-      getOptionLabel={(option) => option.name}
-      getOptionDisabled={(option) => option.isdisable === true||amount<amountVal}
-  
-      
-      onChange={(event: any, value: string | null) => handleMultipleListDemo(value)}
-        
+                    // <MenuItem  onClick={()=>setShouldOpenConfirmationDialogbox(true)}>
+                    //           <Icon >
+                    //               add
+                    //           </Icon>ADD NEW
+                    //           </MenuItem>
+                    // {paiddivision_account.sort(obj=>obj.type).map((item, ind) => (
 
-     
-      renderOption={(option, { selected }) => (
-        
-        <React.Fragment>
-          <Checkbox
-            icon={icon}
-            checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
-            checked={selected}
-           
-          />
-         
-          <td width="100px">{option.name}</td><td align="center" width="200px" >
-                         {option.type==="division"&&(<small 
-                style={{cursor:'pointer'}}
-                    className={clsx({
-                      "border-radius-4  text-white px-2 py-2 w-30 pl-4 pr-3 bg-error": true,
-                     
-                    })}
-                  >
-                  
-                  {option.type} 
-                    
-                
-                  </small>)}
-                  {option.type==="personal"&&(<small 
-                style={{cursor:'pointer'}}
-                    className={clsx({
-                      "border-radius-4  text-white px-2 py-2 w-30  bg-secondary": true,
-                     
-                    })}
-                  >
-                  
-                  {option.type}
-                    
-                
-                  </small>)}
-  </td><td style={{textAlign:'right'}}>{parseFloat(option.balance).toLocaleString(undefined,{minimumFractionDigits:2})}</td>
+                    //            <MenuItem value={item.name} key={ind} disabled={item.isdisable}  style={{"text-transform": 'uppercase'}} >
+                    //              <Checkbox checked={paid_by_list.indexOf(item.name) > -1} />
 
-        </React.Fragment>
-        
-      )}
-      style={{ width: 500 }}
-     
-      renderInput={(params) => (
-      
-        <TextField {...params} variant="outlined" label="PAID ACCOUNT" style={{ width: 650 }}   />)
-      }
-    />
+                    //              <td width="100px">{item.name}</td><td align="center" width="200px" >{item.type}</td><td style={{textAlign:'right'}}>{parseFloat(item.balance).toLocaleString(undefined,{minimumFractionDigits:2})}</td>
+                    //            </MenuItem>
+
+
+                    //          ))}
+                    // </Select>
+                    // {message &&(<div className="flex-column items-start">
+                    // <div className="flex items-center ">
+                    // {message=="Insufficient Amount"?(<Icon className="mr-2" fontSize="small" color="error">
+                    // info
+                    // </Icon>):<Icon className="mr-2 text-green" fontSize="small" color=".bg-green">
+                    // info
+                    // </Icon>}
+                    // <small className="text-black">
+                    // {message} {amountVal}
+                    // </small>
+                    // </div>
+                    // </div>)}
+                    // </FormControl>
+
+                    //                  </FormGroup>
+                    <Autocomplete
+                      multiple
+                      id="checkboxes-tags-demo"
+                      className="mb-4"
+                      inputProps={{ style: { width: '15px' } }}
+                      disabled={!amount}
+                      value={filterArr}
+                      options={paiddivision_account}
+                      getOptionSelected={(option, value) => option.id === value.id}
+                      // getOptionSelected={(option) => option.name}
+                      // defaultValue={[filterArr]}
+                      // onChange={(event, newValue) => {
+
+                      //   setfilterArr(newValue);
+                      // }}
+                      renderTags={(tagValue, getTagProps) =>
+                        tagValue.map((option, index) => (
+
+                          <Chip
+                            label={option.name}
+                            {...getTagProps({ index })}
+                          // disabled={filterArr.indexOf(option) !== -1}
+                          />
+                        ))
+                      }
+                      size="small"
+                      getOptionLabel={(option) => option.name}
+                      getOptionDisabled={(option) => option.isdisable === true || amount < amountVal}
+
+
+                      onChange={(event: any, value: string | null) => handleMultipleListDemo(value)}
+
+
+
+                      renderOption={(option, { selected }) => (
+
+                        <React.Fragment>
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            style={{ marginRight: 8 }}
+                            checked={selected}
+
+                          />
+
+                          <td width="100px">{option.name}</td><td align="center" width="200px" >
+                            {option.type === "division" && (<small
+                              style={{ cursor: 'pointer' }}
+                              className={clsx({
+                                "border-radius-4  text-white px-2 py-2 w-30 pl-4 pr-3 bg-error": true,
+
+                              })}
+                            >
+
+                              {option.type}
+
+
+                            </small>)}
+                            {option.type === "personal" && (<small
+                              style={{ cursor: 'pointer' }}
+                              className={clsx({
+                                "border-radius-4  text-white px-2 py-2 w-30  bg-secondary": true,
+
+                              })}
+                            >
+
+                              {option.type}
+
+
+                            </small>)}
+                          </td><td style={{ textAlign: 'right' }}>{parseFloat(option.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+
+                        </React.Fragment>
+
+                      )}
+                      // style={{ width: 500 }}
+
+                      renderInput={(params) => (
+
+                        <TextField {...params} variant="outlined" label="Paid Account" />)
+                      }
+                    />
                   ) : (
                     <TextField
                       className="mb-4 w-full"
@@ -1673,7 +1641,7 @@ inputProps={{
                       ))}
                     </TextField>
                   )}
-                  
+
                   {/* {(paid_by === 11 || paid_by === 12) && (
                     <TextField
                       className="mb-4 w-full"
@@ -1687,114 +1655,114 @@ inputProps={{
                     ></TextField>
                   )} */}
                   <TextField
-                className="w-full mb-4"
-                label="Payment Mode"
-                onChange={e => setpayment_mode(e.target.value)
-                }
-                variant="outlined"
-                type="text"
-                name="cdescription"
-                size="small"
-                value={payment_mode}
-                select
-              >
-                  {option.map((item, ind) => (
-                <MenuItem value={item.value} key={item}>
-                  {item.name}
-                </MenuItem>
-              ))}
-              </TextField>
-              {payment_mode==='cheque' &&(<TextField
-                className="w-full mb-4"
-                label="Cheque Number"
-                onChange={e => setcheque_no(e.target.value)
-                }
-                variant="outlined"
-                type="text"
-                name="cdescription"
-                size="small"
-                value={cheque_no}
-              
-              ></TextField>
-           )}
-            <FormGroup>
-          {payment_mode==='banktransfer'&&
-                   <FormControl variant="outlined" size="small"
-                   className="mb-4">
-        <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
-        <Select
-          native
-          value={bank_id}
-          // onChange={handleChange}
-          onChange={e => setbank_id(e.target.value)}
-          size="small"
-          label="Bank"
-          inputProps={{
-            name: 'Bank',
-            id: 'outlined-age-native-simple',
-          }}
-        >
-         {companybank.map((item, ind) => (
-          <option value={item.id}>{item.name}-{item.ac_no}</option>
-         ))}
-        </Select>
-      </FormControl>
-          }
-       </FormGroup>
-       
-       {payment_mode==='banktransfer'&&
-       <>
-       <label htmlFor="upload-multiple-file">
-       Upload Bank Slip
-      </label>
-        <TextField
-                                  //  className="hidden"
-                                  className="mb-4 w-full"
-                                  onChange={(e) => handleBankSelect(e)}
-                                  id="upload-multiple-file"
-                                  type="file"
-                                  variant="outlined"
-                                  name="file"
-                                  size="small"
-                                  autoComplete="none"
-                                  
-                                  //  value={item.name}
-                                />
-                                <div
-        onClick={()=>{setfileurl(null);setbank_slip(null)}}
-        style={{
-          padding: "5px 5px 5px 5px",
-          cursor: "pointer"
-        }}
-      >
-        {fileurl&&<CardActionArea>
-          <img
-            width="50%"
-            height="50%"
-            // className={classes.media}
-            src={fileurl}
-          />
-        </CardActionArea>}
-      </div>
-                                </>
-                               
-      }
+                    className="w-full mb-4"
+                    label="Payment Mode"
+                    onChange={e => setpayment_mode(e.target.value)
+                    }
+                    variant="outlined"
+                    type="text"
+                    name="cdescription"
+                    size="small"
+                    value={payment_mode}
+                    select
+                  >
+                    {option.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {payment_mode === 'cheque' && (<TextField
+                    className="w-full mb-4"
+                    label="Cheque Number"
+                    onChange={e => setcheque_no(e.target.value)
+                    }
+                    variant="outlined"
+                    type="text"
+                    name="cdescription"
+                    size="small"
+                    value={cheque_no}
 
-<label for="myfile">Upload Reference Bill :</label>
+                  ></TextField>
+                  )}
+                  <FormGroup>
+                    {payment_mode === 'banktransfer' &&
+                      <FormControl variant="outlined" size="small"
+                        className="mb-4">
+                        <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
+                        <Select
+                          native
+                          value={bank_id}
+                          // onChange={handleChange}
+                          onChange={e => setbank_id(e.target.value)}
+                          size="small"
+                          label="Bank"
+                          inputProps={{
+                            name: 'Bank',
+                            id: 'outlined-age-native-simple',
+                          }}
+                        >
+                          {companybank.map((item, ind) => (
+                            <option value={item.id}>{item.name}-{item.ac_no}</option>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    }
+                  </FormGroup>
+
+                  {payment_mode === 'banktransfer' &&
+                    <>
+                      <label htmlFor="upload-multiple-file">
+                        Upload Bank Slip
+                      </label>
+                      <TextField
+                        //  className="hidden"
+                        className="mb-4 w-full"
+                        onChange={(e) => handleBankSelect(e)}
+                        id="upload-multiple-file"
+                        type="file"
+                        variant="outlined"
+                        name="file"
+                        size="small"
+                        autoComplete="none"
+
+                      //  value={item.name}
+                      />
+                      <div
+                        onClick={() => { setfileurl(null); setbank_slip(null) }}
+                        style={{
+                          padding: "5px 5px 5px 5px",
+                          cursor: "pointer"
+                        }}
+                      >
+                        {fileurl && <CardActionArea>
+                          <img
+                            width="50%"
+                            height="50%"
+                            // className={classes.media}
+                            src={fileurl}
+                          />
+                        </CardActionArea>}
+                      </div>
+                    </>
+
+                  }
+
+                  <label for="myfile">Upload Reference Bill :</label>
                   <TextField
-                                  //  className="hidden"
-                                  className="mb-4 w-full"
-                                  id="upload-multiple-file"
-                                  type="file"
-                                  variant="outlined"
-                                  size="small"
-                                  autoComplete="none"
-                                  onChange={(event) => handlebillSelect(event)}
-                                  
-                                  
-                                />
-                                
-                                           {/* {billtype&&(<span>
+                    //  className="hidden"
+                    className="mb-4 w-full"
+                    id="upload-multiple-file"
+                    type="file"
+                    variant="outlined"
+                    size="small"
+                    autoComplete="none"
+                    onChange={(event) => handlebillSelect(event)}
+
+
+                  />
+
+                  {/* {billtype&&(<span>
                                               <img
                                                 src={ref_billno}
                                                 width="50px"
@@ -1809,22 +1777,22 @@ inputProps={{
                                                 cancel
                                               </Icon>
                                             </span>)} */}
-                                            <div
-        onClick={()=>{setref_billno(null);setfile_path(null)}}
-        style={{
-          padding: "5px 5px 5px 5px",
-          cursor: "pointer"
-        }}
-      >
-        {ref_billno&&<CardActionArea>
-          <img
-            width="50%"
-            height="50%"
-            // className={classes.media}
-            src={ref_billno}
-          />
-        </CardActionArea>}
-      </div> 
+                  <div
+                    onClick={() => { setref_billno(null); setfile_path(null) }}
+                    style={{
+                      padding: "5px 5px 5px 5px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {ref_billno && <CardActionArea>
+                      <img
+                        width="50%"
+                        height="50%"
+                        // className={classes.media}
+                        src={ref_billno}
+                      />
+                    </CardActionArea>}
+                  </div>
                   {/* <div
                     className={clsx({
                       "border-radius-4 h-160 w-full flex justify-center items-center cursor-pointer mb-4": true,
@@ -1904,7 +1872,7 @@ inputProps={{
                     name="workPhone"
                     size="small"
                     variant="outlined"
-                    value={description}
+                    value={description ? description : ''}
                     inputProps={{ style: { textTransform: "capitalize" } }}
                     // autoComplete="Disabled"
                     onChange={(e) => setdescription(e.target.value)}
@@ -1948,38 +1916,38 @@ inputProps={{
                       />
                     )} */}
                     {tax && <TextField
-                    className="mb-4 w-full"
-                    label="Company Name"
-                    name="workPhone"
-                    size="small"
-                    variant="outlined"
-                    value={div_company}
-                    inputProps={{ style: { textTransform: "capitalize" } }}
-                     onChange={(e) => setdiv_company(e.target.value)}
-                  />}
-                  {tax && 
-                  (<TextField
-                    className="mb-4 w-full"
-                    label="VAT Number"
-                    name="workPhone"
-                    size="small"
-                    type="text"
-                    variant="outlined"
-                    value={vatno}
-                    onChange={(e) => setvatno(e.target.value)}
-                  />)}
-                  {tax && 
-                  (<TextField
-                    className="mb-4 w-full"
-                    label="Invoice Number"
-                    name="workPhone"
-                    size="small"
-                    variant="outlined"
-                    value={inv_no}
-                    inputProps={{ style: { textTransform: "capitalize" } }}
-                    autoComplete="Disabled"
-                    onChange={(e) => setinv_no(e.target.value)}
-                  />)}
+                      className="mb-4 w-full"
+                      label="Company Name"
+                      name="workPhone"
+                      size="small"
+                      variant="outlined"
+                      value={div_company}
+                      inputProps={{ style: { textTransform: "capitalize" } }}
+                      onChange={(e) => setdiv_company(e.target.value)}
+                    />}
+                    {tax &&
+                      (<TextField
+                        className="mb-4 w-full"
+                        label="VAT Number"
+                        name="workPhone"
+                        size="small"
+                        type="text"
+                        variant="outlined"
+                        value={vatno}
+                        onChange={(e) => setvatno(e.target.value)}
+                      />)}
+                    {tax &&
+                      (<TextField
+                        className="mb-4 w-full"
+                        label="Invoice Number"
+                        name="workPhone"
+                        size="small"
+                        variant="outlined"
+                        value={inv_no}
+                        inputProps={{ style: { textTransform: "capitalize" } }}
+                        autoComplete="Disabled"
+                        onChange={(e) => setinv_no(e.target.value)}
+                      />)}
                   </RadioGroup>
 
                   {tax && (
@@ -1999,20 +1967,20 @@ inputProps={{
                   )}
                 </Grid>
               </Grid>
-              {message &&(<div className="flex-column items-start">
-      <div className="flex items-center ">
-          {message=="Insufficient Amount"?(<Icon className="mr-2" fontSize="small" color="error">
-            info
-          </Icon>):<Icon className="mr-2 text-green" fontSize="small" color=".bg-green">
-            info
-          </Icon>}
-          <small className="text-black">
-           {message} {amountVal}
-          </small>
-        </div>
-        </div>)}
+              {message && (<div className="flex-column items-start">
+                <div className="flex items-center ">
+                  {message == "Insufficient Amount" ? (<Icon className="mr-2" fontSize="small" color="error">
+                    info
+                  </Icon>) : <Icon className="mr-2 text-green" fontSize="small" color=".bg-green">
+                    info
+                  </Icon>}
+                  <small className="text-black">
+                    {message} {amountVal}
+                  </small>
+                </div>
+              </div>)}
               <div className="mt-6">
-                <Button  className="mr-4 py-2" color="primary" variant="outlined" type="submit" disabled={loading}>
+                <Button className="mr-4 py-2" color="primary" variant="outlined" type="submit" disabled={loading}>
                   <Icon>save</Icon> SAVE
                 </Button>
                 <Button
@@ -2020,7 +1988,7 @@ inputProps={{
                   color="secondary"
                   variant="outlined"
                   type="submit"
-                  onClick={() => history.push(navigatePath+"/expenseview")}
+                  onClick={() => routerHistory.push(navigatePath + "/expenseview")}
                 >
                   <Icon>cancel</Icon>
                   <span className="pl-2 capitalize">CANCEL</span>
@@ -2030,7 +1998,7 @@ inputProps={{
           )}
         </Formik>
       </Card>
-    </div>
+    </div >
   );
 };
 

@@ -120,7 +120,7 @@ const SimpleMuiTable = () => {
 
 
         url.get("unCategorized-products").then(({ data }) => {
-            const d = data.filter(obj => obj.div_id == GDIV)
+            const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
             setUserList(d);
         });
 
@@ -302,7 +302,7 @@ const SimpleMuiTable = () => {
                 <Icon color="secondary">edit</Icon>
               </IconButton>
             </Link> */}
-                            <Link to={navigatePath+"/singleproduct?id=" + tableMeta.rowData[2]}>
+                            <Link to={navigatePath + "/singleproduct/" + tableMeta.rowData[2]}>
                                 <Tooltip title="View Product">
                                     <Icon color="primary" style={{
                                         transform: "rotate(270deg)",

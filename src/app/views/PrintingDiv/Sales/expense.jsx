@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url from "../../invoice/InvoiceService";
 import moment from "moment";
@@ -20,19 +20,19 @@ import {
   Button
 } from "@material-ui/core";
 
-const dummyData=[{
-    invoice_no:"AMCP-DLV-21-005",
-    grand_total:"345.00",
-    issue_date:"2021-06-19",
-    status:'new',
-    id:1
+const dummyData = [{
+  invoice_no: "AMCP-DLV-21-005",
+  grand_total: "345.00",
+  issue_date: "2021-06-19",
+  status: 'new',
+  id: 1
 },
 {
-    invoice_no:"AMCP-DLV-21-006",
-    grand_total:"645.00",
-    issue_date:"2021-06-19",
-    status:'new',
-    id:2
+  invoice_no: "AMCP-DLV-21-006",
+  grand_total: "645.00",
+  issue_date: "2021-06-19",
+  status: 'new',
+  id: 2
 },
 ]
 const SimpleMuiTable = () => {
@@ -46,23 +46,22 @@ const SimpleMuiTable = () => {
     url.get("invoice").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-     
+
       if (isAlive) setUserList(data);
-     
-      if(data.length)
-      {
-     
-      setpoid(data[0].id)
-      setpodetails(data);
+
+      if (data.length) {
+
+        setpoid(data[0].id)
+        setpodetails(data);
       }
     });
     return () => setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-   
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -127,7 +126,7 @@ const SimpleMuiTable = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-   
+
 
     // })
     // getrow()
@@ -152,7 +151,7 @@ const SimpleMuiTable = () => {
         filter: true,
       },
     },
-    
+
     {
       name: "issue_date",
       label: "Issue Date",
@@ -201,20 +200,20 @@ const SimpleMuiTable = () => {
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-      
+
           return (
             <span>
-            <Link to={"/newinvoice/"+tableMeta.rowData[5]}>
-              <Tooltip title="view more">
-                <Icon color="primary">remove_red_eye</Icon>
-              </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <Link to={"/newinvoice/" + tableMeta.rowData[5]}>
+                <Tooltip title="view more">
+                  <Icon color="primary">remove_red_eye</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </span>
+            </span>
 
           )
 
@@ -233,9 +232,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -246,15 +245,15 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-        <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
-            { name: "Expenses" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <Breadcrumb
+            routeSegments={[
+              // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
+              { name: "Expenses" },
+            ]}
+          />
 
-        {/* <div className="text-right">
+          {/* <div className="text-right">
           <Link to={"/sales/rfq-form/Rfqform"}>
             <Button
               className="py-2"
@@ -265,8 +264,8 @@ const SimpleMuiTable = () => {
           </Button>
           </Link>
         </div> */}
+        </div>
       </div>
-          </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Divider, Tab, Tabs} from "@material-ui/core";
-import { Breadcrumb,ConfirmationDialog } from "matx";
+import { Divider, Tab, Tabs } from "@material-ui/core";
+import { Breadcrumb, ConfirmationDialog } from "matx";
 import PartyDetails from "./PartyDetails";
 // import CustomerInvoice from "./CustomerInvoice";
 // import CustomerLogs from "./CustomerLogs";
@@ -9,22 +9,25 @@ import MemberEditorDialog from "../../partycontact"
 import ContactDetails from "./ContactDetails";
 // import PartyInfo from "./PartyView";
 import BankDetails from "./BankDetails";
+import { navigatePath } from "app/views/invoice/InvoiceService";
+import { useParams } from "react-router-dom";
 
 const CustomerViewer = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  
+  const { id } = useParams();
+
   const [
     shouldOpenConfirmationDialog,
   ] = useState(false);
-  
+
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-   
+
   };
 
   // const handleDeleteUser = (user) => {
-    
+
   //   setShouldOpenConfirmationDialog(true);
   // };
 
@@ -35,17 +38,17 @@ const CustomerViewer = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-      <div className="flex flex-wrap justify-between pt-2">
-        <Breadcrumb
-          routeSegments={[
-            { name: "PARTY", path: "/party/viewparty" },
-            { name: "PARTY DETAILS" },
-          ]}
-        />
+        <div className="flex flex-wrap justify-between pt-2">
+          <Breadcrumb
+            routeSegments={[
+              { name: "PARTY", path: navigatePath + "/party/viewparty" },
+              { name: "PARTY DETAILS" },
+            ]}
+          />
         </div>
       </div>
       <div>
-      {shouldOpenEditorDialog && (
+        {shouldOpenEditorDialog && (
           <MemberEditorDialog
             handleClose={handleDialogClose}
             open={shouldOpenEditorDialog}
@@ -59,7 +62,7 @@ const CustomerViewer = () => {
           />
         )}
       </div>
-      
+
       <Tabs
         className="mt-4"
         value={tabIndex}
@@ -73,13 +76,13 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-       {tabIndex === 0 && <PartyDetails />}
-       {tabIndex === 1 && <ContactDetails />}
-      {tabIndex === 2 && <BankDetails />}  
+      {tabIndex === 0 && <PartyDetails ids={id} />}
+      {tabIndex === 1 && <ContactDetails ids={id} />}
+      {tabIndex === 2 && <BankDetails ids={id} />}
     </div>
   );
 };
 
-const tabList = ["COMPANY DETAILS", "CONTACT DETAILS", "BANK DETAILS","INVOICES"];
+const tabList = ["COMPANY DETAILS", "CONTACT DETAILS", "BANK DETAILS", "INVOICES"];
 
 export default CustomerViewer;

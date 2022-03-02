@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Divider, Tab, Tabs,  Button } from "@material-ui/core";
-import { Breadcrumb,ConfirmationDialog } from "matx";
+import { Divider, Tab, Tabs, Button } from "@material-ui/core";
+import { Breadcrumb, ConfirmationDialog } from "matx";
 import ProductDetails from "./ProductDetails";
 // import CustomerInvoice from "./CustomerInvoice";
 // import CustomerLogs from "./CustomerLogs";
 import { Icon } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { navigatePath } from "app/views/invoice/InvoiceService";
+import { useParams, useHistory } from "react-router-dom";
 
 // import MemberEditorDialog from "../../partycontact"
 // import FormDialog from "../../partycontact"
@@ -16,27 +17,29 @@ const CustomerViewer = () => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   let search = window.location.search;
   let params = new URLSearchParams(search);
-  const foo =parseInt(params.get('id'))
-  
+  const foo = parseInt(params.get('id'))
+  const { id } = useParams();
+
+
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
   ] = useState(false);
-  
+
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-   
+
   };
 
   const handleDeleteUser = (user) => {
-    
+
     setShouldOpenConfirmationDialog(true);
   };
 
   const handleTabChange = (e, value) => {
     setTabIndex(value);
   };
-  
+
 
   return (
     <div className="m-sm-30">
@@ -44,7 +47,7 @@ const CustomerViewer = () => {
         <Breadcrumb
           routeSegments={[
             // { name: "Product View", path: `/product/viewproduct/${foo}` },
-            { name: "CATEGORY", path: navigatePath+"/product/viewsubcategory" },
+            { name: "CATEGORY", path: navigatePath + "/product/viewsubcategory" },
             { name: "PRODUCT DETAILS" },
           ]}
         />
@@ -64,7 +67,7 @@ const CustomerViewer = () => {
           />
         )}
       </div> */}
-      
+
       <Tabs
         className="mt-4"
         value={tabIndex}
@@ -78,7 +81,7 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-       {tabIndex === 0 && <ProductDetails />}
+      {tabIndex === 0 && <ProductDetails />}
       {/* {tabIndex === 1 && <CustomerInvoice />}
       {tabIndex === 2 && <CustomerLogs />}  */}
     </div>

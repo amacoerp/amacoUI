@@ -99,6 +99,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
+  const routerHistory = useHistory();
 
 
 
@@ -114,6 +115,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       element['product_id'] = "";
+      element['arabic_description'] = element.description;
 
       Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${element.description}&target=ar`, {
         method: 'POST',
@@ -124,7 +126,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         },
       })
         .then(({ data }) => {
-          element['arabic_description'] = data.data.translations[0].translatedText;
+
           // console.log(data.data.translations[0].translatedText);
 
         })
@@ -162,28 +164,34 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const json = Object.assign({}, arr);
 
-    setTimeout(() => {
-      url.post('invoice', json)
-        .then(function (response) {
+    // setTimeout(() => {
+    url.post('invoice', json)
+      .then(function (response) {
 
 
-          Swal.fire({
-            title: 'Success',
-            type: 'success',
-            icon: 'success',
-            text: 'Data saved successfully.',
-          });
-          history.push(navigatePath + "/inv")
-          //  window.location.href="../quoateview"
-        })
-        .catch(function (error) {
-
-        })
-    }, 5000);
-    console.log(arr)
+        Swal.fire({
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Data saved successfully.',
+        });
+        routerHistory.push(navigatePath + "/inv")
+        //  window.location.href="../quoateview"
+      })
+      .catch(function (error) {
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
+      })
+    // }, 5000);
   };
   function cancelform() {
-    history.push(navigatePath + `/quote/${id}/accept`)
+    routerHistory.push(navigatePath + `/quote/${id}/accept`)
   }
 
   useEffect(() => {
@@ -197,12 +205,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
     url.get("sale-quotation/" + id).then(({ data }) => {
 
-      setcname(data[0].party.firm_name)
-      setqno(data[0].quotation_no)
-      setpono(data[0].po_number)
+      setcname(data[0].party?.firm_name)
+      setqno(data[0]?.quotation_no)
+      setpono(data[0]?.po_number)
       // setrdate(data[0].requested_date)
-      setparty_id(data[0].party.id)
-      setdiscount(data[0].discount_in_p)
+      setparty_id(data[0]?.party?.id)
+      setdiscount(data[0]?.discount_in_p)
       let tempItemList = data[0].quotation_details;
       tempItemList.map((element, i) => {
         let sum = 0;
@@ -210,7 +218,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element['product'] = element.description
         return element;
       })
-      console.log(tempItemList)
 
       setState({
         ...state,
@@ -394,7 +401,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-2" width={80}>S.NO.</TableCell>
+                  <TableCell className="pl-2" align="center" width={80}>S.NO.</TableCell>
                   {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
                   <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell>
                   <TableCell className="px-0" align="center" width={100}>UOM</TableCell>
@@ -464,7 +471,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       {/* </div> */}
 
-                      <TableCell className="pl-2 capitalize" align="left">
+                      <TableCell className="pl-2 capitalize" align="center">
                         {index + 1}
                         {/* <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -572,7 +579,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="sell_price"
                           value={item ? item.sell_price : null}
                         />
@@ -599,8 +606,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Total"
                           variant="outlined"
                           fullWidth
+                          readOnly
                           size="small"
-                          currencySymbol="SAR"
+                          currencySymbol=""
                           name="total_amount"
                           value={item.total_amount}
                         />
@@ -662,6 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               /> */}
                   <CurrencyTextField
                     className="w-full mb-4"
+                    readOnly
                     label="Discount"
                     style={{ width: '250px' }}
                     variant="outlined"
@@ -689,6 +698,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     <CurrencyTextField
                       className="w-full mb-4"
+                      readOnly
                       label="Vat"
                       variant="outlined"
                       fullWidth
@@ -715,6 +725,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <div>
                     <CurrencyTextField
                       className="w-full"
+                      readOnly
                       label="Grand Total"
                       variant="outlined"
                       style={{ width: '250px' }}

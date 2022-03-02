@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import history from "history.js";
-import url, { getparties, getpaidDivision, GDIV,navigatePath } from "../../views/invoice/InvoiceService";
+import { useHistory } from 'react-router';
+import url, { getparties, getpaidDivision, GDIV, navigatePath } from "../../views/invoice/InvoiceService";
 import { Breadcrumb } from "matx";
 import { toArabic } from 'arabic-digits';
 import {
   Icon,
   Grid,
+  Card,
   TextField,
   MenuItem,
   Button
@@ -69,6 +70,7 @@ const Addparty = ({ open, handleClose }) => {
     loading: false,
 
   });
+  const routerHistory = useHistory();
 
   const [partytype, setpartytype] = useState('');/*Holds the Party type */
   const [Firm_Name, setFirm_name] = useState('');/*Holds the Firm Name  */
@@ -80,7 +82,7 @@ const Addparty = ({ open, handleClose }) => {
   const [vat_no, setvat_no] = useState('');/*Holds the vat number */
   const [post_box_no, setpost_box_no] = useState('');/*Holds the post box number*/
   const [country, setcountry] = useState('');/*Holds the country name*/
-  const [street, setstreet] = useState('');/*Holds the street */
+  const [street, setstreet] = useState(null);/*Holds the street */
   const [zip_code, setzip_code] = useState('');/*Holds the zipcode */
   const [proviance, setproviance] = useState('');/*Holds the proviance */
   const [website, setwebsite] = useState('');/*Holds the website */
@@ -168,7 +170,7 @@ const Addparty = ({ open, handleClose }) => {
       zip_code_ar: toArabic(zip_code),
       vat_no_in_ar: toArabic(vat_no),
       user_id: user.id,
-      div_id: GDIV
+      div_id: localStorage.getItem('division')
 
     }
 
@@ -186,7 +188,7 @@ const Addparty = ({ open, handleClose }) => {
         })
           .then((result) => {
             getparties()
-            history.push(navigatePath+'/party/viewparty')
+            routerHistory.push(navigatePath + '/party/viewparty')
           })
       })
       .catch(function (error) {
@@ -237,7 +239,7 @@ const Addparty = ({ open, handleClose }) => {
     setiban_no('');
     setaccount_no('');
 
-    
+
     setcontact('');
     setvendor_id('');
     setaddress('');
@@ -259,571 +261,572 @@ const Addparty = ({ open, handleClose }) => {
         />
       </div>
       <div>
+        <Card elevation={3} className="p-4">
+          <ValidatorForm onError={() => null} onSubmit={handleSubmit} autoComplete="none">
+            <Grid container spacing={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
 
-        <ValidatorForm onError={() => null} onSubmit={handleSubmit} autoComplete="none">
-          <Grid container spacing={6}>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
+                <h6>CONTACT PERSON DETAILS</h6>
+                <div className="flex">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
 
-              <h6>CONTACT PERSON DETAILS</h6>
-              <div className="flex">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
+                    label="Prefix"
+                    variant="outlined"
+                    onChange={e => setprefix(e.target.value)}
+                    value={prefix}
+                    size="small"
+                    style={{ width: '180px' }}
+                    select
 
-                  label="Prefix"
-                  variant="outlined"
-                  onChange={e => setprefix(e.target.value)}
-                  value={prefix}
-                  size="small"
-                  style={{ width: '180px' }}
-                  select
+                  >
+                    {prefixs.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    className="mb-4 w-full text-capitalize"
+                    label="First name"
+                    textTransform
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    onChange={e => setfname(e.target.value)}
+                    type="text"
+                    name="fname"
+                    variant="outlined"
+                    size="small"
+                    value={fname}
 
-                >
-                  {prefixs.map((item, ind) => (
-                    <MenuItem value={item.value} key={item}>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <TextField
-                  className="mb-4 w-full text-capitalize"
-                  label="First name"
-                  textTransform
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  onChange={e => setfname(e.target.value)}
-                  type="text"
-                  name="fname"
-                  variant="outlined"
-                  size="small"
-                  value={fname}
-
-                />
-              </div>
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="Last Name"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  variant="outlined"
-                  onChange={e => setlname(e.target.value)}
-                  value={lname}
-                  size="small"
-                  fullWidth
-                />
-                <TextField
-                  className="ml-2"
-                  label="Designation"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  autoComplete="none"
-                  variant="outlined"
-                  value={designation}
-                  size="small"
-                  onChange={e => setdesignation(e.target.value)}
-                  fullWidth
-                />
-              </div>
-
-              <TextValidator
-                className="mb-4 w-full"
-                label="Email Address"
-
-                autoComplete="none"
-                onChange={e => setemail(e.target.value)}
-                type="text"
-                name="email"
-                size="small"
-                variant="outlined"
-                validators={["isEmail"]}
-                errorMessages={["email is not valid"]}
-                value={email}
-              />
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="Code"
-                  onChange={e => setmobnocode(e.target.value)}
-                  name="mobno"
-                  type="text"
-                  size="small"
-                  style={{ width: '150px' }}
-                  variant="outlined"
-                  value={mobnocode}
-                  // fullWidth
-                  select
-                >
-                  {telcode.map((item, ind) => (
-                    <MenuItem value={item.value} key={item}>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  />
+                </div>
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="Last Name"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    variant="outlined"
+                    onChange={e => setlname(e.target.value)}
+                    value={lname}
+                    size="small"
+                    fullWidth
+                  />
+                  <TextField
+                    className="ml-2"
+                    label="Designation"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    autoComplete="none"
+                    variant="outlined"
+                    value={designation}
+                    size="small"
+                    onChange={e => setdesignation(e.target.value)}
+                    fullWidth
+                  />
+                </div>
 
                 <TextValidator
-                  className="mr-2"
-                  label="Mobile Number"
+                  className="mb-4 w-full"
+                  label="Email Address"
+
                   autoComplete="none"
-                  onChange={e => setmobno(e.target.value)}
-                  name="mobno"
+                  onChange={e => setemail(e.target.value)}
                   type="text"
-                  inputProps={{ style: { width: 200, marginRight: 10 } }}
+                  name="email"
                   size="small"
                   variant="outlined"
-                  value={mobno || ""}
-                  validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
-                  errorMessages={["Number is not valid"]}
-
-
+                  validators={["isEmail"]}
+                  errorMessages={["email is not valid"]}
+                  value={email}
                 />
-                <TextField
-                  className="ml-2"
-                  autoComplete="none"
-                  label="Code"
-                  onChange={e => setlandlinecode(e.target.value)}
-                  name="mobno"
-                  type="text"
-                  size="small"
-                  style={{ width: '150px' }}
-                  variant="outlined"
-                  value={landlinecode || ""}
-                  fullWidth
-                  select
-                >
-                  {telcode.map((item, ind) => (
-                    <MenuItem value={item.value} key={item}>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="Code"
+                    onChange={e => setmobnocode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '150px' }}
+                    variant="outlined"
+                    value={mobnocode}
+                    // fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
 
+                  <TextValidator
+                    className="mr-2"
+                    label="Mobile Number"
+                    autoComplete="none"
+                    onChange={e => setmobno(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    inputProps={{ style: { width: 200, marginRight: 10 } }}
+                    size="small"
+                    variant="outlined"
+                    value={mobno || ""}
+                    validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
+                    errorMessages={["Number is not valid"]}
+
+
+                  />
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
+                    label="Code"
+                    onChange={e => setlandlinecode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '150px' }}
+                    variant="outlined"
+                    value={landlinecode || ""}
+                    fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                  <TextField
+                    className="ml-2"
+                    label="Landline Number"
+                    autoComplete="none"
+                    onChange={e => setlandline(e.target.value)}
+                    name="landline"
+                    inputProps={{ style: { width: 200 } }}
+                    size="small"
+                    variant="outlined"
+                    value={landline}
+                    type="mobile"
+                    validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
+                    errorMessages={["Number is not valid"]}
+
+                  />
+                </div>
                 <TextField
-                  className="ml-2"
-                  label="Landline Number"
+                  className="mb-4 w-full"
+                  label="Address"
+                  inputProps={{ style: { textTransform: 'capitalize' } }}
                   autoComplete="none"
-                  onChange={e => setlandline(e.target.value)}
-                  name="landline"
-                  inputProps={{ style: { width: 200 } }}
+                  onChange={e => setaddress(e.target.value)}
+                  name="address"
                   size="small"
                   variant="outlined"
-                  value={landline}
+                  value={address}
                   type="mobile"
-                  validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
-                  errorMessages={["Number is not valid"]}
-
-                />
-              </div>
-              <TextField
-                className="mb-4 w-full"
-                label="Address"
-                inputProps={{ style: { textTransform: 'capitalize' } }}
-                autoComplete="none"
-                onChange={e => setaddress(e.target.value)}
-                name="address"
-                size="small"
-                variant="outlined"
-                value={address}
-                type="mobile"
-                multiline
-                fullWidth
-
-              />
-              <br></br>
-              <br></br>
-              <h6>BANK DETAILS</h6>
-              <TextField
-                className="mb-4 w-full"
-                label="Bank Account Number"
-                autoComplete="none"
-                onChange={e => setaccount_no(e.target.value)}
-                name="website"
-                type="text"
-                size="small"
-                variant="outlined"
-                value={account_no}
-
-              />
-              <TextField
-                className="mb-4 w-full"
-                label="Bank Name"
-                autoComplete="none"
-                inputProps={{ style: { textTransform: 'capitalize' } }}
-                onChange={e => setbank_name(e.target.value)}
-                name="website"
-                type="text"
-                size="small"
-                variant="outlined"
-                value={bank_name}
-
-              />
-
-
-
-              <TextField
-                className="mb-4 w-full"
-                label="IBAN Number"
-                autoComplete="none"
-                onChange={e => setiban_no(e.target.value)}
-                name="website"
-                type="text"
-                size="small"
-                variant="outlined"
-                value={iban_no}
-              />
-              <TextField
-                className="mb-4 w-full"
-                autoComplete="none"
-                label="Bank Address"
-                onChange={e => setbank_address(e.target.value)}
-                name="website"
-                type="text"
-                size="small"
-                variant="outlined"
-                value={bank_address}
-              />
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <h6>COMPANY DETAILS</h6>
-              <TextValidator
-                className="mb-4 w-full"
-                label="Company Name"
-                inputProps={{ style: { textTransform: "capitalize" } }}
-                autoComplete="none"
-                onChange={e => setFirm_name(e.target.value)}
-                type="text"
-                name="Firm_Name"
-                variant="outlined"
-                size="small"
-                required
-                value={Firm_Name}
-
-              />
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="Commercial Registration Number"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  variant="outlined"
-                  onChange={e => setregno(e.target.value)}
-                  name="regno"
-                  size="small"
-                  value={regno}
-                  validators={[
-                    // "minStringLength: 15",
-                    "maxStringLength: 11",
-                  ]}
-                  errorMessages={["Invalid Registraion Number"]}
+                  multiline
                   fullWidth
+
                 />
-
-
+                <br></br>
+                <br></br>
+                <h6>BANK DETAILS</h6>
                 <TextField
-                  className="ml-2"
-                  label="VAT Number"
+                  className="mb-4 w-full"
+                  label="Bank Account Number"
                   autoComplete="none"
-                  onChange={e => setvat_no(e.target.value)}
-                  autoComplete="none"
-                  variant="outlined"
-                  name="vat_no"
-                  value={proviance}
-                  size="small"
-                  validators={[
-                    // "minStringLength: 15",
-                    "maxStringLength: 15",
-                  ]}
-                  errorMessages={["Invalid VAT Number"]}
-                  value={vat_no}
-                  fullWidth
-                />
-              </div>
-
-              <TextValidator
-                className="mb-4 w-full"
-                label="P.O. Box"
-                autoComplete="none"
-                onChange={e => setpost_box_no(e.target.value)}
-                type="text"
-                name="post_box_no"
-                size="small"
-                variant="outlined"
-                value={post_box_no}
-
-              />
-              <TextValidator
-                className="mb-4 w-full"
-                autoComplete="none"
-                label="Street"
-                inputProps={{ style: { textTransform: 'capitalize' } }}
-                onChange={e => setstreet(e.target.value)}
-                type="text"
-                size="small"
-                variant="outlined"
-                name="street"
-                value={street}
-
-              />
-
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="City"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  variant="outlined"
-                  onChange={e => setcity(e.target.value)}
-                  value={city}
-                  size="small"
-                  fullWidth
-                />
-
-
-                <TextField
-                  className="ml-2"
-                  label="Province"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  autoComplete="none"
-                  variant="outlined"
-                  value={proviance}
-                  size="small"
-                  onChange={e => setproviance(e.target.value)}
-                  fullWidth
-                />
-              </div>
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="Zip Code"
-                  variant="outlined"
-                  onChange={e => setzip_code(e.target.value)}
-                  value={zip_code}
-                  size="small"
-                  fullWidth
-                />
-                <TextField
-                  className="ml-2"
-                  label="Country"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
-                  autoComplete="none"
-                  variant="outlined"
-                  value={country}
-                  size="small"
-                  onChange={e => setcountry(e.target.value)}
-                  fullWidth
-                />
-              </div>
-
-
-
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  autoComplete="none"
-                  label="Fax"
-                  onChange={e => setfax(e.target.value)}
-                  name="fax"
+                  onChange={e => setaccount_no(e.target.value)}
+                  name="website"
                   type="text"
                   size="small"
                   variant="outlined"
-                  value={fax}
-                  fullWidth
+                  value={account_no}
 
                 />
                 <TextField
-                  className="ml-2"
+                  className="mb-4 w-full"
+                  label="Bank Name"
                   autoComplete="none"
-                  label="Ext."
-                  style={{ width: '180px' }}
-                  onChange={e => setfaxext(e.target.value)}
-                  name="fax"
+                  inputProps={{ style: { textTransform: 'capitalize' } }}
+                  onChange={e => setbank_name(e.target.value)}
+                  name="website"
                   type="text"
                   size="small"
                   variant="outlined"
-                  value={faxext}
-                  fullWidth
+                  value={bank_name}
 
                 />
 
+
+
                 <TextField
-                  className="ml-2"
-                  label="Code"
+                  className="mb-4 w-full"
+                  label="IBAN Number"
                   autoComplete="none"
-                  onChange={e => setcontactcode(e.target.value)}
-                  name="mobno"
+                  onChange={e => setiban_no(e.target.value)}
+                  name="website"
                   type="text"
                   size="small"
-                  style={{ width: '250px' }}
                   variant="outlined"
-                  value={contactcode || ""}
-                  fullWidth
-                  select
-                >
-                  {telcode.map((item, ind) => (
-                    <MenuItem value={item.value} key={item}>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  value={iban_no}
+                />
+                <TextField
+                  className="mb-4 w-full"
+                  autoComplete="none"
+                  label="Bank Address"
+                  onChange={e => setbank_address(e.target.value)}
+                  name="website"
+                  type="text"
+                  size="small"
+                  variant="outlined"
+                  value={bank_address}
+                />
+              </Grid>
+
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <h6>COMPANY DETAILS</h6>
                 <TextValidator
-                  className="ml-2"
-                  label="Contact"
+                  className="mb-4 w-full"
+                  label="Company Name"
+                  inputProps={{ style: { textTransform: "capitalize" } }}
                   autoComplete="none"
-                  onChange={e => setcontact(e.target.value)}
-                  name="contact"
+                  onChange={e => setFirm_name(e.target.value)}
                   type="text"
-                  inputProps={{ style: { width: 100, marginRight: 10 } }}
-                  size="small"
+                  name="Firm_Name"
                   variant="outlined"
-                  value={contact}
-                  validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
-                  errorMessages={["Number is not valid"]}
-
-
-
-                />
-
-              </div>
-              <div className="flex mb-4">
-
-
-
-                <CurrencyTextField
-                  label="Opening Balance"
-                  variant="outlined"
-                  value={obening_balnce}
                   size="small"
-                  fullWidth
-                  currencySymbol="SAR"
-                  onChange={(event, value) => setobening_balnce(value)}
-                />
-                <CurrencyTextField
-                  className="ml-2"
-                  label=" Credit Limits"
-                  variant="outlined"
-                  value={creditlimit}
-                  maximumValue="9999999"
-                  size="small"
-                  fullWidth
-                  currencySymbol="SAR"
-                  onChange={(event, value) => setcreditlimit(value)}
-
-                />
-
-                <TextField
-                  className="ml-2"
-                  label="Credit Days"
-                  variant="outlined"
-                  value={creditdays}
-                  maximumValue="9999999"
-                  size="small"
-                  fullWidth
-                  onChange={(event) => setcreditdays(event.target.value)}
-
-                />
-              </div>
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-0"
-                  label="Party type"
-                  autoComplete="none"
-                  name="partytype"
-                  size="small"
-                  variant="outlined"
                   required
-                  select
-                  fullWidth
-                  value={partytype}
-                  onChange={e => setpartytype(e.target.value)
-                  }
-                >
-                  {customerList.map((item, ind) => (
-                    <MenuItem value={item.value} key={item}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  value={Firm_Name}
 
-              </div>
-              <div className="flex mb-4">
-                <TextField
-                  className="mr-2"
-                  label="Vendor Id"
+                />
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="Commercial Registration Number"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    variant="outlined"
+                    onChange={e => setregno(e.target.value)}
+                    name="regno"
+                    size="small"
+                    value={regno}
+                    validators={[
+                      // "minStringLength: 15",
+                      "maxStringLength: 11",
+                    ]}
+                    errorMessages={["Invalid Registraion Number"]}
+                    fullWidth
+                  />
+
+
+                  <TextField
+                    className="ml-2"
+                    label="VAT Number"
+                    autoComplete="none"
+                    onChange={e => setvat_no(e.target.value)}
+                    autoComplete="none"
+                    variant="outlined"
+                    name="vat_no"
+                    value={proviance}
+                    size="small"
+                    validators={[
+                      // "minStringLength: 15",
+                      "maxStringLength: 15",
+                    ]}
+                    errorMessages={["Invalid VAT Number"]}
+                    value={vat_no}
+                    fullWidth
+                  />
+                </div>
+
+                <TextValidator
+                  className="mb-4 w-full"
+                  label="P.O. Box"
                   autoComplete="none"
-                  onChange={e => setvendor_id(e.target.value)}
-                  name="website"
+                  onChange={e => setpost_box_no(e.target.value)}
+                  type="text"
+                  name="post_box_no"
+                  size="small"
+                  variant="outlined"
+                  value={post_box_no}
+
+                />
+                <TextValidator
+                  className="mb-4 w-full"
+                  autoComplete="none"
+                  label="Street"
+                  inputProps={{ style: { textTransform: 'capitalize' } }}
+                  onChange={e => setstreet(e.target.value)}
                   type="text"
                   size="small"
                   variant="outlined"
-                  value={vendor_id}
-                  fullWidth
+                  name="street"
+                  value={street}
+
                 />
-                <TextField
-                  className="ml-2"
-                  label="Website URL"
-                  autoComplete="none"
-                  onChange={e => setwebsite(e.target.value)}
-                  name="website"
-                  type="text"
+
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="City"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    variant="outlined"
+                    onChange={e => setcity(e.target.value)}
+                    value={city}
+                    size="small"
+                    fullWidth
+                  />
+
+
+                  <TextField
+                    className="ml-2"
+                    label="Province"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    autoComplete="none"
+                    variant="outlined"
+                    value={proviance}
+                    size="small"
+                    onChange={e => setproviance(e.target.value)}
+                    fullWidth
+                  />
+                </div>
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="Zip Code"
+                    variant="outlined"
+                    onChange={e => setzip_code(e.target.value)}
+                    value={zip_code}
+                    size="small"
+                    fullWidth
+                  />
+                  <TextField
+                    className="ml-2"
+                    label="Country"
+                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    autoComplete="none"
+                    variant="outlined"
+                    value={country}
+                    size="small"
+                    onChange={e => setcountry(e.target.value)}
+                    fullWidth
+                  />
+                </div>
+
+
+
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    autoComplete="none"
+                    label="Fax"
+                    onChange={e => setfax(e.target.value)}
+                    name="fax"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={fax}
+                    fullWidth
+
+                  />
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
+                    label="Ext."
+                    style={{ width: '180px' }}
+                    onChange={e => setfaxext(e.target.value)}
+                    name="fax"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={faxext}
+                    fullWidth
+
+                  />
+
+                  <TextField
+                    className="ml-2"
+                    label="Code"
+                    autoComplete="none"
+                    onChange={e => setcontactcode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '250px' }}
+                    variant="outlined"
+                    value={contactcode || ""}
+                    fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextValidator
+                    className="ml-2"
+                    label="Contact"
+                    autoComplete="none"
+                    onChange={e => setcontact(e.target.value)}
+                    name="contact"
+                    type="text"
+                    inputProps={{ style: { width: 100, marginRight: 10 } }}
+                    size="small"
+                    variant="outlined"
+                    value={contact}
+                    validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
+                    errorMessages={["Number is not valid"]}
+
+
+
+                  />
+
+                </div>
+                <div className="flex mb-4">
+
+
+
+                  <CurrencyTextField
+                    label="Opening Balance"
+                    variant="outlined"
+                    value={obening_balnce}
+                    size="small"
+                    fullWidth
+                    currencySymbol="SAR"
+                    onChange={(event, value) => setobening_balnce(value)}
+                  />
+                  <CurrencyTextField
+                    className="ml-2"
+                    label=" Credit Limits"
+                    variant="outlined"
+                    value={creditlimit}
+                    maximumValue="9999999"
+                    size="small"
+                    fullWidth
+                    currencySymbol="SAR"
+                    onChange={(event, value) => setcreditlimit(value)}
+
+                  />
+
+                  <TextField
+                    className="ml-2"
+                    label="Credit Days"
+                    variant="outlined"
+                    value={creditdays}
+                    maximumValue="9999999"
+                    size="small"
+                    fullWidth
+                    onChange={(event) => setcreditdays(event.target.value)}
+
+                  />
+                </div>
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-0"
+                    label="Party type"
+                    autoComplete="none"
+                    name="partytype"
+                    size="small"
+                    variant="outlined"
+                    required
+                    select
+                    fullWidth
+                    value={partytype}
+                    onChange={e => setpartytype(e.target.value)
+                    }
+                  >
+                    {customerList.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                </div>
+                <div className="flex mb-4">
+                  <TextField
+                    className="mr-2"
+                    label="Vendor Id"
+                    autoComplete="none"
+                    onChange={e => setvendor_id(e.target.value)}
+                    name="website"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={vendor_id}
+                    fullWidth
+                  />
+                  <TextField
+                    className="ml-2"
+                    label="Website URL"
+                    autoComplete="none"
+                    onChange={e => setwebsite(e.target.value)}
+                    name="website"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={website}
+                    fullWidth
+
+                  />
+
+                </div>
+                <Autocomplete
+                  multiple
+
+                  id="checkboxes-tags-demo"
                   size="small"
-                  variant="outlined"
-                  value={website}
-                  fullWidth
+                  options={paiddivision_account.filter(obj => obj.type === "division" && obj.name == "Trading Division" || obj.name == "Printing Division")}
 
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event: any, value: string[] | null) => handleMultiselect(value)}
+                  renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+
+                      />
+                      <td>{option.name}</td>
+                    </React.Fragment>
+                  )}
+                  renderInput={(params) => (
+                    <TextField {...params} variant="outlined" label="Divisions" placeholder="Divisions" inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                      required: division.length === 0
+                    }}
+                      required={true} />
+                  )}
                 />
 
-              </div>
-              <Autocomplete
-                multiple
-                
-                id="checkboxes-tags-demo"
-                size="small"
-                options={paiddivision_account.filter(obj => obj.type === "division")}
-
-                getOptionLabel={(option) => option.name}
-                onChange={(event: any, value: string[] | null) => handleMultiselect(value)}
-                renderOption={(option, { selected }) => (
-                  <React.Fragment>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-
-                    />
-                    <td>{option.name}</td>
-                  </React.Fragment>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} variant="outlined" label="Divisions" placeholder="Divisions" inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                    required: division.length === 0
-                  }}
-                  required={true} />
-                )}
-              />
-
+              </Grid>
             </Grid>
-          </Grid>
-          <div>
-            <Button className="mr-4 py-2" color="primary" variant="outlined" type="submit" disabled={loading}>
-              <Icon>save</Icon>
-              <span className="pl-2 capitalize">SAVE</span>
-            </Button>
-            <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => history.push("../party/Viewparty")}>
-              <Icon>cancel</Icon>
-              <span className="pl-2 capitalize">CANCEL</span>
-            </Button>
+            <div>
+              <Button className="mr-4 py-2" color="primary" variant="outlined" type="submit" disabled={loading}>
+                <Icon>save</Icon>
+                <span className="pl-2 capitalize">SAVE</span>
+              </Button>
+              <Button className="mr-4 py-2" color="secondary" variant="outlined" type="submit" onClick={() => routerHistory.push("../party/Viewparty")}>
+                <Icon>cancel</Icon>
+                <span className="pl-2 capitalize">CANCEL</span>
+              </Button>
 
-            <Button color=".bg-green" variant="outlined" type="reset" onClick={resetform} className="mr-4 py-2">
-              <Icon>loop</Icon>
-              <span className="pl-2 capitalize">RESET</span>
-            </Button>
-          </div>
+              <Button color=".bg-green" variant="outlined" type="reset" onClick={resetform} className="mr-4 py-2">
+                <Icon>loop</Icon>
+                <span className="pl-2 capitalize">RESET</span>
+              </Button>
+            </div>
 
-        </ValidatorForm>
+          </ValidatorForm>
+        </Card>
       </div>
     </div>
   );

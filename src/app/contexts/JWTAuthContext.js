@@ -2,16 +2,17 @@ import React, { createContext, useEffect, useReducer } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios.js";
 import { MatxLoading } from "matx";
-import url from "../views/invoice/InvoiceService"
+import url from "../views/invoice/InvoiceService";
+// import { browserName, browserVersion, osName } from "react-device-detect";
 
 const initialState = {
   isAuthenticated: false,
   isInitialised: false,
   user: null,
-  division:null,
+  division: null,
 };
 
-const isValidToken = (accessToken) => {
+const isValidToken = accessToken => {
   if (!accessToken) {
     return false;
   }
@@ -22,14 +23,13 @@ const isValidToken = (accessToken) => {
   return decodedToken.exp > currentTime;
 };
 
-const setSession = (accessToken) => {
+const setSession = accessToken => {
   if (accessToken) {
     localStorage.setItem("accessToken", accessToken);
-    url.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
+    url.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem("accessToken");
-    delete url.defaults.headers.common['Authorization'];
+    delete url.defaults.headers.common["Authorization"];
   }
 };
 
@@ -80,31 +80,28 @@ const AuthContext = createContext({
   ...initialState,
   method: "JWT",
   login: () => Promise.resolve(),
-  logout: () => { },
+  logout: () => {},
   register: () => Promise.resolve(),
 });
 
 export const AuthProvider = ({ children }) => {
-
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const login = async (email, password) => {
-
     const response = await url.post("/auth/login", { email, password });
-    
-    const { accessToken, user, role,division } = response.data;
-    localStorage.setItem("division",division)
-    localStorage.setItem("role", role)
-    localStorage.setItem("auth_user", user)
-    localStorage.setItem("user_name", user.name)
-    localStorage.setItem("user_id", user.id)
-    
-  //   const uid = user.id
-  // url.get(`userPermission/${uid}`).then(({ data }) => {
-  // localStorage.setItem("permissiondata" ,JSON.stringify(data.permission));
-  // })
-    setSession(accessToken);
 
+    const { accessToken, user, role, division } = response.data;
+    localStorage.setItem("division", division);
+    localStorage.setItem("role", role);
+    localStorage.setItem("auth_user", user);
+    localStorage.setItem("user_name", user.name);
+    localStorage.setItem("user_id", user.id);
+    // console.log(`${browserName} ${browserVersion}` + osName);
+    //   const uid = user.id
+    // url.get(`userPermission/${uid}`).then(({ data }) => {
+    // localStorage.setItem("permissiondata" ,JSON.stringify(data.permission));
+    // })
+    setSession(accessToken);
 
     dispatch({
       type: "LOGIN",
@@ -145,29 +142,18 @@ export const AuthProvider = ({ children }) => {
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
-         
-              
-              const response = await url.post("/auth/me");
-              const { user} = response.data;
-             
-              dispatch({
-                type: "INIT",
-                payload: {
-                  isAuthenticated: true,
-                  user,
-                },
-              });
-            } else {
-              dispatch({
-                type: "INIT",
-                payload: {
-                  isAuthenticated: false,
-                  user: null,
-                },
-              });
-            }
-      } catch (err) {
-          console.error(err);
+
+          const response = await url.post("/auth/me");
+          const { user } = response.data;
+
+          dispatch({
+            type: "INIT",
+            payload: {
+              isAuthenticated: true,
+              user,
+            },
+          });
+        } else {
           dispatch({
             type: "INIT",
             payload: {
@@ -176,7 +162,17 @@ export const AuthProvider = ({ children }) => {
             },
           });
         }
-      })();
+      } catch (err) {
+        console.error(err);
+        dispatch({
+          type: "INIT",
+          payload: {
+            isAuthenticated: false,
+            user: null,
+          },
+        });
+      }
+    })();
   }, []);
 
   if (!state.isInitialised) {

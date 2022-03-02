@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import App from "./app/App";
+import { HashRouter } from 'react-router-dom'
 
 
 // cssVars();
@@ -13,19 +14,19 @@ import App from "./app/App";
 //       // localStorage.removeItem('rememberMe');
 //       localStorage.clear();
 //     }
-   
+
 // }
 // window.onbeforeunload = function (e) {
 //   window.onunload = function () {
 //           window.localStorage.isMySessionActive = "false";
-        
+
 //   }
 //   return undefined;
 // };
 // window.onload = function () {
 //   window.localStorage.isMySessionActive = "true";
 
-  
+
 // };
 // if(window.localStorage.isMySessionActive==='true')
 // {
@@ -35,7 +36,7 @@ import App from "./app/App";
 // window.onload = function () {
 //           window.localStorage.isMySessionActive = "true";
 // };
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<><App /></>, document.getElementById("root"));
 
 // for IE-11 support un-comment cssVars() and it's import in this file
 // and in MatxTheme file

@@ -67,7 +67,6 @@ const Sidenav = ({ children }) => {
   };
   useEffect(() => {
     setx(localStorage.getItem("division"))
-    console.log(localStorage.getItem("division"))
   })
 
   return (
@@ -81,7 +80,7 @@ const Sidenav = ({ children }) => {
         {children}
         <MatxVerticalNav
 
-          items={x == 1 ? navigations : x == 3 ? navigationPrint : navigations}
+          items={navigations}
         />
 
       </Scrollbar>

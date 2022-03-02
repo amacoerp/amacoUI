@@ -55,7 +55,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, data }) 
     const formData = new FormData();
     const max = 100;
     const min = 0;
-    const { user } =useAuth();
+    const { user } = useAuth();
     const [checked, setchecked] = useState(false);
     const prefixs = [
         { value: 'Mr', label: 'Mr' },
@@ -92,10 +92,8 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, data }) 
         })
         setdivisions(arr)
 
-        setState({
-            'div_id': id
-        })
-        console.log({ state })
+        console.log(id)
+        console.log(arr)
 
 
 
@@ -216,8 +214,8 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, data }) 
                 iqama_exp_date: iqamaExpDate,
                 date_of_join: dojExpDate,
                 nick_name: nick_name,
-                div_id:localStorage.getItem('division'),
-                user_id:user.id,
+                div_id: localStorage.getItem('division'),
+                user_id: user.id,
             }
             url.put(`update-emp/${userid}`, formdata).then(({ data }) => {
                 console.log(data)
@@ -252,7 +250,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, data }) 
             formData.append('date_of_join', dojExpDate)
             formData.append('nick_name', nick_name)
             formData.append('divisions', JSON.stringify(divisions))
-            formData.append('div_id', user.division)
+            formData.append('div_id', localStorage.getItem('division'))
             formData.append('user_id', user.id)
 
             console.log(formData);

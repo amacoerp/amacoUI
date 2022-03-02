@@ -3,7 +3,8 @@ import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 import Header from '../../views/statements/Header';
 import Footer from '../../views/statements/Footer';
-
+import './new.css';
+import '../Newinvoice/print.css';
 
 import {
   Icon,
@@ -41,7 +42,7 @@ import { IntlProvider, FormattedNumber } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
 import Swal from "sweetalert2";
 import Axios from "axios";
-import history from "history.js";
+import { useHistory } from 'react-router';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import moment from "moment";
@@ -51,7 +52,7 @@ import { useReactToPrint } from 'react-to-print';
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
 import useAuth from "app/hooks/useAuth";
-import "../../../app/views/Newinvoice/print.css";
+// import "../../../app/views/Newinvoice/print.css";
 const locale = navigator.language;
 
 
@@ -98,6 +99,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       "#abc": {
         height: '1px !important', /* overwrites any other rules */
         backgroundColor: '#FFFFFF',
+      },
+      "#editIcon": {
+        display: 'none'
       },
 
 
@@ -253,8 +257,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [shouldOpenAddList, setShouldOpenAddList] = useState(false);
   const [rfq_no, setrfq_no] = useState("");
   const [prefix, setprefix] = useState("");
+  const routerHistory = useHistory();
+
   const [srcfile, setsrcfile] = useState("");
-  const [sign, setsign] = useState("");
+  // const [sign, setsign] = useState("");
+  const [sign, setsign] = useState([]);
   const [subject, setsubject] = useState("");
   const [message, setmessage] = useState(false);
   const [loading, setloading] = useState(false);
@@ -264,6 +271,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [fFile, setFfile] = useState('');
   const [transport, settransport] = useState('');
   const [notes, setnotes] = useState([]);
+  const [pageNumber, setPageNumber] = useState([])
+
+  let pos = 0;
   const [state, setState] = React.useState({
 
     open: false,
@@ -292,13 +302,37 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handleAddListToggle = (value) => {
     setShouldOpenAddList(value);
   };
-  const handlePrinting = useReactToPrint({
+
+  const handlePrintingCur = useReactToPrint({
     content: () => componentRef.current,
-    header: () => componentRef.current,
-
-
-
+    header: () => componentRef.current
   });
+
+
+  const handlePrinting = () => {
+
+    var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
+    // console.log(componentRef.current.scrollHeight)
+    if (componentRef.current.scrollHeight <= 1720) {
+      totalPages = 1
+    } else {
+      totalPages = totalPages - 1
+    }
+
+
+    // totalPages = totalPages - 2
+    let a = [];
+    for (var i = 0; i < totalPages; i++) {
+      var j = i;
+      j = ++j;
+      var q = ("Page " + j + " of " + (totalPages));
+      a[i] = q;
+    }
+    setPageNumber(a)
+    setTimeout(() => {
+      handlePrintingCur()
+    }, 500);
+  }
   function printscript() {
     for (var i = 1; i <= 3; ++i) {
       document.body.innerHTML += '<footer style="margin-top: ' + (297 * i - 10) + 'mm">' + "Page No" + i + '</footer>';
@@ -353,9 +387,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
-
     url.get("sale-quotation/" + id).then(({ data }) => {
-      if (s == "New") {
+      if (s == "new") {
         settab(0)
       }
       else if (s == "draft") {
@@ -364,45 +397,76 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       else if (s == "accept") {
         settab(1)
       }
+      else if (s == "history") {
+        settab(4)
+      }
       else {
         settab(2)
       }
 
-      document.title = `AMACO Quote - ${data[0].party.firm_name} - ${data[0].quotation_no}`
-      setrfq(data[0].rfq_id)
-      setFfile(data[0].file)
-      setrfq_no(data[0].rfq_no)
-      setqid(data[0].quotation_no)
-      setpsdate(moment(data[0].ps_date).format('DD MMM YYYY'))
-      setcontactaddress(data[0].party)
+      document.title = `AMACO Quote - ${data[0]?.party?.firm_name} - ${data[0]?.quotation_no}`
+      setrfq(data[0]?.rfq_id)
+      setFfile(data[0]?.file)
+      setrfq_no(data[0]?.rfq_no)
+      setqid(data[0]?.quotation_no)
+      setpsdate(moment(data[0]?.ps_date).format('DD MMM YYYY'))
+      setcontactaddress(data[0]?.party)
       // setddate(moment(data[0].rfq.require_date).format('DD MMM YYYY'))
-      setcompany(data[0].party.firm_name)
-      setdiscount_per(data[0].discount_in_p)
+      setcompany(data[0]?.party?.firm_name)
+      setdiscount_per(data[0]?.discount_in_p)
 
-      setsubject(data[0].subject)
-      setsign(data[0].sign)
+      setsubject(data[0]?.subject)
+      setsign(data[0]?.sign)
       setcity(data[0]?.party?.city)
       setstreet(data[0]?.party?.street)
       setzipcode(data[0]?.party?.zip_code)
-      setpo(data[0].party.post_box_no)
-      setregno(data[0].party.registration_no)
-      setvatno(data[0].party.vat_no)
-      setqdetails(data[0].quotation_details)
-      setnet_amount(data[0].net_amount)
-      console.log(data[0].net_amount)
-      setvat_in_value(data[0].vat_in_value)
-      settotal_value(data[0].total_value)
-      setvalidity(data[0].validity)
-      setwarranty(data[0].warranty)
-      setinco_terms(data[0].inco_terms)
-      setis_revised(data[0].is_revised)
-      setpayment_terms(data[0].payment_terms)
-      setdelivery_time(data[0].delivery_time)
-      settransport(data[0].transport)
-      setother(data[0].other)
+      setpo(data[0]?.party?.post_box_no)
+      setregno(data[0]?.party?.registration_no)
+      setvatno(data[0]?.party?.vat_no)
+
+
+      const uniqueAddresses = Array.from(new Set(data[0]?.quotation_details.map(a => a.index1)))
+        .map(id => {
+          return data[0]?.quotation_details.find((a) => a.index1 === id)
+        })
+
+      let res = uniqueAddresses.map((item) => {
+        item['count'] = 2
+        item['bottom'] = 'hide';
+        return item
+      })
+
+
+
+      let result = data[0]?.quotation_details.filter(function (o1) {
+        return res.some(function (o2) {
+          if (o1.id === o2.id) {
+
+
+            return o1
+          }
+          else {
+            return o1
+          } // return the ones with equal id
+        });
+
+      })
+      setqdetails(result)
+      // setqdetails(data[0]?.quotation_details)
+      setnet_amount(data[0]?.net_amount)
+      setvat_in_value(data[0]?.vat_in_value)
+      settotal_value(data[0]?.total_value)
+      setvalidity(data[0]?.validity)
+      setwarranty(data[0]?.warranty)
+      setinco_terms(data[0]?.inco_terms)
+      setis_revised(data[0]?.is_revised)
+      setpayment_terms(data[0]?.payment_terms)
+      setdelivery_time(data[0]?.delivery_time)
+      settransport((isNaN(data[0]?.transport) || data[0]?.transport == null) ? 0 : parseFloat(data[0]?.transport))
+      setother((isNaN(data[0].other) || data[0]?.other == null) ? 0 : parseFloat(data[0]?.other))
       setnotes(data[0]?.notes)
       if (data[0].bank) {
-        setbank({ ...bank, 'bank_name': data[0].bank.name, 'acc_no': data[0].bank.ac_no, 'iban_no': data[0].bank.iban_no })
+        setbank({ ...bank, 'bank_name': data[0]?.bank.name, 'acc_no': data[0]?.bank.ac_no, 'iban_no': data[0]?.bank.iban_no })
 
       }
       if (data[0].contact !== null) {
@@ -412,10 +476,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         setcontactpersonemail(data[0].contact.email)
       }
 
-      setcontactpersoncontact(data[0]?.party.contact)
+      setcontactpersoncontact(data[0]?.party?.contact)
       // console.log(data[0])
       var item = data[0].party?.party_division?.find(item => item.div_id === 75);
-      setvendor_id(data[0]?.party.vendor_id)
+      setvendor_id(data[0]?.party?.vendor_id)
       let words1 = numberToWords.toWords(data[0].net_amount);
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
@@ -467,7 +531,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           },
         },
       });
-      // history.push("/quoateview")
+      // routerHistory.push("/quoateview")
 
     }
 
@@ -493,7 +557,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               ' Quotation has been deleted.',
               'success'
             )
-            history.push(navigatePath + "/quoateview")
+            routerHistory.push(navigatePath + "/quoateview/2")
 
           })
 
@@ -511,7 +575,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const invoicegenrate = (sidebarSettings) => {
 
 
-    history.push(navigatePath + `/Quoteinvoice/${id}`)
+    routerHistory.push(navigatePath + `/Quoteinvoice/${id}`)
 
 
 
@@ -520,41 +584,20 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const dnotegenrate = (sidebarSettings) => {
 
 
-    history.push(navigatePath + `/dnote/${id}`)
+    routerHistory.push(navigatePath + `/dnote/${id}`)
 
   }
   const editqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    history.push(navigatePath + `/Quoteedit/${id}`)
+    routerHistory.push(navigatePath + `/Quoteedit/${id}`)
   }
   const reviseqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    history.push(navigatePath + `/revisequote/${id}`)
+    routerHistory.push(navigatePath + `/revisequote/${id}`)
   }
 
-  function PrintMe(DivID) {
-    var disp_setting = "toolbar=yes,location=no,";
-    disp_setting += "directories=yes,menubar=yes,";
-    disp_setting += "scrollbars=yes,width=2000, height=1000, left=100, top=25";
-    var content_vlue = document.getElementById('print-area').innerHTML;
-    var docprint = window.open("", "", disp_setting);
-    docprint.document.open();
-    docprint.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"');
-    docprint.document.write('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
-    docprint.document.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">');
-    docprint.document.write('<head><title>My Title</title>');
-    docprint.document.write('<style type="text/css">body{ margin:0px;');
-    docprint.document.write('font-family:verdana,Arial;color:#000;');
-    docprint.document.write('font-family:Verdana, Geneva, sans-serif; font-size:12px;}');
-    docprint.document.write('a{color:#000;text-decoration:none;} </style>');
-    docprint.document.write('</head><body onLoad="self.print()"><center>');
-    docprint.document.write(content_vlue);
-    docprint.document.write('</center></body></html>');
-    docprint.document.close();
-    docprint.focus();
-  }
   const handlePrint = () => {
     // var prtContent = document.getElementById('print-area');
     // dummyContent.innerHTML = prtContent.contentWindow.document.body.innerHTML
@@ -635,9 +678,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             title: 'Success',
             type: 'success',
             icon: 'success',
-            text: `Quotation has been ${name}.`,
+            text: `Quotation has been ${status}ed.`,
           })
-          history.push(navigatePath + '/quoateview/' + tab_status)
+          routerHistory.push(navigatePath + '/quoateview/' + tab_status)
         }
       })
 
@@ -684,7 +727,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           >
             Edit Quote
           </Button> */}
-          <Button
+          {s !== "history" && <Button
             variant="outlined"
             color="primary"
             className="mr-4 py-2"
@@ -693,7 +736,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             onClick={handleClick}
           >
             ACTION<Icon>expand_more</Icon>
-          </Button>
+          </Button>}
           <Menu
 
             id="simple-menu"
@@ -893,49 +936,24 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       </div>
 
       <div id="print-area" ref={componentRef} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
-        <table >
-          {/* <thead   style={{display:"table-header-group",marginTop:'20px'}} >
-            <tr>
-              
-              <td>
-              <div class="empty-header"> 
 
-<div className="px-2 flex justify-between">
-  <div className="flex">
-    <div className="pr-12">
-      <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
+        {pageNumber.map((item, i) => {
+          if (i == 0) {
+            pos = 1557;
+          } else {
+            pos = pos + 1592;
+          }
 
-    </div>
-   
-    <div className="viewer__order-info px-4 mb-4 flex justify-between">
-    </div>
-  </div>
-  <div className="flex">
-  <div style={{marginLeft:'50px'}}>
-    <h2 style={{color:'#1d2257',textAlign:'right'}}>
-      
-    شركة أماكو العربية للمقاولات</h2>
-
-      <h3 style={{color:'#1d2257',textAlign:'right',fontSize:20}}>
-        AMACO ARABIA CONTRACTING COMPANY
-        
-      </h3>
-      <h5 style={{color:'#555',textAlign:'right',fontSize:17}} className="font-normal b-4 ">
-       C.R No. 2055003404 | VAT No. 310398615200003
-
-
-      </h5>
-      
-    </div>
-  </div>
-</div>
-
-</div>
-    </td>
-    
-    
-  </tr>
-</thead> */}
+          return (
+            <span className="showPageNumber" style={{
+              position: 'absolute',
+              top: pos,
+              left: '50%',
+              display: 'none',
+            }}> <center>{item}</center></span>
+          )
+        })}
+        <table>
           <Header></Header>
 
           <tbody style={{ marginBottom: '50px' }}>
@@ -945,7 +963,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="pl-2 pt-5 flex justify-center" style={{ borderTop: '1px solid #ccc', }}>
 
                     <div className="flex">
-                      <div className="pl-2 px-4 mb-4 justify-center">
+                      <div className="pl-0 px-0 mb-4 mr-24 justify-center">
                         <h1><strong> QUOTATION</strong></h1>
                         {vat}
                       </div>
@@ -1021,8 +1039,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             </div>
           </div>
         </div> */}
-                  <div className="px-2 flex justify-between">
-                    <div className="px-2 flex justify-end">
+                  {/* <div className="px-2 flex justify-between"> */}
+                  {/* <div className="px-2 flex justify-end">
                       <div className="flex " >
                         <div className="">
                           {
@@ -1044,11 +1062,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           <div className="pl-2 pb-4">
                             <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span>
                             <br></br>
-                            {/* {street.replace(/,\s*$/, "")}{city.replace(/,\s*$/, "")}{zipcode?.replace(/,\s*$/, "")} */}
-
-                            {/* {([street&&street,city,zipcode].filter(Boolean).join(",")).replace(/^,/, '')} */}
-                            {/* {((street?street+",":" ")+(city?city+",":" ")+(zipcode?zipcode+", ":" ").split(" ").join(','))} */}
-                            {/* {",hello".replace(/^,/, '')} */}
+                         
                             {street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}
 
 
@@ -1137,8 +1151,105 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         <div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </div> */}
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>RFQ NO</span><br></br>
+                        {rfq_no !== null ? rfq_no : "--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>ATTENTION</span><br></br>
+                        {prefix ? prefix + ". " : " "}{contactperson ? contactperson : '--'}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                          QUOTATION DATE
+                        </span><br></br>
+
+                        {moment(psdate).format('DD MMM YYYY')}
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>CUSTOMER</span><br></br>
+                        {company ? company : "--"}
+
+
+                      </Grid>
+                      <Grid className="pl-0 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>DESIGNATION</span><br></br>
+                        {designation ? designation : '--'}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                          QUOTATION NUMBER
+                        </span><br></br>
+
+                        {qid ? qid : "--"}
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-0" xs={5} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span><br></br>
+                        {street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}
+
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={4}>
+                        <span style={{ fontWeight: 1000 }}>EMAIL ID</span><br></br>
+                        {contactpersonemail ? contactpersonemail : '--'}
+
+                      </Grid>
+
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                        <span style={{ fontWeight: 1000 }}>
+                          VENDOR ID
+                        </span><br></br>
+
+                        {vendor_id}
+
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
+                    <Grid container spacing={3} className="p-4">
+                      <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
+                        <span style={{ fontWeight: 1000 }}>CONTACT NUMBER</span><br></br>
+                        {contactpersoncontact ? contactpersoncontact : "--"}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4" xs={2}>
+                        {/* <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                        {inco_terms} */}
+
+                      </Grid>
+                      <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
+                        {/* <span style={{ fontWeight: 1000 }}>
+                        </span><br></br> */}
+
+
+
+                      </Grid>
+
+                    </Grid>
+                  </Box>
+
+                  {/* </div> */}
 
 
 
@@ -1146,7 +1257,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                     <Table>
                       <TableRow style={{ marginBottom: 200 }} >
-                        Subject: {subject}
+                        Subject: {subject == null || subject == 0 || subject == 'null' ? '--' : subject}
                       </TableRow>
                     </Table>
                   </div>
@@ -1162,7 +1273,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     </Table>
                   </div>
                   <div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
-                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table">
+                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table" >
                       <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                           <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
@@ -1191,7 +1302,110 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                         </TableRow>
                       </TableHead>
                       <TableBody >
-                        {qdetails.map((item, index) => {
+
+                        {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
+
+                          return (
+
+                            <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                              {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
+                                {item.index1}
+                              </TableCell> : <TableCell className={qdetails.length - 1 === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {item?.file ? <img className="w-60" src={item.file} /> : ""} */}
+                              </TableCell>}
+                              {
+                                localStorage.getItem('division') == 1 &&
+                                <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                  {item?.file ? <img className="w-60" src={item.file} /> : ""}
+                                </TableCell>
+                              }
+
+                              {localStorage.getItem('division') == 1 &&
+                                <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+
+
+                                  {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                          <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                            {item?.description}
+                                          </TableCell>
+                                        </TableRow> */}
+
+                                  {item?.description}
+
+
+                                </TableCell>
+
+                              }
+                              <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.product_description}
+                                            </TableCell>
+                                          </TableRow>
+                                        )
+                                      })} */}
+                                {item?.descriptionss}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item.quantity}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {item?.quantity}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.unit_of_measure}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {item?.unit_of_measure}
+                              </TableCell>
+                              <TableCell className="pr-2" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {isNaN(parseFloat(item?.sell_price)) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                              <TableCell className="pr-2" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {isNaN(parseFloat(item?.total_amount)) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                            </TableRow>
+                          )
+
+                        })}
+
+                        {/* {qdetails.map((item, index) => {
                           return (
                             <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
                               <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
@@ -1214,10 +1428,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
                                 {item?.descriptionss}
                               </TableCell>
-                              {/* <TableCell className="pl-0 " align="center"  colspan={3}  style={{border: "1px solid #ccc",fontFamily: "Calibri",}}>
-                     {item.remark}
-
-                    </TableCell> */}
+                             
 
                               <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }}>
                                 {nf.format(item.quantity)}
@@ -1242,7 +1453,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             </TableRow>
                           );
-                        })}
+                        })} */}
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
                           <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : 11}>
@@ -1283,7 +1494,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   </TableCell> */}
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
                                 {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
@@ -1316,7 +1527,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                 </TableRow> */}
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }} id="abc">
-                          {parseFloat(discount_per) !== 0.00 && (<>
+                          {(parseFloat(discount_per) !== 0.00 && !isNaN(parseFloat(discount_per))) && (<>
                             <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={3} >
 
                               DISCOUNT({discount_per}%)
@@ -1324,7 +1535,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                               <div>
-                                <div style={{ float: "left" }} className="pl-20">SAR</div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
                                 <div style={{ float: "right" }}>
                                   {discount_per == 0 ? 0.00 : parseFloat(discount_per * (total_value + other + transport) / 100).toFixed(2)}
 
@@ -1346,9 +1557,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   </TableCell> */}
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
-                                {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                {isNaN(parseFloat(vat_in_value)) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
 
                               </div>
                               <div style={{ clear: "left" }} />
@@ -1380,7 +1591,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", width: "500px", fontFamily: "Calibri", fontSize: '14pt', color: '#000' }} colspan={2}>
 
                             <div>
-                              <div style={{ float: "left" }} className="pl-20">SAR</div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
                               <div style={{ float: "right" }}>
                                 <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>
 
@@ -1481,18 +1692,21 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                           <h5>Best Regards,</h5>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td style={{ height: 'auto !important', fontWeight: 1000 }}>{sign?.name}</td>
+                            <td style={{ height: 'auto !important', fontWeight: 1000 }}>{sign[0]?.name}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td >{sign?.designation}-ISD Division</td>
+                            <td >{sign[0]?.designation}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{sign?.email}</td>
+                            <td>{sign[0]?.email} | {sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                            <td>{user?.contact}</td>
+                            {/* <td>{sign[0]?.contact?.slice(0, 4)} {sign[0]?.contact?.slice(4, 6)} {sign[0]?.contact?.slice(6, 9)} {sign[0]?.contact?.slice(9, 13)}</td> */}
                           </tr>
-                          <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
+                          {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
+                            <td></td>
+                          </tr> */}
+                          {/* <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>Amaco Group Of Companies</td>
                           </tr>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
@@ -1501,7 +1715,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td>P.O BOX 9290 | Al Jubail - 31951 | Kingdom Of Saudi Arabia</td>
-                          </tr>
+                          </tr> */}
                         </div>
 
 

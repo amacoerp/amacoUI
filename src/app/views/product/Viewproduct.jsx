@@ -118,7 +118,7 @@ const SimpleMuiTable = () => {
 
   useEffect(() => {
 
-    url.get("categorized-products/"+id)
+    url.get("categorized-products/" + id)
       .then(function (response) {
         const d = response.data
         setUserList(d)
@@ -375,7 +375,7 @@ const SimpleMuiTable = () => {
                 <Icon color="secondary">edit</Icon>
               </IconButton>
             </Link> */}
-              <Link to={navigatePath + "/singleproduct?id=" + tableMeta.rowData[5]}>
+              <Link to={navigatePath + "/singleproduct/" + tableMeta.rowData[5]}>
                 <Tooltip title="View Product">
                   <Icon color="primary" style={{
                     transform: "rotate(270deg)",
@@ -464,7 +464,6 @@ const SimpleMuiTable = () => {
           data={
 
             userList.map((item, index) => {
-              console.log(item)
 
               return [
 

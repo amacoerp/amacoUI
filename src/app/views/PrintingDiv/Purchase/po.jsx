@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url from "../../invoice/InvoiceService";
 import moment from "moment";
@@ -20,22 +20,22 @@ import {
   Button
 } from "@material-ui/core";
 
-const dummyData =[{
-    firm_name:"Al-Ajmaeen Chemicals Products Factory",
-    requested_date:"2021-06-11",
-    created_at:"2021-06-11",
-    po_number:"AMCP-PO-21-0407",
-    id:1,
-    net_amount:"345.00"
-   },
-   {
-       firm_name:"Jade Saudi",
-       requested_date:"2021-06-11",
-       created_at:"2021-06-11",
-       po_number:"AMCP-PO-21-0408",
-       net_amount:"345.00",
-       id:2
-      }]
+const dummyData = [{
+  firm_name: "Al-Ajmaeen Chemicals Products Factory",
+  requested_date: "2021-06-11",
+  created_at: "2021-06-11",
+  po_number: "AMCP-PO-21-0407",
+  id: 1,
+  net_amount: "345.00"
+},
+{
+  firm_name: "Jade Saudi",
+  requested_date: "2021-06-11",
+  created_at: "2021-06-11",
+  po_number: "AMCP-PO-21-0408",
+  net_amount: "345.00",
+  id: 2
+}]
 const SimpleMuiTable = () => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
@@ -65,21 +65,21 @@ const SimpleMuiTable = () => {
     url.get("purchase-invoice-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-    
-      if (data.length){
-      
-     
-      setpoid(data[0].id)
-      setpodetails(data);
+
+      if (data.length) {
+
+
+        setpoid(data[0].id)
+        setpodetails(data);
       }
     });
     return () => setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -144,14 +144,14 @@ const SimpleMuiTable = () => {
     })
     // url.delete(`http://dataqueuesystems.com/amaco/amaco/public/api/products/${id}`)
     // .then(res => {
-    
+
 
     // })
     // getrow()
     // url.delete(url).then(res => {
     //     const del = employees.filter(employee => id !== employee.id)
     //     setEmployees(del)
-    
+
     // })
   }
   const columns = [
@@ -159,13 +159,13 @@ const SimpleMuiTable = () => {
       name: "index", // field name in the row object
       label: "S.No.", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth}>  
-              <span style={{marginLeft:18}}>S.No.</span> 
+            <TableCell key={index} style={columnStyleWithWidth}>
+              <span style={{ marginLeft: 18 }}>S.No.</span>
             </TableCell>
           )
-       }
+        }
       },
     },
     {
@@ -179,13 +179,13 @@ const SimpleMuiTable = () => {
       name: "fname", // field name in the row object
       label: "Company Name", // column title that will be shown in table
       options: {
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1}>  
-              <span style={{marginLeft:18}}>Company Name</span> 
+            <TableCell key={index} style={columnStyleWithWidth1}>
+              <span style={{ marginLeft: 18 }}>Company Name</span>
             </TableCell>
           )
-       }
+        }
       },
     },
     {
@@ -229,21 +229,21 @@ const SimpleMuiTable = () => {
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          
+
           return (
             <span>
-               {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
-            <Link to={"/poinvoice/"+tableMeta.rowData[5]}>
-              <Tooltip title="View More">
-                <Icon color="primary">remove_red_eye</Icon>
-              </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
+              <Link to={"/poinvoice/" + tableMeta.rowData[5]}>
+                <Tooltip title="View More">
+                  <Icon color="primary">remove_red_eye</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </span>
+            </span>
 
           )
 
@@ -262,9 +262,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -275,17 +275,17 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-      <div className="flex flex-wrap justify-between pt-2">
-        <Breadcrumb
-          routeSegments={[
-            // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
-            { name: "Purchase Order" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <div className="flex flex-wrap justify-between pt-2">
+            <Breadcrumb
+              routeSegments={[
+                // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
+                { name: "Purchase Order" },
+              ]}
+            />
 
-        <div className="text-right">
-          {/* <Link to={"/sales/rfq-form/Rfqform"}>
+            <div className="text-right">
+              {/* <Link to={"/sales/rfq-form/Rfqform"}>
             <Button
               className="py-2"
               variant="outlined"
@@ -294,45 +294,45 @@ const SimpleMuiTable = () => {
               <Icon>add</Icon> Add New 
           </Button>
           </Link> */}
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
-      <MUIDataTable
-        title={"Purchase Order"}
-        data={dummyData.map((item, index) => {
-          
+        <MUIDataTable
+          title={"Purchase Order"}
+          data={dummyData.map((item, index) => {
+
             return [
               ++index,
               item.po_number,
               item.firm_name,
               moment(item.created_at).format('DD MMM YYYY'),
-              parseFloat(item.net_amount).toLocaleString(undefined, {minimumFractionDigits:2}),
+              parseFloat(item.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item.id
             ]
-          
-        })}
-        columns={columns}
-        options={{
-          // filterType: "textField",
-          // responsive: "simple",
-          // selectableRows: "none", // set checkbox for each row
-          // search: false, // set search option
-          // filter: false, // set data filter option
-          // download: false, // set download option
-          // print: false, // set print option
-          // pagination: true, //set pagination option
-          // viewColumns: false, // set column option
-          // elevation: 0,
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          filterType: "dropdown",
-          responsive: "scrollMaxHeight",
-          rowsPerPage: 10,
-          
-          
-        }}
-      />
-    </div>
+
+          })}
+          columns={columns}
+          options={{
+            // filterType: "textField",
+            // responsive: "simple",
+            // selectableRows: "none", // set checkbox for each row
+            // search: false, // set search option
+            // filter: false, // set data filter option
+            // download: false, // set download option
+            // print: false, // set print option
+            // pagination: true, //set pagination option
+            // viewColumns: false, // set column option
+            // elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            filterType: "dropdown",
+            responsive: "scrollMaxHeight",
+            rowsPerPage: 10,
+
+
+          }}
+        />
+      </div>
     </div>
   );
 }

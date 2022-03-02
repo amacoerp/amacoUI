@@ -5,7 +5,7 @@ import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
-import url from "../../invoice/InvoiceService";
+import url, { navigatePath } from "../../invoice/InvoiceService";
 import moment from "moment";
 
 // import { Button } from 'react-bootstrap';
@@ -63,10 +63,10 @@ const PurchaseReturn = () => {
         return () => setIsAlive(false);
     }, [isAlive]);
     const [count, setCount] = useState(0);
-    const history = useHistory();
+    const routerHistory = useHistory();
     const handeViewClick = (invoiceId) => {
 
-        history.push(`/rfqanalysis/${invoiceId}`);
+        routerHistory.push(`/rfqanalysis/${invoiceId}`);
     };
 
     function getrow(id) {
@@ -264,7 +264,7 @@ const PurchaseReturn = () => {
                     return (
                         <div style={{ textAlign: "right" }} className="pr-8">
                             {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
-                            <Link to={"/prinvoice/" + tableMeta.rowData[5]}>
+                            <Link to={navigatePath + "/prinvoice/" + tableMeta.rowData[5]}>
                                 <Tooltip title="View More">
                                     <Icon color="primary">remove_red_eye</Icon>
                                 </Tooltip>
@@ -332,7 +332,7 @@ const PurchaseReturn = () => {
                 </div>
                 <MUIDataTable
                     title={"PURCHASE RETURN"}
-                    data={podetails.map((item, index) => {
+                    data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
 
                         return [
                             ++index,

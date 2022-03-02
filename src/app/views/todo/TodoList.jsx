@@ -13,12 +13,13 @@ import { debounce } from "lodash";
 import { useHistory } from "react-router-dom";
 
 const TodoList = ({ query }) => {
+  const routerHistory = useHistory();
+
   const [isAlive, setIsAlive] = useState(true);
   const [todoList, setTodoList] = useState([]);
   const [tagList, setTagList] = useState([]);
   const [filteredTodoList, setFilteredTodoList] = useState([]);
 
-  const history = useHistory();
 
   const getAllTodoAndTagList = useCallback(async () => {
     let [{ data: todoList }, { data: tagList }] = await Promise.all([
@@ -193,7 +194,7 @@ const TodoList = ({ query }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => history.push("/todo/list/add")}
+            onClick={() => routerHistory.push("/todo/list/add")}
           >
             Create Todo
           </Button>

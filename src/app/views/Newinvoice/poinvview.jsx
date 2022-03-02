@@ -59,7 +59,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         top: 0,
         left: 0,
         width: "100%",
-        
+
       },
       "#footer": {
         //     display:"-webkit-box",
@@ -157,18 +157,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   });
   const { id } = useParams();
   const classes = useStyles();
-  
+
   const { settings, updateSettings } = useSettings();
   let fval;
 
   useEffect(() => {
 
 
-    
+
     updateSidebarMode({ mode: "close" })
     document.title = "VAT Invoice - Amaco"
     url.get("purchase-invoice/" + id).then(({ data }) => {
-      
+
       if (data) {
         setdis_per(data[0].discount_in_percentage)
         setpodetails(data[0].purchase_invoice_detail)
@@ -185,8 +185,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         settotal_value(data[0].total_value)
         let words = toWords.convert(parseFloat(data[0].grand_total));
         let riyal = words.replace("Rupees", "Riyals");
-        let halala =  riyal.replace("Paise", "Halala")
-         
+        let halala = riyal.replace("Paise", "Halala")
+
         setress(halala);
         // setfirm_name_in_ar(data[0].quotation.party.firm_name_in_ar)
       }
@@ -209,7 +209,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       // setfirm_name_in_ar(data[0].party.firm_name_in_ar)
 
     });
-   
+
   }, [id]);
   const updateSidebarMode = (sidebarSettings) => {
     if (sidebarSettings.mode == "close") {
@@ -341,7 +341,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     })
   }
   const handlePrint = () => window.print();
-  window.onafterprint = function(){ window.close()
+  window.onafterprint = function () {
+    window.close()
     window.location.href = ``
   };
 
@@ -393,15 +394,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       </div>
 
       <div id="print-area">
-      <header id="header">
+        <header id="header">
 
-<div className="px-2 flex justify-between">
-  <div className="flex">
-    <div className="pr-12">
-      <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
+          <div className="px-2 flex justify-between">
+            <div className="flex">
+              <div className="pr-12">
+                <img src={logo} alt="this is car image" style={{ marginLeft: '15px', width: 237 }} />
 
-    </div>
-    {/* <div className="pr-12">
+              </div>
+              {/* <div className="pr-12">
     <h4><IntlProvider locale={locale} messages={Arabic}>
         <FormattedMessage
           id="app.channel.plug"
@@ -421,39 +422,39 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       </h6>
       
     </div> */}
-    <div className="viewer__order-info px-4 mb-4 flex justify-between">
-    </div>
-  </div>
-  <div className="flex" align="right">
-    {/* <div className="pr-12">
+              <div className="viewer__order-info px-4 mb-4 flex justify-between">
+              </div>
+            </div>
+            <div className="flex" align="right">
+              {/* <div className="pr-12">
 
       <img src={logos} alt="this is car image" style={{ width: 150 }} />
     </div> */}
-    <div>
-    <h4 style={{color:'#00008B'}}><IntlProvider locale={locale} messages={Arabic}>
-        <FormattedMessage
-          id="app.channel.plug"
-          defaultMessage="Amaco Arabia Contracting Company"
-          values="Amaco Arabia Contracting Company"
-        />
-      </IntlProvider></h4>
-      <h5 className="font-normal b-4  capitalize">
-        <strong style={{color:'#00008B'}}>AMACO ARABIA CONTRACTING COMPANY
-      
-      </strong>
-      </h5>
-      <h6 className="font-normal b-4 capitalize" style={{color:'#555'}}>
-       C.R No. 205500334 | VAT No. 810398615200003
+              <div>
+                <h4 style={{ color: '#00008B' }}><IntlProvider locale={locale} messages={Arabic}>
+                  <FormattedMessage
+                    id="app.channel.plug"
+                    defaultMessage="Amaco Arabia Contracting Company"
+                    values="Amaco Arabia Contracting Company"
+                  />
+                </IntlProvider></h4>
+                <h5 className="font-normal b-4  capitalize">
+                  <strong style={{ color: '#00008B' }}>AMACO ARABIA CONTRACTING COMPANY
+
+                  </strong>
+                </h5>
+                <h6 className="font-normal b-4 capitalize" style={{ color: '#555' }}>
+                  C.R No. 205500334 | VAT No. 810398615200003
 
 
-      </h6>
-      
-    </div>
-  </div>
-</div>
+                </h6>
+
+              </div>
+            </div>
+          </div>
 
 
-</header>
+        </header>
 
         <hr></hr>
         <div className="px-4 flex justify-between">
@@ -607,27 +608,26 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           <div />
         </div> */}
 
-        <Card className="mb-4" elevation={0} title="Rfq Details" borderRadius="borderRadius">
+        <Card className="mb-4" elevation={0} borderRadius="borderRadius">
           <div className="viewer__order-info px-4 mb-4 flex justify-between">
             <Table style={{ border: "1px solid rgb(0, 0, 0)" }}>
               <TableHead>
                 <TableRow style={{ border: "1px solid rgb(0, 0, 0)" }}>
                   <TableCell className="pl-0" colspan={1} style={{ border: "1px solid rgb(0, 0, 0)", width: "50px" }} align="center">رقم<br></br>S.No.</TableCell>
                   <TableCell className="px-0" colspan={3} style={{ border: "1px solid rgb(0, 0, 0)" }} align="center">وصف<br></br>DESCRIPTION</TableCell>
-
                   <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)", width: "70px" }} align="center">وحدة<br></br>UOM</TableCell>
                   <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)" }} align="center">كمية<br></br>QTY</TableCell>
                   <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)" }} align="center">سعر الوحدة<br></br>UNIT PRICE</TableCell>
-                  <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)",wordBreak:'break-word' }} align="center">المبلغ الخاضع للضريبة<br></br>TAXABLE AMOUNT</TableCell>
+                  <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)", wordBreak: 'break-word' }} align="center">المبلغ الخاضع للضريبة<br></br>TAXABLE AMOUNT</TableCell>
                   <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)" }} align="center">القيمة الضريبية<br></br>TAX VALUE (15%)</TableCell>
                   <TableCell className="px-0" style={{ border: "1px solid rgb(0, 0, 0)" }} align="center">مجموع<br></br>TOTAL</TableCell>
-  
+
                 </TableRow>
               </TableHead>
               <TableBody >
                 {podetails.map((item, index) => {
 
-                  
+
 
                   return (
 
@@ -661,7 +661,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         {((item.total_amount * 15) / 100).toFixed(2)}
                       </TableCell>
                       <TableCell className="pl-0 capitalize" style={{ textAlign: "right", border: "1px solid rgb(0, 0, 0)" }} >
-                     {(parseFloat(item.total_amount)+(item.total_amount * 15) / 100).toFixed(2)}
+                        {(parseFloat(item.total_amount) + (item.total_amount * 15) / 100).toFixed(2)}
                       </TableCell>
 
 
@@ -698,11 +698,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
 
                   </TableCell>
-                  <TableCell className="pl-0 capitalize" align="center" style={{ border: "1px solid rgb(0, 0, 0)",wordBreak:'break-word' }}>
+                  <TableCell className="pl-0 capitalize" align="center" style={{ border: "1px solid rgb(0, 0, 0)", wordBreak: 'break-word' }}>
                     المبلغ الخاضع للضريبة
-                  <br></br>
-                  
-                  TAXABLE AMOUNT
+                    <br></br>
+
+                    TAXABLE AMOUNT
 
                   </TableCell>
                   <TableCell className="pl-0 capitalize" align="right" style={{ border: "1px solid rgb(0, 0, 0)" }}>
@@ -723,9 +723,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                 <TableRow style={{ border: "1px solid rgb(0, 0, 0)" }}>
                   <TableCell className="pl-0 capitalize" align="center" style={{ border: "1px solid rgb(0, 0, 0)" }}>
                     القيمة الضريبية
-                  <br></br>
-                  
-                  TAX VALUE (15%)
+                    <br></br>
+
+                    TAX VALUE (15%)
                   </TableCell>
                   <TableCell className="pl-0 capitalize" align="right" style={{ border: "1px solid rgb(0, 0, 0)" }}>
                     {vat_in_value}
@@ -743,7 +743,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
                   </TableCell>
                   <TableCell className="pl-0 capitalize" align="center" style={{ border: "1px solid rgb(0, 0, 0)" }}>
-                   
+
                     TOTAL INC.VAT
                   </TableCell>
                   <TableCell className="pl-0 capitalize" align="right" style={{ border: "1px solid rgb(0, 0, 0)" }}>
@@ -766,8 +766,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   />
                 </IntlProvider>
               </h5>
-                 Prepared By
-              </div>
+              Prepared By
+            </div>
             <div>
               <h5 className="font-normal t-4 capitalize">
                 <IntlProvider locale={locale} messages={Arabic}>
@@ -777,8 +777,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   />
                 </IntlProvider>
               </h5>
-                 Approved By
-              </div>
+              Approved By
+            </div>
             <div className="mr-24">
               <h5 className="font-normal t-4 capitalize">
                 <IntlProvider locale={locale} messages={Arabic}>
@@ -788,8 +788,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   />
                 </IntlProvider>
               </h5>
-                 Received By
-              </div>
+              Received By
+            </div>
           </div>
 
         </Card>
@@ -798,17 +798,17 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         </div>
 
         <footer id="footer" style={{ visibility: "hidden" }}>
-        <div style={{ fontSize: '8px', visibility: "hidden" }} style={{'borderBottom': '25px solid #555','borderLeft': '50px solid transparent','height': 0,'width': '100%',marginLeft:'10%'}}>
-          
-          <span style={{color:'#fff'}}>Tel: +966 1336323871 | P.O.Box 7452 | Jubail 31951 | Kingdom of Saudi Arabia</span>
-                
-        </div>
-        <div style={{ fontSize: '8px', visibility: "hidden" }} style={{'borderBottom': '25px solid #00008B','height': 0,'width': '100%',alignItems:'center'}}>
-          
-          <span style={{color:'#fff'}}>Tel: +966 1336323871 | P.O.Box 7452 | Jubail 31951 | Kingdom of Saudi Arabia</span>
-                
-        </div>
-        
+          <div style={{ fontSize: '8px', visibility: "hidden" }} style={{ 'borderBottom': '25px solid #555', 'borderLeft': '50px solid transparent', 'height': 0, 'width': '100%', marginLeft: '10%' }}>
+
+            <span style={{ color: '#fff' }}>Tel: +966 1336323871 | P.O.Box 7452 | Jubail 31951 | Kingdom of Saudi Arabia</span>
+
+          </div>
+          <div style={{ fontSize: '8px', visibility: "hidden" }} style={{ 'borderBottom': '25px solid #00008B', 'height': 0, 'width': '100%', alignItems: 'center' }}>
+
+            <span style={{ color: '#fff' }}>Tel: +966 1336323871 | P.O.Box 7452 | Jubail 31951 | Kingdom of Saudi Arabia</span>
+
+          </div>
+
         </footer>
       </div>
 

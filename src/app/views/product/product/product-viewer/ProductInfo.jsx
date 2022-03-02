@@ -1,4 +1,4 @@
-import React,{ useState, useEffect}from "react";
+import React, { useState, useEffect } from "react";
 // import { Breadcrumb,ConfirmationDialog } from "matx";
 // import Tooltip from '@material-ui/core/Tooltip';
 // import Axios from "axios";
@@ -17,35 +17,38 @@ import {
 // import FormDialog from "../../partycontact"
 // import MemberEditorDialog from "../../partycontact"
 import url from "../../../invoice/InvoiceService"
+import { useParams, useHistory } from "react-router-dom";
 
 
 const ProductInfo = () => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
-  const foo =parseInt(params.get('id'));
+  // const foo = parseInt(params.get('id'));
+  const { id } = useParams();
+
   const [productList, setproductList] = useState(false);
- 
+
   useEffect(() => {
 
-   
-    url.get("products/"+foo).then(({ data }) => {
-          
-        setproductList(data.product[0]);
-       
-      });
+
+    url.get("products/" + id).then(({ data }) => {
+
+      setproductList(data.product[0]);
+
+    });
 
   }, []);
 
-  
 
-    
+
+
   return (
-    
+
     <Card className="pt-6" elevation={3}>
       <div className="flex-column items-center mb-6">
         {/* <Avatar className="w-84 h-84" src="/assets/images/faces/10.jpg" /> */}
         <h3 className="mt-4 mb-2">{productList.name}</h3>
-        
+
         <h5><small className="text-muted"><strong>Model Number:</strong>{productList.model_no}</small></h5>
         {/* <small className="text-muted"><strong>Vat Number:</strong>{productList.vat_no}</small> */}
         {/* <div className="flex-row">
@@ -61,43 +64,43 @@ const ProductInfo = () => {
       <Divider />
       <Table className="mb-4">
         <TableBody>
-        
-           
-        <TableRow>
-              <TableCell className="pl-4">Category Name</TableCell>
-              <TableCell>{productList.category_name}</TableCell>
-              </TableRow>
-              <TableRow>
-              <TableCell className="pl-4">Manufacturer</TableCell>
-              <TableCell>{productList.manufacturer_name}</TableCell>
-              </TableRow>
-              
-              <TableRow>
-              <TableCell className="pl-4" >Description</TableCell>
-              <TableCell style={{whiteSpace:'unset',wordBreak:'break-word'}}>{productList.description}</TableCell>
-              </TableRow>
-              <TableRow>
-              <TableCell className="pl-4">UOM</TableCell>
-              <TableCell>{productList.unit_of_measure}</TableCell>
-            </TableRow>
-            
-            
-            <TableRow>
-              <TableCell className="pl-4">Product Type</TableCell>
-              <TableCell >{productList.type}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="pl-4">HSN Number</TableCell>
-              <TableCell>{productList.hsn_code}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="pl-4">Initial Quantity</TableCell>
-              <TableCell>{productList.initial_quantity}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="pl-4">Minimum Quantity</TableCell>
-              <TableCell>{productList.minimum_quantity}</TableCell>
-            </TableRow>
+
+
+          <TableRow>
+            <TableCell className="pl-4">Category Name</TableCell>
+            <TableCell>{productList.category_name}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Manufacturer</TableCell>
+            <TableCell>{productList.manufacturer_name}</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="pl-4" >Description</TableCell>
+            <TableCell style={{ whiteSpace: 'unset', wordBreak: 'break-word' }}>{productList.description}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">UOM</TableCell>
+            <TableCell>{productList.unit_of_measure}</TableCell>
+          </TableRow>
+
+
+          <TableRow>
+            <TableCell className="pl-4">Product Type</TableCell>
+            <TableCell >{productList.type}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">HSN Number</TableCell>
+            <TableCell>{productList.hsn_code}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Initial Quantity</TableCell>
+            <TableCell>{productList.initial_quantity}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Minimum Quantity</TableCell>
+            <TableCell>{productList.minimum_quantity}</TableCell>
+          </TableRow>
           {/* ))} */}
         </TableBody>
       </Table>
@@ -118,7 +121,7 @@ const ProductInfo = () => {
           Login as Customer
         </Button>
       </div> */}
-      
+
     </Card>
   );
 };

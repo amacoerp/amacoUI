@@ -16,7 +16,7 @@ import {
   Tooltip,
   // capitalize
 } from "@material-ui/core";
-import {  ConfirmationDialog } from "matx";
+import { ConfirmationDialog } from "matx";
 import url, { GDIV, getparties } from "../../../invoice/InvoiceService"
 import MemberEditorDialog from "../../partycontact"
 // import FormDialog from "../../partycontact"
@@ -24,11 +24,11 @@ import MemberEditorDialog from "../../partycontact"
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 
-const ContactDetails = () => {
+const ContactDetails = ({ ids }) => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
   const foo = parseInt(params.get('id'));
-  
+
   // var i = 1;
   const [customercontact, setcustomercontact] = useState([]);
   // const [userList, setUserList] = useState([]);
@@ -39,14 +39,14 @@ const ContactDetails = () => {
   // const [email, setemail] = useState('');
   // const [contact1, setcontact1] = useState('');
   // const [contact2, setcontact2] = useState('');
- 
+
   // const [designation, setdesignation] = useState('');
   const [status, setstatus] = useState('');
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isAlive, setisAlive] = React.useState(false);
-  const formData=new FormData();
+  const formData = new FormData();
   // function handleClick(event) {
   //   setAnchorEl(event.currentTarget);
   // }
@@ -72,9 +72,9 @@ const ContactDetails = () => {
   function handleClose() {
     setAnchorEl(null);
   }
-  const DeleteRow=(data,status)=>{
-    
-    var res=customercontact.filter((o1,ind) => data.data.some((o2,i) => ind == o2.index))
+  const DeleteRow = (data, status) => {
+
+    var res = customercontact.filter((o1, ind) => data.data.some((o2, i) => ind == o2.index))
     Swal.fire({
       text: 'Are you sure you want to Delete?',
       icon: 'warning',
@@ -86,62 +86,61 @@ const ContactDetails = () => {
       cancelButtonText: 'No, keep it',
     }).then((result) => {
       if (result.value) {
-        formData.append('data',JSON.stringify(res))
-        formData.append('status','contact')
-        url.post(`partyDelete_all`,formData).then((response) => {
+        formData.append('data', JSON.stringify(res))
+        formData.append('status', 'contact')
+        url.post(`partyDelete_all`, formData).then((response) => {
           Swal.fire(
             'Deleted!',
             'Contact Details has been deleted.',
             'success'
           )
-         setisAlive(false)
-         
-        
-        
+          setisAlive(false)
 
+
+
+
+        })
+
+
+
+
+
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          customClass: {
+            zIndex: 1000
+          },
+          title: 'Cancelled',
+          icon: 'error'
+
+        })
+      }
     })
-  
-          
-          
-       
-      
-    }
-    else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire({
-        customClass:{
-          zIndex: 1000
-        },
-         title:'Cancelled',
-         icon:'error'
-        
-      })
-    }
-  })
- 
+
   }
 
   // const handleDeleteUser = (user) => {
 
   //   setShouldOpenConfirmationDialog(true);
-    
+
   // };
 
   useEffect(() => {
 
-
-    url.get("parties/" + foo).then(({ data }) => {
+    url.get("parties/" + ids).then(({ data }) => {
       setcustomercontact(data[0].contacts);
       setbankdetails(data)
-      
-     
+
+
     });
     return setisAlive(true)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAlive]);
   const removeData = (id) => {
     handleClose()
-   
+
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
       title: 'Are you sure?',
@@ -153,22 +152,22 @@ const ContactDetails = () => {
     }).then((result) => {
       if (result.value) {
         url.delete(`contact/${id}`)
-    .then(res => {
-        
-        Swal.fire(
-          'Deleted!',
-          'Your Contactdetails has been deleted.',
-          'success'
-        )
-        getData();
-        
-    })
-  
-    
-    
-        
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
+          .then(res => {
+
+            Swal.fire(
+              'Deleted!',
+              'Your Contactdetails has been deleted.',
+              'success'
+            )
+            getData();
+
+          })
+
+
+
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -177,174 +176,174 @@ const ContactDetails = () => {
         )
       }
     })
-    
-}
-const getData = () => {
-  url.get("parties/" + foo).then(({ data }) => {
-    setcustomercontact(data[0].contacts);
-    
-  });
-}
-const columns = [
-  {
+
+  }
+  const getData = () => {
+    url.get("parties/" + ids).then(({ data }) => {
+      setcustomercontact(data[0].contacts);
+
+    });
+  }
+  const columns = [
+    {
       name: "id", // field name in the row object
       label: "S.No.", // column title that will be shown in table
       options: {
-         
-          filter: true,
-          customHeadRender: ({index, ...column}) =>{
-            return (
-              <TableCell key={index} width={50} style={{textAlign:"center"}} >  
-                <span style={{marginLeft:15}} >S.NO.</span> 
-              </TableCell>
-            )
-         },
-         setCellProps:()=>({
-           align:"center"
-         })
-      },
-  },
-  {
-    name: "id", // field name in the row object
-    label: "NAME", // column title that will be shown in table
-    options: {
-       
+
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index}  style={{textAlign:"center"}} >  
-              <span  >NAME</span> 
+            <TableCell key={index} width={50} style={{ textAlign: "center" }} >
+              <span style={{ marginLeft: 15 }} >S.NO.</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-        align:"center"
-      })
-    },
-},
-{
-  name: "id", // field name in the row object
-  label: "DESIGNATION", // column title that will be shown in table
-  options: {
-     
-      filter: true,
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index}  style={{textAlign:"center"}} >  
-            <span >DESIGNATION</span> 
-          </TableCell>
-        )
-     },
-     setCellProps:()=>({
-      align:"center"
-    })
-  },
-},
-// {
-//   name: "id", // field name in the row object
-//   label: "ADDRESS", // column title that will be shown in table
-//   options: {
-     
-//       filter: true,
-//   },
-// },
-{
-  name: "id", // field name in the row object
-  label: "CONTACT", // column title that will be shown in table
-  options: {
-     
-      filter: true,
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index}  style={{textAlign:"center"}} >  
-            <span >CONTACT</span> 
-          </TableCell>
-        )
-     },
-     setCellProps:()=>({
-      align:"center"
-    })
-  },
-},
-{
-  name: "id", // field name in the row object
-  label: "EMAIL", // column title that will be shown in table
-  options: {
-     
-      filter: true,
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} width={300} style={{textAlign:"center"}} >  
-            <span style={{marginLeft:15}} >EMAIL</span> 
-          </TableCell>
-        )
-     },
-     setCellProps:()=>({
-      align:"center"
-    })
-  },
-},
-{
-  name: "id",
-  label: "ACTION",
-  options: {
-      filter: true,
-      customHeadRender: ({index, ...column}) =>{
-        return (
-          <TableCell key={index} style={{textAlign:'right'}} className="pr-10">  
-            <span style={{marginLeft:15}}>ACTION</span> 
-          </TableCell>
-        )
-     },
-      customBodyRender: (value, tableMeta, updateValue) => {
-       
-          return (
-           <div className="pr-8" style={{textAlign:'right'}}>
-          <Tooltip title="Edit contact details">
-                    <Icon color="secondary" onClick={() => {
-                    setcontacts(tableMeta.rowData[5]);
-                  }}>edit</Icon>
-                    
-                    </Tooltip>
-                    
-                 
-                 
-                  <Tooltip title="Delete contact details">
-                    <Icon color="error" onClick={() => removeData(tableMeta.rowData[5])}>delete</Icon>
-                  </Tooltip>
-          </div>
-          
-          )
-          
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       },
-  },
-},
-]
+    },
+    {
+      name: "id", // field name in the row object
+      label: "NAME", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span  >NAME</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
+    },
+    {
+      name: "id", // field name in the row object
+      label: "DESIGNATION", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >DESIGNATION</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
+    },
+    // {
+    //   name: "id", // field name in the row object
+    //   label: "ADDRESS", // column title that will be shown in table
+    //   options: {
+
+    //       filter: true,
+    //   },
+    // },
+    {
+      name: "id", // field name in the row object
+      label: "CONTACT", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: "center" }} >
+              <span >CONTACT</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
+    },
+    {
+      name: "id", // field name in the row object
+      label: "EMAIL", // column title that will be shown in table
+      options: {
+
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} width={300} style={{ textAlign: "center" }} >
+              <span style={{ marginLeft: 15 }} >EMAIL</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      },
+    },
+    {
+      name: "id",
+      label: "ACTION",
+      options: {
+        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-10">
+              <span style={{ marginLeft: 15 }}>ACTION</span>
+            </TableCell>
+          )
+        },
+        customBodyRender: (value, tableMeta, updateValue) => {
+
+          return (
+            <div className="pr-8" style={{ textAlign: 'right' }}>
+              <Tooltip title="Edit contact details">
+                <Icon color="secondary" onClick={() => {
+                  setcontacts(tableMeta.rowData[5]);
+                }}>edit</Icon>
+
+              </Tooltip>
+
+
+
+              <Tooltip title="Delete contact details">
+                <Icon color="error" onClick={() => removeData(tableMeta.rowData[5])}>delete</Icon>
+              </Tooltip>
+            </div>
+
+          )
+
+        },
+      },
+    },
+  ]
   return (
     <div>
-    <Card elevation={3}>
-    <div className="flex flex-wrap justify-between mb-0"> 
-    <h5 className="p-4 pt-8">CONTACT</h5>
-      <div className="text-right">
-                
-                <Button
-            className="py-2"
-            style={{marginTop:"10px",marginRight:10}}
-            color="primary"
-            variant="outlined"
-            onClick={() => {
-              setShouldOpenEditorDialog(true);
-            }}
-          >
-          <Icon>add</Icon>
-          ADD NEW
-          </Button>
-         
+      <Card elevation={3}>
+        <div className="flex flex-wrap justify-between mb-0">
+          <h5 className="p-4 pt-8">CONTACT</h5>
+          <div className="text-right">
+
+            <Button
+              className="py-2"
+              style={{ marginTop: "10px", marginRight: 10 }}
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                setShouldOpenEditorDialog(true);
+              }}
+            >
+              <Icon>add</Icon>
+              ADD NEW
+            </Button>
+
           </div>
-          
-          </div>
-      <Divider />
-      {/* <Table >
+
+        </div>
+        <Divider />
+        {/* <Table >
         <TableHead>
           <TableRow>
             <TableCell className="pl-0" align="center">S.No.</TableCell>
@@ -399,77 +398,77 @@ const columns = [
           })}
         </TableBody>
       </Table> */}
-       <MUIDataTable
+        <MUIDataTable
 
-data={
-  customercontact.filter(obj=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
-   
-   
-      return [
+          data={
+            customercontact.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
 
-        ++index,
-        item.fname?.toLowerCase()
-        .split(' ')
-        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-        .join(' '),
-        item.designation?.toLowerCase()
-        .split(' ')
-        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-        .join(' '),
-        // item.address,
-        item.mobno,
-        item.email,
-        item.id,
-      ]
-    
-  })
-}
-columns={columns}
-options={{
-    filterType: "textField",
-    responsive: "simple",
-    selectableRows: "none",
-    filter: true,
-    selectableRows: 'multiple',
-    selectableRowsOnClick: true,
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-      <div>
-        <Tooltip title={"Delete"} cursor='pointer' className="mr-6">
-        <Icon onClick={()=>DeleteRow(selectedRows)}  color="error">delete</Icon>
-        </Tooltip>
-        
-        
-      </div>
-  
-      ),
-     
-    rowsPerPageOptions: [10, 20, 40, 80, 100],
-}}
 
-/>
-      <div>
-        {shouldOpenEditorDialog && (
-          <MemberEditorDialog
-            handleClose={handleDialogClose}
-            contactid={status}
-            partyid={foo}
-            open={shouldOpenEditorDialog}
-            customercontact={setcustomercontact}
+              return [
 
-          />
-        )}
-        {shouldOpenConfirmationDialog && (
-          <ConfirmationDialog
-            open={shouldOpenConfirmationDialog}
-            onConfirmDialogClose={handleDialogClose}
-            text="Are you sure to delete?"
-          />
-        )}
-      </div>
-    </Card>
-    
-      
-      </div>
+                ++index,
+                item.fname?.toLowerCase()
+                  .split(' ')
+                  .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                  .join(' '),
+                item.designation?.toLowerCase()
+                  .split(' ')
+                  .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                  .join(' '),
+                // item.address,
+                item.mobno,
+                item.email,
+                item.id,
+              ]
+
+            })
+          }
+          columns={columns}
+          options={{
+            filterType: "textField",
+            responsive: "simple",
+            selectableRows: "none",
+            filter: true,
+            selectableRows: 'multiple',
+            selectableRowsOnClick: true,
+            customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
+              <div>
+                <Tooltip title={"Delete"} cursor='pointer' className="mr-6">
+                  <Icon onClick={() => DeleteRow(selectedRows)} color="error">delete</Icon>
+                </Tooltip>
+
+
+              </div>
+
+            ),
+
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+          }}
+
+        />
+        <div>
+          {shouldOpenEditorDialog && (
+            <MemberEditorDialog
+              handleClose={handleDialogClose}
+              contactid={status}
+              partyid={ids}
+              open={shouldOpenEditorDialog}
+              customercontact={setcustomercontact}
+
+            />
+          )}
+          {shouldOpenConfirmationDialog && (
+            <ConfirmationDialog
+              open={shouldOpenConfirmationDialog}
+              onConfirmDialogClose={handleDialogClose}
+              text="Are you sure to delete?"
+            />
+          )}
+        </div>
+      </Card>
+
+
+    </div>
   );
 };
 

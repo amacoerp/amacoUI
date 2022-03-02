@@ -15,14 +15,14 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 // import { useParams, useHistory } from "react-router-dom";
 // import { getcategories } from "../invoice/InvoiceService";
-import history from "history.js";
+import { useHistory } from 'react-router';
 // import MatxSearchBox from "./productsearch";
 import {
   // Table,
   TableHead,
   TableCell,
   // TableBody,
-  IconButton,
+  IconButton, Badge,
   // TableRow,
   // Divider,
   Button,
@@ -64,6 +64,7 @@ const SimpleMuiTable = () => {
   const [originalList, setOriginalList] = useState([]);
   const [other, setOtherList] = useState([]);
   const [list, setList] = useState([]);
+  const [oCount, setOCount] = useState('');
   function handleClick(event, id) {
 
     url.get("sub-category/" + id).then(({ data }) => {
@@ -74,8 +75,10 @@ const SimpleMuiTable = () => {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleClose() {
+  const routerHistory = useHistory();
 
+  function handleClose() {
+    setcatid()
     setAnchorEl(null);
   }
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
@@ -87,13 +90,19 @@ const SimpleMuiTable = () => {
 
 
   useEffect(() => {
+
+    url.get("unCategorized-products").then(({ data }) => {
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+      setOCount(d.length)
+    });
     url.get("products").then(({ data }) => {
-      const d = data.filter(obj => obj.div_id == GDIV)
+      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       setUserList(d);
     });
     if (catid) {
       url.get("categories").then(({ data }) => {
-        const d = data.filter(obj => obj.div_id == GDIV)
+        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+
         setcatList(d);
         setOriginalList(d);
         setList(d);
@@ -103,7 +112,9 @@ const SimpleMuiTable = () => {
     }
     else {
       url.get("categories").then(({ data }) => {
-        const d = data.filter(obj => obj.div_id == GDIV)
+
+        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+
         setcatList(d);
         setOriginalList(d);
         setList(d);
@@ -201,7 +212,7 @@ const SimpleMuiTable = () => {
     //     setUserList(response.data)
 
     //   })
-    history.push(navigatePath+`/product/viewproduct/${user}`)
+    routerHistory.push(navigatePath + `/product/viewproduct/${user}`)
 
     setAnchorEl(null);
   };
@@ -395,7 +406,7 @@ const SimpleMuiTable = () => {
 
   const productUpdate = () => {
 
-    history.push(navigatePath+'/product/other');
+    routerHistory.push(navigatePath + '/product/other');
   }
 
 
@@ -461,16 +472,19 @@ const SimpleMuiTable = () => {
             </Card> */}
 
             {catList.map((item, ind) => (
-              <Grid item xs>
+              <Grid key={ind} item xs>
                 <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                   <div className="text-right">
+
                     <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
                       aria-haspopup="true"
                       onClick={(event) => handleClick(event, item.id)}
                     >
+
                       <Tooltip title="Subcategory list">
                         <Icon color="primary" style={{ paddingRight: 12 }}>expand_more</Icon>
                       </Tooltip>
+
                     </IconButton>
                   </div>
                   <Menu
@@ -491,16 +505,26 @@ const SimpleMuiTable = () => {
                       Sub Category
                     </MenuItem>
                     {subcatList.map((item) => (
-                      <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)} style={{ textAlign: "center" }} className="pl-4">
-                        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                        {item.name}
-                      </MenuItem>
+                      <>
+
+                        <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)} style={{ textAlign: "center" }} className="pl-4">
+                          {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+
+                          {item.name}
+                          <div>
+                            <Badge badgeContent={item.product} style={{ paddingRight: 15 }} color="primary" />
+                          </div>
+                        </MenuItem>
+
+                      </>
+
                     ))}
                   </Menu>
                   <div className="pb-5 flex justify-center">
                     <div style={{ display: 'flex', marginLeft: '0.5rem', textAlign: "center" }}>
 
-                      <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >{item.name.toUpperCase()}</h6></strong>
+                      <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >{item.name.toUpperCase()}<Badge badgeContent={item?.totalProducts} style={{ paddingRight: 8, position: "relative", left: 6, top: "-10px" }} color="primary" />
+                      </h6></strong>
                     </div>
                     <div className="px-4">
                       {/* <IconButton size="small"  aria-owns={anchorEl ? "simple-menu" : undefined}
@@ -544,11 +568,13 @@ const SimpleMuiTable = () => {
             <Grid onClick={productUpdate} item xs>
               <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
                 <div className="text-right">
+                  <Badge badgeContent={oCount} style={{ paddingRight: 12, position: "relative", left: 20 }} color="primary" />
+
                   <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
                   // onClick={(event) => handleClick(event, item.id)}
                   >
-                    <Tooltip title="Subcategory list">
+                    <Tooltip title="Other">
                       <Icon color="primary" style={{ paddingRight: 12 }}></Icon>
                     </Tooltip>
                   </IconButton>

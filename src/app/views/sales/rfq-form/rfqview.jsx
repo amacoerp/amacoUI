@@ -3,9 +3,9 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
-import url, { navigatePath,GDIV } from "../../invoice/InvoiceService"
+import url, { navigatePath, GDIV } from "../../invoice/InvoiceService"
 import moment from "moment";
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -29,13 +29,13 @@ const columnStyleWithWidth = {
   backgroundColor: "#fff",
   width: "80px",
   wordBreak: "break-all",
-  textAlign:"center"
+  textAlign: "center"
 }
 const columnStyleWithWidth1 = {
   top: "0px",
   left: "0px",
   zIndex: "100",
-  textAlign:"center",
+  textAlign: "center",
   position: "sticky",
   backgroundColor: "#fff",
   width: "500px",
@@ -52,21 +52,21 @@ const SimpleMuiTable = () => {
     url.get("rfq").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-      
-     
-      if (data.length!==0){
+
+
+      if (data.length !== 0) {
         setUserList(data);
-      
+
         setrfq_details(data[0].rfq_details);
       }
     });
     return () => setIsAlive(false);
   }, []);
   const [count, setCount] = useState(0);
-  const history = useHistory();
+  const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-    
-    history.push(`/rfqanalysis/${invoiceId}`);
+
+    routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
   function getrow(id) {
@@ -119,7 +119,7 @@ const SimpleMuiTable = () => {
           })
 
 
-        
+
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -128,66 +128,66 @@ const SimpleMuiTable = () => {
         )
       }
     })
-    
+
   }
   const columns = [
     {
       name: "id", // field name in the row object
       label: "S.NO.", // column title that will be shown in table
       options: {
-       
-        customHeadRender: ({index, ...column}) =>{
+
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth} className="pr-0">  
-              <span >S.NO.</span> 
+            <TableCell key={index} style={columnStyleWithWidth} className="pr-0">
+              <span >S.NO.</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-         align:"center"
-       })
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
       }
     },
     {
       name: "fname", // field name in the row object
       label: "COMPANY NAME", // column title that will be shown in table
-      options : {
-				customHeadRender: ({index, ...column}) =>{
+      options: {
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1}>  
-              <span style={{marginLeft:18,align:"center"}}>COMPANY NAME</span> 
+            <TableCell key={index} style={columnStyleWithWidth1}>
+              <span style={{ marginLeft: 18, align: "center" }}>COMPANY NAME</span>
             </TableCell>
           )
-       },
-       setCellProps:()=>({
-         align:"center"
-       })
-			}
+        },
+        setCellProps: () => ({
+          align: "center"
+        })
+      }
     },
     {
       name: "name",
       label: "RFQ DATE",
-      options : {
-				customHeadRender : (value, tableMeta, updateValue) => {
-					return (
-						<TableCell   style={{textAlign:"center"}}> <span style={{align:"center"}}>RFQ DATE</span>  </TableCell> )
-				},
-        setCellProps:()=>({
-          align:"center"
+      options: {
+        customHeadRender: (value, tableMeta, updateValue) => {
+          return (
+            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>RFQ DATE</span>  </TableCell>)
+        },
+        setCellProps: () => ({
+          align: "center"
         })
-			}
+      }
     },
     {
       name: "require_date",
       label: "BID CLOSING DATE",
       options: {
         filter: true,
-        customHeadRender : (value, tableMeta, updateValue) => {
-					return (
-						<TableCell   style={{textAlign:"center"}}> <span style={{align:"center"}}>RFQ DATE</span>  </TableCell> )
-				},
-        setCellProps:()=>({
-          align:"center"
+        customHeadRender: (value, tableMeta, updateValue) => {
+          return (
+            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>BID CLOSING DATE</span>  </TableCell>)
+        },
+        setCellProps: () => ({
+          align: "center"
         })
       },
     },
@@ -196,27 +196,27 @@ const SimpleMuiTable = () => {
       label: "ACTION",
       options: {
         filter: true,
-        customHeadRender: ({index, ...column}) =>{
+        customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{textAlign:'right'}} className="pr-8">  
-              <span style={{marginLeft:18}}>ACTION</span> 
+            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-8">
+              <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
           )
-       },
+        },
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-           <div style={{textAlign:'right'}} className="pr-8">
-            <Link to={navigatePath+"/invoice/" + tableMeta.rowData[4]}>
-              <Tooltip title="View More">
-                <Icon color="primary">remove_red_eye</Icon>
-             </Tooltip>
-            </Link>
-            {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+            <div style={{ textAlign: 'right' }} className="pr-8">
+              <Link to={navigatePath + "/invoice/" + tableMeta.rowData[4]}>
+                <Tooltip title="View More">
+                  <Icon color="primary">remove_red_eye</Icon>
+                </Tooltip>
+              </Link>
+              {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
             </IconButton>
           </Link> */}
-          </div>
+            </div>
 
           )
 
@@ -235,9 +235,9 @@ const SimpleMuiTable = () => {
     //               <Icon color="secondary">find_in_page</Icon>
     //             </IconButton>
     //           </Link>
-  
+
     //         )
-  
+
     //       },
     //     },
     // },
@@ -248,77 +248,77 @@ const SimpleMuiTable = () => {
   return (
     <div>
       <div className="m-sm-30">
-      <div className="mb-sm-30">
-      <div className="flex flex-wrap justify-between">
-        <Breadcrumb
-          routeSegments={[
-            { name: "ADD NEW", path: navigatePath+"/sales/rfq-form/Rfqform" },
-            { name: "RFQ" },
-          ]}
-        />
+        <div className="mb-sm-30">
+          <div className="flex flex-wrap justify-between">
+            <Breadcrumb
+              routeSegments={[
+                { name: "RFQ", path: navigatePath + "/sales/rfq-form/rfqview" },
+                { name: "VIEW" },
+              ]}
+            />
 
-        <div className="text-right">
-          <Link to={navigatePath+"/sales/rfq-form/Rfqform"}>
-            <Button
-              className="mt-2 py-2"
-              variant="outlined"
-              color="primary"
-            >
-              <Icon>add</Icon> ADD NEW 
-          </Button>
-          </Link>
+            <div className="text-right">
+              <Link to={navigatePath + "/sales/rfq-form/Rfqform"}>
+                <Button
+                  className="mt-2 py-2"
+                  variant="outlined"
+                  color="primary"
+                >
+                  <Icon>add</Icon> ADD NEW
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
-      <MUIDataTable
-        title={"RFQ"}
-        data={userList.filter(obj=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
-       
-         
+        <MUIDataTable
+          title={"RFQ"}
+          data={userList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+
+
             return [
 
               ++index,
-              item.party[0].firm_name,
+              item?.party[0]?.firm_name,
               // ++index,
-              moment(item.requested_date).format('DD MMM YYYY'),
-              moment(item.require_date).format('DD MMM YYYY'),
-              item.id,
+              moment(item?.requested_date).format('DD MMM YYYY'),
+              moment(item?.require_date).format('DD MMM YYYY'),
+              item?.id,
             ]
-          
-        })}
-        columns={columns}
-        options={{
-          // filterType: "textField",
-          // responsive: "simple",
-          // selectableRows: "none", // set checkbox for each row
-          // search: false, // set search option
-          // filter: false, // set data filter option
-          // download: false, // set download option
-          // print: false, // set print option
-          // pagination: true, //set pagination option
-          // viewColumns: false, // set column option
-          // elevation: 0,
-          rowsPerPageOptions: [10, 20, 40, 80, 100],
-          selectableRows: "none",
-          // filterType: "dropdown",
-          rowsPerPage: 10,
-          // expandableRows: true,
-          // expandableRowsOnClick: true,
-          renderExpandableRow: (rowData, rowMeta) => {
-            
-            return (
-              <tr>
-                <td colSpan={6}>
-                  <Table style={{ minWidth: "650" }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>product Name</TableCell>
-                        <TableCell>description</TableCell>
-                        <TableCell>Quantity</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {/* {userList.map((item, index) => {
+
+          })}
+          columns={columns}
+          options={{
+            // filterType: "textField",
+            // responsive: "simple",
+            // selectableRows: "none", // set checkbox for each row
+            // search: false, // set search option
+            // filter: false, // set data filter option
+            // download: false, // set download option
+            // print: false, // set print option
+            // pagination: true, //set pagination option
+            // viewColumns: false, // set column option
+            // elevation: 0,
+            rowsPerPageOptions: [10, 20, 40, 80, 100],
+            selectableRows: "none",
+            // filterType: "dropdown",
+            rowsPerPage: 10,
+            // expandableRows: true,
+            // expandableRowsOnClick: true,
+            renderExpandableRow: (rowData, rowMeta) => {
+
+              return (
+                <tr>
+                  <td colSpan={6}>
+                    <Table style={{ minWidth: "650" }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>product Name</TableCell>
+                          <TableCell>description</TableCell>
+                          <TableCell>Quantity</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {/* {userList.map((item, index) => {
                         if(rowData[0]===item.id)
                       {
                       {item.rfq_details.map((row,index) => {
@@ -332,33 +332,35 @@ const SimpleMuiTable = () => {
                        )
                       })}
                       } */}
-                      {userList.map((item, index) => {
-                        
-                        {item.rfq_details.map(row => (
-                          <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                              {row.id}
-                            </TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                            <TableCell align="right">{row.product[0].name}</TableCell>
-                          </TableRow>
-                        ))}
-                      
-                      })}
-                      
-                    {/* })} */}
-                   
-                    </TableBody>
-                  </Table>
-                </td>
-              </tr>
-            )
-          }
-        }}
-      />
-    </div>
+                        {userList.map((item, index) => {
+
+                          {
+                            item.rfq_details.map(row => (
+                              <TableRow key={row.name}>
+                                <TableCell component="th" scope="row">
+                                  {row.id}
+                                </TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                                <TableCell align="right">{row.product[0].name}</TableCell>
+                              </TableRow>
+                            ))
+                          }
+
+                        })}
+
+                        {/* })} */}
+
+                      </TableBody>
+                    </Table>
+                  </td>
+                </tr>
+              )
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }

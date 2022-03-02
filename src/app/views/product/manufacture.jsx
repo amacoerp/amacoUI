@@ -12,9 +12,11 @@ import MUIDataTable from "mui-datatables";
 import { Icon } from "@material-ui/core";
 // import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import url, {getmanufacturer,capitalize_arr}from "../invoice/InvoiceService"
+import url, { getmanufacturer, capitalize_arr } from "../invoice/InvoiceService"
+import useAuth from '../../hooks/useAuth';
 
-const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
+
+const MemberEditorDialog1 = ({ uid, open, handleClose, setid, manufacture }) => {
   // const [state, setState] = useState({
   //   name: "abc",
   //   email: "",
@@ -30,27 +32,30 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
   const [cdescription, setcdescription] = useState('');
   const [userList, setUserList] = useState([]);
   const [isAlive, setIsAlive] = useState(true);
- 
 
- 
+
+
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("sm");
+  const { user } = useAuth();
+
 
 
 
   const handleFormSubmit = () => {
-    
+
     const frmdetails = {
 
-      name: cname?capitalize_arr(cname):'',
-      description:cdescription?capitalize_arr(cdescription):""
-
+      name: cname ? capitalize_arr(cname) : '',
+      description: cdescription ? capitalize_arr(cdescription) : "",
+      div_id: localStorage.getItem('division'),
+      user_id: user.id
 
     }
     // setcdescription('')
     // setcname('')
-   
-   
+
+
     url.post('manufacturer', frmdetails)
       .then(function (response) {
         getmanufacturer()
@@ -63,19 +68,19 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
         getmanufacturer().then(({ data }) => {
           manufacture(data)
           setUserList(data)
-          
-  
+
+
         });
       })
-        
-       
-       
-        handleClose()
 
-      
+
+
+    handleClose()
+
+
     setcdescription('')
     setcname('')
-    
+
 
   };
   const removeData = (id) => {
@@ -93,32 +98,34 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
         url.delete(`manufacturer/${id}`)
           .then(res => {
             getrow(res)
-          
+
             Swal.fire({
-              customClass:{
+              customClass: {
                 zIndex: 1000
               },
-               title:'Deleted Successfully',
-               icon:'success'
+              title: 'Deleted Successfully',
+              icon: 'success'
               // 'Cancelled',
               // 'Your imaginary file is safe :)',
               // 'error',
-              
+
             })
           })
-           
 
-        
+
+
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
-          customClass:{
+          customClass: {
             zIndex: 1000
           },
-           title:'Cancelled'
+          title: 'Cancelled',
+          icon: 'error'
+
           // 'Cancelled',
           // 'Your imaginary file is safe :)',
-          // 'error',
-          
+          // 'error',5
+
         })
       }
     })
@@ -128,17 +135,12 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
   useEffect(() => {
     url.get('manufacturer').then(({ data }) => {
       setUserList(data);
-     
-    
-
-   
-
 
     });
-   
-  },[])
+
+  }, [])
   function getrow(e) {
-    setIsAlive(false)
+    setIsAlive(!isAlive)
     getmanufacturer().then(({ data }) => {
       setUserList(data);
       manufacture(data);
@@ -149,28 +151,28 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
   const columns = [
     {
       name: "name", // field name in the row object
-      label: "Name", // column title that will be shown in table
+      label: "NAME", // column title that will be shown in table
       options: {
         filter: true,
       },
     },
-    {
-      name: "description",
-      label: "Description",
-      options: {
-        filter: true,
-      },
-    },
+    // {
+    //   name: "description",
+    //   label: "Description",
+    //   options: {
+    //     filter: true,
+    //   },
+    // },
     {
       name: "id",
-      label: "Action",
+      label: "ACTION",
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
 
-  
+
           return (
-            <IconButton onClick={() => removeData(tableMeta.rowData[2])
+            <IconButton onClick={() => removeData(tableMeta.rowData[1])
             }
             >
               <Icon color="error">delete</Icon>
@@ -187,10 +189,10 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
 
 
   return (
-    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{zIndex:1000}} fullWidth={fullWidth}
-    maxWidth={maxWidth}>
+    <Dialog onClose={handleClose} open={open} className="px-6 pt-2 pb-4" style={{ zIndex: 1000 }} fullWidth={fullWidth}
+      maxWidth={maxWidth}>
       <div className="p-6"  >
-        <h4 className="mb-5">Add Manufacturer</h4>
+        <h4 className="mb-5">ADD MANUFACTURER</h4>
         <ValidatorForm onSubmit={handleFormSubmit} autoComplete="off">
           <Grid className="mb-4" container spacing={4}>
             <Grid item sm={6} xs={12}>
@@ -206,7 +208,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
                 name="cname"
                 value={cname}
                 validators={["required"]}
-                inputProps={{style: {textTransform: 'capitalize'}}}
+                inputProps={{ style: { textTransform: 'capitalize' } }}
                 errorMessages={["this field is required"]}
               />
               {/* <TextValidator
@@ -261,36 +263,36 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
           </Grid>
 
           {/* <div className="flex justify-between items-center"> */}
-            <Button variant="outlined" className="mr-4 py-2" color="primary" type="submit">
-              <Icon>save</Icon>Save
-            </Button>
-            
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="mr-4 py-2"
-              onClick={() => handleClose()}
-            >
-             <Icon>cancel</Icon> Cancel
-            </Button>
-            
-            <Button
-            
-              variant="outlined"
-              color="primary"
-              onClick={() => getrow()}
-            >
-             <Icon>remove_red_eye</Icon> view
-            </Button>
-          
+          <Button variant="outlined" className="mr-4 py-2" color="primary" type="submit">
+            <Icon>save</Icon>SAVE
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="secondary"
+            className="mr-4 py-2"
+            onClick={() => handleClose()}
+          >
+            <Icon>cancel</Icon> CANCEL
+          </Button>
+
+          <Button
+
+            variant="outlined"
+            color="primary"
+            onClick={() => getrow()}
+          >
+            <Icon>remove_red_eye</Icon> VIEW
+          </Button>
+
           {/* </div> */}
         </ValidatorForm>
         <Divider className="mb-2" />
         {!isAlive && (
           <MUIDataTable
-            title={"Category"}
+            title={"Manufacturer"}
             columns={columns}
-            data={userList}
+            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
             options={{
               filterType: "textField",
               responsive: "simple",
@@ -302,7 +304,7 @@ const MemberEditorDialog1 = ({ uid, open, handleClose,setid,manufacture}) => {
         )}
       </div>
     </Dialog>
-    
+
   );
 };
 

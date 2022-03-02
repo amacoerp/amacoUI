@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import xlsx from 'xlsx';
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
   Button,
   FormControl,
   Divider,
   Card,
+  Grid,
   Select,
   MenuItem,
   Table,
@@ -32,6 +36,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import useAuth from "app/hooks/useAuth";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import url, { getusers, divisionId, getCustomerList, data, getcompanybank, navigatePath } from "../../invoice/InvoiceService";
 
 // expandable table
@@ -200,7 +205,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [productid, setproductid] = useState('');
   const [unit_of_measure, setunit_of_measure] = useState('');
   const [companybank, setcompanybank] = useState([]);
-  const [bank_id, setbank_id] = useState('0');
+  const [bank_id, setbank_id] = useState('');
   const [indexset, setindex] = useState(0);
   const [productname, setproductname] = useState('');
   const [indexvalue, setindexvalue] = useState();
@@ -211,7 +216,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [users, setusers] = useState([]);
   const [sign, setsign] = useState('');
   const [rfq_no, setrfq_no] = useState('');
-  const history = useHistory();
+  const routerHistory = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -242,7 +247,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [subject, setsubject] = useState('')
   const [productprice, setproductprice] = useState([])
   const formData = new FormData()
-
+  const filter = createFilterOptions();
 
   const addRow = async e => {
     var obj = {
@@ -430,14 +435,19 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const addItemToInvoiceList = () => {
+  const addItemToInvoiceList = (arr) => {
     let tempItemList = [...state.item];
-
+    let lastIndex = Object.keys(arr).length - 1;
+    let lastIndexarr = lastIndex < 0 ? 0 : tempItemList[lastIndex]?.index1;
+    // const totalProps = arr.reduce((a, obj) => Object.keys(obj).length, 0);
+    // console.log(tempItemList[lastIndex]?.index1);
     tempItemList.push({
       product_id: "",
       src: '',
+      index1: lastIndexarr + 1,
       description: "",
       descriptions: "",
+      descriptionss: "",
       product_description: "",
       uom: "",
       unit_of_measure: "",
@@ -447,9 +457,51 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           price: ""
         }
       ],
-      purchase_price: parseFloat(0.00).toLocaleString(undefined, {
+      purchase_price: '',
+      costprice: 0,
+      margin: 0,
+      margin_val: 0,
+      discount_val: 0,
+      discount: 0,
+      sell_price: 0,
+      // sell_price: parseFloat(0.00).toLocaleString(undefined, {
+      //   minimumFractionDigits: 2
+      // }),
+      remark: "",
+      total_amount: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
-      }),
+      })
+
+    });
+
+
+    setState({
+      ...state,
+      item: tempItemList.sort((a, b) => a.index1 < b.index1),
+    });
+  };
+
+  const addItemToInvoiceList_Index = (id) => {
+    let tempItemList = [...state.item];
+
+    tempItemList.push({
+      product_id: "",
+      src: '',
+      index1: id,
+      description: "",
+      descriptions: "",
+      descriptionss: "",
+      product_description: "",
+      uom: "",
+      unit_of_measure: "",
+      quantity: parseFloat(0),
+      product_price_list: [
+        {
+          price: ""
+        }
+      ],
+      purchase_price: '',
+      costprice: 0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
@@ -463,13 +515,16 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
 
     });
+
     setState({
       ...state,
       item: tempItemList,
     });
   };
 
-  const deleteItemFromInvoiceList = (index) => {
+
+
+  const deleteItemFromInvoiceList = (index, i) => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You want to Delete this Quotation Details!',
@@ -480,13 +535,38 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        let tempItemList = [...state.item];
-        tempItemList.splice(index, 1);
+        // let tempItemList = [...state.item];
+        // tempItemList.splice(index, 1);
 
-        setState({
-          ...state,
-          item: tempItemList,
-        });
+        // setState({
+        //   ...state,
+        //   item: tempItemList,
+        // });
+        let tempItemList = [...state.item];
+        let count = tempItemList.filter(obj => obj.index1 == i).length;
+        if (count > 1) {
+
+
+          tempItemList.splice(index, 1);
+
+          setState({
+            ...state,
+            item: tempItemList,
+          });
+        }
+        else {
+          tempItemList.splice(index, 1);
+          let newArr = tempItemList.map((item) => {
+            if (item.index1 > i) {
+              item['index1'] = item.index1 - 1;
+            }
+            return item
+          })
+          setState({
+            ...state,
+            item: newArr,
+          });
+        }
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -516,18 +596,24 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
+        // 29-1-2022
+        let m = element.margin ? element.margin : 100;
+        element['costprice'] = element.purchase_price ? element.purchase_price : 0
+        element['margin'] = element.purchase_price ? (isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0) : 100;
 
-
-        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
-
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+        // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
 
         // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
-        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
+        // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.total_amount = ((parseFloat(element.sell_price) * element.quantity).toFixed(2));
-        element.discount_val = ((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log(((parseFloat(parseFloat(element.d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)))
+        element.sell_price = d_val
+        element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
+        // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        element.discount = 0
+        element.discount_val = 0
+        // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
 
       }
       return element;
@@ -549,17 +635,37 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.map((element, i) => {
       let sum = 0;
 
-      if (index === i) {
+      if (index == i) {
+
+        if (parseFloat(element.purchase_price)) {
+
+          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
 
-        element[event.target.name] = value ? value : event.target.value;
+        }
+        else {
 
-        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log(element.margin)
+          element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+
+        }
+
+
       }
       return element;
 
@@ -571,8 +677,113 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
 
+
+
+  const calcualte_margin = (event, index, value) => {
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+      if (index == i) {
+
+        if (parseFloat(element.purchase_price)) {
+
+          element[event.target.name] = value ? value : event.target.value;
+
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+        }
+        else {
+
+          element['costprice'] = element.sell_price - (100 / (100 + 100) * element.sell_price);
+          element[event.target.name] = value ? value : event.target.value;
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.costprice) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.costprice) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.costprice) / 100) + parseFloat(element.costprice)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+
+
+
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
+
+  const calcualte_qty = (event, index, value) => {
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      console.log(element)
+      let sum = 0;
+
+      if (index == i) {
+
+        if (parseFloat(element.purchase_price)) {
+
+          element[event.target.name] = value ? value : event.target.value;
+
+          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price;
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
+
+          element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : (((parseFloat(element.discount) * element.sell_price) / 100) * element.quantity)
+
+
+        }
+        else {
+          let m = element.margin ? element.margin : 100
+          element['costprice'] = element.purchase_price;
+
+          element[event.target.name] = value ? value : event.target.value;
+
+
+
+          element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+          element.cost_qty = ((element.costprice) * element.quantity).toFixed(2);
+          element.margin_val = element.purchase_price ? ((parseFloat(element.costprice) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : element.sell_price * element.quantity;
+          element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.costprice) / 100) + parseFloat(element.costprice)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : (((parseFloat(element.discount) * element.sell_price) / 100) * element.quantity)
+
+
+
+        }
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  }
   const discountPer = (event, index, value) => {
 
+    console.log(event.target.value)
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -581,13 +792,40 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element[event.target.name] = value ? value : event.target.value;
-        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(event.target.value) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3);
+
+
+
+
+        // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
+
+
+        // element.sell_price = element.purchase_price?(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat((element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100)).toFixed(3)) / 100)).toFixed(3)):element.sell_price-((element.discount*element.sell_price)/100);
+
+
+
+
+        // element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
+        // element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
+
+        // element.discount_val = element.purchase_price?((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)):(((element.discount*element.sell_price)/100)*element.quantity)
+        const dumy_sellPrice = element.sell_price;
+        // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
+        element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
+
+
+        element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
+
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : dumy_sellPrice * element.quantity
+
+
 
         element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        console.log(((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)))
+        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : ((((element.discount * dumy_sellPrice) / 100) * element.quantity))
+
+
+
+
 
 
       }
@@ -632,10 +870,10 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.currency_type = "SAR"
     arr.transaction_type = "sale"
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', discount)
-    formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount', GTotal)
-    formData.append('vat_in_value', parseFloat(vat).toFixed(2))
+    formData.append('discount_in_p', isNaN(dis_per) ? 0 : dis_per)
+    formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
+    formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
+    formData.append('vat_in_value', isNaN(parseFloat(vat).toFixed(2)) ? 0 : parseFloat(vat).toFixed(2))
     formData.append('po_number', id)
     formData.append('party_id', party_id)
     formData.append('validity', validity)
@@ -677,20 +915,136 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             if (s == "New") {
-              history.push(navigatePath + "/quote/" + response.data + "/New")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
 
             }
             else {
-              history.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/3")
             }
           })
       })
       .catch(function (error) {
-
+        Swal.fire({
+          title: "Error",
+          type: "error",
+          icon: "warning",
+          text: "Something Went Wrong.",
+        }).then((result) => {
+          setState({ ...state, loading: false });
+        });
       })
   };
+
+  let inputRef = [];
+  let priceRef = [];
+  let proRef = [];
+  const [getRef, setRef] = useDynamicRefs();
+
+
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('product_id')) {
+        proRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('purch3ase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_3price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_p3rice')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        addItemToInvoiceList(invoiceItemList);
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          proRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev.includes('purchase3_price')) {
+          priceRef[parseInt(prev)].focus();
+        } if (prev.includes('invoice_no')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          console.log(prev)
+          console.log(getRef(prev)?.current?.focus())
+        }
+      }
+    }
+  }
+
   function cancelform() {
-    history.push(navigatePath + "/quoateview/0")
+    let mode = "full"
+    updateSidebarMode({ mode })
+    routerHistory.push(navigatePath + "/quoateview/0")
+  }
+
+  const readUploadFile = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = xlsx.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const json = xlsx.utils.sheet_to_json(worksheet);
+        console.log(json);
+        setState({
+          ...state,
+          item: json,
+        });
+      };
+      reader.readAsArrayBuffer(e.target.files[0]);
+    }
   }
 
   const handleDialogClose = () => {
@@ -751,31 +1105,54 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-  const setcontact = (event) => {
+  // const setcontact = (event) => {
 
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
+  //   url.get("parties/" + event.target.value).then(({ data }) => {
+  //     setcustomercontact(data[0].contacts);
 
-      setparty_id(event.target.value)
+  //     setparty_id(event.target.value)
 
-      setrfqstatus(true);
+  //     setrfqstatus(true);
 
 
-    });
+  //   });
+  // }
+  const setcontact = (event, newValue) => {
+
+    if (newValue?.id) {
+      url.get("parties/" + newValue?.id).then(({ data }) => {
+        setcustomercontact(data[0].contacts);
+
+        setparty_id(newValue?.id)
+
+        setrfqstatus(true);
+
+
+      });
+    }
+    else {
+      setcustomercontact([]);
+
+      setparty_id()
+
+      setrfqstatus(false);
+    }
   }
 
+
   useEffect(() => {
-    console.log("sign", user.id)
+    console.log("sign", user.name)
     getCustomerList().then(({ data }) => {
-      // console.log(data)
+      console.log(data)
       setCustomerList(data);
 
 
     });
-    getusers().then(({ data }) => {
+    url.get('designation').then(({ data }) => {
       setusers(data)
-      setsign(user.id)
+      let user_val = data.filter(obj => obj.user_id == user.id)
+      setsign(user_val[0].id)
     })
     getcompanybank().then(({ data }) => {
       setcompanybank(data);
@@ -981,7 +1358,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.QuickQuote)}>
-          <ValidatorForm onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -997,6 +1374,21 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
 
+                <input
+                  accept="excel/*"
+                  className={classes.input}
+                  style={{ display: 'none' }}
+                  id="raised-button-file"
+                  onChange={readUploadFile}
+                  type="file"
+                />
+                <label htmlFor="raised-button-file">
+                  <Button className="mr-4 py-2"
+                    variant="outlined"
+                    color="primary" component="span" >
+                    <Icon>drafts</Icon>IMPORT FROM EXCEL
+                  </Button>
+                </label>
                 <Button
                   type="submit"
                   className="mr-4 py-2"
@@ -1021,154 +1413,135 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-4 flex justify-between">
-              <div>
-                <h5 className="font-normal capitalize">
-                  <strong>Customer: </strong>{" "}
-                  <span>
-                    {id}
-                  </span>
-                </h5>
 
-                <TextField
 
-                  label="Customer Name"
+            <Grid container spacing={2}>
+              <Grid item className="ml-4">
+
+
+                <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
                   style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="party_id"
+                  options={CustomerList}
+
+
+                  getOptionLabel={(option) => option.firm_name}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Customer Name" />}
+                />
+
+
+              </Grid>
+              <Grid item >
+
+                {rfqstatus && <Autocomplete
+                  id="filter-demo"
+                  variant="outlined"
+                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  options={customercontact}
+
+
+                  getOptionLabel={(option) => option.fname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontactid(newValue?.id)}
+
+                  size="small"
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Contact Person" />}
+                />}
+              </Grid>
+              <Grid item>
+                <TextField
+                  name="rfq_no"
+                  value={rfq_no}
+                  className=""
+                  label="RFQ No"
                   size="small"
                   variant="outlined"
+                  onChange={(e) => {
+                    setrfq_no(e.target.value)
+                    // return date
+                  }}
 
-
-                  onClick={(event) => setcontact(event)}
-                  required
-                  select
                 >
-                  <MenuItem onClick={() => {
-                    history.push(navigatePath + "/party/addparty");
-                  }}>
-
-                    <Icon>add</Icon>New
-
-                  </MenuItem>
-
-                  {CustomerList.filter(obj => obj.party_division[0]?.div_id === divisionId).map((item) => (
-                    <MenuItem value={item.id} key={item.id}>
-                      {item.firm_name}
-                    </MenuItem>
-                  ))}
-                  {/* {CustomerList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))} */}
 
                 </TextField>
 
-
-
-
-
-                {rfqstatus &&
-                  <TextField
-
-                    label="Contact Person"
-                    className="ml-2"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
-                    name="contact_id"
+              </Grid>
+              <Grid item xs>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Quote Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
                     size="small"
-                    variant="outlined"
-                    select
-                    // value={values.contact_id}
-                    onChange={(e) => setcontactid(e.target.value)}
-
-                  >
-                    <MenuItem>
-                      <Button onClick={() => setshouldOpenConfirmationDialogparty(true)}><Icon>add</Icon>New</Button>
-                    </MenuItem>
-                    {customercontact.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.fname}
-                      </MenuItem>
-                    ))}
-
-                  </TextField>
-                }
-              </div>
-
-
-              <div>
-
-
-                <div className="text-right pt-4">
-                  <TextField
-                    name="rfq_no"
-                    value={rfq_no}
-                    className="m-2"
-                    label="RFQ No"
-                    size="small"
-                    variant="outlined"
-                    onChange={(e) => {
-                      setrfq_no(e.target.value)
+                    selected={Quote_date}
+                    value={Quote_date}
+                    onChange={(date) => {
+                      setQuote_date(moment(date).format('DD MMM YYYY'))
                       // return date
                     }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
+            {/* <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div> */}
+            <div className="pl-4">
+              <h5 className="font-normal capitalize">
+                {/* <strong>Subject: </strong>{" "} */}
 
-                  >
-
-                  </TextField>
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      className="m-2"
-                      margin="none"
-                      label="Quote Date"
-                      format="dd MMMM yyyy"
-                      inputVariant="outlined"
-                      type="text"
-                      size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
-                      onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
-                        // return date
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
+              </h5>
+              <TextValidator
+                label="Subject"
+                className="mb-4"
+                type="text"
+                variant="outlined"
+                size="small"
+                style={{ width: 500 }}
+                onChange={e => setsubject(e.target.value)
+                }
+                value={subject}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              /></div>
 
 
-                </div>
-
-              </div>
-            </div>
-            <div>
-              {/* <div style={{display:'inline-block'}}><h6 className="px-4"><strong>Subject</strong></h6></div> */}
-              <div className="pl-4">
-                <h5 className="font-normal capitalize">
-                  <strong>Subject: </strong>{" "}
-
-                </h5>
-                <TextValidator
-                  label="Subject"
-                  className="mb-4"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  style={{ width: 500 }}
-                  onChange={e => setsubject(e.target.value)
-                  }
-                  value={subject}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
-                /></div>
-            </div>
 
             <Divider />
 
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-0" style={{ width: 50 }} align="left">S.NO.</TableCell>
+                  <TableCell className="pl-0" style={{ width: 50 }} align="center">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }}></TableCell>
                   {/* <TableCell className="px-0" style={{width:'150px'}}>ITEM NAME</TableCell> */}
                   {
@@ -1191,10 +1564,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList.map((item, index) => {
+                {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
 
                   if (!dstatus) {
-                    costTotal += parseFloat(item.purchase_price) * parseFloat(item.quantity);
+                    // 29-1-2022
+                    costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
+                    // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
                     totalmargin += parseFloat(item.margin);
 
                     // subCost += parseFloat(item.total_amount)
@@ -1204,8 +1579,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     margin_val += ((item.margin_val));
 
-                    margin_per = (margin_val / costTotal) * 100;
-                    subCost = costTotal + margin_val;
+                    margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
+                    subCost = Math.round(costTotal + margin_val);
                     subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
                     // margin_val=((subCost-costTotal));
@@ -1262,8 +1637,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <TableRow key={index}>
 
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: 50 }}>
-                        {index + 1}
+                      <TableCell className="pl-0 capitalize" align="center" style={{ width: 50 }}>
+                        {item.index1}
                       </TableCell>
                       <TableCell className="px-0" style={{ width: '150px' }}>
                         {/* <label htmlFor="upload-single-file">
@@ -1340,8 +1715,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               // required
                               onChange={(event) => handleIvoiceListChange(event, index)}
                               type="text"
+                              inputProps={{
+                                ref: setRef(index + 'description')
+                              }}
+                              // ref={setRef(index + 'description')}
+                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', null, invoiceItemList) }}
+
                               name="description"
                               fullWidth
+                              required
                               variant="outlined"
                               // inputProps={{style: {textTransform: 'capitalize'}}}
                               multiline
@@ -1360,6 +1742,13 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           variant="outlined"
+                          required
+                          inputProps={{
+                            ref: setRef(index + 'descriptionss')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
+
 
                           size="small"
                           name="descriptionss"
@@ -1373,15 +1762,24 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
                         <TextValidator
                           label="Qty"
-                          onChange={(event) => calcualtep(event, index)}
-                          type="number"
+                          onChange={(event) => calcualte_qty(event, index)}
+                          type="text"
                           // requried
                           variant="outlined"
                           size="small"
                           fullWidth
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
-
+                          validators={["isNumber"]}
+                          errorMessages={[
+                            "Input is not Valid",
+                          ]}
                           name="quantity"
+                          inputProps={{
+                            ref: setRef(index + 'quantity')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss', invoiceItemList) }}
+
                           value={item.quantity}
                         />
                       </TableCell>
@@ -1396,6 +1794,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={item.unit_of_measure}
                           name="unit_of_measure"
                           variant="outlined"
+                          inputProps={{
+                            ref: setRef(index + 'unit_of_measure')
+                          }}
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
+
                           // validators={[
                           //   "required",
                           // ]}
@@ -1451,13 +1855,18 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onChange={handleChange}
                           // required
                           variant="outlined"
-                          currencySymbol="SAR"
+                          currencySymbol=""
+
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
+
                           decimalPlaces={3}
                           onChange={(event, value) => calcualtep(event, index, value)}
-                          value={item.purchase_price}
+                          value={item?.purchase_price}
                           label="Price"
                           size="small"
                           inputProps={{
+                            ref: setRef(index + 'purchase_price'),
                             name: 'purchase_price',
                             id: 'outlined-age-native-simple',
                             style: { textAlign: 'right' }
@@ -1492,12 +1901,18 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                         <TextValidator
                           label="Margin"
-                          onChange={(event) => calcualtep(event, index)}
+                          onChange={(event) => calcualte_margin(event, index)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
                           type="text"
-                          inputProps={{ inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'margin'), inputMode: "decimal", pattern: "^[0-9]{1,11}(?:\.[0-9]{1,3})?$", min: 0, style: { textAlign: 'center' } }}
                           // inputProps={{ inputMode: 'decimal' }}
                           variant="outlined"
+
+                          // ref={setRef(index + 'description')}
+
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price', invoiceItemList) }}
+
+                          disabled={item.purchase_price ? false : true}
                           // inputProps={{min: 0, style: { textAlign: 'center' }}}
                           size="small"
                           name="margin"
@@ -1512,16 +1927,20 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
-                        <TextValidator
+                        <CurrencyTextField
                           label="Discount"
-                          onChange={(event) => discountPer(event, index)}
+                          // onChange={(event) => discountPer(event, index)}
+                          onBlur={(e, value) => discountPer(e, index, value)}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
+
                           decimalPlaces={2}
                           variant="outlined"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'discount'), min: 0, style: { textAlign: 'center' } }}
                           size="small"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin', invoiceItemList) }}
+
                           name="discount"
+                          currencySymbol=""
                           // style={{width:'75%',float:'left'}}
                           fullWidth
                           value={item.discount}
@@ -1551,13 +1970,20 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           className="w-full "
                           label="Price"
                           decimalPlaces={3}
+                          // minimumValue="0"
                           variant="outlined"
                           fullWidth
                           size="small"
                           currencySymbol=""
+                          inputProps={{
+                            ref: setRef(index + 'sell_price')
+                          }}
                           name="sell_price"
-                          value={item.sell_price}
-                          onBlur={(e, value) => calculatemargin(e, index, value)}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount', invoiceItemList) }}
+
+                          value={parseFloat(item.sell_price)}
+                          onChange={(e, value) => calculatemargin(e, index, value)}
+                        // onBlur={(e, value) => calculatemargin(e, index, value)}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
@@ -1581,9 +2007,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           fullWidth
                           size="small"
+                          readOnly
+                          inputProps={{
+                            ref: setRef(index + 'total_amount')
+                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price', invoiceItemList) }}
+
                           currencySymbol=""
                           name="total_amount"
-                          value={item.total_amount}
+                          value={isNaN(item.total_amount) ? 0 : item.total_amount}
                         />
                       </TableCell>
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
@@ -1606,11 +2038,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
 
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item.index1)}>
                           delete
+                        </Icon>
+                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
+                          add
                         </Icon>
 
                       </TableCell>
+
                     </TableRow>
                   );
                 })}
@@ -1623,7 +2059,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
+                size="small" onClick={() => addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
             </div>
             {/* {testArr.map((item, index) => {
               
@@ -1679,13 +2115,13 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-                  <p className="mb-6">Quotation Validity:</p>
-                  <p className="mb-8">Payment Terms:</p>
-                  <p className="mb-10">Waranty:</p>
-                  <p className="mb-10">Delivery Time:</p>
-                  <p className="mb-8">Inco-Term:</p>
-                  <p className="mb-8">Signature:</p>
-                  <p className="mb-8">Bank:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
+                  <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
+                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Warranty:</p>
+                  <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>
+                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Bank:</p>
 
 
                 </div>
@@ -1780,7 +2216,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       >
 
                         {users.map((item, ind) => (
-                          <option value={item.id} defaultValue={item.id}>{item.name}</option>
+                          <option value={item.id} defaultValue={item.name}>{item.name} -- {item.designation}</option>
                         ))}
                       </Select>
                     </FormControl>
@@ -1802,9 +2238,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option disabled>
-                          --select--
-                        </option>
+                        <option value={0}>--Select--</option>
                         {companybank.map((item, ind) => (
                           <option value={item.id}>{item.name}-{item.ac_no}</option>
                         ))}
@@ -1822,18 +2256,18 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="pl-4 pr-4 pb-4  flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Cost:</p>
-                    <p className="mb-8">margin%:</p>
-                    <p className="mb-8 pt-0">Sub Total:</p>
-                    <p className="mb-8">Transport:</p>
-                    <p className="mb-8">Other:</p>
-                    <p className="mb-8 pt-0">Net Total:</p>
-                    <p className="mb-8">Discount:</p>
-                    <p className="mb-8">Selling Total:</p>
-                    <p className="mb-8 pt-2">Vat(15%):</p>
+                    <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
+                    <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
+                    <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-0">Net Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
+                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Selling Total:</p>
+                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">Vat(15%):</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8">Grand Total:</p>
+                      <p style={{ position: 'relative', top: '18px' }} className="mb-8">Grand Total:</p>
                     </strong>
                   </div>
                   <div>
@@ -1860,7 +2294,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     {/* <p className="mb-4 pt-4">{margin_per?parseFloat(margin_per).toLocaleString(undefined,{minimumFractionDigits:2}):0.00}</p> */}
                     <div>
-                      <CurrencyTextField
+                      <TextField
                         className="mb-4 mr-2"
                         label="Margin %"
                         readOnly
@@ -1871,20 +2305,20 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol=" "
                         name="net_amount"
-                        value={margin_per ? margin_per : 0}
+                        value={isNaN(margin_per) ? 0 : parseFloat(margin_per).toFixed(3)}
 
                       />
-                      <CurrencyTextField
+                      <TextField
                         className="w-full "
                         readOnly
                         label="Margin Value"
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: '150px' }}
-                        currencySymbol="SAR"
-                        name="dis_per"
-                        value={margin_val ? margin_val : 0}
+                        style={{ width: '150px', alignItems: 'right' }}
+                        // currencySymbol="SAR"
+                        // name="dis_per"
+                        value={isNaN(margin_val) ? 0 : parseFloat(margin_val).toFixed(2) ? parseFloat(margin_val).toFixed(2) : 0}
                       />
 
                     </div>

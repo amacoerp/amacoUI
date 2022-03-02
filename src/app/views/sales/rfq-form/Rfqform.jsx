@@ -1,445 +1,1151 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect, useRef } from "react";
-import { Formik } from "formik";
-import moment from "moment";
-import history from "history.js";
-import url, { GDIV, getrfq, getVendorList, navigatePath } from "../../invoice/InvoiceService";
-import clsx from "clsx";
-
-// import { Button } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from "react";
 import {
-  Grid,
-  Card,
-  Divider,
-  TextField,
-  MenuItem,
-  Icon,
   Button,
-  Tooltip,
+  Radio,
+  FormControl,
+  FormControlLabel,
+  Divider,
+  RadioGroup,
+  Grid,
+  MenuItem,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TextField,
+  Icon,
+  Card,
+  IconButton,
+  Tooltip
 } from "@material-ui/core";
+import { format } from 'date-fns';
+import Swal from "sweetalert2";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import InvoiceItemTable from "./Rfqformtable";
-// import { calculateAmount } from "./Rfqformservice";
-import { Breadcrumb } from "matx";
-import Swal from "sweetalert2";
-import { makeStyles } from "@material-ui/styles";
+import { getInvoiceById, addInvoice, getUnitOfMeasure, getVendorList, navigatePath, GDIV } from "../../invoice/InvoiceService.js";
+import { useParams, useHistory, Link, Redirect } from "react-router-dom";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import { useCallback } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+import MemberEditorDialog from '../../party/partycontact';
+import UOMDialog from '../../invoice/UOMDialog';
+
+import axios from "axios";
+import url, { getProductList, capitalize_arr, data } from "../../invoice/InvoiceService.js";
+import Select from 'react-select';
+import dateFormat from 'dateformat';
+import moment from "moment";
+import { Breadcrumb, MatxProgressBar } from "matx";
+import useSettings from 'app/hooks/useSettings';
 import useAuth from "app/hooks/useAuth";
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
+const useStyles = makeStyles(({ palette, ...theme }) => ({
+  invoiceEditor: {
+    "& h5": {
+      fontSize: 15,
+    },
   },
-  input: {
-    display: "none"
-  }
 }));
 
-const InvoiceForm = ({}) => {
-  const [files, setFiles] = useState([]);
-  const formData = new FormData();
-  const arr = [];
-
+const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
+  const [isAlive, setIsAlive] = useState(true);
+  const [state, setState] = useState(initialValues);
+  const [rfq, setrfq] = useState([]);
+  const [rdate, setrdate] = useState(new Date());
+  const [ddate, setddate] = useState(new Date());
+  const [cname, setcname] = useState([]);
+  const [rfq_details, setrfqdetails] = useState([]);
   const [CustomerList, setCustomerList] = useState([]);
-  const [state, setState] = useState([]);
-  const [rfqFiles, setrfqFiles] = useState([]);
+  const [contId, setContId] = useState([]);
+  const [ProductList, setProductList] = useState([]);
+  const [listrfq, setlistrfq] = useState([]);
+  const [files, setfiles] = useState([]);
   const [upload, setupload] = useState([]);
-  const [message, setmessage] = useState(false);
-  const [queProgress, setQueProgress] = useState(0);
-  const [party_id, setparty_id] = useState("");
-  const [status, setstatus] = useState(false);
-  const [rfqstatus, setrfqstatus] = useState(false);
+  const [proList, setproList] = useState([]);
+  const history = useHistory();
   const [customercontact, setcustomercontact] = useState([]);
-  const el = useRef();
+  const [
+    shouldOpenConfirmationDialogparty,
+    setshouldOpenConfirmationDialogparty,
+  ] = useState(false);
+
+  const [party_id, setPartyId] = useState()
+  const [rfqstatus, setrfqstatus] = useState(false);
+
+  let inputRef = [];
+  let priceRef = [];
+  const [getRef, setRef] = useDynamicRefs();
+
+  const { id } = useParams();
   const { user } = useAuth();
-  let listrfq = [];
-  let { loading } = state;
-
-  let isEmpty = !!!files.length;
-  const handleSingleRemove = (index) => {
-    let tempList = [...rfqFiles];
-    tempList.splice(index, 1);
-    setFiles([...tempList]);
-    setrfqFiles([...tempList]);
-  };
-  const handleAllRemove = () => {
-    setFiles([]);
-    setQueProgress(0);
-  };
-  const uploadAllFile = () => {
-    let allFiles = [];
-
-    files.map((item) => {
-      allFiles.push({
-        ...item,
+  const classes = useStyles();
+  const { settings, updateSettings } = useSettings();
+  const formData = new FormData()
+  const updateSidebarMode = (sidebarSettings) => {
+    if (sidebarSettings.mode == "close") {
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
+        },
       });
-      return item;
-    });
-    setFiles([...allFiles]);
+    }
+    else {
+      window.location.href = "../sales/rfq-form/rfqview"
+      let activeLayoutSettingsName = settings.activeLayout + "Settings";
+      let activeLayoutSettings = settings[activeLayoutSettingsName];
+      updateSettings({
+        ...settings,
+        [activeLayoutSettingsName]: {
+          ...activeLayoutSettings,
+          leftSidebar: {
+            ...activeLayoutSettings.leftSidebar,
+            ...sidebarSettings,
+          },
+        },
+      });
 
-    setQueProgress(35);
+    }
+
+  }
+
+
+  const handleSingleRemove = (index) => {
+    let tempList = [...upload];
+    tempList.splice(index, 1);
+    setupload([...tempList]);
+    // setrfqFiles([...tempList]);
   };
-
+  // File Select 
   const handleFileSelect = (event) => {
-    setrfqFiles(listrfq);
-    setupload(event.target.files);
     let files = event.target.files;
     let filesd = event.target.files;
 
-    for (let iterator of filesd) {
+    // for (var a = 0; a < files.length; a++) {
+    //   formData.append(
+    //     "myFile" + a,
+    //     files[a],
+    //     files[a].name,
+    //   );
+    // }
+    for (const iterator of filesd) {
+
       listrfq.push({
-        src: URL.createObjectURL(iterator),
-        name: iterator.name,
+        created_at: "2021-03-30T06:43:07.000000Z",
+        file_name: iterator.name,
+        id: null,
+        img_url: "http://www.amacoerp.com/amaco_test/public/rfq/30/Screenshot (9) - Copy.png",
+        // rfq_id: 30
+        file: iterator
+        // updated_at: "2021-03-30T06:43:07.000000Z"
       });
+
     }
-    setrfqFiles(listrfq);
+    // setfiles(listrfq)
+    setupload(listrfq)
   };
 
+  const generateRandomId = useCallback(() => {
+    let tempId = Math.random().toString();
+    let id = tempId.substr(2, tempId.length - 1);
+    setState((state) => ({ ...state, id }));
+  }, []);
+
+  const handleChange = (event) => {
+    event.persist();
+    setState({ ...state, [event.target.name]: event.target.value });
+  };
+  const handleDialogClose = () => {
+    setshouldOpenConfirmationDialogparty(false)
+  }
+
+  const [uom, setUOM] = useState(false)
+
+  const handleSellerBuyerChange = (event, fieldName) => {
+    event.persist();
+    setState({
+      ...state,
+      [fieldName]: {
+        ...state[fieldName],
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
+  const handleIvoiceListChange = (event, index) => {
+    event.persist();
+
+    let tempItemList = [...state.item];
+    tempItemList.map((element, i) => {
+      if (index === i) element[event.target.name] = event.target.value;
+
+      return element;
+    });
+
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  };
+
+  const addItemToInvoiceList = () => {
+    let tempItemList = [...state.item];
+    tempItemList.push({
+      created_at: "",
+      description: "",
+      product_name: " ",
+      id: "",
+      party: [],
+      prices: [],
+      product: [{
+        name: ""
+      }],
+      src: '',
+      product_id: "",
+      quantity: "",
+      updated_at: "2021-01-22T09:51:20.000000Z",
+
+    });
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+
+  };
+
+  const deleteItemFromInvoiceList = (index, id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to Delete this RFQ Details!',
+      icon: 'danger',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+
+
+        let tempItemList = [...state.item];
+        tempItemList.splice(index, 1);
+
+        setState({
+          ...state,
+          item: tempItemList,
+        });
+
+        // let tempItemList = [...state.item];
+        // tempItemList.splice(index, 1);
+
+        // setState({
+        //   ...state,
+        //   item: tempItemList,
+        // });
+
+
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your RFQ Details is safe :)',
+          'error'
+        )
+      }
+    })
+  };
+
+  const handleDateChange = (rdate) => {
+
+    setrdate(moment(rdate).format("MMMM DD, YYYY"))
+
+  };
+  const routerHistory = useHistory();
+
+  const Rfqpush = () => {
+
+    // updateSidebarMode({ mode: "close" })
+    routerHistory.push(navigatePath + `/invoice/${id}`)
+
+  };
+  const handleRDateChange = (ddate) => {
+
+    setddate(moment(ddate).format("MMMM DD, YYYY"))
+
+  };
+  const deleterfqfile = (id) => {
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this File!',
+      icon: 'danger',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        url.delete(`fileUpload/${id}`)
+          // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
+          .then(res => {
+
+
+            Swal.fire(
+              'Deleted!',
+              'File has been deleted.',
+              'success'
+            )
+            setIsAlive(true)
+          })
+        getrfq()
+
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your File is safe :)',
+          'error'
+        )
+      }
+    })
+
+  };
+  const SelectFile = (e, index) => {
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      if (index == i) {
+        // element['name'] = v.value;
+        element['files'] = e.target.files[0];
+        element['src'] = URL.createObjectURL(e.target.files[0]);
+
+      }
+
+      return element;
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+  }
+
+  const deletequotefile = (id, index) => {
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      if (index == i) {
+        // element['name'] = v.value;
+        element['files'] = null;
+        element['src'] = null;
+
+      }
+
+      return element;
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+
+  };
+  const setproduct = (v, newValue, index,) => {
+
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      if (index === i) {
+        element['id'] = newValue?.id ? newValue?.id : '';
+        element['product_name'] = newValue?.name ? newValue?.name : newValue;
+
+      }
+
+      return element;
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+
+  };
+
+
+  const controlKeyPress = (e, id, nextid, prev) => {
+
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('purchase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log('else');
+        getRef(nextid).current.focus();
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          inputRef[parseInt(r)].focus();
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        addItemToInvoiceList();
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev?.includes('purchase_price')) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          getRef(prev).current.focus();
+        }
+      }
+    }
+  }
+
+  const getContacts = (pid) => {
+    if (pid) {
+      url.get("parties/" + pid).then(({ data }) => {
+        setcustomercontact(data[0]?.contacts);
+
+        setrfqstatus(true);
+      });
+
+    } else {
+      setrfqstatus(false);
+    }
+
+    console.log('ds', pid)
+  }
+
+  const filter = createFilterOptions();
+
+  const filterPrice = (options, params) => {
+
+    const filtered = filter(options, params);
+    if (params.inputValue !== " ") {
+      filtered.unshift({
+        inputValue: params.inputValue,
+        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push("/party/addparty")}>+Add New</Button>)
+      });
+    }
+    console.log(filtered)
+    // setCustomerList(filtered)
+    return filtered;
+
+  };
+  const handleSubmit = () => {
+    let arr = []
+    setState({ ...state, loading: true });
+    let tempState = { ...state };
+    let tempItemList = [...state.item];
+    delete tempState.loading;
+    arr.rfq_details = tempItemList
+    arr.requested_date = rdate
+    arr.require_date = ddate
+    arr.rfqid = id
+
+
+
+
+    for (let a = 0; a < upload.length; a++) {
+      formData.append(
+        "myFile" + a,
+        upload[a].file,
+        upload[a].name,
+      );
+    }
+
+
+
+
+
+    if (arr.rfq_details.length !== 0) {
+
+      formData.append('rfq_details', JSON.stringify(tempItemList))
+      formData.append('requested_date', rdate)
+      formData.append('require_date', ddate)
+      formData.append('rfq_id', id)
+      formData.append('party_id', party_id)
+      formData.append('user_id', user.id)
+      formData.append('contact_id', contId)
+      formData.append('div_id', localStorage.getItem('division'))
+      tempItemList.map((answer, i) => {
+
+        formData.append(`file${i}`, answer.files ? answer.files : null)
+      })
+
+      url.post(`rfq`, formData)
+        .then((response) => {
+
+          Swal.fire({
+            title: 'Success',
+            type: 'success',
+            icon: 'success',
+            text: 'Data saved successfully.',
+          })
+            .then((result) => {
+
+              routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`)
+              getrfq()
+            })
+
+        })
+        .catch(function (error) {
+          Swal.fire({
+            title: "Error",
+            type: "error",
+            icon: "warning",
+            text: "Something Went Wrong.",
+          }).then((result) => {
+            setState({ ...state, loading: false });
+          });
+        })
+    }
+    else {
+      Swal.fire({
+
+        title: 'Warning',
+        type: 'warning',
+        icon: 'warning',
+        text: 'Please Enter RFQ Details :)',
+      })
+      setState({ ...state, loading: false });
+
+    }
+
+
+  };
+  const getrfq = () => {
+    url.get("rfq/" + id).then(({ data }) => {
+      setcname(data[0].party[0].firm_name)
+      setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))
+      setfiles(data[0].files)
+
+      setddate(moment(data[0].require_date).format("MMMM DD, YYYY"))
+
+
+
+      setState({
+        ...state,
+        item: data[0].rfq_details,
+      });
+    });
+
+    url.get("products").then(({ data }) => {
+
+      setProductList(data)
+    })
+  }
+  const product = ProductList.map((guest, index) => {
+    return {
+      label: guest.name,
+      value: guest.id,
+      key: index,
+      name: "name",
+    }
+  })
+
+  const [data, setData] = useState([])
+
   useEffect(() => {
+
+
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
+
     getVendorList().then(({ data }) => {
       setCustomerList(data);
     });
-  }, []);
+    url.get("products").then(({ data }) => {
 
-  const setrfq = (event) => {
-    setparty_id(event.target.value);
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
-    url.get("parties/" + event.target.value).then(({ data }) => {
-      setcustomercontact(data[0].contacts);
-
-      setrfqstatus(true);
     });
-  };
 
-  const handleSubmit = async (values, { isSubmitting, resetForm }) => {
+    // url.get("rfq/" + id).then(({ data }) => {
 
-   values.rfq_details.map((answer, i) => {  
-    
-     formData.append(`file${i}`,answer.file)
+    //   setcname(data[0].party[0].firm_name)
+    //   setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))
+    //   setfiles(data[0].files)
+
+
+    //   setddate(moment(data[0].require_date).format("MMMM DD, YYYY"))
+
+    //   setState({
+    //     ...state,
+    //     item: data[0].rfq_details,
+    //   });
+    // });
+
+    url.get("products").then(({ data }) => {
+
+      setProductList(data)
     })
-    for (let a = 0; a < upload.length; a++) {
-      formData.append("myFile" + a, upload[a], upload[a].name);
+    return setIsAlive(false)
+  }, [isNewInvoice, isAlive, generateRandomId]);
+  const datas = ProductList.map((guest, index) => {
+    return {
+      label: guest.name,
+      value: guest.id,
+      key: index
     }
-    values.party_id = party_id;
-    formData.append('div_id',GDIV)
-    formData.append('user_id',user.id)
-    for (const [key, value] of Object.entries(values)) {
-      let list = [];
-      if (`${key}` === "rfq_details") {
-        for (const iterator of values.rfq_details) {
-          list.push({
-            file: iterator,
-          });
+  })
 
-          formData.append("rfq_details", JSON.stringify(values.rfq_details));
-        }
-      } else {
-        formData.append(`${key}`, `${value}`);
-      }
-    }
 
-    setState({ ...state, loading: true });
-    if (values.rfq_details) {
-      url
-        .post("rfq", formData)
-        .then(function (response) {
-          Swal.fire({
-            title: "Success",
-            type: "success",
-            icon: "success",
-            text: "Data saved successfully.",
-          }).then((result) => {
-            getrfq();
-            history.push(navigatePath+"/sales/rfq-form/rfqview");
-          });
-        })
+  let subTotalCost = 0;
+  let {
+    orderNo,
+    buyer,
+    seller,
+    item: invoiceItemList = [],
+    status,
+    vat,
+    date,
+    currency,
+    loading,
+  } = state;
 
-        .catch(function (error) {});
-      resetForm({ values: "" });
-    } else {
-      setmessage(true);
-    }
-  };
 
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "VIEW", path: navigatePath+"/sales/rfq-form/rfqview" },
+            { name: "RFQ", path: '/sales/rfq-form/rfqview' },
+            { name: "RFQ VIEW", path: navigatePath + `/sales/rfq-form/rfqview` },
             { name: "RFQ" },
           ]}
         />
       </div>
-
-      <Card elevation={3}>
-        <Formik
-          className=".bg-green"
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          enableReinitialize={true}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            setSubmitting,
-            setFieldValue,
-            resetForm,
-          }) => (
-            <div>
-              <form
-                className="p-4"
-                onSubmit={handleSubmit}
-                encType="multipart/form-data"
-              >
-                <div className="flex justify-between">
-                  <div className="flex p-4">
-                    <h5 className="m-0">NEW RFQ</h5>
-                  </div>
-                  <div className="">
-                    <Button
-                      color="primary"
-                      className="mt-2 py-2 mb-2"
-                      variant="outlined"
-                      type="submit"
-                      disabled={loading}
-                      fullWidth
-                    >
-                      <Icon>save</Icon> SAVE
-                    </Button>
-                  </div>
-                </div>
-                <Divider className="mb-2" />
-                <Grid container spacing={3} alignItems="center">
-                  <Grid item xs>
-                    <div className="flex justify-between">
-                      <div className="flex">
-                        <TextField
-                          label="Supplier Name"
-                          style={{ minWidth: 200, maxWidth: "250px" }}
-                          name="party_id"
-                          size="small"
-                          variant="outlined"
-                          value={values.party_id}
-                          select
-                          onClick={(event) => setrfq(event)}
-                          required
-                        >
-                          <MenuItem
-                            onClick={() => {
-                              history.push("/party/addparty");
-                            }}
-                          >
-                            <Icon>add</Icon>new
-                          </MenuItem>
-                          {CustomerList.filter(obj=>obj.div_id).map((item) => (
-                            <MenuItem value={item.id} key={item.id}>
-                              {item.firm_name}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </div>
-                    </div>
-                  </Grid>
-                  <Grid item xs>
-                    <div className="flex">
-                      {/* {rfqstatus && ( */}
-                        <TextField
-                          label="Contact Person"
-                          style={{ minWidth: 200, maxWidth: "250px" }}
-                          name="contact_id"
-                          size="small"
-                          variant="outlined"
-                          select
-                          disabled={!rfqstatus}
-                          value={values.contact_id}
-                          onChange={handleChange}
-                          required
-                        >
-                          {customercontact.map((item) => (
-                            <MenuItem value={item.id} key={item.id}>
-                              {item.fname}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      {/* )} */}
-                    </div>
-                  </Grid>
-                  <Grid item xs>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        className="m-2"
-                        margin="none"
-                        label="RFQ Date"
-                        inputVariant="outlined"
-                        type="text"
-                        size="small"
-                        format="dd MMMM yyyy"
-                        selected={values.requested_date}
-                        value={values.requested_date}
-                        onChange={(date) => {
-                          setFieldValue(
-                            "requested_date",
-                            moment(date).format("YYYY-MM-DD")
-                          );
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-
-                  <Grid item xs>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        className="m-2"
-                        margin="none"
-                        label="Bid Closing Date"
-                        inputVariant="outlined"
-                        format="dd MMMM yyyy"
-                        type="text"
-                        size="small"
-                        autoOk={true}
-                        value={values.require_date}
-                        onChange={(date) =>
-                          setFieldValue(
-                            "require_date",
-                            moment(date).format("YYYY-MM-DD")
-                          )
-                        }
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                  
-
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                </Grid>
-
-                <div className="mb-8">
-                  <InvoiceItemTable
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleChange={handleChange}
-                  />
-                </div>
-                {message && (
-                  <h6 style={{ color: "red" }}>Please Enter RFQ Details</h6>
-                )}
-                <div className="mt-6 px-4 mb-5 flex items-center justify-between">
-                  <label htmlFor="upload-multiple-file">
-                    <Button
-                      className="capitalize py-2"
-                      // className="py-2"
-                      color="primary"
-                      component="span"
-                      variant="contained"
-                      size="small"
-                    >
-                      <Icon className="pr-8">cloud_upload</Icon>
-                      <span>Attach File</span>
-                    </Button>
-                  </label>
-                  <input
-                    className="hidden"
-                    onChange={handleFileSelect}
-                    id="upload-multiple-file"
-                    ref={el}
-                    type="file"
-                    multiple
-                    name="myFile[]"
-                  />
-
-                  {status && (
-                    <span>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        size="small"
-                        className="py-2"
-                        onClick={handleAllRemove}
-                      >
-                        Remove All
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        disabled={isEmpty}
-                        onClick={uploadAllFile}
-                      >
-                        Upload All
-                      </Button>
-                    </span>
-                  )}
-                </div>
-
-                <Card className="mb-6" elevation={2}>
-                  <div className="p-4">
-                    <Grid
-                      container
-                      spacing={2}
-                      justify="center"
-                      alignItems="center"
-                      direction="row"
-                    ></Grid>
-                  </div>
-                  <Divider></Divider>
-
-                  <div className="flex flex-wrap justify-center items-center m--2">
-                    {rfqFiles.map((item, index) => {
-                      return (
-                        <Card
-                          elevation={6}
-                          className={clsx({
-                            "flex-column justify-center items-center py-6 px-8 m-2 cursor-pointer": true,
-                          })}
-                        >
-                          <Tooltip title="Remove">
-                            <span style={{ paddingRight: 0 }}>
-                              <Icon
-                                color="error"
-                                className=""
-                                onClick={(event) => handleSingleRemove(index)}
-                              >
-                                close
-                              </Icon>
-                            </span>
-                          </Tooltip>
-                          {item.name.split(".")[1] !== "pdf" ? (
-                            <img
-                              src={item.src}
-                              style={{ width: "100px", height: "100px" }}
-                            />
-                          ) : (
-                            <Icon
-                              className="bg-error"
-                              style={{ width: "100px", height: "100px" }}
-                            >
-                              picture_as_pdf
-                            </Icon>
-                          )}
-                        </Card>
-                      );
-                    })}
-                  </div>
-                </Card>
-              </form>
+      <Card elevation={6} className="m-sm-30">
+        <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
+          <ValidatorForm onSubmit={handleSubmit} autocomplete='off' onError={(errors) => null}>
+            <div className="viewer_actions px-4 flex justify-end">
+              <div className="mb-6">
+                <Button
+                  type="button"
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => Rfqpush()}
+                >
+                  <Icon>cancel</Icon> CANCEL
+                </Button>
+                <Button
+                  type="submit"
+                  className="py-2"
+                  variant="outlined"
+                  color="primary"
+                  disabled={loading}
+                >
+                  <Icon>save</Icon> SAVE
+                </Button>
+              </div>
             </div>
-          )}
-        </Formik>
+
+            <div className="viewer__order-info px-4 mb-4 flex justify-between">
+              <div className="flex justify-between px-4 mb-4">
+                <div>
+
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    options={CustomerList}
+                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    getOptionLabel={(option) => option?.firm_name}
+                    filterOptions={filterPrice}
+                    required={true}
+                    onChange={(event, newValue) => {
+                      setPartyId(newValue?.id ? newValue?.id : 0)
+                      getContacts(newValue?.id ? newValue?.id : 0)
+                    }}
+                    size="small"
+                    renderInput={(params) => <TextField {...params} maxHeight="10px"
+                      variant="outlined" label="Vendor Name" />}
+                  />
+
+                </div>
+                <div style={{ marginLeft: 9 }}>
+
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    label="Contact Person"
+                    disabled={!rfqstatus}
+                    options={customercontact}
+                    onChange={(e, newValue) => { setContId(newValue?.id) }}
+                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    getOptionLabel={(option) => option.fname}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+ Add New</Button>)
+                        });
+                      }
+
+
+                      return filtered;
+                    }}
+                    size="small"
+                    renderInput={(params) => <TextField {...params} maxHeight="10px"
+                      variant="outlined" label="Contact Person" />}
+                  />
+
+                </div>
+              </div>
+
+              <div className="flex justify-between px-4 mb-4">
+                <div className="flex">
+
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      margin="none"
+                      label="RFQ Date"
+                      id="mui-pickers-date"
+                      inputVariant="outlined"
+                      type="text"
+                      size="small"
+                      fullWidth
+                      autoOk={true}
+                      value={rdate}
+                      format="MMMM dd, yyyy"
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+
+                  {/* </MuiPickersUtilsProvider> */}
+
+                </div>
+                <div>
+
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      margin="none"
+                      className="ml-2"
+                      id="mui-pickers-date"
+                      label="Bid Closing Date"
+                      inputVariant="outlined"
+                      type="text"
+                      autoOk={true}
+                      variant="outlined"
+                      value={ddate}
+                      size="small"
+                      fullWidth
+                      format="MMMM dd, yyyy"
+                      onChange={handleRDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
+              </div>
+            </div>
+
+
+            <Divider />
+
+            <Table className="mb-4">
+              <TableHead>
+                <TableRow className="bg-default">
+                  <TableCell className="pl-2 text-center" width={50} align='center' >S.NO.</TableCell>
+                  <TableCell className="pl-2 text-center" width={100} ></TableCell>
+
+                  <TableCell className="pl-2" width={300} >ITEM NAME</TableCell>
+
+                  <TableCell className="px-0" width={100}>QUANTITY</TableCell>
+                  <TableCell className="px-0" width={120}>UOM</TableCell>
+                  <TableCell className="px-0" width={400}>DESCRIPTION</TableCell>
+                  {/* <TableCell className="px-0">Cost</TableCell> */}
+                  <TableCell className="p-0" align="center">ACTION</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {invoiceItemList?.map((item, index) => {
+
+
+                  return (
+                    <TableRow key={index}>
+                      <TableCell className="pl-2 capitalize" align="center" width={50}>
+                        {index + 1}
+                      </TableCell>
+
+
+                      <TableCell>
+
+                        {item?.src ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
+
+                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : <>
+                          {item?.product_name && (<Icon
+                            variant="contained"
+                            component="label"
+
+                          >
+                            file_upload
+                            <input
+                              type="file"
+                              name="files"
+                              onChange={(e) => SelectFile(e, index)}
+
+                            />
+                          </Icon>)}
+                        </>}
+                        {/* {item?.files ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
+
+                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : (<Icon
+                          variant="contained"
+                          component="label"
+
+                        >
+                          file_upload
+                          <input
+                            type="file"
+                            name="files"
+                            onChange={(e) => SelectFile(e, index)}
+
+                          />
+                        </Icon>)} */}
+                      </TableCell>
+
+
+                      <TableCell className="pl-2 capitalize" align="left">
+
+
+                        {/* <TextValidator
+                        label="Name"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                        name="product_id"
+                        value={item.product_id}
+                        onChange={(event) => setproduct(event, index)}
+                        fullWidth
+                        select
+
+                      >
+                      {ProductList.map((item) => (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                    </TextValidator> */}
+                        <Autocomplete
+                          className="w-full"
+                          size="small"
+                          options={proList ? proList : []}
+                          name="product_name"
+                          value={item?.product_name}
+                          // filterOptions={filterOptions}
+                          renderOption={option => option.name}
+                          multiline
+                          getOptionLabel={option => {
+                            // e.g value selected with enter, right from the input
+                            if (typeof option === "string") {
+                              return option;
+                            }
+                            if (option.inputValue) {
+                              return option.inputValue;
+                            }
+                            return option?.name ? option?.name : (item?.product_name ? item?.product_name : " ");
+                          }}
+                          freeSolo
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+
+                          renderInput={(params) => (
+                            <TextField inputRef={input => {
+                              inputRef[index] = input;
+                            }} {...params} variant="outlined" name="product_id" required fullWidth />
+                          )}
+                          // onChange={handleChanges}
+                          onChange={(event, newValue) => setproduct(event, newValue, index)}
+                          onInputChange={(event, newValue) => setproduct(event, newValue, index)}
+
+
+                        />
+
+                      </TableCell>
+
+
+
+                      <TableCell className="pl-0 capitalize" align="left" width={100}>
+                        <TextValidator
+                          label="Qty"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          name="quantity"
+                          validators={["isNumber"]}
+
+                          errorMessages={["Invalid Number"]}
+                          value={item.quantity}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}
+                          required
+                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity') }}
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          fullWidth
+
+
+                        />
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" width={100}>
+                        <TextValidator
+                          label="UOM"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          name="unit_of_measure"
+                          required
+                          value={item?.unit_of_measure}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'descriptionss', index + 'quantity') }}
+
+                          inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'unit_of_measure') }}
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+                          fullWidth
+                          select
+
+
+                        >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+                          {data.map((item, ind) => (
+                            <MenuItem value={item.value} key={item}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </TextValidator>
+                      </TableCell>
+                      <TableCell className="pl-0 capitalize" align="left" width={700}>
+                        <TextField
+                          label="Description"
+                          inputProps={{ style: { textTransform: 'capitalize' }, ref: setRef(index + 'descriptionss') }}
+                          type="text"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', null, index + 'unit_of_measure') }}
+
+                          required
+                          name="description"
+                          fullWidth
+                          variant="outlined"
+                          size="small"
+                          multiline
+                          value={item.description ? item.description : null}
+                          onChange={(event) => handleIvoiceListChange(event, index)}
+
+                        />
+                      </TableCell>
+
+                      {/* <TableCell className="pl-0 capitalize" align="left">
+                    {item.unit * item.price}
+                  </TableCell> */}
+
+                      <TableCell className="pr-0 capitalize" align="center">
+                        <Button onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
+                          <Icon color="error" fontSize="small">
+                            delete
+                          </Icon>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            <div className="flex justify-end px-4 mb-4">
+              <Button className="mt-4 py-2"
+                color="primary"
+                variant="contained"
+                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
+            </div>
+          </ValidatorForm>
+          <label htmlFor="upload-multiple-file">
+            <Button
+              className="capitalize ml-4 py-2"
+              color="primary"
+              component="span"
+              variant="contained"
+              size="small"
+            >
+
+              <Icon className="pr-8 pl-2">cloud_upload</Icon>
+              <span>Attach File</span>
+
+            </Button>
+          </label>
+          <input
+            className="hidden"
+            onChange={handleFileSelect}
+            id="upload-multiple-file"
+            type="file"
+            multiple
+            name="myFile[]"
+          />
+          <div className="mb-8">
+            <div className="flex flex-wrap justify-center items-center m--2">
+              {files.map((item, index) => (
+                <Card
+                  elevation={6}
+                  className={clsx({
+                    "flex-column justify-center items-center  px-8 m-2 cursor-pointer": true,
+                  })}
+                >
+
+                  {item.file_name.split(".")[1] === 'jpg' && (<Icon
+                  >
+                    photo_library
+                  </Icon>)}
+                  {item.file_name.split(".")[1] === 'png' && (<Icon
+                  >
+                    photo_library
+                  </Icon>)}
+                  {item.file_name.split(".")[1] === 'pdf' && (<Icon
+                  >
+                    picture_as_pdf
+                  </Icon>)}
+
+
+                  {/* <h5 className="m-0">{item.file_name}</h5> */}
+
+
+                  {item.rfq_id && <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name.split("/")[2]}</a>}
+                  {!item.rfq_id && <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name}</a>}
+
+                  <IconButton onClick={() => deleterfqfile(item.id)}>
+                    <Tooltip title="Delete File">
+                      <Icon color="error">close</Icon>
+                    </Tooltip>
+                  </IconButton>
+                </Card>
+              ))}
+              {upload.map((item, index) => (
+
+                <Card
+                  elevation={6}
+                  className={clsx({
+                    "flex-column justify-center items-center  px-8 m-2 cursor-pointer": true,
+                  })}
+                >
+
+                  <Icon
+                  >
+                    photo_library
+                  </Icon>
+
+                  {/* <h5 className="m-0">{item.file_name}</h5> */}
+
+
+                  <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name}</a>
+
+
+                  <IconButton onClick={() => handleSingleRemove(item.id)}>
+                    <Tooltip title="Delete File">
+                      <Icon color="error">close</Icon>
+                    </Tooltip>
+                  </IconButton>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </Card>
+      {shouldOpenConfirmationDialogparty && (
+        <MemberEditorDialog
+          open={shouldOpenConfirmationDialogparty}
+          onConfirmDialogClose={handleDialogClose}
+          handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+          customercontact={setcustomercontact}
+          partyid={party_id}
+
+          text="Are you sure to delete?"
+        />
+      )}
+      {uom && (
+        <UOMDialog
+          open={uom}
+          handleClose={() => { setUOM(false) }}
+          setData={setData}
+        />
+      )}
+
     </div>
   );
 };
 
-const initialValues = {};
+const initialValues = {
+  id: "",
+  orderNo: "",
+  buyer: {
+    name: "",
+    address: "",
+  },
+  seller: {
+    name: "",
+    address: "",
+  },
+  item: [],
+  status: "",
+  vat: "",
+  date: new Date(),
+  currency: "",
+  loading: false,
+};
 
-export default InvoiceForm;
+export default InvoiceEditor;

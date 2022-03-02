@@ -41,14 +41,15 @@ export const getInvoice = () => {
 const url = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
   // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
-  // baseURL: 'http://www.amacoerp.com/amaco/public/api/',
+  // baseURL: "http://18.210.239.86/amaco/public/api/",
+  // baseURL: "http://www.amacoerp.com/amaco/public/api/",
   //  timeout: 1000,
-
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });
-export const basePath = "http://127.0.0.1:8000/api";
+export const basePath = "http://127.0.0.1:8000/";
+// export const basePath = "http://18.210.239.86/amaco/";
 // export const basePath = "http://www.amacoerp.com/test/amaco_test/";
-// export const basePath =  "http://www.amacoerp.com/amaco/" ;
+// export const basePath = "http://www.amacoerp.com/amaco/";
 //   const url = axios.create({
 //     baseURL: 'http://www.amacoerp.com/amaco/public/api/',
 
@@ -56,7 +57,7 @@ export const basePath = "http://127.0.0.1:8000/api";
 
 //     // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 //   });
-export const navigatePath = "/test";
+export const navigatePath = "";
 
 export const urlphp = "/amaco_test";
 export const divisionId = 24;
@@ -64,14 +65,14 @@ export const GDIV = localStorage.getItem("division")
   ? localStorage.getItem("division")
   : 1;
 
-// export const version="";
-export const version = "Test Version";
+export const version = "";
+// export const version = "Test Version";
 
 export const ApiKey = "";
 const role = localStorage.getItem("role");
 
 // const  url = "http://dataqueuesystems.com/amaco/amaco/public/api/";
-const phpurl = "http://www.amacoerp.com/test/amaco_test/public/api/";
+// const phpurl = "http://www.amacoerp.com/test/amaco_test/public/api/";
 // const  phpurl = "http://dataqueuesystems.com/amaco/amaco/public/api/";
 export const getparties = () => {
   return url.get(url + "parties");
@@ -86,7 +87,7 @@ export const getProductList = () => {
   return url.get("products");
 };
 export const getVendorList = () => {
-  return url.get("parties-vendor");
+  return url.get(`parties-vendor/${localStorage.getItem("division")}`);
 };
 export const getCustomerList = () => {
   return url.get(`customer-list/${localStorage.getItem("division")}`);
@@ -116,6 +117,11 @@ export const getpaidDivision = () => {
 export const getEmployee = () => {
   return url.get("getEmp");
 };
+
+export const getUnitOfMeasure = () => {
+  return url.get("uom");
+};
+//asd
 export const data = [
   {
     value: "TON",
@@ -241,6 +247,25 @@ export const currency = [
   {
     name: "USD",
     value: "USD",
+  },
+  {
+    name: "AED",
+    value: "AED",
+  },
+];
+
+export const CUR_RENCY = [
+  {
+    name: "SAR",
+    value: "SAR",
+  },
+  {
+    name: "USD",
+    value: "USD",
+  },
+  {
+    name: "AED",
+    value: "AED",
   },
 ];
 
