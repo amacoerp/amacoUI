@@ -36,13 +36,15 @@ import { useCallback } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 
 import axios from "axios";
-import url, { getProductList, capitalize_arr, data } from "../invoice/InvoiceService";
+import url, { getProductList, getUnitOfMeasure, capitalize_arr, data } from "../invoice/InvoiceService";
 import Select from 'react-select';
 import dateFormat from 'dateformat';
 import moment from "moment";
 import { Breadcrumb, MatxProgressBar } from "matx";
 import useSettings from '../../hooks/useSettings';
 import useAuth from "app/hooks/useAuth";
+import UOMDialog from '../invoice/UOMDialog';
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -71,6 +73,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let inputRef = [];
   let priceRef = [];
   const [getRef, setRef] = useDynamicRefs();
+  const [uom, setUOM] = useState(false)
 
   const { id } = useParams();
   const { user } = useAuth();
@@ -549,9 +552,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       name: "name",
     }
   })
+  const [data, setData] = useState([])
 
   useEffect(() => {
 
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     url.get("products").then(({ data }) => {
 
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
@@ -873,6 +880,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -1013,6 +1022,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         </div>
       </Card>
+      {uom && (
+        <UOMDialog
+          open={uom}
+          handleClose={() => { setUOM(false) }}
+          setData={setData}
+        />
+      )}
     </div>
   );
 };

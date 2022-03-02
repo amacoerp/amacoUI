@@ -27,7 +27,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { getInvoiceById, addInvoice, updateInvoice, getVendorList, navigatePath, GDIV } from "../../invoice/InvoiceService.js";
+import { getInvoiceById, addInvoice, getUnitOfMeasure, getVendorList, navigatePath, GDIV } from "../../invoice/InvoiceService.js";
 import { useParams, useHistory, Link, Redirect } from "react-router-dom";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,6 +35,7 @@ import clsx from "clsx";
 import { useCallback } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 import MemberEditorDialog from '../../party/partycontact';
+import UOMDialog from '../../invoice/UOMDialog';
 
 import axios from "axios";
 import url, { getProductList, capitalize_arr, data } from "../../invoice/InvoiceService.js";
@@ -171,6 +172,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogparty(false)
   }
 
+  const [uom, setUOM] = useState(false)
+
   const handleSellerBuyerChange = (event, fieldName) => {
     event.persist();
     setState({
@@ -237,15 +240,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
 
-        
-          let tempItemList = [...state.item];
-          tempItemList.splice(index, 1);
 
-          setState({
-            ...state,
-            item: tempItemList,
-          });
-        
+        let tempItemList = [...state.item];
+        tempItemList.splice(index, 1);
+
+        setState({
+          ...state,
+          item: tempItemList,
+        });
+
         // let tempItemList = [...state.item];
         // tempItemList.splice(index, 1);
 
@@ -595,7 +598,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   })
 
+  const [data, setData] = useState([])
+
   useEffect(() => {
+
+
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
+
     getVendorList().then(({ data }) => {
       setCustomerList(data);
     });
@@ -954,6 +965,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -1105,6 +1117,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text="Are you sure to delete?"
         />
       )}
+      {uom && (
+        <UOMDialog
+          open={uom}
+          handleClose={() => { setUOM(false) }}
+          setData={setData}
+        />
+      )}
+
     </div>
   );
 };

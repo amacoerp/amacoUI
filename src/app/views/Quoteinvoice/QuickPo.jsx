@@ -29,7 +29,9 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath, GDIV } from "../invoice/InvoiceService";
+import UOMDialog from '../invoice/UOMDialog';
+
+import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath, getUnitOfMeasure, GDIV } from "../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 import FormDialog from "../product/productprice";
@@ -128,7 +130,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setproList(proListAll)
     tempItemList.push({
       product_id: "",
-      item_name:"",
+      item_name: "",
       src: '',
       description: "",
       descriptions: "",
@@ -208,7 +210,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleChanges = (event, newValue, index) => {
-    
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -224,9 +225,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product_name'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
-        element['product'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
-        element['item_name'] = newValue?.id ? newValue?.name : newValue?newValue:event.target.value
+        element['product_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
         element['productId'] = newValue?.id ? newValue?.id : null
         // element.product_id=newValue?.id?newValue?.id:null
         element['product_price_list'] = price ? price : null
@@ -244,7 +245,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
 
-    
 
 
   };
@@ -513,9 +513,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-
+    getUnitOfMeasure().then(({ data }) => {
+      setData(data);
+    });
     url.get("products").then(({ data }) => {
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
@@ -919,17 +923,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="product_id"
                           multiline
                           value={item?.item_name}
-                          
-                       
-                         
+
+
+
                           // defaultValue={item.item_name}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
-                          
+
 
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name?item?.item_name:"")}
+                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name ? item?.item_name : "")}
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input
@@ -952,14 +956,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               multiline
-                              
-                              variant="outlined" name="product_id" fullWidth 
+
+                              variant="outlined" name="product_id" fullWidth
                               onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                              />
+                            />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => handleChanges(event, newValue, index)}
-                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
 
 
                         />
@@ -1032,6 +1036,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'unit_of_measure')
                           }}
                         >
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
+
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
                               {item.label}
@@ -1363,6 +1369,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           open={shouldOpenConfirmationDialog}
           onConfirmDialogClose={handleDialogClose}
           text="Are you sure to delete?"
+        />
+      )}
+
+      {uom && (
+        <UOMDialog
+          open={uom}
+          handleClose={() => { setUOM(false) }}
+          setData={setData}
         />
       )}
 

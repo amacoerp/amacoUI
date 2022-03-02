@@ -57,7 +57,7 @@ const StatCards = () => {
     });
 
 
-  }, [])
+  }, [localStorage.getItem('division')])
 
   return (
     <Grid container spacing={3} className="mb-3">

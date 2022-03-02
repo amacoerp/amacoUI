@@ -117,6 +117,11 @@ export const getpaidDivision = () => {
 export const getEmployee = () => {
   return url.get("getEmp");
 };
+
+export const getUnitOfMeasure = () => {
+  return url.get("uom");
+};
+//asd
 export const data = [
   {
     value: "TON",
