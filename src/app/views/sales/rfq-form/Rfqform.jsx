@@ -203,11 +203,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const addItemToInvoiceList = () => {
+
+    setproList(proListAll)
     let tempItemList = [...state.item];
     tempItemList.push({
       created_at: "",
       description: "",
-      product_name: " ",
+      product_name: "",
       id: "",
       party: [],
       prices: [],
@@ -371,6 +373,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const setproduct = (v, newValue, index,) => {
+    console.log(newValue)
+    if (!newValue?.id) {
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(newValue?.toLowerCase())))
+
+    }
 
     let tempItemList = [...state.item];
 
@@ -599,6 +606,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   })
 
   const [data, setData] = useState([])
+  const [proListAll, setproListAll] = useState([]);
 
   useEffect(() => {
 
@@ -613,6 +621,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get("products").then(({ data }) => {
 
       setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
 
