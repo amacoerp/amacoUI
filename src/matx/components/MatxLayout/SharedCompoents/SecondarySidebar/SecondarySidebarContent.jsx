@@ -5,7 +5,7 @@ import ShoppingCart from "../ShoppingCart";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { ChatHead } from "matx";
-import Chatbox from "app/views/chat-box-2/Chatbox";
+// import Chatbox from "app/views/chat-box-2/Chatbox";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   root: {
@@ -58,7 +58,7 @@ const SecondarySidebarContent = () => {
           </IconButton>
         }
       >
-        <Chatbox />
+        {/* <Chatbox /> */}
       </ChatHead>
 
       <span className="m-auto"></span>

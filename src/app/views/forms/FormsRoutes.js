@@ -17,10 +17,10 @@ const formsRoutes = [
     path: "/forms/wizard",
     component: React.lazy(() => import("./WizardForm")),
   },
-  {
-    path: "/forms/order-form",
-    component: React.lazy(() => import("./order-form/OrderForm")),
-  },
+  // {
+  //   path: "/forms/order-form",
+  //   component: React.lazy(() => import("./order-form/OrderForm")),
+  // },
   {
     path: "/forms/property-listing-form",
     component: React.lazy(() => import("./PropertyListingForm")),
@@ -31,10 +31,10 @@ const formsRoutes = [
       import("../pages/customers/customer-form/CustomerForm")
     ),
   },
-  {
-    path: "/forms/invoice-form",
-    component: React.lazy(() => import("./invoice-form/InvoiceForm")),
-  },
+  // {
+  //   path: "/forms/invoice-form",
+  //   component: React.lazy(() => import("./invoice-form/InvoiceForm")),
+  // },
 ];
 
 export default formsRoutes;
