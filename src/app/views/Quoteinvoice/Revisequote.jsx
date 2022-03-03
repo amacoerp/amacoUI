@@ -577,17 +577,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       if (index == i) {
+        // 29-1-2022
+        let m = element.margin ? element.margin : 100;
+        element['costprice'] = element.purchase_price ? element.purchase_price : 0
+        element['margin'] = element.purchase_price ? (isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0) : 100;
 
+        // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
+        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
 
-        element['margin'] = isNaN((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100).toFixed(3) : 0;
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-
-        // console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
-        // element.sell_price=parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3)-((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price)/100)+parseFloat(element.purchase_price)).toFixed(3))/100)).toFixed(3));
+        // //console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
+        // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-
+        element.sell_price = d_val
         element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
-        element.discount_val = ((parseFloat(parseFloat(discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        element.discount = 0
+        element.discount_val = 0
+        // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
 
 
       }
