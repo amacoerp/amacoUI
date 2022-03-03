@@ -9,7 +9,7 @@ import {
   Icon,
   Grid,
   Table,
-  TextField, Card,
+  Card,
   TableHead,
   TableRow,
   TableCell,
@@ -21,18 +21,14 @@ import { format } from "date-fns";
 import { Link, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import logo from "./../invoice/amaco-logo.png";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import url, { getpaymentaccount, navigatePath } from "../invoice/InvoiceService";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import moment from "moment";
 import { useReactToPrint } from "react-to-print";
 import { Breadcrumb } from "matx";
 import { ValidatorForm } from "react-material-ui-form-validator";
 
 
-// import Image from 'react-image-resizer';
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   "@global": {
@@ -47,9 +43,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       },
 
       "#header": {
-        // padding: "10px",
-
-        /* These do the magic */
+       
         position: "fixed",
         marginTop: "100px",
         left: 0,
@@ -89,33 +83,19 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
       "#table": {
         display: "-webkit-box",
-        display: "-ms-flexbox",
-        // display: "right",
+        // display: "-ms-flexbox",
         width: "650px",
         margin: "15px",
         position: "absolute",
 
-        // top: "38.9cm !important",
-        // paddingRight: "24cm !important"
+        
       },
-      //   "#footer": {
-      //     display:"-webkit-box",
-      // display: "-ms-flexbox",
-      // display: "center",
-      // width: "100%",
-      // position: "absolute",
-
-      // top: "38.9cm !important",
-      // paddingRight: "12cm !important"
-      //    },
-      "#print-area": {
-        // top: 10,
+           "#print-area": {
+        
         left: 0,
         right: 0,
 
-        // height: "100%",
-        // marginTop: "10px",
-        // marginBottom:'30px',
+       
         boxDecorationBreak: "clone",
         position: "relative",
 
@@ -134,14 +114,12 @@ const Customer = ({
   handleAddList,
   handleAddNewCard,
 }) => {
-  // let search = window.location.search;
-  // let params = new URLSearchParams(search);
-  // const foo =parseInt(params.get('s'));
+  
   const componentRef = useRef();
 
   const [UserList, setUserList] = useState([]);
   const [payment_account_id, setpayment_account_id] = useState("");
-  const [IsAlive, setIsAlive] = useState(false);
+  // const [IsAlive, setIsAlive] = useState(false);
   const [thstatus, setthstatus] = useState(false);
   const [from_date, setfrom_date] = useState('01-01-' + new Date().getFullYear());
   const [to_date, setto_date] = useState(new Date());
@@ -157,9 +135,9 @@ const Customer = ({
   const [response_data, setresponse_data] = useState([]);
   const [arr_length, setarr_length] = useState();
   const [balance, setbalance] = useState();
-  const [arr_length_status, setarr_length_status] = useState(false);
-  const [creditbalance, setcreditbalance] = useState(0.00);
-  const [debitbalance, setdebitbalance] = useState(0.00);
+  // const [arr_length_status, setarr_length_status] = useState(false);
+  // const [creditbalance, setcreditbalance] = useState(0.00);
+  // const [debitbalance, setdebitbalance] = useState(0.00);
   const [closing_bal, setclosing_bal] = useState(0.00);
   const [DivisionList, setDivisionList] = useState([]);
   const [state, setState] = React.useState({
@@ -168,11 +146,11 @@ const Customer = ({
     horizontal: "center",
   });
   const { id, s } = useParams();
-  const { vertical, horizontal, open } = state;
+  // const { vertical, horizontal, open } = state;
   const classes = useStyles();
-  let finalbal = 0.00;
+  // let finalbal = 0.00;
 
-  const formData = new FormData();
+  // const formData = new FormData();
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
     document.title = "Request for quoatation - Amaco";
@@ -180,6 +158,9 @@ const Customer = ({
 
       setUserList(data);
     });
+
+
+    // Api displays the Personal account statement from the start date to end date
     url
       .post(
         "all-advance-payment-statement?" +
@@ -193,14 +174,14 @@ const Customer = ({
 
         const myArr = Object.values(data[0].data).sort(
           (a, b) => new Date(b[0].date) - new Date(a[0].date)
-        );
-        setresponse_data(myArr);
-        setstatements(myArr);
-        setarr_length(Object.keys(myArr).length);
+        );//sort the response data in date wise 
+        setresponse_data(myArr);//set the myArr array object to response_data array
+        setstatements(myArr);//set the myArr array object to response_data array
+        setarr_length(Object.keys(myArr).length);//find the length of myArr
 
 
-        var sum = parseFloat(data[0].opening_balance);
-        var sum1 = 0.0;
+        var sum = parseFloat(data[0].opening_balance);//Assign the opening balance to sum variable
+        var sum1 = 0.0;//initial value sum1 is 0
         Object.values(data[0].data).map((item, i) => {
           if (item[0].debit) {
             sum += parseFloat(item[0].debit);
@@ -208,21 +189,21 @@ const Customer = ({
           if (item[0].credit) {
             sum1 += parseFloat(item[0].credit);
           }
-        });
-        setfrom_date(from_date)
-        setto_date(new Date())
-        setpayment_account_id('')
-        setdsum(sum);
-        setcsum(sum1);
-        setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+        });//create new array element sum and sum1 where sum holds  the total debit amount and sum1 holds the total credit amount
+        setfrom_date(from_date)//set from_date
+        setto_date(new Date())//set to date
+        // setpayment_account_id('')
+        setdsum(sum);//set the debit sum
+        setcsum(sum1);//set the credit sum
+        // setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
 
-        settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+        // settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
 
-        setcredit_days(data[0].credit_days);
-        setcname(data[0].name);
-        setopening_balance((data[0].opening_balance));
-        setclosing_bal((data[0].opening_balance) - sum + sum1);
-        setbalance((data[0].balance));
+        setcredit_days(data[0].credit_days);//set the credit days
+        setcname(data[0].name);//set person name
+        setopening_balance((data[0].opening_balance));//set the opening balance
+        setclosing_bal((data[0].opening_balance) - sum + sum1);//set the closing balance
+        setbalance((data[0].balance));// set the balance
 
         setthstatus(true);
       });
@@ -274,110 +255,111 @@ const Customer = ({
   };
 
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+
+
+  //   // if payment_account_id is not selected
+  //   if (payment_account_id === "All") {
+  //     url
+  //       .post(
+  //         "all-advance-payment-statement?" +
+  //         "from_date=" +
+  //         moment(from_date).format("YYYY-MM-DD") +
+  //         "&to_date=" +
+  //         moment(to_date).format("YYYY-MM-DD")
+  //       )
+  //       .then(({ data }) => {
+
+  //         const myArr = Object.values(data[0].data).sort(
+  //           (a, b) => new Date(b[0].date) - new Date(a[0].date)
+  //         );
+
+  //         setstatements(myArr);
+  //         setarr_length(Object.keys(myArr).length);
+
+
+  //         var sum = parseFloat(data[0].opening_balance);
+  //         var sum1 = 0.0;
+  //         Object.values(data[0].data).map((item, i) => {
+  //           if (item[0].debit) {
+  //             sum += parseFloat(item[0].debit);
+
+  //           }
+  //           if (item[0].credit) {
+  //             sum1 += parseFloat(item[0].credit);
+
+  //           }
+  //         });
 
 
 
-    if (payment_account_id === "All") {
-      url
-        .post(
-          "all-advance-payment-statement?" +
-          "from_date=" +
-          moment(from_date).format("YYYY-MM-DD") +
-          "&to_date=" +
-          moment(to_date).format("YYYY-MM-DD")
-        )
-        .then(({ data }) => {
+  //         setfrom_date(from_date)
+  //         setto_date(new Date())
+  //         setpayment_account_id('')
+  //         setdsum(sum);
+  //         setcsum(sum1);
+  //         setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
 
-          const myArr = Object.values(data[0].data).sort(
-            (a, b) => new Date(b[0].date) - new Date(a[0].date)
-          );
+  //         settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
 
-          setstatements(myArr);
-          setarr_length(Object.keys(myArr).length);
+  //         setcredit_days(data[0].credit_days);
+  //         setcname(data[0].name);
+  //         setopening_balance((data[0].opening_balance));
+  //         // setthstatus(true);
+  //       });
+  //   }
+  //   //  payment_account_id is  selected
+  //   else {
+  //     url
+  //       .post(
+  //         "advance-payment-statement?" +
+  //         "payment_account_id=" +
+  //         payment_account_id +
+  //         "&from_date=" +
+  //         moment(from_date).format("YYYY-MM-DD") +
+  //         "&to_date=" +
+  //         moment(to_date).format("YYYY-MM-DD")
+  //       )
+  //       .then(({ data }) => {
+  //         const myArr = Object.values(data[0].data).sort(
+  //           (a, b) => new Date(a[0].date) - new Date(b[0].date)
+  //         );
 
-
-          var sum = parseFloat(data[0].opening_balance);
-          var sum1 = 0.0;
-          Object.values(data[0].data).map((item, i) => {
-            if (item[0].debit) {
-              sum += parseFloat(item[0].debit);
-
-            }
-            if (item[0].credit) {
-              sum1 += parseFloat(item[0].credit);
-
-            }
-          });
-
-
-
-          setfrom_date(from_date)
-          setto_date(new Date())
-          setpayment_account_id('')
-          setdsum(sum);
-          setcsum(sum1);
-          setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
-
-          settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
-
-          setcredit_days(data[0].credit_days);
-          setcname(data[0].name);
-          setopening_balance((data[0].opening_balance));
-          setthstatus(true);
-        });
-    }
-    else {
-      url
-        .post(
-          "advance-payment-statement?" +
-          "payment_account_id=" +
-          payment_account_id +
-          "&from_date=" +
-          moment(from_date).format("YYYY-MM-DD") +
-          "&to_date=" +
-          moment(to_date).format("YYYY-MM-DD")
-        )
-        .then(({ data }) => {
-          const myArr = Object.values(data[0].data).sort(
-            (a, b) => new Date(a[0].date) - new Date(b[0].date)
-          );
-
-          setstatements(myArr);
-          setarr_length(Object.keys(myArr).length);
+  //         setstatements(myArr);
+  //         setarr_length(Object.keys(myArr).length);
 
 
-          var sum = parseFloat(data[0].opening_balance);
-          var sum1 = 0.0;
+  //         var sum = parseFloat(data[0].opening_balance);
+  //         var sum1 = 0.0;
 
-          Object.values(data[0].data).map((item, i) => {
-            if (item[0].debit) {
-              sum += parseFloat(item[0].debit);
+  //         Object.values(data[0].data).map((item, i) => {
+  //           if (item[0].debit) {
+  //             sum += parseFloat(item[0].debit);
 
 
 
-            }
-            if (item[0].credit) {
-              sum1 += parseFloat(item[0].credit);
+  //           }
+  //           if (item[0].credit) {
+  //             sum1 += parseFloat(item[0].credit);
 
 
-            }
+  //           }
 
-          });
+  //         });
 
 
-          setdsum(sum);
-          setcsum(sum1);
-          setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
-          settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+  //         setdsum(sum);
+  //         setcsum(sum1);
+  //         setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+  //         settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
 
-          setcredit_days(data[0].credit_days);
-          setcname(data[0].name);
-          setopening_balance((data[0].opening_balance));
-          setthstatus(true);
-        });
-    }
-  };
+  //         setcredit_days(data[0].credit_days);
+  //         setcname(data[0].name);
+  //         setopening_balance((data[0].opening_balance));
+  //         // setthstatus(true);
+  //       });
+  //   }
+  // };
   const handleDateChange = (date) => {
     filter_data(payment_account_id, date, to_date)
     setfrom_date(date);
@@ -489,7 +471,7 @@ const Customer = ({
           </div>
         </div>
       </div>
-      <ValidatorForm className="px-0 pb-0 ml-4" onSubmit={handleSubmit}>
+      <ValidatorForm className="px-0 pb-0 ml-4">
         <Grid container spacing={2}>
           {/* <Grid item lg={3} xs={12}>
             <TextField

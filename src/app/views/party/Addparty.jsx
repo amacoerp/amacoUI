@@ -13,11 +13,7 @@ import {
   Button
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab"
-// import Select from "react-select";
 import "date-fns";
-
-
-// import clsx from "clsx";
 import Swal from "sweetalert2";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import Checkbox from '@material-ui/core/Checkbox';
@@ -27,6 +23,7 @@ import useAuth from '../../hooks/useAuth';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 /* variable telcode  holds the country code values */
 const telcode = [
   { value: 91, label: "+91" },
