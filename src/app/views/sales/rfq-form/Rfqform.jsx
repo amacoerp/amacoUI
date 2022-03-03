@@ -967,6 +967,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'descriptionss', index + 'quantity') }}
 
                           inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'unit_of_measure') }}
+                          MenuProps={{maxHeight: 48 * 4.5 + 8,
+                            width: 250}}
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           fullWidth
                           select

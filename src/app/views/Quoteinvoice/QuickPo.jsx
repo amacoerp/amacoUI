@@ -210,7 +210,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const handleChanges = (event, newValue, index) => {
-
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
     const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -245,7 +244,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       ...state,
       item: tempItemList,
     });
-
 
 
 

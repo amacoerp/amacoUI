@@ -423,13 +423,13 @@ const Master = ({
     })
     setcname(name[0]?.name)
 
-    var result = response_data.filter(obj => id !== "All" ? (obj[0].div_id == id && moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
+    var result = response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
     var date2 = new Date(fDate);
     let debitSum = 0.00;
     let creditSum = 0.00;
     let dSum = 0.00;
     let cSum = 0.00;
-    response_data.filter(obj => id !== "All" ? (obj[0].div_id == id && moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
+    response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
 
 
       if (item[0].debit) {
@@ -449,11 +449,11 @@ const Master = ({
 
     let openingBal;
     if (id !== 'All') {
-      openingBal = DivisionList.filter(obj => obj.id == id).reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.balance), 0)
+      openingBal = DivisionList.filter(obj => obj.id == id).reduce((accumulator, currentValue) => accumulator + isNaN(currentValue.balance)? 0:parseFloat(currentValue.balance), 0)
 
     }
     else {
-      openingBal = DivisionList.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.balance ? currentValue.balance : 0), 0)
+      openingBal = DivisionList.reduce((accumulator, currentValue) => accumulator + isNaN(currentValue.balance)? 0:parseFloat(currentValue.balance), 0)
       // console.log(openingBal)
 
     }
@@ -511,11 +511,11 @@ const Master = ({
           </div>
         </div>
       </div>
-      <ValidatorForm className="px-0 pb-0 ml-4" >
+      <ValidatorForm className="px-0 pb-0 ml-5" >
         <Grid container spacing={2}>
           <Grid item lg={3} xs={12}>
             <TextField
-              className="mb-4 w-full"
+              className="mb-4 w-full ml-6"
               label="Name"
               name="workPhone"
               size="small"
@@ -541,7 +541,7 @@ const Master = ({
           <Grid item lg={3} md={6} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full ml-6"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -558,7 +558,7 @@ const Master = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full"
+                className="mb-4 w-full ml-6"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
