@@ -283,7 +283,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
+      text: 'You want to Delete this Purchase Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -304,7 +304,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your Quotation Details is safe :)',
+          'Your Purchase Details is safe :)',
           'error'
         )
       }
