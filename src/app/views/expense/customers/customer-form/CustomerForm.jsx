@@ -1215,8 +1215,8 @@ const CustomerForm = () => {
                     size="small"
                     variant="outlined"
                     autoComplete="none"
-                    value={vendor_id}
-                    onChange={(e) => setvendor_id(e.target.value)}
+                    value={employee_id}
+                    onChange={(e) => setemployee_id(e.target.value)}
                     select
                   >
                     {employeeList.map((item, ind) => (

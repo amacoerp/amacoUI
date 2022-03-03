@@ -232,9 +232,9 @@ function ProfitLoss() {
   }
   const caluclateamount = (arr, month, category) => {
 
-
-    const res = arr.filter(obj => obj.MONTH == month && obj.CATEGORY == category).reduce((a, v) => a = a + isNaN(parseFloat(v.AMOUNT)) ? 0 : parseFloat(v.AMOUNT), 0.00)
-
+    
+    const res = arr.filter(obj => obj.MONTH == month && obj.CATEGORY == category).reduce((a, v) => a = a + (isNaN(parseFloat(v.AMOUNT)) ? 0 : parseFloat(v.AMOUNT)), 0.00)
+    console.log(res)
 
     return res.toLocaleString(undefined, {
       minimumFractionDigits: 2
@@ -374,7 +374,7 @@ function ProfitLoss() {
           item['invest_Amount'] = data[0].data?.filter(obj => obj.payment_account_id == item.payment_account_id).reduce((a, v) => a = a + parseFloat(v.investment_details?.amount), 0.00) + parseFloat(item.opening_balance ? item.opening_balance : 0.00)
           return item
         })
-        console.log(res)
+        // console.log(res)
         setprofitLoss(res)
 
       })

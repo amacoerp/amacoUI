@@ -23,7 +23,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import logo from "./../invoice/amaco-logo.png";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import url, { getCustomerList } from "../invoice/InvoiceService";
 
@@ -37,6 +37,8 @@ import { useReactToPrint } from "react-to-print";
 import { Breadcrumb } from "matx";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import CustomerList from "../pages/customers/CustomerList";
+import Header from "./Header";
+import Footer from "./Footer";
 
 
 // import Image from 'react-image-resizer';
@@ -446,7 +448,7 @@ const Customer = ({
           <Grid item lg={3} md={6} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils} >
               <KeyboardDatePicker
-                className="mb-4 w-full ml-8"
+                className="mb-4 w-full ml-10"
                 margin="none"
                 label="From Date"
                 inputVariant="outlined"
@@ -463,7 +465,7 @@ const Customer = ({
           <Grid item lg={3} xs={12}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                className="mb-4 w-full ml-8"
+                className="mb-4 w-full ml-10"
                 margin="none"
                 label="To Date"
                 inputVariant="outlined"
@@ -510,56 +512,7 @@ const Customer = ({
             style={{ fontFamily: "Calibri", fontSize: 16 }}
           >
             <table>
-              <thead style={{ display: "table-header-group", marginTop: "20px" }}>
-                <tr>
-                  <td>
-                    <div class="empty-header">
-                      {/* <header> */}
-                      <div className="px-2 flex justify-between">
-                        <div className="flex">
-                          <div className="pr-12">
-                            <img
-                              src={logo}
-                              alt="this is car image"
-                              style={{ marginLeft: "15px", width: 237 }}
-                            />
-                          </div>
-
-                          <div className="viewer__order-info px-4 mb-4 flex justify-between"></div>
-                        </div>
-                        <div className="flex">
-                          <div style={{ marginLeft: "50px", marginRight: 10 }}>
-                            <h2 style={{ color: "#1d2257", textAlign: "right" }}>
-                              شركة أماكو العربية للمقاولات
-                            </h2>
-
-                            <h3
-                              style={{
-                                color: "#1d2257",
-                                textAlign: "right",
-                                fontSize: 20,
-                              }}
-                            >
-                              AMACO ARABIA CONTRACTING COMPANY
-                            </h3>
-                            <h5
-                              style={{
-                                color: "#555",
-                                textAlign: "right",
-                                fontSize: 17,
-                              }}
-                              className="font-normal b-4 capitalize"
-                            >
-                              C.R No. 2055003404 | VAT No. 310398615200003
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      {/* </header> */}
-                    </div>
-                  </td>
-                </tr>
-              </thead>
+              <Header></Header>
 
               <tbody style={{ marginBottom: "50px" }}>
                 <tr>
@@ -1536,73 +1489,7 @@ const Customer = ({
               </tfoot>
             </table>
             <div class="footer">
-              <footer style={{ visibility: "hidden" }}>
-                {/* <div style={{visibility: "hidden" }} style={{'borderBottom': '30px solid #c1c1c1','borderLeft': '50px solid transparent','height': 0,'width': '100%',paddingLeft:'0'}}>
-          
-          <p style={{color:'#fff',paddingTop:5,paddingBottom:5}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
-                
-        </div>
-         <div class="main" style={{width:'100%'}} > 
-       <div  class="right" style={{width: '60px',height: '5ex',backgroundColor: '#fff',shapeOutside: 'polygon(100% 0, 100% 100%, 0 100%)',float: 'right',webkitClipPath: 'polygon(100% 0, 100% 100%, 0 100%)'}}></div>           
-        <p   style={{textAlign: 'center',backgroundColor: '#1d2257',color:'white',fontFamily: "Calibri",paddingTop:5,paddingBottom:5}}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p>
-        </div>
-         */}
-                <div>
-                  <div
-                    id="outer"
-                    style={{
-                      position: "relative",
-                      width: "1050px",
-                      backgroundColor: "#c1c1c1",
-                      transform: "skew(-20deg)",
-                      marginLeft: "40px",
-                      marginRight: "50px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        color: "#fff",
-                        paddingTop: 5,
-                        paddingBottom: 5,
-                        transform: "skew(20deg)",
-                      }}
-                      align="center"
-                    >
-                      {" "}
-                      Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290
-                      | Jubail 31951 | Kingdom of Saudi Arabia
-                    </p>
-                    <div
-                      id="spacer"
-                      style={{ width: "200px", height: "10px", marginRight: 0 }}
-                    ></div>
-                    <div
-                      style={{
-                        position: "fixed",
-                        bottom: 0,
-                        width: "100%",
-                        height: 30,
-                        backgroundColor: "#1d2257",
-                      }}
-                    >
-                      {" "}
-                      <p
-                        style={{
-                          textAlign: "center",
-                          color: "white",
-                          fontFamily: "Calibri",
-                          paddingTop: 5,
-                          paddingBottom: 10,
-                          transform: "skew(20deg)",
-                        }}
-                      >
-                        E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                {/* <h6 style={{textAlign:"center"}}>page 1 of 1</h6> */}
-              </footer>
+             <Footer></Footer>
             </div>
           </div>
         </Card>
