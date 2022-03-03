@@ -373,7 +373,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   const setproduct = (v, newValue, index,) => {
-    console.log(newValue)
     if (!newValue?.id) {
       setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(newValue?.toLowerCase())))
 
@@ -411,7 +410,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         // }
       } else {
-        console.log('else');
+        // console.log('else');
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38) {
@@ -474,7 +473,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setrfqstatus(false);
     }
 
-    console.log('ds', pid)
+    // console.log('ds', pid)
   }
 
   const filter = createFilterOptions();
@@ -488,7 +487,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push("/party/addparty")}>+Add New</Button>)
       });
     }
-    console.log(filtered)
+    // console.log(filtered)
     // setCustomerList(filtered)
     return filtered;
 
