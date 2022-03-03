@@ -431,7 +431,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setrdate(moment(data[0]?.created_at).format('DD MMM YYYY'))
       setddate(moment(data[0]?.require_date).format('DD MMM YYYY'))
       setparty_id(data[0]?.party_id)
-
+      console.log('dsd', data[0].rfq_details)
       setState({
         ...state,
         item: data[0].rfq_details,
@@ -470,7 +470,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm onSubmit={handleSubmit} autocomplete='off' onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h4 align="left"> CREATE PURCHASE ORDER</h4>
@@ -639,12 +639,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="description"
                           type="text"
-                          name="description"
+                          name="product_name"
                           fullWidth
                           variant="outlined"
 
                           size="small"
-                          value={item ? item.description : null}
+                          value={item ? item.product_name : null}
                           validators={["required"]}
                           inputProps={{
                             ref: setRef(index + 'description')
@@ -662,7 +662,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           variant="outlined"
                           size="small"
-                          name="descriptionss"
+                          name="description"
                           multiline
                           fullWidth
                           inputProps={{
@@ -670,7 +670,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           }}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description') }}
 
-                          value={item?.product ? item?.product[0]?.description : null}
+                          value={item?.description ? item?.description : item?.product ? item?.product[0]?.description : null}
                           onChange={(event) => setName(event, index)}
 
                         />
