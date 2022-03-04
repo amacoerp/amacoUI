@@ -91,6 +91,34 @@ const SimpleMuiTable = () => {
 
   useEffect(() => {
 
+//     url.get("enc").then(({ data }) => {
+//       console.log('ss',data)
+//       var CryptoJS = require('crypto-js');
+// var atob = require('atob');
+// // var unserialize = require('locutus/php/var/unserialize')
+
+// // ciphertext from Crypt::encrypt()
+// var dataa = "eyJpdiI6IkYyaDhxenFJM0FjaW56TW83NkpuNHc9PSIsInZhbHVlIjoiNzhSeUs5em1WblpaRWk2OVBWVURnUT09IiwibWFjIjoiODg1NGFkOTk0MGVjMjIxODAyNzExOTgxYjhiMDM4YjliMmM5NzE5Mjc0YzFmNDVlMWU1MWRkMTQ2N2Q5ODdmNCJ9"
+
+// var key = '6AhFLqwlExB9tn2Twql62EtbFDqBEv+S7tXW3h6a/0o=';
+// // var key = 'Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=';
+// let  encrypted = atob(dataa);
+// encrypted = JSON.parse(encrypted);
+// const iv = CryptoJS.enc.Base64.parse(encrypted.iv);
+// const value = encrypted.value;
+// key = CryptoJS.enc.Base64.parse(key);
+// var decrypted = CryptoJS.AES.decrypt(value, key, {
+//     iv: iv
+//   });
+// decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+
+// // unserialize
+// console.log(decrypted); // i:1635015182;
+// console.log(typeof(decrypted)); // i:1635015182;
+// // console.log(unserialize(decrypted)); // 1635015182 
+//     });
+
+
     url.get("unCategorized-products").then(({ data }) => {
       const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
       setOCount(d.length)
