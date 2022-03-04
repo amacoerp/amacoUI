@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  Radio,
-  FormControl,
-  FormControlLabel,
   Divider,
-  RadioGroup,
-  Grid,
   MenuItem,
   Table,
   TableHead,
@@ -19,7 +14,6 @@ import {
   IconButton,
   Tooltip
 } from "@material-ui/core";
-import { format } from 'date-fns';
 import Swal from "sweetalert2";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
@@ -36,11 +30,7 @@ import { useCallback } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 import MemberEditorDialog from '../../party/partycontact';
 import UOMDialog from '../../invoice/UOMDialog';
-
-import axios from "axios";
 import url, { getProductList, capitalize_arr, data } from "../../invoice/InvoiceService.js";
-import Select from 'react-select';
-import dateFormat from 'dateformat';
 import moment from "moment";
 import { Breadcrumb, MatxProgressBar } from "matx";
 import useSettings from 'app/hooks/useSettings';
@@ -57,72 +47,72 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
-  const [rfq, setrfq] = useState([]);
-  const [rdate, setrdate] = useState(new Date());
-  const [ddate, setddate] = useState(new Date());
-  const [cname, setcname] = useState([]);
-  const [rfq_details, setrfqdetails] = useState([]);
-  const [CustomerList, setCustomerList] = useState([]);
-  const [contId, setContId] = useState([]);
-  const [ProductList, setProductList] = useState([]);
+  // const [rfq, setrfq] = useState([]);
+  const [rdate, setrdate] = useState(new Date());//Rfq date 
+  const [ddate, setddate] = useState(new Date());//Bid Closing date
+  // const [cname, setcname] = useState([]);
+  // const [rfq_details, setrfqdetails] = useState([]);
+  const [CustomerList, setCustomerList] = useState([]);//Customer List
+  const [contId, setContId] = useState([]);//Contact Id
+  const [ProductList, setProductList] = useState([]);//ProductList
   const [listrfq, setlistrfq] = useState([]);
   const [files, setfiles] = useState([]);
   const [upload, setupload] = useState([]);
   const [proList, setproList] = useState([]);
   const history = useHistory();
-  const [customercontact, setcustomercontact] = useState([]);
+  const [customercontact, setcustomercontact] = useState([]);//contact person
   const [
     shouldOpenConfirmationDialogparty,
     setshouldOpenConfirmationDialogparty,
   ] = useState(false);
 
-  const [party_id, setPartyId] = useState()
-  const [rfqstatus, setrfqstatus] = useState(false);
+  const [party_id, setPartyId] = useState()//Party Id
+  const [rfqstatus, setrfqstatus] = useState(false);//enable the contact person field
 
-  let inputRef = [];
+  let inputRef = [];//Keyboard event reference Id
   let priceRef = [];
   const [getRef, setRef] = useDynamicRefs();
 
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
-  const { settings, updateSettings } = useSettings();
+  // const { settings, updateSettings } = useSettings();
   const formData = new FormData()
-  const updateSidebarMode = (sidebarSettings) => {
-    if (sidebarSettings.mode == "close") {
-      let activeLayoutSettingsName = settings.activeLayout + "Settings";
-      let activeLayoutSettings = settings[activeLayoutSettingsName];
-      updateSettings({
-        ...settings,
-        [activeLayoutSettingsName]: {
-          ...activeLayoutSettings,
-          leftSidebar: {
-            ...activeLayoutSettings.leftSidebar,
-            ...sidebarSettings,
-          },
-        },
-      });
-    }
-    else {
-      window.location.href = "../sales/rfq-form/rfqview"
-      let activeLayoutSettingsName = settings.activeLayout + "Settings";
-      let activeLayoutSettings = settings[activeLayoutSettingsName];
-      updateSettings({
-        ...settings,
-        [activeLayoutSettingsName]: {
-          ...activeLayoutSettings,
-          leftSidebar: {
-            ...activeLayoutSettings.leftSidebar,
-            ...sidebarSettings,
-          },
-        },
-      });
+  // const updateSidebarMode = (sidebarSettings) => {
+  //   if (sidebarSettings.mode == "close") {
+  //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
+  //     let activeLayoutSettings = settings[activeLayoutSettingsName];
+  //     updateSettings({
+  //       ...settings,
+  //       [activeLayoutSettingsName]: {
+  //         ...activeLayoutSettings,
+  //         leftSidebar: {
+  //           ...activeLayoutSettings.leftSidebar,
+  //           ...sidebarSettings,
+  //         },
+  //       },
+  //     });
+  //   }
+  //   else {
+  //     window.location.href = "../sales/rfq-form/rfqview"
+  //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
+  //     let activeLayoutSettings = settings[activeLayoutSettingsName];
+  //     updateSettings({
+  //       ...settings,
+  //       [activeLayoutSettingsName]: {
+  //         ...activeLayoutSettings,
+  //         leftSidebar: {
+  //           ...activeLayoutSettings.leftSidebar,
+  //           ...sidebarSettings,
+  //         },
+  //       },
+  //     });
 
-    }
+  //   }
 
-  }
+  // }
 
-
+  //File delete
   const handleSingleRemove = (index) => {
     let tempList = [...upload];
     tempList.splice(index, 1);
@@ -134,13 +124,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let files = event.target.files;
     let filesd = event.target.files;
 
-    // for (var a = 0; a < files.length; a++) {
-    //   formData.append(
-    //     "myFile" + a,
-    //     files[a],
-    //     files[a].name,
-    //   );
-    // }
+   
     for (const iterator of filesd) {
 
       listrfq.push({
@@ -148,9 +132,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         file_name: iterator.name,
         id: null,
         img_url: "http://www.amacoerp.com/amaco_test/public/rfq/30/Screenshot (9) - Copy.png",
-        // rfq_id: 30
+       
         file: iterator
-        // updated_at: "2021-03-30T06:43:07.000000Z"
+       
       });
 
     }
@@ -164,26 +148,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
-  const handleChange = (event) => {
-    event.persist();
-    setState({ ...state, [event.target.name]: event.target.value });
-  };
+  // const handleChange = (event) => {
+  //   event.persist();
+  //   setState({ ...state, [event.target.name]: event.target.value });
+  // };
   const handleDialogClose = () => {
     setshouldOpenConfirmationDialogparty(false)
   }
 
   const [uom, setUOM] = useState(false)
 
-  const handleSellerBuyerChange = (event, fieldName) => {
-    event.persist();
-    setState({
-      ...state,
-      [fieldName]: {
-        ...state[fieldName],
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
+ 
 
   const handleIvoiceListChange = (event, index) => {
     event.persist();
@@ -251,13 +226,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           item: tempItemList,
         });
 
-        // let tempItemList = [...state.item];
-        // tempItemList.splice(index, 1);
-
-        // setState({
-        //   ...state,
-        //   item: tempItemList,
-        // });
+        
 
 
       }
@@ -280,7 +249,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const Rfqpush = () => {
 
-    // updateSidebarMode({ mode: "close" })
+   
     routerHistory.push(navigatePath + `/invoice/${id}`)
 
   };
@@ -302,7 +271,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         url.delete(`fileUpload/${id}`)
-          // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
+        
           .then(res => {
 
 
@@ -316,8 +285,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         getrfq()
 
 
-        // For more information about handling dismissals please visit
-        // https://sweetalert2.github.io/#handling-dismissals
+        
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -334,7 +302,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.map((element, i) => {
       if (index == i) {
-        // element['name'] = v.value;
+      
         element['files'] = e.target.files[0];
         element['src'] = URL.createObjectURL(e.target.files[0]);
 
@@ -356,7 +324,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.map((element, i) => {
       if (index == i) {
-        // element['name'] = v.value;
+       
         element['files'] = null;
         element['src'] = null;
 
@@ -406,11 +374,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (nextid?.includes('purchase_price')) {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
-        // if (e?.keyCode == 13) {
-
-        // }
+       
       } else {
-        // console.log('else');
+       
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38) {
@@ -429,12 +395,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     } else if (e?.keyCode == 40) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
-      // if (++i) {
+    
       const r = ++i + a[1];
       try {
         if (r.includes('product_id')) {
           inputRef[parseInt(r)].focus();
-          // inputRef.focus();
+         
         } else {
           getRef(r).current.focus();
         }
@@ -442,7 +408,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         addItemToInvoiceList();
       }
 
-      // }
+     
 
     } else if (e?.keyCode == 37) {
       if (prev == null) {
@@ -451,7 +417,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (prev.includes('product_id')) {
           inputRef[parseInt(prev)].focus();
 
-          // inputRef.focus();
+         
         } else if (prev?.includes('purchase_price')) {
           priceRef[parseInt(prev)].focus();
         } else {
@@ -473,7 +439,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setrfqstatus(false);
     }
 
-    // console.log('ds', pid)
+ 
   }
 
   const filter = createFilterOptions();
@@ -487,8 +453,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push("/party/addparty")}>+Add New</Button>)
       });
     }
-    // console.log(filtered)
-    // setCustomerList(filtered)
+   
     return filtered;
 
   };
@@ -576,7 +541,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const getrfq = () => {
     url.get("rfq/" + id).then(({ data }) => {
-      setcname(data[0].party[0].firm_name)
+    
       setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))
       setfiles(data[0].files)
 
@@ -624,20 +589,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     });
 
-    // url.get("rfq/" + id).then(({ data }) => {
-
-    //   setcname(data[0].party[0].firm_name)
-    //   setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))
-    //   setfiles(data[0].files)
-
-
-    //   setddate(moment(data[0].require_date).format("MMMM DD, YYYY"))
-
-    //   setState({
-    //     ...state,
-    //     item: data[0].rfq_details,
-    //   });
-    // });
+    
 
     url.get("products").then(({ data }) => {
 
@@ -645,25 +597,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
     return setIsAlive(false)
   }, [isNewInvoice, isAlive, generateRandomId]);
-  const datas = ProductList.map((guest, index) => {
-    return {
-      label: guest.name,
-      value: guest.id,
-      key: index
-    }
-  })
+  // const datas = ProductList.map((guest, index) => {
+  //   return {
+  //     label: guest.name,
+  //     value: guest.id,
+  //     key: index
+  //   }
+  // })
 
 
-  let subTotalCost = 0;
+  // let subTotalCost = 0;
   let {
-    orderNo,
-    buyer,
-    seller,
+    // orderNo,
+    // buyer,
+    // seller,
     item: invoiceItemList = [],
-    status,
-    vat,
-    date,
-    currency,
+    // status,
+    // vat,
+    // date,
+    // currency,
     loading,
   } = state;
 
@@ -858,45 +810,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             />
                           </Icon>)}
                         </>}
-                        {/* {item?.files ? (<span><Icon onClick={(event) => deletequotefile(item.id, index)} color="error"
-
-                        >close</Icon><img className="w-48" src={(item?.src)} alt="" ></img></span>) : (<Icon
-                          variant="contained"
-                          component="label"
-
-                        >
-                          file_upload
-                          <input
-                            type="file"
-                            name="files"
-                            onChange={(e) => SelectFile(e, index)}
-
-                          />
-                        </Icon>)} */}
+                        
                       </TableCell>
 
 
                       <TableCell className="pl-2 capitalize" align="left">
 
 
-                        {/* <TextValidator
-                        label="Name"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        name="product_id"
-                        value={item.product_id}
-                        onChange={(event) => setproduct(event, index)}
-                        fullWidth
-                        select
-
-                      >
-                      {ProductList.map((item) => (
-                      <MenuItem value={item.id} key={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                    </TextValidator> */}
+                       
                         <Autocomplete
                           className="w-full"
                           size="small"
@@ -1002,9 +923,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         />
                       </TableCell>
 
-                      {/* <TableCell className="pl-0 capitalize" align="left">
-                    {item.unit * item.price}
-                  </TableCell> */}
+                      
 
                       <TableCell className="pr-0 capitalize" align="center">
                         <Button onClick={() => deleteItemFromInvoiceList(index, item?.id)}>
@@ -1071,7 +990,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </Icon>)}
 
 
-                  {/* <h5 className="m-0">{item.file_name}</h5> */}
+                
 
 
                   {item.rfq_id && <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name.split("/")[2]}</a>}
@@ -1098,7 +1017,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     photo_library
                   </Icon>
 
-                  {/* <h5 className="m-0">{item.file_name}</h5> */}
+                 
 
 
                   <a href={"http://www.amacoerp.com/amaco/php_file/images/" + id + "/" + item.file_name} target="_blank">{item.file_name}</a>
