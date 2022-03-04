@@ -1066,37 +1066,52 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    getCustomerList().then(({ data }) => {
-
-      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-      setCustomerList(d);
-
-      // setsign(user.id)
 
 
-    });
-    getcompanybank().then(({ data }) => {
-      setcompanybank(data);
-    });
+    url.get(`mjrQuoteInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setData(data?.uom);
+      const d = data?.customer?.filter(obj => obj.div_id == localStorage.getItem('division'))
+      setCustomerList(d)
+      setcompanybank(data?.banks);
 
-    url.get('designation').then(({ data }) => {
-
-      let user_val = data.filter(obj => obj.user_id == user.id)
+      let user_val = data?.users?.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
-      setusers(data)
+      setusers(data?.users)
+      setproList(data?.products)
     })
 
 
-    url.get("products").then(({ data }) => {
-      setproList(data)
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    // getCustomerList().then(({ data }) => {
+
+    //   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+    //   setCustomerList(d);
+
+    //   // setsign(user.id)
+
+
+    // });
+    // getcompanybank().then(({ data }) => {
+    //   setcompanybank(data);
+    // });
+
+    // url.get('designation').then(({ data }) => {
+
+    //   let user_val = data.filter(obj => obj.user_id == user.id)
+    //   setsign(user_val[0].id)
+    //   setusers(data)
+    // })
+
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
 
 
 
 
-    });
+    // });
 
     return setIsAlive(false)
 

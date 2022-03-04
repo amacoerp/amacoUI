@@ -1144,32 +1144,53 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    getCustomerList().then(({ data }) => {
-      console.log(data)
-      setCustomerList(data);
 
 
-    });
-    url.get('designation').then(({ data }) => {
-      setusers(data)
-      let user_val = data.filter(obj => obj.user_id == user.id)
+
+
+    url.get(`mjrQuoteInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setData(data?.uom);
+      const d = data?.customer?.filter(obj => obj.div_id == localStorage.getItem('division'))
+      setCustomerList(d)
+      setcompanybank(data?.banks);
+
+      let user_val = data?.users?.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
+      setusers(data?.users)
+      setproList(data?.products)
     })
-    getcompanybank().then(({ data }) => {
-      setcompanybank(data);
-    });
-
-
-    url.get("products").then(({ data }) => {
-      setproList(data)
 
 
 
 
-    });
+
+
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    // getCustomerList().then(({ data }) => {
+    //   console.log(data)
+    //   setCustomerList(data);
+
+
+    // });
+    // url.get('designation').then(({ data }) => {
+    //   setusers(data)
+    //   let user_val = data.filter(obj => obj.user_id == user.id)
+    //   setsign(user_val[0].id)
+    // })
+    // getcompanybank().then(({ data }) => {
+    //   setcompanybank(data);
+    // });
+
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
+
+
+
+
+    // });
 
     return setIsAlive(false)
 
