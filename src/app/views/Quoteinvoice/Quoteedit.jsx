@@ -1142,60 +1142,40 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    getCustomerList().then(({ data }) => {
-      setCustomerList(data);
 
 
-    });
-    url.get('designation').then(({ data }) => {
-      //console.log(data)
-      setusers(data);
+    url.get(`mjrQuoteEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
 
+      
+      setinco_terms(data?.sales?.inco_terms)
+      setcname(data?.sales?.party?.firm_name)
+      setcontactname(data?.sales?.contact?.fname);
+      setdiscounts(data?.sales?.discount_in_p)
+      setdiscount(data?.sales?.discount_in_p)
+      setvalidity(data?.sales?.validity)
+      setdelivery_time(data?.sales?.delivery_time)
+      setwarranty(data?.sales?.warranty)
+      setpayment_terms(data?.sales?.payment_terms)
+      setQuote_date(data?.sales?.ps_date)
+      setsubject(data?.sales?.subject)
 
-    });
-    getcompanybank().then(({ data }) => {
-      setcompanybank(data);
-    });
-    url.get("products").then(({ data }) => {
-      setproList(data)
-
-
-    });
-
-
-
-    url.get(`sale-quotation/${id}`).then(({ data }) => {
-      setinco_terms(data[0]?.inco_terms)
-      setcname(data[0]?.party?.firm_name)
-      setcontactname(data[0]?.contact?.fname);
-      setdiscounts(data[0]?.discount_in_p)
-      setdiscount(data[0]?.discount_in_p)
-      setvalidity(data[0]?.validity)
-      setdelivery_time(data[0]?.delivery_time)
-      setwarranty(data[0]?.warranty)
-      setpayment_terms(data[0]?.payment_terms)
-      setQuote_date(data[0]?.ps_date)
-      setsubject(data[0]?.subject)
-
-      setsign(data[0]?.sign[0]?.id)
+      setsign(data?.sales?.sign?.id)
       // rfq no
-      setrfq_no(data[0]?.rfq_no)
-      setbank_id(parseInt(data[0]?.bank?.id))
-      setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
-      settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseFloat(data[0]?.transport))
+      setrfq_no(data?.sales?.rfq_no)
+      setbank_id(parseInt(data?.sales?.bank?.id))
+      console.log(data?.sales)
+      setother(isNaN(parseFloat(data?.sales?.other)) ? 0 : parseFloat(data?.sales?.other))
+      settransport(isNaN(parseFloat(data?.sales?.transport)) ? 0 : parseFloat(data?.sales?.transport))
 
 
-      setProductList1(data[0]?.quotation_details[0]?.product_price_list)
+      setProductList1(data?.sales?.quotation_details[0]?.product_price_list)
 
-      if (data[0]?.quotation_details[0]?.product_price_list) {
+      if (data?.sales?.quotation_details?.product_price_list) {
         setquickstatus(true)
       }
-      if (data[0]?.contact !== null) {
-        setcontactid(data[0]?.contact.id)
-        url.get("parties/" + data[0]?.party_id).then(({ data }) => {
+      if (data?.sales?.contact !== null) {
+        setcontactid(data?.sales?.contact.id)
+        url.get("parties/" + data?.sales?.party_id).then(({ data }) => {
 
           setcustomercontact(data[0]?.contacts);
           // setcustomercontact(data[0].contacts);
@@ -1207,16 +1187,106 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         });
       }
-      setparty_id(data[0]?.party_id)
+      setparty_id(data?.sales?.party_id)
+      console.log('qwerty',data?.sales?.sign)
+      setsign(data?.sales?.sign[0]?.id)
 
-      setTestArr([...data[0]?.notes]);
+      setTestArr([...data?.sales?.notes]);
 
       setState({
         ...state,
-        item: data[0]?.quotation_details,
+        item: data?.sales?.quotation_details,
       });
 
+
+
+
+      setCustomerList(data?.customer);
+      setusers(data?.users);
+      setcompanybank(data?.banks);
+      setproList(data?.products)
+      setData(data?.uom);
+
+
+      
     });
+
+
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    // getCustomerList().then(({ data }) => {
+    //   setCustomerList(data);
+
+
+    // });
+    // url.get('designation').then(({ data }) => {
+    //   //console.log(data)
+    //   setusers(data);
+
+
+    // });
+    // getcompanybank().then(({ data }) => {
+    //   setcompanybank(data);
+    // });
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
+
+
+    // });
+
+
+
+    // url.get(`sale-quotation/${id}`).then(({ data }) => {
+    //   setinco_terms(data[0]?.inco_terms)
+    //   setcname(data[0]?.party?.firm_name)
+    //   setcontactname(data[0]?.contact?.fname);
+    //   setdiscounts(data[0]?.discount_in_p)
+    //   setdiscount(data[0]?.discount_in_p)
+    //   setvalidity(data[0]?.validity)
+    //   setdelivery_time(data[0]?.delivery_time)
+    //   setwarranty(data[0]?.warranty)
+    //   setpayment_terms(data[0]?.payment_terms)
+    //   setQuote_date(data[0]?.ps_date)
+    //   setsubject(data[0]?.subject)
+
+    //   setsign(data[0]?.sign[0]?.id)
+    //   // rfq no
+    //   setrfq_no(data[0]?.rfq_no)
+    //   setbank_id(parseInt(data[0]?.bank?.id))
+    //   setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
+    //   settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseFloat(data[0]?.transport))
+
+
+    //   setProductList1(data[0]?.quotation_details[0]?.product_price_list)
+
+    //   if (data[0]?.quotation_details[0]?.product_price_list) {
+    //     setquickstatus(true)
+    //   }
+    //   if (data[0]?.contact !== null) {
+    //     setcontactid(data[0]?.contact.id)
+    //     url.get("parties/" + data[0]?.party_id).then(({ data }) => {
+
+    //       setcustomercontact(data[0]?.contacts);
+    //       // setcustomercontact(data[0].contacts);
+
+
+
+    //       setrfqstatus(true);
+
+
+    //     });
+    //   }
+    //   setparty_id(data[0]?.party_id)
+
+    //   setTestArr([...data[0]?.notes]);
+
+    //   setState({
+    //     ...state,
+    //     item: data[0]?.quotation_details,
+    //   });
+
+    // });
     return setIsAlive(false)
 
 
