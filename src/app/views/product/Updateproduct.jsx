@@ -1,48 +1,30 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Select from 'react-select';
-// import Select from "@material-ui/core/Select";
-// import { MDBSelect } from "mdbreact";
 import { useHistory, useParams } from 'react-router';
 import { Breadcrumb } from "matx";
 import useAuth from '../../hooks/useAuth';
-
-// import { Autocomplete } from "@material-ui/lab";
 import InputLabel from "@material-ui/core/InputLabel";
 import {
   Button,
   Icon,
   Grid,
   Card,
-  // Radio,
-  // RadioGroup,
   TextField,
-  // FormControlLabel,
-  // Checkbox,
   MenuItem,
-  // Fab
 } from "@material-ui/core";
 import Swal from "sweetalert2";
-import {
-  // MuiPickersUtilsProvider,
-  // KeyboardDatePicker,
-} from "@material-ui/pickers";
-import "date-fns";
-// import DateFnsUtils from "@date-io/date-fns";
-// import ReactSelectMaterialUi from "react-select-material-ui";
-// import Axios from "axios";
-// import { useParams, matchPath } from "react-router-dom";
-// import { database } from "firebase/app";
 import url, { navigatePath, data } from "../../views/invoice/InvoiceService"
 
 
 
 
 const SimpleForm = () => {
-  const [state, setState] = useState({
-    date: new Date(),
-  });
+  // const [state, setState] = useState({
+  //   date: new Date(),
+  // });
+  //Product Type
   const product_type = [
     "Non Inventory",
     "Inventory",
@@ -161,79 +143,56 @@ const SimpleForm = () => {
 
 
   const [selectedValue, setSelectedValue] = useState(1);
-  const [selectedValue1, setSelectedValue1] = useState('');
-  const [vendors, setvendors] = useState('');
-  const [product, setproduct] = useState('');
-  const [description, setdescription] = useState('');
-  const [unit_of_measure, setunit_of_measure] = useState('');
-  const [unit_Price, setunit_Price] = useState('');
-  const [selectedOption, setselectedOption] = useState('');
-  const [selectedOption1, setselectedOption1] = useState('1');
-  const [mrp, setmrp] = useState('');
-  const [real_price, setreal_price] = useState('');
+  // const [selectedValue1, setSelectedValue1] = useState('');
+  // const [vendors, setvendors] = useState('');
+  const [product, setproduct] = useState('');//product name
+  const [description, setdescription] = useState('');//product description
+  const [unit_of_measure, setunit_of_measure] = useState('');//unit_of_measure
+  // const [unit_Price, setunit_Price] = useState('');
+  const [selectedOption, setselectedOption] = useState('');//Category Name
+  const [selectedOption1, setselectedOption1] = useState('1');//Category Id
+  // const [mrp, setmrp] = useState('');
+  // const [real_price, setreal_price] = useState('');
   // const [category_id, setcategory_id] = useState('');
-  const [ptype, setptype] = useState('');
-  const [hsn, sethsn] = useState('');
-  const [iq, setiq] = useState('');
-  const [mq, setmq] = useState('');
-  const [modelno, setmodelno] = useState('');
-  const [manid, setmanid] = useState('');
-  const [name_in_ar, setname_in_ar] = useState('');
+  const [ptype, setptype] = useState('');//product Type
+  const [hsn, sethsn] = useState('');//HSN Number
+  const [iq, setiq] = useState('');//Initial Quantity
+  const [mq, setmq] = useState('');//minimum quantity
+  const [modelno, setmodelno] = useState('');//Model Number
+  const [manid, setmanid] = useState('');//Manufacture Id
+  const [name_in_ar, setname_in_ar] = useState('');//Product Name in arabic
   const [firm, setfirm] = useState([]);
-  const [manuarr, setmanuarr] = useState([]);
-  const [cat, setCat] = useState([]);
-  const [subCat, setSubCat] = useState([]);
-  const [selectCat, setselectedCat] = useState("hide");
+  const [manuarr, setmanuarr] = useState([]);//Manufacturer
+  const [cat, setCat] = useState([]);//All category 
+  const [subCat, setSubCat] = useState([]);//all subcategory
   const routerHistory = useHistory();
 
-  const ooptions = [
-    {
-      id: 1,
-      name: "lucy brown",
-      date: "1 january, 2019",
+  
+  
+ 
+  // const styles = {
+  //   fontSize: 14,
+  //   color: 'blue',
+  //   width: 200
+  // }
+  // const andleChange = (event) => {
+  //   event.persist();
+  //   setState({ ...state, [event.target.name]: event.target.value });
+  // };
+  // const handleChange1 = e => {
+  //   setSelectedValue1(e.value);
 
-    },
-    {
-      id: 2,
-      name: "lucy brown",
-      date: "1 january, 2019",
+  // }
+  // const handleChange = e => {
+  //   setSelectedValue1(e.value);
 
-    },
-  ]
-  const [, updateData] = useState([
-    { id: 1, name: "Pankaj 1" },
-    { id: 2, name: "Pankaj 2" },
-    { id: 3, name: "Pankaj 3" },
-    { id: 4, name: "Pankaj 4" }
-  ]);
-  const [division_id, setdivision_id] = useState([
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Strawberry' },
-    { value: '3', label: 'Vanilla' },
-  ]);
-  const styles = {
-    fontSize: 14,
-    color: 'blue',
-    width: 200
-  }
-  const andleChange = (event) => {
-    event.persist();
-    setState({ ...state, [event.target.name]: event.target.value });
-  };
-  const handleChange1 = e => {
-    setSelectedValue1(e.value);
-
-  }
-  const handleChange = e => {
-    setSelectedValue1(e.value);
-
-  }
+  // }
 
   const [isAlive, setIsAlive] = useState(true);
-  const [userList, setUserList] = useState([]);
-  const [ooptions1, setooptions] = useState([]);
-  const [categoryid, setcategoryid] = useState();
-  const [partyid, setpartyid] = useState('');
+  // const [userList, setUserList] = useState([]);
+  // const [ooptions1, setooptions] = useState([]);
+  // const [categoryid, setcategoryid] = useState();
+  // const [partyid, setpartyid] = useState('');
   const { user } = useAuth()
   let search = window.location.search;
   let params = new URLSearchParams(search);
@@ -244,16 +203,17 @@ const SimpleForm = () => {
   useEffect(() => {
 
     url.get("products/" + id).then(({ data }) => {
-      if (isAlive) setUserList(data);
+      if (isAlive) 
+      // setUserList(data);
 
       setdescription(data.product[0].description)
       setname_in_ar(data.product[0].name_in_ar)
       setunit_of_measure(data.product[0].unit_of_measure)
-      setunit_Price(data.product[0].unit_price)
-      setcategoryid(data.product[0].category_id)
-      setreal_price(data.product[0].real_price)
+      // setunit_Price(data.product[0].unit_price)
+      // setcategoryid(data.product[0].category_id)
+      // setreal_price(data.product[0].real_price)
       setproduct(data.product[0].name)
-      setmrp(data.product[0].mrp)
+      // setmrp(data.product[0].mrp)
       setselectedOption(data.product[0].category_name)
       setselectedOption1(data.product[0].category_id)
       setmanid(data.product[0].manufacturer_id)
@@ -262,14 +222,14 @@ const SimpleForm = () => {
       setptype(data.product[0].type)
       setiq(data.product[0].initial_quantity)
       setmq(data.product[0].minimum_quantity)
-      setvendors(data.product[0].id)
-      setpartyid(data.product[0].id)
-      setpartyid(data.product[0].party_id)
+      // setvendors(data.product[0].id)
+      // setpartyid(data.product[0].id)
+      // setpartyid(data.product[0].party_id)
       setmodelno(data.product[0].model_no)
 
     });
     url.get("products-in-category").then(({ data }) => {
-      setooptions(data);
+      // setooptions(data);
 
     });
 
@@ -296,6 +256,8 @@ const SimpleForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+  //Save the data
   const submitValue = () => {
 
 
@@ -344,42 +306,45 @@ const SimpleForm = () => {
 
   }
 
-  function Increment(e) {
-    setState({ description });
+  // function Increment(e) {
+  //   setState({ description });
+  // }
 
+  // function handleChanges(evt) {
+  //   const value = evt.target.value;
+  //   setpartyid(value);
+  //   setvendors(value)
+  // }
+  // const options = ooptions1.map((guest, index) => {
+  //   return {
+  //     label: guest.name,
+  //     value: guest.id,
+  //     key: index
+  //   }
+  // })
+  // const company = firm.map((guest, index) => {
+  //   return {
+  //     label: guest.firm_name,
+  //     value: guest.id,
+  //     key: index
+  //   }
+  // })
 
-  }
-
-  function handleChanges(evt) {
-    const value = evt.target.value;
-    setpartyid(value);
-    setvendors(value)
-  }
-  const options = ooptions1.map((guest, index) => {
-    return {
-      label: guest.name,
-      value: guest.id,
-      key: index
-    }
-  })
-  const company = firm.map((guest, index) => {
-    return {
-      label: guest.firm_name,
-      value: guest.id,
-      key: index
-    }
-  })
-
+  // Choose the Category
   const handleChange3 = (e) => {
     const subC = cat.filter(obj => obj.parent_id == e.target.value);
 
     setSubCat(subC);
 
   }
+
+  //Choose Sub Category 
   const handleChange4 = (e) => {
     setselectedOption1(e.target.value);
 
   }
+
+  // Create the new key value pair from the Manufacture
   const manufacture = manuarr.map((guest, index) => {
     return {
       label: guest.name,
@@ -389,19 +354,19 @@ const SimpleForm = () => {
   })
 
 
-  const {
-    username,
-    firstName,
-    creditCard,
-    mobile,
-    password,
-    confirmPassword,
-    gender,
-    date,
-    email,
-    Firm_Name,
-    optionss,
-  } = state;
+  // const {
+  //   username,
+  //   firstName,
+  //   creditCard,
+  //   mobile,
+  //   password,
+  //   confirmPassword,
+  //   gender,
+  //   date,
+  //   email,
+  //   Firm_Name,
+  //   optionss,
+  // } = state;
 
   return (
 
@@ -442,10 +407,7 @@ const SimpleForm = () => {
                 onChange={e => setname_in_ar(e.target.value)}
                 type="text"
                 name="product"
-              // validators={[
-              //   "required",
-              // ]}
-              // errorMessages={["this field is required"]}
+              
 
               />
               <TextValidator
@@ -459,21 +421,9 @@ const SimpleForm = () => {
                 name="description"
                 variant="outlined"
                 inputProps={{ style: { textTransform: 'capitalize' } }}
-              // validators={["required"]}
-              // errorMessages={["this field is required"]}
+              
               />
-              {/* <TextValidator
-                className="mb-4 w-full"
-                label="Unit of measure"
-                value={unit_of_measure}
-                onChange={e => setunit_of_measure(e.target.value)}
-                type="text"
-                size="small"
-                name="unit_of_measure"
-                variant="outlined"
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
-              /> */}
+              
 
               <div className="flex mb-4">
                 <div style={{ width: '300px' }} className="mr-2">
@@ -543,25 +493,9 @@ const SimpleForm = () => {
                   name="hsn"
                   value={hsn}
                   fullWidth
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
-                />
-                {/* <MenuItem>
-               <Button
-                  onClick={() => {
-                    pushData();
-                  }}
-                >
-                  <Icon>add</Icon>Vendor
-                </Button>
-               </MenuItem>
-              {customerList.map((item, ind) => (
                 
-                <MenuItem value={item.id} key={item}>
-                  {item.firm_name}
-                </MenuItem>
-              ))} */}
-
+                />
+                
               </div>
 
 
@@ -578,7 +512,7 @@ const SimpleForm = () => {
                     "isNumber",
                   ]}
                   errorMessages={["Invalid Number"]}
-                // style={{width:285}}
+              
                 />
                 <TextField
                   className="ml-2"
@@ -592,43 +526,18 @@ const SimpleForm = () => {
                     "isNumber",
                   ]}
                   errorMessages={["Invalid Number"]}
-                // style={{width:285}}
+               
                 />
               </div>
 
-              {/* <TextField
-                    
-                    className="mb-4 w-full"
-                    name="selectedOption1"
-                    size="small"
-                    label="category"
-                    variant="outlined"
-                    value={selectedOption1}
-                    select
-                    onChange={e => setselectedOption1(e.target.value)
-                    }
-                  >
-                    {ooptions1.map((item, ind) => (
-                      <MenuItem value={item.name} key={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </TextField> */}
-
-              {/* <Select
-                   className="mb-4 w-full"
-   value={options.find(obj => obj.value === selectedOption1)}
-   onChange={e => setselectedOption1(e.value)
-   }
-   options={options}
-/> */}
+              
+             
               <div className="flex mb-4">
                 {selectedOption == null ? <TextField
                   className="mr-2"
                   label="Category"
                   variant="outlined"
                   select
-                  // onChange={ }
                   onChange={handleChange3}
                   fullWidth
                   size="small"
@@ -673,15 +582,7 @@ const SimpleForm = () => {
                 </TextField>)}
 
 
-                {/* <TextField
-                className="ml-2"
-                label="maufacturer"
-                variant="outlined"
-                value={manid}
-                size="small"
-                onChange={e => setmanid(e.target.value)}
-                fullWidth
-              /> */}
+               
                 <TextField
                   className="ml-2"
                   label="Model number"
@@ -692,8 +593,7 @@ const SimpleForm = () => {
                   name="hsn"
                   value={modelno}
                   fullWidth
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
+                
                 />
               </div>
               <div className="flex mb-4">

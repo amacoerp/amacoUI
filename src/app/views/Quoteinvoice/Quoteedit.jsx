@@ -3,12 +3,9 @@ import UOMDialog from '../invoice/UOMDialog';
 
 import {
   Button,
-  Radio,
   FormControl,
-  FormControlLabel,
   Select,
   Divider,
-  RadioGroup,
   InputLabel,
   Grid,
   Card,
@@ -18,7 +15,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Link,
   Icon,
   TextField,
   Tooltip,
@@ -38,26 +34,17 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import axios from "axios";
 import url, { getVendorList, divisionId, data } from "../invoice/InvoiceService";
 import useAuth from "app/hooks/useAuth";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 // expandable table
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
 import IconButton from '@material-ui/core/IconButton';
-import Axios from "axios";
 import Swal from "sweetalert2";
 import { Breadcrumb, ConfirmationDialog } from "matx";
-import FormDialog from "../product/productprice";
 import MemberEditorDialog from "../product/productprice";
 import moment from "moment";
-import { sortedLastIndex } from "lodash";
-import FormDialog_product from "../../views/product/Addproduct_popup"
+
 import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import MemberEditorDialogcontact from "../party/partycontact";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
@@ -86,9 +73,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { settings, updateSettings } = useSettings();
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
-  const [rfq, setrfq] = useState([]);
-  const [rdate, setrdate] = useState([]);
-  const [ddate, setddate] = useState([]);
+  // const [rfq, setrfq] = useState([]);
+  // const [rdate, setrdate] = useState([]);
+  // const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState('');
   const [contactname, setcontactname] = useState('');
 

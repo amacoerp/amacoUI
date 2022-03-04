@@ -21,16 +21,16 @@ import {
   Card
 } from "@material-ui/core";
 import "date-fns";
-import Axios from "axios";
+// import Axios from "axios";
 import url from "../invoice/InvoiceService"
 
 
 
 
 const SimpleForm = ({ open, handleClose }) => {
-  const [state, setState] = useState({
-    date: new Date(),
-  });
+  // const [state, setState] = useState({
+  //   date: new Date(),
+  // });
   // const data = [
   //   {
   //     value: "TONNES",
@@ -153,31 +153,31 @@ const SimpleForm = ({ open, handleClose }) => {
 
   };
   const [selectedValue, setSelectedValue] = useState(1);
-  const [selectedValue1, setSelectedValue1] = useState('');
-  const [product, setproduct] = useState('');
-  const [name_in_ar, setname_in_ar] = useState('');
-  const [description, setdescription] = useState('');
-  const [unit_of_measue, setunit_of_measue] = useState('');
-  const [unit_Price, setunit_Price] = useState('');
+  // const [selectedValue1, setSelectedValue1] = useState('');
+  const [product, setproduct] = useState('');//Product Name
+  // const [name_in_ar, setname_in_ar] = useState('');
+  const [description, setdescription] = useState('');//Product Description
+  const [unit_of_measue, setunit_of_measue] = useState('');//Product Unit of measure
+  // const [unit_Price, setunit_Price] = useState('');
   const [selectedOption1, setselectedOption1] = useState('');
-  const [real_price, setreal_price] = useState('');
-  const [subcategory, setsubcategory] = useState('');
-  const [ptype, setptype] = useState('');
-  const [hsn, sethsn] = useState('');
-  const [iq, setiq] = useState(0);
-  const [mq, setmq] = useState(0);
-  const [manid, setmanid] = useState('');
-  const [modelno, setmodelno] = useState('');
+  // const [real_price, setreal_price] = useState('');
+  const [subcategory, setsubcategory] = useState('');//Product Sub category
+  const [ptype, setptype] = useState('');//Product type
+  const [hsn, sethsn] = useState('');//HSN Number
+  const [iq, setiq] = useState(0);//Initial quantity
+  const [mq, setmq] = useState(0);//Minimum quantity
+  const [manid, setmanid] = useState('');//Manufacturer Id
+  const [modelno, setmodelno] = useState('');//Model Number
   const [ooptions1, setooptions] = useState([]);
-  const [vendors, setvendors] = useState([]);
-  const [manufacture, setmanufacture] = useState([]);
+  const [vendors, setvendors] = useState([]);//Vendor Names
+  const [manufacture, setmanufacture] = useState([]);//Manufacturer Names 
   const [customerList, setCustomerList] = useState([]);
-  const { id } = useParams();
-  const { user } = useAuth();
+  const { id } = useParams();//Product SubCategory Id
+  const { user } = useAuth();//user info
   const [productcatid, setproductcatid] = useState(id);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(false);//enable the save button if its false
 
-
+//Product Types
   const product_type = [
     "Non Inventory",
     "Inventory",
@@ -223,25 +223,14 @@ const SimpleForm = ({ open, handleClose }) => {
   }, []);
 
   const submitValue = () => {
-    setloading(true)
-    // Axios.post(`https://translation.googleapis.com/language/translate/v2?key=${ApiKey}&q=${product}&target=ar`, {
-    //   method: 'POST',
-    //   headers: {
-    //     "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
-    //     "Access-Control-Allow-Headers": "Content-Type, x-requested-with",
-    //     "Access-Control-Max-Age": 86400
-    //   },
-    // })
-    //   .then(({ data }) => {
-
-
-
-    //     if (data.data.translations[0].translatedText) {
+    setloading(true)//Disable the save Button
+    
+    //Set the formData
     const frmdetails = {
       party_id: vendors,
       name: (product),
       description: description ? (description) : '',
-      unit_price: unit_Price,
+      unit_price: 0,
       unit_of_measure: unit_of_measue,
       category_id: id,
       division_id: selectedValue,
@@ -259,7 +248,7 @@ const SimpleForm = ({ open, handleClose }) => {
 
 
 
-
+    //API To save the products
     url.post('products', frmdetails)
       .then(function (response) {
 
@@ -277,23 +266,20 @@ const SimpleForm = ({ open, handleClose }) => {
       .catch(function (error) {
 
       })
-    resetform()
+    resetform()//Reset the Form
 
-    //   }
-    // })
+    
   }
 
-
+//Get the 
   function getcategory(e) {
     url.get("products-in-category").then(({ data }) => {
       setooptions(data);
     });
   }
-
+//rest the state value to empty
   const resetform = () => {
-    setunit_Price('');
     setunit_of_measue('');
-    setreal_price('');
     setiq('');
     setmq('');
     sethsn('');
@@ -343,22 +329,7 @@ const SimpleForm = ({ open, handleClose }) => {
                 required
 
               />
-              {/* <TextValidator
-              className="mb-4 w-full"
-              label="اسم المنتج"
-              variant="outlined"
-              size="small"
-              
-              value={name_in_ar}
-              onChange={e => setname_in_ar(e.target.value)}
-              type="text"
-              name="product"
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
-
-            /> */}
+             
               <TextValidator
                 className="mb-4 w-full"
                 label="Description"
@@ -375,8 +346,6 @@ const SimpleForm = ({ open, handleClose }) => {
                 ]}
                 errorMessages={["this field is required"]}
 
-              // validators={["required"]}
-              // errorMessages={["this field is required"]}
               />
               <div className="flex mb-4">
                 <TextField
@@ -394,8 +363,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   fullWidth
                   errorMessages={["this field is required"]}
                   select
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
+               
                 >
                   {data.map((item, ind) => (
                     <MenuItem value={item.value} key={item}>
@@ -426,49 +394,7 @@ const SimpleForm = ({ open, handleClose }) => {
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <div className="flex mb-4 mt-6">
-                {/* <TextValidator
-              className="mr-2"
-              label="category type"
-              name="selectedvalue"
-              size="small"
-              variant="outlined"
-              select
-              value={selectedOption1 || ""}
-              onChange={e => setselectedOption1(e.target.value)
-              }
-              validators={[
-                "required",
-              ]}
-              errorMessages={["this field is required"]}
-
-            >
-              <MenuItem>
-                <Button
-                  onClick={() => {
-                    setShouldOpenEditorDialog(true);
-                  }}
-                >
-                  <Icon>add</Icon>category
-                </Button>
-              </MenuItem>
-              {ooptions1.map((item, ind) => (
-                <MenuItem value={item.id} key={item}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </TextValidator> */}
-                {/* <TextField
-                className="mr-2"
-                label="category type"
-                name="selectedvalue"
-                size="small"
-                variant="outlined"
-                errorMessages={["this field is required"]}
-                value={selectedOption1 || ""}
-                onChange={e => setselectedOption1(e.target.value)}
-                fullWidth
                 
-              />   */}
                 <TextField
                   className="mr-2"
                   label="Sub Category"
@@ -476,11 +402,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   variant="outlined"
                   value={subcategory}
                   size="small"
-                  // validators={[
-                  //   "required",
-                  // ]}
-                  // errorMessages={["this field is required"]}
-                  // onChange={e => setmq(e.target.value)}
+                  
                   fullWidth
                 />
                 <TextField
@@ -546,8 +468,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   errorMessages={["this field is required"]}
                   fullWidth
 
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
+             
                 />
               </div>
               <div className="flex mb-4">
@@ -569,8 +490,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   fullWidth
                   errorMessages={["this field is required"]}
 
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
+               
                 >
 
                 </TextField>
