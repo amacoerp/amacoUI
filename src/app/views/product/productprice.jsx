@@ -17,17 +17,7 @@ import Swal from "sweetalert2";
 import url, { getcategories } from "../invoice/InvoiceService"
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, productprice, partyids }) => {
-  // const [state, setState] = useState({
-  //   name: "abc",
-  //   email: "",
-  //   phone: "",
-  //   balance: "",
-  //   age: "",
-  //   company: "",
-  //   address: "",
-  //   isActive: false,
-  //   isAlive: true,
-  // });
+ 
   const [cname, setcname] = useState('');
   const [cprice, setcprice] = useState('');
   const [userList, setUserList] = useState([]);
@@ -70,12 +60,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
         })
           .then((result) => {
 
-            // url.get("products/" + catid).then(({ data }) => {
-            //   productprice(data.prices);
-
-
-
-            // });
+            
           })
         try {
           fun(true);
@@ -121,9 +106,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
           },
           text: 'Category Deleted Successfully',
           icon: "success"
-          // 'Cancelled',
-          // 'Your imaginary file is safe :)',
-          // 'error',
+         
 
         })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -132,9 +115,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
             zIndex: 1000
           },
           title: 'Cancelled'
-          // 'Cancelled',
-          // 'Your imaginary file is safe :)',
-          // 'error',
+          
 
         })
       }
@@ -144,13 +125,11 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
   useEffect(() => {
     setcname(partyids)
-    console.log(catid);
     url.get("parties-except/" + catid).then(({ data }) => {
 
 
       const b = data.ids
-      console.log(data.data);
-      console.log(data.ids);
+    
       let a = data.data
       const c = data.ids.map((item) => {
 
@@ -165,7 +144,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
     })
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [])
 
   const columns = [
@@ -225,7 +204,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
 
                 variant="outlined"
                 onChange={e => setcname(e.target.value)
-                  // .log(isAlive)
+               
                 }
                 type="text"
                 name="cname"
@@ -241,30 +220,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
                   </MenuItem>
                 ))}
               </TextValidator>
-              {/* </TextValidator> : <TextValidator
-                className="w-full mb-4"
-                label="Vendor"
-
-                variant="outlined"
-                onChange={e => setcname(e.target.value)
-                  // .log(isAlive)
-                }
-                type="text"
-                name="cname"
-                value={cname}
-                errorMessages={["This field is required"]}
-                select
-                required
-
-              >
-                {customerList.filter(x => x.id === cname).map((item, ind) => (
-
-                  <MenuItem value={item.id} key={item}>
-                    {item.firm_name}
-                  </MenuItem>
-                ))}
-
-              </TextValidator>} */}
+              
 
               {isAlivecat && (
 
@@ -308,17 +264,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
             >
               <Icon>cancel</Icon>CANCEL
             </Button>
-            {/* <div className="flex justify-between items-center">
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => handleClose()}
-            >
-              <Icon>cancel</Icon>Cancel
-            </Button>
             
-            
-            </div> */}
           </div>
 
         </ValidatorForm>
