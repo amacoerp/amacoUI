@@ -557,28 +557,46 @@ const CustomerForm = () => {
     //   setaccounttype(data);
 
     // });
-    getVendorList().then(({ data }) => {
-      setvendorList(data)
+    url.get('mjrExpense/'+localStorage.getItem('division')).then(({data})=>{
+      setvendorList(data.vendor)
+      setaccounttype(data.payment_account);
+      setemployeeList(data.employee.getData);
+      setcat(data.account_categories);
+      setpayment_account(data.payment_account);
+      setdivision_account(data.division);
+      var arrVal = data.paidDivision.sort(function (obj1, obj2) {
+        return obj1?.type?.localeCompare(obj2?.type);
+      });
+      var res = arrVal.map((item) => {
+        item.isdisable = false;
+      })
+
+      setpaiddivision_account(arrVal);
+      setcompanybank(data.companyBank);
+     
     })
+    // getVendorList().then(({ data }) => {
+    //   setvendorList(data)
+    // })
     var arrVals
 
-    url.get("division").then(({ data }) => {
-      setdivision_account(data);
+    // url.get("division").then(({ data }) => {
+    //   setdivision_account(data);
 
-    });
-    getcompanybank().then(({ data }) => {
-      setcompanybank(data);
-    });
-    getEmployee().then(({ data }) => {
-      setemployeeList(data.getData);
-    });
+    // });
+    // getcompanybank().then(({ data }) => {
+    //   setcompanybank(data);
+    // });
+    // getEmployee().then(({ data }) => {
+    //   setemployeeList(data.getData);
+    // });
 
     if (localStorage.getItem("role") !== "SA") {
       setpaid_by(localStorage.getItem("user_id"));
     }
-    url.get("account-categories").then(({ data }) => {
-      setcat(data);
-    });
+    // url.get("account-categories").then(({ data }) => {
+    //   setcat(data);
+    // });
 
 
     const datas = getpaidDivision().then(({ data }) => {

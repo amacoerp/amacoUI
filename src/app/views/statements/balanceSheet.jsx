@@ -418,7 +418,7 @@ const BalanceSheet = ({ refval }) => {
     //   setcash_receipt(cash_receipt)
 
     // })
-    url.get('mjrExpense').then(({ data }) => {
+    url.get('mjrBalanceSheet').then(({ data }) => {
 
       var res = data.salesTax.reduce((initial, cal) => initial = initial + parseFloat(cal.vat_in_value), 0)
       setoutput_vat(res)

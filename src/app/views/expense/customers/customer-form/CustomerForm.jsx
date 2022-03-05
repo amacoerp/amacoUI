@@ -420,31 +420,17 @@ const CustomerForm = () => {
   useEffect(() => {
 
 
-    getVendorList().then(({ data }) => {
-      setvendorList(data)
-    })
-    getpaymentaccount().then(({ data }) => {
-      setaccounttype(data);
-    });
-    getEmployee().then(({ data }) => {
-      setemployeeList(data.getData);
-    });
-
-    if (localStorage.getItem("role") !== "SA") {
-      setpaid_by(localStorage.getItem("user_id"));
-    }
-    url.get("account-categories").then(({ data }) => {
-      setcat(data);
-    });
-    url.get("payment-account").then(({ data }) => {
-      setpayment_account(data);
-    });
-    url.get("division").then(({ data }) => {
-      setdivision_account(data);
-    });
-    getpaidDivision().then(({ data }) => {
-
-      var arrVal = data.sort(function (obj1, obj2) {
+    // getVendorList().then(({ data }) => {
+    //   setvendorList(data)
+    // })
+    url.get('mjrExpense/'+localStorage.getItem('division')).then(({data})=>{
+      setvendorList(data.vendor)
+      setaccounttype(data.payment_account);
+      setemployeeList(data.employee.getData);
+      setcat(data.account_categories);
+      setpayment_account(data.payment_account);
+      setdivision_account(data.division);
+      var arrVal = data.paidDivision.sort(function (obj1, obj2) {
         return obj1?.type?.localeCompare(obj2?.type);
       });
       var res = arrVal.map((item) => {
@@ -452,10 +438,42 @@ const CustomerForm = () => {
       })
 
       setpaiddivision_account(arrVal);
-    });
-    getcompanybank().then(({ data }) => {
-      setcompanybank(data);
-    });
+      setcompanybank(data.companyBank);
+     
+    })
+    // getpaymentaccount().then(({ data }) => {
+    //   setaccounttype(data);
+    // });
+    // getEmployee().then(({ data }) => {
+    //   setemployeeList(data.getData);
+    // });
+
+    if (localStorage.getItem("role") !== "SA") {
+      setpaid_by(localStorage.getItem("user_id"));
+    }
+    // url.get("account-categories").then(({ data }) => {
+    //   setcat(data);
+    // });
+    // url.get("payment-account").then(({ data }) => {
+    //   setpayment_account(data);
+    // });
+    // url.get("division").then(({ data }) => {
+    //   setdivision_account(data);
+    // });
+    // getpaidDivision().then(({ data }) => {
+
+    //   var arrVal = data.sort(function (obj1, obj2) {
+    //     return obj1?.type?.localeCompare(obj2?.type);
+    //   });
+    //   var res = arrVal.map((item) => {
+    //     item.isdisable = false;
+    //   })
+
+    //   setpaiddivision_account(arrVal);
+    // });
+    // getcompanybank().then(({ data }) => {
+    //   setcompanybank(data);
+    // });
 
     return setisAlive(true);
   }, [isAlive]);
