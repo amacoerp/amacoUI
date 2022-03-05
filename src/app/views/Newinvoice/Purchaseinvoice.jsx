@@ -229,24 +229,44 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     useEffect(() => {
 
-        url.get("products").then(({ data }) => {
-            setproList(data)
-            // setState({
-            //     ...state,
-            //     item: data,
-            //   }); 
-        });
-        url.get("sale-quotation/" + id).then(({ data }) => {
+        // url.get("products").then(({ data }) => {
+        //     setproList(data)
+            
+        // });
+        // url.get("sale-quotation/" + id).then(({ data }) => {
 
-            setcname(data[0].party.firm_name)
-            setqno(data[0].quotation_no)
-            setpono(data[0].po_number)
-            setcurrency_type(data[0].currency_type)
+        //     setcname(data[0].party.firm_name)
+        //     setqno(data[0].quotation_no)
+        //     setpono(data[0].po_number)
+        //     setcurrency_type(data[0].currency_type)
+
+        //     // setrdate(data[0].requested_date)
+        //     setparty_id(data[0].party.id)
+        //     setdiscount(data[0].discount_in_p)
+        //     let tempItemList = data[0].quotation_details;
+        //     tempItemList.map((element, i) => {
+        //         element['productId'] = element.product_id
+        //         element['product'] = element.description
+        //         return element
+
+        //     })
+
+        //     setState({
+        //         ...state,
+        //         item: tempItemList,
+        //     });
+
+        // });
+        url.get("mjrPurchaseInvoice/" + id).then(({ data }) => {
+            setcname(data?.sales_quotation?.party.firm_name)
+            setqno(data?.sales_quotation?.quotation_no)
+            setpono(data?.sales_quotation?.po_number)
+            setcurrency_type(data?.sales_quotation?.currency_type)
 
             // setrdate(data[0].requested_date)
-            setparty_id(data[0].party.id)
-            setdiscount(data[0].discount_in_p)
-            let tempItemList = data[0].quotation_details;
+            setparty_id(data?.sales_quotation?.party.id)
+            setdiscount(data?.sales_quotation?.discount_in_p)
+            let tempItemList = data?.sales_quotation?.quotation_details;
             tempItemList.map((element, i) => {
                 element['productId'] = element.product_id
                 element['product'] = element.description
@@ -258,7 +278,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ...state,
                 item: tempItemList,
             });
-
         });
     }, [id, isNewInvoice, isAlive, generateRandomId]);
 

@@ -194,30 +194,38 @@ const SimpleForm = ({ open, handleClose }) => {
   const routerHistory = useHistory();
 
   useEffect(() => {
-    getVendorList().then(({ data }) => {
 
-      setCustomerList(data)
-      getcategory()
-
-    });
-
-    url.get("products-in-category").then(({ data }) => {
-      setooptions(data);
+    url.get("mjrProductAdd/"+localStorage.getItem('division')+"/"+id).then(({ data })=>{
+     
+      setCustomerList(data?.vendor)
+      setooptions(data?.product_in_category);
+      setmanufacture(data?.manufacture);
+      setsubcategory(data?.category[0]?.name);
     })
-    getmanufacturer().then(({ data }) => {
+    // getVendorList().then(({ data }) => {
 
-      setmanufacture(data);
+    //   setCustomerList(data)
+    //   getcategory()
+
+    // });
+
+    // url.get("products-in-category").then(({ data }) => {
+    //   setooptions(data);
+    // })
+    // getmanufacturer().then(({ data }) => {
+
+    //   setmanufacture(data);
 
 
 
-    });
-    url.get("categories/" + id).then(({ data }) => {
+    // });
+    // url.get("categories/" + id).then(({ data }) => {
 
-      setsubcategory(data.name)
+    //   setsubcategory(data.name)
 
 
 
-    });
+    // });
 
 
   }, []);

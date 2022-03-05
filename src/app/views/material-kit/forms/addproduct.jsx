@@ -192,6 +192,9 @@ const SimpleForm = ({ open, handleClose }) => {
 
 
   useEffect(() => {
+
+
+    
     getVendorList().then(({ data }) => {
 
       setCustomerList(data)

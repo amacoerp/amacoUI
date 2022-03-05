@@ -242,7 +242,7 @@ const Cashes = [
 // ];
 
 const BalanceSheet = ({ refval }) => {
-  console.log(refval)
+  
   const componentRef = useRef()
   const classes = useStyles();
   const [Advance, setAdvance] = useState(1000)
@@ -317,86 +317,154 @@ const BalanceSheet = ({ refval }) => {
   useEffect(() => {
     let obj;
 
-    url.get("paidDivision").then(({ data }) => {
+    // url.get("paidDivision").then(({ data }) => {
 
-      const accout_receivable = data?.filter(obj => obj.balance >= 0 && obj.type == "personal").map((item) => {
-        return item
-      })
-      const accout_payable = data?.filter(obj => obj.balance <= 0 && obj.type == "personal").map((item) => {
-        return item
-      })
-      const res = accout_receivable?.reduce(function (acc, obj) { return acc + obj?.balance; }, 0)
-      setAdvance(res)
-      setstate({ 'Advance': res });
-      // setAccountPayable(accout_payable?.reduce(function (acc, obj) { return acc + obj?.balance; }, 0));
+    //   const accout_receivable = data?.filter(obj => obj.balance >= 0 && obj.type == "personal").map((item) => {
+    //     return item
+    //   })
+    //   const accout_payable = data?.filter(obj => obj.balance <= 0 && obj.type == "personal").map((item) => {
+    //     return item
+    //   })
+    //   const res = accout_receivable?.reduce(function (acc, obj) { return acc + obj?.balance; }, 0)
+    //   setAdvance(res)
+    //   setstate({ 'Advance': res });
+    //   // setAccountPayable(accout_payable?.reduce(function (acc, obj) { return acc + obj?.balance; }, 0));
 
-    });
-    url.post(
-      "all-account-statement")
-      .then(({ data }) => {
-        Object.values(data[0].data).map((item, i) => {
-          if (item[0].debit) {
-            sumDebit += parseFloat(item[0].debit);
-          }
-          if (item[0].credit) {
-            sumCredit += parseFloat(item[0].credit);
-          }
-        })
-        setreceivable_amount(sumDebit - sumCredit)
-      })
+    // });
+    // url.post(
+    //   "all-account-statement")
+    //   .then(({ data }) => {
+    //     Object.values(data[0].data).map((item, i) => {
+    //       if (item[0].debit) {
+    //         sumDebit += parseFloat(item[0].debit);
+    //       }
+    //       if (item[0].credit) {
+    //         sumCredit += parseFloat(item[0].credit);
+    //       }
+    //     })
+    //     setreceivable_amount(sumDebit - sumCredit)
+    //   })
 
 
 
     // Total sales
-    salesTax().then(({ data }) => {
-      var res = data.reduce((initial, cal) => initial = initial + parseFloat(cal.vat_in_value), 0)
-      setoutput_vat(res)
+    // salesTax().then(({ data }) => {
+    //   var res = data.reduce((initial, cal) => initial = initial + parseFloat(cal.vat_in_value), 0)
+    //   setoutput_vat(res)
 
-    })
+    // })
 
     // vat from expense
-    url.get('responseData').then(({ data }) => {
+    // url.get('responseData').then(({ data }) => {
 
 
-      // expensePaid().then(({data})=>{
-      var res = data.Expense.filter(obj => obj.account_category_id == 27).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    //   var res = data.Expense.filter(obj => obj.account_category_id == 27).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    //   setinput_vat(res)
+    //   console.log(res)
+
+    //   var res1 = data.Expense.filter(obj => obj?.tax).reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
+    //   settaxpaid_vat(res1)
+
+    //   var asset = data.Expense.filter(obj => obj.account_categories[0].parent_id == 48).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    //   setasset(asset)
+    //   let bank_expense = data.Expense.filter(obj => obj.payment_type == "banktransfer").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+
+    //   let cash_expense = data.Expense.filter(obj => obj.payment_type == "cash" && obj.payment_account[0].type == "division").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    //   console.log(cash_expense)
+    //   setbank_expense(bank_expense)
+    //   setcash_expense(cash_expense)
+    //   const accout_payable = data.Expense?.filter(obj => obj.is_paid == 0 && obj.status == "verified").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    //   setAccountPayable(accout_payable);
+    //   console.log(data.Expense)
+
+
+
+
+    //   let bank_receipt = data.Receipt.filter(obj => obj.payment_mode == "banktransfer")
+    //   let bank_Expense = data.Expense.filter(obj => obj.payment_type == "banktransfer")
+
+
+     
+
+    //   let arrs = data.Advance.filter(item => item.payment_mode == "banktransfer" && (!(item.received_by.type == "division" && item.payment_account.type == "division"))).map((item) => {
+    //     if (item.payment_mode == "banktransfer" && item.received_by.type == "division") {
+    //       item['credit'] = item.amount
+    //       item['debit'] = null
+
+    //     }
+    //     if (item.payment_mode == "banktransfer" && item.payment_account.type == "division") {
+    //       item['credit'] = null
+    //       item['debit'] = item.amount
+
+    //     }
+    //     return item
+    //   })
+
+
+
+
+    //   setbank_receipt(bank_receipt.reduce((obj, val) => obj + parseFloat(val.credit), 0) + arrs.reduce((obj, val) => obj + parseFloat(val?.credit ? val?.credit : 0), 0))
+
+
+
+    //   setbank_expense(bank_Expense.reduce((obj, val) => obj + parseFloat(val.amount), 0) + arrs.reduce((obj, val) => obj + parseFloat(val?.debit ? val?.debit : 0), 0))
+
+
+
+
+
+    //   let cash_receipt = data?.Advance?.filter(obj => obj?.payment_mode == "cash" && obj.received_by?.type == "division" && (!(obj?.received_by?.type == "division" && obj?.payment_account?.type == "division"))).reduce((initial, cal) => initial = initial + parseFloat(cal?.amount), 0)
+
+    //   setcash_receipt(cash_receipt)
+
+    // })
+    url.get('mjrExpense').then(({ data }) => {
+
+      var res = data.salesTax.reduce((initial, cal) => initial = initial + parseFloat(cal.vat_in_value), 0)
+      setoutput_vat(res)
+
+      const accout_receivable = data.paidDivision?.filter(obj => obj.balance >= 0 && obj.type == "personal").map((item) => {
+        return item
+      })
+      const accout_payables = data.paidDivision?.filter(obj => obj.balance <= 0 && obj.type == "personal").map((item) => {
+        return item
+      })
+      const ress = accout_receivable?.reduce(function (acc, obj) { return acc + obj?.balance; }, 0)
+      setAdvance(ress)
+      setstate({ 'Advance': ress });
+
+
+
+
+      var res = data.responseData.Expense.filter(obj => obj.account_category_id == 27).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
       setinput_vat(res)
-      console.log(res)
+      
 
-      // company vat from expense
-      var res1 = data.Expense.filter(obj => obj?.tax).reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
+      var res1 = data.responseData.Expense.filter(obj => obj?.tax).reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
       settaxpaid_vat(res1)
 
-      var asset = data.Expense.filter(obj => obj.account_categories[0].parent_id == 48).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+      var asset = data.responseData.Expense.filter(obj => obj.account_categories[0].parent_id == 48).reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
       setasset(asset)
-      let bank_expense = data.Expense.filter(obj => obj.payment_type == "banktransfer").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+      let bank_expense = data.responseData.Expense.filter(obj => obj.payment_type == "banktransfer").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
 
-      let cash_expense = data.Expense.filter(obj => obj.payment_type == "cash" && obj.payment_account[0].type == "division").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
-      console.log(cash_expense)
+      let cash_expense = data.responseData.Expense.filter(obj => obj.payment_type == "cash" && obj.payment_account[0].type == "division").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+     
       setbank_expense(bank_expense)
       setcash_expense(cash_expense)
-      const accout_payable = data.Expense?.filter(obj => obj.is_paid == 0 && obj.status == "verified").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+      const accout_payable = data.responseData.Expense?.filter(obj => obj.is_paid == 0 && obj.status == "verified").reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
       setAccountPayable(accout_payable);
-      console.log(data.Expense)
+      
 
 
 
-      //  }).then(response=>response)
-      //  .then(data=>obj=data)
-      //  .then(()=>
 
-      //  receipts().then(({data})=>{
-
-      let bank_receipt = data.Receipt.filter(obj => obj.payment_mode == "banktransfer")
-      let bank_Expense = data.Expense.filter(obj => obj.payment_type == "banktransfer")
+      let bank_receipt = data.responseData.Receipt.filter(obj => obj.payment_mode == "banktransfer")
+      let bank_Expense = data.responseData.Expense.filter(obj => obj.payment_type == "banktransfer")
 
 
-      // setbank_receipt(bank_receipt)
-      // url.get('advance-payments').then(({data}) => {
+     
 
-      // Bank Balance
-
-      let arrs = data.Advance.filter(item => item.payment_mode == "banktransfer" && (!(item.received_by.type == "division" && item.payment_account.type == "division"))).map((item) => {
+      let arrs =data.responseData.Advance.filter(item => item.payment_mode == "banktransfer" && (!(item.received_by.type == "division" && item.payment_account.type == "division"))).map((item) => {
         if (item.payment_mode == "banktransfer" && item.received_by.type == "division") {
           item['credit'] = item.amount
           item['debit'] = null
@@ -423,22 +491,63 @@ const BalanceSheet = ({ refval }) => {
 
 
 
-      let cash_receipt = data?.Advance?.filter(obj => obj?.payment_mode == "cash" && obj.received_by?.type == "division" && (!(obj?.received_by?.type == "division" && obj?.payment_account?.type == "division"))).reduce((initial, cal) => initial = initial + parseFloat(cal?.amount), 0)
+      let cash_receipt = data.responseData?.Advance?.filter(obj => obj?.payment_mode == "cash" && obj.received_by?.type == "division" && (!(obj?.received_by?.type == "division" && obj?.payment_account?.type == "division"))).reduce((initial, cal) => initial = initial + parseFloat(cal?.amount), 0)
 
       setcash_receipt(cash_receipt)
+      var d = new Date();
+   
+
+      var result = data.salesExpenseReport[0].map((item, i) => {
+        
+        console.log(item.category.amount)
+        let dateObj = new Date(item?.category?.paid_date);
+        let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
+
+ 
+
+        item['AMOUNT'] = item?.category?.amount
+        item['CATEGORY'] = item?.sub_categories
+        item['MONTH'] = monthyear
+        item['SUM'] = sum + parseFloat(item?.category?.amount)
+
+
+        return item;
+       
+      })
+
+      setarrExpense(result)
+   
+
+
+      var salesResult = data.invoice.map((item, i) => {
+
+
+        let dateObj = new Date(item.issue_date);
+        let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
+
+        
+
+
+        item['AMOUNT'] = item.grand_total
+        item['CATEGORY'] = "SALES"
+        item['MONTH'] = monthyear
+
+
+        return item;
+        
+      })
+      setsalesExpense(salesResult)
 
     })
+    // filterData();
 
 
 
 
+   
+  
+ 
 
-    // })
-    //  )
-
-
-    //  profit Loss
-    filterData()
 
   }, [])
 
@@ -454,7 +563,7 @@ const BalanceSheet = ({ refval }) => {
 
       var result = data[0].map((item, i) => {
 
-
+        console.log(item.category.amount)
         let dateObj = new Date(item.category.paid_date);
         let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
 
@@ -482,7 +591,7 @@ const BalanceSheet = ({ refval }) => {
         let dateObj = new Date(item.issue_date);
         let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
 
-        // console.log(monthyear)
+        
 
 
         item['AMOUNT'] = item.grand_total

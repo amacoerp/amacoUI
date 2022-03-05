@@ -170,11 +170,11 @@ const SimpleForm = () => {
   
   
  
-  // const styles = {
-  //   fontSize: 14,
-  //   color: 'blue',
-  //   width: 200
-  // }
+  const styles = {
+    fontSize: 14,
+    color: 'blue',
+    width: 200
+  }
   // const andleChange = (event) => {
   //   event.persist();
   //   setState({ ...state, [event.target.name]: event.target.value });
@@ -189,10 +189,10 @@ const SimpleForm = () => {
   // }
 
   const [isAlive, setIsAlive] = useState(true);
-  // const [userList, setUserList] = useState([]);
-  // const [ooptions1, setooptions] = useState([]);
-  // const [categoryid, setcategoryid] = useState();
-  // const [partyid, setpartyid] = useState('');
+  const [userList, setUserList] = useState([]);
+  const [ooptions1, setooptions] = useState([]);
+  const [categoryid, setcategoryid] = useState();
+  const [partyid, setpartyid] = useState('');
   const { user } = useAuth()
   let search = window.location.search;
   let params = new URLSearchParams(search);
@@ -202,15 +202,15 @@ const SimpleForm = () => {
 
   useEffect(() => {
 
-    url.get("products/" + id).then(({ data }) => {
-      if (isAlive) 
-      // setUserList(data);
+
+    url.get("mjrProductUpdate/" + id).then(({ data }) => {
+      if (isAlive) setUserList(data);
 
       setdescription(data.product[0].description)
       setname_in_ar(data.product[0].name_in_ar)
       setunit_of_measure(data.product[0].unit_of_measure)
       // setunit_Price(data.product[0].unit_price)
-      // setcategoryid(data.product[0].category_id)
+      setcategoryid(data.product[0].category_id)
       // setreal_price(data.product[0].real_price)
       setproduct(data.product[0].name)
       // setmrp(data.product[0].mrp)
@@ -223,35 +223,62 @@ const SimpleForm = () => {
       setiq(data.product[0].initial_quantity)
       setmq(data.product[0].minimum_quantity)
       // setvendors(data.product[0].id)
-      // setpartyid(data.product[0].id)
-      // setpartyid(data.product[0].party_id)
+      setpartyid(data.product[0].id)
+      setpartyid(data.product[0].party_id)
       setmodelno(data.product[0].model_no)
+      setooptions(data.product_in_category);
+      setmanuarr(data.manufacture.filter(obj => obj.div_id == localStorage.getItem('division')))
 
     });
-    url.get("products-in-category").then(({ data }) => {
-      // setooptions(data);
+    // url.get("products/" + id).then(({ data }) => {
+    //   if (isAlive) setUserList(data);
 
-    });
+    //   setdescription(data.product[0].description)
+    //   setname_in_ar(data.product[0].name_in_ar)
+    //   setunit_of_measure(data.product[0].unit_of_measure)
+    //   // setunit_Price(data.product[0].unit_price)
+    //   setcategoryid(data.product[0].category_id)
+    //   // setreal_price(data.product[0].real_price)
+    //   setproduct(data.product[0].name)
+    //   // setmrp(data.product[0].mrp)
+    //   setselectedOption(data.product[0].category_name)
+    //   setselectedOption1(data.product[0].category_id)
+    //   setmanid(data.product[0].manufacturer_id)
+    //   setmodelno(data.product[0].modelno)
+    //   sethsn(data.product[0].hsn_code)
+    //   setptype(data.product[0].type)
+    //   setiq(data.product[0].initial_quantity)
+    //   setmq(data.product[0].minimum_quantity)
+    //   // setvendors(data.product[0].id)
+    //   setpartyid(data.product[0].id)
+    //   setpartyid(data.product[0].party_id)
+    //   setmodelno(data.product[0].model_no)
 
-    url.get("getAllCat").then(({ data }) => {
-      setCat(data.filter(obj => obj.div_id == localStorage.getItem('division')));
-    });
+    // });
+    // url.get("products-in-category").then(({ data }) => {
+    //   setooptions(data);
+
+    // });
+
+    // url.get("getAllCat").then(({ data }) => {
+    //   setCat(data.filter(obj => obj.div_id == localStorage.getItem('division')));
+    // });
 
 
 
 
-    url.get(url + "parties-vendor").then(({ data }) => {
+    // url.get(url + "parties-vendor").then(({ data }) => {
 
-      setfirm(data)
-
-
-    });
-    url.get("manufacturer").then(({ data }) => {
-
-      setmanuarr(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setfirm(data)
 
 
-    });
+    // });
+    // url.get("manufacturer").then(({ data }) => {
+
+    //   setmanuarr(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+
+    // });
     return () => setIsAlive(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
