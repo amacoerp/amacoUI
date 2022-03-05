@@ -88,6 +88,8 @@ const SimpleMuiTable = () => {
     setShouldOpenConfirmationDialog,
   ] = useState(false);
 
+  
+
 
   useEffect(() => {
 
@@ -119,35 +121,46 @@ const SimpleMuiTable = () => {
 //     });
 
 
-    url.get("unCategorized-products").then(({ data }) => {
-      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-      setOCount(d.length)
+    url.get("mjrCategory").then(({ data }) => {
+
+      setOCount(data?.unCategorized.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+
+      setUserList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
+
+      setcatList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
+      setOriginalList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
+      setList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
     });
-    url.get("products").then(({ data }) => {
-      const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-      setUserList(d);
-    });
-    if (catid) {
-      url.get("categories").then(({ data }) => {
-        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
 
-        setcatList(d);
-        setOriginalList(d);
-        setList(d);
+    // url.get("unCategorized-products").then(({ data }) => {
+    //   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+    //   setOCount(d.length)
+    // });
+    // url.get("products").then(({ data }) => {
+    //   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+    //   setUserList(d);
+    // });
+    // if (catid) {
+    //   url.get("categories").then(({ data }) => {
+    //     const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+
+    //     setcatList(d);
+    //     setOriginalList(d);
+    //     setList(d);
 
 
-      });
-    }
-    else {
-      url.get("categories").then(({ data }) => {
+    //   });
+    // }
+    // else {
+    //   url.get("categories").then(({ data }) => {
 
-        const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+    //     const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
 
-        setcatList(d);
-        setOriginalList(d);
-        setList(d);
-      })
-    }
+    //     setcatList(d);
+    //     setOriginalList(d);
+    //     setList(d);
+    //   })
+    // }
 
 
     return () => setIsAlive(false);
