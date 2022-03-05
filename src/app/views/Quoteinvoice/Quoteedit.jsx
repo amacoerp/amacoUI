@@ -1155,7 +1155,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setvalidity(data?.sales?.validity)
       setdelivery_time(data?.sales?.delivery_time)
       setwarranty(data?.sales?.warranty)
-      setpayment_terms(data?.sales?.payment_terms)
+      setpayment_terms(data?.sales?.payment_terms) 
       setQuote_date(data?.sales?.ps_date)
       setsubject(data?.sales?.subject)
 
