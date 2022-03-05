@@ -1082,44 +1082,51 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
+
+    url.get(`mjrEditInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom);
+      setCustomerList(data?.customer);
+      setPriceList(data?.productPrice)
+
     });
 
-    getCustomerList().then(({ data }) => {
-      setCustomerList(data);
+
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+
+    // getCustomerList().then(({ data }) => {
+    //   setCustomerList(data);
 
 
-    });
-    const list = [
-      { color: 'white', size: 'XXL' },
-      { color: 'red', size: 'XL' },
-      { color: 'black', size: 'M' }
-    ]
+    // });
+  
 
     // console.log(list.sort((a, b) => (a.color > b.color) ? 1 : -1))
 
-    url.get("products").then(({ data }) => {
-      setproList(data)
-      setproListAll(data)
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
+    //   setproListAll(data)
 
 
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
 
-    });
-    url.get("product-price").then(({ data }) => {
-      setPriceList(data)
+    // });
+    // url.get("product-price").then(({ data }) => {
+    //   setPriceList(data)
 
 
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
 
-    });
+    // });
 
     return setIsAlive(false)
 

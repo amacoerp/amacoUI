@@ -547,40 +547,72 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [uom, setUOM] = useState(false);
 
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    url.get("products").then(({ data }) => {
-      setproList(
-        data.filter((obj) => obj.div_id == localStorage.getItem("division"))
-      );
-    });
-    getVendorList().then(({ data }) => {
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    url.get(`mjrPurchase/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setData(data?.uom);
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
       setvalues({
         ...values,
-        vendorList: data,
-        status: true,
-      });
-    });
-    url.get("product-price").then(({ data }) => {
-      setPriceList(data);
-    });
-    url.get("purchase-quotation/" + id).then(({ data }) => {
-      setcname(data[0]?.party?.firm_name);
+        vendorList: data?.vendor,
+        status: true
+      })
 
-      setcontactname(data[0]?.contact?.fname);
-      setQuote_date(moment(data[0].ps_date).format("DD MMM YYYY"));
-      updateCont(data[0]?.party_id, data[0].contact?.id);
-      setcurrency_type(data[0]?.currency_type);
-      setcharge(data[0]?.vat_in_value);
-      settotal(data[0]?.net_amount);
+      setPriceList(data?.productPrice)
+
+      setcname(data?.sales?.party?.firm_name)
+
+      // setvalues({ ...values, status: true });
+      setcontactname(data?.sales?.contact?.fname)
+      setQuote_date(moment(data?.sales.ps_date).format('DD MMM YYYY'))
+      updateCont(data?.sales?.party_id, data?.sales.contact?.id);
+      setcurrency_type(data?.sales?.currency_type)
+      setcharge(data?.sales?.vat_in_value)
+      settotal(data?.sales?.net_amount)
       setState({
         ...state,
-        item: data[0]?.quotation_details,
+        item: data?.sales?.quotation_details,
       });
+
     });
 
-    return setIsAlive(false);
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+    // });
+    // getVendorList().then(({ data }) => {
+    //   setvalues({
+    //     ...values,
+    //     vendorList: data,
+    //     status: true
+    //   })
+
+
+
+    // });
+    // url.get("product-price").then(({ data }) => {
+    //   setPriceList(data)
+    // });
+    // url.get("purchase-quotation/" + id).then(({ data }) => {
+    //   // setparty_id(data[0]?.party_id)
+    //   setcname(data[0]?.party?.firm_name)
+
+    //   // setvalues({ ...values, status: true });
+    //   setcontactname(data[0]?.contact?.fname)
+    //   setQuote_date(moment(data[0].ps_date).format('DD MMM YYYY'))
+    //   updateCont(data[0]?.party_id, data[0].contact?.id);
+    //   setcurrency_type(data[0]?.currency_type)
+    //   setcharge(data[0]?.vat_in_value)
+    //   settotal(data[0]?.net_amount)
+    //   setState({
+    //     ...state,
+    //     item: data[0]?.quotation_details,
+    //   });
+    // });
+
+    return setIsAlive(false)
   }, []);
 
   // const setMargin = (id, index, name) => {

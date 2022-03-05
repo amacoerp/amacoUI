@@ -186,35 +186,41 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    url.get("products").then(({ data }) => {
-      setproList(data)
+    url.get(`mjrEditInc/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setproList(data?.products)
 
-    });
+      setcname(data?.inv[0].party.firm_name)
+      setqno(data?.inv[0].invoice_no)
+      setpono(data?.inv[0].po_number)
 
-    url.get("invoice/" + id).then(({ data }) => {
-
-      setcname(data[0].party.firm_name)
-      setqno(data[0].invoice_no)
-      setpono(data[0].po_number)
-
-
-      setdiscount(data[0].discount_in_p)
-
-
+      setdiscount(data?.inv[0].discount_in_p)
 
       setState({
         ...state,
-        item: data[0].invoice_detail,
+        item: data?.inv[0].invoice_detail,
       });
-      let tempItemList = [...state.item];
-
-
-
-
-
-
 
     });
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
+
+    // });
+
+    // url.get("invoice/" + id).then(({ data }) => {
+
+    //   setcname(data[0].party.firm_name)
+    //   setqno(data[0].invoice_no)
+    //   setpono(data[0].po_number)
+
+    //   setdiscount(data[0].discount_in_p)
+
+    //   setState({
+    //     ...state,
+    //     item: data[0].invoice_detail,
+    //   });
+    //   let tempItemList = [...state.item];
+    // });
 
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 

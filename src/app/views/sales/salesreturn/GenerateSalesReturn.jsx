@@ -599,15 +599,24 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [uom, setUOM] = useState(false)
 
     useEffect(() => {
-        getUnitOfMeasure().then(({ data }) => {
-            setData(data);
+
+        url.get(`mjrSalesReturnInc/${localStorage.getItem('division')}`).then(({ data }) => {
+            setPriceList(data?.productPrice)
+            setData(data?.uom);
+            setCustomerList(data?.customer);
+            setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
         });
-        url.get("products").then(({ data }) => {
-            setproList(data)
-        });
-        getCustomerList().then(({ data }) => {
-            setCustomerList(data);
-        });
+
+
+        // getUnitOfMeasure().then(({ data }) => {
+        //     setData(data);
+        // });
+        // url.get("products").then(({ data }) => {
+        //     setproList(data)
+        // });
+        // getCustomerList().then(({ data }) => {
+        //     setCustomerList(data);
+        // });
 
         // url.get("getSalesFormData").then(({ data }) => {
         //     // setproList(data)
@@ -615,9 +624,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         //     console.log(data);
         // });
 
-        url.get("product-price").then(({ data }) => {
-            setPriceList(data)
-        });
+        // url.get("product-price").then(({ data }) => {
+        //     setPriceList(data)
+        // });
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);
 

@@ -613,37 +613,68 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [uom, setUOM] = useState(false)
 
     useEffect(() => {
-        getUnitOfMeasure().then(({ data }) => {
-            setData(data);
-        });
-        url.get("products").then(({ data }) => {
-            setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-            setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
-        });
-        getVendorList().then(({ data }) => {
+
+        url.get(`mjrPurchaseReturnEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+            setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setDL(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
+            setData(data?.uom);
             setvalues({
                 ...values,
-                vendorList: data,
+                vendorList: data?.vendor,
                 status: true
             })
-        });
-        url.get("product-price").then(({ data }) => {
-            setPriceList(data)
-        });
-        url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
-            setcontacts(data.cont)
-            setQuote_date(data.data[0].ps_date)
-            setcontactid(data.data[0].contact_id)
-            setcurrency_type(data.data[0].currency_type)
-            setcharge(data.data[0].vat_in_value)
-            setDLN(data.Odata);
-            setparty_id(data?.data[0]?.party_id);
-            setcontact123(data?.data[0]?.party_id)
+
+            setPriceList(data?.productPrice)
+
+
+            setcontacts(data?.eData.cont)
+            setQuote_date(data?.eData.data[0].ps_date)
+            setcontactid(data?.eData.data[0].contact_id)
+            setcurrency_type(data?.eData.data[0].currency_type)
+            setcharge(data?.eData.data[0].vat_in_value)
+            setDLN(data?.eData.Odata);
+            setparty_id(data?.eData?.data[0]?.party_id);
+            setcontact123(data?.eData?.data[0]?.party_id)
             setState({
                 ...state,
-                item: data.datas,
+                item: data?.eData.datas,
             });
-        })
+        });
+
+
+        // getUnitOfMeasure().then(({ data }) => {
+        //     setData(data);
+        // });
+      
+
+        // url.get("products").then(({ data }) => {
+        //     setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+        //     setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
+        // });
+        // getVendorList().then(({ data }) => {
+        //     setvalues({
+        //         ...values,
+        //         vendorList: data,
+        //         status: true
+        //     })
+        // });
+        // url.get("product-price").then(({ data }) => {
+        //     setPriceList(data)
+        // });
+        // url.get(`getPurchaseReturnEditData/${id}`).then(({ data }) => {
+        //     setcontacts(data.cont)
+        //     setQuote_date(data.data[0].ps_date)
+        //     setcontactid(data.data[0].contact_id)
+        //     setcurrency_type(data.data[0].currency_type)
+        //     setcharge(data.data[0].vat_in_value)
+        //     setDLN(data.Odata);
+        //     setparty_id(data?.data[0]?.party_id);
+        //     setcontact123(data?.data[0]?.party_id)
+        //     setState({
+        //         ...state,
+        //         item: data.datas,
+        //     });
+        // })
 
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);

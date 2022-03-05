@@ -439,6 +439,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const calcualteprice = (event, index, newValue) => {
         event.persist()
+        console.log(event.target.value)
         let tempItemList = [...state.item];
 
         tempItemList.map((element, i) => {
@@ -451,9 +452,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 // element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
                 // element[event.target.name] = event.target.value;
                 // element['remark'] = "";
-                element['total_amount'] = ((newValue.price ? newValue.price : newValue) * element.quantity).toFixed(2);
-                element['purchase_price'] = newValue.price ? newValue.price : newValue;
-                // element[event.target.name] = event.target.value;
+                element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);
+                element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
+                element[event.target.name] = event.target.value;
                 element.margin = "";
                 element.sell_price = "";
                 element['remark'] = "";
@@ -589,41 +590,67 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [data, setData] = useState([])
     const [uom, setUOM] = useState(false)
     useEffect(() => {
-        getUnitOfMeasure().then(({ data }) => {
-            setData(data);
-        });
-        url.get("products").then(({ data }) => {
-            setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-            setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
-        });
-        getCustomerList().then(({ data }) => {
+
+        url.get(`mjrSalesReturnEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+            setPriceList(data?.productPrice)
+            setData(data?.uom);
+            setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setDL(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
             setvalues({
                 ...values,
-                vendorList: data,
+                vendorList: data?.customer,
                 status: true
             })
-        });
-        url.get("product-price").then(({ data }) => {
-            setPriceList(data)
-        });
-        url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
-            setcharge(data.data[0].vat_in_value)
-            // setvalues({
-            //     ...values,
-            //     contacts: data.data[0].contact,
 
-            // })
-            setcontacts(data.contact)
-            setcontactid(data.data[0].contact_id)
-            setcurrency_type(data.data[0].currency_type)
-            setDLN(data.Odata);
-            setparty_id(data?.data[0]?.party_id);
-            setcontact123(data?.data[0]?.party_id)
+            setcharge(data?.eData?.data[0].vat_in_value)
+            setcontacts(data?.eData.contact)
+            setcontactid(data?.eData.data[0].contact_id)
+            setcurrency_type(data?.eData.data[0].currency_type)
+            setDLN(data?.eData.Odata);
+            setparty_id(data?.eData?.data[0]?.party_id);
+            setcontact123(data?.eData?.data[0]?.party_id)
             setState({
                 ...state,
-                item: data.datas,
+                item: data?.eData.datas,
             });
-        })
+        });
+
+
+        // getUnitOfMeasure().then(({ data }) => {
+        //     setData(data);
+        // });
+        // url.get("products").then(({ data }) => {
+        //     setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+        //     setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
+        // });
+        // getCustomerList().then(({ data }) => {
+        //     setvalues({
+        //         ...values,
+        //         vendorList: data,
+        //         status: true
+        //     })
+        // });
+        // url.get("product-price").then(({ data }) => {
+        //     setPriceList(data)
+        // });
+        // url.get(`getSalesReturnEdit/${id}`).then(({ data }) => {
+        //     setcharge(data.data[0].vat_in_value)
+        //     // setvalues({
+        //     //     ...values,
+        //     //     contacts: data.data[0].contact,
+
+        //     // })
+        //     setcontacts(data.contact)
+        //     setcontactid(data.data[0].contact_id)
+        //     setcurrency_type(data.data[0].currency_type)
+        //     setDLN(data.Odata);
+        //     setparty_id(data?.data[0]?.party_id);
+        //     setcontact123(data?.data[0]?.party_id)
+        //     setState({
+        //         ...state,
+        //         item: data.datas,
+        //     });
+        // })
 
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);

@@ -640,24 +640,36 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     useEffect(() => {
         // heelloo
-        getUnitOfMeasure().then(({ data }) => {
-            setData(data);
-        });
-        url.get("products").then(({ data }) => {
-            setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-            setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
-
-        });
-        getVendorList().then(({ data }) => {
+        // getUnitOfMeasure().then(({ data }) => {
+        //     setData(data);
+        // });
+        url.get(`mjrPurchaseReturnInc/${localStorage.getItem('division')}`).then(({ data }) => {
+            setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setDL(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
             setvalues({
                 ...values,
-                vendorList: data,
+                vendorList: data?.vendor,
                 status: false
             })
+            setData(data?.uom);
+            setPriceList(data?.productPrice)
         });
-        url.get("product-price").then(({ data }) => {
-            setPriceList(data)
-        });
+
+        // url.get("products").then(({ data }) => {
+        //     setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+        //     setDL(data.filter(obj => obj.div_id == localStorage.getItem('division')));
+
+        // });
+        // getVendorList().then(({ data }) => {
+        //     setvalues({
+        //         ...values,
+        //         vendorList: data,
+        //         status: false
+        //     })
+        // });
+        // url.get("product-price").then(({ data }) => {
+        //     setPriceList(data)
+        // });
 
         return setIsAlive(false)
     }, [id, isNewInvoice, isAlive, generateRandomId]);
