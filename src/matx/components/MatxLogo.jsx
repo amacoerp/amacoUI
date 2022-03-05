@@ -9,7 +9,7 @@ const MatxLogo = ({className}) => {
   
   return (
     <>
-    <img src={logo} style={{width: "150px"}}></img>
+    <img src={logo} alt="logo" style={{width: "150px"}}></img>
     <h6>{version}</h6>
     </>
     // <svg

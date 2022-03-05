@@ -167,7 +167,7 @@ const Layout1Topbar = () => {
       <div className={clsx({ "topbar-hold": true, fixed: fixed })}>
         <div className="flex justify-between items-center h-full">
           <div className="flex pr-4">
-            <IconButton onClick={handleSidebarToggle} className="pr-4">
+            <IconButton name='sideToggle' onClick={handleSidebarToggle} className="pr-4">
               <Icon>menu</Icon>
             </IconButton>
 
@@ -204,7 +204,7 @@ const Layout1Topbar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <MatxSearchBox />
+            {/* <MatxSearchBox /> */}
 
             <MatxMenu
               menuButton={
