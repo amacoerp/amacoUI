@@ -1031,55 +1031,84 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    getCustomerList().then(({ data }) => {
-      setCustomerList(data);
 
 
-    });
+    url.get(`mjrEditInc/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom);
+      setCustomerList(data?.customer)
+      setPriceList(data?.productPrice)
 
 
-    url.get("products").then(({ data }) => {
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
-
-    });
-    url.get("invoice/" + id).then(({ data }) => {
-      // setproList(data)
-      setdiscount(data[0].discount_in_percentage);
-      setparty_id(data[0]?.party_id)
-      setcname(data[0]?.party?.firm_name)
+        setdiscount(data?.inv[0].discount_in_percentage);
+      setparty_id(data?.inv[0]?.party_id)
+      setcname(data?.inv[0]?.party?.firm_name)
 
       setrfqstatus(true)
-      setcontactid(data[0]?.contact?.id)
-      if (data[0]?.po_number) {
-        setponumber(data[0]?.po_number)
+      setcontactid(data?.inv[0]?.contact?.id)
+      if (data?.inv[0]?.po_number) {
+        setponumber(data?.inv[0]?.po_number)
       }
 
       setState({
         ...state,
-        item: data[0]?.invoice_detail,
+        item: data?.inv[0]?.invoice_detail,
       });
 
+    
     });
-    url.get("product-price").then(({ data }) => {
-      setPriceList(data)
 
 
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    // getCustomerList().then(({ data }) => {
+    //   setCustomerList(data);
 
-    });
+
+    // });
+
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
+
+    // });
+    // url.get("invoice/" + id).then(({ data }) => {
+    //   // setproList(data)
+    //   setdiscount(data[0].discount_in_percentage);
+    //   setparty_id(data[0]?.party_id)
+    //   setcname(data[0]?.party?.firm_name)
+
+    //   setrfqstatus(true)
+    //   setcontactid(data[0]?.contact?.id)
+    //   if (data[0]?.po_number) {
+    //     setponumber(data[0]?.po_number)
+    //   }
+
+    //   setState({
+    //     ...state,
+    //     item: data[0]?.invoice_detail,
+    //   });
+
+    // });
+    // url.get("product-price").then(({ data }) => {
+    //   setPriceList(data)
+
+
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
+
+    // });
 
     return setIsAlive(false)
 

@@ -991,36 +991,36 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    // getVendorList().then(({ data }) => {
+    //   setCustomerList(data);
+    // });
+
+
+    url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setCustomerList(data?.vendor);
+      setData(data?.uom);
+      setPriceList(data?.productPrice)
     });
-    getVendorList().then(({ data }) => {
-      setCustomerList(data);
-    });
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    // });
+    // url.get("product-price").then(({ data }) => {
+    //   setPriceList(data)
 
 
-    url.get("products").then(({ data }) => {
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
 
-
-
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
-
-    });
-    url.get("product-price").then(({ data }) => {
-      setPriceList(data)
-
-
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
-
-    });
+    // });
 
     return setIsAlive(false)
 

@@ -196,22 +196,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    url.get("products").then(({ data }) => {
-      setproList(data)
-      // setState({
-      //     ...state,
-      //     item: data,
-      //   }); 
-    });
-    url.get("sale-quotation/" + id).then(({ data }) => {
+    url.get(`mjrQuoteDno/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setproList(data?.products)
 
-      setcname(data[0].party?.firm_name)
-      setqno(data[0]?.quotation_no)
-      setpono(data[0]?.po_number)
+
+      setcname(data?.sales?.party?.firm_name)
+      setqno(data?.sales?.quotation_no)
+      setpono(data?.sales?.po_number)
       // setrdate(data[0].requested_date)
-      setparty_id(data[0]?.party?.id)
-      setdiscount(data[0]?.discount_in_p)
-      let tempItemList = data[0].quotation_details;
+      setparty_id(data?.sales?.party_id)
+      setdiscount(data?.sales?.discount_in_p)
+      let tempItemList = data?.sales.quotation_details;
       tempItemList.map((element, i) => {
         let sum = 0;
         element['productId'] = element.product_id
@@ -224,7 +219,38 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         item: tempItemList,
       });
 
+      
     });
+
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
+    //   // setState({
+    //   //     ...state,
+    //   //     item: data,
+    //   //   }); 
+    // });
+    // url.get("sale-quotation/" + id).then(({ data }) => {
+
+    //   setcname(data[0].party?.firm_name)
+    //   setqno(data[0]?.quotation_no)
+    //   setpono(data[0]?.po_number)
+    //   // setrdate(data[0].requested_date)
+    //   setparty_id(data[0]?.party?.id)
+    //   setdiscount(data[0]?.discount_in_p)
+    //   let tempItemList = data[0].quotation_details;
+    //   tempItemList.map((element, i) => {
+    //     let sum = 0;
+    //     element['productId'] = element.product_id
+    //     element['product'] = element.description
+    //     return element;
+    //   })
+
+    //   setState({
+    //     ...state,
+    //     item: tempItemList,
+    //   });
+
+    // });
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
 

@@ -546,10 +546,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       });
     });
 
-    url.get("products").then(({ data }) => {
+    // url.get("products").then(({ data }) => {
 
-      setProductList(data)
-    })
+    //   setProductList(data)
+    // })
   }
   const product = ProductList.map((guest, index) => {
     return {
@@ -564,14 +564,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    url.get("products").then(({ data }) => {
-      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
+
+
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    url.get(`mjrRfqEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom);
     });
+    // url.get("products").then(({ data }) => {
+    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+    // });
 
     url.get("rfq/" + id).then(({ data }) => {
 

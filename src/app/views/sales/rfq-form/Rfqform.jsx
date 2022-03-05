@@ -609,20 +609,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
+    url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom);
+      setCustomerList(data?.vendor);
     });
 
-    getVendorList().then(({ data }) => {
-      setCustomerList(data);
-    });
-    url.get("products").then(({ data }) => {
 
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
 
-    });
+    // getVendorList().then(({ data }) => {
+    //   setCustomerList(data);
+    // });
+    // url.get("products").then(({ data }) => {
+
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+    // });
 
     // url.get("rfq/" + id).then(({ data }) => {
 
@@ -639,10 +646,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     //   });
     // });
 
-    url.get("products").then(({ data }) => {
+    // url.get("products").then(({ data }) => {
 
-      setProductList(data)
-    })
+    //   setProductList(data)
+    // })
     return setIsAlive(false)
   }, [isNewInvoice, isAlive, generateRandomId]);
   const datas = ProductList.map((guest, index) => {

@@ -517,30 +517,42 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [uom, setUOM] = useState(false)
 
   useEffect(() => {
-    getUnitOfMeasure().then(({ data }) => {
-      setData(data);
-    });
-    url.get("products").then(({ data }) => {
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-    });
-    getVendorList().then(({ data }) => {
-
+    // getUnitOfMeasure().then(({ data }) => {
+    //   setData(data);
+    // });
+    url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom)
       setvalues({
         ...values,
-        vendorList: data,
+        vendorList: data?.vendor,
         status: false
       })
+      setPriceList(data?.productPrice)  
 
     });
-    url.get("product-price").then(({ data }) => {
-      setPriceList(data)
+    // url.get("products").then(({ data }) => {
+    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
+
+    // });
+    // getVendorList().then(({ data }) => {
+
+    //   setvalues({
+    //     ...values,
+    //     vendorList: data,
+    //     status: false
+    //   })
+
+    // });
+    // url.get("product-price").then(({ data }) => {
+    //   setPriceList(data)
 
 
 
 
-    });
+    // });
 
     return setIsAlive(false)
   }, [id, isNewInvoice, isAlive, generateRandomId]);

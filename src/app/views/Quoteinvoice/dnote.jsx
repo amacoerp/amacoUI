@@ -186,36 +186,53 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    url.get("products").then(({ data }) => {
-      setproList(data)
+    // url.get("products").then(({ data }) => {
+    //   setproList(data)
 
-    });
-
-    url.get("sale-quotation/" + id).then(({ data }) => {
-
-      setcname(data[0]?.party?.firm_name)
-
-      setqno(data[0]?.quotation_no)
-      setpono(data[0]?.po_number)
+    // });
+    url.get(`mjrQuoteEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      setproList(data?.products)
 
 
-      setdiscount(data[0]?.discount_in_p)
 
+      setcname(data?.sales[0]?.party?.firm_name)
 
+      setqno(data?.sales[0]?.quotation_no)
+      setpono(data?.sales[0]?.po_number)
+
+      setdiscount(data?.sales[0]?.discount_in_p)
 
       setState({
         ...state,
-        item: data[0].quotation_details,
+        item: data?.sales[0].quotation_details,
       });
-      let tempItemList = [...state.item];
-
-
-
-
-
-
-
     });
+
+    // url.get("sale-quotation/" + id).then(({ data }) => {
+
+    //   setcname(data[0]?.party?.firm_name)
+
+    //   setqno(data[0]?.quotation_no)
+    //   setpono(data[0]?.po_number)
+
+
+    //   setdiscount(data[0]?.discount_in_p)
+
+
+
+    //   setState({
+    //     ...state,
+    //     item: data[0].quotation_details,
+    //   });
+    //   let tempItemList = [...state.item];
+
+
+
+
+
+
+
+    // });
 
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
