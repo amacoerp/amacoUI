@@ -282,7 +282,7 @@ const Analytics = () => {
               <KeyboardDatePicker
                 className="m-2"
                 // margin="none"
-                label="Select Year"
+                label="Choose Year"
                 format="yyyy"
                 // inputVariant="outlined"
                 type="text"

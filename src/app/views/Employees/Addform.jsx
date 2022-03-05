@@ -166,7 +166,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, data }) 
             .then(() => {
 
                 if (userid) {
-                    console.log(data)
+                    
 
                     const uD = data.filter(obj => obj.emp_id == userid)
 
