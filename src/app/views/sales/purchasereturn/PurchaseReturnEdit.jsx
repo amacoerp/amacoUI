@@ -345,7 +345,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
 
 
-
+        console.log(newValue)
 
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -354,10 +354,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         tempItemList.map((element, i) => {
             let sum = 0;
             if (index == i) {
-                element['product_name'] = newValue?.id ? newValue?.description : newValue
+                element['product_name'] = newValue?.id ? newValue?.name : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
                 element['description'] = newValue?.id ? newValue?.name : newValue
+                element['product_description'] = newValue?.id ? newValue?.name : newValue
 
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null

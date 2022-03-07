@@ -215,6 +215,7 @@ const [data,setData] = useState([])
       setcategoryid(data.product[0].category_id)
       // setreal_price(data.product[0].real_price)
       setproduct(data.product[0].name)
+      setCat(data?.getAllCat?.filter(obj => obj.div_id == localStorage.getItem('division')));
       // setmrp(data.product[0].mrp)
       setselectedOption(data.product[0].category_name)
       setselectedOption1(data.product[0].category_id)

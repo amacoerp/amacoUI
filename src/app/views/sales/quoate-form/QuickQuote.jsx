@@ -1792,14 +1792,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // requried
                           variant="outlined"
                           size="small"
+                          style={{ textAlign: 'center'}}
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           validators={["isNumber"]}
                           errorMessages={[
                             "Input is not Valid",
                           ]}
                           name="quantity"
                           inputProps={{
+                            min: 0, style: { textAlign: 'center' },
                             ref: setRef(index + 'quantity')
                           }}
                           // ref={setRef(index + 'description')}

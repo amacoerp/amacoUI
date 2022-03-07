@@ -945,7 +945,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="flex flex-wrap justify-center items-center m--2">
               {files.map((item, index) => (
                 <Card
-                  elevation={6}
+                  elevation={3}
                   className={clsx({
                     "flex-column justify-center items-center  px-8 m-2 cursor-pointer": true,
                   })}

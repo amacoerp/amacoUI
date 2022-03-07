@@ -315,6 +315,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                 if (parseInt(element.purchase_price) !== 0) {
 
+                    element['purchase_price'] = event.target.value
                     element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
                     element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
                     element.sell_price = d_val
@@ -722,6 +723,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                                     label="Unit Price"
                                                     variant="outlined"
                                                     fullWidth
+                                                    
+
                                                     size="small"
                                                     // calculatemargin
                                                     onChange={(e, value) => calculatemargin(e, index, value)}
