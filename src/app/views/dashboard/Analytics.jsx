@@ -85,6 +85,7 @@ const Analytics = () => {
   const [perList, setPerList] = useState('');
   const [date, setdate] = useState(moment(new Date()).format('YYYY'));
   const [responseData, setresponseData] = useState([]);
+  const [stackData,setStackData] = useState([]);
 
   var obj;
   var parentData;
@@ -94,7 +95,38 @@ const Analytics = () => {
       borderColor: "yellow !important"
     }
   });
+
   useEffect(() => {
+
+
+    url.get("dashboard").then(({ data }) => {
+
+
+      setresponseData(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      let dataList = data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division'))
+      var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
+        item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+        item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        item['month'] = moment(item.created_at).format('MMM');
+        return item
+      })
+      var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
+      var finalResult = months.filter(function (o1) {
+        return Due.map(function (o2) {
+          if (o1.name == o2.month) {
+            o1['count'] = o2.count
+          }
+        });
+      });
+      var finalArray = finalResult.map(function (obj) {
+        return obj?.count ? obj?.count : 0;
+      });
+      setdata1(finalArray);
+      setmaxVal(Math.max(...finalArray))
+    });
+
+
+
     // console.log(compPer)
     // setPerList(compPer);
     // getpaidDivision().then(({ data }) => {
@@ -104,56 +136,61 @@ const Analytics = () => {
     //   });
     // })
     //  setlinegraph(option)
-    url.get('invoice').then(({ data }) => {
-      // const myArr = Object.values(data[0].data).sort(
-      //   (a, b) => new Date(a[0].date) - new Date(b[0].date)
-      // );
 
-      // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-      setresponseData(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-      let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-      var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
-        item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
-        item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
-        item['month'] = moment(item.created_at).format('MMM');
-
-        return item
-      })
-
-
-      var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
-
-
-      var finalResult = months.filter(function (o1) {
-        return Due.map(function (o2) {
-          if (o1.name == o2.month) {
-            o1['count'] = o2.count
-            // return o1;
-          }
-          // return the ones with equal id
-        });
-      });
-
-
-      var finalArray = finalResult.map(function (obj) {
-        return obj?.count ? obj?.count : 0;
-      });
+    
 
 
 
-      setdata1(finalArray);
+    // url.get('invoice').then(({ data }) => {
+    //   // const myArr = Object.values(data[0].data).sort(
+    //   //   (a, b) => new Date(a[0].date) - new Date(b[0].date)
+    //   // );
 
-      setmaxVal(Math.max(...finalArray))
+    //   // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
+    //   setresponseData(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
-      // return the ones with equal id
+    //   let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
+    //   var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
+    //     item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
+    //     item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
+    //     item['month'] = moment(item.created_at).format('MMM');
+
+    //     return item
+    //   })
+
+
+    //   var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
+
+
+    //   var finalResult = months.filter(function (o1) {
+    //     return Due.map(function (o2) {
+    //       if (o1.name == o2.month) {
+    //         o1['count'] = o2.count
+    //         // return o1;
+    //       }
+    //       // return the ones with equal id
+    //     });
+    //   });
+
+
+    //   var finalArray = finalResult.map(function (obj) {
+    //     return obj?.count ? obj?.count : 0;
+    //   });
+
+
+
+    //   setdata1(finalArray);
+
+    //   setmaxVal(Math.max(...finalArray))
+
+    //   // return the ones with equal id
 
 
 
 
-      // setaccountStatement(Due)
+    //   // setaccountStatement(Due)
 
-    });
+    // });
 
     //  return setdate(true);
 
@@ -345,7 +382,7 @@ const Analytics = () => {
       <div className="analytics m-sm-30 mt--18">
         <Grid container spacing={3}>
           <Grid item lg={8} md={8} sm={12} xs={12}>
-            <StatCards />
+            <StatCards stackData={stackData}/>
 
             {/* Top Selling Products */}
             {/* <TopSellingTable /> */}

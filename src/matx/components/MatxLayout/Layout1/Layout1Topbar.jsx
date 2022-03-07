@@ -167,8 +167,8 @@ const Layout1Topbar = () => {
       <div className={clsx({ "topbar-hold": true, fixed: fixed })}>
         <div className="flex justify-between items-center h-full">
           <div className="flex pr-4">
-            <IconButton name='sideToggle' onClick={handleSidebarToggle} className="pr-4">
-              <Icon>menu</Icon>
+            <IconButton name='sideToggle'  onClick={handleSidebarToggle} className="pr-4">
+              <Icon name='toggle'>menu</Icon>
             </IconButton>
 
             <div className="hide-on-mobile" style={{ textAlign: 'right', marginLeft: 40 }}>
