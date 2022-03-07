@@ -1083,7 +1083,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [uom, setUOM] = useState(false)
   useEffect(() => {
 
-    url.get(`mjrEditInc/${localStorage.getItem('division')}`).then(({ data }) => {
+    url.get(`mjrInvInc/${localStorage.getItem('division')}`).then(({ data }) => {
       setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproListAll(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setData(data?.uom);

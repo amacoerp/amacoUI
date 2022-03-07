@@ -48,6 +48,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
     setfname('');
     setlname('');
     setemail('');
+    setprefix('')
     setcontact1('');
     setcontact2('');
     setdesignation('');

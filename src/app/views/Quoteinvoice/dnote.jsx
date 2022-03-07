@@ -195,16 +195,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-      setcname(data?.sales[0]?.party?.firm_name)
+      setcname(data?.sales?.party?.firm_name)
 
-      setqno(data?.sales[0]?.quotation_no)
-      setpono(data?.sales[0]?.po_number)
+      setqno(data?.sales?.quotation_no)
+      setpono(data?.sales?.po_number)
 
-      setdiscount(data?.sales[0]?.discount_in_p)
+      setdiscount(data?.sales?.discount_in_p)
 
       setState({
         ...state,
-        item: data?.sales[0].quotation_details,
+        item: data?.sales?.quotation_details,
       });
     });
 

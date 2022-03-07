@@ -113,6 +113,7 @@ const Addparty = ({ open, handleClose }) => {
     loading
   } = state
 
+  const [alllPartyDivisons,setAlllPartyDivisons] = useState([])
 
   useEffect(() => {
 
@@ -122,8 +123,6 @@ const Addparty = ({ open, handleClose }) => {
       var arrVal = data.sort(function (obj1, obj2) {
         return obj1.type.localeCompare(obj2.type);
       });
-
-
       setpaiddivision_account(arrVal);
     });
   }, [])
@@ -208,7 +207,7 @@ const Addparty = ({ open, handleClose }) => {
 
   // Form reset Function clears the Input
   const resetform = () => {
-
+    setprefix('');
     setfname('');
     setlname('');
     setFirm_name('');
@@ -235,7 +234,6 @@ const Addparty = ({ open, handleClose }) => {
     setbank_address('');
     setiban_no('');
     setaccount_no('');
-
 
     setcontact('');
     setvendor_id('');
