@@ -24,37 +24,64 @@ const StatCards = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    url.get("invoice").then(({ data }) => {
-      setsalesCount(data.filter(obj => obj.div_id == localStorage.getItem('division')).length)
-    });
-    url.get("sales-list").then(({ data }) => {
 
-      let res = data.filter((item) => item.state !== 'accept' && item.div_id == localStorage.getItem('division')).map((obj) => {
+    url.get("stateCard").then(({ data }) => {
+      setsalesCount(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+
+      let res = data?.salesList?.filter((item) => item.state !== 'accept' && item.div_id == localStorage.getItem('division')).map((obj) => {
         return obj
       });
-
       pendingCount = res?.length;
-
       setacceptquoteCount(res.length)
-    });
-    url.get("quotations-accepted-list").then(({ data }) => {
 
-      let final = data?.filter(obj => obj.div_id == localStorage.getItem('division'))?.length;
+      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division'))?.length;
       setrequestedquoteCount(final + pendingCount)
 
+
+
+      var result = data?.salesTax?.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
+
+      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
+      setrevenueCount(revenue)
+      console.log(revenue)
+
+
     });
+
     var today = new Date();
     var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 0);
     var date = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    url.get("salesTax").then(({ data }) => {
 
-      var result = data.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
 
-      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
-      setrevenueCount(revenue)
+    // url.get("invoice").then(({ data }) => {
+    //   setsalesCount(data.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+    // });
+    // url.get("sales-list").then(({ data }) => {
 
-    });
+    //   let res = data.filter((item) => item.state !== 'accept' && item.div_id == localStorage.getItem('division')).map((obj) => {
+    //     return obj
+    //   });
+
+    //   pendingCount = res?.length;
+
+    //   setacceptquoteCount(res.length)
+    // });
+    // url.get("quotations-accepted-list").then(({ data }) => {
+
+    //   let final = data?.filter(obj => obj.div_id == localStorage.getItem('division'))?.length;
+    //   setrequestedquoteCount(final + pendingCount)
+
+    // });
+   
+    // url.get("salesTax").then(({ data }) => {
+
+    //   var result = data.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
+
+    //   var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
+    //   setrevenueCount(revenue)
+
+    // });
 
 
   }, [localStorage.getItem('division')])
