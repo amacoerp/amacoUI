@@ -97,12 +97,12 @@ const Analytics = () => {
   useEffect(() => {
     // console.log(compPer)
     // setPerList(compPer);
-    getpaidDivision().then(({ data }) => {
+    // getpaidDivision().then(({ data }) => {
 
-      var arrVal = data.sort(function (obj1, obj2) {
-        return obj1.type.localeCompare(obj2.type);
-      });
-    })
+    //   var arrVal = data.sort(function (obj1, obj2) {
+    //     return obj1.type.localeCompare(obj2.type);
+    //   });
+    // })
     //  setlinegraph(option)
     url.get('invoice').then(({ data }) => {
       // const myArr = Object.values(data[0].data).sort(

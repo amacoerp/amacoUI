@@ -24,6 +24,12 @@ const StatCards = () => {
   const classes = useStyles();
 
   useEffect(() => {
+
+    url.get("stateCard").then(({ data }) => {
+      setsalesCount(data.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+    });
+
+
     url.get("invoice").then(({ data }) => {
       setsalesCount(data.filter(obj => obj.div_id == localStorage.getItem('division')).length)
     });
