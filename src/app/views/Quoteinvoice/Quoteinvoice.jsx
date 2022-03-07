@@ -571,7 +571,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="Quantity"
                           onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="number"
+                          type="text"
                           variant="outlined"
                           size="small"
                           fullWidth
@@ -580,8 +580,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           max={item.quantity}
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           value={item.quantity}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
+                          validators={["isNumber"]}
+                          errorMessages={["InValid Number"]}
                         />
                       </TableCell>
 

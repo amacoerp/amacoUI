@@ -202,6 +202,7 @@ const Addparty = ({ open, handleClose }) => {
       item['vendor_code'] = 'AMC' + item.name.charAt(0);//Autogenerate vendor code
       return item
     })
+    console.log(res)
     setdivision(res)//set division Id's one or more
   }
 
@@ -241,6 +242,7 @@ const Addparty = ({ open, handleClose }) => {
     setmobnocode('');
     setlandlinecode('');
     setcontactcode('');
+    setdivision([]);
 
   };
 

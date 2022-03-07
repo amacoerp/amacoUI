@@ -1011,7 +1011,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           .then((result) => {
 
             if (status == "New") {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/New")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
 
             }
             else {
