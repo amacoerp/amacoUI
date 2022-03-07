@@ -1,7 +1,7 @@
 {
   "name": "matx-react",
   "version": "1.4.0",
-  "homepage": "http://18.210.239.86",
+  "homepage": "http://www.amacoerp.com/test",
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.12.1",
