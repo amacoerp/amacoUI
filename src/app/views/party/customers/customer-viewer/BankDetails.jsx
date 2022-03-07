@@ -81,7 +81,7 @@ const BankDetails = ({ ids }) => {
     url.get("parties/" + ids).then(({ data }) => {
       setcustomercontact(data[0].contacts);
       setbankdetails(data[0].bank)
-
+      console.log(data)
     }
     );
     return setisAlive(true)
@@ -384,7 +384,7 @@ const BankDetails = ({ ids }) => {
         <MUIDataTable
 
           data={
-            bankdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+            bankdetails.map((item, index) => {
 
 
               return [
@@ -434,6 +434,7 @@ const BankDetails = ({ ids }) => {
           <MemberEditorDialog
             handleClose={handleDialogClose}
             contactid={status}
+            partyid={ids}
             open={shouldOpenEditorDialog}
             customercontact={setcustomercontact}
 

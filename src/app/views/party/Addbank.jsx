@@ -13,6 +13,7 @@ const MemberEditorDialog = ({
   open,
   handleClose,
   contactid,
+  partyid,
   customercontact,
 }) => {
   let search = window.location.search;
@@ -22,7 +23,6 @@ const MemberEditorDialog = ({
   const [bank_address, setbank_address] = useState("");
   const [bank_name, setbank_name] = useState("");
   const [iban_no, setiban_no] = useState("");
-
   const [loading, setloading] = useState(false);
 
   const [fullWidth, setFullWidth] = React.useState(true);
@@ -39,7 +39,7 @@ const MemberEditorDialog = ({
     setloading(true);
     if (contactid) {
       const frmdetails = {
-        party_id: foo,
+        party_id: partyid,
         iban_no: iban_no,
         bank_name: bank_name ?(bank_name) : "",
         bank_address: bank_address ?(bank_address) : "",
@@ -157,6 +157,7 @@ const MemberEditorDialog = ({
             onChange={(e) => setbank_address(e.target.value)}
             name="website"
             type="text"
+            multiline
             size="small"
             variant="outlined"
             value={bank_address}

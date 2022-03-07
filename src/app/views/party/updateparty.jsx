@@ -115,7 +115,8 @@ const SimpleForm = () => {
 
 
 
-    }).then(response => response)
+    })
+    url.get("parties/" + id).then(response => response)
       .then(data => obj = data)
       .then(() =>
 

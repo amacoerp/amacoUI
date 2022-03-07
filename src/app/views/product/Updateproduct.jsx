@@ -198,13 +198,15 @@ const SimpleForm = () => {
   let params = new URLSearchParams(search);
   // const foo = parseInt(params.get('id'));
   const { id } = useParams();
-
+const [data,setData] = useState([])
 
   useEffect(() => {
 
 
     url.get("mjrProductUpdate/" + id).then(({ data }) => {
       if (isAlive) setUserList(data);
+
+      setData(data?.uom)
 
       setdescription(data.product[0].description)
       setname_in_ar(data.product[0].name_in_ar)
@@ -454,7 +456,25 @@ const SimpleForm = () => {
 
               <div className="flex mb-4">
                 <div style={{ width: '300px' }} className="mr-2">
-                  <InputLabel htmlFor="UOM" style={{ fontSize: 10 }}>UOM</InputLabel>
+                <InputLabel htmlFor="UOM" style={{ fontSize: 10 }}>UOM</InputLabel>
+                <TextValidator
+                className="mb-4 w-full"
+                // label="UOM"
+                size="small"
+                select
+                value={unit_of_measure}
+                name="uom"
+                variant="outlined"
+                onChange={e => setunit_of_measure(e.target.value)}
+                inputProps={{ style: { textTransform: 'capitalize' } }}
+              
+              >
+                <MenuItem value="">Choose UOM</MenuItem>
+                {data.map((i)=>{
+                  return <MenuItem value={i.value}>{i.label}</MenuItem>
+                })}
+                </TextValidator>
+                  {/* <InputLabel htmlFor="UOM" style={{ fontSize: 10 }}>UOM</InputLabel>
                   <Select
                     menuPortalTarget={document.body}
                     menuPosition={'fixed'}
@@ -467,7 +487,7 @@ const SimpleForm = () => {
                     }
                     onChange={e => setunit_of_measure(e.value)
                     }
-                  />
+                  /> */}
                 </div>
                 <div style={{ width: '350px' }} className="ml-2">
                   <InputLabel style={{ fontSize: 10 }}>Manufacture</InputLabel>

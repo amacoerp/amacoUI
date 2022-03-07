@@ -401,7 +401,7 @@ const ContactDetails = ({ ids }) => {
         <MUIDataTable
 
           data={
-            customercontact.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+            customercontact.map((item, index) => {
 
 
               return [

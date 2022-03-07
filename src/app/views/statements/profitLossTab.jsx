@@ -15,6 +15,8 @@ const ProfitLossTab = () => {
   const handleTabChange = (e, value) => {
     setTabIndex(value);
   };
+
+  
   
 
   return (
