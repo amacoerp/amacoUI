@@ -638,7 +638,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ]}
         />
       </div>
-      <Card elevation={6} className="m-sm-30">
+      <Card elevation={3} className="m-sm-30">
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
           <ValidatorForm onSubmit={handleSubmit} autocomplete='off' onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-end">

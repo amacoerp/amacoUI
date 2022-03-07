@@ -877,7 +877,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                                     <div className="pl-2 pb-4">
                                                         {/* <span style={{fontWeight:1000}}>P.O. Date</span><br></br>
               {moment(rdate).format('DD MMM YYYY')} */}
-                                                        <span style={{ fontWeight: 1000 }}>DEBITNOTE NUMBER</span><br></br>
+                                                        <span style={{ fontWeight: 1000 }}>DEBIT NOTE NUMBER</span><br></br>
                                                         {party[0]?.pr_number}
 
                                                     </div>
@@ -890,7 +890,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                             <div className="flex " >
                                                 <div className="">
                                                     <div className="pl-2 pb-4">
-                                                        <span style={{ fontWeight: 1000 }}>DEBITNOTE DATE</span><br></br>
+                                                        <span style={{ fontWeight: 1000 }}>DEBIT NOTE DATE</span><br></br>
                                                         {moment(party[0]?.ps_date).format('DD MMM YYYY')}
 
 
