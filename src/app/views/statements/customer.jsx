@@ -185,23 +185,71 @@ const Customer = ({
 
   useEffect(() => {
     document.title = "Request for quoatation - Amaco";
-    getCustomerList().then(({ data }) => {
-      // console.log(data)
-      setUserList(data);
-    });
+    // getCustomerList().then(({ data }) => {
+    //   // console.log(data)
+    //   setUserList(data);
+    // });
 
 
-    // updateSidebarMode({ mode: "close" })
+    
+
+
+
+    // url
+    //   .post(
+    //     "all-account-statement"
+    //   )
+    //   .then(({ data }) => {
+    //     const myArr = Object.values(data[0].data).sort(
+    //       (a, b) => new Date(a[0].date) - new Date(b[0].date)
+    //     );
+    //     setfrom_date("01-01-2021")
+    //     setto_date(new Date())
+    //     setparty_id('')
+    //     setstatements(myArr);
+    //     setresponse_data(myArr)
+    //     setarr_length(Object.keys(myArr).length);
+
+
+    //     var sum = parseFloat(data[0].opening_balance);
+    //     var sum1 = 0.0;
+    //     Object.values(data[0].data).map((item, i) => {
+    //       if (item[0].debit) {
+    //         sum += parseFloat(item[0].debit);
+    //       }
+    //       if (item[0].credit) {
+    //         sum1 += parseFloat(item[0].credit);
+    //       }
+    //     });
+
+    //     setdsum(sum);
+    //     setcsum(sum1);
+    //     setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+
+    //     settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+
+    //     setcredit_days(data[0].credit_days);
+    //     // setcname(data[0].firm_name);
+    //     setopening_balance(0.0);
+    //     setclosing_bal(sum - sum1);
+    //     setthstatus(true);
+    //   })
+    // getCustomerList().then(({ data }) => {
+    //   // console.log(data)
+    //   setUserList(data);
+    // });
+
+
+    
 
 
 
     url
-      .post(
-        "all-account-statement"
-      )
+      .get("mjrCustomerStatement/"+localStorage.getItem('division'))
       .then(({ data }) => {
-        const myArr = Object.values(data[0].data).sort(
-          (a, b) => new Date(a[0].date) - new Date(b[0].date)
+        setUserList(data?.vendor);
+        const myArr = Object.values(data?.customerStatement[0]?.data).sort(
+          (a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)
         );
         setfrom_date("01-01-2021")
         setto_date(new Date())
@@ -211,24 +259,24 @@ const Customer = ({
         setarr_length(Object.keys(myArr).length);
 
 
-        var sum = parseFloat(data[0].opening_balance);
+        var sum = parseFloat(data?.customerStatement[0]?.opening_balance);
         var sum1 = 0.0;
-        Object.values(data[0].data).map((item, i) => {
+        Object.values(data?.customerStatement[0]?.data).map((item, i) => {
           if (item[0].debit) {
-            sum += parseFloat(item[0].debit);
+            sum += parseFloat(item[0]?.debit);
           }
           if (item[0].credit) {
-            sum1 += parseFloat(item[0].credit);
+            sum1 += parseFloat(item[0]?.credit);
           }
         });
 
         setdsum(sum);
         setcsum(sum1);
-        setfdate(moment(data[0].from_date).format('DD-MMM-YYYY'));
+        setfdate(moment(data?.customerStatement[0]?.from_date).format('DD-MMM-YYYY'));
 
-        settdate(moment(data[0].to_date).format('DD-MMM-YYYY'));
+        settdate(moment(data?.customerStatement[0]?.to_date).format('DD-MMM-YYYY'));
 
-        setcredit_days(data[0].credit_days);
+        setcredit_days(data?.customerStatement[0]?.credit_days);
         // setcname(data[0].firm_name);
         setopening_balance(0.0);
         setclosing_bal(sum - sum1);

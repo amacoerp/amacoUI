@@ -557,24 +557,24 @@ const CustomerForm = () => {
     //   setaccounttype(data);
 
     // });
-    url.get('mjrExpense/'+localStorage.getItem('division')).then(({data})=>{
-      setvendorList(data.vendor)
-      setaccounttype(data.payment_account);
-      setemployeeList(data.employee.getData);
-      setcat(data.account_categories);
-      setpayment_account(data.payment_account);
-      setdivision_account(data.division);
-      var arrVal = data.paidDivision.sort(function (obj1, obj2) {
-        return obj1?.type?.localeCompare(obj2?.type);
-      });
-      var res = arrVal.map((item) => {
-        item.isdisable = false;
-      })
+    // url.get('mjrExpense/'+localStorage.getItem('division')).then(({data})=>{
+    //   setvendorList(data.vendor)
+    //   setaccounttype(data.payment_account);
+    //   setemployeeList(data.employee.getData);
+    //   setcat(data.account_categories);
+    //   setpayment_account(data.payment_account);
+    //   setdivision_account(data.division);
+    //   var arrVal = data.paidDivision.sort(function (obj1, obj2) {
+    //     return obj1?.type?.localeCompare(obj2?.type);
+    //   });
+    //   var res = arrVal.map((item) => {
+    //     item.isdisable = false;
+    //   })
 
-      setpaiddivision_account(arrVal);
-      setcompanybank(data.companyBank);
+    //   setpaiddivision_account(arrVal);
+    //   setcompanybank(data.companyBank);
      
-    })
+    // })
     // getVendorList().then(({ data }) => {
     //   setvendorList(data)
     // })
@@ -611,36 +611,225 @@ const CustomerForm = () => {
       return data;
 
     })
+    // var obj;
+    // getpaidDivision()
+
+    //   .then(response => response)
+    //   .then(data => obj = data)
+    //   .then(() =>
+
+    //     url.get(`expense/${id}`).then(({ data }) => {
+    //       arrVals = obj.data.sort(function (obj1, obj2) {
+    //         return obj1.type.localeCompare(obj2.type);
+    //       });
+
+    //       console.log(data)
+
+    //       setpaiddivision_account(arrVals);
+    //       setvendor_id(data[0].vendor_id);
+    //       setcompany(data[0].company_name);
+    //       setpaid_to(data[0].paid_to != 'null' ? data[0].paid_to : null);
+
+    //       setamount(parseInt(data[0]?.amount));
+    //       setpaid_date(data[0]?.paid_date);
+    //       setemployee_id(data[0]?.employee_id)
+    //       setpaid_by(data[0]?.payment_account_id);
+    //       setreferrence_bill_no(data[0]?.referrence_bill_no);
+    //       setdescription(data[0].paid_to != 'null' ? data[0].description : null);
+    //       setclose(true);
+    //       setfield(data[0].column_data);
+    //       setpayment_mode(data[0].payment_type)
+    //       var payList;
+    //       payList = data.mapdata.map((item, i) => {
+
+
+    //         return item
+    //       })
+
+    //       var merged = [].concat.apply([], payList);
+    //       var demo = merged.map((item) => {
+    //         item.isdisable = true
+    //         return item
+    //       })
+    //       setfilterArr(demo)
+    //       // setpaid_by_list(merged)
+
+    //       setstatearr([])
+    //       var calSum = 0;
+    //       var count = 0;
+    //       for (var ind in merged) {
+
+    //         // eslint-disable-next-line no-loop-func
+    //         obj.data.filter(f => f.name == merged[ind].name).map((item) => {
+
+
+    //           // map array to replace the old comment with the new one
+
+
+    //           statearr.push([
+    //             item.id,
+
+    //             item.name,
+    //             item.balance,
+    //             item.div_id,
+    //             item.type
+    //           ]
+    //           )
+
+
+
+
+
+
+
+
+
+
+
+
+    //         })
+
+    //       }
+
+    //       arr = statearr
+    //       sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+
+
+    //       setpaymentarr(statearr)
+
+    //       setamountVal(sum)
+    //       // setpaid_by_list(payList)
+
+
+    //       if (data[0].payment_type === "cheque") {
+    //         setcheque_no(data[0].check_no)
+    //       }
+    //       let arr = [...data[0].column_data];
+    //       arr.map((element, i) => {
+    //         if (element.column_id == element.column['id']) {
+
+    //           element['type'] = element.column['type'];
+    //           if (!element.date) {
+    //             element.date = new Date()
+    //           }
+    //           element[element.column['type']] = element.value;
+
+    //         }
+    //         return element;
+
+    //       });
+
+
+    //       setutilize_id(data[0]?.utilize_div_id);
+
+    //       setdiv_id(data[0]?.div_id);
+    //       setvatno(data[0]?.vatno);
+    //       setdiv_company(data[0]?.company);
+    //       setinv_no(data[0]?.inv_no);
+
+    //       url.get("payment-account").then(({ data }) => {
+    //         setarrVal(data)
+    //         setpayment_account(data);
+    //         setaccounttype(data);
+
+
+    //       })
+
+
+
+
+
+
+
+
+    //       if (data[0]?.tax) {
+    //         settax(true);
+    //         settaxamount(data[0]?.tax);
+    //       }
+    //       else {
+    //         settax(false);
+    //         settaxamount('0.00')
+    //       }
+
+    //       setaccountstatus(true);
+
+
+    //       setdemo(data[0]?.account_category_id);
+
+    //     }))
+
+
+
+    // url.get(`columns/${eid}`).then(({ data }) => {
+    //   setpayment_account_name(data[0]?.name);
+    //   if ((data[0]?.name.toUpperCase()).includes('SALARY')) {
+    //     setemployee_status(true)
+
+    //   }
+    //   setpayment_account_id(eid);
+    //   if (eid == 33) {
+    //     setvendor_status(true)
+
+    //   }
+    //   let result = data[0].column;
+
+    //   const sum = result.map((item, index) => ({
+    //     ...item,
+    //     date: arr[index]?.value,
+    //     text: arr[index]?.value,
+    //     value: arr[index]?.value,
+    //   }));
+
+
+
+    // });
     var obj;
-    getpaidDivision()
+    // getpaidDivision()
 
-      .then(response => response)
-      .then(data => obj = data)
-      .then(() =>
+    //   .then(response => response)
+    //   .then(data => obj = data)
+    //   .then(() =>
 
-        url.get(`expense/${id}`).then(({ data }) => {
-          arrVals = obj.data.sort(function (obj1, obj2) {
+        url.get("mjrExpenseUpdate/"+localStorage.getItem('division')+"/"+id+"/"+eid).then(({ data }) => {
+
+
+          setvendorList(data.vendor)
+          setaccounttype(data.payment_account);
+          setemployeeList(data.employee.getData);
+          setcat(data.account_categories);
+          setpayment_account(data.payment_account);
+          setdivision_account(data.division);
+          var arrVal = data.paidDivision.sort(function (obj1, obj2) {
+            return obj1?.type?.localeCompare(obj2?.type);
+          });
+          var res = arrVal.map((item) => {
+            item.isdisable = false;
+          })
+    
+          setpaiddivision_account(arrVal);
+          setcompanybank(data.companyBank);
+          arrVals = data.paidDivision.sort(function (obj1, obj2) {
             return obj1.type.localeCompare(obj2.type);
           });
 
-          console.log(data)
-
+          
           setpaiddivision_account(arrVals);
-          setvendor_id(data[0].vendor_id);
-          setcompany(data[0].company_name);
-          setpaid_to(data[0].paid_to != 'null' ? data[0].paid_to : null);
+          setvendor_id(data.expense[0].vendor_id);
+          setcompany(data.expense[0].company_name);
+          setpaid_to(data.expense[0].paid_to != 'null' ? data.expense[0].paid_to : null);
 
-          setamount(parseInt(data[0]?.amount));
-          setpaid_date(data[0]?.paid_date);
-          setemployee_id(data[0]?.employee_id)
-          setpaid_by(data[0]?.payment_account_id);
-          setreferrence_bill_no(data[0]?.referrence_bill_no);
-          setdescription(data[0].paid_to != 'null' ? data[0].description : null);
+          setamount(parseInt(data.expense[0]?.amount));
+          setpaid_date(data.expense[0]?.paid_date);
+          setemployee_id(data.expense[0]?.employee_id)
+          setpaid_by(data.expense[0]?.payment_account_id);
+          setreferrence_bill_no(data.expense[0]?.referrence_bill_no);
+          setdescription(data.expense[0].paid_to != 'null' ? data.expense[0].description : null);
           setclose(true);
-          setfield(data[0].column_data);
-          setpayment_mode(data[0].payment_type)
+          setfield(data.expense[0].column_data);
+          setpayment_mode(data.expense[0].payment_type)
           var payList;
-          payList = data.mapdata.map((item, i) => {
+          console.log(data.expense.mapdata)
+          payList = data.expense.mapdata.map((item, i) => {
 
 
             return item
@@ -660,7 +849,7 @@ const CustomerForm = () => {
           for (var ind in merged) {
 
             // eslint-disable-next-line no-loop-func
-            obj.data.filter(f => f.name == merged[ind].name).map((item) => {
+            data.paidDivision.filter(f => f.name == merged[ind].name).map((item) => {
 
 
               // map array to replace the old comment with the new one
@@ -701,10 +890,10 @@ const CustomerForm = () => {
           // setpaid_by_list(payList)
 
 
-          if (data[0].payment_type === "cheque") {
-            setcheque_no(data[0].check_no)
+          if (data.expense[0].payment_type === "cheque") {
+            setcheque_no(data.expense[0].check_no)
           }
-          let arr = [...data[0].column_data];
+          let arr = [...data.expense[0].column_data];
           arr.map((element, i) => {
             if (element.column_id == element.column['id']) {
 
@@ -720,31 +909,31 @@ const CustomerForm = () => {
           });
 
 
-          setutilize_id(data[0]?.utilize_div_id);
+          setutilize_id(data.expense[0]?.utilize_div_id);
 
-          setdiv_id(data[0]?.div_id);
-          setvatno(data[0]?.vatno);
-          setdiv_company(data[0]?.company);
-          setinv_no(data[0]?.inv_no);
+          setdiv_id(data.expense[0]?.div_id);
+          setvatno(data.expense[0]?.vatno);
+          setdiv_company(data.expense[0]?.company);
+          setinv_no(data.expense[0]?.inv_no);
 
-          url.get("payment-account").then(({ data }) => {
-            setarrVal(data)
-            setpayment_account(data);
-            setaccounttype(data);
-
-
-          })
+          // url.get("payment-account").then(({ data }) => {
+            setarrVal(data.payment_account)
+            setpayment_account(data.payment_account);
+            setaccounttype(data.payment_account);
 
 
+          // })
 
 
 
 
 
 
-          if (data[0]?.tax) {
+
+
+          if (data.expense[0]?.tax) {
             settax(true);
-            settaxamount(data[0]?.tax);
+            settaxamount(data.expense[0]?.tax);
           }
           else {
             settax(false);
@@ -754,35 +943,37 @@ const CustomerForm = () => {
           setaccountstatus(true);
 
 
-          setdemo(data[0]?.account_category_id);
+          setdemo(data.expense[0]?.account_category_id);
+          setpayment_account_name(data.columns[0]?.name);
+          if ((data.columns[0]?.name.toUpperCase()).includes('SALARY')) {
+            setemployee_status(true)
+    
+          }
+          setpayment_account_id(eid);
+          if (eid == 33) {
+            setvendor_status(true)
+    
+          }
+          let result = data.columns[0].column;
+    
+          let sum = result.map((item, index) => ({
+            ...item,
+            date: arr[index]?.value,
+            text: arr[index]?.value,
+            value: arr[index]?.value,
+          }));
 
-        }))
-
-
-
-    url.get(`columns/${eid}`).then(({ data }) => {
-      setpayment_account_name(data[0]?.name);
-      if ((data[0]?.name.toUpperCase()).includes('SALARY')) {
-        setemployee_status(true)
-
-      }
-      setpayment_account_id(eid);
-      if (eid == 33) {
-        setvendor_status(true)
-
-      }
-      let result = data[0].column;
-
-      const sum = result.map((item, index) => ({
-        ...item,
-        date: arr[index]?.value,
-        text: arr[index]?.value,
-        value: arr[index]?.value,
-      }));
+        })
+        // )
 
 
 
-    });
+    // url.get(`columns/${eid}`).then(({ data }) => {
+     
+
+
+
+    // });
 
 
 
