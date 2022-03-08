@@ -1,39 +1,29 @@
 import React, { useState, useEffect } from "react";
-// import { Breadcrumb,ConfirmationDialog } from "matx";
-// import Tooltip from '@material-ui/core/Tooltip';
-// import Axios from "axios";
 import {
-  // Avatar,
-  // Button,
   Card,
   Divider,
-  // Icon,
   Table,
   TableBody,
-  // IconButton,
   TableCell,
   TableRow,
 } from "@material-ui/core";
-// import FormDialog from "../../partycontact"
-// import MemberEditorDialog from "../../partycontact"
 import url from "../../../invoice/InvoiceService"
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 const ProductInfo = () => {
-  let search = window.location.search;
-  let params = new URLSearchParams(search);
-  // const foo = parseInt(params.get('id'));
+  
+ 
   const { id } = useParams();
 
   const [productList, setproductList] = useState(false);
 
   useEffect(() => {
 
-
+  /* API PRODUCTS List*/
     url.get("products/" + id).then(({ data }) => {
 
-      setproductList(data.product[0]);
+      setproductList(data.product[0]);//Set the product List
 
     });
 
@@ -46,19 +36,11 @@ const ProductInfo = () => {
 
     <Card className="pt-6" elevation={3}>
       <div className="flex-column items-center mb-6">
-        {/* <Avatar className="w-84 h-84" src="/assets/images/faces/10.jpg" /> */}
+      
         <h3 className="mt-4 mb-2">{productList.name}</h3>
 
         <h5><small className="text-muted"><strong>Model Number:</strong>{productList.model_no}</small></h5>
-        {/* <small className="text-muted"><strong>Vat Number:</strong>{productList.vat_no}</small> */}
-        {/* <div className="flex-row">
-        <small className="text-white bg-green border-radius-4 px-2 py-2px">
-                Credit Limit
-              </small>
-              <small className="text-white bg-green border-radius-4 px-2 py-2px ml-2">
-                Credit Days
-              </small>
-          </div> */}
+       
       </div>
 
       <Divider />
@@ -101,52 +83,14 @@ const ProductInfo = () => {
             <TableCell className="pl-4">Minimum Quantity</TableCell>
             <TableCell>{productList.minimum_quantity}</TableCell>
           </TableRow>
-          {/* ))} */}
+          
         </TableBody>
       </Table>
 
-      {/* <div className="flex-column items-start px-4">
-        <Button className="mb-1" variant="text">
-          <Icon className="mr-2" fontSize="small">
-            lock_open
-          </Icon>{" "}
-          Reset & Send Password
-        </Button>
-        
-
-        <Button className="mb-4" variant="text">
-          <Icon className="mr-2" fontSize="small">
-            person
-          </Icon>{" "}
-          Login as Customer
-        </Button>
-      </div> */}
-
+      
     </Card>
   );
 };
 
-// const ProductInfo = [
-//   {
-//     title: "Firm Name",
-//     value: "+1 439 327 546",
-//   },
-//   {
-//     title: "Registration Nubmber",
-//     value: "USA",
-//   },
-//   {
-//     title: "Vat number",
-//     value: "New York",
-//   },
-//   {
-//     title: "P.0 Box",
-//     value: "Street Tailwood, No. 17",
-//   },
-//   {
-//     title: "Address 2",
-//     value: "House #19",
-//   },
-// ];
 
 export default ProductInfo;

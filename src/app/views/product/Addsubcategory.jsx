@@ -22,11 +22,7 @@ import { Icon } from "@material-ui/core";
 import Swal from "sweetalert2";
 import url, { getcategories, GDIV } from "../invoice/InvoiceService"
 import { makeStyles } from "@material-ui/core/styles";
-// import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-// import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-// import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-// import Typography from "@material-ui/core/Typography";
-// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,27 +36,17 @@ const useStyles = makeStyles(theme => ({
 
 const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
   const classes = useStyles();
-  // const [state, setState] = useState({
-  //   name: "abc",
-  //   email: "",
-  //   phone: "",
-  //   balance: "",
-  //   age: "",
-  //   company: "",
-  //   address: "",
-  //   isActive: false,
-  //   isAlive: true,
-  // });
-  const [cname, setcname] = useState('');
-  const [cdescription, setcdescription] = useState('');
-  const [userList, setUserList] = useState([]);
+ 
+  const [cname, setcname] = useState('');//category or subCategory Name
+  const [cdescription, setcdescription] = useState('');//category or SubCategory description
+  const [CatList, setCatList] = useState([]);//Category List
   const [isAlive, setIsAlive] = useState(true);
   const [isAlivecat, setIsAlivecat] = useState('');
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(false);//Enable the save button
 
 
   const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("sm");
+  const [maxWidth, setMaxWidth] = React.useState("sm");//Maximum width of Dialogue Box is small
   const { user } = useAuth();
   const columnStyleWithWidth1 = {
     top: "0px",
@@ -75,7 +61,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
     hyphens: "auto"
   }
 
-
+//Catilize the category name
   const capitalize_arr = (value) => {
     let wordsArray = value.split(' ')
     let capsArray = []
@@ -86,13 +72,17 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
     return capsArray.join(' ')
   }
+  /*Rest the Form */
   const resetform = () => {
-    setcname('')
-    setcdescription('')
+    setcname('')//Customer Name
+    setcdescription('')//Customer Description
   }
+
+  /*Form Submit */
   const handleFormSubmit = () => {
-    setloading(true)
+    setloading(true)//Disable the save button
     var arr = []
+    /*api to display the category List */
     getcategories().then(({ data }) => {
 
       for (const list in data) {
@@ -115,15 +105,16 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
         const frmdetails = {
 
-          name: cname ? capitalize_arr(cname) : null,
-          description: cdescription ? capitalize_arr(cdescription) : null,
-          parent_id: catid,
-          user_id: user.id,
-          div_id: localStorage.getItem('division')
+          name: cname ? capitalize_arr(cname) : null,//category name
+          description: cdescription ? capitalize_arr(cdescription) : null,//category description
+          parent_id: catid,//category Id
+          user_id: user.id,//user id
+          div_id: localStorage.getItem('division')//division id
 
 
         }
 
+        /*API post the categpry Information */
         url.post('categories', frmdetails)
           .then(function (response) {
             getcategories()
@@ -135,7 +126,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
             })
               .then((result) => {
 
-
+                /*Get the data from the api categories and filter based on division id */
                 getcategories().then(({ data }) => {
                   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
                   catList(d)
@@ -144,14 +135,14 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
               })
             catid = null;
-            handleClose()
-            // routerHistory.push('/product/viewsubcategory');
+            handleClose()//Close the dialogue box
+           
           })
           .catch(function (error) {
 
           })
-        setcdescription('')
-        setcname('')
+        setcdescription('')//reset the category description to empty
+        setcname('')//reset the category name to empty
         catid = null
 
 
@@ -164,6 +155,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
 
   };
+  /*remove the category */
   const removeData = (id) => {
 
     Swal.fire({
@@ -193,9 +185,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
           },
           text: 'Category Deleted Successfully',
           icon: "success"
-          // 'Cancelled',
-          // 'Your imaginary file is safe :)',
-          // 'error',
+         
 
         })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -205,15 +195,14 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
           },
           title: 'Cancelled',
           icon: 'error'
-          // 'Cancelled',
-          // 'Your imaginary file is safe :)',
-          // 'error',
+          
 
         })
       }
     })
 
   }
+  /*Close the dialogue Box */
   const setcatid = () => {
 
 
@@ -222,38 +211,23 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
   useEffect(() => {
 
-    // url.get(url+"categories").then(({ data }) => {
-    //   setUserList(data);
-
-    // });
-    // url.get("http://dataqueuesystems.com/amaco/amaco/public/api/products-in-category").then(({ data }) => {
-    //   if (isAlive) setUserList(data);
-
-
-    // Object.keys(data).forEach(function(key) {
-
-    //   arr.push(data[key]);
-    //   setUserList(arr)
-    // });
-
-
-    // });
-
+    
 
   }, [])
   function getrow() {
-
+/*List out the category List */
     if (!catid) {
 
       url.get("categories").then(({ data }) => {
-        setUserList(data);
+        setCatList(data);
         setIsAlive(!isAlive)
       });
     }
+    /*List out the Sub category List */
     else {
 
       url.get(`sub-category/${catid}`).then(({ data }) => {
-        setUserList(data);
+        setCatList(data);
         setIsAlive(!isAlive)
 
       });
@@ -268,27 +242,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
         filter: true,
       },
     },
-    // {
-    //   name: "description",
-    //   lable: "DESCRIPTIONS",
-    //   options: {
-    //     filter: true,
-    //     customHeadRender: ({ index, ...column }) => {
-    //       return (
-
-    //         <TableCell key={index} >
-    //           <TableHead>DESCRIPTIONS</TableHead>
-    //         </TableCell>
-
-    //       )
-
-    //     },
-    //     setCellProps: () => ({
-    //       align: "center"
-    //     })
-
-    //   },
-    // },
+    
     {
       name: "id",
       label: "Action",
@@ -373,20 +327,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
             </Grid>
 
 
-            {/* <Grid item sm={6} xs={12}>
-              <TextValidator
-                className="w-full mb-4"
-                label="Description"
-                inputProps={{style: {textTransform: 'capitalize'}}}
-                onChange={e => setcdescription(e.target.value)
-                }
-                variant="outlined"
-                type="textarea"
-                name="cdescription"
-                value={cdescription}
-              />
-              
-            </Grid> */}
+           
           </Grid>
 
           <div className="flex">
@@ -409,11 +350,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
 
 
-            {/* <div style={{justifyContent: "flex-end",display:"flex"}}> */}
-
-
-
-            {/* </Button> */}
+           
             {isAlive && <Tooltip title="view">
               <Icon color="primary" align="right" style={{ position: 'absolute', right: 50 }} onClick={() => getrow()}>expand_more</Icon>
 
@@ -428,38 +365,23 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
 
 
         </ValidatorForm>
-        {/* <Divider className="mb-2" /> */}
-        {/* <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          
-        >
         
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-           */}
-
         {!isAlive &&
           <MUIDataTable
             title={"CATEGORY"}
             columns={columns}
-            data={userList.filter(obj => obj.div_id == localStorage.getItem('division'))}
+            data={CatList.filter(obj => obj.div_id == localStorage.getItem('division'))}
 
             options={{
               filterType: "textField",
-              // border:"1px solid #000",
               responsive: "simple",
               selectableRows: "none", // set checkbox for each row
               elevation: 0,
-              // border:true,
               rowsPerPageOptions: [10, 20, 40, 80, 100],
             }}
           />
         }
-        {/* </ExpansionPanelDetails>
-      </ExpansionPanel> */}
+       
       </div>
     </Dialog>
 

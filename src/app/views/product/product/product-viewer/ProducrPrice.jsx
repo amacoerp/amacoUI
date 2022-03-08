@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import {
@@ -7,51 +6,25 @@ import {
   Card,
   Divider,
   Icon,
-  Table,
-  TableHead,
-  TableBody,
   TableCell,
   IconButton,
-  TableRow,
   Tooltip
 } from "@material-ui/core";
-import { Breadcrumb, ConfirmationDialog } from "matx";
-import url, { GDIV } from "../../../invoice/InvoiceService"
+import url from "../../../invoice/InvoiceService"
 import MemberEditorDialog from "../../productprice"
-import FormDialog from "../../productprice"
-import history from "history.js";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ProductPrice = () => {
-  let search = window.location.search;
-  let params = new URLSearchParams(search);
-  const foo = parseInt(params.get('id'));
   const { id } = useParams();
 
   var i = 1;
   const [productprice, setproductprice] = useState([]);
-  const [userList, setUserList] = useState([]);
-  const [bankdetails, setbankdetails] = useState([]);
-  const [fname, setfname] = useState('');
-  const [lname, setlname] = useState('');
-  const [email, setemail] = useState('');
-  const [contact1, setcontact1] = useState('');
-  const [contact2, setcontact2] = useState('');
   const [catid, setcatid] = useState(id);
-  const [designation, setdesignation] = useState('');
   const [status, setstatus] = useState('');
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState('');
-  const setupdateprice = (id) => {
-    setstatus(id)
-    setShouldOpenEditorDialog(id);
-
-  };
   const [isAlive, setIsAlive] = useState(true);
 
-  const [
-    shouldOpenConfirmationDialog,
-    setShouldOpenConfirmationDialog,
-  ] = useState(false);
+  
 
   const handleDialogClose = () => {
     setstatus('');
@@ -59,30 +32,24 @@ const ProductPrice = () => {
 
   };
 
-  const rFun = () => {
-    setIsAlive(true);
-  }
-
-  const handleDeleteUser = (user) => {
-
-    setShouldOpenConfirmationDialog(true);
-
-  };
+  
 
   useEffect(() => {
 
-
+    /* API GET product detatils */
     url.get("products/" + id).then(({ data }) => {
-      setproductprice(data.prices);
+      setproductprice(data.prices);//set the product price
 
 
     });
     setIsAlive(false)
 
   }, [isAlive]);
+
+/* Delete the product */
   const removeData = (id) => {
 
-    // let url = `https://jsonplaceholder.typicode.com/users/${id}`
+  
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this Product Price!',
@@ -107,8 +74,7 @@ const ProductPrice = () => {
 
 
 
-        // For more information about handling dismissals please visit
-        // https://sweetalert2.github.io/#handling-dismissals
+       
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -119,9 +85,11 @@ const ProductPrice = () => {
     })
 
   }
+  /* get the product Information */
   const getData = () => {
+    /*API to GET the product List */
     url.get("products/" + id).then(({ data }) => {
-      setproductprice(data.prices);
+      setproductprice(data.prices);//Set the product Price
 
     });
   }
@@ -242,43 +210,7 @@ const ProductPrice = () => {
 
         </div>
         <Divider />
-        {/* <Table >
-        <TableHead>
-          <TableRow>
-            <TableCell className="pl-0" align="center">S.No.</TableCell>
-            <TableCell className="px-0">Party Name</TableCell>
-            <TableCell className="px-0">Price</TableCell>
-            <TableCell className="px-0">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {productprice.map((item, index) => {
-           
-            return (
-              <TableRow key={index}>
-                <TableCell className="pl-0" align="center">{i++}</TableCell>
-
-                <TableCell className="pl-0">{item.firm_name}</TableCell>
-
-                <TableCell className="pl-0">{parseFloat(item.price).toLocaleString(undefined, {minimumFractionDigits:2})}</TableCell>
-
-                <TableCell className="pl-0">
-                  
-
-                  <IconButton>
-                  <Tooltip title="Delete contact details">
-                    <Icon color="error" onClick={() => removeData(item.id)
-                      }
-                    >delete</Icon>
-                  </Tooltip>
-                  </IconButton>
-                </TableCell>
-
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table> */}
+        
 
         <MUIDataTable
 
@@ -320,13 +252,7 @@ const ProductPrice = () => {
               productprice={setproductprice}
             />
           )}
-          {shouldOpenConfirmationDialog && (
-            <ConfirmationDialog
-              open={shouldOpenConfirmationDialog}
-              onConfirmDialogClose={handleDialogClose}
-              text="Are you sure to delete?"
-            />
-          )}
+         
         </div>
       </Card>
 
@@ -335,31 +261,6 @@ const ProductPrice = () => {
   );
 };
 
-// const customerInfo = [
-//   {
-//     title: "Credit Card",
-//     value: "**** **** **** **** 4242",
-//   },
-//   {
-//     title: "Paid",
-//     value: "5 ($500.00)",
-//   },
-//   {
-//     title: "Draft",
-//     value: "2 ($150.00)",
-//   },
-//   {
-//     title: "Unpaid/Due",
-//     value: "1 ($355.00)",
-//   },
-//   {
-//     title: "Refunded",
-//     value: "0 ($0.00)",
-//   },
-//   {
-//     title: "Gross Income",
-//     value: "$2,100.00",
-//   },
-// ];
+
 
 export default ProductPrice;

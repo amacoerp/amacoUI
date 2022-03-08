@@ -1,470 +1,165 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useMemo, useEffect } from "react";
 import { debounce } from "lodash";
-import { Breadcrumb, ConfirmationDialog } from "matx";
-// import Axios from "axios";
+import { Breadcrumb } from "matx";
 import { makeStyles } from "@material-ui/core/styles";
-// import MUIDataTable from "mui-datatables";
-import { Icon, Fab, Tooltip, TextField, InputAdornment } from "@material-ui/core";
+import {
+  Icon,
+  Fab,
+  Tooltip,
+  TextField,
+  InputAdornment,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import MemberEditorDialog from "./Addsubcategory";
-import url, { GDIV, navigatePath } from "../invoice/InvoiceService";
+import url, {  navigatePath } from "../invoice/InvoiceService";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-// import { useParams, useHistory } from "react-router-dom";
-// import { getcategories } from "../invoice/InvoiceService";
-import { useHistory } from 'react-router';
-// import MatxSearchBox from "./productsearch";
+import { useHistory } from "react-router";
 import {
-  // Table,
-  TableHead,
-  TableCell,
-  // TableBody,
-  IconButton, Badge,
-  // TableRow,
-  // Divider,
+  IconButton,
+  Badge,
   Button,
   Card,
   Grid,
-  // Typography
 } from "@material-ui/core";
-// import ReactTooltip from 'react-tooltip';
-
-
 
 const SimpleMuiTable = () => {
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     button: {
       margin: theme.spacing(1),
-      float: 'right',
-      background: 'blue',
-      color: 'white'
+      float: "right",
+      background: "blue",
+      color: "white",
     },
     input: {
-      display: "none"
-    }
+      display: "none",
+    },
   }));
-  const columnStyleWithWidth = {
-    top: "0px",
-    left: "0px",
-    zIndex: "100",
-    position: "sticky",
-    backgroundColor: "#fff",
-    width: "500px"
-  }
+ 
   const classes = useStyles();
   const [isAlive, setIsAlive] = useState(true);
-  const [userList, setUserList] = useState([]);
-  const [catList, setcatList] = useState([]);
-  const [subcatList, setsubcatList] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [catid, setcatid] = useState(null);
-  const [originalList, setOriginalList] = useState([]);
-  const [other, setOtherList] = useState([]);
-  const [list, setList] = useState([]);
-  const [oCount, setOCount] = useState('');
+  // const [ProductList, setProductList] = useState([]);
+  const [catList, setcatList] = useState([]);//Category List 
+  const [subcatList, setsubcatList] = useState([]);//subCategory List
+  const [anchorEl, setAnchorEl] = React.useState(null);//read more arrow
+  const [catid, setcatid] = useState(null);//category id
+  const [originalList, setOriginalList] = useState([]);//Category List
+  // const [other, setOtherList] = useState([]);
+  // const [list, setList] = useState([]);
+  const [oCount, setOCount] = useState("");//Other product category count
+
+  /*to check the subcategory list when category name is clicked*/
   function handleClick(event, id) {
-
     url.get("sub-category/" + id).then(({ data }) => {
-
-      setsubcatList(data);
-      setcatid(id)
-    })
-    setAnchorEl(event.currentTarget);
+      setsubcatList(data);//set the sub category list details
+      setcatid(id);//set the category id
+    });
+    setAnchorEl(event.currentTarget);//expand the read more arrow icon
   }
 
-  const routerHistory = useHistory();
+  const routerHistory = useHistory();//It lets you access the history instance used by React Router
 
+  /*Close the Category add dialogue box */
   function handleClose() {
-    setcatid()
-    setAnchorEl(null);
+    setcatid();//unset the category id
+    setAnchorEl(null);//close the read more options
   }
-  const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
+  const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);//Initialize the Dialogue box state to false
 
-  const [
-    shouldOpenConfirmationDialog,
-    setShouldOpenConfirmationDialog,
-  ] = useState(false);
-
-  
-
+  // const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+  //   useState(false);
 
   useEffect(() => {
 
-//     url.get("enc").then(({ data }) => {
-//       console.log('ss',data)
-//       var CryptoJS = require('crypto-js');
-// var atob = require('atob');
-// // var unserialize = require('locutus/php/var/unserialize')
-
-// // ciphertext from Crypt::encrypt()
-// var dataa = "eyJpdiI6IkYyaDhxenFJM0FjaW56TW83NkpuNHc9PSIsInZhbHVlIjoiNzhSeUs5em1WblpaRWk2OVBWVURnUT09IiwibWFjIjoiODg1NGFkOTk0MGVjMjIxODAyNzExOTgxYjhiMDM4YjliMmM5NzE5Mjc0YzFmNDVlMWU1MWRkMTQ2N2Q5ODdmNCJ9"
-
-// var key = '6AhFLqwlExB9tn2Twql62EtbFDqBEv+S7tXW3h6a/0o=';
-// // var key = 'Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=';
-// let  encrypted = atob(dataa);
-// encrypted = JSON.parse(encrypted);
-// const iv = CryptoJS.enc.Base64.parse(encrypted.iv);
-// const value = encrypted.value;
-// key = CryptoJS.enc.Base64.parse(key);
-// var decrypted = CryptoJS.AES.decrypt(value, key, {
-//     iv: iv
-//   });
-// decrypted = decrypted.toString(CryptoJS.enc.Utf8);
-
-// // unserialize
-// console.log(decrypted); // i:1635015182;
-// console.log(typeof(decrypted)); // i:1635015182;
-// // console.log(unserialize(decrypted)); // 1635015182 
-//     });
-
-
+    /*Api to list out the Category List,*/
     url.get("mjrCategory").then(({ data }) => {
+      setOCount(
+        data?.unCategorized.filter(
+          (obj) => obj.div_id == localStorage.getItem("division")
+        ).length
+      );
 
-      setOCount(data?.unCategorized.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+      // setProductList(
+      //   data?.products.filter(
+      //     (obj) => obj.div_id == localStorage.getItem("division")
+      //   )
+      // );
 
-      setUserList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
-
-      setcatList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
-      setOriginalList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
-      setList(data?.category.filter(obj => obj.div_id == localStorage.getItem('division')));
-    });
-
-    // url.get("unCategorized-products").then(({ data }) => {
-    //   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-    //   setOCount(d.length)
-    // });
-    // url.get("products").then(({ data }) => {
-    //   const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-    //   setUserList(d);
-    // });
-    // if (catid) {
-    //   url.get("categories").then(({ data }) => {
-    //     const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-
-    //     setcatList(d);
-    //     setOriginalList(d);
-    //     setList(d);
-
-
-    //   });
-    // }
-    // else {
-    //   url.get("categories").then(({ data }) => {
-
-    //     const d = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-
-    //     setcatList(d);
-    //     setOriginalList(d);
-    //     setList(d);
-    //   })
-    // }
-
-
-    return () => setIsAlive(false);
-
-  }, [isAlive]);
-  const [count, setCount] = useState(0);
-
-  function getrow(e) {
-    url.get("products").then(({ data }) => {
-      if (isAlive) setUserList(data);
-    });
-    return () => setIsAlive(false);
-  }
-
-  function Increment(e) {
-
-
-  }
-  function Decrement() {
-    setCount(count - 1);
-  }
-
-  const [click, setClick] = useState([]);
-
-  const addNumber = () => {
-    setClick([
-      ...click,
-      {
-        id: click.length,
-        value: Math.random() * 10
-      }
-    ]);
-  };
-  const handleDialogClose = () => {
-    setcatid(null)
-    setShouldOpenEditorDialog(false);
-
-  };
-
-  const handleDeleteUser = (user) => {
-
-    setShouldOpenConfirmationDialog(true);
-  };
-  const setsubcategory = (id) => {
-    setcatid(id)
-    setAnchorEl(null);
-    setShouldOpenEditorDialog(true);
-
-  }
-  const deletecategory = (id) => {
-    Swal.fire({
-      title: 'Are you sure you want to delete this category?',
-      text: 'Any products, services, or categories in it will be uncategorised.',
-      icon: 'danger',
-      showCancelButton: true,
-      customClass: {
-        zIndex: 1000
-      },
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it',
-    }).then((result) => {
-      if (result.value) {
-        url.delete(`categories/${id}`)
-          .then(res => {
-
-
-
-          })
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          customClass: {
-            zIndex: 1000
-          },
-          title: 'Cancelled'
-          // 'Cancelled',
-          // 'Your imaginary file is safe :)',
-          // 'error',
-
-        })
-      }
-    })
-
-
-  }
-  const selectcategory = (user) => {
-
-    // url.get(url+"categorized-products/"+user)
-    //   .then(function (response) {
-
-    //     setUserList(response.data)
-
-    //   })
-    routerHistory.push(navigatePath + `/product/viewproduct/${user}`)
-
-    setAnchorEl(null);
-  };
-
-  const removeData = (id) => {
-    // alert(id)
-    // let url = `https://jsonplaceholder.typicode.com/users/${id}`
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this product!',
-      icon: 'danger',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      // eslint-disable-next-line no-dupe-keys
-      icon: 'warning',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.value) {
-        url.delete(`products/${id}`)
-          .then(res => {
-
-            setIsAlive(true)
-            Swal.fire(
-              'Deleted!',
-              ' product has been deleted.',
-              'success'
-            )
-
-          })
-
-
-        // For more information about handling dismissals please visit
-        // https://sweetalert2.github.io/#handling-dismissals
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your product is safe :)',
-          'error'
+      setcatList(
+        data?.category.filter(
+          (obj) => obj.div_id == localStorage.getItem("division")
         )
-      }
-    })
+      );
+      setOriginalList(
+        data?.category.filter(
+          (obj) => obj.div_id == localStorage.getItem("division")
+        )
+      );
+      // setList(
+      //   data?.category.filter(
+      //     (obj) => obj.div_id == localStorage.getItem("division")
+      //   )
+      // );
+    });
 
-  }
-  // search
+    return () => setIsAlive(false);
+  }, [isAlive]);
+  // const [count, setCount] = useState(0);
+
+  
+
+  
+
+  // const [click, setClick] = useState([]);
+
+  /* Close the Dialog Box Category */
+  const handleDialogClose = () => {
+    setcatid(null);//Unset the category id
+    setShouldOpenEditorDialog(false);//unset the Dialog box state to false
+  };
+
+ 
+  
+ /* Subcategory wise  product view  */
+  const selectcategory = (user) => {
+    routerHistory.push(navigatePath + `/product/viewproduct/${user}`);//navigation to product page
+
+    setAnchorEl(null);//rest the read more option (Shrink the category List)
+  };
+
+ 
+/*Search the Category */
   const search = useMemo(
     () =>
-
       debounce((query) => {
         let tempList = originalList.filter((item) =>
           item.name.toLowerCase().match(query.toLowerCase())
-        );
-        setcatList([...tempList]);
+        );//Filter the Category List based on the category searched
+        setcatList([...tempList]);//set the filtered category List
       }, 200),
     [originalList]
   );
+  /*handle change for the item searched */
   const handleInputChange = (event) => {
     let { value } = event.target;
     search(value);
   };
-  // {/* category wise product display */ }
-  // const statList = [
-  //   {
-  //     icon: "receipt",
-  //     amount: 23,
-  //     title: "New Quotation Request",
-  //   },
-  //   {
-  //     icon: "hourglass_empty",
-  //     amount: 12,
-  //     title: "Pending Quotation",
-  //   },
-  //   {
-  //     icon: "shopping_cart",
-  //     amount: 10,
-  //     title: "Sales Orders",
-  //   },
-  //   {
-  //     icon: "dvr",
-  //     amount: 30,
-  //     title: "Todays Sale",
-  //   },
-  // ];
-
-  const columns = [
-    {
-      name: "id", // field name in the row object
-      label: "#", // column title that will be shown in table
-      options: {
-
-        filter: true,
-      },
-    },
-    {
-      name: "name", // field name in the row object
-      label: "Name", // column title that will be shown in table
-      options: {
-
-        filter: true,
-      },
-    },
-    {
-      name: "description",
-      label: "Description",
-      resizableColumns: true,
-      options: {
-        // setCellProps: () => ({ style: { minWidth: "800px", maxWidth: "800px" }}),
-        customHeadRender: ({ index, ...column }) => {
-          return (
-            <TableCell key={index} style={columnStyleWithWidth}>
-              <TableHead>Description</TableHead>
-            </TableCell>
-          )
-        },
-      },
-    },
-    {
-      name: "unit_of_measure",
-      label: "Unit_of_measure",
-      options: {
-        customHeadRender: ({ index, ...column }) => {
-          return (
-            <TableCell key={index} style={{
-              top: "0px",
-              left: "0px",
-              zIndex: "100",
-              position: "sticky",
-              backgroundColor: "#fff",
-              width: "60px"
-            }} >
-              <TableHead >UOM</TableHead>
-            </TableCell>
-          )
-        },
-        filter: true,
-      },
-    },
-
-    {
-      name: "category_name",
-      label: "Category",
-      options: {
-
-        filter: true,
-      },
-    },
-
-
-    {
-      name: "id",
-      label: "Action",
-      options: {
-        filter: true,
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
-            <span>
-              <IconButton onClick={() => removeData(tableMeta.rowData[5])}>
-                <Icon color="error">delete</Icon>
-              </IconButton>
-
-              <Link to={"/product/updateproduct?id=" + tableMeta.rowData[4]}>
-                <IconButton>
-                  <Icon color="secondary">edit</Icon>
-                </IconButton>
-              </Link>
-            </span>
-
-          )
-
-        },
-      },
-    },
-    // {
-    //   name: "id",
-    //   label:".",
-    //   options: {
-    //       filter: true,
-    //       customBodyRender: (value, tableMeta, updateValue) => {
-    //           return (
-    //             <Link to={"/product/updateproduct?id=" +tableMeta.rowData[4] }>
-    //               <IconButton>
-    //                 <Icon color="secondary">edit</Icon>
-    //               </IconButton>
-    //             </Link>
-
-
-    //           )
-    //       },
-    //   },
-    // },
-  ];
-
+/*navigation to other product */
   const productUpdate = () => {
-
-    routerHistory.push(navigatePath + '/product/other');
-  }
-
-
+    routerHistory.push(navigatePath + "/product/other");//navigation to other Product list
+  };
 
   return (
-
     <div className="m-sm-30">
       <div className="mb-sm-30">
         <div className="flex flex-wrap justify-between mb-6">
           <Breadcrumb
             routeSegments={[
               // { name: "Add new", path: "./Addproduct" },
-              { name: "PRODUCT CATEGORY" }
+              { name: "PRODUCT CATEGORY" },
             ]}
           />
-          <div className="flex justify-end pr-4" >
-
+          <div className="flex justify-end pr-4">
             <TextField
               className="mt-4"
               onChange={handleInputChange}
@@ -476,144 +171,148 @@ const SimpleMuiTable = () => {
                 ),
               }}
             ></TextField>
-            <Button className="py-2 ml-4"
+            <Button
+              className="py-2 ml-4"
               color="primary"
               size="small"
               variant="outlined"
               onClick={() => {
                 setShouldOpenEditorDialog(true);
-              }} >
+              }}
+            >
               <Icon>add</Icon>
               ADD NEW
             </Button>
           </div>
         </div>
       </div>
-      <div className="viewer_actions px-4 flex justify-end">
-
-        {/* <MatxSearchBox /> */}
-
-
-      </div>
+      <div className="viewer_actions px-4 flex justify-end"></div>
       <div className="viewer_actions px-4 flex justify-between">
         <div className="mb-6">
-
-
           <Grid container spacing={3}>
-
-            {/* <Card elevation={20} className="p-2" style={{ maxWidth: 50,maxHeight: 50,marginTop:10, whiteSpace: 'pre-line' }} onClick={() => {
-              setShouldOpenEditorDialog(true);
-            }} >
-              <Tooltip title="Add New Category">
-
-                <Icon fontSize="large" color="dark" >add</Icon>
-
-
-              </Tooltip>
-            </Card> */}
-
             {catList.map((item, ind) => (
               <Grid key={ind} item xs>
-                <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
+                <Card
+                  elevation={20}
+                  style={{ minWidth: 300, whiteSpace: "pre-line",cursor:'pointer' }}
+                  className="p-2"
+                >
                   <div className="text-right">
-
-                    <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
+                    <IconButton
+                      size="small"
+                      aria-owns={anchorEl ? "simple-menu" : undefined}
                       aria-haspopup="true"
                       onClick={(event) => handleClick(event, item.id)}
                     >
-
                       <Tooltip title="Subcategory list">
-                        <Icon color="primary" style={{ paddingRight: 12 }}>expand_more</Icon>
+                        <Icon color="primary" style={{ paddingRight: 12 }}>
+                          expand_more
+                        </Icon>
                       </Tooltip>
-
                     </IconButton>
                   </div>
                   <Menu
-
                     id="simple-menu"
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={() => {
-                      setShouldOpenEditorDialog(true);
-                      setAnchorEl(null)
-                    }}>
-                      {/* <Icon align="left">add</Icon>  */}
-                      <Fab aria-label="Add" size="small" className={classes.button}>
+                    <MenuItem
+                      onClick={() => {
+                        setShouldOpenEditorDialog(true);
+                        setAnchorEl(null);
+                      }}
+                    >
+                      
+                      <Fab
+                        aria-label="Add"
+                        size="small"
+                        className={classes.button}
+                      >
                         <Icon>add</Icon>
                       </Fab>
                       Sub Category
                     </MenuItem>
                     {subcatList.map((item) => (
                       <>
-
-                        <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)} style={{ textAlign: "center" }} className="pl-4">
-                          {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+                        <MenuItem
+                          value={item.id}
+                          key={item.id}
+                          onClick={() => selectcategory(item.id)}
+                          style={{ textAlign: "center" }}
+                          className="pl-4"
+                        >
+                          
 
                           {item.name}
                           <div>
-                            <Badge badgeContent={item.product} style={{ paddingRight: 15 }} color="primary" />
+                            <Badge
+                              badgeContent={item.product}
+                              style={{ paddingRight: 15 }}
+                              color="primary"
+                            />
                           </div>
                         </MenuItem>
-
                       </>
-
                     ))}
                   </Menu>
                   <div className="pb-5 flex justify-center">
-                    <div style={{ display: 'flex', marginLeft: '0.5rem', textAlign: "center" }}>
-
-                      <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >{item.name.toUpperCase()}<Badge badgeContent={item?.totalProducts} style={{ paddingRight: 8, position: "relative", left: 6, top: "-10px" }} color="primary" />
-                      </h6></strong>
-                    </div>
-                    <div className="px-4">
-                      {/* <IconButton size="small"  aria-owns={anchorEl ? "simple-menu" : undefined}
-                        aria-haspopup="true"
-                        onClick={(event) => handleClick(event, item.id)}
-                        style={{marginRight:'0.5rem',paddingTop:0}}
+                    <div
+                      style={{
+                        display: "flex",
+                        marginLeft: "0.5rem",
+                        textAlign: "center",
+                      }}
+                    >
+                      <strong>
+                        <h6
+                          align="center"
+                          style={{
+                            display: "inline-block",
+                            textAlign: "center",
+                          }}
                         >
-                        <Tooltip title="Subcategory list">
-                          <Icon color="primary" style={{paddingRight:12}}>expand_more</Icon>
-                        </Tooltip>
-                      </IconButton>
-                      <Menu
-
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem onClick={() => {
-                          setShouldOpenEditorDialog(true);
-                          setAnchorEl(null)
-                        }}>
-                      <Icon align="left">add</Icon> Add Sub Category
-                      </MenuItem>
-                        {subcatList.map((item) => (
-                          <MenuItem value={item.id} key={item.id} onClick={() => selectcategory(item.id)}>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.name}
-                          </MenuItem>
-                        ))}
-                      </Menu> */}
+                          {item.name.toUpperCase()}
+                          <Badge
+                            badgeContent={item?.totalProducts}
+                            style={{
+                              paddingRight: 8,
+                              position: "relative",
+                              left: 6,
+                              top: "-10px",
+                            }}
+                            color="primary"
+                          />
+                        </h6>
+                      </strong>
                     </div>
+                    <div className="px-4"></div>
                   </div>
-                  {/* <p className="m-0 " style={{color:'blue'}}>{item.name}</p> */}
-
-
                 </Card>
               </Grid>
             ))}
 
-
             <Grid onClick={productUpdate} item xs>
-              <Card elevation={20} style={{ minWidth: 300, whiteSpace: 'pre-line' }} className="p-2" >
+              <Card
+                elevation={20}
+                style={{
+                  minWidth: 300,
+                  whiteSpace: "pre-line",
+                  cursor: "pointer",
+                }}
+                className="p-2"
+              >
                 <div className="text-right">
-                  <Badge badgeContent={oCount} style={{ paddingRight: 12, position: "relative", left: 20 }} color="primary" />
+                  <Badge
+                    badgeContent={oCount}
+                    style={{ paddingRight: 12, position: "relative", left: 20 }}
+                    color="primary"
+                  />
 
-                  <IconButton size="small" aria-owns={anchorEl ? "simple-menu" : undefined}
+                  <IconButton
+                    size="small"
+                    aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
-                  // onClick={(event) => handleClick(event, item.id)}
                   >
                     <Tooltip title="Other">
                       <Icon color="primary" style={{ paddingRight: 12 }}></Icon>
@@ -621,37 +320,31 @@ const SimpleMuiTable = () => {
                   </IconButton>
                 </div>
                 <div className="pb-5 flex justify-center">
-                  <div style={{ display: 'flex', marginLeft: '0.5rem', textAlign: "center" }}>
-
-                    <strong><h6 align="center" style={{ display: 'inline-block', textAlign: "center" }} >OTHER</h6></strong>
+                  <div
+                    style={{
+                      display: "flex",
+                      marginLeft: "0.5rem",
+                      textAlign: "center",
+                    }}
+                  >
+                    <strong>
+                      <h6
+                        align="center"
+                        style={{ display: "inline-block", textAlign: "center" }}
+                      >
+                        OTHER
+                      </h6>
+                    </strong>
                   </div>
-                  <div className="px-4">
-
-                  </div>
+                  <div className="px-4"></div>
                 </div>
-
-
               </Card>
             </Grid>
-
-
           </Grid>
         </div>
-        {/* </Button> */}
-        <Link to={"Addproduct"}>
 
-          {/* <Button className="py-2"
-           color="primary"
-           variant="outlined">
-          <Icon>add</Icon>
-          Add New
-        </Button> */}
-        </Link>
+        <Link to={"Addproduct"}></Link>
       </div>
-
-
-
-
 
       {shouldOpenEditorDialog && (
         <MemberEditorDialog
@@ -659,40 +352,13 @@ const SimpleMuiTable = () => {
           open={shouldOpenEditorDialog}
           catid={catid}
           catList={setcatList}
-
         />
       )}
-      {shouldOpenConfirmationDialog && (
-        <ConfirmationDialog
-          open={shouldOpenConfirmationDialog}
-          onConfirmDialogClose={handleDialogClose}
-          text="Are you sure to delete?"
-        />
-      )}
+   
 
-      <div className="mb-sm-30">
-        {/* <MUIDataTable
-                title={"Products"}
-                data={userList}
-                columns={columns}
-                options={{
-                    filterType: "textField",
-                    responsive: "simple",
-                    selectableRows: "none", // set checkbox for each row
-                    // search: false, // set search option
-                    // filter: false, // set data filter option
-                    // download: false, // set download option
-                    // print: false, // set print option
-                    // pagination: true, //set pagination option
-                    // viewColumns: false, // set column option
-                    elevation: 0,
-                    rowsPerPageOptions: [10, 20, 40, 80, 100],
-                }}
-            /> */}
-      </div>
+      <div className="mb-sm-30"></div>
     </div>
   );
-}
-
+};
 
 export default SimpleMuiTable;
