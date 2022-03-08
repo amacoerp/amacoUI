@@ -1853,7 +1853,7 @@ const CustomerForm = () => {
                     color="primary"
                     variant="outlined"
                     type='button'
-                    style={{border:'1px solid red',borderRadius:5,padding:10}}
+                    style={{border:'1px solid red',borderRadius:5,padding:12}}
                     className="mr-4 py-2"
                     onClick={(e) => setloading(false)}
                   >

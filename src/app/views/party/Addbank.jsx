@@ -67,7 +67,7 @@ const MemberEditorDialog = ({
         .catch(function (error) {});
     } else {
       const frmdetails = {
-        party_id: foo,
+        party_id: partyid,
         iban_no: iban_no,
         bank_name: bank_name ?(bank_name) : "",
         bank_address: bank_address ?(bank_address) : "",
