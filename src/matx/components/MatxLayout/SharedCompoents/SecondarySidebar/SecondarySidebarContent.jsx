@@ -44,25 +44,26 @@ const SecondarySidebarContent = () => {
   const classes = useStyles({ width: "50px" });
 
   return (
-    <div className={clsx("secondary-sidebar", classes.root)}>
-      <span className="m-auto"></span>
+    <></>
+    // <div className={clsx("secondary-sidebar", classes.root)}>
+    //   <span className="m-auto"></span>
 
-      <MatxCustomizer />
+    //   <MatxCustomizer />
 
-      <ShoppingCart />
+    //   <ShoppingCart />
 
-      <ChatHead
-        icon={
-          <IconButton className="my-3" size="small">
-            <Icon>comments</Icon>
-          </IconButton>
-        }
-      >
-        <Chatbox />
-      </ChatHead>
+    //   <ChatHead
+    //     icon={
+    //       <IconButton className="my-3" size="small">
+    //         <Icon>comments</Icon>
+    //       </IconButton>
+    //     }
+    //   >
+    //     <Chatbox />
+    //   </ChatHead>
 
-      <span className="m-auto"></span>
-    </div>
+    //   <span className="m-auto"></span>
+    // </div>
   );
 };
 

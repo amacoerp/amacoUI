@@ -36,30 +36,31 @@ const SecondarySidebarToggle = () => {
   // }, [isMobile]);
 
   return (
-    <div
-      className={clsx({
-        [classes.toggle]: true,
-        open: settings.secondarySidebar.open,
-      })}
-    >
-      {settings.secondarySidebar.open && (
-        <IconButton onClick={toggle} size="small" aria-label="toggle">
-          <Icon>close</Icon>
-        </IconButton>
-      )}
-      {!settings.secondarySidebar.open && (
-        <Fab
-          // variant="extended"
-          // size="small"
-          color="primary"
-          aria-label="expand"
-          className=""
-          onClick={toggle}
-        >
-          <Icon>settings</Icon>
-        </Fab>
-      )}
-    </div>
+    <></>
+    // <div
+    //   className={clsx({
+    //     [classes.toggle]: true,
+    //     open: settings.secondarySidebar.open,
+    //   })}
+    // >
+    //   {settings.secondarySidebar.open && (
+    //     <IconButton onClick={toggle} size="small" aria-label="toggle">
+    //       <Icon>close</Icon>
+    //     </IconButton>
+    //   )}
+    //   {!settings.secondarySidebar.open && (
+    //     <Fab
+    //       // variant="extended"
+    //       // size="small"
+    //       color="primary"
+    //       aria-label="expand"
+    //       className=""
+    //       onClick={toggle}
+    //     >
+    //       <Icon>settings</Icon>
+    //     </Fab>
+    //   )}
+    // </div>
   );
 };
 
