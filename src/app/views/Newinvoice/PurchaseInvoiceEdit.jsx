@@ -1011,10 +1011,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcontactid(data?.inv[0]?.contact?.id)
       setQuote_date(moment(data?.inv[0]?.issue_date).format('DD MMM YYYY'))
       setponumber(data?.inv[0]?.invoice_no == null || data?.inv[0]?.invoice_no == 'null' ? '' : data?.inv[0]?.invoice_no)
-      console.log('sd', data?.inv[0]?.po_number);
       setState({
         ...state,
-        item: data?.inv[0].purchase_invoice_detail,
+        item: data?.inv[0]?.purchase_invoice_detail,
       });
 
     });
@@ -1452,6 +1451,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           renderInput={(params) => (
                             <TextField {...params}
+                            multiline 
                               inputRef={input => {
                                 inputRef[index] = input;
                               }}

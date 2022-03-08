@@ -299,6 +299,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             onChange={e => setaddress(e.target.value)
 
             }
+            multiline
             type="text"
             name="contact2"
             value={address}

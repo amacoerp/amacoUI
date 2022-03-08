@@ -1779,7 +1779,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             inputRef={input => {
                               inputRef[index] = input;
                             }}
-                            {...params}
+                            {...params} multiline
                             variant="outlined" label="Item" />}
                         />
 
@@ -1864,10 +1864,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           fullWidth
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                          inputProps={{
-                            ref: setRef(index + 'quantity')
-                          }}
+                          inputProps={{ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
+                         
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss', invoiceItemList) }}
                           validators={["isNumber"]}
                           errorMessages={[

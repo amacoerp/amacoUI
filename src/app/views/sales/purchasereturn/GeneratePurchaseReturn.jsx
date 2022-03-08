@@ -131,6 +131,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
     const addItemToInvoiceList = () => {
+        setproList(alllData)
         let tempItemList = [...state.item];
 
         tempItemList.push({
@@ -637,6 +638,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [data, setData] = useState([])
 
     const [uom, setUOM] = useState(false)
+    const [alllData,setAlllData] = useState([])
 
     useEffect(() => {
         // heelloo
@@ -645,6 +647,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         // });
         url.get(`mjrPurchaseReturnInc/${localStorage.getItem('division')}`).then(({ data }) => {
             setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+            setAlllData(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
             setDL(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')));
             setvalues({
                 ...values,
@@ -1046,7 +1049,7 @@ select
                                                     onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}
 
                                                     renderInput={(params) => (
-                                                        <TextField {...params} inputRef={input => {
+                                                        <TextField {...params} multiline inputRef={input => {
                                                             proRef[index] = input;
                                                         }} variant="outlined" name="product_id" fullWidth />
                                                     )}
@@ -1092,8 +1095,8 @@ select
                                                     inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
                                                     name="quantity"
                                                     value={item.quantity ? item.quantity : ""}
-                                                    validators={["required"]}
-                                                    errorMessages={["this field is required"]}
+                                                    validators={["required",'isNumber']}
+                                                    errorMessages={["this field is required",'Please Enter Number Only']}
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>

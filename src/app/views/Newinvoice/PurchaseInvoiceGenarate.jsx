@@ -1424,6 +1424,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               inputRef={input => {
                                 inputRef[index] = input;
                               }}
+                              multiline
                               onChange={(event, newValue) => handleChanges(event, newValue, index)}
                               variant="outlined" name="product_id" required fullWidth />
                           )}

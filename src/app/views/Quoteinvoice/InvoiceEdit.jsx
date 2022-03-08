@@ -1571,7 +1571,7 @@ select
                           }}
                           freeSolo
                           renderInput={(params) => (
-                            <TextField {...params} inputRef={input => {
+                            <TextField {...params} multiline inputRef={input => {
                               inputRef[index] = input;
                             }}
                               onChange={(event, newValue) => handleChanges(event, newValue, index)}
@@ -1929,20 +1929,19 @@ select
                     <p className="mb-4">{subTotalCost ? subTotalCost.toLocaleString(undefined, {
                       minimumFractionDigits: 2
                     }) : '0.00'}</p>
-                    <div>
-                      <TextField
+                    <div className="flex">
+                      <TextValidator
                         className="mb-4 mr-2"
                         label="Discount %"
                         type="text"
                         variant="outlined"
                         size="small"
-                        style={{ width: '90px' }}
                         onChange={(event) => handleChange(event, "discount")}
                         inputProps={{ min: 0, style: { textAlign: 'center' } }}
                         value={discount}
-                      // style={{width:50}}
-                      // validators={["required"]}
-                      // errorMessages={["this field is required"]}
+                      style={{width:90}}
+                      validators={["isNumber"]}
+                      errorMessages={["Please Enter Digits Only"]}
                       />
 
 

@@ -20,6 +20,7 @@ import {
 import "date-fns";
 // import Axios from "axios";
 import url from "../invoice/InvoiceService"
+import { Autocomplete } from '@material-ui/lab';
 
 
 
@@ -317,7 +318,7 @@ const SimpleForm = ({ open, handleClose }) => {
       </div>
 
       <Card className="p-4">
-        <ValidatorForm onSubmit={submitValue} onError={() => null}>
+        <ValidatorForm autocomplete='off' onSubmit={submitValue} onError={() => null}>
           <Grid container spacing={6}>
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -478,7 +479,7 @@ const SimpleForm = ({ open, handleClose }) => {
                 />
               </div>
               <div className="flex mb-4">
-                <TextField
+                <TextValidator
                   className="mr-2"
                   type="text"
                   size="small"
@@ -489,32 +490,32 @@ const SimpleForm = ({ open, handleClose }) => {
                   value={iq}
 
                   name="unit_of_measue"
-                  variant="outlined"
                   validators={[
-                    "required",
+                    "required",'isNumber'
                   ]}
                   fullWidth
-                  errorMessages={["this field is required"]}
+                  errorMessages={["this field is required",'Please Enter Numbers Only']}
 
                
                 >
 
-                </TextField>
-                <TextField
+                </TextValidator>
+                <TextValidator
                   className="ml-2"
 
                   label="Minimum Quantity"
 
                   onChange={e => setmq(e.target.value)}
 
-                  label="Minimum Quantity"
+                 
                   variant="outlined"
                   value={mq}
                   size="small"
                   validators={[
-                    "required",
+                    "required",'isNumber'
                   ]}
-                  errorMessages={["this field is required"]}
+                  errorMessages={["this field is required",'Please Enter Numbers Only']}
+
                   fullWidth
                 />
               </div>
