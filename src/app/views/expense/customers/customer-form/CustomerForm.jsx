@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import Swal from "sweetalert2";
 import NestedMenuItem from "material-ui-nested-menu-item";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import { useHistory } from 'react-router';
+import { useHistory } from "react-router";
 
 import clsx from "clsx";
 // import { useDropzone } from "react-dropzone";
@@ -11,7 +11,7 @@ import clsx from "clsx";
 import axios from "axios";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
-import { Autocomplete, createFilterOptions } from "@material-ui/lab"
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 // import ImageZoom from "react-medium-image-zoom";
 import {
   Grid,
@@ -52,13 +52,13 @@ import url, {
   getpaidDivision,
   getVendorList,
   getEmployee,
-  navigatePath
+  navigatePath,
 } from "../../../../views/invoice/InvoiceService";
 import FormLabel from "@material-ui/core/FormLabel";
 // import { Table } from "@material-ui/core";
 // import { sumBy } from "lodash";
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import useAuth from "app/hooks/useAuth";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
   },
   chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   chip: {
     margin: 2,
@@ -86,23 +86,20 @@ const useStyles = makeStyles((theme) => ({
 const role = localStorage.getItem("role");
 const option = [
   {
-    name: 'Cash',
-    value: 'cash'
+    name: "Cash",
+    value: "cash",
   },
   {
-    name: 'Cheque',
-    value: 'cheque'
+    name: "Cheque",
+    value: "cheque",
   },
   {
-    name: 'Bank Transfer',
-    value: 'banktransfer'
-  }
-]
-
+    name: "Bank Transfer",
+    value: "banktransfer",
+  },
+];
 
 const CustomerForm = () => {
-
-
   let formData = new FormData();
   const classes = useStyles();
   const { user } = useAuth();
@@ -151,25 +148,25 @@ const CustomerForm = () => {
   const [divPositionutilize, setdivPositionutilize] = useState(null);
   const [division_account, setdivision_account] = useState([]);
   const [paiddivision_account, setpaiddivision_account] = useState([]);
-  const [div_company, setdiv_company] = useState('');
-  const [vatno, setvatno] = useState('');
-  const [inv_no, setinv_no] = useState('');
-  const [payment_mode, setpayment_mode] = useState('');
-  const [cheque_no, setcheque_no] = useState('');
-  const [bank_id, setbank_id] = useState('');
+  const [div_company, setdiv_company] = useState("");
+  const [vatno, setvatno] = useState("");
+  const [inv_no, setinv_no] = useState("");
+  const [payment_mode, setpayment_mode] = useState("");
+  const [cheque_no, setcheque_no] = useState("");
+  const [bank_id, setbank_id] = useState("");
   const [companybank, setcompanybank] = useState([]);
   // /const [paymentaccount, setpaymentaccount] = useState([]);
-  const [fileurl, setfileurl] = useState('');
+  const [fileurl, setfileurl] = useState("");
   const [statearr, setstatearr] = useState([]);
   const [paymentarr, setpaymentarr] = useState([]);
   const routerHistory = useHistory();
 
   const [Isopen, setIsopen] = useState(true);
-  const [message, setmessage] = useState('');
+  const [message, setmessage] = useState("");
   const [disableVal, setdisableVal] = useState(false);
-  const [amountVal, setamountVal] = useState('');
-  const [vendor_id, setvendor_id] = useState('0');
-  const [employee_id, setemployee_id] = useState('0');
+  const [amountVal, setamountVal] = useState("");
+  const [vendor_id, setvendor_id] = useState("0");
+  const [employee_id, setemployee_id] = useState("0");
   const [vendorList, setvendorList] = useState([]);
   const [employeeList, setemployeeList] = useState([]);
   const [loading, setloading] = useState(false);
@@ -177,23 +174,19 @@ const CustomerForm = () => {
   const [employee_status, setemployee_status] = useState(false);
   const [state, setState] = useState([]);
 
-
-  const [
-    shouldOpenConfirmationDialogbox,
-    setShouldOpenConfirmationDialogbox,
-  ] = useState(false);
-  const [
-    DialogAdddivision,
-    setDialogAdddivision,
-  ] = useState(false);
+  const [shouldOpenConfirmationDialogbox, setShouldOpenConfirmationDialogbox] =
+    useState(false);
+  const [DialogAdddivision, setDialogAdddivision] = useState(false);
 
   const handlebillSelect = (event, f) => {
-    setref_billno()
+    setref_billno();
     const src = URL.createObjectURL(event.target.files[0]);
 
     setfile_path(event.target.files[0]);
-    event.target.files[0].type.split('/')[1] !== 'pdf' && setbilltype(true)
-    var type = event.target.files[0].name.substring(event.target.files[0].name.lastIndexOf('.')).split('.')[1];
+    event.target.files[0].type.split("/")[1] !== "pdf" && setbilltype(true);
+    var type = event.target.files[0].name
+      .substring(event.target.files[0].name.lastIndexOf("."))
+      .split(".")[1];
     if (type == "png" || type == "jpeg" || type == "jpg") {
       setref_billno(src);
     }
@@ -251,23 +244,18 @@ const CustomerForm = () => {
   };
 
   const handleBankSelect = (event, f) => {
-    setfileurl()
+    setfileurl();
     let files = event.target.files[0];
     const filename = URL.createObjectURL(event.target.files[0]);
 
     setbank_slip(files);
     // filename.lastIndexOf('.').split('.')[1];
-    var type = event.target.files[0].name.substring(event.target.files[0].name.lastIndexOf('.')).split('.')[1];
+    var type = event.target.files[0].name
+      .substring(event.target.files[0].name.lastIndexOf("."))
+      .split(".")[1];
     if (type == "png" || type == "jpeg" || type == "jpg") {
       setfileurl(filename);
     }
-
-
-
-
-
-
-
   };
 
   const Menu1 = ({ data }) => {
@@ -287,15 +275,12 @@ const CustomerForm = () => {
                   m.category.id
                 )
               }
-              style={{ justifyContent: 'space-between', marginLeft: '10px' }}
-
+              style={{ justifyContent: "space-between", marginLeft: "10px" }}
             >
-
               <MenuItem
-
                 onClick={(e) => Addnewsubcat(m.category.id, m.category.name)}
               >
-                <Icon align="left" >add</Icon> Add Subcategory
+                <Icon align="left">add</Icon> Add Subcategory
               </MenuItem>
 
               {m.sub_categories.length > 0 ? (
@@ -323,10 +308,6 @@ const CustomerForm = () => {
       top: event.pageY,
       left: event.pageX,
       bottom: event.pageY,
-
-
-
-
     });
   };
 
@@ -348,11 +329,8 @@ const CustomerForm = () => {
     setdivPositionutilize({
       top: event.pageY,
       left: event.pageX,
-
-
     });
   };
-
 
   const searchcat = (event, name, i) => {
     if (event) {
@@ -364,17 +342,16 @@ const CustomerForm = () => {
 
       setaccountstatus(true);
       setpayment_account_id(i);
-      setemployee_status(false)
-      setvendor_status(false)
+      setemployee_status(false);
+      setvendor_status(false);
       if (i == 33) {
-        setvendor_status(true)
+        setvendor_status(true);
       }
 
-      if ((name.toUpperCase()).includes('SALARY')) {
-        setemployee_status(true)
+      if (name.toUpperCase().includes("SALARY")) {
+        setemployee_status(true);
       }
       setpayment_account_name(name);
-
 
       setMenuPosition(null);
     }
@@ -404,7 +381,7 @@ const CustomerForm = () => {
   const handleDialogDivisionClose = () => {
     setDialogAdddivision(false);
     setisAlive(false);
-    setdivPositionutilize(false)
+    setdivPositionutilize(false);
   };
   const [shouldOpenConfirmationDialog1, setShouldOpenConfirmationDialog1] =
     useState(false);
@@ -418,29 +395,28 @@ const CustomerForm = () => {
   };
 
   useEffect(() => {
-
-
     // getVendorList().then(({ data }) => {
     //   setvendorList(data)
     // })
-    url.get('mjrExpense/'+localStorage.getItem('division')).then(({data})=>{
-      setvendorList(data.vendor)
-      setaccounttype(data.payment_account);
-      setemployeeList(data.employee.getData);
-      setcat(data.account_categories);
-      setpayment_account(data.payment_account);
-      setdivision_account(data.division);
-      var arrVal = data.paidDivision.sort(function (obj1, obj2) {
-        return obj1?.type?.localeCompare(obj2?.type);
-      });
-      var res = arrVal.map((item) => {
-        item.isdisable = false;
-      })
+    url
+      .get("mjrExpense/" + localStorage.getItem("division"))
+      .then(({ data }) => {
+        setvendorList(data.vendor);
+        setaccounttype(data.payment_account);
+        setemployeeList(data.employee.getData);
+        setcat(data.account_categories);
+        setpayment_account(data.payment_account);
+        setdivision_account(data.division);
+        var arrVal = data.paidDivision.sort(function (obj1, obj2) {
+          return obj1?.type?.localeCompare(obj2?.type);
+        });
+        var res = arrVal.map((item) => {
+          item.isdisable = false;
+        });
 
-      setpaiddivision_account(arrVal);
-      setcompanybank(data.companyBank);
-     
-    })
+        setpaiddivision_account(arrVal);
+        setcompanybank(data.companyBank);
+      });
     // getpaymentaccount().then(({ data }) => {
     //   setaccounttype(data);
     // });
@@ -480,28 +456,28 @@ const CustomerForm = () => {
 
   const resetform = () => {
     setpayment_account_name("");
-    setreferrence_bill_no('')
-    setpaid_by('')
-    setbank_id('')
-    setpayment_mode('')
-    setcheque_no('')
-    setpaid_date(new Date())
-    setpaid_to('')
-    setdescription('')
-    settax(false)
-    setutilize_id('')
-    setpaid_by_list([])
-    setutilize_name('')
-    setmessage('')
-    settaxamount('')
-    setcompany(false)
-    setref_billno('')
-    setfileurl('')
+    setreferrence_bill_no("");
+    setpaid_by("");
+    setbank_id("");
+    setpayment_mode("");
+    setcheque_no("");
+    setpaid_date(new Date());
+    setpaid_to("");
+    setdescription("");
+    settax(false);
+    setutilize_id("");
+    setpaid_by_list([]);
+    setutilize_name("");
+    setmessage("");
+    settaxamount("");
+    setcompany(false);
+    setref_billno("");
+    setfileurl("");
     setaccountstatus(false);
   };
 
   const handleSubmit = async (values, { isSubmitting, resetForm }) => {
-    setloading(true)
+    setloading(true);
     const newItem = new FormData();
     for (const key of Object.keys(files)) {
       newItem.append("item", files[key].file);
@@ -510,7 +486,10 @@ const CustomerForm = () => {
       formData.append("tax", (parseFloat(amount) * 15) / (100 + 15).toFixed(2));
       formData.append("company_name", company);
     }
-    formData.append("paid_date", paid_date ? moment(paid_date).format('Y-MM-DD') : '');
+    formData.append(
+      "paid_date",
+      paid_date ? moment(paid_date).format("Y-MM-DD") : ""
+    );
     formData.append("referrence_bill_no", referrence_bill_no);
     formData.append("amount", parseFloat(amount).toFixed(2));
     formData.append("paid_to", paid_to);
@@ -518,23 +497,22 @@ const CustomerForm = () => {
     formData.append("created_by", created_by);
     formData.append("account_category_id", payment_account_id);
 
-
     formData.append("created_by", created_by);
-    formData.append("payeename", payeename)
+    formData.append("payeename", payeename);
     formData.append("status", "new");
     formData.append("data", JSON.stringify(field));
     formData.append("bank_ref_no", bank_ref_no);
     formData.append("file_path", file_path);
-    formData.append("company", div_company ? div_company : '');
-    formData.append("div_id", localStorage.getItem('division'));
+    formData.append("company", div_company ? div_company : "");
+    formData.append("div_id", localStorage.getItem("division"));
     formData.append("utilize_div_id", utilize_id);
     formData.append("payment_type", payment_mode);
     formData.append("bank_slip", bank_slip);
     formData.append("cheque_no", cheque_no);
     formData.append("bank_id", bank_id);
 
-    formData.append("vatno", vatno ? vatno : '');
-    formData.append("inv_no", inv_no ? inv_no : '');
+    formData.append("vatno", vatno ? vatno : "");
+    formData.append("inv_no", inv_no ? inv_no : "");
     formData.append("vendor_id", vendor_id);
     formData.append("employee_id", employee_id);
     formData.append("user_id", user.id);
@@ -549,17 +527,17 @@ const CustomerForm = () => {
     var utilze_divAmount = 0;
 
     var status = true;
-    var personExist = paymentarr.some(obj => obj[4] === "personal")
+    var personExist = paymentarr.some((obj) => obj[4] === "personal");
 
-    utilze_divAmount = paymentarr.filter(obj => obj[0] === utilize_id).reduce((a, v) => a = a + parseFloat(v[2]), 0)
+    utilze_divAmount = paymentarr
+      .filter((obj) => obj[0] === utilize_id)
+      .reduce((a, v) => (a = a + parseFloat(v[2])), 0);
     if (utilze_divAmount === 0) {
-      // utilize division doesn't exists 
-      temp = amount
-
-    }
-    else {
-      // utilize division  exists 
-      temp = amount - utilze_divAmount
+      // utilize division doesn't exists
+      temp = amount;
+    } else {
+      // utilize division  exists
+      temp = amount - utilze_divAmount;
       //do a copy of selected account list without utilized div
     }
 
@@ -576,34 +554,35 @@ const CustomerForm = () => {
 
             if (temp > key[2]) {
               if (key[4] === "personal") {
-                formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
-              }
-              else {
-                formData.append('payment_account_ids[]', key)
+                formData.append("payment_account_ids[]", [
+                  key[0],
+                  key[1],
+                  temp,
+                  key[3],
+                  key[4],
+                ]);
+              } else {
+                formData.append("payment_account_ids[]", key);
                 temp = temp - key[2];
               }
-
+            } else {
+              formData.append("payment_account_ids[]", [
+                key[0],
+                key[1],
+                temp,
+                key[3],
+                key[4],
+              ]);
             }
-            else {
-              formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
-            }
-
-          }
-          else {
-            formData.append('payment_account_ids[]', key)
+          } else {
+            formData.append("payment_account_ids[]", key);
           }
         }
-      }
-
-      else {
+      } else {
         status = false;
-
       }
-    }
-
-    else {
+    } else {
       //Sufficicent
-
 
       // consider full list
       for (const key of paymentarr) {
@@ -611,34 +590,26 @@ const CustomerForm = () => {
           //its not utilized div
 
           if (temp > key[2]) {
-            formData.append('payment_account_ids[]', key)
+            formData.append("payment_account_ids[]", key);
             temp = temp - key[2];
+          } else {
+            formData.append("payment_account_ids[]", [
+              key[0],
+              key[1],
+              temp,
+              key[3],
+              key[4],
+            ]);
           }
-          else {
-            formData.append('payment_account_ids[]', [key[0], key[1], temp, key[3], key[4]])
-          }
-
+        } else {
+          formData.append("payment_account_ids[]", key);
         }
-        else {
-          formData.append('payment_account_ids[]', key)
-        }
-
-
-
       }
-
-
-
-
-
-
-
     }
     if (status) {
       url
         .post("expense", formData)
         .then(function (response) {
-
           Swal.fire({
             title: "Success",
             type: "success",
@@ -647,176 +618,114 @@ const CustomerForm = () => {
           }).then((result) => {
             routerHistory.push(navigatePath + `/expenseview`);
           });
-
         })
-        .catch(function (error) { });
+        .catch(function (error) {});
+    } else {
+      setmessage("Insufficient Amount");
     }
-    else {
-      setmessage("Insufficient Amount")
-    }
-
   };
 
   let sum = 0;
   let arr = [];
 
   const handleMultipleList = (index) => {
-
-
-
     // sum=paiddivision_account.reduce((a,v) =>  a = a + parseFloat(v.balance) , 0 )
     // statearr?.filter(function(e) { return e !== 'seven' })
 
-    setstatearr([])
+    setstatearr([]);
     var calSum = 0;
     var count = 0;
     for (var ind in index) {
-
       // eslint-disable-next-line no-loop-func
-      paiddivision_account.filter(f => f.name == index[ind]).map((item) => {
+      paiddivision_account
+        .filter((f) => f.name == index[ind])
+        .map((item) => {
+          // map array to replace the old comment with the new one
 
+          if (amount > calSum && count <= 0) {
+            calSum = calSum + item.balance;
+            item.isdisable = false;
+            if (item.type === "personal") {
+              count++;
+            }
+            statearr.push([
+              item.id,
 
-        // map array to replace the old comment with the new one
-
-        if (amount > calSum && count <= 0) {
-          calSum = calSum + item.balance
-          item.isdisable = false
-          if (item.type === "personal") {
-            count++;
+              item.name,
+              item.balance,
+              item.div_id,
+              item.type,
+            ]);
+          } else {
+            item.isdisable = true;
           }
-          statearr.push([
-            item.id,
-
-            item.name,
-            item.balance,
-            item.div_id,
-            item.type
-          ]
-          )
-        }
-        else {
-          item.isdisable = true
-        }
-
-
-
-
-
-
-
-
-
-
-      })
-
+        });
     }
 
-    arr = statearr
-    sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+    arr = statearr;
+    sum = sum + statearr.reduce((a, v) => (a = a + parseFloat(v[2])), 0);
 
-
-    setpaymentarr(statearr)
-    setamountVal(sum)
+    setpaymentarr(statearr);
+    setamountVal(sum);
     if (sum < amount) {
-
       // setmessage("Insufficient Amount")
-
       // setamountVal(sum)
-    }
-    else {
-
+    } else {
       // setmessage("success")
 
       // setdisableVal(true)
 
-
-      setIsopen(false)
-
+      setIsopen(false);
     }
-
-
-
-
-
-
   };
 
   let count = 0;
   const handleMultipleListDemo = (index) => {
-
-    setstatearr([])
+    setstatearr([]);
     var calSum = 0;
 
     for (var ind in index) {
-
       // eslint-disable-next-line no-loop-func
-      paiddivision_account.filter(f => f.name == index[ind].name).map((item) => {
+      paiddivision_account
+        .filter((f) => f.name == index[ind].name)
+        .map((item) => {
+          // map array to replace the old comment with the new one
 
+          if (amount > calSum && count <= 0) {
+            calSum = calSum + item.balance;
+            item.isdisable = false;
+            if (item.type === "personal") {
+              count = count + 1;
+            }
 
-        // map array to replace the old comment with the new one
+            statearr.push([
+              item.id,
 
-        if (amount > calSum && count <= 0) {
-
-          calSum = calSum + item.balance
-          item.isdisable = false
-          if (item.type === "personal") {
-            count = count + 1;
-
+              item.name,
+              item.balance,
+              item.div_id,
+              item.type,
+            ]);
+          } else {
+            item.isdisable = true;
           }
 
-
-          statearr.push([
-            item.id,
-
-            item.name,
-            item.balance,
-            item.div_id,
-            item.type
-          ]
-          )
-        }
-
-        else {
-          item.isdisable = true
-        }
-
-
-
-
-        return item;
-
-
-
-
-
-      })
-
+          return item;
+        });
     }
 
-    arr = statearr
-    sum = sum + statearr.reduce((a, v) => a = a + parseFloat(v[2]), 0)
+    arr = statearr;
+    sum = sum + statearr.reduce((a, v) => (a = a + parseFloat(v[2])), 0);
 
-
-    setpaymentarr(statearr)
-    setamountVal(sum)
+    setpaymentarr(statearr);
+    setamountVal(sum);
     if (sum < amount) {
-
-
+    } else {
+      setIsopen(false);
     }
-    else {
-
-
-      setIsopen(false)
-
-    }
-
-
-
   };
 
-
   const handleField_Fileremove = (index) => {
-
     let tempList = [...files];
     tempList.map((element, i) => {
       let sum = 0;
@@ -901,7 +810,6 @@ const CustomerForm = () => {
           catid={catid}
           catname={catname}
           setcat={setcat}
-
         />
       )}
       {shouldOpenConfirmationDialog1 && (
@@ -918,8 +826,6 @@ const CustomerForm = () => {
           open={shouldOpenConfirmationDialogbox}
           paymentaccount={setpayment_account}
           handleClose={handleDialogClosepayee}
-
-
         />
       )}
       {DialogAdddivision && (
@@ -928,12 +834,8 @@ const CustomerForm = () => {
           open={DialogAdddivision}
           paymentaccount={setpayment_account}
           division={setdivision_account}
-
-
-
         />
       )}
-
 
       <Card elevation={3}>
         <div className="flex px-4">
@@ -1022,33 +924,51 @@ const CustomerForm = () => {
                       </Menu>
                     </span>
                   </Button> */}
-                      <FormGroup variant="outlined" style={{ width: 200, height: 37 }}>
-                        <FormControl variant="outlined" size="small"
-                          className="mb-4 mr-20 mr-20" style={{ width: 280, height: 37, marginRight: "20px" }} >
+                      <FormGroup
+                        variant="outlined"
+                        style={{ width: 200, height: 37 }}
+                      >
+                        <FormControl
+                          variant="outlined"
+                          size="small"
+                          className="mb-4 mr-20 mr-20"
+                          style={{
+                            width: 280,
+                            height: 37,
+                            marginRight: "20px",
+                          }}
+                        >
                           {/* <InputLabel htmlFor="outlined-age-native-simple">Utilized Division</InputLabel> */}
                           <TextField
                             select
                             value={utilize_id}
                             // onChange={handleChange}
-                            onChange={e => setutilize_id(e.target.value)}
+                            onChange={(e) => setutilize_id(e.target.value)}
                             size="small"
                             variant="outlined"
                             label="Utilized Division"
-                          // inputProps={{
-                          //   name: 'utilize_id',
-                          //   id: 'outlined-age-native-simple',
-                          // }}
+                            // inputProps={{
+                            //   name: 'utilize_id',
+                            //   id: 'outlined-age-native-simple',
+                            // }}
                           >
-                            <MenuItem value="">Choose Utilized Division</MenuItem>
-                            {paiddivision_account.filter(obj => obj.type === "division").map((item, ind) => {
-                              return <MenuItem value={item.id}>{item.name}</MenuItem>
-                            })}
+                            <MenuItem value="">
+                              Choose Utilized Division
+                            </MenuItem>
+                            {paiddivision_account
+                              .filter((obj) => obj.type === "division")
+                              .map((item, ind) => {
+                                return (
+                                  <MenuItem value={item.id}>
+                                    {item.name}
+                                  </MenuItem>
+                                );
+                              })}
                           </TextField>
                         </FormControl>
-
                       </FormGroup>
                     </div>
-                    <div style={{ paddingLeft: '73px' }}>
+                    <div style={{ paddingLeft: "73px" }}>
                       <Button
                         className="px-4 mb-4 w-full ml-4"
                         variant="outlined"
@@ -1068,14 +988,18 @@ const CustomerForm = () => {
                             <MenuItem onClick={(e) => Addnewsubcat(null)}>
                               <Icon align="left">add</Icon>ADD EXPENSES CATEGORY
                             </MenuItem>
-                            <Menu1 data={cat} inputProps={{ style: { justifyContent: 'space-between' } }}
-                              style={{ justifyContent: 'space-between' }}></Menu1>
+                            <Menu1
+                              data={cat}
+                              inputProps={{
+                                style: { justifyContent: "space-between" },
+                              }}
+                              style={{ justifyContent: "space-between" }}
+                            ></Menu1>
                           </Menu>
                         </span>
                       </Button>
                     </div>
                   </div>
-
 
                   <span>
                     <div className="px-0 flex justify-between">
@@ -1099,14 +1023,16 @@ const CustomerForm = () => {
                           className="mb-4 w-full "
                           label="Expense Category"
                           name="payment_account_name"
-                          inputProps={{ style: { textTransform: 'capitalize' } }}
+                          inputProps={{
+                            style: { textTransform: "capitalize" },
+                          }}
                           size="small"
                           variant="outlined"
                           autoComplete="none"
                           // style={{width:320}}
                           value={payment_account_name}
                           required
-                        // onChange={e => setpayment_account_id(e.target.value)}
+                          // onChange={e => setpayment_account_id(e.target.value)}
                         />
                       )}
                     </div>
@@ -1128,8 +1054,8 @@ const CustomerForm = () => {
                                 size="small"
                                 autoComplete="none"
                                 required
-                              //  label={item.name}
-                              //  value={item.name}
+                                //  label={item.name}
+                                //  value={item.name}
                               />
 
                               {close && (
@@ -1168,7 +1094,9 @@ const CustomerForm = () => {
                               name="payment_account_id"
                               size="small"
                               variant="outlined"
-                              inputProps={{ style: { textTransform: 'capitalize' } }}
+                              inputProps={{
+                                style: { textTransform: "capitalize" },
+                              }}
                               name={item.name}
                               value={item.text}
                               autoComplete="none"
@@ -1176,7 +1104,7 @@ const CustomerForm = () => {
                                 handleComment(e, item, item.id);
                               }}
                               required
-                            // onChange={(event) => handleIvoiceListChange(event, index)}
+                              // onChange={(event) => handleIvoiceListChange(event, index)}
                             />
                           )}
                           {item.type === "date" && (
@@ -1198,7 +1126,7 @@ const CustomerForm = () => {
                                 }}
                                 format="MMMM dd, yyyy"
                                 required
-                              // onChange={handleIvoiceListChange}
+                                // onChange={handleIvoiceListChange}
                               />
                             </MuiPickersUtilsProvider>
                           )}
@@ -1207,55 +1135,60 @@ const CustomerForm = () => {
                     })}
                   </span>
 
-                  {vendor_status && (<TextField
-                    className="mb-4 w-full"
-                    label="Vendor"
-                    inputProps={{ style: { textTransform: "capitalize" } }}
-                    name="firstName"
-                    size="small"
-                    variant="outlined"
-                    autoComplete="none"
-                    value={vendor_id}
-                    onChange={(e) => setvendor_id(e.target.value)}
-                    select
-                  >
-                    {vendorList.map((item, ind) => (
-                      <MenuItem value={item.id} key={item}>
-                        {item.firm_name}
-                      </MenuItem>
-                    ))}
-                  </TextField>)}
-                  {employee_status && (<TextField
-                    className="mb-4 w-full"
-                    label="Employee"
-                    inputProps={{ style: { textTransform: "capitalize" } }}
-                    name="firstName"
-                    size="small"
-                    variant="outlined"
-                    autoComplete="none"
-                    value={employee_id}
-                    onChange={(e) => setemployee_id(e.target.value)}
-                    select
-                  >
-                    {employeeList.map((item, ind) => (
-                      <MenuItem value={item.emp_id} key={item}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>)}
+                  {vendor_status && (
+                    <TextField
+                      className="mb-4 w-full"
+                      label="Vendor"
+                      inputProps={{ style: { textTransform: "capitalize" } }}
+                      name="firstName"
+                      size="small"
+                      variant="outlined"
+                      autoComplete="none"
+                      value={vendor_id}
+                      onChange={(e) => setvendor_id(e.target.value)}
+                      select
+                    >
+                      {vendorList.map((item, ind) => (
+                        <MenuItem value={item.id} key={item}>
+                          {item.firm_name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                  {employee_status && (
+                    <TextField
+                      className="mb-4 w-full"
+                      label="Employee"
+                      inputProps={{ style: { textTransform: "capitalize" } }}
+                      name="firstName"
+                      size="small"
+                      variant="outlined"
+                      autoComplete="none"
+                      value={employee_id}
+                      onChange={(e) => setemployee_id(e.target.value)}
+                      select
+                    >
+                      {employeeList.map((item, ind) => (
+                        <MenuItem value={item.emp_id} key={item}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
 
-
-                  {!vendor_status && (<TextField
-                    className="mb-4 w-full"
-                    label="Paid To"
-                    inputProps={{ style: { textTransform: "capitalize" } }}
-                    name="firstName"
-                    size="small"
-                    variant="outlined"
-                    autoComplete="none"
-                    value={paid_to}
-                    onChange={(e) => setpaid_to(e.target.value)}
-                  />)}
+                  {!vendor_status && (
+                    <TextField
+                      className="mb-4 w-full"
+                      label="Paid To"
+                      inputProps={{ style: { textTransform: "capitalize" } }}
+                      name="firstName"
+                      size="small"
+                      variant="outlined"
+                      autoComplete="none"
+                      value={paid_to}
+                      onChange={(e) => setpaid_to(e.target.value)}
+                    />
+                  )}
 
                   <CurrencyTextField
                     className="mb-4 w-full"
@@ -1353,7 +1286,6 @@ const CustomerForm = () => {
                         </FormControl>
                         </FormGroup> */}
 
-
                   {/* </Menu>
                     </span>
                   </Button> */}
@@ -1374,8 +1306,9 @@ const CustomerForm = () => {
                   {/* </div>
                   </div> */}
 
-                  {role === "SA" ? (<>
-                    {/* <FormGroup variant="outlined">
+                  {role === "SA" ? (
+                    <>
+                      {/* <FormGroup variant="outlined">
                                 <FormControl variant="outlined" size="small"
                    className="mb-4" >
         <InputLabel 
@@ -1455,76 +1388,69 @@ const CustomerForm = () => {
                               
                              </FormGroup> */}
 
-
-
-                    <Autocomplete
-                      multiple
-                      id="checkboxes-tags-demo"
-                      className="mb-4"
-                      disabled={!amount}
-                      options={paiddivision_account}
-                      size="small"
-                      getOptionLabel={(option) => option.name}
-                      getOptionDisabled={(option) => option.isdisable === true || amount < amountVal}
-
-
-                      onChange={(event: any, value: string | null) => handleMultipleListDemo(value)}
-
-
-
-                      renderOption={(option, { selected }) => (
-
-                        <React.Fragment>
-                          <Checkbox
-                            icon={icon}
-                            disabled={option.isdisable}
-                            checkedIcon={checkedIcon}
-                            style={{ marginRight: 8 }}
-                            checked={selected}
-
+                      <Autocomplete
+                        multiple
+                        id="checkboxes-tags-demo"
+                        className="mb-4"
+                        disabled={!amount}
+                        options={paiddivision_account}
+                        size="small"
+                        getOptionLabel={(option) => option.name}
+                        getOptionDisabled={(option) =>
+                          option.isdisable === true || amount < amountVal
+                        }
+                        onChange={(event: any, value: string | null) =>
+                          handleMultipleListDemo(value)
+                        }
+                        renderOption={(option, { selected }) => (
+                          <React.Fragment>
+                            <Checkbox
+                              icon={icon}
+                              disabled={option.isdisable}
+                              checkedIcon={checkedIcon}
+                              style={{ marginRight: 8 }}
+                              checked={selected}
+                            />
+                            <td width="100px">{option.name}</td>
+                            <td align="center" width="200px">
+                              {option.type === "division" && (
+                                <small
+                                  style={{ cursor: "pointer" }}
+                                  className={clsx({
+                                    "border-radius-4  text-white px-2 py-2 w-30 pl-4 pr-3 bg-error": true,
+                                  })}
+                                >
+                                  {option.type}
+                                </small>
+                              )}
+                              {option.type === "personal" && (
+                                <small
+                                  style={{ cursor: "pointer" }}
+                                  className={clsx({
+                                    "border-radius-4  text-white px-2 py-2 w-30  bg-secondary": true,
+                                  })}
+                                >
+                                  {option.type}
+                                </small>
+                              )}
+                            </td>
+                            <td style={{ textAlign: "right" }}>
+                              {parseFloat(option.balance).toLocaleString(
+                                undefined,
+                                { minimumFractionDigits: 2 }
+                              )}
+                            </td>
+                          </React.Fragment>
+                        )}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Paid Account"
                           />
-                          <td width="100px">{option.name}</td><td align="center" width="200px" >
-                            {option.type === "division" && (<small
-                              style={{ cursor: 'pointer' }}
-                              className={clsx({
-                                "border-radius-4  text-white px-2 py-2 w-30 pl-4 pr-3 bg-error": true,
-
-                              })}
-                            >
-
-                              {option.type}
-
-
-                            </small>)}
-                            {option.type === "personal" && (<small
-                              style={{ cursor: 'pointer' }}
-                              className={clsx({
-                                "border-radius-4  text-white px-2 py-2 w-30  bg-secondary": true,
-
-                              })}
-                            >
-
-                              {option.type}
-
-
-                            </small>)}
-                          </td><td style={{ textAlign: 'right' }}>{parseFloat(option.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-
-                        </React.Fragment>
-
-                      )}
-
-
-                      renderInput={(params) => (
-
-                        <TextField {...params} variant="outlined" label="Paid Account" />)
-                      }
-                    />
-
-                  </>
-
-
-
+                        )}
+                      />
+                    </>
                   ) : (
                     <TextField
                       className="mb-4 w-full mr-4 pr-20"
@@ -1537,7 +1463,12 @@ const CustomerForm = () => {
                       autoComplete="off"
                       selected
                     >
-                      <Button variant="outlined" color="primary" type="submit" className="py-2">
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        type="submit"
+                        className="py-2"
+                      >
                         <Icon>save</Icon> SAVE
                       </Button>
                       {payment_account.map((item, ind) => (
@@ -1548,12 +1479,10 @@ const CustomerForm = () => {
                     </TextField>
                   )}
 
-
                   <TextField
                     className="w-full mb-4"
                     label="Payment Mode"
-                    onChange={e => setpayment_mode(e.target.value)
-                    }
+                    onChange={(e) => setpayment_mode(e.target.value)}
                     variant="outlined"
                     type="text"
                     name="cdescription"
@@ -1567,49 +1496,53 @@ const CustomerForm = () => {
                       </MenuItem>
                     ))}
                   </TextField>
-                  {payment_mode === 'cheque' && (<TextField
-                    className="w-full mb-4"
-                    label="Cheque Number"
-                    onChange={e => setcheque_no(e.target.value)
-                    }
-                    variant="outlined"
-                    type="text"
-                    name="cdescription"
-                    size="small"
-                    value={cheque_no}
-
-                  ></TextField>
+                  {payment_mode === "cheque" && (
+                    <TextField
+                      className="w-full mb-4"
+                      label="Cheque Number"
+                      onChange={(e) => setcheque_no(e.target.value)}
+                      variant="outlined"
+                      type="text"
+                      name="cdescription"
+                      size="small"
+                      value={cheque_no}
+                    ></TextField>
                   )}
                   <FormGroup>
-                    {payment_mode === 'banktransfer' &&
-                      <FormControl variant="outlined" size="small"
-                        className="mb-4">
+                    {payment_mode === "banktransfer" && (
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        className="mb-4"
+                      >
                         {/* <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel> */}
                         <TextField
                           select
                           value={bank_id}
                           // onChange={handleChange}
-                          onChange={e => setbank_id(e.target.value)}
+                          onChange={(e) => setbank_id(e.target.value)}
                           size="small"
                           label="Bank"
                           variant="outlined"
-                        // inputProps={{
-                        //   name: 'Bank',
-                        //   id: 'outlined-age-native-simple',
-                        // }}
+                          // inputProps={{
+                          //   name: 'Bank',
+                          //   id: 'outlined-age-native-simple',
+                          // }}
                         >
                           <MenuItem value="" disabled>
                             Choose Item
                           </MenuItem>
                           {companybank.map((item, ind) => (
-                            <MenuItem value={item.id}>{item.name}-{item.ac_no}</MenuItem>
+                            <MenuItem value={item.id}>
+                              {item.name}-{item.ac_no}
+                            </MenuItem>
                           ))}
                         </TextField>
                       </FormControl>
-                    }
+                    )}
                   </FormGroup>
 
-                  {payment_mode === 'banktransfer' &&
+                  {payment_mode === "banktransfer" && (
                     <>
                       <label htmlFor="upload-multiple-file">
                         Upload Bank Slip
@@ -1625,39 +1558,45 @@ const CustomerForm = () => {
                         size="small"
                         autoComplete="none"
 
-                      //  value={item.name}
+                        //  value={item.name}
                       />
                       <div
-                        onClick={() => { setfileurl(null); setbank_slip(null) }}
+                        onClick={() => {
+                          setfileurl(null);
+                          setbank_slip(null);
+                        }}
                         style={{
                           padding: "5px 5px 5px 5px",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                       >
-                        {fileurl && (<CardActionArea>
-                          <img
-                            width="50%"
-                            height="50%"
-                            // className={classes.media}
-                            src={fileurl}
-                          />
-                        </CardActionArea>)}
+                        {fileurl && (
+                          <CardActionArea>
+                            <img
+                              width="50%"
+                              height="50%"
+                              // className={classes.media}
+                              src={fileurl}
+                            />
+                          </CardActionArea>
+                        )}
                       </div>
                     </>
+                  )}
 
-                  }
-
-                  {payee && (<TextField
-                    className="mb-4 w-full"
-                    label="NAME"
-                    name="payeename"
-                    size="small"
-                    variant="outlined"
-                    inputProps={{ style: { textTransform: 'capitalize' } }}
-                    value={payeename}
-                    autoComplete="none"
-                    onChange={(e) => setpayeename(e.target.value)}
-                  ></TextField>)}
+                  {payee && (
+                    <TextField
+                      className="mb-4 w-full"
+                      label="NAME"
+                      name="payeename"
+                      size="small"
+                      variant="outlined"
+                      inputProps={{ style: { textTransform: "capitalize" } }}
+                      value={payeename}
+                      autoComplete="none"
+                      onChange={(e) => setpayeename(e.target.value)}
+                    ></TextField>
+                  )}
                   {/* {(paid_by === 11 || paid_by === 12) && (
                     <TextField
                       className="mb-4 w-full"
@@ -1680,8 +1619,6 @@ const CustomerForm = () => {
                     size="small"
                     autoComplete="none"
                     onChange={(event) => handlebillSelect(event)}
-
-
                   />
 
                   {/* {billtype&&(<span>
@@ -1700,20 +1637,25 @@ const CustomerForm = () => {
                                               </Icon>
                                             </span>)} */}
                   <div
-                    onClick={() => { setref_billno(null); setfile_path(null) }}
+                    onClick={() => {
+                      setref_billno(null);
+                      setfile_path(null);
+                    }}
                     style={{
                       padding: "5px 5px 5px 5px",
-                      cursor: "pointer"
+                      cursor: "pointer",
                     }}
                   >
-                    {ref_billno && <CardActionArea>
-                      <img
-                        width="50%"
-                        height="50%"
-                        // className={classes.media}
-                        src={ref_billno}
-                      />
-                    </CardActionArea>}
+                    {ref_billno && (
+                      <CardActionArea>
+                        <img
+                          width="50%"
+                          height="50%"
+                          // className={classes.media}
+                          src={ref_billno}
+                        />
+                      </CardActionArea>
+                    )}
                   </div>
 
                   {/* <div
@@ -1774,12 +1716,10 @@ const CustomerForm = () => {
                     onChange={(e) => setreferrence_bill_no(e.target.value)}
                   /> */}
 
-
-
                   <TextField
                     className="mb-4 w-full"
                     label="Description"
-                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    inputProps={{ style: { textTransform: "capitalize" } }}
                     name="workPhone"
                     size="small"
                     variant="outlined"
@@ -1833,9 +1773,10 @@ const CustomerForm = () => {
                         inputProps={{ style: { textTransform: "capitalize" } }}
                         autoComplete="Disabled"
                         onChange={(e) => setdiv_company(e.target.value)}
-                      />)}
-                    {tax &&
-                      (<TextField
+                      />
+                    )}
+                    {tax && (
+                      <TextField
                         className="mb-4 w-full"
                         label="Vat Number"
                         name="workPhone"
@@ -1844,9 +1785,10 @@ const CustomerForm = () => {
                         variant="outlined"
                         value={vatno}
                         onChange={(e) => setvatno(e.target.value)}
-                      />)}
-                    {tax &&
-                      (<TextField
+                      />
+                    )}
+                    {tax && (
+                      <TextField
                         className="mb-4 w-full"
                         label="Invoice Number"
                         name="workPhone"
@@ -1856,13 +1798,12 @@ const CustomerForm = () => {
                         inputProps={{ style: { textTransform: "capitalize" } }}
                         autoComplete="Disabled"
                         onChange={(e) => setinv_no(e.target.value)}
-                      />)}
+                      />
+                    )}
                   </RadioGroup>
 
                   {tax && (
                     <div className="mb-4">
-
-
                       <FormControlLabel
                         style={{ fontWeight: 1000 }}
                         className="block h-32"
@@ -1872,46 +1813,73 @@ const CustomerForm = () => {
                         value={company}
                         onChange={(e) => setcompany(!company)}
                       />
-                      <label className="pl-8">Company Name</label><br></br>
-                      <label className="pl-8">Invoice Number</label><br></br>
-                      <label className="pl-8">Vat Number Is as per the Uploaded File</label>
-
-
+                      <label className="pl-8">Company Name</label>
+                      <br></br>
+                      <label className="pl-8">Invoice Number</label>
+                      <br></br>
+                      <label className="pl-8">
+                        Vat Number Is as per the Uploaded File
+                      </label>
                     </div>
                   )}
                 </Grid>
               </Grid>
 
-              {message && (<div className="flex-column items-start">
-                <div className="flex items-center ">
-                  {message == "Insufficient Amount" ? (<Icon className="mr-2" fontSize="small" color="error">
-                    info
-                  </Icon>) : <Icon className="mr-2 text-green" fontSize="small" color=".bg-green">
-                    info
-                  </Icon>}
-                  <small className="text-black">
-                    {message} {amountVal}
-                  </small>
+              {message && (
+                <div className="flex-column items-start">
+                  <div className="flex items-center ">
+                    {message == "Insufficient Amount" ? (
+                      <Icon className="mr-2" fontSize="small" color="error">
+                        info
+                      </Icon>
+                    ) : (
+                      <Icon
+                        className="mr-2 text-green"
+                        fontSize="small"
+                        color=".bg-green"
+                      >
+                        info
+                      </Icon>
+                    )}
+                    <small className="text-black">
+                      {message} {amountVal}
+                    </small>
+                  </div>
                 </div>
-              </div>)}
+              )}
               <div className="mt-6">
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  type="submit"
-                  className="mr-4 py-2"
-                  disabled={loading}
-                  onClick={() => handleSubmit}
-                >
-                  <Icon>save</Icon> SAVE
-                </Button>
+                {loading ? (
+                  <span
+                    color="primary"
+                    variant="outlined"
+                    type='button'
+                    style={{border:'1px solid red',borderRadius:5,padding:10}}
+                    className="mr-4 py-2"
+                    onClick={(e) => setloading(false)}
+                  >
+                    ENABLE
+                  </span>
+                ) : (
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    type="submit"
+                    className="mr-4 py-2"
+                    disabled={loading}
+                    onClick={() => handleSubmit}
+                  >
+                    <Icon>save</Icon> SAVE
+                  </Button>
+                )}
+
                 <Button
                   className="mr-4 py-2"
                   color="secondary"
                   variant="outlined"
                   type="submit"
-
-                  onClick={() => routerHistory.push(navigatePath + "/expenseview")}
+                  onClick={() =>
+                    routerHistory.push(navigatePath + "/expenseview")
+                  }
                 >
                   <Icon>cancel</Icon>
                   <span className="pl-2 capitalize">CANCEL</span>
