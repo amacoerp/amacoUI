@@ -21,8 +21,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { getInvoiceById, addInvoice, getUnitOfMeasure, getVendorList, navigatePath, GDIV } from "../../invoice/InvoiceService.js";
-import { useParams, useHistory, Link, Redirect } from "react-router-dom";
+import {  navigatePath } from "../../invoice/InvoiceService.js";
+import { useParams, useHistory } from "react-router-dom";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -30,10 +30,10 @@ import { useCallback } from "react";
 import useDynamicRefs from 'use-dynamic-refs';
 import MemberEditorDialog from '../../party/partycontact';
 import UOMDialog from '../../invoice/UOMDialog';
-import url, { getProductList, capitalize_arr, data } from "../../invoice/InvoiceService.js";
+import url from "../../invoice/InvoiceService.js";
 import moment from "moment";
-import { Breadcrumb, MatxProgressBar } from "matx";
-import useSettings from 'app/hooks/useSettings';
+import { Breadcrumb } from "matx";
+
 import useAuth from "app/hooks/useAuth";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -47,19 +47,15 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
-  // const [rfq, setrfq] = useState([]);
   const [rdate, setrdate] = useState(new Date());//Rfq date 
   const [ddate, setddate] = useState(new Date());//Bid Closing date
-  // const [cname, setcname] = useState([]);
-  // const [rfq_details, setrfqdetails] = useState([]);
   const [CustomerList, setCustomerList] = useState([]);//Customer List
   const [contId, setContId] = useState([]);//Contact Id
   const [ProductList, setProductList] = useState([]);//ProductList
   const [listrfq, setlistrfq] = useState([]);
-  const [files, setfiles] = useState([]);
-  const [upload, setupload] = useState([]);
-  const [proList, setproList] = useState([]);
-  const history = useHistory();
+  const [files, setfiles] = useState([]);//files
+  const [upload, setupload] = useState([]);//upload files
+  const [proList, setproList] = useState([]);//Product list
   const [customercontact, setcustomercontact] = useState([]);//contact person
   const [
     shouldOpenConfirmationDialogparty,
@@ -76,48 +72,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
-  // const { settings, updateSettings } = useSettings();
   const formData = new FormData()
-  // const updateSidebarMode = (sidebarSettings) => {
-  //   if (sidebarSettings.mode == "close") {
-  //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
-  //     let activeLayoutSettings = settings[activeLayoutSettingsName];
-  //     updateSettings({
-  //       ...settings,
-  //       [activeLayoutSettingsName]: {
-  //         ...activeLayoutSettings,
-  //         leftSidebar: {
-  //           ...activeLayoutSettings.leftSidebar,
-  //           ...sidebarSettings,
-  //         },
-  //       },
-  //     });
-  //   }
-  //   else {
-  //     window.location.href = "../sales/rfq-form/rfqview"
-  //     let activeLayoutSettingsName = settings.activeLayout + "Settings";
-  //     let activeLayoutSettings = settings[activeLayoutSettingsName];
-  //     updateSettings({
-  //       ...settings,
-  //       [activeLayoutSettingsName]: {
-  //         ...activeLayoutSettings,
-  //         leftSidebar: {
-  //           ...activeLayoutSettings.leftSidebar,
-  //           ...sidebarSettings,
-  //         },
-  //       },
-  //     });
-
-  //   }
-
-  // }
+  
 
   //File delete
   const handleSingleRemove = (index) => {
     let tempList = [...upload];
     tempList.splice(index, 1);
     setupload([...tempList]);
-    // setrfqFiles([...tempList]);
   };
   // File Select 
   const handleFileSelect = (event) => {
@@ -138,7 +100,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       });
 
     }
-    // setfiles(listrfq)
+    
     setupload(listrfq)
   };
 
@@ -148,39 +110,39 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
-  // const handleChange = (event) => {
-  //   event.persist();
-  //   setState({ ...state, [event.target.name]: event.target.value });
-  // };
+ //close the party dialogue box
   const handleDialogClose = () => {
     setshouldOpenConfirmationDialogparty(false)
   }
 
-  const [uom, setUOM] = useState(false)
+  const [uom, setUOM] = useState(false)//unit of measures
 
  
-
+/*set the Rfq detatils */
   const handleIvoiceListChange = (event, index) => {
     event.persist();
 
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//assign the previous  rfq_details to the tempItemList
     tempItemList.map((element, i) => {
-      if (index === i) element[event.target.name] = event.target.value;
+      if (index === i) element[event.target.name] = event.target.value;//chage the rfq details based on the value entered
 
       return element;
     });
 
-
+    /*set the rfq details */
     setState({
       ...state,
       item: tempItemList,
     });
   };
 
+
+  /*Initialize New Rfq details */
   const addItemToInvoiceList = () => {
 
-    setproList(proListAll)
-    let tempItemList = [...state.item];
+    setproList(proListAll)/*set the products*/
+    let tempItemList = [...state.item];//assign the previous  rfq_details to the tempItemList
+    /*push the rfqdetails to the tempItemList */
     tempItemList.push({
       created_at: "",
       description: "",
@@ -205,6 +167,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
+  /*delete the Rfq details */
   const deleteItemFromInvoiceList = (index, id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -242,11 +205,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const handleDateChange = (rdate) => {
 
-    setrdate(moment(rdate).format("MMMM DD, YYYY"))
+    setrdate(moment(rdate).format("MMMM DD, YYYY"))//set the rfq date
 
   };
   const routerHistory = useHistory();
 
+  /*navigate to invoice page */
   const Rfqpush = () => {
 
    
@@ -255,9 +219,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const handleRDateChange = (ddate) => {
 
-    setddate(moment(ddate).format("MMMM DD, YYYY"))
+    setddate(moment(ddate).format("MMMM DD, YYYY"))//set the Bid closing date 
 
   };
+  /*delete the rfq files */
   const deleterfqfile = (id) => {
 
     Swal.fire({
@@ -296,6 +261,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     })
 
   };
+
+  /*select the rfq files */
   const SelectFile = (e, index) => {
 
     let tempItemList = [...state.item];
@@ -318,6 +285,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   }
 
+  /*Delete the rfqfiles */
   const deletequotefile = (id, index) => {
 
     let tempItemList = [...state.item];
@@ -342,11 +310,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const setproduct = (v, newValue, index,) => {
     if (!newValue?.id) {
-      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(newValue?.toLowerCase())))
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(newValue?.toLowerCase())))//set the products
 
     }
 
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//assign the previous rfq_details
 
     tempItemList.map((element, i) => {
       if (index === i) {
@@ -560,14 +528,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setProductList(data)
     })
   }
-  const product = ProductList.map((guest, index) => {
-    return {
-      label: guest.name,
-      value: guest.id,
-      key: index,
-      name: "name",
-    }
-  })
+ 
 
   const [data, setData] = useState([])
   const [proListAll, setproListAll] = useState([]);
@@ -582,47 +543,20 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
 
-    // getUnitOfMeasure().then(({ data }) => {
-    //   setData(data);
-    // });
-
-    // getVendorList().then(({ data }) => {
-    //   setCustomerList(data);
-    // });
-    // url.get("products").then(({ data }) => {
-
-    //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-    //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-    // });
-
+    
     
 
-    // url.get("products").then(({ data }) => {
-
-    //   setProductList(data)
-    // })
+    
     return setIsAlive(false)
   }, [isNewInvoice, isAlive, generateRandomId]);
-  // const datas = ProductList.map((guest, index) => {
-  //   return {
-  //     label: guest.name,
-  //     value: guest.id,
-  //     key: index
-  //   }
-  // })
+  
 
 
-  // let subTotalCost = 0;
+  
   let {
-    // orderNo,
-    // buyer,
-    // seller,
+    
     item: invoiceItemList = [],
-    // status,
-    // vat,
-    // date,
-    // currency,
+    
     loading,
   } = state;
 
@@ -782,7 +716,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="px-0" width={100}>QUANTITY</TableCell>
                   <TableCell className="px-0" width={120}>UOM</TableCell>
                   <TableCell className="px-0" width={400}>DESCRIPTION</TableCell>
-                  {/* <TableCell className="px-0">Cost</TableCell> */}
+                  
                   <TableCell className="p-0" align="center">ACTION</TableCell>
                 </TableRow>
               </TableHead>
@@ -852,7 +786,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               inputRef[index] = input;
                             }} {...params} variant="outlined" name="product_id" required fullWidth />
                           )}
-                          // onChange={handleChanges}
+                          
                           onChange={(event, newValue) => setproduct(event, newValue, index)}
                           onInputChange={(event, newValue) => setproduct(event, newValue, index)}
 

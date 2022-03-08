@@ -6,12 +6,9 @@ import Swal from "sweetalert2";
 import { Breadcrumb } from "matx";
 import MemberEditorDialog from "../product/Addcategory";
 import { useHistory } from 'react-router';
-import { getVendorList, getmanufacturer, ApiKey, navigatePath, data } from "../invoice/InvoiceService"
+import { navigatePath, data } from "../invoice/InvoiceService"
 import MemberEditorDialog1 from "./manufacture";
 import useAuth from '../../hooks/useAuth';
-
-// import { Button } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Icon,
   Grid,
