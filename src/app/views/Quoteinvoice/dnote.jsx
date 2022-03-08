@@ -381,6 +381,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="description"
                           variant="outlined"
                           size="small"
+                          multiline
                           fullWidth
                           value={item ? item.description : null}
                         // validators={["required"]}

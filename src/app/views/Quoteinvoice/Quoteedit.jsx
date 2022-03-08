@@ -1857,7 +1857,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             }}
                             onChange={(event, newValue) => setProductdescription(event, index, newValue)}
                             size="small"
-                            renderInput={(params) => <TextField {...params}
+                            renderInput={(params) => <TextField {...params} multiline
                               variant="outlined" label="Item" />}
                           />
 
@@ -1874,7 +1874,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               ref: setRef(index + 'product_id')
                             }}
                             onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
-
+                            multiline
                             size="small"
                             disabled
                             value={item.product_id ? item.product_id : "---"}

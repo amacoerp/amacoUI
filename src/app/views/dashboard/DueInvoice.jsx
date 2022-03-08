@@ -167,11 +167,11 @@ return(
               return [
         
                 ++index,
-                item[0].party.firm_name?.toLowerCase(),
+                item[0].party?.firm_name?.toLowerCase(),
                 parseFloat(item?.debit-item?.credit).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 }),
-                item[0].party.id
+                item[0].party?.id
                 
               ]
             

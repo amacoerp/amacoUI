@@ -1004,7 +1004,7 @@ select
 
 
                                                     renderInput={(params) => (
-                                                        <TextField {...params} inputRef={input => {
+                                                        <TextField {...params} multiline inputRef={input => {
                                                             proRef[index] = input;
                                                         }} variant="outlined" name="product_id" fullWidth />
                                                     )}

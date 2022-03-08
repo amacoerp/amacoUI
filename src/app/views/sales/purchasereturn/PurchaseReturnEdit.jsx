@@ -1081,7 +1081,7 @@ select
                                                     renderInput={(params) => (
                                                         <TextField {...params} inputRef={input => {
                                                             proRef[index] = input;
-                                                        }} variant="outlined" name="product_id" fullWidth />
+                                                        }} variant="outlined" multiline name="product_id" fullWidth />
                                                     )}
                                                     select
                                                     // onChange={handleChanges}
@@ -1126,8 +1126,8 @@ select
 
                                                     name="quantity"
                                                     value={item.quantity ? item.quantity : ""}
-                                                    validators={["required"]}
-                                                    errorMessages={["this field is required"]}
+                                                    validators={["required",'isNumber']}
+                                                    errorMessages={["this field is required",'Please Enter Number only']}
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>

@@ -1722,6 +1722,7 @@ const CustomerForm = () => {
                     inputProps={{ style: { textTransform: "capitalize" } }}
                     name="workPhone"
                     size="small"
+                    multiline
                     variant="outlined"
                     value={description}
                     autoComplete="Disabled"

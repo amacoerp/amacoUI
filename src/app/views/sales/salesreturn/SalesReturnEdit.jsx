@@ -1109,8 +1109,8 @@ select
                                                     inputProps={{ ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
                                                     name="quantity"
                                                     value={item.quantity ? item.quantity : ""}
-                                                    validators={["required"]}
-                                                    errorMessages={["this field is required"]}
+                                                    validators={["required","isNumber"]}
+                                                    errorMessages={["this field is required","Please Enter Digits Only"]}
                                                 />
                                             </TableCell>
                                             <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>

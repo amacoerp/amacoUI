@@ -592,13 +592,16 @@ const SimpleForm = () => {
 
                   />
 
-                  <TextField
+                  <TextValidator
                     className="ml-2"
                     label="Credit Days"
                     variant="outlined"
                     value={creditdays}
                     maximumvalue="9999999"
                     size="small"
+                    validators={['isNumber']}
+                    errorMessages={["Number is not valid"]}
+                    
                     fullWidth
                     onChange={(event) => setcreditdays(event.target.value)}
 

@@ -547,7 +547,7 @@ const [data,setData] = useState([])
               </div>
 
 
-              <div className="flex mb-4 mt-8">
+              <div className="flex mb-4">
                 <TextField
                   className="mr-2"
                   label="Initial quantity"
@@ -555,6 +555,7 @@ const [data,setData] = useState([])
                   onChange={e => setiq(e.target.value)}
                   value={iq}
                   size="small"
+                  type='number'
                   fullWidth
                   validators={[
                     "isNumber",
@@ -569,6 +570,7 @@ const [data,setData] = useState([])
                   variant="outlined"
                   value={mq}
                   size="small"
+                  type='number'
                   onChange={e => setmq(e.target.value)}
                   validators={[
                     "isNumber",

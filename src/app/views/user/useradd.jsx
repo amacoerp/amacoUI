@@ -411,7 +411,7 @@ const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userL
               autoComplete="none"
               onChange={e => setcontact(e.target.value)}
               name="mobno"
-              type="text"
+              type="number"
               size="small"
               variant="outlined"
               value={contact}

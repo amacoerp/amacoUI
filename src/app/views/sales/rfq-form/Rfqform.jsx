@@ -681,7 +681,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       getContacts(newValue?.id ? newValue?.id : 0)
                     }}
                     size="small"
-                    renderInput={(params) => <TextField {...params} maxHeight="10px"
+                    renderInput={(params) => <TextField {...params} maxHeight="10px" 
                       variant="outlined" label="Vendor Name" />}
                   />
 
@@ -850,7 +850,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           renderInput={(params) => (
                             <TextField inputRef={input => {
                               inputRef[index] = input;
-                            }} {...params} variant="outlined" name="product_id" required fullWidth />
+                            }} {...params} variant="outlined" multiline name="product_id" required fullWidth />
                           )}
                           // onChange={handleChanges}
                           onChange={(event, newValue) => setproduct(event, newValue, index)}

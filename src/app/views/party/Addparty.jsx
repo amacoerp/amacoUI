@@ -370,7 +370,8 @@ const Addparty = ({ open, handleClose }) => {
                     size="small"
                     variant="outlined"
                     value={mobno || ""}
-                    validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
+                    validators={['isNumber']}
+                    // validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
                     errorMessages={["Number is not valid"]}
 
 
@@ -396,7 +397,7 @@ const Addparty = ({ open, handleClose }) => {
                     ))}
                   </TextField>
 
-                  <TextField
+                  <TextValidator
                     className="ml-2"
                     label="Landline Number"
                     autoComplete="none"
@@ -407,7 +408,8 @@ const Addparty = ({ open, handleClose }) => {
                     variant="outlined"
                     value={landline}
                     type="mobile"
-                    validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
+                    validators={['isNumber']}
+                    // validators={['matchRegexp:^(0|[0-9][0-9]*)$']}
                     errorMessages={["Number is not valid"]}
 
                   />
@@ -476,6 +478,7 @@ const Addparty = ({ open, handleClose }) => {
                   onChange={e => setbank_address(e.target.value)}
                   name="website"
                   type="text"
+                  multiline
                   size="small"
                   variant="outlined"
                   value={bank_address}
@@ -710,7 +713,7 @@ const Addparty = ({ open, handleClose }) => {
 
                   />
 
-                  <TextField
+                  <TextValidator
                     className="ml-2"
                     label="Credit Days"
                     variant="outlined"
@@ -718,6 +721,8 @@ const Addparty = ({ open, handleClose }) => {
                     maximumValue="9999999"
                     size="small"
                     fullWidth
+                    validators={['isNumber']}
+                    errorMessages={["Number is not valid"]}
                     onChange={(event) => setcreditdays(event.target.value)}
 
                   />

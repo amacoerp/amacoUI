@@ -2081,6 +2081,7 @@ inputProps={{
                     name="workPhone"
                     size="small"
                     variant="outlined"
+                    multiline
                     value={description ? description : ''}
                     inputProps={{ style: { textTransform: "capitalize" } }}
                     // autoComplete="Disabled"

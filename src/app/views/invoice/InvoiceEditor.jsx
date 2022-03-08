@@ -764,6 +764,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               }}
                               {...params}
                               variant="outlined"
+                              multiline
                               name="product_id"
                               required
                               fullWidth
