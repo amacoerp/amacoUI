@@ -105,6 +105,7 @@ const PropertyListingForm = () => {
           placeholder="ui-lib@example.com"
           variant="outlined"
           size="small"
+          type='email'
           fullWidth
         />
         <TextField

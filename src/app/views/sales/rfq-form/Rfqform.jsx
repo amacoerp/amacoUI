@@ -149,6 +149,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       product_name: "",
       id: "",
       party: [],
+      unit_of_measure: '',
       prices: [],
       product: [{
         name: ""
@@ -780,7 +781,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             }
                             if (option.inputValue) {
                               return option.inputValue;
-                            }
+                            } 
                             return option?.name ? option?.name : (item?.product_name ? item?.product_name : " ");
                           }}
                           freeSolo
@@ -825,7 +826,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-0 capitalize" align="left" width={100}>
                         <TextValidator
                           label="UOM"
-                          type="text"
                           variant="outlined"
                           size="small"
                           name="unit_of_measure"
@@ -1020,6 +1020,7 @@ const initialValues = {
   vat: "",
   date: new Date(),
   currency: "",
+  unit_of_measure: "",
   loading: false,
 };
 

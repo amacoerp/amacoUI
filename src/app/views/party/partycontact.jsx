@@ -244,6 +244,8 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             }
             type="text"
             name="email"
+            validators={['isEmail']}
+            errorMessages={["Please Enter valid Email"]}
             value={email}
             validators={['isEmail']}
             errorMessages={"Invalid Email"}

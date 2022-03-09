@@ -291,11 +291,11 @@ const handlefileSelect = (event,f) => {
                 onChange={e => setemail(e.target.value)
                   // .log(isAlive)
                 }
-                type="text"
+                type="emmail"
                 name="name"
                 value={email}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
+                validators={["required","isEmail"]}
+                errorMessages={["this field is required",'Email is not Valid']}
               />
               <TextValidator
                 className="w-full mb-4"

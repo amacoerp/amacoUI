@@ -749,7 +749,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     className="mb-8"
                     style={{ position: "relative", top: "10px" }}
                   >
-                    payment Terms:
+                    Payment Terms:
                   </p>
                   <p
                     className="mb-8"
@@ -773,7 +773,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div>
                   <TextValidator
                     inputProps={{ readOnly: true }}
-                    label="payment Terms"
+                    label="Payment Terms"
                     className="mb-4"
                     onChange={(e) => setpayment_terms(e.target.value)}
                     type="text"

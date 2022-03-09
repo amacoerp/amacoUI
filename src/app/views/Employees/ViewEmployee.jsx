@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useReducer } from "react";
 import { Dialog, Button } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+
 import {
   Avatar,
   Card,
@@ -26,7 +28,7 @@ import {
 } from "@material-ui/core";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import FormLabel from "@material-ui/core/FormLabel";
-import url, { capitalize_arr,basePath } from "../invoice/InvoiceService";
+import url, { capitalize_arr, basePath } from "../invoice/InvoiceService";
 import { FormGroup } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -39,6 +41,7 @@ const MemberEditorDialog = ({
   uid,
   open,
   handleClose,
+  divs,
   userid,
   getSalary,
   data,
@@ -72,7 +75,8 @@ const MemberEditorDialog = ({
   const [empList, setEmpList] = useState([]);
   const [shouldOpenSalaryDialog, setShouldOpenSalaryDialog] = useState(false);
 
-  const [divEditable,setDivEditable] = useState([])
+  const [updateDivs, setUpdatedDivs] = useState([]);
+  const [divEditable, setDivEditable] = useState(false);
   const [proEditable, setProEditable] = useState(false);
   const max = 100;
   const min = 0;
@@ -85,6 +89,16 @@ const MemberEditorDialog = ({
       [event.target.name]: event.target.files[0],
     });
     console.log({ state });
+  };
+
+  const handleDivi = (newValue) => {
+    const ids = newValue.map((o) => o.id);
+    const filtered = newValue.filter(
+      ({ id }, index) => !ids.includes(id, index + 1)
+    );
+
+    console.log(newValue);
+    setUpdatedDivs(filtered);
   };
 
   const makeEditableHandle = () => {
@@ -108,6 +122,34 @@ const MemberEditorDialog = ({
     setIqamaExpDate(new Date(empList[0]?.iqama_exp_date));
     setDojExpDate(new Date(empList[0]?.date_of_join));
     setProEditable(true);
+  };
+
+  const submitDivs = () => {
+    console.log(updateDivs);
+    const ids = updateDivs.map((o) => o.id);
+    const filtered = updateDivs.filter(
+      ({ id }, index) => !ids.includes(id, index + 1)
+    );
+    console.log(filtered);
+
+    const obj = {
+        id : userid,
+        data : filtered,
+    }
+
+    url
+    .post(`update-emp-div`, obj)
+    .then(({ data }) => {
+      console.log(data);
+      Swal.fire({
+        title: "Success",
+        type: "success",
+        icon: "success",
+        text: "Data updated successfully.",
+      });
+      handleClose();
+    })
+    .catch(function (error) {});
   };
 
   const newHandleChange = (event) => {
@@ -185,11 +227,10 @@ const MemberEditorDialog = ({
     window.open(urll);
   };
 
-
   useEffect(() => {
     const fD = data.filter((obj) => obj.emp_id == userid);
-    console.log(fD);
     setEmpList(fD);
+    setUpdatedDivs(fD[0]?.divisions);
   }, []);
 
   return (
@@ -299,6 +340,7 @@ const MemberEditorDialog = ({
                         value={state?.email || ""}
                         onChange={newHandleChange}
                         name="email"
+                        type='email'
                       />
                     </TableCell>
                   </TableRow>
@@ -474,14 +516,16 @@ const MemberEditorDialog = ({
                     <TableCell className="pl-4">Job Agreement</TableCell>
                     <TableCell className="pl-4">
                       {/* <Link to={{ pathname: basePath + empList[0]?.file }}  target="_blank" rel="noreferrer noopener"> */}
-                        <Button
-                          className=""
-                          color="primary"
-                          variant="outlined"
-                          onClick={(e)=> {handleClick(basePath + empList[0]?.file)}}
-                        >
-                          Download
-                        </Button>
+                      <Button
+                        className=""
+                        color="primary"
+                        variant="outlined"
+                        onClick={(e) => {
+                          handleClick(basePath + empList[0]?.file);
+                        }}
+                      >
+                        Download
+                      </Button>
                     </TableCell>
                     {/* <TableCell><a href={'localhost:8000/'+empList[0]?.file}>Download</a></TableCell> */}
                   </TableRow>
@@ -574,76 +618,74 @@ const MemberEditorDialog = ({
           </Grid>
           <Grid style={{ padding: "10px" }} item xs={2} sm={4} md={4}>
             <center>
-              <h5>Division Details</h5>
+              <h5>
+                Division Details
+                {divEditable ? (
+                  <Icon
+                    editable={divEditable}
+                    onClick={(e) => {
+                      submitDivs();
+                      setDivEditable(false);
+                    }}
+                    style={{ float: "right" }}
+                  >
+                    check_circle
+                  </Icon>
+                ) : (
+                  <Icon
+                    editable={divEditable}
+                    onClick={(e) => {
+                      setDivEditable(true);
+                    }}
+                    style={{ float: "right" }}
+                  >
+                    edit
+                  </Icon>
+                )}
+              </h5>
             </center>
             <Divider />
             <Table className="mb-4">
-            <Icon
-                editable={proEditable}
-                onClick={makeEditableHandle}
-                style={{ float: "right" }}
-              >
-                edit
-              </Icon>
-              {divEditable == true ? (
+              {divEditable === true ? (
                 <TableBody>
                   <TableRow>
-                    <TableCell className="pl-4">Basic Salary</TableCell>
+                    <TableCell className="pl-4">Choose Division</TableCell>
                     <TableCell>
-                      <TextField
-                        style={{ position: "relative", top: "13px" }}
-                        value={state?.bsalary || ""}
-                        onChange={newHandleChange}
-                        name="bsalary"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell style={{ width: "250px" }} className="pl-4">
-                      Home Rent Allowance (HRA)
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        style={{ position: "relative", top: "13px" }}
-                        value={state?.hrasalary || ""}
-                        onChange={newHandleChange}
-                        name="hrasalary"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="pl-4">
-                      Travel Allowance (TA)
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        style={{ position: "relative", top: "13px" }}
-                        value={state?.tasalary || ""}
-                        onChange={newHandleChange}
-                        name="tasalary"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="pl-4">Gross Salary</TableCell>
-                    <TableCell>
-                      <TextField
-                        style={{ position: "relative", top: "13px" }}
-                        value={state?.grosssalary || ""}
-                        onChange={newHandleChange}
-                        name="grosssalary"
+                      <Autocomplete
+                        multiple
+                        id="multiple-limit-tags"
+                        options={divs}
+                        onChange={(e, newValue) => {
+                          handleDivi(newValue);
+                        }}
+                        getOptionLabel={(option) => option?.name}
+                        value={updateDivs}
+                        // defaultValue={
+                        //     empList[0]?.divisions.map((i)=>{
+                        //         return i
+                        //     })
+                        // }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Divisions"
+                            placeholder="Choose Division"
+                          />
+                        )}
+                        sx={{ width: "500px" }}
                       />
                     </TableCell>
                   </TableRow>
                 </TableBody>
               ) : (
                 <TableBody>
-                    {empList[0]?.divisions?.map((i)=>{
-                        return  <TableRow>
+                  {empList[0]?.divisions?.map((i) => {
+                    return (
+                      <TableRow>
                         <TableCell>{i.name}</TableCell>
                       </TableRow>
-                    })}
-                 
+                    );
+                  })}
                 </TableBody>
               )}
             </Table>
