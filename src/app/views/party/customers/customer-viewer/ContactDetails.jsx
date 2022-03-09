@@ -107,14 +107,11 @@ const ContactDetails = ({ ids }) => {
 
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          customClass: {
-            zIndex: 1000
-          },
-          title: 'Cancelled',
-          icon: 'error'
-
-        })
+        Swal.fire(
+          'Cancelled',
+          'Your Contact Details are safe :)',
+          'error'
+        )
       }
     })
 
@@ -144,7 +141,7 @@ const ContactDetails = ({ ids }) => {
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this contact details!',
+      text: 'You Will Not Be Able To Recover This Contact Details!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -169,11 +166,13 @@ const ContactDetails = ({ ids }) => {
         // For more information about handling dismissals please visit
         // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          '',
-          'error'
-        )
+        
+          Swal.fire(
+            'Cancelled',
+            'Your Contact Details are safe :)',
+            'error'
+          )
+        
       }
     })
 

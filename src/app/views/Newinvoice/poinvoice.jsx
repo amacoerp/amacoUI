@@ -186,7 +186,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
       },
       '#panel': {
-        display: 'none'
+        display: 'none',
+        // pageBreakBefore:'always'
+      },
+      '#annexure':{
+        pageBreakBefore:'always'
       },
       '#edits': {
         visibility: 'hidden'
@@ -213,7 +217,10 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       },
       "#sign": {
 
-        // backgroundColor: "#F8F8F8",
+        // backgroundColor: "red",
+        // height:'300px',
+        paddingTop:'35px'
+      
         // borderTop: "1px solid #E7E7E7",
         // textAlign: "center",
 
@@ -748,7 +755,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
             <Header></Header>
-            <hr></hr>
+            {/* <hr></hr> */}
             <tbody style={{ marginBottom: '50px' }}>
               <tr>
                 <td>
@@ -1022,8 +1029,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       </Table>
 
                     </div>
+                    
                     <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure (1) for terms & condition
-                    <div id="panel" className="pt-2">
+                    <div id="annexure"></div>
+                    <div id="panel" className="pt-2"  >
                       <ExpansionPanel
                         square
                         className="p-4"
@@ -1051,8 +1060,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <br></br>
                     <td id="note" style={{ padding: '1vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
                       {/* <div style={{ breakAfter: 'page' }}></div> */}
-                      <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
-                    <div class="sign" class="onepage">
+                    <div style={{ pageBreakInside: 'auto' }} dangerouslySetInnerHTML={{ __html: content }}></div></td>
+                    <div id="sign" >
                       <p>
                         <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                           <div className="ml-24" style={{ fontWeight: 1000 }}>

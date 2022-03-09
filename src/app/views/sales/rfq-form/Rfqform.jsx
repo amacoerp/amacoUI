@@ -171,7 +171,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const deleteItemFromInvoiceList = (index, id) => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You want to Delete this RFQ Details!',
+      text: 'You Want To Delete This RFQ Details!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -196,7 +196,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your RFQ Details is safe :)',
+          'Your RFQ Details Are safe :)',
           'error'
         )
       }
@@ -318,8 +318,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     tempItemList.map((element, i) => {
       if (index === i) {
-        element['id'] = newValue?.id ? newValue?.id : '';
-        element['product_name'] = newValue?.name ? newValue?.name : newValue;
+        element['id'] = newValue?.id ? newValue?.id : '';//set th product id
+        element['product_name'] = newValue?.name ? newValue?.name : newValue;//set the product name 
 
       }
 
@@ -334,11 +334,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-
+/*Keyboard arrow key handling */
   const controlKeyPress = (e, id, nextid, prev) => {
 
 
-    if (e?.keyCode == 39) {
+    if (e?.keyCode === 39) {
       if (nextid?.includes('purchase_price')) {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
@@ -347,7 +347,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
        
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode === 38) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -360,7 +360,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode === 40) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
     
@@ -396,15 +396,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
   const getContacts = (pid) => {
-    if (pid) {
-      url.get("parties/" + pid).then(({ data }) => {
-        setcustomercontact(data[0]?.contacts);
+    if (pid) {//if partyid exists
+      url.get("parties/" + pid).then(({ data }) => { //Api party details
+        setcustomercontact(data[0]?.contacts);//set the customer contact
 
-        setrfqstatus(true);
+        setrfqstatus(true);//set the rfqstatus to enable the contact details field
       });
 
     } else {
-      setrfqstatus(false);
+      setrfqstatus(false);//set the rfqstatus to disable the contact details field
     }
 
  
@@ -412,7 +412,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const filter = createFilterOptions();
 
-  const filterPrice = (options, params) => {
+
+  /*Filter the product name */
+  const filterProduct = (options, params) => {
 
     const filtered = filter(options, params);
     if (params.inputValue !== " ") {
@@ -425,20 +427,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     return filtered;
 
   };
+  /*Form submit */
   const handleSubmit = () => {
     let arr = []
-    setState({ ...state, loading: true });
-    let tempState = { ...state };
-    let tempItemList = [...state.item];
+    setState({ ...state, loading: true });//set the previous state data and disable the save button 
+    let tempState = { ...state };//assign the previous data to tempState
+    let tempItemList = [...state.item];//assign the previous data to tempItemList
     delete tempState.loading;
-    arr.rfq_details = tempItemList
-    arr.requested_date = rdate
-    arr.require_date = ddate
-    arr.rfqid = id
+    arr.rfq_details = tempItemList//assign the tempItemList to rfq_details
+    arr.requested_date = rdate//assign the rfq date to requested date
+    arr.require_date = ddate//assign the bid closing date to require date
+    arr.rfqid = id//assign the id value to rfqid
 
 
 
-
+/*append the multiple files to the formData */
     for (let a = 0; a < upload.length; a++) {
       formData.append(
         "myFile" + a,
@@ -463,7 +466,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       formData.append('div_id', localStorage.getItem('division'))
       tempItemList.map((answer, i) => {
 
-        formData.append(`file${i}`, answer.files ? answer.files : null)
+        formData.append(`file${i}`, answer.files ? answer.files : null)//append the rfqdetail files to formData
       })
 
       url.post(`rfq`, formData)
@@ -477,7 +480,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           })
             .then((result) => {
 
-              routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`)
+              routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`)//navigate to rfq view
               getrfq()
             })
 
@@ -489,7 +492,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             icon: "warning",
             text: "Something Went Wrong.",
           }).then((result) => {
-            setState({ ...state, loading: false });
+            setState({ ...state, loading: false });//loading button is enabled
           });
         })
     }
@@ -501,31 +504,33 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         icon: 'warning',
         text: 'Please Enter RFQ Details :)',
       })
-      setState({ ...state, loading: false });
+      setState({ ...state, loading: false });//loading button is enabled
 
     }
 
 
   };
+
+  /*get the rfqdetails */
   const getrfq = () => {
     url.get("rfq/" + id).then(({ data }) => {
     
-      setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))
-      setfiles(data[0].files)
+      setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"))//set the rfq date
+      setfiles(data[0].files)//set the files
 
-      setddate(moment(data[0].require_date).format("MMMM DD, YYYY"))
+      setddate(moment(data[0].require_date).format("MMMM DD, YYYY"))//set bid closing date
 
 
 
       setState({
         ...state,
-        item: data[0].rfq_details,
+        item: data[0].rfq_details,//set the rfq_details
       });
     });
 
     url.get("products").then(({ data }) => {
 
-      setProductList(data)
+      setProductList(data)//set the products
     })
   }
  
@@ -536,10 +541,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
-      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setData(data?.uom);
-      setCustomerList(data?.vendor);
+      setproList(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
+      setproListAll(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
+      setData(data?.uom);//set the unit of measure
+      setCustomerList(data?.vendor);//set the customer
     });
 
 
@@ -547,7 +552,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     
 
     
-    return setIsAlive(false)
+    return setIsAlive(false)//The return function is the cleanup function,
   }, [isNewInvoice, isAlive, generateRandomId]);
   
 
@@ -608,7 +613,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     options={CustomerList}
                     style={{ minWidth: 200, maxWidth: "250px" }}
                     getOptionLabel={(option) => option?.firm_name}
-                    filterOptions={filterPrice}
+                    filterOptions={filterProduct}
                     required={true}
                     onChange={(event, newValue) => {
                       setPartyId(newValue?.id ? newValue?.id : 0)
@@ -627,10 +632,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     label="Contact Person"
                     disabled={!rfqstatus}
-                    options={customercontact}
+                    options={customercontact?customercontact:[]}
                     onChange={(e, newValue) => { setContId(newValue?.id) }}
                     style={{ minWidth: 200, maxWidth: "250px" }}
-                    getOptionLabel={(option) => option.fname}
+                    getOptionLabel={(option) => option?.fname?option?.fname:" "}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
                       if (params.inputValue !== " ") {

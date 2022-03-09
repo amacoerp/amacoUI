@@ -278,7 +278,7 @@ const SimpleForm = () => {
 
                   <TextField
                     className="ml-2"
-                    label="VAT number"
+                    label="VAT Number"
                     onChange={e => setvat_no(e.target.value)}
                     name="vat_no"
                     size="small"
@@ -520,7 +520,7 @@ const SimpleForm = () => {
                 <div className="flex mb-4 mt-5">
                   <TextField
                     className="mr-2"
-                    label="Zip_code"
+                    label="Zip Code"
                     variant="outlined"
                     onChange={e => setzip_code(e.target.value)}
                     value={zip_code}

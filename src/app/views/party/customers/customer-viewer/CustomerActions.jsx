@@ -24,7 +24,7 @@ const CustomerActions = ({ ids }) => {
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this Company details!',
+      text: 'You Will Not Be Able To Recover This Company Details!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -36,7 +36,7 @@ const CustomerActions = ({ ids }) => {
 
             Swal.fire(
               'Deleted!',
-              'Your Company details has been deleted.',
+              'Your Company Details Has Been Deleted.',
               'success'
             )
             routerHistory.push(navigatePath + '/party/viewparty')
@@ -49,7 +49,7 @@ const CustomerActions = ({ ids }) => {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your Company Detail is safe :)',
+          'Your Company Details Are Safe :)',
           'error'
         )
       }
@@ -68,7 +68,7 @@ const CustomerActions = ({ ids }) => {
             info
           </Icon>
           <small className="text-muted">
-            Once you delete Party, data will be lost forever.
+            Once You Delete Party, Data Will Be Lost Forever.
           </small>
         </div>
 

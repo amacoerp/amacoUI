@@ -72,7 +72,7 @@ const ProductActions = () => {
             info
           </Icon>
           <small className="text-muted">
-            Once you delete Party, data will be lost forever.
+            Once You Delete Party, Data Will Be Lost Forever.
           </small>
         </div>
 

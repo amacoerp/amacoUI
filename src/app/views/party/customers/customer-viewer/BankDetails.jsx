@@ -93,7 +93,7 @@ const BankDetails = ({ ids }) => {
 
     var res = bankdetails.filter((o1, ind) => data.data.some((o2, i) => ind == o2.index))
     Swal.fire({
-      text: 'Are you sure you want to Delete?',
+      text: 'Are You Sure You Want To Delete?',
       icon: 'warning',
       showCancelButton: true,
       customClass: {
@@ -108,7 +108,7 @@ const BankDetails = ({ ids }) => {
         url.post(`partyDelete_all`, formData).then((response) => {
           Swal.fire(
             'Deleted!',
-            'Bank Details has been deleted.',
+            'Bank Details Has Been Deleted.',
             'success'
           )
           setisAlive(false)
@@ -124,14 +124,19 @@ const BankDetails = ({ ids }) => {
 
       }
       else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          customClass: {
-            zIndex: 1000
-          },
-          title: 'Cancelled',
-          icon: 'error'
+        // Swal.fire({
+        //   customClass: {
+        //     zIndex: 1000
+        //   },
+        //   title: 'Cancelled',
+        //   icon: 'error'
 
-        })
+        // })
+        Swal.fire(
+          'Cancelled',
+          'Your Bank Details Are Safe :)',
+          'error'
+        )
       }
     })
 
@@ -142,7 +147,7 @@ const BankDetails = ({ ids }) => {
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this bank details!',
+      text: 'You Will Not Be Able To Recover This Bank Details!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -169,7 +174,7 @@ const BankDetails = ({ ids }) => {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          '',
+          'Your Bank Details Are safe :)',
           'error'
         )
       }

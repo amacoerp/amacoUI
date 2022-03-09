@@ -104,7 +104,7 @@ const BankDetails = () => {
         
         Swal.fire(
           'Deleted!',
-          'Your bankdetails has been deleted.',
+          'Your Bank Details Has Been Deleted.',
           'success'
         )
        setisAlive(false)
@@ -117,11 +117,13 @@ const BankDetails = () => {
       // For more information about handling dismissals please visit
       // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          '',
-          'error'
-        )
+       
+          Swal.fire(
+            'Cancelled',
+            'Your Bank Details are safe :)',
+            'error'
+          )
+        
       }
     })
     

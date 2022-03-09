@@ -209,6 +209,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
                 type="text"
                 name="cname"
                 value={cname}
+                validators={['required']}
                 errorMessages={["This field is required"]}
                 select
 
@@ -246,7 +247,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
                 fullWidth
                 currencySymbol="SAR"
                 onChange={(event, value) => setcprice(value)}
-                required
+                
               />
 
             </Grid>

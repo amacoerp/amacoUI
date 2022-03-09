@@ -194,7 +194,7 @@ const SimpleMuiTable = () => {
               <Grid key={ind} item xs>
                 <Card
                   elevation={20}
-                  style={{ minWidth: 300, whiteSpace: "pre-line",cursor:'pointer' }}
+                  style={{ minWidth: 300, whiteSpace: "pre-line" }}
                   className="p-2"
                 >
                   <div className="text-right">
@@ -205,7 +205,7 @@ const SimpleMuiTable = () => {
                       onClick={(event) => handleClick(event, item.id)}
                     >
                       <Tooltip title="Subcategory list">
-                        <Icon color="primary" style={{ paddingRight: 12 }}>
+                        <Icon color="primary" style={{ paddingRight: 12 ,cursor:'pointer'}}>
                           expand_more
                         </Icon>
                       </Tooltip>
