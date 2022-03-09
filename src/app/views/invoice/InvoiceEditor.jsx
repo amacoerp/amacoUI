@@ -29,7 +29,7 @@ import {
   GDIV,
 } from "./InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
-import { Autocomplete } from "@material-ui/lab";
+import { Autocomplete,createFilterOptions } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
@@ -140,6 +140,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setupload(listrfq);
   };
 
+  const filter = createFilterOptions();
+
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
     let id = tempId.substr(2, tempId.length - 1);
@@ -198,6 +200,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         },
       ],
       src: "",
+      unit_of_measure: "",
       product_id: "",
       quantity: "",
       updated_at: "2021-01-22T09:51:20.000000Z",
@@ -394,6 +397,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   };
 
+  const [party_id,setparty_id] = useState('')
+
+  const setcontact = (event, newValue) => {
+
+
+    // url.get("parties/" + event.target.value).then(({ data }) => {
+    //   setcustomercontact(data[0].contacts);
+
+    //   setparty_id(event.target.value)
+
+    //   setrfqstatus(true);
+
+
+    // });
+    if (newValue?.id) {
+    
+        setparty_id(newValue?.id)
+        setcname(newValue?.firm_name)
+     
+  }
+  }
+  
+
   /*Submit the data */
   const handleSubmit = () => {
     let arr = [];
@@ -415,6 +441,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       formData.append("requested_date", rdate);
       formData.append("require_date", ddate);
       formData.append("rfq_id", id);
+      formData.append("party_id", party_id);
       formData.append("user_id", user.id);
       formData.append("div_id", localStorage.getItem("division"));
       tempItemList.map((answer, i) => {
@@ -485,6 +512,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   })
   const [data, setData] = useState([])
   const [proListAll, setproListAll] = useState([]);
+  const [CustomerList, setCustomerList] = useState([]);
+
 
   useEffect(() => {
 
@@ -498,6 +527,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
       setData(data?.uom);
+      setCustomerList(data?.vendor);
     });
     // url.get("products").then(({ data }) => {
     //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
@@ -507,6 +537,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("rfq/" + id).then(({ data }) => {
       setcname(data[0].party[0].firm_name);
+      setparty_id(data[0]?.party_id)
       setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"));
       setfiles(data[0].files);
 
@@ -518,9 +549,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       });
     });
 
-    url.get("products").then(({ data }) => {
-      setProductList(data);
-    });
+    // url.get("products").then(({ data }) => {
+    //   setProductList(data);
+    // });
     return setIsAlive(false);
   }, [id, isNewInvoice, isAlive, generateRandomId]);
   // const datas = ProductList.map((guest, index) => {
@@ -587,7 +618,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             <div className="viewer__order-info px-4 mb-4 flex justify-between">
               <div>
-                <TextValidator
+                {/* <TextValidator
                   label="Customer Name."
                   type="text"
                   size="small"
@@ -598,7 +629,34 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   onChange={handleChange}
                   validators={["required"]}
                   errorMessages={["this field is required"]}
-                ></TextValidator>
+                ></TextValidator> */}
+                <Autocomplete
+                  id="filter-demo"
+                  className="pl-2"
+                  variant="outlined"
+                  options={CustomerList}
+                  value={cname}
+
+
+                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== " ") {
+                      filtered.unshift({
+                        inputValue: params.inputValue,
+                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                      });
+                    }
+
+
+                    return filtered;
+                  }}
+                  onChange={(event, newValue) => setcontact(event, newValue)}
+                  size="small"
+                  style={{width:350}}
+                  renderInput={(params) => <TextField {...params}
+                    variant="outlined" label="Vendor Name" />}
+                />
               </div>
               <div className="flex justify-between px-4 mb-4">
                 <div className="flex">
@@ -1043,6 +1101,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 const initialValues = {
   id: "",
   orderNo: "",
+  unit_of_measure: "",
   buyer: {
     name: "",
     address: "",

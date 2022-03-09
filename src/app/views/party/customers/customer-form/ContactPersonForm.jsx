@@ -81,6 +81,7 @@ const ContactPersonForm = ({ values, handleChange }) => {
                       size="small"
                       variant="outlined"
                       fullWidth
+                      type='email'
                       defaultValue={item.email || ""}
                       onBlur={handleChange}
                     />

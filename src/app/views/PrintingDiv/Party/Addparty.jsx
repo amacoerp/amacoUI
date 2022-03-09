@@ -309,8 +309,8 @@ const Addparty = ({ open, handleClose }) => {
                 name="email"
                 size="small"
                 variant="outlined"
-                // validators={["required", "isEmail"]}
-                // errorMessages={["this field is required", "email is not valid"]}
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
                 value={email}
               />
               <div className="flex mb-4">

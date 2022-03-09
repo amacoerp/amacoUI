@@ -355,7 +355,7 @@ const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userL
             onChange={e => setemail(e.target.value)
               // .log(isAlive)
             }
-            type="textarea"
+            type="email"
             name="cname"
             size="small"
             value={email}

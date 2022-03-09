@@ -79,6 +79,7 @@ const ContactPersonForm = ({ values, handleChange }) => {
                       label="Email"
                       name={`contacts[${ind}].email`}
                       size="small"
+                      type='email'
                       variant="outlined"
                       fullWidth
                       defaultValue={item.email || ""}

@@ -81,7 +81,7 @@ const MemberEditorDialog = ({ uid, open, handleClose }) => {
                 className="w-full mb-4"
                 label="Email"
                 onChange={handleChange}
-                type="text"
+                type="email"
                 name="email"
                 value={state?.email}
                 validators={["required"]}

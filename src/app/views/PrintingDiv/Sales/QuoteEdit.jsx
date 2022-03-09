@@ -1689,7 +1689,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                   <p className="mb-6">Quotation Validity:</p>
-                  <p className="mb-8">payment Terms:</p>
+                  <p className="mb-8">Payment Terms:</p>
                   <p className="mb-10">Waranty:</p>
                   <p className="mb-10">Delivery Time:</p>
                   <p className="mb-8">Inco-Term:</p>
@@ -1711,7 +1711,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="payment Terms"
+                    label="Payment Terms"
                     className="mb-4"
                     onChange={e => setpayment_terms(e.target.value)
                     }

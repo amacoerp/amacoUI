@@ -67,11 +67,13 @@ const EmployeeViewer = () => {
 
     };
 
+    const [divs,setDivs] = useState([])
 
     useEffect(() => {
 
         url.get(`getEmp/${localStorage.getItem('division')}`).then(({ data }) => {
             setDataList(data.getData);
+            setDivs(data.divs);
         });
 
         setIsAlive(false)
@@ -264,6 +266,7 @@ const EmployeeViewer = () => {
                     handleClose={handleDialogClose}
                     open={shouldOpenViewDialog}
                     userid={uid}
+                    divs={divs}
                     data={dataList}
                     userList={setUserList}
                 />

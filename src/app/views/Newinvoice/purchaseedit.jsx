@@ -1178,7 +1178,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     className="mb-8"
                     style={{ position: "relative", top: "10px" }}
                   >
-                    payment Terms:
+                    Payment Terms:
                   </p>
                   <p
                     className="mb-8"
@@ -1213,7 +1213,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="payment Terms"
+                    label="Payment Terms"
                     className="mb-4"
                     onChange={(e) => setpayment_terms(e.target.value)}
                     type="text"
