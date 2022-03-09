@@ -1351,7 +1351,7 @@ select
                   variant="outlined"
                   options={CustomerList}
 
-                  style={{ width: 200 }}
+                  style={{ width: 500 }}
                   value={cname}
                   getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
                   filterOptions={(options, params) => {

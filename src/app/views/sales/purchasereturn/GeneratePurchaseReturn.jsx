@@ -811,7 +811,7 @@ select
                                     variant="outlined"
                                     options={values?.vendorList}
 
-                                    style={{ width: 200 }}
+                                    style={{ width: 500 }}
                                     getOptionLabel={(option) => option.firm_name}
                                     filterOptions={(options, params) => {
                                         const filtered = filter(options, params);
@@ -839,7 +839,7 @@ select
                                     variant="outlined"
                                     options={contacts}
 
-                                    style={{ width: 200 }}
+                                    style={{ width: 250 }}
                                     getOptionLabel={(option) => option.fname}
                                     filterOptions={(options, params) => {
                                         const filtered = filter(options, params);

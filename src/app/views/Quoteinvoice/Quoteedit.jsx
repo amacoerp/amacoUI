@@ -1553,7 +1553,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 450, maxWidth: '500px' }}
                   options={CustomerList}
                   value={cname}
 
@@ -1583,7 +1583,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {rfqstatus && <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 250, maxWidth: '300px' }}
                   options={customercontact}
 
                   value={contactname}
@@ -1607,6 +1607,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined" label="Contact Person" />}
                 />}
               </Grid>
+              {!rfqstatus && <Grid item xl></Grid>}
+              <Grid item xl></Grid>
               <Grid item>
                 <TextField
                   name="rfq_no"
@@ -2378,7 +2380,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="Waranty"
+                    label="Warranty"
                     onChange={e => setwarranty(e.target.value)
                     }
                     className="mb-4"
@@ -2480,7 +2482,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div className="flex " >
                   <div className="pr-12">
                     <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
@@ -2599,7 +2601,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="NetTotal"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"

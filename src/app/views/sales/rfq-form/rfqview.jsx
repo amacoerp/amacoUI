@@ -253,7 +253,7 @@ const SimpleMuiTable = () => {
             <Breadcrumb
               routeSegments={[
                 { name: "RFQ", path: navigatePath + "/sales/rfq-form/rfqview" },
-                { name: "VIEW" },
+                { name: "RFQ LIST" },
               ]}
             />
 

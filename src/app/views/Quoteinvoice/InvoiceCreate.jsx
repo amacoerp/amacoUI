@@ -1371,7 +1371,7 @@ select
                   variant="outlined"
                   options={CustomerList}
 
-                  style={{ width: 200 }}
+                  style={{ width: 500 }}
                   getOptionLabel={(option) => option.firm_name}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
@@ -1446,6 +1446,20 @@ select
 
               </Grid>
               <Grid item>
+                <TextField
+
+                  label="P.O Number"
+                  className=""
+                  style={{ minWidth: 250, maxWidth: '300px' }}
+                  name="contact_id"
+                  size="small"
+                  variant="outlined"
+                  value={ponumber}
+                  onChange={(e) => setponumber(e.target.value)}
+
+                />
+              </Grid>
+              <Grid item>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     className=""
@@ -1466,20 +1480,7 @@ select
 
 
               </Grid>
-              <Grid item xs>
-                <TextField
-
-                  label="P.O Number"
-                  className=""
-                  style={{ minWidth: 200, maxWidth: '250px' }}
-                  name="contact_id"
-                  size="small"
-                  variant="outlined"
-                  value={ponumber}
-                  onChange={(e) => setponumber(e.target.value)}
-
-                />
-              </Grid>
+              
             </Grid>
 
             <Divider />

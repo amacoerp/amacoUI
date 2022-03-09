@@ -334,10 +334,29 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
-
+const delay = ms => new Promise(res => setTimeout(res, ms));
 /*Keyboard arrow key handling */
-  const controlKeyPress = (e, id, nextid, prev) => {
+  const controlKeyPress = async (e, id, nextid, prev)  => {
 
+
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
 
     if (e?.keyCode === 39) {
       if (nextid?.includes('purchase_price')) {
@@ -429,7 +448,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   /*Form submit */
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let arr = []
     setState({ ...state, loading: true });//set the previous state data and disable the save button 
     let tempState = { ...state };//assign the previous data to tempState
@@ -572,16 +592,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "RFQ", path: '/sales/rfq-form/rfqview' },
-            { name: "RFQ VIEW", path: navigatePath + `/sales/rfq-form/rfqview` },
-            { name: "RFQ" },
+            { name: "RFQ LIST", path: '/sales/rfq-form/rfqview' },
+            { name: "RFQ ADD", path: '' },
+       
           ]}
         />
       </div>
       <Card elevation={3} className="m-sm-30">
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} autocomplete='off' onError={(errors) => null}>
-            <div className="viewer_actions px-4 flex justify-end">
+          <ValidatorForm
+          onSubmit={e => { e.preventDefault(); }}
+          //  onSubmit={handleSubmit}
+           autocomplete='off' onError={(errors) => null}>
+          <div >
+                <h3 style={{float:'left',}}> &nbsp;&nbsp; &nbsp;CREATE RFQ</h3>
+              </div>
+              <div className="viewer_actions px-4 flex justify-end">
+           
               <div className="mb-6">
                 <Button
                   type="button"
@@ -594,6 +621,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </Button>
                 <Button
                   type="submit"
+                  onClick={(e)=>{handleSubmit(e)}}
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -612,7 +640,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     id="filter-demo"
                     variant="outlined"
                     options={CustomerList}
-                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    style={{ minWidth: 450, maxWidth: "500px" }}
                     getOptionLabel={(option) => option?.firm_name}
                     filterOptions={filterProduct}
                     required={true}
@@ -635,7 +663,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     disabled={!rfqstatus}
                     options={customercontact?customercontact:[]}
                     onChange={(e, newValue) => { setContId(newValue?.id) }}
-                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    style={{ minWidth: 250, maxWidth: "300px" }}
                     getOptionLabel={(option) => option?.fname?option?.fname:" "}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -811,7 +839,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           name="quantity"
                           validators={["isNumber"]}
-
+                          onKeyPress={(e)=> {e.preventDefault()}}
                           errorMessages={["Invalid Number"]}
                           value={item.quantity}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}

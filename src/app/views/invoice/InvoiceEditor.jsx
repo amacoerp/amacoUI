@@ -593,6 +593,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             autocomplete="off"
             onError={(errors) => null}
           >
+             <div >
+                <h3 style={{float:'left',}}> &nbsp;&nbsp; &nbsp;UPDATE RFQ</h3>
+              </div>
             <div className="viewer_actions px-4 flex justify-end">
               <div className="mb-6">
                 <Button
@@ -653,7 +656,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   }}
                   onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
-                  style={{width:350}}
+                  style={{width:500}}
                   renderInput={(params) => <TextField {...params}
                     variant="outlined" label="Vendor Name" />}
                 />

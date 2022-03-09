@@ -777,7 +777,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={values?.vendorList}
 
-                    style={{ position: 'relative', top: '-37px', left: '220px' }}
+                    style={{ position: 'relative', width:'500px', top: '-37px', left: '220px' }}
                     getOptionLabel={(option) => option.firm_name}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -802,7 +802,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={contacts}
 
-                    style={{ position: 'relative', top: '-74px', left: '440px' }}
+                    style={{ position: 'relative',width:'300px', top: '-74px', left: '740px' }}
                     getOptionLabel={(option) => option.fname}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -863,6 +863,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <KeyboardDatePicker
                       className="m-2"
                       margin="none"
+                      style={{position:'relative',top:'-23px'}}
                       label="Date"
                       format="dd MMMM yyyy"
                       inputVariant="outlined"

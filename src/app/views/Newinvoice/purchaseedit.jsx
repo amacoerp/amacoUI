@@ -722,7 +722,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={values?.vendorList}
                   value={cname}
-                  style={{ minWidth: 200, maxWidth: "250px" }}
+                  style={{ minWidth: 500, maxWidth: "500px" }}
                   getOptionLabel={(option) =>
                     option.firm_name ? option?.firm_name : cname
                   }
@@ -766,7 +766,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={contacts}
                   value={contactname}
-                  style={{ minWidth: 200, maxWidth: "250px" }}
+                  style={{ minWidth: 250, maxWidth: "300px" }}
                   getOptionLabel={(option) =>
                     option.fname
                       ? option?.fname
