@@ -558,7 +558,7 @@ const Addparty = ({ open, handleClose }) => {
                   autoComplete="none"
                   label="Street"
                   inputProps={{ style: { textTransform: 'capitalize' } }}
-                  onChange={e => setstreet(e.target.value)}
+                  onChange={(e) => setstreet(e.target.value)}
                   type="text"
                   size="small"
                   variant="outlined"
