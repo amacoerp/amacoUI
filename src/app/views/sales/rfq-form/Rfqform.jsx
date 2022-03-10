@@ -542,8 +542,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
-      setproList(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
-      setproListAll(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))//set the products based on division id
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))//set the products based on division id
+      
       setData(data?.uom);//set the unit of measure
       setCustomerList(data?.vendor);//set the customer
     });
@@ -782,7 +783,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             if (option.inputValue) {
                               return option.inputValue;
                             } 
-                            return option?.name ? option?.name : (item?.product_name ? item?.product_name : " ");
+                            return option?.name ? option?.name : (item?.product_name ? item?.product_name : "");
                           }}
                           freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}

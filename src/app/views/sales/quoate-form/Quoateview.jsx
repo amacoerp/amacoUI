@@ -19,6 +19,7 @@ import {
   TableRow,
   Button
 } from "@material-ui/core";
+import { calculateAmount } from "./Quoateservice";
 
 
 const SimpleMuiTable = () => {
@@ -31,9 +32,57 @@ const SimpleMuiTable = () => {
     top: "0px",
     left: "0px",
     zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    maxWidth: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
+
+  }
+  const subject = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    maxWidth: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
+
+  }
+  const amount = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "150px",
+    maxWidth: "150px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "right",
+    // paddingRight:30
+
+  }
+  const quotedate = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
     position: "sticky",
     backgroundColor: "#fff",
-    width: "400px",
+    width: "200px",
     wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
@@ -46,9 +95,10 @@ const SimpleMuiTable = () => {
     top: "0px",
     left: "0px",
     zIndex: "100",
-    position: "sticky",
+    // position: "sticky",
     backgroundColor: "#fff",
-    width: "140px",
+    maxWidth: "300px",
+    width: "200px",
     wordBreak: "break-word",
 
   }
@@ -199,16 +249,39 @@ const SimpleMuiTable = () => {
       },
     },
     {
+      name: "fname", // field name in the row object
+      label: "SUBJECT", // column title that will be shown in table
+      options: {
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={subject} textAlign="center" >
+              <span textAlign="center">SUBJECT</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
+      },
+    },
+    {
       name: "name",
       label: "Quote Date",
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} >
-              <span style={{ marginLeft: 18 }}>QUOTE DATE</span>
+            <TableCell key={index} style={quotedate} textAlign="center">
+              <span>QUOTE DATE</span>
             </TableCell>
           )
-        }
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
     // {
@@ -224,7 +297,7 @@ const SimpleMuiTable = () => {
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className="pr-2" style={{ width: 200, textAlign: 'right' }}>
+            <TableCell key={index} className="pr-2" style={amount}>
               <span textAlign="right" >AMOUNT</span>
             </TableCell>
           )
@@ -232,6 +305,7 @@ const SimpleMuiTable = () => {
 
         setCellProps: () => ({
           align: "right",
+          
           // paddingLeft:24
         })
       }
@@ -264,8 +338,8 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "right" }} className="pr-8" >
-              <span style={{ marginLeft: 18 }}>ACTION</span>
+            <TableCell key={index} style={{ width:100,textAlign: "right" }} className="pr-8" >
+              <span>ACTION</span>
             </TableCell>
           )
         },
@@ -273,7 +347,7 @@ const SimpleMuiTable = () => {
 
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-              <Link to={navigatePath + "/quote/" + tableMeta.rowData[5] + "/new"}>
+              <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/new"}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -339,11 +413,12 @@ const SimpleMuiTable = () => {
           title={"SALES QUOTATION"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division') && obj.status == "New").map((item, index) => {
-
+            console.log(item)
             return [
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
+              item?.subject,
               moment(item?.created_at).format('DD MMM YYYY'),
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),

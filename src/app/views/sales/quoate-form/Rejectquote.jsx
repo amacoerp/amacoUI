@@ -31,24 +31,73 @@ const RejectQuote = () => {
     top: "0px",
     left: "0px",
     zIndex: "100",
-    position: "sticky",
+    // position: "sticky",
     backgroundColor: "#fff",
-    width: "400px",
+    width: "200px",
+    maxWidth: "200px",
     wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
     hyphens: "auto",
     textAlign: "center",
-    paddingRight: 30
+    // paddingRight:30
+
+  }
+  const subject = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    maxWidth: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
+
+  }
+  const amount = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "150px",
+    maxWidth: "150px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "right",
+    // paddingRight:30
+
+  }
+  const quotedate = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
 
   }
   const columnStyleWithWidth = {
     top: "0px",
     left: "0px",
     zIndex: "100",
-    position: "sticky",
+    // position: "sticky",
     backgroundColor: "#fff",
-    width: "140px",
+    maxWidth: "300px",
+    width: "200px",
     wordBreak: "break-word",
 
   }
@@ -166,7 +215,7 @@ const RejectQuote = () => {
     },
     {
       name: "quotation_no", // field name in the row object
-      label: "Quotation No", // column title that will be shown in table
+      label: "QUOTATION NO", // column title that will be shown in table
       options: {
         filter: true,
         wordBreak: 'break-word',
@@ -182,12 +231,30 @@ const RejectQuote = () => {
     },
     {
       name: "fname", // field name in the row object
-      label: "Company Name", // column title that will be shown in table
+      label: "COMPANY NAME", // column title that will be shown in table
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth1} >
-              <span >COMPANY NAME</span>
+            <TableCell key={index} style={columnStyleWithWidth1} textAlign="center" >
+              <span textAlign="center">COMPANY NAME</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
+      },
+    },
+    {
+      name: "fname", // field name in the row object
+      label: "SUBJECT", // column title that will be shown in table
+      options: {
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={subject} textAlign="center" >
+              <span textAlign="center">SUBJECT</span>
             </TableCell>
           )
         },
@@ -200,9 +267,20 @@ const RejectQuote = () => {
     },
     {
       name: "name",
-      label: "QUOTE DATE",
+      label: "Quote Date",
       options: {
-        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={quotedate} textAlign="center">
+              <span>QUOTE DATE</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
     // {
@@ -218,7 +296,7 @@ const RejectQuote = () => {
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 200, textAlign: 'right' }} className="pr-2">
+            <TableCell key={index} className="pr-2" style={amount}>
               <span textAlign="right" >AMOUNT</span>
             </TableCell>
           )
@@ -226,6 +304,7 @@ const RejectQuote = () => {
 
         setCellProps: () => ({
           align: "right",
+          
           // paddingLeft:24
         })
       }
@@ -253,21 +332,21 @@ const RejectQuote = () => {
     // },
     {
       name: "id",
-      label: "Action",
+      label: "ACTION",
       options: {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-8" >
-              <span style={{ marginLeft: 18 }}>ACTION</span>
+            <TableCell key={index} style={{ width:100,textAlign: "right" }} className="pr-8" >
+              <span>ACTION</span>
             </TableCell>
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
 
           return (
-            <div style={{ textAlign: 'right' }} className="pr-8">
-              <Link to={navigatePath + `/quote/${tableMeta.rowData[5]}/reject`}>
+            <div style={{ textAlign: "right" }} className="pr-8">
+              <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/reject"}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -338,6 +417,7 @@ const RejectQuote = () => {
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
+              item?.subject,
               moment(item?.created_at).format('DD MMM YYYY'),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id

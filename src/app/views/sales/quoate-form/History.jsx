@@ -31,24 +31,73 @@ const History = () => {
     top: "0px",
     left: "0px",
     zIndex: "100",
-    position: "sticky",
+    // position: "sticky",
     backgroundColor: "#fff",
-    width: "400px",
+    width: "200px",
+    maxWidth: "200px",
     wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
     hyphens: "auto",
     textAlign: "center",
-    paddingRight: 30
+    // paddingRight:30
+
+  }
+  const subject = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    maxWidth: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
+
+  }
+  const amount = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    // position: "sticky",
+    backgroundColor: "#fff",
+    width: "150px",
+    maxWidth: "150px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "right",
+    // paddingRight:30
+
+  }
+  const quotedate = {
+    top: "0px",
+    left: "0px",
+    zIndex: "100",
+    position: "sticky",
+    backgroundColor: "#fff",
+    width: "200px",
+    wordBreak: "break-word",
+    // wordWrap: "break-word",
+    // overflowWrap:"break-word",
+    hyphens: "auto",
+    textAlign: "center",
+    // paddingRight:30
 
   }
   const columnStyleWithWidth = {
     top: "0px",
     left: "0px",
     zIndex: "100",
-    position: "sticky",
+    // position: "sticky",
     backgroundColor: "#fff",
-    width: "140px",
+    maxWidth: "300px",
+    width: "200px",
     wordBreak: "break-word",
 
   }
@@ -148,31 +197,26 @@ const History = () => {
   }
   const columns = [
     {
-      name: "id", // field name in the row object
+      name: "id",
       label: "S.NO.",
-      // column title that will be shown in table
       options: {
-        filter: true,
-
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ width: 80 }}>
-              <span style={{ marginLeft: 18 }}>S.NO.</span>
+            <TableCell key={index} style={{ width: 100, textAlign: 'center' }}>
+              <span textAlign="center" >S.NO.</span>
             </TableCell>
           )
-        }
-      },
+        },
 
-      // cellStyle: {
-      //   width: 20,
-      //   maxWidth: 20
-      // },
-
-
+        setCellProps: () => ({
+          align: "center",
+          // paddingLeft:24
+        })
+      }
     },
     {
       name: "quotation_no", // field name in the row object
-      label: "Quotation No", // column title that will be shown in table
+      label: "QUOTATION NO", // column title that will be shown in table
       options: {
         filter: true,
         wordBreak: 'break-word',
@@ -205,19 +249,55 @@ const History = () => {
       },
     },
     {
-      name: "name",
-      label: "QUOTE DATE",
+      name: "fname", // field name in the row object
+      label: "SUBJECT", // column title that will be shown in table
       options: {
-        filter: true,
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={subject} textAlign="center" >
+              <span textAlign="center">SUBJECT</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
+    {
+      name: "name",
+      label: "Quote Date",
+      options: {
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={quotedate} textAlign="center">
+              <span>QUOTE DATE</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
+      },
+    },
+    // {
+    //   name: "require_date",
+    //   label: "AMOUNT",
+    //   options: {
+    //     filter: true,
+    //   },
+    // },
     {
       name: "id",
       label: "AMOUNT",
       options: {
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className="pr-2" style={{ width: 200, textAlign: 'right' }}>
+            <TableCell key={index} className="pr-2" style={amount}>
               <span textAlign="right" >AMOUNT</span>
             </TableCell>
           )
@@ -225,6 +305,7 @@ const History = () => {
 
         setCellProps: () => ({
           align: "right",
+          
           // paddingLeft:24
         })
       }
@@ -236,7 +317,7 @@ const History = () => {
     //     options: {
     //         filter: true,
     //         customBodyRender: (value, tableMeta, updateValue) => {
-    //            
+    //             
     //             return (
     //             <IconButton onClick={() => removeData(tableMeta.rowData[4])
     //             }
@@ -257,16 +338,16 @@ const History = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-8" >
-              <span style={{ marginLeft: 18 }}>ACTION</span>
+            <TableCell key={index} style={{ width:100,textAlign: "right" }} className="pr-8" >
+              <span>ACTION</span>
             </TableCell>
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
 
           return (
-            <div style={{ textAlign: 'right' }} className="pr-8">
-              <Link to={navigatePath + `/quote/${tableMeta.rowData[5]}/history`}>
+            <div style={{ textAlign: "right" }} className="pr-8">
+             <Link to={navigatePath + `/quote/${tableMeta.rowData[6]}/history`}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -337,6 +418,7 @@ const History = () => {
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
+              item?.subject,
               moment(item?.created_at).format('DD MMM YYYY'),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id

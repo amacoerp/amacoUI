@@ -230,6 +230,24 @@ const SimpleMuiTable = () => {
       },
     },
     {
+      name: "fname", // field name in the row object
+      label: "SUBJECT", // column title that will be shown in table
+      options: {
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={columnStyleWithWidth1} textAlign="center" >
+              <span textAlign="center">SUBJECT</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
+      },
+    },
+    {
       name: "name",
       label: "QUOTE DATE",
       options: {
@@ -363,6 +381,7 @@ const SimpleMuiTable = () => {
               ++index,
               item.quotation_no,
               item.party?.firm_name,
+              item?.subject,
               moment(item.created_at).format('DD MMM YYYY'),
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
               parseFloat(item.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
