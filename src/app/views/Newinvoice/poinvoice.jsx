@@ -171,7 +171,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       '#content':{
        
        'paddingLeft':'30px',
-      'fontSize':'14px',
+      'fontSize':'18px',
       
       // 'top':'300px',
        
