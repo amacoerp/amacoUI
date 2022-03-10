@@ -62,8 +62,8 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
     if (contactid) {
       const frmdetails = {
         party_id: foo,
-        fname: fname,
-        lname: lname,
+        fname: fname.toUpperCase(),
+        lname: lname.toUpperCase(),
         designation: designation,
         mobno: contact1,
         landline: contact2,
@@ -72,8 +72,6 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
         prefix: prefix,
         user_id: user.id,
         div_id: localStorage.getItem('division')
-
-
       }
 
 
@@ -193,6 +191,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
               variant="outlined"
               onChange={e => setprefix(e.target.value)}
               value={prefix}
+             
               size="small"
               style={{ width: '180px' }}
               select
@@ -207,9 +206,10 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             <TextValidator
               className="w-full mb-4"
               label="First Name"
-              inputProps={{ style: { textTransform: 'capitalize' } }}
+              inputProps={{required:true, style: { textTransform: 'capitalize' } }}
               size="small"
               variant="outlined"
+              required={true}
               value={fname}
               onChange={e => setfname(e.target.value)
 
@@ -223,8 +223,9 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
           <TextValidator
             className="w-full mb-4"
             label="Last Name"
-            inputProps={{ style: { textTransform: 'capitalize' } }}
+            inputProps={{ required:true, style: { textTransform: 'capitalize' } }}
             size="small"
+            required={true}
             variant="outlined"
             onChange={e => setlname(e.target.value)
 
