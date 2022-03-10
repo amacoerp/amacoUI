@@ -1547,7 +1547,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <TextField
                   name="rfq_no"
                   value={rfq_no}
-                  className=""
+                  className="pr-4"
                   label="RFQ No"
                   size="small"
                   variant="outlined"
@@ -1564,7 +1564,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Grid item xs >
                 <MuiPickersUtilsProvider  utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    className=""
+                    className="pr-4"
                     margin="none"
                     label="Quote Date"
                     format="dd MMMM yyyy"

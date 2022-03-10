@@ -131,6 +131,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { user } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [qstatus, setqstatus] = React.useState();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenEditorDialogproduct, setshouldOpenEditorDialogproduct] = useState(false);
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'));
@@ -382,7 +383,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     let tempItemList = [...state.item];
     let lastIndex = Object.keys(arr).length - 1;
-    let lastIndexarr = lastIndex < 0 ? -1 : tempItemList[lastIndex]?.index1;
+    let lastIndexarr = lastIndex < 0 ? 0 : tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       id: null,
@@ -972,6 +973,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('other', other)
     formData.append('user_id', user.id)
     formData.append('status', 'New')
+    formData.append('qstatus', qstatus)
     formData.append('div_id', localStorage.getItem('division'))
     // JSON.stringify(values.rfq_details)
 
@@ -1178,7 +1180,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
       setProductList1(data[0]?.quotation_details[0]?.product_price_list)
-      if (data[0].quotation_details[0]?.product_price_list) {
+      if (data[0].qstatus) {
         setquickstatus(true)
       }
       if (data[0]?.contact !== null) {
@@ -1552,7 +1554,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Grid item xs>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    className=""
+                    className="pr-4"
                     margin="none"
                     label="Quote Date"
                     format="dd MMMM yyyy"

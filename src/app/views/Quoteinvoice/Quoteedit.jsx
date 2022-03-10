@@ -353,7 +353,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const addItemToInvoiceList = (arr) => {
     let tempItemList = [...state.item];
     let lastIndex = Object.keys(arr).length - 1;
-    let lastIndexarr = lastIndex < 0 ? -1 : tempItemList[lastIndex]?.index1;
+    let lastIndexarr = lastIndex < 0 ? 0 : tempItemList[lastIndex]?.index1;
 
     tempItemList.push({
       id: null,
@@ -1157,7 +1157,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       setProductList1(data?.sales?.quotation_details[0]?.product_price_list)
 
-      if (data?.sales?.qstatus) {
+      if (parseInt(data?.sales?.qstatus)) {
         setquickstatus(true)
       }
       if (data?.sales?.contact !== null) {
@@ -1630,7 +1630,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <Grid item xs>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    className=""
+                    className="pr-4"
                     margin="none"
                     label="Quote Date"
                     format="dd MMMM yyyy"
