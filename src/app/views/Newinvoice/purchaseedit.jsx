@@ -706,7 +706,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -744,7 +744,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={values?.vendorList}
                   value={cname}
-                  style={{ minWidth: 500, maxWidth: "500px" }}
+                  style={{ minWidth: 350, maxWidth: "350px" }}
                   getOptionLabel={(option) =>
                     option.firm_name ? option?.firm_name : cname
                   }

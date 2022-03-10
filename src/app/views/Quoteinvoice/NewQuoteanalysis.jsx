@@ -1485,7 +1485,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 500, maxWidth: '550px' }}
+                  style={{ minWidth: 360, maxWidth: '550px' }}
                   options={CustomerList}
 
 
@@ -1591,7 +1591,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 type="text"
                 variant="outlined"
                 size="small"
-                style={{ width: 500 }}
+                style={{ width: 360 }}
                 onChange={e => setsubject(e.target.value)
                 }
                 value={subject}
