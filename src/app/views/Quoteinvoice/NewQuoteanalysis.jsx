@@ -1077,7 +1077,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let user_val = data?.users?.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
       setusers(data?.users)
-      setproList(data?.products)
+      setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
     })
 
 

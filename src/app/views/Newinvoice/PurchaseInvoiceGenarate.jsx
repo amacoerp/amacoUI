@@ -254,6 +254,24 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const controlKeyPress = (e, id, nextid, prev) => {
 
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
 
     if (e?.keyCode == 39) {
       if (false) {
@@ -772,7 +790,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     let tempItemList = [...state.item];
@@ -1196,7 +1215,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     <div className="m-sm-30">
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off"
+            onSubmit={e => { e.preventDefault(); }}
+          onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left">  PURCHASE INVOICE</h3>
@@ -1218,6 +1239,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className="py-2"
                   variant="outlined"
                   color="primary"
+                   onClick={(e)=>{handleSubmit(e)}}
                   disabled={loading}
                 >
                   <Icon>save</Icon> SAVE & PRINT INVOICE

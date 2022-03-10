@@ -562,8 +562,8 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
   useEffect(() => {
 
     url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
-      setproList(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
-      setproListAll(data?.products.filter(obj => obj.div_id === localStorage.getItem('division')))//set the products based on division id
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))//set the products based on division id
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))//set the products based on division id
       setData(data?.uom);//set the unit of measure
       setCustomerList(data?.vendor);//set the customer
     });
@@ -839,7 +839,6 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
                           size="small"
                           name="quantity"
                           validators={["isNumber"]}
-                          onKeyPress={(e)=> {e.preventDefault()}}
                           errorMessages={["Invalid Number"]}
                           value={item.quantity}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'product_id') }}

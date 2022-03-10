@@ -345,6 +345,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Key board event function */
   const controlKeyPress = (e, id, nextid, prev) => {
+
+    if(e.key === 'Enter'){
+     
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
     if (e?.keyCode == 39) {
       if (nextid?.includes("purchase_price")) {
         priceRef[parseInt(nextid)].focus();

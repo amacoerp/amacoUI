@@ -755,7 +755,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
             <Header></Header>
-            {/* <hr></hr> */}
+            <hr />
+            {/* <div className="dividerLine" style={{borderTop:'1px solid red'}}></div> */}
             <tbody style={{ marginBottom: '50px' }}>
               <tr>
                 <td>
