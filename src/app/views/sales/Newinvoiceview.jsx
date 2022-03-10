@@ -43,7 +43,7 @@ const SimpleMuiTable = () => {
     zIndex: "100",
     position: "sticky",
     backgroundColor: "#fff",
-    width: "480px",
+    width: "550px",
     wordBreak: "break-all",
     textAlign: "center"
   }
@@ -165,7 +165,7 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center" }} >
+            <TableCell key={index} style={{ textAlign: "center",maxWidth:150,width:150 }} >
               <span >PO NUMBER</span>
             </TableCell>
           )

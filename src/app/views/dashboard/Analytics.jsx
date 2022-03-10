@@ -336,7 +336,7 @@ const Analytics = () => {
             </MuiPickersUtilsProvider>
           </div>
           <div>
-            Last 12 months sales
+            LAST 12 MONTHS MONTHS SALES
 
 
           </div>

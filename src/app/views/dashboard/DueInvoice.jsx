@@ -159,7 +159,7 @@ return(
 
     <div>
         <MUIDataTable
-        title="Due Statements"
+        title="DUE STATEMENTS"
         data={
           accountStatement.map((item, index) => {
            
@@ -167,7 +167,7 @@ return(
               return [
         
                 ++index,
-                item[0].party?.firm_name?.toLowerCase(),
+                item[0].party?.firm_name?.toUpperCase(),
                 parseFloat(item?.debit-item?.credit).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 }),
