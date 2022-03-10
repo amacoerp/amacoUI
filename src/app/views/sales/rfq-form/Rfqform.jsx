@@ -629,7 +629,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
                 <div style={{ marginLeft: 9 }}>
 
-                  <Autocomplete
+                  {/* <Autocomplete
                     id="filter-demo"
                     variant="outlined"
                     label="Contact Person"
@@ -653,7 +653,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     size="small"
                     renderInput={(params) => <TextField {...params} maxHeight="10px"
                       variant="outlined" label="Contact Person" />}
-                  />
+                  /> */}
 
                 </div>
               </div>
