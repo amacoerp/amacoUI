@@ -719,7 +719,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <Button
-                  // type="submit"
+                  type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -793,7 +793,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={values?.vendorList}
 
-                    style={{ position: 'relative', width:'350px', top: '-37px', left: '220px' }}
+                    // style={{ position: 'relative', width:'500px', top: '-37px', left: '220px' }}
                     getOptionLabel={(option) => option.firm_name}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -819,7 +819,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={contacts}
 
-                    style={{ position: 'relative',width:'250px', top: '-74px', left: '620px' }}
+                    // style={{ position: 'relative',width:'300px', top: '-74px', left: '740px' }}
                     getOptionLabel={(option) => option.fname}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
