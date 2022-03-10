@@ -115,13 +115,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
   "@global": {
 
-    '#content':{
-        '& ul':{
-       'paddingTop':'30px'
-          
-        }
-      },
-
+  
     "@media print": {
 
 
@@ -174,6 +168,27 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 
       },
+      '#content':{
+       
+       'paddingLeft':'30px',
+      'fontSize':'14px',
+      
+      // 'top':'300px',
+       
+          
+        
+      },
+      '#half':{
+       
+        height:'100%', 
+        margin: '0 !important', 
+        padding: '0 !important',
+        overflow: 'hidden',
+      
+           
+         
+       },
+
       ".header": {
         position: "fixed",
         // height: "100px",
@@ -375,7 +390,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-    totalPages = totalPages - 2
+    totalPages = totalPages - 2+1
     let a = [];
     for (var i = 0; i < totalPages; i++) {
       var j = i;
@@ -449,18 +464,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
       // annexure
-      setContent(`<p>&nbsp;</p>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ANNEXURE (1)</strong></p>
-      <p><strong>DELIVERY TIME</strong> &nbsp; &nbsp; &nbsp; &nbsp; : Within 2-3 Days from the Date of PO&nbsp;</p>
-      <p><strong>FREIGHT TYPE</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Air Freight&nbsp;</p>
-      <p><strong>INCO TERMS</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : DDP-Delivery Duty Paid To Customer Office&nbsp;</p>
-      <p><strong>PAYMENT TERMS</strong> &nbsp; &nbsp; : 100% Advance<br>&nbsp;</p>
+      setContent(`<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ANNEXURE (1)</strong></p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;DELIVERY TIME</strong> &nbsp; &nbsp; &nbsp; &nbsp; : Within 2-3 Days from the Date of PO&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;FREIGHT TYPE</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Air Freight&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;INCO TERMS</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : DDP-Delivery Duty Paid To Customer Office&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;PAYMENT TERMS</strong> &nbsp; &nbsp; : 100% Advance<br>&nbsp;</p>
       <ul>
         <li>Purchase order acknowledgment – Acknowledgement of PO with 1 day of issuance is mandatory on supplier. The acknowledgement must be done by signing and stamping a copy of our PO.<br>&nbsp;</li>
         <li>Specification – It is requested to provide exact specification of material as mentioned in the purchase order, any deviation other than mentioned in PO, must be approved with amendment in purchase order.<br>&nbsp;</li>
-      </ul>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The material should be as per your quotation / Pro forma / Invoice.</strong></p>
-      <ul>
+        <li><strong>The material should be as per your quotation / Pro forma / Invoice.</strong><br>&nbsp;</li>
         <li>Packing – All materials must be packed in sea-worthy or air-worthy with protection against corrosion, weather and damage.<br>&nbsp;</li>
         <li><strong>Country of origin labels </strong>– Country of origin labels ‘’non-removable’’ type must be sticked to all materials in shipment. Failing which customs department in Saudi Arabia will levy penalty of SAR 7,000/- per shipment and shipment will be shipped back. All the charges towards penalty, shipment, and other expenses to be borne by supplier.<br>&nbsp;</li>
         <li>The container must have label indicating the contains of goods in the container and its origin Supplier shall furnish AMACO with all the required and customary certifications, test data, manuals, certificates and technical information and documentation relating to work; including (but not limited) to certificates of origin, weight certificates material test certificate, NDT, pressure test, etc as specified in the PO.<br>&nbsp;</li>
@@ -476,7 +488,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         <li>Shipping documents – A copy of shipping documents must be sent before attestation for review and confirmation. In case the shipment is sent without review of shipping documents, any demurrage or penalties resulting due to discrepancy in shipping documents, must be borne by supplier.<br>&nbsp;</li>
         <li><strong>Country of Origin</strong> – Materials of origin like China and East Europe are not acceptable unless clearly mentioned in purchase order. In the event of supplier sending the material with origin other than agreed in the Purchase order, AMACO reserves the right to reject the material and claim for return of payments made.<br>&nbsp;</li>
         <li>AMACO shall be entitled to inspect and/or test (or arrange for independent inspection/testing) the work at supplier’s facilities prior to and/or at delivery/completion in order to ensure that they conform to the Specifications. In the event that the inspection shows that work do not conform to the specifications or requirements of the PO, AMACO shall be entitled to reject the delivery and cancel the purchase agreement forthwith.<br>&nbsp;</li>
-        <li>Quality &amp; Warranty - The work shall conform in all respects to the quality requirements and specifications set out in the PO; and if not specified, to the normal and customary specifications or quality of such goods, or in the case of services; in accordance with accepted industry practices and any applicable professional standards and codes.<br>
+        <li>Quality &amp; Warranty - The work shall conform in all respects to the quality requirements and specifications set out in the PO; and if not specified, to the normal and customary specifications or quality of such goods, or in the case of services; in accordance with accepted industry practices and any applicable professional standards and codes.<br><br>
           <ul>
             <li>Supplier may not change the Specifications, material or manufacturing processes without the prior written consent of AMACO.</li>
             <li>Supplier warrants and guarantees that the Work will be free from faulty design, defects (whether patent or latent), in material and workmanship (fair wear and tear excluded) and fit for the intended purpose for a period of at least eighteen (18) months after acceptance or twelve (12) months from use, installation commissioning (whichever is the latest).</li>
@@ -804,7 +816,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             <tbody style={{ marginBottom: '50px' }}>
               <tr>
                 <td>
-                  <div className="viewer__order-info px-4 mb-4 pt-5 flex justify-between">
+                  <div className="viewer__order-info pl-3 mb-4 pt-5 flex justify-between">
                     <div className="ml-2">
                       <h3 style={{ fontSize: 20 }}><strong>PURCHASE ORDER</strong></h3>
 
@@ -1103,9 +1115,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
 
                     <br></br>
+                    <div id="half">
                     <td id="note" style={{ padding: '1vh', pageBreakInside: 'auto', visibility: 'hidden' }} >
                       {/* <div style={{ breakAfter: 'page' }}></div> */}
-                    <div style={{ pageBreakInside: 'auto' }}  id="content" dangerouslySetInnerHTML={{ __html: content }}></div>
+                    <div style={{ pageBreakInside: 'auto' }}  dangerouslySetInnerHTML={{ __html: content }} id="content"></div>
                     </td>
                     <div id="sign" >
                       <p>
@@ -1145,6 +1158,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </div>
                         </div>
                       </p>
+                    </div>
                     </div>
                     <div class="onepage"></div>
 

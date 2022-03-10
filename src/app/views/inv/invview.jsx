@@ -468,9 +468,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             <tbody>
               <tr>
                 <td>
-                  <div className="px-4 flex justify-between">
+                  <div className="flex justify-between">
                     <div className="flex">
-                      <div className="pl-2 mb-4">
+                      <div className="pl-5 mb-4">
                         <h3 style={{ fontSize: 20 }}><strong>DELIVERY NOTE</strong></h3>
                         {/* <h4>DELIVERY NOTE</h4> */}
                         {vat}
