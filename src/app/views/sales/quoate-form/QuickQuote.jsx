@@ -944,6 +944,32 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
 
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      let r;
+      if(localStorage.getItem('division') == 3){
+         r = ++i + 'descriptionss';
+      }else{
+         r = ++i + 'description';
+      }
+     
+      // console.log(r)
+        try {
+          addItemToInvoiceList(invoiceItemList);
+          // if (r.includes('product_id')) {
+            // inputRef[parseInt(++i)].focus();
+
+            console.log(getRef(r).current?.focus())
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
 
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
@@ -1383,7 +1409,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.QuickQuote)}>
-          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off"  onSubmit={e => { e.preventDefault(); }}  onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1415,7 +1441,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </Button>
                 </label>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
@@ -1426,7 +1452,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"

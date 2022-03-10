@@ -658,6 +658,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+
+
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
         // if (false) {
@@ -729,6 +749,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
+
+  
   const [getRef, setRef] = useDynamicRefs();
 
   let inputRef = [];
@@ -856,7 +878,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let mode = "full"
     updateSidebarMode({ mode })
     // setState({ ...state, ['subTotalCost']: subTotalCost });
@@ -1306,7 +1329,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm  onSubmit={e => { e.preventDefault(); }}  onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES INVOICE</h3>
@@ -1324,11 +1347,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
+                  onClick={(e) => handleSubmit(e)}
                 >
                   <Icon>save</Icon> SAVE & PRINT INVOICE
                 </Button>

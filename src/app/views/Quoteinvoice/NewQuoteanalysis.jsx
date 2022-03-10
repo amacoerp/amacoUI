@@ -238,6 +238,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let priceRef = [];
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList(invoiceItemList);
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
         // if (false) {
@@ -884,7 +901,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const handleSubmit = (s) => {
+  const handleSubmit = (e,s) => {
+    e.preventDefault();
     let mode = "full"
     updateSidebarMode({ mode })
 
@@ -1303,7 +1321,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1319,23 +1337,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={() => handleSubmit('draft')}
+                  onClick={(e) => handleSubmit(e,'draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={() => handleSubmit('New')}
+                  onClick={(e) => handleSubmit(e,'New')}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
