@@ -346,7 +346,7 @@ const SimpleMuiTable = () => {
 
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-               <Link to={navigatePath + "/Quoteedit/" + tableMeta.rowData[5]}>
+               <Link to={navigatePath + "/Quoteedit/" + tableMeta.rowData[6]}>
                 <Tooltip title="Edit">
                   <Icon color="secondary">edit</Icon>
                 </Tooltip>

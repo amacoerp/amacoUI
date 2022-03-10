@@ -1157,7 +1157,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       setProductList1(data?.sales?.quotation_details[0]?.product_price_list)
 
-      if (data?.sales?.quotation_details?.product_price_list) {
+      if (data?.sales?.qstatus) {
         setquickstatus(true)
       }
       if (data?.sales?.contact !== null) {
