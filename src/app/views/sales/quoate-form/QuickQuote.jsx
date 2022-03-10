@@ -896,6 +896,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('user_id', user.id)
     formData.append('status', s)
     formData.append('div_id', localStorage.getItem('division'))
+    formData.append('qstatus', '0')
 
 
     tempItemList.map((answer, i) => {
