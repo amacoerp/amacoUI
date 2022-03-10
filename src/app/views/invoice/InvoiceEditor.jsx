@@ -627,9 +627,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
+                  onClick={(e)=>{handleSubmit(e)}}
                   color="primary"
                   disabled={loading}
                 >

@@ -47,7 +47,7 @@ const AccountStatement =()=>{
               filter: true,
               customHeadRender: ({index, ...column}) =>{
                 return (
-                  <TableCell key={index}  style={{textAlign:"center"}} >  
+                  <TableCell key={index}  style={{textAlign:"center",textTransform:'uppercase'}} >  
                     <span  >NAME</span> 
                   </TableCell>
                 )
@@ -115,7 +115,7 @@ return(
 
     <div>
         <MUIDataTable
-        title="Account Statements"
+        title="ACCOUNT STATEMENTS"
         data={
           accountStatement.map((item, index) => {
            
@@ -123,7 +123,7 @@ return(
               return [
         
                 ++index,
-                item.name?.toLowerCase(),
+                item.name?.toUpperCase(),
                 parseFloat(item?.balance).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 })

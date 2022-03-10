@@ -1260,8 +1260,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
+                  onClick={(e)=>{handleSubmit()}}
                   variant="outlined"
                   color="primary"
                   disabled={loading}

@@ -839,7 +839,7 @@ select
                                 <TextField
 
                                     label="Customer Name"
-                                    style={{ minWidth: 450, maxWidth: '500px' }}
+                                    style={{ minWidth: 400, maxWidth: '400px' }}
                                     name="party_id"
                                     size="small"
                                     inputProps={{

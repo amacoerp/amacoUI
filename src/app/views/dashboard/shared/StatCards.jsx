@@ -96,7 +96,7 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>receipt</Icon>
             <div className="ml-3">
-              <small className="text-muted">Quotation Request</small>
+              <small className="text-muted">QUOTATION REQUEST</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{requestedquoteCount}</h6>
             </div>
           </div>
@@ -116,7 +116,7 @@ const StatCards = () => {
             <Icon className={classes.icon}>hourglass_empty</Icon>
             <div className="ml-3">
               <small className="text-muted line-height-1">
-                Pending Quotation
+                PENDING QUOTATION
               </small>
               <h6 className="m-0 mt-1 text-primary font-medium">{acceptquoteCount}</h6>
             </div>
@@ -136,7 +136,7 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>dvr</Icon>
             <div className="ml-3">
-              <small className="text-muted">Total Sales</small>
+              <small className="text-muted">TOTAL SALES</small>
               <h6 className="m-0 mt-1 text-primary font-medium">
                 {salesCount}
               </h6>
@@ -157,7 +157,7 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>monetization_on</Icon>
             <div className="ml-3">
-              <small className="text-muted">Revenue</small>
+              <small className="text-muted"> REVENUE</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>

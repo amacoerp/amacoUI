@@ -113,7 +113,7 @@ return(
 
     <div>
         <MUIDataTable
-        title="Expense"
+        title="EXPENCE"
         data={
           accountStatement.map((item, index) => {
            
@@ -121,7 +121,7 @@ return(
               return [
         
                 ++index,
-                item?.name,
+                item?.name?.toUpperCase(),
                 parseFloat(item?.count).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 }),

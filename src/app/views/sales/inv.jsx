@@ -48,7 +48,8 @@ const useStyles = makeStyles(theme => ({
     zIndex: "100",
     position: "sticky",
     backgroundColor: "#fff",
-    width: "300px",
+    width: "420px",
+    maxWidth: "420px",
     wordBreak: "break-word",
     hyphens: "auto",
     textAlign: "center",
@@ -181,6 +182,14 @@ const SimpleMuiTable = () => {
       label: "INVOICE NUMBER", // column title that will be shown in table
       options: {
         filter: true,
+
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align='center' style={{maxWidth:150,width:150}} inputProps={{ style: { textTransform: 'capitalize' } }}>
+              <span>INVOICE NUMBER</span>
+            </TableCell>
+          )
+        },
       },
     },
     {
@@ -188,6 +197,19 @@ const SimpleMuiTable = () => {
       label: "PO NUMBER", // column title that will be shown in table
       options: {
         filter: true,
+        
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} align='center' style={{maxWidth:150,width:150}} inputProps={{ style: { textTransform: 'capitalize' } }}>
+              <span>PO NUMBER</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break'
+        })
       },
     },
     {
@@ -197,7 +219,7 @@ const SimpleMuiTable = () => {
 
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className={classes.columnStyleWithWidth} inputProps={{ style: { textTransform: 'capitalize' } }}>
+            <TableCell key={index} align='center' className={classes.columnStyleWithWidth} inputProps={{ style: { textTransform: 'capitalize' } }}>
               <span>COMPANY NAME</span>
             </TableCell>
           )
@@ -216,7 +238,7 @@ const SimpleMuiTable = () => {
 
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} className={classes.columnStyleWithWidth} inputProps={{ style: { textTransform: 'capitalize' } }}>
+            <TableCell key={index} align='center' style={{maxWidth:150,width:150}} inputProps={{ style: { textTransform: 'capitalize' } }}>
               <span>ISSUE DATE</span>
             </TableCell>
           )

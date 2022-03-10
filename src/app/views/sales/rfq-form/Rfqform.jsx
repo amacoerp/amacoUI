@@ -620,7 +620,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
                   <Icon>cancel</Icon> CANCEL
                 </Button>
                 <Button
-                  type="submit"
+                  // type="submit"
                   onClick={(e)=>{handleSubmit(e)}}
                   className="py-2"
                   variant="outlined"

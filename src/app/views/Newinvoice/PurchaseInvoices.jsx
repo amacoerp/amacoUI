@@ -48,7 +48,8 @@ const useStyles = makeStyles(theme => ({
         zIndex: "100",
         position: "sticky",
         backgroundColor: "#fff",
-        width: "300px",
+        width: "425px",
+        maxWidth: "425px",
         wordBreak: "break-word",
         hyphens: "auto",
         textAlign: "center",
@@ -183,6 +184,13 @@ const SimpleMuiTable = () => {
             label: "PO NUMBER", // column title that will be shown in table
             options: {
                 filter: true,
+                customHeadRender: ({ index, ...column }) => {
+                    return (
+                        <TableCell key={index} align='center' style={{ width: 140,maxWidth:140 }}>
+                            <span className="pl-2">PO NUMBER</span>
+                        </TableCell>
+                    )
+                }
             },
         },
         {
@@ -190,6 +198,13 @@ const SimpleMuiTable = () => {
             label: "INVOICE NUMBER", // column title that will be shown in table
             options: {
                 filter: true,
+                customHeadRender: ({ index, ...column }) => {
+                    return (
+                        <TableCell key={index} align='center' style={{ width: 140,maxWidth:140 }}>
+                            <span className="pl-2">INVOICE NUMBER</span>
+                        </TableCell>
+                    )
+                }
             },
         },
         {
@@ -218,7 +233,7 @@ const SimpleMuiTable = () => {
 
                 customHeadRender: ({ index, ...column }) => {
                     return (
-                        <TableCell key={index} className={classes.columnStyleWithWidth} inputProps={{ style: { textTransform: 'capitalize' } }}>
+                        <TableCell key={index} align='center' style={{width:150,maxWidth:150}} inputProps={{ style: { textTransform: 'capitalize' } }}>
                             <span>ISSUE DATE</span>
                         </TableCell>
                     )
