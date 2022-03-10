@@ -153,7 +153,7 @@ const ContactDetails = ({ ids }) => {
 
             Swal.fire(
               'Deleted!',
-              'Your Contactdetails has been deleted.',
+              'Your Contact Details has been deleted.',
               'success'
             )
             getData();
