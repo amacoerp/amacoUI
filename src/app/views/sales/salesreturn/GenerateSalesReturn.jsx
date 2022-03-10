@@ -176,7 +176,23 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const controlKeyPress = (e, id, nextid, prev) => {
 
-
+        if(e.key === 'Enter'){
+     
+            const a = id.split(parseInt(id));
+            let i = parseInt(id)
+            // const r = ++i + 'product_id';
+            // console.log(r)
+              try {
+                addItemToInvoiceList();
+                // if (r.includes('product_id')) {
+                  inputRef[parseInt(++i)].focus();
+               
+                // }
+              } catch (error) {
+               
+              }
+            //  inputRef[parseInt(r)].focus();
+          }
         if (e?.keyCode == 39) {
             if (nextid?.includes('product_id')) {
                 proRef[parseInt(nextid)].focus();
@@ -680,7 +696,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             <Card elevation={3}>
                 <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-                    <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+                    <ValidatorForm onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
                         <div className="viewer_actions px-4 flex justify-between">
                             <div className="mb-6">
                                 <h4 align="left"> CREATE SALES RETURN</h4>
@@ -698,9 +714,10 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                                 <Button
-                                    type="submit"
+                                    // type="submit"
                                     className="py-2"
                                     variant="outlined"
+                                    onClick={(e)=>{handleSubmit()}}
                                     color="primary"
                                     disabled={loading}
                                 >
@@ -771,7 +788,7 @@ select
                                     variant="outlined"
                                     options={CustomerList}
 
-                                    style={{ width: 200 }}
+                                    style={{ width: 500 }}
                                     getOptionLabel={(option) => option.firm_name}
                                     filterOptions={(options, params) => {
                                         const filtered = filter(options, params);

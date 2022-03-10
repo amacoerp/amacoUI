@@ -2213,7 +2213,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
                   <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
-                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Waranty:</p>
+                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Warranty:</p>
                   <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
                   <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
                   <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>
@@ -2248,7 +2248,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="Waranty"
+                    label="Warranty"
                     onChange={e => setwarranty(e.target.value)
                     }
                     className="mb-4"
@@ -2345,7 +2345,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div className="flex " >
                   <div className="pr-12">
                     <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
@@ -2463,7 +2463,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="NetTotal"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"

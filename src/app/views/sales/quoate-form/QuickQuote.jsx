@@ -944,6 +944,32 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
 
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      let r;
+      if(localStorage.getItem('division') == 3){
+         r = ++i + 'descriptionss';
+      }else{
+         r = ++i + 'description';
+      }
+     
+      // console.log(r)
+        try {
+          addItemToInvoiceList(invoiceItemList);
+          // if (r.includes('product_id')) {
+            // inputRef[parseInt(++i)].focus();
+
+            console.log(getRef(r).current?.focus())
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
 
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
@@ -1383,7 +1409,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.QuickQuote)}>
-          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off"  onSubmit={e => { e.preventDefault(); }}  onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1415,7 +1441,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </Button>
                 </label>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
@@ -1426,7 +1452,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -1447,7 +1473,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 500, maxWidth: '500px' }}
                   options={CustomerList}
 
 
@@ -1477,7 +1503,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {rfqstatus && <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 250, maxWidth: '300px' }}
                   options={customercontact}
 
 
@@ -1501,6 +1527,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined" label="Contact Person" />}
                 />}
               </Grid>
+              {!rfqstatus &&   <Grid item xl></Grid>}
+              <Grid item xl></Grid>
               <Grid item>
                 <TextField
                   name="rfq_no"
@@ -2183,7 +2211,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   // errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="Waranty"
+                    label="Warranty"
                     onChange={e => setwarranty(e.target.value)
                     }
                     className="mb-4"
@@ -2285,7 +2313,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div className="flex " >
                   <div className="pr-12">
                     <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
@@ -2404,7 +2432,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="NetTotal"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"

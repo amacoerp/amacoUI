@@ -831,7 +831,7 @@ select
                                 <TextField
 
                                     label="Vendor Name"
-                                    style={{ minWidth: 200, maxWidth: '250px' }}
+                                    style={{ minWidth: 500, maxWidth: '500px' }}
                                     name="party_id"
                                     size="small"
                                     readOnly
@@ -869,7 +869,7 @@ select
 
                                         label="Contact Person"
                                         className="ml-2"
-                                        style={{ minWidth: 200, maxWidth: '250px' }}
+                                        style={{ minWidth: 250, maxWidth: '250px' }}
                                         name="contact_id"
                                         size="small"
                                         variant="outlined"

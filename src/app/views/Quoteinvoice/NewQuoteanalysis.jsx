@@ -238,6 +238,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let priceRef = [];
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList(invoiceItemList);
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
         // if (false) {
@@ -884,7 +901,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const handleSubmit = (s) => {
+  const handleSubmit = (e,s) => {
+    e.preventDefault();
     let mode = "full"
     updateSidebarMode({ mode })
 
@@ -1077,7 +1095,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let user_val = data?.users?.filter(obj => obj.user_id == user.id)
       setsign(user_val[0].id)
       setusers(data?.users)
-      setproList(data?.products)
+      setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
     })
 
 
@@ -1303,7 +1321,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES QUOTATION</h3>
@@ -1319,23 +1337,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={() => handleSubmit('draft')}
+                  onClick={(e) => handleSubmit(e,'draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={() => handleSubmit('New')}
+                  onClick={(e) => handleSubmit(e,'New')}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
@@ -1467,7 +1485,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 500, maxWidth: '550px' }}
                   options={CustomerList}
 
 
@@ -1497,7 +1515,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {rfqstatus && <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 200, maxWidth: '250px' }}
+                  style={{ minWidth: 250, maxWidth: '300px' }}
                   options={customercontact}
 
 
@@ -1521,6 +1539,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined" label="Contact Person" />}
                 />}
               </Grid>
+              {!rfqstatus && <Grid item xs ></Grid>}
+              
+              <Grid item xs ></Grid>
               <Grid item>
                 <TextField
                   name="rfq_no"
@@ -1539,8 +1560,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </TextField>
 
               </Grid>
-              <Grid item xs>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid item xs >
+                <MuiPickersUtilsProvider  utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     className=""
                     margin="none"
@@ -2247,7 +2268,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                   <TextValidator
-                    label="Waranty"
+                    label="Warranty"
                     onChange={e => setwarranty(e.target.value)
                     }
                     className="mb-4"
@@ -2314,7 +2335,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <FormGroup>
                     <FormControl variant="outlined" size="small"
                       className="mt-4">
-                      <InputLabel htmlFor="outlined-age-native-simple">Bankk</InputLabel>
+                      <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
                       <Select
                         native
                         value={bank_id ? bank_id : ''}
@@ -2344,7 +2365,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div className="flex " >
                   <div className="pr-12">
                     <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">margin%:</p>
+                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
@@ -2461,7 +2482,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="NetTotal"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"

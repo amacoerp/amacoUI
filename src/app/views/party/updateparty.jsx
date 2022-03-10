@@ -146,7 +146,7 @@ const SimpleForm = () => {
   const handleSubmit = () => {
     setloading(true);
     const frmdetails = {
-      firm_name: Firm_Name ? (Firm_Name) : '',
+      firm_name: Firm_Name ? (Firm_Name.toUpperCase()) : '',
       registration_no: regno,
       vat_no: vat_no,
       post_box_no: post_box_no,
@@ -236,7 +236,7 @@ const SimpleForm = () => {
                 <TextValidator
                   className="mb-4 w-full"
                   label="Company Name"
-                  inputProps={{ style: { textTransform: 'capitalize' } }}
+                  inputProps={{ style: { textTransform: 'uppercase' } }}
                   onChange={e => setFirm_name(e.target.value)}
                   type="text"
                   name="Firm_Name"

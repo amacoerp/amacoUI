@@ -569,6 +569,23 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const controlKeyPress = (e, id, nextid, prev) => {
 
+    if(e.key === 'Enter'){
+     
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
 
     if (e?.keyCode == 39) {
       if (false) {
@@ -684,7 +701,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h4 align="left"> CREATE PURCHASE ORDER</h4>
@@ -706,6 +723,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className="py-2"
                   variant="outlined"
                   color="primary"
+                  onClick={(e)=>{handleSubmit()}}
                   disabled={loading}
                 >
                   <Icon>save</Icon> SAVE & PRINT PURCHASEORDER
@@ -777,7 +795,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={values?.vendorList}
 
-                    style={{ position: 'relative', top: '-37px', left: '220px' }}
+                    style={{ position: 'relative', width:'500px', top: '-37px', left: '220px' }}
                     getOptionLabel={(option) => option.firm_name}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -802,7 +820,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     options={contacts}
 
-                    style={{ position: 'relative', top: '-74px', left: '440px' }}
+                    style={{ position: 'relative',width:'300px', top: '-74px', left: '740px' }}
                     getOptionLabel={(option) => option.fname}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -863,6 +881,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <KeyboardDatePicker
                       className="m-2"
                       margin="none"
+                      style={{position:'relative',top:'-23px'}}
                       label="Date"
                       format="dd MMMM yyyy"
                       inputVariant="outlined"

@@ -383,6 +383,26 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /* Keyboard event */
   const controlKeyPress = (e, id, nextid, prev) => {
+
+    if(e.key === 'Enter'){
+     
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
+
     if (e?.keyCode == 39) {
       if (false) {
         priceRef[parseInt(nextid)].focus();
@@ -467,7 +487,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   /*Submit the data */
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
@@ -667,7 +688,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
           <ValidatorForm
             autocomplete="off"
-            onSubmit={handleSubmit}
+            onSubmit={e => { e.preventDefault(); }}
             onError={(errors) => null}
           >
             <div className="viewer_actions px-4 flex justify-between">
@@ -689,6 +710,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className="py-2"
                   variant="outlined"
                   color="primary"
+                  onClick={(e)=>{handleSubmit(e)}}
                   disabled={loading}
                 >
                   <Icon>save</Icon> SAVE & PRINT PURCHASEORDER
@@ -722,7 +744,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={values?.vendorList}
                   value={cname}
-                  style={{ minWidth: 200, maxWidth: "250px" }}
+                  style={{ minWidth: 500, maxWidth: "500px" }}
                   getOptionLabel={(option) =>
                     option.firm_name ? option?.firm_name : cname
                   }
@@ -766,7 +788,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={contacts}
                   value={contactname}
-                  style={{ minWidth: 200, maxWidth: "250px" }}
+                  style={{ minWidth: 250, maxWidth: "300px" }}
                   getOptionLabel={(option) =>
                     option.fname
                       ? option?.fname
@@ -943,6 +965,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               {...params}
                               variant="outlined"
                               multiline
+                              inputRef={input => {
+                                inputRef[index] = input;
+                              }}
                               name="product_id"
                               onChange={(event, newValue) =>
                                 handleChanges(event, newValue, index)

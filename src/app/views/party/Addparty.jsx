@@ -79,7 +79,7 @@ const Addparty = ({ open, handleClose }) => {
   const [vat_no, setvat_no] = useState('');/*Holds the vat number */
   const [post_box_no, setpost_box_no] = useState('');/*Holds the post box number*/
   const [country, setcountry] = useState('');/*Holds the country name*/
-  const [street, setstreet] = useState(null);/*Holds the street */
+  const [street, setstreet] = useState('');/*Holds the street */
   const [zip_code, setzip_code] = useState('');/*Holds the zipcode */
   const [proviance, setproviance] = useState('');/*Holds the proviance */
   const [website, setwebsite] = useState('');/*Holds the website */
@@ -132,7 +132,7 @@ const Addparty = ({ open, handleClose }) => {
     setState({ ...state, loading: true });//disable the SAVE Button
     /*creating the frmdetails object*/
     const frmdetails = {
-      firm_name: Firm_Name ? Firm_Name : '',
+      firm_name: Firm_Name ? Firm_Name.toUpperCase() : '',
       registration_no: regno,
       vat_no: vat_no,
       post_box_no: post_box_no,
@@ -288,7 +288,7 @@ const Addparty = ({ open, handleClose }) => {
                     className="mb-4 w-full text-capitalize"
                     label="First name"
                     textTransform
-                    inputProps={{ style: { textTransform: 'capitalize' } }}
+                    inputProps={{ style: { textTransform: 'uppercase' } }}
                     onChange={e => setfname(e.target.value)}
                     type="text"
                     name="fname"
@@ -490,7 +490,7 @@ const Addparty = ({ open, handleClose }) => {
                 <TextValidator
                   className="mb-4 w-full"
                   label="Company Name"
-                  inputProps={{ style: { textTransform: "capitalize" } }}
+                  inputProps={{ style: { textTransform: "uppercase" } }}
                   autoComplete="none"
                   onChange={e => setFirm_name(e.target.value)}
                   type="text"
@@ -558,7 +558,7 @@ const Addparty = ({ open, handleClose }) => {
                   autoComplete="none"
                   label="Street"
                   inputProps={{ style: { textTransform: 'capitalize' } }}
-                  onChange={e => setstreet(e.target.value)}
+                  onChange={(e) => setstreet(e.target.value)}
                   type="text"
                   size="small"
                   variant="outlined"
@@ -730,7 +730,7 @@ const Addparty = ({ open, handleClose }) => {
                 <div className="flex mb-4">
                   <TextField
                     className="mr-0"
-                    label="Party type"
+                    label="Party Type"
                     autoComplete="none"
                     name="partytype"
                     size="small"

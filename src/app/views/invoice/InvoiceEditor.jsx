@@ -345,6 +345,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Key board event function */
   const controlKeyPress = (e, id, nextid, prev) => {
+
+    if(e.key === 'Enter'){
+     
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
     if (e?.keyCode == 39) {
       if (nextid?.includes("purchase_price")) {
         priceRef[parseInt(nextid)].focus();
@@ -593,6 +612,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             autocomplete="off"
             onError={(errors) => null}
           >
+             <div >
+                <h3 style={{float:'left',}}> &nbsp;&nbsp; &nbsp;UPDATE RFQ</h3>
+              </div>
             <div className="viewer_actions px-4 flex justify-end">
               <div className="mb-6">
                 <Button
@@ -653,7 +675,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   }}
                   onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
-                  style={{width:350}}
+                  style={{width:500}}
                   renderInput={(params) => <TextField {...params}
                     variant="outlined" label="Vendor Name" />}
                 />

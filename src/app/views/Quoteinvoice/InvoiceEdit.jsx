@@ -940,6 +940,24 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+    if(e.key === 'Enter'){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            console.log(i)
+          // }
+        } catch (error) {
+          console.log(i)
+          console.log('error')
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
     if (e?.keyCode == 39) {
       if (nextid?.includes('product_id')) {
         // if (false) {
@@ -1284,7 +1302,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     <div className="m-sm-30">
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }}   onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> EDIT SALES INVOICE</h3>
@@ -1302,8 +1320,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
+                  onClick={() => handleSubmit()}
+
                   variant="outlined"
                   color="primary"
                   disabled={loading}
@@ -1351,7 +1371,7 @@ select
                   variant="outlined"
                   options={CustomerList}
 
-                  style={{ width: 200 }}
+                  style={{ width: 500 }}
                   value={cname}
                   getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
                   filterOptions={(options, params) => {
