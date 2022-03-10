@@ -719,7 +719,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <Button
-                  // type="submit"
+                  type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -731,19 +731,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </div>
             </div>
 
-            <div className="viewer__order-info px-4 mb-6 flex justify-between">
-              <div >
-                {/* <h5 className="font-normal capitalize">
-              <strong>Customer: </strong>{" "}
-              <span>
-                {id}
-              </span>
-            </h5> */}
+            {/* <div className="viewer__order-info px-4 mb-6 flex justify-between">
+              <div > */}
+               <Grid container spacing={4}>
+        <Grid item xs={3}>
                 <div>
                   <TextField
 
                     label="Currency Type"
-                    style={{ minWidth: 200, maxWidth: '250px' }}
+                    // style={{ minWidth: 200, maxWidth: '250px' }}
                     name="party_id"
                     size="small"
                     variant="outlined"
@@ -761,6 +757,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       </MenuItem>
                     ))}
                   </TextField>
+                  </div>
+                  </Grid>
 
                   {/* <TextField
 
@@ -789,13 +787,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </MenuItem>
                   ))}
                 </TextField> */}
-
+                   <Grid item xs={4}>
                   <Autocomplete
                     id="filter-demo"
                     variant="outlined"
                     options={values?.vendorList}
 
-                    style={{ position: 'relative', width:'350px', top: '-37px', left: '220px' }}
+                    // style={{ position: 'relative', width:'500px', top: '-37px', left: '220px' }}
                     getOptionLabel={(option) => option.firm_name}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -814,13 +812,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     renderInput={(params) => <TextField {...params}
                       variant="outlined" label="Vendor Name" />}
                   />
-
+                  </Grid>
+                  <Grid item xs={2}>
                   {values.status && <Autocomplete
                     id="filter-demo"
                     variant="outlined"
                     options={contacts}
 
-                    style={{ position: 'relative',width:'250px', top: '-74px', left: '620px' }}
+                    // style={{ position: 'relative',width:'300px', top: '-74px', left: '740px' }}
                     getOptionLabel={(option) => option.fname}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
@@ -839,6 +838,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     renderInput={(params) => <TextField {...params}
                       variant="outlined" label="Contact Person" />}
                   />}
+                  </Grid>
 
 
 
@@ -866,17 +866,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                   </TextField>
                 } */}
-                </div>
-              </div>
+                {/* </div>
+              </div> */}
+
+      <Grid item>
+              {/* <div>
 
 
-              <div>
-
-
-                <div className="text-right pt-4">
-                  {/* <h5 className="font-normal">
-                <strong>Quote Date: </strong>
-              </h5> */}
+                <div className="text-right pt-4"> */}
+                 
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="m-2"
@@ -897,14 +895,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </MuiPickersUtilsProvider>
 
 
-                </div>
+                {/* </div>
 
-              </div>
+              </div> */}
+              </Grid>
+              </Grid>
 
 
 
 
-            </div>
+            {/* </div> */}
 
             <Divider />
 
