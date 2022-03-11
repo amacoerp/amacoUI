@@ -244,6 +244,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
                 label="Price"
                 variant="outlined"
                 value={cprice}
+                required={true}
                 fullWidth
                 currencySymbol="SAR"
                 onChange={(event, value) => setcprice(value)}

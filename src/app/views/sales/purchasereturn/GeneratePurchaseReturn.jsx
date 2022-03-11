@@ -708,6 +708,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
     const setcontact = (event, newValue) => {
 
+        newValue == null && setparty_id('')
+
         url.get("newparties/" + newValue?.id).then(({ data }) => {
             setState({
                 ...state,
@@ -859,32 +861,34 @@ select
 
                             </Grid>
                             <Grid item>
-                                <Autocomplete
-                                    id="filter-demo"
-                                    variant="outlined"
-                                    options={contacts}
+                               {
+                                   party_id &&  <Autocomplete
+                                   id="filter-demo"
+                                   variant="outlined"
+                                   options={contacts}
 
-                                    style={{ width: 250 }}
-                                    getOptionLabel={(option) => option.fname}
-                                    filterOptions={(options, params) => {
-                                        const filtered = filter(options, params);
-                                        if (params.inputValue !== " ") {
-                                            filtered.unshift({
-                                                inputValue: params.inputValue,
-                                                fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
-                                            });
-                                        }
+                                   style={{ width: 250 }}
+                                   getOptionLabel={(option) => option.fname}
+                                   filterOptions={(options, params) => {
+                                       const filtered = filter(options, params);
+                                       if (params.inputValue !== " ") {
+                                           filtered.unshift({
+                                               inputValue: params.inputValue,
+                                               fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                                           });
+                                       }
 
 
-                                        return filtered;
-                                    }}
-                                    // onChange={(event, newValue) => setcontact(event, newValue)}
-                                    onChange={(event, newValue) => setcontactid(newValue?.id)}
+                                       return filtered;
+                                   }}
+                                   // onChange={(event, newValue) => setcontact(event, newValue)}
+                                   onChange={(event, newValue) => setcontactid(newValue?.id)}
 
-                                    size="small"
-                                    renderInput={(params) => <TextField {...params}
-                                        variant="outlined" label="Contact Person" />}
-                                />
+                                   size="small"
+                                   renderInput={(params) => <TextField {...params}
+                                       variant="outlined" label="Contact Person" />}
+                               />
+                               }
 
 
                             </Grid>

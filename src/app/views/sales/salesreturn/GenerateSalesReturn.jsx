@@ -656,6 +656,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     }
     const setcontact = (event, newValue) => {
+        console.log(newValue)
+        newValue == null && setparty_id('')
+        
 
         url.get("parties/" + newValue?.id).then(({ data }) => {
             console.log(data[0].contacts)
@@ -815,7 +818,7 @@ select
 
                             </Grid>
                             <Grid item>
-                                <Autocomplete
+                              {party_id &&   <Autocomplete
                                     id="filter-demo"
                                     variant="outlined"
                                     options={contacts}
@@ -838,7 +841,7 @@ select
                                     size="small"
                                     renderInput={(params) => <TextField {...params}
                                         variant="outlined" label="Contact Person" />}
-                                />
+                                />}
 
                             </Grid>
 
