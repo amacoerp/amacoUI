@@ -243,7 +243,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
   const [catid, setcatid] = useState('')
-  const [currency_type, setcurrency_type] = useState('');
+  const [currency_type, setcurrency_type] = useState('SAR');
   const [productprice, setproductprice] = useState([])
   const formData = new FormData()
   let inputRef = [];
