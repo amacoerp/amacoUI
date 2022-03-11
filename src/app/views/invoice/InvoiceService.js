@@ -1,6 +1,7 @@
 import axios from "axios";
 import useSettings from "../../hooks/useSettings";
 
+
 export const getAllInvoice = () => {
   return url.get("/api/invoices/all");
 };

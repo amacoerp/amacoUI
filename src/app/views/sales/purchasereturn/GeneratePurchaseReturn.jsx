@@ -361,13 +361,16 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
             if (index == i) {
                 element['po_number'] = newValue?.invoice_no ? newValue?.invoice_no : newValue
+               
             }
             return element;
         });
         setState({
             ...state,
             item: tempItemList,
+            
         });
+        
     };
     const handleChanges = (event, newValue, index) => {
 
@@ -983,6 +986,7 @@ select
 
                             <TableBody>
                                 {invoiceItemList?.map((item, index) => {
+                                    console.log(item)
                                     if (!dstatus) {
                                         subTotalCost += parseFloat(item.total_amount)
                                         vat = ((subTotalCost * 15) / 100).toFixed(2)
