@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import axios from "axios.js";
 import { MatxLoading } from "matx";
 import url from "../views/invoice/InvoiceService";
-// import { browserName, browserVersion, osName } from "react-device-detect";
+// import { browserName, browserVersion, osName } from "react-device-detect";z
 
 const initialState = {
   isAuthenticated: false,
