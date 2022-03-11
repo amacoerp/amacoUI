@@ -369,7 +369,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setnet_amount(data[0].grand_total)
         settotal_value(data[0].total_value)
         setfirm_name_in_ar(data[0].party?.firm_name_in_ar)
-        let words = toWords.convert(parseFloat(data[0]?.grand_total));
+        let words = toWords?.convert(parseFloat(data[0]?.grand_total));
         let riyal = words.replace("Rupees", "Riyals");
         let halala;
         let words1 = numberToWords.toWords(data[0].grand_total);
