@@ -215,6 +215,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Set the product name,description,product id*/
   const handleChanges = (event, newValue, index) => {
+    console.log(event.target.value)
     const price = PriceList?.filter(
       (el) => el.product_id === newValue?.id && el.party_id == party_id
     );
@@ -969,9 +970,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               name="product_id"
-                              onChange={(event, newValue) =>
-                                handleChanges(event, newValue, index)
-                              }
+                              // onChange={(event, newValue) =>
+                              //   handleChanges(event, newValue, index)
+                              // }
                               required
                               fullWidth
                             />

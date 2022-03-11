@@ -265,8 +265,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['product'] = newValue?.id ? newValue?.name : newValue
-        element['description'] = newValue?.id ? newValue?.name : newValue
+        
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['description'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
         element['product_id'] = newValue?.id ? newValue?.id : null
         element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
@@ -1626,7 +1627,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="purchase_price"
                           variant="outlined"
                           currencySymbol=""
-                          value={parseFloat(item?.purchase_price)}
+                          value={parseFloat(item?.purchase_price)?parseFloat(item?.purchase_price):0.00}
                           inputProps={{
                             ref: setRef(index + 'purchase_price')
                           }}
@@ -1748,7 +1749,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           currencySymbol=""
                           name="total_amount"
-                          value={isNaN(item.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
+                          value={isNaN(item?.total_amount) ? 0 : item?.total_amount?.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
                         />

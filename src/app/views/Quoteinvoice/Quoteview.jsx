@@ -775,7 +775,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           </Menu>
           {s === "accept" &&
             <>
-              <Link
+              {/* <Link
                 to={{ pathname: basePath + fFile }}
                 target="_blank" >
                 <Button
@@ -785,7 +785,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                 >
                   VIEW QUOTATION
                 </Button>
-              </Link>
+              </Link> */}
 
               <Button
                 className="mr-4 py-2"
