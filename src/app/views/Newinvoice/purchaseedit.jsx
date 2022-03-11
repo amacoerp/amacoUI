@@ -575,6 +575,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get(`mjrPurchase/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
       setData(data?.uom);
       setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
       setvalues({
         ...values,
         vendorList: data?.vendor,

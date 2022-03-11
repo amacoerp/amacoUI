@@ -706,6 +706,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const setcontact = (event, newValue) => {
 
         url.get("newparties/" + newValue?.id).then(({ data }) => {
+            setState({
+                ...state,
+                item:[]
+            })
             setcontacts(data.contacts)
             setparty_id(newValue?.id)
             setvalues({ ...values, status: true });

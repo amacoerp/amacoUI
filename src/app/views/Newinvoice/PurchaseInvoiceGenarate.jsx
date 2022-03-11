@@ -981,7 +981,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // });
     if (newValue?.id) {
       url.get("parties/" + newValue?.id).then(({ data }) => {
-
+       
         setcustomercontact(data[0].contacts);
 
         setparty_id(newValue?.id)
