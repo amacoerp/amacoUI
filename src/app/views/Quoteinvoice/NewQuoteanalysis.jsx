@@ -244,12 +244,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let i = parseInt(id)
       // const r = ++i + 'product_id';
       // console.log(r)
+
+
+      // setTimeout(() => 
+      // try {
+        
+      // } catch (error) {
+        
+      // };
+      // , 0);
+      
         try {
           addItemToInvoiceList(invoiceItemList);
-          // if (r.includes('product_id')) {
+          // if (r.includes('product_id')) 
             inputRef[parseInt(++i)].focus();
           
-          // }
         } catch (error) {
          
         }
@@ -1885,6 +1894,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           type="text"
                           variant="outlined"
                           size="small"
+                          // onFocus={(e)=>{console.log(getRef(index + 'quantity').current.select())}}
+                          onFocus={event => {
+                            // event properties must be copied to use async
+                            const target = event.target;
+                            setTimeout(() => target.select(), 0);
+                      }}
                           fullWidth
                           inputProps={{ref: setRef(index + 'quantity'), min: 0, style: { textAlign: 'center' } }}
                          

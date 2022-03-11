@@ -67,7 +67,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const classes = useStyles();
     const formData = new FormData();
     const [ponumber, setponumber] = useState('');
-    const [currency_type, setcurrency_type] = useState('');
+    const [currency_type, setcurrency_type] = useState('SAR');
 
     const generateRandomId = useCallback(() => {
         let tempId = Math.random().toString();
