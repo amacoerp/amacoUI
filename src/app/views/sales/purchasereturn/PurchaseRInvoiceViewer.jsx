@@ -652,13 +652,13 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                       </MenuItem> */}
 
                             <MenuItem onClick={() => deletepo()}>
-                                DELETE PURCHASERETURN
+                                DELETE PURCHASE RETURN
                             </MenuItem>
                             <MenuItem onClick={() => handlePrinting()}>
-                                PRINT PURCHASERETURN
+                                PRINT PURCHASE RETURN
                             </MenuItem>
                             <MenuItem onClick={() => editpurchase()}>
-                                EDIT PURCHASERETURN
+                                EDIT PURCHASE RETURN
                             </MenuItem>
 
                         </Menu>
