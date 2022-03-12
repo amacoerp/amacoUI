@@ -418,7 +418,7 @@ const AcceptQuote = () => {
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
-              item?.subject,
+              item?.subject == "null" || item?.subject == "" || item?.subject == null  ? '--' : item?.subject,
               moment(item?.created_at).format('DD MMM YYYY'),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id

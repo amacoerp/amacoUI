@@ -604,12 +604,12 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                     Genrate Purchase Order
                       </MenuItem> */}
 
-              <MenuItem onClick={() => deletepo()}>DELETE SALESRETURN</MenuItem>
+              <MenuItem onClick={() => deletepo()}>DELETE SALES RETURN</MenuItem>
               <MenuItem onClick={() => handlePrinting()}>
-                PRINT SALESRETURN
+                PRINT SALES RETURN
               </MenuItem>
               <MenuItem onClick={() => editpurchase()}>
-                EDIT SALESRETURN
+                EDIT SALES RETURN
               </MenuItem>
             </Menu>
 

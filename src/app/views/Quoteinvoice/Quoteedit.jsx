@@ -976,7 +976,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('transaction_type', "sale")
     formData.append('id', id)
     formData.append('sign', sign)
-    formData.append('subject', subject ? subject : 0)
+    formData.append('subject', subject ? subject : null)
     formData.append('rfq_no', rfq_no ? rfq_no : " ")
     formData.append('bank_id', parseInt(bank_id))
     formData.append('notes', JSON.stringify(testArr))
@@ -2425,7 +2425,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <FormControl variant="outlined" minWidth="120" size="small">
                       <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
                       <Select
-                        // native
+                        native
                         value={sign}
                         // defaultValue={sign}
                         // onChange={handleChange}
@@ -2435,7 +2435,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         inputProps={{
                           name: 'Bank',
                           id: 'outlined-age-native-simple',
-
                         }}
 
                       >
