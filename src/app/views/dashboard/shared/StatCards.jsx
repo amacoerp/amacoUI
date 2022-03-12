@@ -44,6 +44,7 @@ const StatCards = () => {
       var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
       console.log(revenue)
+      console.log(result)
 
 
     });

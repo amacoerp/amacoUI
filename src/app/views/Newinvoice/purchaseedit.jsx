@@ -383,9 +383,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   // }
 
   /* Keyboard event */
-  const controlKeyPress = (e, id, nextid, prev) => {
+  const controlKeyPress = (e, id, nextid, prev,dropdown) => {
 
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && !dropdown){
      
       let i = parseInt(id)
       // const r = ++i + 'product_id';
@@ -419,7 +419,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         console.log(getRef(nextid).current?.focus());
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id);
       if (--i >= 0) {
@@ -440,7 +440,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           console.log(getRef(r).current?.focus());
         }
       }
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id);
 
@@ -463,7 +463,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         console.error("eror");
-        addItemToInvoiceList();
+        // addItemToInvoiceList();
       }
     } else if (e?.keyCode == 37) {
       if (prev == null) {
@@ -956,7 +956,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               e,
                               index + "product_id",
                               index + "description",
-                              null
+                              null,
+                              true
                             );
                           }}
                           inputProps={{
@@ -1062,7 +1063,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               e,
                               index + "unit_of_measure",
                               index + "purchase_price",
-                              index + "quantity"
+                              index + "quantity",
+                              true
                             );
                           }}
                           inputRef={(input) => {

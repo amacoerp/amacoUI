@@ -194,7 +194,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 }
             } catch (error) {
                 console.error('eror')
-                addItemToInvoiceList();
+                // addItemToInvoiceList();
             }
 
             // }
