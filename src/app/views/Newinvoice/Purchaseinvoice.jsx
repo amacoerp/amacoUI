@@ -258,13 +258,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         // });
         url.get("mjrPurchaseInvoice/" + id).then(({ data }) => {
-            setcname(data?.sales_quotation?.party.firm_name)
+            setcname(data?.sales_quotation?.party?.firm_name)
             setqno(data?.sales_quotation?.quotation_no)
             setpono(data?.sales_quotation?.po_number)
             setcurrency_type(data?.sales_quotation?.currency_type)
 
             // setrdate(data[0].requested_date)
-            setparty_id(data?.sales_quotation?.party.id)
+            setparty_id(data?.sales_quotation?.party?.id)
             setdiscount(data?.sales_quotation?.discount_in_p)
             let tempItemList = data?.sales_quotation?.quotation_details;
             tempItemList.map((element, i) => {
@@ -305,7 +305,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     const calculatemargin = (event, index, value) => {
         let tempItemList = [...state.item];
-        let d_val = value ? value : event.target.value;
+        let d_val = value ? parseFloat(value) : parseFloat(event.target.value);
         tempItemList.map((element, i) => {
             let sum = 0;
 
@@ -315,7 +315,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                 if (parseInt(element.purchase_price) !== 0) {
 
-                    element['purchase_price'] = event.target.value
+                    element['purchase_price'] = d_val
                     element['margin'] = ((parseFloat(d_val) - parseFloat(element.purchase_price)) / parseFloat(element.purchase_price)) * 100;
                     element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
                     element.sell_price = d_val
@@ -326,6 +326,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 }
                 else {
                     // element['margin']=parseFloat(0.00);
+                    
                     element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2))
                     element.sell_price = d_val
                 }
@@ -731,7 +732,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                                                     currencySymbol=""
                                                     name="purchase_price"
-                                                    value={item ? item.purchase_price : null}
+                                                    value={parseFloat(item?.purchase_price)}
                                                 />
                                             </TableCell>
 
