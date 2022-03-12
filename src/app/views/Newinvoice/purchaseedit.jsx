@@ -31,11 +31,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
 import url, {
-  divisionId,
-  getCustomerList,
-  getUnitOfMeasure,
-  getVendorList,
-  data,
+  // divisionId,
+  // getCustomerList,
+  // getUnitOfMeasure,
+  // getVendorList,
+  // data,
   currency,
   navigatePath,
 } from "../invoice/InvoiceService";
@@ -69,7 +69,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let qtyRef = [];
   let unit_of_measureRef = [];
   let purchase_priceRef = [];
-  // let purchase_price = [];
+  
   const [getRef, setRef] = useDynamicRefs();
 
   const [isAlive, setIsAlive] = useState(true);
@@ -105,25 +105,25 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [catid, setcatid] = useState(); /*catid */
 
   // customer name and contact person name
-  const [cname, setcname] = useState(" ");
-  const [contactname, setcontactname] = useState(" ");
-  const [proListAll, setproListAll] = useState([]);
+  const [cname, setcname] = useState(" ");//set the customer name to null
+  const [contactname, setcontactname] = useState(" ");//set the contact person name
+  const [proListAll, setproListAll] = useState([]);//set the product list
 
   const [Quote_date, setQuote_date] = useState(
     moment(new Date()).format("DD MMM YYYY")
   ); /*Quote date */
 
-  const history = useHistory();
-  const formData = new FormData();
-  const { id } = useParams();
-  const classes = useStyles();
+  const history = useHistory();//It lets you access the history instance used by React Router. 
+  const formData = new FormData();// The FormData interface provides a way to easily construct a set of key/value pairs representing form fields and their values
+  const { id } = useParams();//Returns an object of the params for the route rendered.
+  const classes = useStyles();// a library created with the purpose of solving a recurring problem that developers usually have in React Native:
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] =
     useState(false);
   const [values, setvalues] = useState({
-    vendorList: [],
-    contacts: [],
-    supplier_id: " ",
+    vendorList: [],//set the vendorList
+    contacts: [],//set the contact details
+    supplier_id: " ",//set the supplier id
   });
   const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
     useState(false);
@@ -140,8 +140,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Add New Row  */
   const addItemToInvoiceList = () => {
-    let tempItemList = [...state.item];
-    setproList(proListAll);
+    let tempItemList = [...state.item];//assign the previous purchase order details
+    setproList(proListAll);//adds one or more elements to the end of an array and returns the new length of the array.
+
     tempItemList.push({
       product_id: "",
       product_name: "",
@@ -173,7 +174,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//set the updated purchase order details
   };
 
   // const setremark = (event, index) => {
@@ -215,71 +216,71 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Set the product name,description,product id*/
   const handleChanges = (event, newValue, index) => {
-    console.log(event.target.value)
+   
     const price = PriceList?.filter(
       (el) => el.product_id === newValue?.id && el.party_id == party_id
     );
 
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//create the copy of state array
 
     if (!newValue) {
       setproList(
         proListAll?.filter((obj) =>
           obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())
-        )
+        )//if the product name is entered manually then filter the product name from the product list
       );
     }
-    tempItemList.map((element, i) => {
+    tempItemList.map((element, i) => {//allows you to iterate over an array and modify its elements using a callback function
       let sum = 0;
 
       if (index === i) {
-        element["product"] = newValue?.id
+        element["product"] = newValue?.id//set the product name 
           ? newValue?.name
             ? newValue?.name
             : event?.target?.value
           : event?.target?.value;
-        element["descriptions"] = newValue?.id
+        element["descriptions"] = newValue?.id//set the product name
           ? newValue?.name
             ? newValue?.name
             : event?.target?.value
           : event?.target?.value;
-        element["description"] = newValue?.id
+        element["description"] = newValue?.id//set the product name
           ? newValue?.name
             ? newValue?.name
             : event?.target?.value
           : event?.target?.value;
-        element["product_name"] = newValue?.id
+        element["product_name"] = newValue?.id//set the product name
           ? newValue?.name
           : event?.target?.value;
-        element["product_id"] = newValue?.id ? newValue?.id : 0;
-        element["product_price_list"] = price ? price : null;
-        element["arabic_description"] = null;
+        element["product_id"] = newValue?.id ? newValue?.id : 0;//set the product id
+        element["product_price_list"] = price ? price : null;//set the product price
+        element["arabic_description"] = null;//set the arabic description
       }
       return element;
     });
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
   };
 
   /* set the purchase price and calculate total amount */
   const handleIvoiceListChange = (event, index, newValue) => {
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//create the copy of state array
 
-    tempItemList.map((element, i) => {
+    tempItemList.map((element, i) => {//allows you to iterate over an array and modify its elements using a callback function
       let sum = 0;
 
       if (index === i) {
         element["total_amount"] = (
           (newValue?.price ? newValue?.price : newValue) * element.quantity
-        ).toFixed(2);
+        ).toFixed(2);//set the total amount by multiplying the amount and quantity
         element["purchase_price"] = newValue?.price
           ? newValue?.price
-          : newValue;
-        element.margin = "";
-        element.sell_price = "";
-        element["remark"] = "";
+          : newValue;//set the purchase price
+        element.margin = "";//set the margin
+        element.sell_price = "";//set the sell_price
+        element["remark"] = "";//set the remark
       }
       return element;
     });
@@ -287,7 +288,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
   };
 
   /*Delete the Purchase Order detail */
@@ -301,16 +302,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       icon: "warning",
       cancelButtonText: "No, keep it",
     }).then((result) => {
-      if (result.value) {
-        let tempItemList = [...state.item];
-        tempItemList.splice(index, 1);
+      if (result.value) {//If the result.value is true
+        let tempItemList = [...state.item];//create the copy of state array
+        tempItemList.splice(index, 1);//delete the index wise purchse order detail
 
         setState({
           ...state,
           item: tempItemList,
-        });
-        if (id) {
-          url.delete(`quotation_details/${id}`).then(data);
+        });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
+        if (id) {//If the purchase order details id exists
+          url.delete(`quotation_details/${id}`).then(data);//delete the quotation detail id
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your Purchase Details is safe :)", "error");
@@ -334,17 +335,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   /*Set the quantity and total =(purchase_price *quantity) */
   const calcualteprice = (event, index) => {
     event.persist();
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//create the copy of state array
 
-    tempItemList.map((element, i) => {
+    tempItemList.map((element, i) => {//allows you to iterate over an array and modify its elements using a callback function
       let sum = 0;
 
       if (index === i) {
         element["total_amount"] = (
           event.target.value * element.purchase_price
-        ).toFixed(2);
-        element[event.target.name] = event.target.value;
-        element["remark"] = "";
+        ).toFixed(2);//set the purchase price
+        element[event.target.name] = event.target.value;//set the quantity text field name
+        element["remark"] = "";//set the remark to null
       }
 
       return element;
@@ -353,18 +354,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
   };
 
   /* Set the our descriptions */
   const po_description = (event, index) => {
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//create the copy of state array
 
-    tempItemList.map((element, i) => {
+    tempItemList.map((element, i) => {//allows you to iterate over an array and modify its elements using a callback function
       // let sum = 0;
 
       if (index === i) {
-        element[event.target.name] = event.target.value;
+        element[event.target.name] = event.target.value;//set the our description
       }
 
       return element;
@@ -373,7 +374,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
   };
 
   // const setproductids = (id, index) => {
@@ -490,37 +491,37 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   /*Submit the data */
   const handleSubmit = (e) => {
     e.preventDefault()
-    setState({ ...state, loading: true });
+    setState({ ...state, loading: true });//create the copy of state array disable the save button
 
-    let tempState = { ...state };
-    let arr = [];
+    let tempState = { ...state };//copy of state array is assigned to tempState 
+    let arr = [];//initialize the arr to emty array
     delete tempState.loading;
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//create the copy of state array
 
-    formData.append("discount_in_p", 0);
-    formData.append("total_value", parseFloat(subTotalCost).toFixed(2));
-    formData.append("net_amount", GTotal);
-    formData.append("freight", freight);
-    formData.append("vat_in_value", parseFloat(charge).toFixed(2));
-    formData.append("rfq_id", id);
-    formData.append("po_number", id);
-    formData.append("party_id", party_id);
-    formData.append("warranty", warranty);
-    formData.append("validity", validity);
-    formData.append("delivery_time", delivery_time);
-    formData.append("inco_terms", inco_terms);
-    formData.append("payment_terms", payment_terms);
-    formData.append("contact_id", contactid ? contactid : 0);
-    formData.append("transaction_type", "purchase");
-    formData.append("status", "New");
-    formData.append("ps_date", Quote_date);
-    formData.append("currency_type", currency_type);
-    formData.append("id", id);
-    tempItemList.map((answer, i) => {
-      formData.append(`quotation_detail${i}`, JSON.stringify(answer));
+    formData.append("discount_in_p", 0);//discount in percentage is 0 
+    formData.append("total_value", parseFloat(subTotalCost).toFixed(2));//total value 
+    formData.append("net_amount", GTotal);//Net amount 
+    formData.append("freight", freight);//Freight charges
+    formData.append("vat_in_value", parseFloat(charge).toFixed(2));//vat in value
+    formData.append("rfq_id", id);//rfq id
+    formData.append("po_number", id);//purchase order 
+    formData.append("party_id", party_id);//party id
+    formData.append("warranty", warranty);//warranty
+    formData.append("validity", validity);//validity
+    formData.append("delivery_time", delivery_time);//delivery time
+    formData.append("inco_terms", inco_terms);//inco terms
+    formData.append("payment_terms", payment_terms);//payment terms
+    formData.append("contact_id", contactid ? contactid : 0);//contact id
+    formData.append("transaction_type", "purchase");//transaction type is purchase
+    formData.append("status", "New");//status is New
+    formData.append("ps_date", Quote_date);//purchase order date 
+    formData.append("currency_type", currency_type);//currency type
+    formData.append("id", id);//purchase order id
+    tempItemList.map((answer, i) => {//allows you to iterate over an array and modify its elements using a callback function
+      formData.append(`quotation_detail${i}`, JSON.stringify(answer));//append the puchase order details
     });
     const json = Object.assign({}, arr);
-    console.log(tempItemList);
+   
 
     url
       .post(`purchaseUpdate`, formData)
@@ -540,7 +541,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           icon: "warning",
           text: "Something Went Wrong.",
         }).then((result) => {
-          setState({ ...state, loading: false });
+          setState({ ...state, loading: false });//disable the save button
         });
       });
   };
@@ -550,7 +551,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     history.push(navigatePath + "/Newinvoiceview");
   }
 
-  /*Close the dialogClose */
+  /*Close the dialogBox */
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
     setIsAlive(true);
@@ -566,12 +567,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const [data, setData] = useState([]);
 
-  const [uom, setUOM] = useState(false);
+  const [uom, setUOM] = useState(false);//set the unit of measure
 
   useEffect(() => {
-    // getUnitOfMeasure().then(({ data }) => {
-    //   setData(data);
-    // });
+   
     url.get(`mjrPurchase/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
       setData(data?.uom);
       setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))

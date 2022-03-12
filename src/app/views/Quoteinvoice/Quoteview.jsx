@@ -630,7 +630,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   };
   const statuschange = (status, name) => {
 
-    var tab_status = 0;
+    let tab_status;
     if (name == "accept") {
       settab(1)
       tab_status = 1

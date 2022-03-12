@@ -906,7 +906,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // },5000)
   };
   function cancelform() {
-    routerHistory.push(navigatePath + "/piview/" + id)
+    routerHistory.push(navigatePath + "/purchaseinvoiceview")
   }
 
   const handleDialogClose = () => {

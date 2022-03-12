@@ -215,7 +215,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const Rfqpush = () => {
 
    
-    routerHistory.push(navigatePath + `/invoice/${id}`)
+    routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`)
 
   };
   const handleRDateChange = (ddate) => {
