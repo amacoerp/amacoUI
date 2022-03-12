@@ -7,6 +7,8 @@ import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath, GDIV } from "../../invoice/InvoiceService"
 import moment from "moment";
+import { useParams } from "react-router-dom";
+
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -47,6 +49,9 @@ const SimpleMuiTable = () => {
   const [userList, setUserList] = useState([]);
   const [rfq_details, setrfq_details] = useState([]);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
+  const [searchh,setSearch] = useState(null)
+  const { search } = useParams();
+
 
   useEffect(() => {
     url.get("rfq").then(({ data }) => {
@@ -206,7 +211,7 @@ const SimpleMuiTable = () => {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <div style={{ textAlign: 'right' }} className="pr-8">
-              <Link to={navigatePath + "/invoice/" + tableMeta.rowData[4]}>
+              <Link to={ searchh ? navigatePath + "/invoice/" + tableMeta.rowData[4] +'/'+ searchh : navigatePath + "/invoice/" + tableMeta.rowData[4]}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -300,6 +305,22 @@ const SimpleMuiTable = () => {
             // elevation: 0,
             rowsPerPageOptions: [10, 20, 40, 80, 100],
             selectableRows: "none",
+            searchProps: {
+              onKeyUp:(e) => {
+                setSearch(e.target.value);
+              }
+            },
+            searchText: search ? search : searchh ,
+            // searchPlaceholder: 'Your Custom Search Placeholder',
+            // customSearch: (searchQuery, currentRow, columns) => {
+            //   let isFound = false;
+            //   currentRow.forEach(col => {
+            //     if (col.toString().indexOf(searchQuery) >= 0) {
+            //       isFound = true;
+            //     }
+            //   });
+            //   return isFound;
+            // },
             // filterType: "dropdown",
             rowsPerPage: 10,
             // expandableRows: true,

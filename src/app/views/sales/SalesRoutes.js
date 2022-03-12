@@ -7,6 +7,10 @@ const salesRoutes = [
     component: React.lazy(() => import("./rfq-form/rfqview")),
   },
   {
+    path: navigatePath + "/rfq/:search",
+    component: React.lazy(() => import("./rfq-form/rfqview")),
+  },
+  {
     path: navigatePath + "/sales/rfq-form/analysisform",
     component: React.lazy(() => import("./rfq-form/analysisform")),
   },
@@ -22,10 +26,7 @@ const salesRoutes = [
     path: navigatePath + "/sales/Viewanalysis",
     component: React.lazy(() => import("./Viewanalysis")),
   },
-  {
-    path: navigatePath + "/sales/rfq-form/rfqview",
-    component: React.lazy(() => import("./rfq-form/rfqview")),
-  },
+
   {
     path: navigatePath + "/sales/quoate-form",
     component: React.lazy(() => import("./quoate-form/Quoateform")),

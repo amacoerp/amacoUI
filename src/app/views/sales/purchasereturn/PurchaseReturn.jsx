@@ -49,13 +49,15 @@ const PurchaseReturn = () => {
     }
 
     useEffect(() => {
+        if(localStorage.getItem('search') !== 'purchasereturn'){
+            localStorage.removeItem('search')
+            localStorage.removeItem('page')
+        }
         url.get("purchase-return-table").then(({ data }) => {
             // if (isAlive) setUserList(data);
             // var myJSON = JSON.stringify(data.id);
 
             if (data.length) {
-
-
                 // setpoid(data[0]?.id)
                 setpodetails(data);
             }
@@ -359,6 +361,13 @@ const PurchaseReturn = () => {
                         rowsPerPageOptions: [10, 20, 40, 80, 100],
                         selectableRows: "none",
                         filterType: "dropdown",
+                        searchProps: {
+                            onKeyUp:(e) => {
+                              localStorage.setItem('search',e.target.value);
+                              localStorage.setItem('page','purchasereturn');
+                            }
+                          },
+                        searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
                         // responsive: "scrollMaxHeight",
                         rowsPerPage: 10,
 

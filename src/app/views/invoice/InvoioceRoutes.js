@@ -11,6 +11,11 @@ const invoiceRoutes = [
     component: React.lazy(() => import("./InvoiceViewer"))
   },
   {
+    path: navigatePath+"/invoice/:id/:search",
+    // exact: true,
+    component: React.lazy(() => import("./InvoiceViewer"))
+  },
+  {
     path: navigatePath+"/invoice/:id",
     component: React.lazy(() => import("./InvoiceDetails"))
   },

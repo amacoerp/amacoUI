@@ -204,7 +204,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   let pos = 0;
 
-  const { id } = useParams();
+  const { id,search } = useParams();
   const classes = useStyles();
   const { settings, updateSettings } = useSettings();
   // Menu Button function
@@ -410,7 +410,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   return (
     <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
       <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-        <Link to={navigatePath + "/sales/rfq-form/rfqview"}>
+        <Link to={ search ? navigatePath + "/rfq/" + search: navigatePath + "/sales/rfq-form/rfqview"}>
           <IconButton >
             <Icon>arrow_back</Icon>
           </IconButton>
