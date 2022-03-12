@@ -174,9 +174,9 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
     };
 
-    const controlKeyPress = (e, id, nextid, prev) => {
+    const controlKeyPress = (e, id, nextid, prev,dropdown) => {
 
-        if(e.key === 'Enter'){
+        if(e.key === 'Enter' && !dropdown){
      
             const a = id.split(parseInt(id));
             let i = parseInt(id)
@@ -205,7 +205,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             } else {
                 console.log(getRef(nextid).current?.focus())
             }
-        } else if (e?.keyCode == 38) {
+        } else if (e?.keyCode == 38 && !dropdown) {
             const a = id.split(parseInt(id));
             let i = parseInt(id)
             if (--i >= 0) {
@@ -222,7 +222,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             }
 
-        } else if (e?.keyCode == 40) {
+        } else if (e?.keyCode == 40 && !dropdown) {
             const a = id.split(parseInt(id));
             let i = parseInt(id)
             // if (++i) {
@@ -989,7 +989,7 @@ select
                                                         return option?.invoice_no ? option?.invoice_no : (item?.invoice_no ? item?.invoice_no : " ");
                                                     }}
                                                     freeSolo
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null,true) }}
 
                                                     renderInput={(params) => (
                                                         <TextField {...params} inputRef={input => {
@@ -1024,7 +1024,7 @@ select
                                                         return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ")
                                                     }}
                                                     freeSolo
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no',true) }}
 
 
                                                     renderInput={(params) => (
@@ -1095,7 +1095,7 @@ select
                                                         ref: setRef(index + 'unit_of_measure')
                                                     }}
                                                     // ref={setRef(index + 'description')}
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
 
 
 

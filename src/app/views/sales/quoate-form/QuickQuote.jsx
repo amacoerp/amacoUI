@@ -943,9 +943,9 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [getRef, setRef] = useDynamicRefs();
 
 
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
 
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && !dropdown){
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -984,7 +984,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         console.log(getRef(nextid).current?.focus())
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -1001,7 +1001,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -1853,7 +1853,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'unit_of_measure')
                           }}
                           // ref={setRef(index + 'description')}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList,true) }}
 
                           // validators={[
                           //   "required",

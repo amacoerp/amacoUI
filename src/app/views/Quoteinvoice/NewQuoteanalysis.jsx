@@ -237,8 +237,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let inputRef = [];
   let priceRef = [];
 
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
-    if(e.key === 'Enter'){
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
+    if(e.key === 'Enter' && !dropdown){
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -275,7 +275,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -292,7 +292,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -1803,7 +1803,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                             return filtered;
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList,true) }}
                           onChange={(event, newValue) => setProductdescription(event, index, newValue)}
                           size="small"
                           renderInput={(params) => <TextField
@@ -1925,7 +1925,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'unit_of_measure')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList,true) }}
 
                           variant="outlined"
                           required
@@ -1985,7 +1985,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             onChange={(event) => calcualtep(event, index)}
                             label="Price"
                             value={item.purchase_price}
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList,true) }}
 
                             inputProps={{
                               name: 'purchase_price',

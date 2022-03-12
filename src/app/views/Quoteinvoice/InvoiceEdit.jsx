@@ -939,9 +939,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
-    if(e.key === 'Enter'){
-     
+  const controlKeyPress = (e, id, nextid, prev,dropdown) => {
+    if(e.key === 'Enter' && !dropdown){
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // const r = ++i + 'product_id';
@@ -969,7 +968,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -986,7 +985,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -1575,7 +1574,7 @@ select
                           // filterOptions={filterOptions?filterOptions:[]}
                           // renderOption={option => option.name}
 
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null,true) }}
 
                           getOptionLabel={option => {
 
@@ -1684,7 +1683,7 @@ select
                           value={item?.unit_of_measure}
                           name="unit_of_measure"
                           variant="outlined"
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
                           inputProps={{
                             ref: setRef(index + 'unit_of_measure')
                           }}

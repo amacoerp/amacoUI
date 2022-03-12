@@ -576,6 +576,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   };
 
+  const handleClicks = (urll) => {
+    window.open(urll);
+  };
+
 
   const handlePrint = () => window.print();
   window.onafterprint = function () {
@@ -670,17 +674,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               >
                 VIEW INVOICE
               </Button>
-              : <Link
-                to={{ pathname: basePath + file }}
-                target="_blank" >
+              : 
                 <Button
+                onClick={(e) => {
+                  handleClicks(basePath + file);
+                }}
                   className="mr-4 py-2"
                   color="primary"
                   variant="outlined"
                 >
                   VIEW INVOICE
                 </Button>
-              </Link>}
+              }
 
 
 
