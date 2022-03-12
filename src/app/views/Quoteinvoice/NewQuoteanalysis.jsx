@@ -1028,7 +1028,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (indexvalue === i) {
 
           element['product_id'] = catid;
-          element['descriptionss'] = data.product[0].description;
+          // element['descriptionss'] = data.product[0].description;
 
 
 
@@ -1062,7 +1062,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
 
     });
