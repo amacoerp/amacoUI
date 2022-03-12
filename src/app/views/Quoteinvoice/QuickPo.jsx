@@ -73,47 +73,52 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [proList, setproList] = useState([]);//set the product list to empty array
   const [proListAll, setproListAll] = useState([]);//set the product list to empty array
   const [validity, setvalidity] = useState('3 Days')//set the validity to 3 days
-  const [payment_terms, setpayment_terms] = useState('100% Advance')
-  const [freight, setfreight] = useState('Air Freight')
-  const [warranty, setwarranty] = useState('NA')
-  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
-  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
-  const [discount, setdiscount] = useState('0')
-  const [contactid, setcontactid] = useState('')
-  const [dstatus, setdstatus] = useState(false);
-  const [productid, setproductid] = useState('1');
-  const [indexset, setindex] = useState(0);
-  const [productname, setproductname] = useState('');
-  const [partyids, setpartyids] = useState();
-  const [productprice, setproductprice] = useState([])
-  const [contacts, setcontacts] = useState([])
-  const [PriceList, setPriceList] = useState([]);
-  const [DataList, setDataList] = useState("ghhhhh");
-  const [currency_type, setcurrency_type] = useState('SAR');
-  const [charge, setcharge] = useState(0.00);
-  const [total, settotal] = useState(0.00);
-  const [catid, setcatid] = useState();
-  const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
+  const [payment_terms, setpayment_terms] = useState('100% Advance')//set the payement terms to 100% advance
+  const [freight, setfreight] = useState('Air Freight')//set the freight to Air Freight
+  const [warranty, setwarranty] = useState('NA')//set the warranty to NA
+  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')//set the delivery_time to Within 2-3 Days from the Date of PO
+  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')//set the inco terms to DDP-Delivery Duty Paid To Customer Office
 
-  const { id } = useParams();
-  const { user } = useAuth();
-  const classes = useStyles();
-  const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] = useState(false);
+  // const [discount, setdiscount] = useState('0')
+  const [contactid, setcontactid] = useState('')//set the contact person id to null
+  const [dstatus, setdstatus] = useState(false);//dstatus is set to false if there is no discount
+  const [productid, setproductid] = useState('1');//set the product id to 1
+  const [indexset, setindex] = useState(0);
+  const [productname, setproductname] = useState('');//set the product name to null
+  const [partyids, setpartyids] = useState();//set the partyids to null
+  const [productprice, setproductprice] = useState([])// set the product price to null
+  const [contacts, setcontacts] = useState([])//set the contact to empty array
+  const [PriceList, setPriceList] = useState([]);//set the price to empty array
+  // const [DataList, setDataList] = useState("ghhhhh");
+  const [currency_type, setcurrency_type] = useState('SAR');//set the currency type to SAR
+  const [charge, setcharge] = useState(0.00);//set the freight chagrge to 0.00
+  const [total, settotal] = useState(0.00);//set the total to 0.00
+
+  // const [catid, setcatid] = useState();//set the 
+
+  const [po_date, setpo_date] = useState(moment(new Date()).format('DD MMM YYYY'))///set the the purchase order created date to todays date
+
+  const { id } = useParams();//Returns an object of the params for the route rendered
+  const { user } = useAuth();// Get auth state and re-render anytime it changes
+  const classes = useStyles();//we use a hook to consume the styles, which gives us a simple, clean, and efficient interface.
+  const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);//set the dialogue box state to false(close the dialogue box)
+
+  // const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] = useState(false);
+
   const [values, setvalues] = useState({
     vendorList: [],
     contacts: [],
     supplier_id: " ",
 
 
-  })
-  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+  })//set the vendorList ,contact list to empty array and supplier id to null
 
-  const [
-    shouldOpenConfirmationDialog,
-    setShouldOpenConfirmationDialog,
-  ] = useState(false);
+  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);//set the state false(dialogue box to add the party)
 
+  // const [
+  //   shouldOpenConfirmationDialog,
+  //   setShouldOpenConfirmationDialog,
+  // ] = useState(false);
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
     let id = tempId.substr(2, tempId.length - 1);
@@ -121,115 +126,116 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }, []);
 
 
-
+/*ADD the rows */
   const addItemToInvoiceList = () => {
 
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//set the tempItemList to the initial state item
 
-    setproList(proListAll)
+    setproList(proListAll)//set the productList
     tempItemList.push({
-      product_id: "",
-      item_name: "",
-      src: '',
-      description: "",
+      product_id: "",//set the product id to null
+      item_name: "",//set the product name to null
+      src: '',//set the src to null
+      description: "",//set the Our description to null
       descriptions: "",
-      quantity: 0,
-      product: "---",
-      product_price_list: [
+      quantity: 0,//set the quantity to 0
+      product: "---",//set the product to "---"
+      product_price_list: [//set the productPriceList
         {
-          price: ""
+          price: ""//set the product price
         }
       ],
       product: [
         {
-          description: ""
+          description: ""//set the product description
         }
       ],
       purchase_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
-      }),
-      margin: 0,
+      }),//set the purchase price to 0.00
+      margin: 0,//set the margin to 0
       sell_price: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
-      }),
-      remark: "",
+      }),//set the sell price to 0.00
+      // remark: "",//set the re
       total_amount: parseFloat(0.00).toLocaleString(undefined, {
         minimumFractionDigits: 2
-      })
+      })//set the total amount to 0.00
 
     });
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//set the tempItemList
   };
 
-  const setremark = (event, index) => {
-    event.persist()
-    let tempItemList = [...state.item];
+  // const setremark = (event, index) => {
+  //   event.persist()
+  //   let tempItemList = [...state.item];
 
-    tempItemList.map((element, i) => {
-      let sum = 0;
+  //   tempItemList.map((element, i) => {
+  //     let sum = 0;
 
-      if (index === i) {
-        element[event.target.name] = event.target.value;
-
-
-
-      }
-      return element;
-
-    });
-
-    setState({
-      ...state,
-      item: tempItemList,
-    });
+  //     if (index === i) {
+  //       element[event.target.name] = event.target.value;
 
 
-  }
 
-  const filterOptions = (options, params) => {
+  //     }
+  //     return element;
 
-    const filtered = filter(options, params);
-    // if (params.inputValue !== "") {
-    filtered.push({
-      inputValue: params?.inputValue,
-      name: `${params?.inputValue}`
-    });
-    // }
-    return filtered;
-  };
-  const charges = (e) => {
-    vat = e.target.value
-    GTotal = 50 + vat
-  }
+  //   });
+
+  //   setState({
+  //     ...state,
+  //     item: tempItemList,
+  //   });
+
+
+  // }
+
+  // const filterOptions = (options, params) => {
+
+  //   const filtered = filter(options, params);
+  //   // if (params.inputValue !== "") {
+  //   filtered.push({
+  //     inputValue: params?.inputValue,
+  //     name: `${params?.inputValue}`
+  //   });
+  //   // }
+  //   return filtered;
+  // };
+  // const charges = (e) => {
+  //   vat = e.target.value
+  //   GTotal = 50 + vat
+  // }
 
   const routerHistory = useHistory();
 
-
+/*Function to set the product name and product id */
   const handleChanges = (event, newValue, index) => {
-    // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
-    const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
+    
+    // const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
     let tempItemList = [...state.item];
-    if (!newValue) {
-      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
+    if (!newValue) {//if the product is entered manually 
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))//filter the product name if it exists in product list
 
     }
     tempItemList.map((element, i) => {
       let sum = 0;
 
-
+      //map the podetails  based on the index value
       if (index === i) {
 
 
-        element['product_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
-        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
-        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
-        element['productId'] = newValue?.id ? newValue?.id : null
+        element['product_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value//set the product name
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value//set the product name
+        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value//set the product name 
+        element['productId'] = newValue?.id ? newValue?.id : null//set the product id
+        
         // element.product_id=newValue?.id?newValue?.id:null
-        element['product_price_list'] = price ? price : null
+        // element['product_price_list'] = price ? price : null
         element['arabic_description'] = null
 
 
@@ -242,13 +248,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState({
       ...state,
       item: tempItemList,
-    });
+    });//set the modified product name and product id
 
 
 
   };
+
+  /*Function to set the total amount,purchase price,of single purchase order details */
   const handleIvoiceListChange = (event, index, newValue) => {
-    // event.persist()
+    
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -257,7 +265,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);
+        element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);//set the 
         element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
         // element[event.target.name] = event.target.value;
         element.margin = "";
@@ -421,11 +429,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-  const setproductids = (id, index) => {
-    setcatid(id)
-    setpartyids(party_id)
-    setShouldOpenEditorDialog(true)
-  }
+  // const setproductids = (id, index) => {
+  //   setcatid(id)
+  //   setpartyids(party_id)
+  //   setShouldOpenEditorDialog(true)
+  // }
 
 
   const handleSubmit = (e) => {
@@ -456,17 +464,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.contact_id = contactid
     arr.transaction_type = "purchase"
     arr.status = "New"
-    arr.ps_date = Quote_date
+    arr.ps_date = po_date
     arr.currency_type = currency_type
     arr.transport = 0.00
     arr.other = 0.00
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
     const json = Object.assign({}, arr);
-
+    console.log(json)
     url.post('purchase-quotation', json)
       .then(function (response) {
-
+        
 
         Swal.fire({
           title: 'Success',
@@ -503,15 +511,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
 
-  function handleChange(newValue) {
-    setDataList(newValue);
-  }
-  const handleDialogCloseAnnexure = () => {
-    setShouldOpenEditorDialogAnnexure(false);
+  // function handleChange(newValue) {
+  //   setDataList(newValue);
+  // }
+  // const handleDialogCloseAnnexure = () => {
+  //   setShouldOpenEditorDialogAnnexure(false);
 
 
 
-  };
+  // };
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
 
@@ -886,10 +894,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       inputVariant="outlined"
                       type="text"
                       size="small"
-                      selected={Quote_date}
-                      value={Quote_date}
+                      selected={po_date}
+                      value={po_date}
                       onChange={(date) => {
-                        setQuote_date(moment(date).format('DD MMM YYYY'))
+                        setpo_date(moment(date).format('DD MMM YYYY'))
                         // return date
                       }}
                     />
@@ -1384,7 +1392,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         </div>
       </Card>
 
-      {shouldOpenEditorDialog && (
+      {/* {shouldOpenEditorDialog && (
         <MemberEditorDialog
           handleClose={handleDialogClose}
           contactid={status}
@@ -1393,14 +1401,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           partyids={partyids}
           productprice={setproductprice}
         />
-      )}
-      {shouldOpenConfirmationDialog && (
+      )} */}
+      {/* {shouldOpenConfirmationDialog && (
         <ConfirmationDialog
           open={shouldOpenConfirmationDialog}
           onConfirmDialogClose={handleDialogClose}
           text="Are you sure to delete?"
         />
-      )}
+      )} */}
 
       {uom && (
         <UOMDialog
@@ -1423,7 +1431,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           />
         )
       }
-      {shouldOpenEditorDialogAnnexure && (
+      {/* {shouldOpenEditorDialogAnnexure && (
         <Annexure
           handleClose={handleDialogClose}
           onChange={handleChange}
@@ -1431,7 +1439,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           open={shouldOpenEditorDialogAnnexure}
           handleDialogClose={handleDialogCloseAnnexure}
         />
-      )}
+      )} */}
 
     </div>
   );
