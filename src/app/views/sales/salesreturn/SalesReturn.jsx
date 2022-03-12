@@ -49,6 +49,10 @@ const SalesReturn = () => {
     }
 
     useEffect(() => {
+        if(localStorage.getItem('search') !== 'salesreturn'){
+            localStorage.removeItem('search')
+            localStorage.removeItem('page')
+        }
         url.get("sales-return-table").then(({ data }) => {
             // if (isAlive) setUserList(data);
             // var myJSON = JSON.stringify(data.id);
@@ -355,6 +359,14 @@ const SalesReturn = () => {
                         rowsPerPageOptions: [10, 20, 40, 80, 100],
                         selectableRows: "none",
                         filterType: "dropdown",
+                        searchProps: {
+                            onKeyUp:(e) => {
+                              localStorage.setItem('search',e.target.value);
+                              localStorage.setItem('page','salesreturn');
+                            }
+                          },
+                        searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+                        
                         // responsive: "scrollMaxHeight",
                         rowsPerPage: 10,
 
