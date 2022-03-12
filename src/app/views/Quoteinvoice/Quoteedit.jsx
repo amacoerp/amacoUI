@@ -644,7 +644,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         console.error('eror')
-        addItemToInvoiceList(invoiceItemList);
+        // addItemToInvoiceList(invoiceItemList);
       }
 
       // }

@@ -725,7 +725,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         // console.error('eror')
-        addItemToInvoiceList(invoiceItemList);
+        // addItemToInvoiceList(invoiceItemList);
       }
 
       // }
@@ -927,7 +927,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.po_number = ponumber
     arr.grand_total = GTotal
-    arr.party_id = party_id
+    arr.party_id = party_id ? party_id : 0
     arr.validity = validity
     arr.warranty = warranty
     arr.delivery_time = delivery_time

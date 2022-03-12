@@ -336,10 +336,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 const delay = ms => new Promise(res => setTimeout(res, ms));
 /*Keyboard arrow key handling */
-  const controlKeyPress = async (e, id, nextid, prev)  => {
+  const controlKeyPress = async (e, id, nextid, prev,dropdown)  => {
 
-
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && !dropdown){
+      console.log('dsad')
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -367,7 +367,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
        
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode === 38) {
+    } else if (e?.keyCode === 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -380,7 +380,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
       }
 
-    } else if (e?.keyCode === 40) {
+    } else if (e?.keyCode === 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
     
@@ -393,7 +393,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
           getRef(r).current.focus();
         }
       } catch (error) {
-        addItemToInvoiceList();
+        // addItemToInvoiceList();
       }
 
      
@@ -813,7 +813,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
                             return option?.name ? option?.name : (item?.product_name ? item?.product_name : "");
                           }}
                           freeSolo
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null,'dropdown') }}
 
                           renderInput={(params) => (
                             <TextField inputRef={input => {
@@ -858,7 +858,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
                           name="unit_of_measure"
                           required
                           value={item?.unit_of_measure}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'descriptionss', index + 'quantity') }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'descriptionss', index + 'quantity','dropdown') }}
 
                           inputProps={{ min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'unit_of_measure') }}
                           MenuProps={{maxHeight: 48 * 4.5 + 8,

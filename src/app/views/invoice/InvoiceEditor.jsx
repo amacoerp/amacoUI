@@ -29,7 +29,7 @@ import {
   GDIV,
 } from "./InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
-import { Autocomplete,createFilterOptions } from "@material-ui/lab";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
@@ -344,23 +344,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   /*Key board event function */
-  const controlKeyPress = (e, id, nextid, prev) => {
-
-    if(e.key === 'Enter'){
-     
-      let i = parseInt(id)
+  const controlKeyPress = (e, id, nextid, prev, dropdown) => {
+    if (e.key === "Enter" && !dropdown) {
+      let i = parseInt(id);
       // const r = ++i + 'product_id';
       // console.log(r)
-        try {
-          addItemToInvoiceList();
-          // if (r.includes('product_id')) {
-            inputRef[parseInt(++i)].focus();
-            console.log(i)
-          // }
-        } catch (error) {
-          console.log(i)
-          console.log('error')
-        }
+      try {
+        addItemToInvoiceList();
+        // if (r.includes('product_id')) {
+        inputRef[parseInt(++i)].focus();
+        console.log(i);
+        // }
+      } catch (error) {
+        console.log(i);
+        console.log("error");
+      }
       //  inputRef[parseInt(r)].focus();
     }
 
@@ -372,7 +370,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         console.log("else");
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id);
       if (--i >= 0) {
@@ -383,7 +381,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           getRef(r).current.focus();
         }
       }
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id);
       // if (++i) {
@@ -396,7 +394,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           getRef(r).current.focus();
         }
       } catch (error) {
-        addItemToInvoiceList();
+        // addItemToInvoiceList();
       }
 
       // }
@@ -416,11 +414,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   };
 
-  const [party_id,setparty_id] = useState('')
+  const [party_id, setparty_id] = useState("");
 
   const setcontact = (event, newValue) => {
-
-
     // url.get("parties/" + event.target.value).then(({ data }) => {
     //   setcustomercontact(data[0].contacts);
 
@@ -428,16 +424,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     //   setrfqstatus(true);
 
-
     // });
     if (newValue?.id) {
-    
-        setparty_id(newValue?.id)
-        setcname(newValue?.firm_name)
-     
-  }
-  }
-  
+      setparty_id(newValue?.id);
+      setcname(newValue?.firm_name);
+    }
+  };
 
   /*Submit the data */
   const handleSubmit = () => {
@@ -520,34 +512,39 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     //   setProductList(data)
     // })
-  }
+  };
   const product = ProductList.map((guest, index) => {
     return {
       label: guest.name,
       value: guest.id,
       key: index,
       name: "name",
-    }
-  })
-  const [data, setData] = useState([])
+    };
+  });
+  const [data, setData] = useState([]);
   const [proListAll, setproListAll] = useState([]);
   const [CustomerList, setCustomerList] = useState([]);
 
-
   useEffect(() => {
-
-
-
-
     // getUnitOfMeasure().then(({ data }) => {
     //   setData(data);
     // });
-    url.get(`mjrRfqEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
-      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setData(data?.uom);
-      setCustomerList(data?.vendor);
-    });
+    url
+      .get(`mjrRfqEdit/${localStorage.getItem("division")}/${id}`)
+      .then(({ data }) => {
+        setproListAll(
+          data?.products.filter(
+            (obj) => obj.div_id == localStorage.getItem("division")
+          )
+        );
+        setproList(
+          data?.products.filter(
+            (obj) => obj.div_id == localStorage.getItem("division")
+          )
+        );
+        setData(data?.uom);
+        setCustomerList(data?.vendor);
+      });
     // url.get("products").then(({ data }) => {
     //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
     //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
@@ -556,7 +553,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     url.get("rfq/" + id).then(({ data }) => {
       setcname(data[0].party[0].firm_name);
-      setparty_id(data[0]?.party_id)
+      setparty_id(data[0]?.party_id);
       setrdate(moment(data[0].requested_date).format("MMMM DD, YYYY"));
       setfiles(data[0].files);
 
@@ -612,9 +609,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             autocomplete="off"
             onError={(errors) => null}
           >
-             <div >
-                <h3 style={{float:'left',}}> &nbsp;&nbsp; &nbsp;UPDATE RFQ</h3>
-              </div>
+            <div>
+              <h3 style={{ float: "left" }}> &nbsp;&nbsp; &nbsp;UPDATE RFQ</h3>
+            </div>
             <div className="viewer_actions px-4 flex justify-end">
               <div className="mb-6">
                 <Button
@@ -630,7 +627,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   // type="submit"
                   className="py-2"
                   variant="outlined"
-                  onClick={(e)=>{handleSubmit(e)}}
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
                   color="primary"
                   disabled={loading}
                 >
@@ -659,26 +658,43 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   options={CustomerList}
                   value={cname}
-
-
-                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  getOptionLabel={(option) =>
+                    option.firm_name ? option.firm_name : cname
+                  }
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            size="small"
+                            onClick={() =>
+                              routerHistory.push(
+                                navigatePath + "/party/addparty"
+                              )
+                            }
+                          >
+                            +Add New
+                          </Button>
+                        ),
                       });
                     }
-
 
                     return filtered;
                   }}
                   onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
-                  style={{width:500}}
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Vendor Name" />}
+                  style={{ width: 500 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Vendor Name"
+                    />
+                  )}
                 />
               </div>
               <div className="flex justify-between px-4 mb-4">
@@ -835,7 +851,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               e,
                               index + "product_id",
                               index + "quantity",
-                              null
+                              null,
+                              true
                             );
                           }}
                           renderInput={(params) => (
@@ -913,7 +930,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               e,
                               index + "unit_of_measure",
                               index + "descriptionss",
-                              index + "quantity"
+                              index + "quantity",
+                              true
                             );
                           }}
                           inputProps={{

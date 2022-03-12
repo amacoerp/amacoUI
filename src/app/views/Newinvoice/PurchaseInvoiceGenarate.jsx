@@ -252,9 +252,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-  const controlKeyPress = (e, id, nextid, prev) => {
+  const controlKeyPress = (e, id, nextid, prev,dropdown) => {
 
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && !dropdown){
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -283,7 +283,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         console.log(getRef(nextid).current?.focus())
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -298,7 +298,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -306,7 +306,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       try {
         if (r?.includes('purchase_prisce')) {
           priceRef[parseInt(r)].focus();
-        } else if (r.includes('product_id')) {
+        } else if (r.includes('product_id')) {  
           inputRef[parseInt(r)].focus();
 
           // inputRef.focus();
@@ -315,7 +315,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       } catch (error) {
         console.error('eror')
-        addItemToInvoiceList();
+        // addItemToInvoiceList();
       }
 
       // }
