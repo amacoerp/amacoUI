@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import MemberEditorDialogcontact from "../party/partycontact";
 
 import {
   Button,
   Divider,
   Card,
-  Grid,
   MenuItem,
   Table,
   TableHead,
@@ -13,7 +12,7 @@ import {
   TableCell,
   TableBody,
   Icon,
-  TextareaAutosize
+  // TextareaAutosize
 } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
@@ -34,7 +33,7 @@ import UOMDialog from '../invoice/UOMDialog';
 import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath, getUnitOfMeasure, GDIV } from "../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
-import FormDialog from "../product/productprice";
+// import FormDialog from "../product/productprice";
 import MemberEditorDialog from "../product/productprice";
 import moment from "moment";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
@@ -57,23 +56,23 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     fontWeight: theme.typography.fontWeightRegular
   }
 }));
-const [getRef, setRef] = useDynamicRefs();
+// const [getRef, setRef] = useDynamicRefs();
 
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
-
+  const [getRef, setRef] = useDynamicRefs();
   let inputRef = [];
   let priceRef = [];
-  const [isAlive, setIsAlive] = useState(true);
-  const [state, setState] = useState(initialValues);
-  const [customercontact, setcustomercontact] = useState([]);
+  const [isAlive, setIsAlive] = useState(true);//Initialize the clean up fucntion
+  const [state, setState] = useState(initialValues);//set the initial array object 
+  // const [customercontact, setcustomercontact] = useState([]);
 
-  const [party_id, setparty_id] = useState('');
-  const [discounts, setdiscounts] = useState('0');
-  const [proList, setproList] = useState([]);
-  const [proListAll, setproListAll] = useState([]);
-  const [validity, setvalidity] = useState('3 Days')
+  const [party_id, setparty_id] = useState('');//set the party id to null
+  const [discounts, setdiscounts] = useState('0');//set the discounts to 0
+  const [proList, setproList] = useState([]);//set the product list to empty array
+  const [proListAll, setproListAll] = useState([]);//set the product list to empty array
+  const [validity, setvalidity] = useState('3 Days')//set the validity to 3 days
   const [payment_terms, setpayment_terms] = useState('100% Advance')
   const [freight, setfreight] = useState('Air Freight')
   const [warranty, setwarranty] = useState('NA')
@@ -554,7 +553,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     // });
 
-    return setIsAlive(false)
+    return setIsAlive(false)//The return function is the cleanup function, or when the user leaves the page and the component will unmount
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
 
