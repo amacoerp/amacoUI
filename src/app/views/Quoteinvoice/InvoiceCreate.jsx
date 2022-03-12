@@ -657,10 +657,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+  const controlKeyPress = (e, id, nextid, prev,dropdown) => {
 
 
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && !dropdown){
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -689,7 +689,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -706,7 +706,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -1600,7 +1600,7 @@ select
                             return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ");
                           }}
                           freeSolo
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null,true) }}
 
                           renderInput={(params) => (
                             <TextField {...params} multiline inputRef={input => {
@@ -1692,7 +1692,7 @@ select
                           // onChange={e => setunit_of_measure(e.target.value)}
                           type="text"
                           size="small"
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
                           inputProps={{
                             ref: setRef(index + 'unit_of_measure')
                           }}

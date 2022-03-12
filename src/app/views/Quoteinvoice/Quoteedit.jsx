@@ -594,8 +594,36 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
 
 
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList) => {
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
 
+
+
+    if(e.key === 'Enter' && !dropdown){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // const r = ++i + 'product_id';
+      // console.log(r)
+
+
+      // setTimeout(() => 
+      // try {
+        
+      // } catch (error) {
+        
+      // };
+      // , 0);
+      
+        try {
+          addItemToInvoiceList(invoiceItemList);
+          // if (r.includes('product_id')) 
+          getRef(++i + 'description').current.focus()
+          
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
 
     if (e?.keyCode == 39) {
       // if (nextid?.includes('purchase_price')) {
@@ -608,7 +636,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       } else {
         getRef(nextid).current.focus();
       }
-    } else if (e?.keyCode == 38) {
+    } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       if (--i >= 0) {
@@ -625,7 +653,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       }
 
-    } else if (e?.keyCode == 40) {
+    } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
       let i = parseInt(id)
       // if (++i) {
@@ -662,7 +690,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         } else if (false) {
           priceRef[parseInt(prev)].focus();
         } else {
-          getRef(prev).current.focus();
+          console.log(getRef(prev)?.current.focus())
         }
       }
     }
@@ -1421,7 +1449,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
                   color="primary"
@@ -1432,7 +1460,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </Button>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
@@ -1658,7 +1686,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 type="text"
                 variant="outlined"
                 size="small"
-                style={{ width: 500 }}
+                style={{ width: 450 }}
                 onChange={e => setsubject(e.target.value)
                 }
                 value={subject == "null" || subject == null ? null : subject}
@@ -1976,7 +2004,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'unit_of_measure')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList,true) }}
 
                           size="small"
                           value={item.unit_of_measure}
