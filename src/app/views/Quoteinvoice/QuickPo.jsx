@@ -265,18 +265,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (index === i) {
 
 
-        element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);//set the 
-        element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
+        element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);//set the total amount by multiplying by quantity *price
+        element['purchase_price'] = newValue?.price ? newValue?.price : newValue;//set the purchase price
         // element[event.target.name] = event.target.value;
-        element.margin = "";
-        element.sell_price = "";
-        element['remark'] = "";
+        element.margin = "";//set margin to null
+        element.sell_price = "";//set sell price to null
+        element['remark'] = "";//set reark to null
       }
       return element;
 
     });
 
-    setState({
+    setState({//set the new po_details 
       ...state,
       item: tempItemList,
     });
@@ -286,7 +286,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
 
-
+/*delete the single purchase order details */
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -297,18 +297,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       icon: 'warning',
       cancelButtonText: 'No, keep it'
     }).then((result) => {
-      if (result.value) {
-        let tempItemList = [...state.item];
-        // console.log('before', state.item)
-        tempItemList.splice(index, 1);
-        // console.log('after', tempItemList)
-        // const list = tempItemList.filter((item,ind) => ind !== index)
-        setState({
+      if (result.value) {//if the result is yes
+        let tempItemList = [...state.item];//initial state value
+        
+        tempItemList.splice(index, 1);//delete the selected row is deleted
+        
+        setState({//set the new po_details
           ...state,
           item: tempItemList,
         });
       }
-      else if (result.dismiss === Swal.DismissReason.cancel) {
+      else if (result.dismiss === Swal.DismissReason.cancel) {//If result is no
         Swal.fire(
           'Cancelled',
           'Your Purchase Details is safe :)',
@@ -317,24 +316,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       }
     })
   };
-  const filterPrice = (options, params) => {
-    // console.log(params.inputValue)
-
-    // const filtered = filter(options, params);
-
-    // // if (params.inputValue == "") {
-    //   filtered.push({
-    //     inputValue: params.inputValue,
-    //     price: params.inputValue,
-    //     amount: params.inputValue
-    //   });
-    // }
-    // return filtered;
-  };
-
+  
+/*Function to calculate the total amount */
   const calcualteprice = (event, index) => {
     event.persist()
-    let tempItemList = [...state.item];
+    let tempItemList = [...state.item];//previous purchase order details
 
     tempItemList.map((element, i) => {
       let sum = 0;
@@ -343,9 +329,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-        element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
-        element[event.target.name] = event.target.value;
-        element['remark'] = "";
+        element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);//calculate total amount by multiplying quantity and purchase price
+        element[event.target.name] = event.target.value;//set the name field of the text field (quantity and purchase price)
+        element['remark'] = "";//set the remark to null
 
 
 
@@ -357,47 +343,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
 
-    setState({
+    setState({//set the previous po details 
       ...state,
       item: tempItemList,
     });
 
   }
-  const po_description = (event, index) => {
-    //  event.persist()
-    let tempItemList = [...state.item];
-
-    tempItemList.map((element, i) => {
-      let sum = 0;
-
-      if (index === i) {
-
-
-
-        element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
-        element[event.target.name] = event.target.value;
-        element['remark'] = "";
-
-
-
-
-      }
-
-      return element;
-
-    });
-
-
-    setState({
-      ...state,
-      item: tempItemList,
-    });
-
-  }
-
+ 
+/*set the ourDescription */
   const ChangeName = (event, index) => {
-    //  event.persist()
-    let tempItemList = [...state.item];
+   
+    let tempItemList = [...state.item];//previous state of purchase order details
 
     tempItemList.map((element, i) => {
       let sum = 0;
@@ -407,8 +363,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-        element[event.target.name] = event.target.value;
-        element['remark'] = "";
+        element[event.target.name] = event.target.value;//set the textfield name of our description
+        element['remark'] = "";//set the remark to null
 
 
 
@@ -420,7 +376,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
 
-    setState({
+    setState({//set the new po_details
       ...state,
       item: tempItemList,
     });
@@ -429,11 +385,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
-  // const setproductids = (id, index) => {
-  //   setcatid(id)
-  //   setpartyids(party_id)
-  //   setShouldOpenEditorDialog(true)
-  // }
+ 
 
 
   const handleSubmit = (e) => {

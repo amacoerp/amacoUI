@@ -1540,7 +1540,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
 
                           size="small"
-                          value={item?.unit_of_measure}
+                          value={item.unit_of_measure ? item.unit_of_measure : null}
                           name="unit_of_measure"
                           variant="outlined"
                           validators={[
