@@ -34,7 +34,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import useAuth from "app/hooks/useAuth";
-import { getInvoiceById, addInvoice, getUnitOfMeasure, updateInvoice, getCustomerList, getcompanybank, getusers, navigatePath } from "../invoice/InvoiceService";
+import { getInvoiceById, addInvoice,basePath, getUnitOfMeasure, updateInvoice, getCustomerList, getcompanybank, getusers, navigatePath } from "../invoice/InvoiceService";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -998,14 +998,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('notes', JSON.stringify(testArr))
     formData.append('transport', transport)
     formData.append('other', other)
+    formData.append('qstatus', qstatus)
     formData.append('user_id', user.id)
     formData.append('status', 'New')
     formData.append('qstatus', qstatus)
     formData.append('div_id', localStorage.getItem('division'))
     // JSON.stringify(values.rfq_details)
-
+    var spl = basePath.replace('api', '');
 
     tempItemList.map((answer, i) => {
+      answer.file && (answer.file = answer.file.replace(spl, ''))
+
       formData.append(`quotation_detail${i}`, JSON.stringify(answer))
       answer.files && (formData.append(`file${i}`, answer.files))
     })
@@ -1155,6 +1158,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
+  // const [qstatus, setQstatus] = useState(false)
   useEffect(() => {
     getUnitOfMeasure().then(({ data }) => {
       setData(data);
@@ -1186,9 +1190,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
+      console.log(data)
       setcname(data[0]?.party?.firm_name)
       setcontactname(data[0]?.contact?.fname)
       setinco_terms(data[0]?.inco_terms)
+      setqstatus(data[0]?.qstatus)
       setdiscounts(data[0]?.discount_in_p)
       setdiscount(data[0]?.discount_in_p)
       setvalidity(data[0]?.validity)
@@ -1390,6 +1396,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className="py-2"
                   variant="outlined"
                   color="primary"
+                  onClick={(e)=>{handleSubmit()}}
                   disabled={loading}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
