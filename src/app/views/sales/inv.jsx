@@ -66,7 +66,10 @@ const SimpleMuiTable = () => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const classes = useStyles();
   useEffect(() => {
-
+    if(localStorage.getItem('page') !== 'sinv'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
 
 
     url.get("invoice").then(({ data }) => {
@@ -410,6 +413,14 @@ const SimpleMuiTable = () => {
             filterType: "dropdown",
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','sinv');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
 
           }}
         />

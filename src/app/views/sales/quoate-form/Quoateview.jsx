@@ -103,6 +103,11 @@ const SimpleMuiTable = () => {
 
   }
   useEffect(() => {
+    if(localStorage.getItem('page') !== 'q'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
+
     url.get("sales-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
@@ -437,6 +442,15 @@ const SimpleMuiTable = () => {
             filterType: "dropdown",
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','q');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
+
 
             // expandableRows: true,
             // expandableRowsOnClick: true,

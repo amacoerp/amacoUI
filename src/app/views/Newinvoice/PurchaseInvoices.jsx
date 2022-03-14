@@ -68,7 +68,11 @@ const SimpleMuiTable = () => {
     const classes = useStyles();
     useEffect(() => {
 
-
+        if(localStorage.getItem('page') !== 'purchaseinvoice'){
+            // localStorage.removeItem('search')
+            // localStorage.removeItem('page')
+            console.log('ssffd  ')
+        }
 
         url.get("purchase-invoice").then(({ data }) => {
             // if (isAlive) setUserList(data);
@@ -79,7 +83,7 @@ const SimpleMuiTable = () => {
             if (data.length) {
 
                 setpoid(data[0].id)
-                console.log(data);
+              
                 setpodetails(data);
             }
         });
@@ -312,7 +316,6 @@ const SimpleMuiTable = () => {
                     )
                 },
                 customBodyRender: (value, tableMeta, updateValue) => {
-                    console.log(tableMeta.rowData)
                     return (
                         <div style={{ textAlign: "right" }} className="pr-8">
                             <Link to={navigatePath + "/piview/" + tableMeta.rowData[7]}>
@@ -405,6 +408,15 @@ const SimpleMuiTable = () => {
                         filterType: "dropdown",
                         // responsive: "scrollMaxHeight",
                         rowsPerPage: 10,
+                        searchProps: {
+                            onKeyUp:(e) => {
+                              localStorage.setItem('search',e.target.value);
+                              localStorage.setItem('page','purchaseinvoice');
+                            }
+                          },
+                        searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+                        
+              
 
                     }}
                 />

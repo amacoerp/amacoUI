@@ -102,6 +102,10 @@ const AcceptQuote = () => {
 
   }
   useEffect(() => {
+    if(localStorage.getItem('page') !== 'q'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
     url.get("quotations-accepted-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
 
@@ -434,6 +438,15 @@ const AcceptQuote = () => {
 
             rowsPerPageOptions: [10, 20, 40, 80, 100],
             selectableRows: "none",
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','q');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
+
             filterType: "dropdown",
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,

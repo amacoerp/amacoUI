@@ -47,6 +47,10 @@ const SimpleMuiTable = () => {
 
   }
   useEffect(() => {
+    if(localStorage.getItem('page') !== 'dnote'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
     url.get("delivery-notes").then(({ data }) => {
       console.log(data)
       // if (isAlive) setUserList(data);
@@ -353,6 +357,14 @@ const SimpleMuiTable = () => {
             filterType: "dropdown",
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','dnote');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
 
             // expandableRows: true,
             // expandableRowsOnClick: true,
