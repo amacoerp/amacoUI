@@ -1907,7 +1907,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             multiline
                             size="small"
                             disabled
-                            value={item.product_id ? item.product_id : "---"}
+                            value={"---"}
+                            // value={item.product_id ? item.product_id : "---"}
                           //   validators={["required"]}
 
                           //   errorMessages={["this field is required"]}

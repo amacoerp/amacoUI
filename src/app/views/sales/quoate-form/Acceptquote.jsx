@@ -96,6 +96,7 @@ const AcceptQuote = () => {
     zIndex: "100",
     // position: "sticky",
     backgroundColor: "#fff",
+   
     maxWidth: "300px",
     width: "200px",
     wordBreak: "break-word",
@@ -226,7 +227,14 @@ const AcceptQuote = () => {
               <span style={{ marginLeft: 18 }}>QUOTATION NO</span>
             </TableCell>
           )
-        }
+        },
+        setCellProps: () => ({
+          // align: "center",
+          // width:600,
+          style:{
+            color:'green'
+          }
+        })
 
       },
     },

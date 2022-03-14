@@ -225,8 +225,13 @@ const RejectQuote = () => {
               <span style={{ marginLeft: 18 }}>QUOTATION NO</span>
             </TableCell>
           )
-        }
-
+        },
+        setCellProps: () => ({
+          style:{
+            color:'red'
+          }
+        })
+        
       },
     },
     {
