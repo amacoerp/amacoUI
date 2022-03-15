@@ -330,8 +330,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
   useEffect(() => {
-    console.log(basePath);
-    myFunction()
+    // myFunction()
     document.title = "VAT Invoice - Amaco"
     url.get("purchase-invoice/" + id).then(({ data }) => {
       // console.log('a', );
