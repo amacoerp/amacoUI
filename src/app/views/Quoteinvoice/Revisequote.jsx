@@ -127,7 +127,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [companybank, setcompanybank] = useState([])
   let calculateAmount = [];
   const routerHistory = useHistory();
-  const { id } = useParams();
+  const { id,t } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -1024,7 +1024,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           text: 'Data saved successfully.',
         })
           .then((result) => {
-            routerHistory.push(navigatePath + "/quoateview/0")
+            routerHistory.push(navigatePath + "/quoateview/"+t)
             // window.location.href="../quoateview"
           })
       })
@@ -1042,7 +1042,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    routerHistory.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/"+t)
   }
 
   const handleDialogClose = () => {

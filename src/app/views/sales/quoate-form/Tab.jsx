@@ -35,6 +35,21 @@ const CustomerViewer = () => {
   const handleTabChange = (e, value) => {
     setTabIndex(value);
   };
+  const colorset = (tabIndex) => {
+    
+    if(tabIndex==0)
+    return "dark"
+    if(tabIndex==1)
+    return "dark"
+    if(tabIndex==2)
+    return "#008000"
+    if(tabIndex==3)
+    return "rgba(255,0,0,1)"
+    if(tabIndex==4)
+    return "secondary"
+    if(tabIndex==5)
+    return "primary"
+  };
   const { t } = useParams();
   useEffect(() => {
 
@@ -97,11 +112,12 @@ const CustomerViewer = () => {
         className="mt-4"
         value={tabIndex}
         onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="primary"
+        indicatorColor={colorset(tabIndex)}
+        textColor={colorset(tabIndex)}
+       
       >
         {tabList.map((item, ind) => (
-          <Tab className="capitalize" value={ind} label={item} key={ind} />
+          <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),color:(tabIndex==ind?colorset(tabIndex):"")}} value={ind} label={item} key={ind} />
         ))}
       </Tabs>
       <Divider className="mb-6" />

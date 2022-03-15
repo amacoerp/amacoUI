@@ -917,7 +917,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             if (s == "New") {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/new/0")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/New/1")
 
             }
             else {

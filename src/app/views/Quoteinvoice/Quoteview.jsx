@@ -557,7 +557,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               ' Quotation has been deleted.',
               'success'
             )
-            routerHistory.push(navigatePath + "/quoateview/2")
+            routerHistory.push(navigatePath + "/quoateview/"+t)
 
           })
 
@@ -590,12 +590,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const editqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    routerHistory.push(navigatePath + `/Quoteedit/${id}`)
+    routerHistory.push(navigatePath + `/Quoteedit/${id}/${t}`)
   }
   const reviseqoute = () => {
 
     // window.location.href = `/Quoteedit/${id}`
-    routerHistory.push(navigatePath + `/revisequote/${id}`)
+    routerHistory.push(navigatePath + `/revisequote/${id}/${t}`)
   }
 
   const handlePrint = () => {

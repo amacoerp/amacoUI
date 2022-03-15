@@ -117,7 +117,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [quickstatus, setquickstatus] = useState(false)
   let calculateAmount = [];
   const routerHistory = useHistory();
-  const { id } = useParams();
+  const { id,t } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [companybank, setcompanybank] = useState([]);
@@ -757,7 +757,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       })
   };
   function cancelform() {
-    routerHistory.push(navigatePath + "/quoateview")
+    routerHistory.push(navigatePath + "/quoateview/"+t)
   }
 
   const handleDialogClose = () => {

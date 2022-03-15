@@ -114,7 +114,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [quickstatus, setquickstatus] = useState(false)
   let calculateAmount = [];
   const history = useHistory();
-  const { id } = useParams();
+  const { id,t } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [companybank, setcompanybank] = useState([]);
@@ -1039,11 +1039,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           .then((result) => {
 
             if (status == "New") {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/New/"+t)
 
             }
             else {
-              routerHistory.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/1")
             }
             // window.location.href="../quoateview"
           })
@@ -1062,7 +1062,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   function cancelform() {
     let mode = "full"
     updateSidebarMode({ mode })
-    routerHistory.push(navigatePath + "/quoateview/0")
+    routerHistory.push(navigatePath + "/quoateview/"+t)
   }
 
   const handleDialogClose = () => {
