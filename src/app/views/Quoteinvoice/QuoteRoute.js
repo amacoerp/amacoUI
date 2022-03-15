@@ -5,7 +5,7 @@ const QuoteRoutes = [
  
   
   {
-    path: navigatePath+"/quote/:id/:s",
+    path: navigatePath+"/quote/:id/:s/:t",
     component: React.lazy(() => import("./Quotedetails"))
   },
   {

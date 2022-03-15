@@ -226,9 +226,15 @@ const History = () => {
               <span style={{ marginLeft: 18 }}>QUOTATION NO</span>
             </TableCell>
           )
-        }
+        },
+        setCellProps: () => ({
+          style:{
+            color:'#1976d2'
+          }
 
+      }),
       },
+    
     },
     {
       name: "fname", // field name in the row object
@@ -347,7 +353,7 @@ const History = () => {
 
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-             <Link to={navigatePath + `/quote/${tableMeta.rowData[6]}/history`}>
+             <Link to={navigatePath + `/quote/${tableMeta.rowData[6]}/history/5`}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>

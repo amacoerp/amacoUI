@@ -11,6 +11,7 @@ import RejectQuote from "./Rejectquote";
 import History from "./History";
 import Draft from "./Draft";
 import { navigatePath } from "app/views/invoice/InvoiceService";
+import Allquote from "./Allquote";
 
 const CustomerViewer = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -105,15 +106,17 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-       {tabIndex == 0 && <SimpleMuiTable />}
-      {tabIndex == 1 && <AcceptQuote />}
-      {tabIndex == 2 && <RejectQuote />}  
-      {tabIndex == 3 && <Draft />}  
-      {tabIndex == 4 && <History />}  
+      {tabIndex == 0 && <Allquote />}
+      {tabIndex == 1 && <SimpleMuiTable />}
+      {tabIndex == 2 && <AcceptQuote />}
+      {tabIndex == 3 && <RejectQuote />}  
+      {tabIndex == 4 && <Draft />}  
+      {tabIndex == 5 && <History />} 
+       
     </div>
   );
 };
 
-const tabList = ["NEW", "ACCEPTED QUOTATION", "TRASH","DRAFT","QUOTATION HISTORY"];
+const tabList = ["All", "NEW","ACCEPTED QUOTATION", "TRASH","DRAFT","QUOTATION HISTORY",];
 
 export default CustomerViewer;

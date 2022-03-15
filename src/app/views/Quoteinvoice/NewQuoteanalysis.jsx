@@ -988,11 +988,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
             if (s == "New") {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/new")
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/new/0")
 
             }
             else {
-              routerHistory.push(navigatePath + "/quoateview/3")
+              routerHistory.push(navigatePath + "/quoateview/4")
             }
           })
       })

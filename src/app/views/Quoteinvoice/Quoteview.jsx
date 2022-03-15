@@ -249,7 +249,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [designation, setdesignation] = useState('')
   const [fileurl, setfileurl] = useState('')
   const [vendor_id, setvendor_id] = useState('')
-  const { id, s } = useParams();
+  const { id, s ,t} = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const componentRef = useRef();
@@ -680,7 +680,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             icon: 'success',
             text: `Quotation has been ${status}ed.`,
           })
-          routerHistory.push(navigatePath + '/quoateview/' + tab_status)
+          routerHistory.push(navigatePath + '/quoateview/' + t)
         }
       })
 
@@ -713,7 +713,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   return (
     <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
       <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-        <Link to={navigatePath + "/quoateview/" + tab}>
+        <Link to={navigatePath + "/quoateview/" + t}>
           <IconButton>
             <Icon>arrow_back</Icon>
           </IconButton>
@@ -748,7 +748,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     Generate Purchase Order
                       </MenuItem> */}
 
-            {s == "accept" || s == "new" ? <MenuItem onClick={() => statuschange('reject', 'deleted')}>
+            {s == "accept" || s == "New" ? <MenuItem onClick={() => statuschange('reject', 'deleted')}>
               DELETE QUOTATION
             </MenuItem> : <MenuItem onClick={() => deletequote()}>
               DELETE QUOTATION
@@ -807,7 +807,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               GENERATE DELIVERY NOTE
             </Button>
           }
-          {s === "new" &&
+          {s === "New" &&
             <Button
               className="mr-4 py-2"
               style={{ border: '1px solid #ff3d57', color: '#ff3d57' }}
@@ -914,7 +914,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           ) : (
             <span>
 
-              {s === "new" &&
+              {s === "New" &&
                 !is_revised && <Button
                   className="mr-4 py-2"
                   variant="outlined"

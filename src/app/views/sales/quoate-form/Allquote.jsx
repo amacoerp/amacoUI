@@ -19,9 +19,10 @@ import {
   TableRow,
   Button
 } from "@material-ui/core";
+import { calculateAmount } from "./Quoateservice";
 
 
-const SimpleMuiTable = () => {
+const Allquote = () => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [qdetails, setqdetails] = useState([]);
@@ -33,8 +34,8 @@ const SimpleMuiTable = () => {
     zIndex: "100",
     // position: "sticky",
     backgroundColor: "#fff",
-    width: "200px",
-    maxWidth: "200px",
+    width: "205px",
+    maxWidth: "220px",
     wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
@@ -50,7 +51,7 @@ const SimpleMuiTable = () => {
     // position: "sticky",
     backgroundColor: "#fff",
     width: "200px",
-    maxWidth: "200px",
+    maxWidth: "220px",
     wordBreak: "break-word",
     // wordWrap: "break-word",
     // overflowWrap:"break-word",
@@ -102,12 +103,13 @@ const SimpleMuiTable = () => {
 
   }
   useEffect(() => {
-    url.get("sales-list").then(({ data }) => {
+    url.get("all-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
 
       // if(data.length)
       // {
+          console.log(data)
       setUserList(data);
 
       setqdetails(data);
@@ -215,10 +217,13 @@ const SimpleMuiTable = () => {
     },
     {
       name: "quotation_no", // field name in the row object
-      label: "QUOTATION NO", // column title that will be shown in table
+      label: "QUOTATION NO",
+      // column title that will be shown in table
       options: {
         filter: true,
         wordBreak: 'break-word',
+        
+        
         customHeadRender: ({ index, ...column }) => {
           return (
             <TableCell key={index} style={columnStyleWithWidth} >
@@ -226,13 +231,33 @@ const SimpleMuiTable = () => {
             </TableCell>
           )
         },
-        setCellProps: () => ({
-          style:{
-            color:'#ffaf38'
-          }
+        customBodyRender: (value, tableMeta, updateValue) => {
+          
+            // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
+            return (
+                <>
+                {tableMeta.rowData[7]=="New"&&(
+                    <p>{tableMeta.rowData[1]}</p>
+                )}
+                 {tableMeta.rowData[7]=="accept"&&(
+                    <p style={{color:'green'}}>{tableMeta.rowData[1]}</p>
+                )}
+                 {tableMeta.rowData[7]=="reject"&&(
+                    <p style={{color:'red'}}>{tableMeta.rowData[1]}</p>
+                )}
+                 {tableMeta.rowData[7]=="history"&&(
+                    <p style={{color:'#007bff'}}>{tableMeta.rowData[1]}</p>
+                )}
+                </>
+            )
 
-      })
+
+            // paddingLeft:24
+        }
+       
+
       },
+     
     },
     {
       name: "fname", // field name in the row object
@@ -306,35 +331,17 @@ const SimpleMuiTable = () => {
             </TableCell>
           )
         },
-
         setCellProps: () => ({
-          align: "right",
-          
-          // paddingLeft:24
-        })
-      }
+            align: "right",
+            
+            // paddingLeft:24
+          })
+        }
+      
+      
     },
 
-    //   {
-    //     name: "id",
-    //     label: "Action",
-    //     options: {
-    //         filter: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             
-    //             return (
-    //             <IconButton onClick={() => removeData(tableMeta.rowData[4])
-    //             }
-    //             >
-    //                     <Icon>close</Icon>
-    //             </IconButton>
-
-
-    //             )
-
-    //         },
-    //     },
-    // },
+      
     {
       name: "id",
       label: "ACTION",
@@ -351,9 +358,9 @@ const SimpleMuiTable = () => {
 
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-               <Link to={navigatePath + "/Quoteedit/" + tableMeta.rowData[6]}>
-                <Tooltip title="Edit">
-                  <Icon color="secondary">edit</Icon>
+              <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/"+tableMeta.rowData[7]+"/0"}>
+                <Tooltip title="View More">
+                  <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
               </Link>
               {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
@@ -366,6 +373,14 @@ const SimpleMuiTable = () => {
           )
 
         },
+      },
+    },
+    {
+      name: "require_date",
+      label: "AMOUNT",
+      options: {
+        filter: true,
+        display:'none'
       },
     },
     //   {
@@ -416,17 +431,18 @@ const SimpleMuiTable = () => {
         <MUIDataTable
           title={"SALES QUOTATION"}
 
-          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division') && obj.status == "draft").map((item, index) => {
-
+          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')&&obj.status!="draft").map((item, index) => {
             return [
               ++index,
-              item.quotation_no,
-              item.party?.firm_name,
+              item?.quotation_no,
+              item?.party?.firm_name,
               item?.subject == "null" || item?.subject == "" || item?.subject == null  ? '--' : item?.subject,
-              moment(item.created_at).format('DD MMM YYYY'),
+              moment(item?.created_at).format('DD MMM YYYY'),
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
-              (parseFloat(item.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-              item.id
+              (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+              item?.id,
+              item?.status
+              
               // item.party[index].firm_name,
               // item.requested_date,
               // item.require_date,
@@ -454,4 +470,4 @@ const SimpleMuiTable = () => {
 }
 
 
-export default SimpleMuiTable;
+export default Allquote;
