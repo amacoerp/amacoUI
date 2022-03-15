@@ -1053,7 +1053,7 @@ select
                                                         ref: setRef(index + 'description')
                                                     }}
                                                     // ref={setRef(index + 'description')}
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id',true) }}
 
                                                     onChange={(event) => po_description(event, index)}
                                                     value={item.description ? item.description : ""}

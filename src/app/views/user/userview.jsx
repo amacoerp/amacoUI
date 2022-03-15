@@ -54,12 +54,10 @@ const SimpleMuiTable = ({ logData, alive, setAlive }) => {
 
   useEffect(() => {
     url.get("users").then(({ data }) => {
-      console.log(data)
       setUserList(data?.filter(obj => obj?.status === "true"));
 
     });
     setLogData(logData)
-    console.log(alive)
     setIsAlive(false);
     setAlive(false)
 

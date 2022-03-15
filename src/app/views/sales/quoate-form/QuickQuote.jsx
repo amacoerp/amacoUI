@@ -1773,7 +1773,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 ref: setRef(index + 'description')
                               }}
                               // ref={setRef(index + 'description')}
-                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', null, invoiceItemList) }}
+                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', null, invoiceItemList,true) }}
 
                               name="description"
                               fullWidth
@@ -1801,7 +1801,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ref: setRef(index + 'descriptionss')
                           }}
                           // ref={setRef(index + 'description')}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList,true) }}
 
 
                           size="small"

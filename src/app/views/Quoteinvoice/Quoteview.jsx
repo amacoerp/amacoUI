@@ -1610,12 +1610,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                       </TableBody>
                     </Table>
                   </div>
-                  <div class='onepage'>
+                  <div class='onepage' style={{pageBreakInside: 'avoid',
+                //  pageBreakAfter: 'always', pageBreakBefore: 'always'
+                }}>
 
 
                     <div className="viewer__order-info pt-2 px-4 mb-2 flex justify-between" >
                       <div >
-                        <div class="break" style={{ pageBreakinside: 'avoid' }} >
+                        <div class="break" >
 
 
 

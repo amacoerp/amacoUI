@@ -1004,7 +1004,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               e,
                               index + "description",
                               index + "quantity",
-                              index + "product_id"
+                              index + "product_id",
+                              true
                             );
                           }}
                           multiline

@@ -76,7 +76,6 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, userList, id }) => 
 
   useEffect(() => {
 
-    console.log(user)
     getCustomerList().then(({ data }) => {
       setUserList1(data)
 

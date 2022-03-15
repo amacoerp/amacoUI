@@ -52,7 +52,6 @@ const SimpleMuiTable = () => {
       localStorage.removeItem('page')
   }
     url.get("delivery-notes").then(({ data }) => {
-      console.log(data)
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
       // if(data.length)
