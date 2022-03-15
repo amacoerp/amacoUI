@@ -150,7 +150,6 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
 
 
   useEffect(() => {
-    console.log('dsds', partyid);
     if (contactid) {
 
       url.get("contact/" + contactid).then(({ data }) => {

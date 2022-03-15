@@ -7,7 +7,9 @@ import clsx from "clsx";
 import url from "../invoice/InvoiceService";
 import bcrypt from "bcryptjs";
 import { useParams, useHistory } from "react-router-dom";
-
+import CryptoAES from 'crypto-js/aes';
+import CryptoENC from 'crypto-js/enc-utf8';
+import CryptoJS from 'crypto-js';
 
 
 
@@ -79,10 +81,38 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     url.get(`getAllEmails`).then(({ data }) => {
+
+
+      // var key = 'Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=';
+      // let encrypted = data
+      // encrypted = atob(encrypted);
+      // encrypted = JSON.parse(encrypted);
+     
+
+     
+      // const iv = CryptoJS.enc.Base64.parse(encrypted.iv);
+      // const value = encrypted.value;
+      // key = CryptoJS.enc.Base64.parse(key);
+      // var decrypted = CryptoJS.AES.decrypt(value, key, {
+      //   iv: iv
+      // });
+      // decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+    
+      // let index = decrypted.replace(/s:/g, '').indexOf(":")
+      // let slicedData = decrypted.replace(/s:/g, '').slice(index)
+      // let len = JSON.stringify(slicedData.slice(1)).slice(2).length;
+      // let stringfy = JSON.stringify(slicedData.slice(1)).slice(2)
+      // len = len - 4
+      // let finalD = stringfy.slice(0,len)+'"'
+      // let da = JSON.parse(finalD)
+
+      // console.log(da)
+   
+
+
       const emails = data.filter(obj => obj.email !== null).map((item, i) => {
         return item.email
       })
-      console.log(emails)
       setEmails(emails)
     })
 

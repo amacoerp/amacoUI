@@ -72,6 +72,12 @@ const SimpleMuiTable = () => {
 
 
   useEffect(() => {
+
+    if(localStorage.getItem('page') !== 'party'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
+
     /**
 * This API CALL displays the parties .
 */
@@ -321,6 +327,14 @@ const SimpleMuiTable = () => {
             responsive: "simple",
             selectableRows: "none",
             rowsPerPageOptions: [10, 20, 40, 80, 100],
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','party');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
           }}
         />
       </div>

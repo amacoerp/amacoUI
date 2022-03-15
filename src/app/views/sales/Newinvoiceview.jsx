@@ -49,6 +49,10 @@ const SimpleMuiTable = () => {
   }
 
   useEffect(() => {
+    if(localStorage.getItem('page') !== 'po'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
     url.get("purchase-invoice-list").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
@@ -361,6 +365,14 @@ const SimpleMuiTable = () => {
             filterType: "dropdown",
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','po');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
 
 
           }}

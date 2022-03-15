@@ -755,13 +755,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       </MenuItem> */}
 
               <MenuItem onClick={() => deletepo()}>
-                DELETE PURCHASEORDER
+                DELETE PURCHASE ORDER
               </MenuItem>
               <MenuItem onClick={() => handlePrinting()}>
-                PRINT PURCHASEORDER
+                PRINT PURCHASE ORDER
               </MenuItem>
               <MenuItem onClick={() => editpurchase()}>
-                EDIT PURCHASEORDER
+                EDIT PURCHASE ORDER
               </MenuItem>
 
             </Menu>

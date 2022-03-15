@@ -992,13 +992,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
     formData.append('vat_in_value', parseFloat(vat).toFixed(2))
     formData.append('po_number', id)
-    formData.append('party_id', party_id)
+    formData.append('party_id', party_id ? party_id : 0)
     formData.append('validity', validity)
     formData.append('warranty', warranty)
     formData.append('delivery_time', delivery_time)
     formData.append('inco_terms', inco_terms)
     formData.append('payment_terms', payment_terms)
-    formData.append('contact_id', contactid)
+    formData.append('contact_id', contactid ? contactid : 0)
     formData.append('ps_date', Quote_date)
     formData.append('rfq_id', null)
     formData.append('transaction_type', "sale")
@@ -1903,7 +1903,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             inputProps={{
                               ref: setRef(index + 'product_id')
                             }}
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList,true) }}
                             multiline
                             size="small"
                             disabled
@@ -1928,7 +1928,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'description')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList,true) }}
 
                           variant="outlined"
                           // inputProps={{style: {textTransform: 'capitalize'}}}
@@ -1951,7 +1951,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'descriptionss')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList,true) }}
 
                           name="descriptionss"
                           fullWidth

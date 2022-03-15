@@ -931,6 +931,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               index + "product_id"
                             );
                           }}
+<<<<<<< HEAD
+=======
+                          // ref={setRef(index + 'description')}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id',true) }}
+>>>>>>> 7692b20a5e95f86ed19743d2592f59ecf94ec726
                           name="description"
                           multiline
                           fullWidth

@@ -102,6 +102,10 @@ const History = () => {
 
   }
   useEffect(() => {
+    if(localStorage.getItem('page') !== 'q'){
+      localStorage.removeItem('search')
+      localStorage.removeItem('page')
+  }
     url.get("quoteHistory").then(({ data }) => {
       // if (isAlive) setUserList(data);
 
@@ -441,6 +445,14 @@ const History = () => {
             rowsPerPageOptions: [10, 20, 40, 80, 100],
             selectableRows: "none",
             filterType: "dropdown",
+            searchProps: {
+              onKeyUp:(e) => {
+                localStorage.setItem('search',e.target.value);
+                localStorage.setItem('page','q');
+              }
+            },
+          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
+          
             // responsive: "scrollMaxHeight",
             rowsPerPage: 10,
 

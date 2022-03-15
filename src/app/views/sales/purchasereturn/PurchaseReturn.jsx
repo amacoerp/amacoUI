@@ -49,7 +49,7 @@ const PurchaseReturn = () => {
     }
 
     useEffect(() => {
-        if(localStorage.getItem('search') !== 'purchasereturn'){
+        if(localStorage.getItem('page') !== 'purchasereturn'){
             localStorage.removeItem('search')
             localStorage.removeItem('page')
         }

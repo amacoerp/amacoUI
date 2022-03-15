@@ -1849,7 +1849,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                               inputProps={{
                                 ref: setRef(index + 'description')
                               }}
-                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList) }}
+                              onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList,true) }}
 
                               fullWidth
                               variant="outlined"
@@ -1878,7 +1878,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{
                             ref: setRef(index + 'descriptionss')
                           }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList) }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList,true) }}
 
                           // inputProps={{style: {textTransform: 'capitalize'}}}
                           fullWidth

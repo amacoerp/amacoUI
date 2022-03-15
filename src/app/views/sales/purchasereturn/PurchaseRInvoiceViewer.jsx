@@ -390,7 +390,6 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         // updateSidebarMode({ mode: "close" })
         document.title = "Purchase Order - Amaco"
         url.get(`getPurchaseReturnDetails/${id}`).then(({ data }) => {
-            console.log(data);
 
             setParty(data.getReturnParty);
             setTableData(data.getReturnItems);
