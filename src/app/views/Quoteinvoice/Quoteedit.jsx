@@ -1043,7 +1043,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             }
             else {
-              routerHistory.push(navigatePath + "/quoateview/1")
+              routerHistory.push(navigatePath + "/quoateview/4")
             }
             // window.location.href="../quoateview"
           })

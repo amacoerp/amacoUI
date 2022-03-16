@@ -557,7 +557,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
               ' Quotation has been deleted.',
               'success'
             )
-            routerHistory.push(navigatePath + "/quoateview/"+t)
+            routerHistory.push(navigatePath + "/quoateview/3")
 
           })
 
@@ -680,6 +680,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             icon: 'success',
             text: `Quotation has been ${status}ed.`,
           })
+          
           routerHistory.push(navigatePath + '/quoateview/' + t)
         }
       })
