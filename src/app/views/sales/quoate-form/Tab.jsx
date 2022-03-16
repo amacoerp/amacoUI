@@ -12,6 +12,7 @@ import History from "./History";
 import Draft from "./Draft";
 import { navigatePath } from "app/views/invoice/InvoiceService";
 import Allquote from "./Allquote";
+import id from "date-fns/esm/locale/id/index.js";
 
 const CustomerViewer = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -50,6 +51,24 @@ const CustomerViewer = () => {
     if(tabIndex==5)
     return "primary"
   };
+
+
+  const getBackgroundColor = (ind) => {
+    if(ind == 0){
+      return '#00000014'
+    }else if(ind == 1){
+      return '#00000014'
+    }else if(ind == 2){
+      return '#00800029'
+    }else if(ind == 3){
+      return '#ff00001c';
+    }else if(ind == 4){
+      return '#ffaf3829';
+    }else if(ind == 5){
+      return '#1976d21f';
+    }
+  }
+
   const { t } = useParams();
   useEffect(() => {
 
@@ -114,10 +133,16 @@ const CustomerViewer = () => {
         onChange={handleTabChange}
         indicatorColor={colorset(tabIndex)}
         textColor={colorset(tabIndex)}
-       
+        TabIndicatorProps={{style: {background: tabIndex==0? 'black':tabIndex==1 ? 'black' : tabIndex==2 ?  '#008000' : tabIndex == 3 ? 'rgba(255,0,0,1)' : tabIndex == 4 ? '#FFAF38': tabIndex == 5 ? '#1976d2' : '' }}}
       >
         {tabList.map((item, ind) => (
-          <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),color:(tabIndex==ind?colorset(tabIndex):"")}} value={ind} label={item} key={ind} />
+          <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),
+          // color:(tabIndex==ind?colorset(tabIndex):"")
+          color:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+          // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+          backgroundColor:ind == tabIndex ? getBackgroundColor(tabIndex) : ''
+
+        }} value={ind} label={item} key={ind} />
         ))}
       </Tabs>
       <Divider className="mb-6" />
