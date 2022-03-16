@@ -2777,6 +2777,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     size="small"
                     style={{ width: 500 }}
+                    multiline
                     validators={["required"]}
                     value={item.notes ? item.notes : " "}
                     errorMessages={["this field is required"]}

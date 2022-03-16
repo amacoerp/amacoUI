@@ -2584,6 +2584,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     value={item.note}
                     size="small"
+                    
                     style={{ width: 500 }}
                     // validators={["required"]}
                     // errorMessages={["this field is required"]}
