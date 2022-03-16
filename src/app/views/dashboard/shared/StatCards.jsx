@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const StatCards = () => {
   const [salesCount, setsalesCount] = useState('')
-  const [acceptquoteCount, setacceptquoteCount] = useState('')
+  const [pendingquoteCount, setpendingquoteCount] = useState('')
   const [requestedquoteCount, setrequestedquoteCount] = useState('')
   const [revenueCount, setrevenueCount] = useState('')
   let final = 0;
@@ -26,25 +26,26 @@ const StatCards = () => {
   useEffect(() => {
 
     url.get("stateCard").then(({ data }) => {
-      setsalesCount(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')).length)
+      setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division')&& moment(obj.issue_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))).length)
 
-      let res = data?.salesList?.filter((item) => item.state !== 'accept' && item.div_id == localStorage.getItem('division')).map((obj) => {
+      let res = data?.salesList?.filter((item) => item.state !== 'accept' && item.state !== 'draft' && item.state !== 'trash' && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY')).map((obj) => {
         return obj
       });
       pendingCount = res?.length;
-      setacceptquoteCount(res.length)
+      setpendingquoteCount(res.length)
 
-      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division'))?.length;
+      
+     
+      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.state !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
       setrequestedquoteCount(final + pendingCount)
 
 
 
       var result = data?.salesTax?.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
 
-      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
+      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
-      console.log(revenue)
-      console.log(result)
+      
 
 
     });
@@ -66,7 +67,7 @@ const StatCards = () => {
 
     //   pendingCount = res?.length;
 
-    //   setacceptquoteCount(res.length)
+    //   setpendingquoteCount(res.length)
     // });
     // url.get("quotations-accepted-list").then(({ data }) => {
 
@@ -119,7 +120,7 @@ const StatCards = () => {
               <small className="text-muted line-height-1">
                 PENDING QUOTATION
               </small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{acceptquoteCount}</h6>
+              <h6 className="m-0 mt-1 text-primary font-medium">{pendingquoteCount}</h6>
             </div>
           </div>
           {/* <Tooltip title="View Details" placement="top">

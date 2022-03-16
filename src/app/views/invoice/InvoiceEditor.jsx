@@ -204,6 +204,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       product_id: "",
       quantity: "",
       updated_at: "2021-01-22T09:51:20.000000Z",
+      delete:false
     });
     setState({
       ...state,
@@ -224,8 +225,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }).then((result) => {
       if (result.value) {
         if (id) {
-          url.delete(`rfq_details/${id}`).then(data);
-          setIsAlive(true);
+          // url.delete(`rfq_details/${id}`).then(data);
+
+          // setIsAlive(true);
+           let tempItemList = [...state.item];
+           
+          tempItemList.map((element, i) => {
+            console.log("index",index+"i"+i)
+      if (element['id'] == id)
+       element['delete'] = true;
+
+          return element;
+      });
+      
+     
+      setState({
+        ...state,
+        item: tempItemList,
+      });
+      
+      console.log(tempItemList)
+     
         } else {
           let tempItemList = [...state.item];
           tempItemList.splice(index, 1);
@@ -249,6 +269,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const Rfqpush = () => {
     // updateSidebarMode({ mode: "close" })
+   
+    
     routerHistory.push(navigatePath + `/sales/rfq-form/rfqview`);
   };
   /*Change the Bid Closing Date */
@@ -458,7 +480,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       tempItemList.map((answer, i) => {
         formData.append(`file${i}`, answer.files ? answer.files : null);
       });
-
+      console.log(tempItemList)
       url
         .post(`rfq-update`, formData)
         .then((response) => {
@@ -781,7 +803,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList?.map((item, index) => {
+                {invoiceItemList?.filter(obj=>obj.delete==false).map((item, index) => {
                   return (
                     <TableRow key={index}>
                       <TableCell
