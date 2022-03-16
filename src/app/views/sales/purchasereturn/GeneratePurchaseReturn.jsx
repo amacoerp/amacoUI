@@ -221,10 +221,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 addItemToInvoiceList();
                 // if (r.includes('product_id')) {
                   inputRef[parseInt(++i)].focus();
-                  console.log(i)
                 // }
               } catch (error) {
-                console.log(i)
                 console.log('error')
               }
             //  inputRef[parseInt(r)].focus();
@@ -361,6 +359,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
             if (index == i) {
                 element['po_number'] = newValue?.invoice_no ? newValue?.invoice_no : newValue
+                element['product_name'] = ''
+                element['product'] = ''
+                element['product_id'] = ''
                
             }
             return element;
@@ -990,7 +991,6 @@ select
 
                             <TableBody>
                                 {invoiceItemList?.map((item, index) => {
-                                    console.log(item)
                                     if (!dstatus) {
                                         subTotalCost += parseFloat(item.total_amount)
                                         vat = ((subTotalCost * 15) / 100).toFixed(2)

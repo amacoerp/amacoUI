@@ -320,6 +320,14 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
 
                 element['po_number'] = newValue?.id ? newValue?.invoice_no : newValue
+
+                element['product_name'] = ''
+                element['name'] = ''
+                element['product'] = ''
+                element['product_id'] = ''
+                element['description'] = ''
+                element['product_description'] = ''
+                
                 // setproList(a)
 
             }
@@ -345,7 +353,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
 
 
-        console.log(newValue)
 
         const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
@@ -357,8 +364,8 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 element['product_name'] = newValue?.id ? newValue?.name : newValue
                 element['product'] = newValue?.id ? newValue?.description : newValue
                 element['product_id'] = newValue?.id ? newValue?.id : newValue
-                element['description'] = newValue?.id ? newValue?.name : newValue
-                element['product_description'] = newValue?.id ? newValue?.name : newValue
+                element['description'] = newValue?.id ? newValue?.name : ''
+                element['product_description'] = newValue?.id ? newValue?.name : ''
 
                 element['product_price_list'] = price ? price : null
                 element['arabic_description'] = null
