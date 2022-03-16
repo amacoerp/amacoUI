@@ -1560,7 +1560,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // onChange={e => setunit_of_measure(e.target.value)}
                           type="text"
                           size="small"
-                          value={item?.unit_of_measure}
+                          value={item.unit_of_measure ? item.unit_of_measure : null}
                           name="unit_of_measure"
                           variant="outlined"
                           validators={[
