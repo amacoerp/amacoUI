@@ -335,6 +335,11 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             let sum = 0;
             if (index == i) {
                 element['invoice_no'] = newValue?.id ? newValue?.invoice_no : newValue
+                element['product_name'] = ''
+                element['product'] = ''
+                element['item_name'] = ''
+                element['product_id'] = ''
+                element['name'] = ''
             }
             return element;
         });

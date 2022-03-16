@@ -342,6 +342,11 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (index == i) {
 
                 element['invoice_no'] = newValue?.id ? newValue?.invoice_no : newValue
+                element['product_name'] = ''
+                element['product'] = ''
+                element['product_id'] = ''
+                element['description'] = ''
+                element['name'] = ''
                 // setproList(a)
 
             }

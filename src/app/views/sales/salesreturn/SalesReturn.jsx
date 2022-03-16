@@ -57,7 +57,6 @@ const SalesReturn = () => {
             // if (isAlive) setUserList(data);
             // var myJSON = JSON.stringify(data.id);
 
-            console.log(data);
             setpodetails(data);
         });
         return () => setIsAlive(false);
