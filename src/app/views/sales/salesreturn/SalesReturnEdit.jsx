@@ -299,10 +299,10 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const filterOptions = (options, params) => {
         const filtered = filter(options, params);
 
-        filtered.push({
-            inputValue: params.inputValue,
-            name: `Add "${params.inputValue}"`
-        });
+        // filtered.push({
+        //     inputValue: params.inputValue,
+        //     name: `Add "${params.inputValue}"`
+        // });
         // }
         return filtered;
     };
