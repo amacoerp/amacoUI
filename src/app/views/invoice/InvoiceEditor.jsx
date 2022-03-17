@@ -226,15 +226,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         if (id) {
           // url.delete(`rfq_details/${id}`).then(data);
-
           // setIsAlive(true);
            let tempItemList = [...state.item];
-           
           tempItemList.map((element, i) => {
             console.log("index",index+"i"+i)
       if (element['id'] == id)
        element['delete'] = true;
-
           return element;
       });
       

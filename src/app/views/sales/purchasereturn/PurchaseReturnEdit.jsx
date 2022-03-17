@@ -385,7 +385,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const deleteItemFromInvoiceList = (index, rId) => {
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You want to Delete this Quotation Details!',
+            text: 'You want to Delete this Purchase Return Details!',
             icon: 'danger',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -428,7 +428,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
                     'Cancelled',
-                    'Your Quotation Details is safe :)',
+                    'Your Purchase Return Details is safe :)',
                     'error'
                 )
             }
