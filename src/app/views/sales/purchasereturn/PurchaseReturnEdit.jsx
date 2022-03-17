@@ -395,9 +395,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             if (result.value) {
                 if (rId) {
 
-                    url.delete(`delete-sales-return-detail/${rId}`)
+                    // url.delete(`delete-sales-return-detail/${rId}`)
                         // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
-                        .then(res => {
+                        // .then(res => {
                             // Swal.fire(
                             //     'Deleted!',
                             //     'File has been deleted.',
@@ -412,7 +412,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 ...state,
                                 item: tempItemList,
                             });
-                        })
+                        // })
 
                 } else {
                     let tempItemList = [...state.item];

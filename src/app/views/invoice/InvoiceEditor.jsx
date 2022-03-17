@@ -800,7 +800,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList?.filter(obj=>obj.delete==false).map((item, index) => {
+                {invoiceItemList?.map((item, index) => {
                   return (
                     <TableRow key={index}>
                       <TableCell
