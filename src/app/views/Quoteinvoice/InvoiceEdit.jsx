@@ -587,7 +587,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           item: tempItemList,
         });
         if (id) {
-          url.delete(`invoice-detail/${id}`).then(data)
+          // url.delete(`invoice-detail/${id}`).then(data)
         }
 
       }

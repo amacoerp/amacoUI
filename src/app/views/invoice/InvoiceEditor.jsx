@@ -226,7 +226,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {
         // if (id) {
           // url.delete(`rfq_details/${id}`).then(data);
-
           // setIsAlive(true);
       //      let tempItemList = [...state.item];
            

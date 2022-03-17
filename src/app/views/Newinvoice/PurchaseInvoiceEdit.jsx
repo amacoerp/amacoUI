@@ -593,7 +593,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
         if (i) {
           console.log(i)
-          url.delete(`purchaseinvoiceitem/${i}`).then(data)
+          // url.delete(`purchaseinvoiceitem/${i}`).then(data)
           // setIsAlive(true)
         }
 

@@ -406,7 +406,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You want to Delete this Invoice Details!',
+            text: 'You want to Delete this Sales Return Details!',
             icon: 'danger',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -416,18 +416,17 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             if (result.value) {
                 if (rId) {
-                    console.log('sss', rId)
 
-                    url.delete(`delete-sales-return-detail/${rId}`)
+                    // url.delete(`delete-sales-return-detail/${rId}`)
                         // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
-                        .then(res => {
+                        // .then(res => {
                             // Swal.fire(
                             //     'Deleted!',
                             //     'File has been deleted.',
                             //     'success'
                             // )
                             // setIsAlive(true)
-                        })
+                        // })
 
 
                     let tempItemList = [...state.item];
@@ -450,7 +449,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
                     'Cancelled',
-                    'Your Invoice Details is safe :)',
+                    'Your Sales Return Details is safe :)',
                     'error'
                 )
             }
@@ -480,10 +479,6 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 element.margin = "";
                 element.sell_price = "";
                 element['remark'] = "";
-
-
-
-
             }
 
             return element;
