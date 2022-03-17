@@ -216,7 +216,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   /*Set the product name,description,product id*/
   const handleChanges = (event, newValue, index) => {
-   
+   console.log(event.target.value)
     const price = PriceList?.filter(
       (el) => el.product_id === newValue?.id && el.party_id == party_id
     );
@@ -305,7 +305,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (result.value) {//If the result.value is true
         let tempItemList = [...state.item];//create the copy of state array
         tempItemList.splice(index, 1);//delete the index wise purchse order detail
-
+        console.log(tempItemList)
         setState({
           ...state,
           item: tempItemList,
@@ -972,9 +972,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               name="product_id"
-                              // onChange={(event, newValue) =>
+                              // onInputChange={(event, newValue) =>
                               //   handleChanges(event, newValue, index)
                               // }
+                              
                               required
                               fullWidth
                             />
@@ -982,6 +983,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onChange={(event, newValue) =>
                             handleChanges(event, newValue, index)
                           }
+                          onKeyUp={(event, newValue) =>
+                            handleChanges(event, newValue, index)
+                          }
+                         
                         />
                       </TableCell>
                       <TableCell
