@@ -310,9 +310,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ...state,
           item: tempItemList,
         });//enqueues all of the updates made to the component state and instructs React to re-render the component and its children with the updated state.
-        if (id) {//If the purchase order details id exists
-          url.delete(`quotation_details/${id}`).then(data);//delete the quotation detail id
-        }
+        // if (id) {//If the purchase order details id exists
+        //   // url.delete(`quotation_details/${id}`).then(data);//delete the quotation detail id
+
+        // }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your Purchase Details is safe :)", "error");
       }

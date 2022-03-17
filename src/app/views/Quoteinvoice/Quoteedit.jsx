@@ -405,23 +405,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         let count = tempItemList.filter(obj => obj.index1 == i).length;
         //console.log(id)
 
-        if (id) {
-          tempItemList.splice(index, 1);
-          url.delete(`quotation_details/${id}`).then(data)
-          let newArr = tempItemList.map((item) => {
-            if (item.index1 > i) {
-              item['index1'] = item.index1 - 1;
-            }
-            return item
-          })
-          setState({
-            ...state,
-            item: newArr,
-          });
-        }
+        // if (id) {
+        //   tempItemList.splice(index, 1);
+        //   url.delete(`quotation_details/${id}`).then(data)
+        //   let newArr = tempItemList.map((item) => {
+        //     if (item.index1 > i) {
+        //       item['index1'] = item.index1 - 1;
+        //     }
+        //     return item
+        //   })
+        //   setState({
+        //     ...state,
+        //     item: newArr,
+        //   });
+        // }
 
 
-        else if (count > 1) {
+        if (count > 1) {
 
 
           tempItemList.splice(index, 1);

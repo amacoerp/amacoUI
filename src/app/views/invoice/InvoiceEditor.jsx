@@ -224,37 +224,38 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        if (id) {
+        // if (id) {
           // url.delete(`rfq_details/${id}`).then(data);
 
           // setIsAlive(true);
-           let tempItemList = [...state.item];
+      //      let tempItemList = [...state.item];
            
-          tempItemList.map((element, i) => {
-            console.log("index",index+"i"+i)
-      if (element['id'] == id)
-       element['delete'] = true;
+      //     tempItemList.map((element, i) => {
+      //       console.log("index",index+"i"+i)
+      // if (index == i)
+      //  element['delete'] = true;
 
-          return element;
-      });
+      //     return element;
+      // });
       
      
-      setState({
-        ...state,
-        item: tempItemList,
-      });
+      // setState({
+      //   ...state,
+      //   item: tempItemList,
+      // });
       
-      console.log(tempItemList)
+      // console.log(tempItemList)
      
-        } else {
+      //   } else {
           let tempItemList = [...state.item];
           tempItemList.splice(index, 1);
+          console.log(tempItemList)
 
           setState({
             ...state,
             item: tempItemList,
           });
-        }
+        // }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your RFQ Details is safe :)", "error");
       }
@@ -803,7 +804,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableHead>
 
               <TableBody>
-                {invoiceItemList?.filter(obj=>obj.delete==false).map((item, index) => {
+                {invoiceItemList?.map((item, index) => {
                   return (
                     <TableRow key={index}>
                       <TableCell
