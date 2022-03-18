@@ -97,7 +97,6 @@ const Analytics = () => {
   });
 
   useEffect(() => {
-    console.log('sdsdsd')
 
     url.get("dashboard").then(({ data }) => {
       console.log(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
