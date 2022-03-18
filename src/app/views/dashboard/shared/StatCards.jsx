@@ -28,7 +28,7 @@ const StatCards = () => {
     url.get("stateCard").then(({ data }) => {
       setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division')&& moment(obj.issue_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))).length)
 
-      let res = data?.salesList?.filter((item) => item.state !== 'accept' && item.state !== 'draft' && item.state !== 'trash' && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY')).map((obj) => {
+      let res = data?.salesList?.filter((item) => item.status == 'New'  && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY')).map((obj) => {
         return obj
       });
       pendingCount = res?.length;
@@ -36,7 +36,7 @@ const StatCards = () => {
 
       
      
-      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.state !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
+      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
       setrequestedquoteCount(final + pendingCount)
 
 
