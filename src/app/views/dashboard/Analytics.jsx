@@ -97,10 +97,10 @@ const Analytics = () => {
   });
 
   useEffect(() => {
-
+    console.log('sdsdsd')
 
     url.get("dashboard").then(({ data }) => {
-
+      console.log(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
 
       setresponseData(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
       let dataList = data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division'))
