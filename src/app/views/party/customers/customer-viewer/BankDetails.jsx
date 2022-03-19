@@ -81,7 +81,7 @@ const BankDetails = ({ ids }) => {
     url.get("parties/" + ids).then(({ data }) => {
       setcustomercontact(data[0].contacts);
       setbankdetails(data[0].bank)
-      console.log(data)
+      // console.log(data)
     }
     );
     return setisAlive(true)
