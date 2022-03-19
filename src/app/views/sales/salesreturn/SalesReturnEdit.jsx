@@ -126,9 +126,9 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
     const [getRef, setRef] = useDynamicRefs();
 
 
-    const controlKeyPress = (e, id, nextid, prev) => {
+    const controlKeyPress = (e, id, nextid, prev,dropdown) => {
 
-        if(e.key === 'Enter'){
+        if(e.key === 'Enter' && !dropdown){
      
             const a = id.split(parseInt(id));
             let i = parseInt(id)
@@ -158,7 +158,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             } else {
                 console.log(getRef(nextid).current?.focus())
             }
-        } else if (e?.keyCode == 38) {
+        } else if (e?.keyCode == 38 && !dropdown) {
             const a = id.split(parseInt(id));
             let i = parseInt(id)
             if (--i >= 0) {
@@ -175,7 +175,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
             }
 
-        } else if (e?.keyCode == 40) {
+        } else if (e?.keyCode == 40 && !dropdown) {
             const a = id.split(parseInt(id));
             let i = parseInt(id)
             // if (++i) {
@@ -1042,7 +1042,7 @@ select
                                                         return option?.invoice_no ? option?.invoice_no : " ";
                                                     }}
                                                     freeSolo
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null) }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'invoice_no', index + 'product_id', null,true) }}
 
                                                     renderInput={(params) => (
                                                         <TextField {...params} inputRef={input => {
@@ -1079,7 +1079,7 @@ select
                                                         return option?.name ? option.name : (item?.name ? item?.name : " ")
                                                     }}
                                                     freeSolo
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', index + 'invoice_no',true) }}
 
                                                     renderInput={(params) => (
                                                         <TextField {...params} inputRef={input => {
@@ -1106,7 +1106,7 @@ select
                                                         ref: setRef(index + 'description')
                                                     }}
                                                     // ref={setRef(index + 'description')}
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id',true) }}
 
                                                     fullWidth
                                                     onChange={(event) => po_description(event, index)}
@@ -1143,12 +1143,12 @@ select
                                                     inputProps={{
                                                         ref: setRef(index + 'unit_of_measure')
                                                     }}
-                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity') }}
+                                                    onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
 
                                                     style={{ width: '140px', float: 'left' }}
                                                     fullWidth
                                                     value={item.unit_of_measure ? item.unit_of_measure : null}
-                                                    onChange={(event) => po_description(event, index)}
+                                                    // onChange={(event) => po_description(event, index)}
                                                     select
 
 

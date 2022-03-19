@@ -905,7 +905,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                               width="0px"
                               align="center"
                             >
-                              QUOTATION NO
+                              INVOICE NO
                             </TableCell>
                             <TableCell
                               className="px-0"
@@ -1026,7 +1026,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     fontSize: 16,
                                   }}
                                 >
-                                  {item?.quotation_no}
+                                  {item?.invoice_no ? item?.invoice_no : '--'}
                                 </TableCell>
                                 <TableCell
                                   className="pl-2 capitalize"

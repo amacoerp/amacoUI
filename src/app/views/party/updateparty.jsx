@@ -564,7 +564,7 @@ const SimpleForm = () => {
                     variant="outlined"
                     inputProps={{ style: { width: 300, paddingRight: 50 } }}
                     value={contact}
-                    validators={['matchRegexp:^(0|[1-9][0-9]*)$']}
+                    validators={['isNumber']}
                     errorMessages={["Number is not valid"]}
 
                   />
