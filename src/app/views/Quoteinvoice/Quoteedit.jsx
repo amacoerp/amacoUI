@@ -1203,7 +1203,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
       }
       setparty_id(data?.sales?.party_id)
-      console.log('qwerty',data?.sales?.sign)
+      // console.log('qwerty',data?.sales?.sign)
       setsign(data?.sales?.sign[0]?.id)
 
       setTestArr([...data?.sales?.notes]);

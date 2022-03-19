@@ -7,7 +7,7 @@ function Footer({ p }) {
     url.get('company').then(({ data }) => {
       setstate(data[0])
     })
-    console.log('sss', p)
+    // console.log('sss', p)
   }, [])
   return (
     <footer style={{ visibility: "hidden" }}>

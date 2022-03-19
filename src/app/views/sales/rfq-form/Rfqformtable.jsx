@@ -47,7 +47,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
         // }
       } else {
-        console.log('else');
+        // console.log('else');
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38) {

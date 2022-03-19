@@ -316,11 +316,11 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         await url.get(`getInvSr/${newValue?.invoice_no}`).then(({ data }) => {
             const b = proList;
-            console.log('gds', b)
+            // console.log('gds', b)
             let yFilter = data.getPData.map(itemY => { return itemY.product_id; });
             let filteredX = b.filter(itemX => yFilter.includes(itemX.id));
-            console.log('ssds', filteredX)
-            console.log('ssdss', yFilter)
+            // console.log('ssds', filteredX)
+            // console.log('ssdss', yFilter)
             setproListt(filteredX);
             // console.log('aaa', filteredX);
         });

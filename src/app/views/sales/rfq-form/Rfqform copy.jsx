@@ -225,7 +225,7 @@ const InvoiceForm = ({ }) => {
         });
 
       } catch (error) {
-        console.log('err')
+        // console.log('err')
       }
     } else {
       setmessage(true);

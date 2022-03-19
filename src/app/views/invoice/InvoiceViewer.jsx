@@ -301,7 +301,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setregno(data[0]?.party[0]?.registration_no)
       setcontactperson(data[0]?.contact?.fname)
       setcontactpersonemail(data[0]?.contact?.email)
-      console.log('ss', data[0])
+      // console.log('ss', data[0])
       setcontactpersoncontact(data[0]?.contact?.mobno)
       setdesignation(data[0]?.contact?.designation)
 

@@ -69,9 +69,9 @@ const SimpleMuiTable = () => {
     useEffect(() => {
 
         if(localStorage.getItem('page') !== 'purchaseinvoice'){
-            // localStorage.removeItem('search')
-            // localStorage.removeItem('page')
-            console.log('ssffd  ')
+            localStorage.removeItem('search')
+            localStorage.removeItem('page')
+            // console.log('ssffd  ')
         }
 
         url.get("purchase-invoice").then(({ data }) => {
