@@ -442,7 +442,7 @@ const [data,setData] = useState([])
               />
               <TextValidator
                 className="mb-4 w-full"
-                label="description"
+                label="Description"
                 type="text"
                 size="small"
                 multiline
