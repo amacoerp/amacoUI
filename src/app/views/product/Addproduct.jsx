@@ -198,7 +198,7 @@ const SimpleForm = ({ open, handleClose }) => {
       setCustomerList(data?.vendor)
       setooptions(data?.product_in_category);
       setmanufacture(data?.manufacture);
-      console.log(data)
+      // console.log(data)
       setsubcategory(data?.category[0]?.name);
     })
     // getVendorList().then(({ data }) => {

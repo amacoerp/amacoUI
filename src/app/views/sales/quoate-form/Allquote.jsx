@@ -113,7 +113,7 @@ const Allquote = () => {
 
       // if(data.length)
       // {
-          console.log(data)
+          // console.log(data)
       setUserList(data);
 
       setqdetails(data);

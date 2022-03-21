@@ -491,7 +491,7 @@ const BalanceSheet = ({ refval }) => {
       var d = new Date();
 
       var result = data.salesExpenseReport[0].map((item, i) => {
-        console.log(item.category.amount);
+        // console.log(item.category.amount);
         let dateObj = new Date(item?.category?.paid_date);
         let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
 
@@ -529,7 +529,7 @@ const BalanceSheet = ({ refval }) => {
 
     url.get("salesExpenseReport").then(({ data }) => {
       var result = data[0].map((item, i) => {
-        console.log(item.category.amount);
+        // console.log(item.category.amount);
         let dateObj = new Date(item.category.paid_date);
         let monthyear = dateObj.toLocaleString("en-us", { month: "long" });
 

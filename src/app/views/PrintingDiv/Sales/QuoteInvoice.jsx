@@ -376,7 +376,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setvatno(data[0].party.vat_no)
       setqdetails(data[0].quotation_details)
       setnet_amount(data[0].net_amount)
-      console.log(data[0].net_amount)
+      // console.log(data[0].net_amount)
       setvat_in_value(data[0].vat_in_value)
       settotal_value(data[0].total_value)
       setvalidity(data[0].validity)

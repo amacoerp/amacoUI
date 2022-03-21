@@ -180,7 +180,7 @@ const Master = ({
     // updateSidebarMode({ mode: "close" })
     document.title = "Request for quoatation - Amaco";
     url.get('purchaseTax').then(({ data }) => {
-      console.log(data)
+      // console.log(data)
       var result = data.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') >= moment('01-01-2021').format('YYYY-MM-DD') && moment(obj.created_at).format('YYYY-MM-DD') <= moment('16-10-2021').format('YYYY-MM-DD')));
 
       setstatements(result)

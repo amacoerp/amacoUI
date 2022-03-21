@@ -234,7 +234,7 @@ function ProfitLoss() {
 
     
     const res = arr.filter(obj => obj.MONTH == month && obj.CATEGORY == category).reduce((a, v) => a = a + (isNaN(parseFloat(v.AMOUNT)) ? 0 : parseFloat(v.AMOUNT)), 0.00)
-    console.log(res)
+    // console.log(res)
 
     return res.toLocaleString(undefined, {
       minimumFractionDigits: 2

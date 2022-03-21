@@ -324,7 +324,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const handlePrinting = () => {
     var totalPages = Math.ceil(componentRef.current.scrollHeight / 1123);
-    console.log(totalPages);
+    // console.log(totalPages);
     // totalPages = totalPages - 2
     let a = [];
     for (var i = 0; i < totalPages; i++) {
@@ -333,7 +333,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       var q = "Page " + j + " of " + totalPages;
       a[i] = q;
     }
-    console.log(a);
+    // console.log(a);
     setPageNumber(a);
     setTimeout(() => {
       handlePrintingCur();
@@ -344,7 +344,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     // updateSidebarMode({ mode: "close" })
     document.title = "Purchase Order - Amaco";
     url.get(`getSalesReturnINV/${id}`).then(({ data }) => {
-      console.log(data);
+      // console.log(data);
 
       setParty(data.getReturnParty);
       setTableData(data.getReturnItems);

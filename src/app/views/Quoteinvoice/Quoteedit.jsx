@@ -1178,7 +1178,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // rfq no
       setrfq_no(data?.sales?.rfq_no)
       setbank_id(parseInt(data?.sales?.bank?.id))
-      console.log(data?.sales)
+      // console.log(data?.sales)
       setother(isNaN(parseFloat(data?.sales?.other)) ? 0 : parseFloat(data?.sales?.other))
       settransport(isNaN(parseFloat(data?.sales?.transport)) ? 0 : parseFloat(data?.sales?.transport))
 

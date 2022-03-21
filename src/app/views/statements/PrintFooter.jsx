@@ -5,7 +5,7 @@ function PrintFooter() {
   const [state, setstate] = useState([])
   useEffect(() => {
    url.get('company').then(({data})=>{
-     console.log(data)
+    //  console.log(data)
      setstate(data[0])
    })
   }, [ ])

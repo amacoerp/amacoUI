@@ -332,7 +332,7 @@ const SimpleMuiTable = () => {
           title={"DELIVERY NOTES"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
-            console.log(item.party[0]?.firm_name)
+            // console.log(item.party[0]?.firm_name)
             return [
               ++index,
               item?.delivery_number,

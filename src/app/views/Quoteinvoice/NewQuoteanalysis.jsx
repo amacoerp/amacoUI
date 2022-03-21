@@ -561,7 +561,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const addItemToInvoiceList_Index = (id) => {
     let tempItemList = [...state.item];
-    console.log(tempItemList)
+    // console.log(tempItemList)
     tempItemList.push({
       product_id: "",
       src: '',
@@ -1189,7 +1189,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct(true)
   }
   const setProductdescription = (event, index, newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
     if (newValue !== false) {
       url.get("products/" + newValue?.id).then(({ data }) => {
         let tempItemList = [...state.item];
@@ -1640,7 +1640,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
               <TableBody>
                 {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                  console.log(item.product_id)
+                  // console.log(item.product_id)
                   if (!dstatus) {
                     // 29-1-2022
                     costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;

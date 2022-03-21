@@ -187,7 +187,7 @@ const CashStatement = ({
         settotalcredit(bank_receipt.filter(obj=>obj.payment_mode=="cash" && obj.received_by.type=="division").reduce((initial,cal)=> initial= initial+ parseFloat(cal.amount),0))
        
         settotaldebit(bank_expense.filter(obj=>obj.payment_type=="cash" && obj.payment_account[0].type=="division").reduce((initial,cal)=> initial= initial+ parseFloat(cal.amount),0))
-        console.log(bank_expense)
+        // console.log(bank_expense)
         setarr([...bank_receipt,...bank_expense])
         setresponse([...bank_receipt,...bank_expense])
        

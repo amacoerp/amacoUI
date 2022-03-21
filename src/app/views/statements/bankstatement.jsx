@@ -306,7 +306,7 @@ const Bankstatement = ({
    
     let creditBalance=advancePay.filter((item=>item.credit &&(moment(item.created_at).format('YYYY-MM-DD')<moment(fDate).format('YYYY-MM-DD')))).reduce((initial,cal)=>initial+parseFloat(cal.credit),0)
     let debitBalance=advancePay.filter((item=>item.debit &&(moment(item.created_at).format('YYYY-MM-DD')<moment(fDate).format('YYYY-MM-DD')))).reduce((initial,cal)=>initial+parseFloat(cal.debit),0)
-    console.log(creditBalance+" "+debitBalance)
+    // console.log(creditBalance+" "+debitBalance)
     setopening_balance((bankReceipt.filter(obj=>(obj.payment_mode=="banktransfer")&&(moment(obj.created_at).format('YYYY-MM-DD')<moment(fDate).format('YYYY-MM-DD'))).reduce((initial,cal)=> initial= initial+ parseFloat(cal.credit),0)+creditBalance)-(bankExpense.filter(obj=>(obj.payment_type=="banktransfer")&&(moment(obj.created_at).format('YYYY-MM-DD')<moment(fDate).format('YYYY-MM-DD'))).reduce((initial,cal)=> initial= initial+ parseFloat(cal.amount),0)-debitBalance))
    
     
@@ -317,11 +317,11 @@ const Bankstatement = ({
      
        
     settotaldebit(bank_expense.reduce((obj,val)=>obj+parseFloat(val.amount),0)+arrs.reduce((obj,val)=>obj+parseFloat(val?.debit?val?.debit:0),0))
-    console.log(arrs)
+    // console.log(arrs)
     setarr([...bank_receipt,...bank_expense,...arrs])
    
-   console.log(bank_receipt)
-   console.log(bank_expense)
+  //  console.log(bank_receipt)
+  //  console.log(bank_expense)
     
     
     

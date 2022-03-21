@@ -376,7 +376,7 @@ const MemberEditorDialog_category = ({ uid, open, handleClose, catid, catList })
 
 
             {/* </Button> */}
-            {console.log(changeIcon)}
+            {/* {console.log(changeIcon)} */}
             {changeIcon ?
               <Tooltip title="view">
                 <Icon color="primary" align="right" style={{ position: 'absolute', right: 50 }} onClick={() => getrows()}>expand_less</Icon>

@@ -423,7 +423,7 @@ const Accountpayable = ({
                         </TableHead>
                         <TableBody>
                          
-                        {console.log(arr)}
+                        {/* {console.log(arr)} */}
                           {arr?.sort((a, b) => new Date(a?.created_at) - new Date(b?.created_at)).map((item, index) => {
                             
                         
