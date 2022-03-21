@@ -1111,7 +1111,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
-      setproList(data)
+      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
 
 
     });
@@ -1219,7 +1219,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setCustomerList(data?.customer);
       setusers(data?.users);
       setcompanybank(data?.banks);
-      setproList(data?.products)
+      setproList(data?.products?.filter(obj => obj.div_id == localStorage('division')))
       setData(data?.uom);
 
 

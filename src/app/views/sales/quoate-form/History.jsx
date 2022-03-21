@@ -254,7 +254,10 @@ const History = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#1976d2'
+          }
         })
       },
     },
@@ -272,7 +275,10 @@ const History = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#1976d2'
+          }
         })
       },
     },
@@ -290,7 +296,10 @@ const History = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#1976d2'
+          }
         })
       },
     },
@@ -315,6 +324,9 @@ const History = () => {
 
         setCellProps: () => ({
           align: "right",
+          style:{
+            color:'#1976d2'
+          }
           
           // paddingLeft:24
         })

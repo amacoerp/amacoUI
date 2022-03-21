@@ -256,7 +256,10 @@ const AcceptQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'green'
+          }
         })
       },
     },
@@ -274,7 +277,10 @@ const AcceptQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'green'
+          }
         })
       },
     },
@@ -292,7 +298,10 @@ const AcceptQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'green'
+          }
         })
       },
     },
@@ -317,7 +326,9 @@ const AcceptQuote = () => {
 
         setCellProps: () => ({
           align: "right",
-          
+          style:{
+            color:'green'
+          }
           // paddingLeft:24
         })
       }

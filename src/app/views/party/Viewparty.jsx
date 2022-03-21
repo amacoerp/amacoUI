@@ -312,7 +312,7 @@ const SimpleMuiTable = () => {
                 item.firm_name,
                 // (item.post_box_no?item.post_box_no+",":'')+""+(item.street?item.street+",":'')+""+(item.city?item.city+", \n":'')+""+(item.proviance?item.proviance+",":'')+""+(item.zip_code?item.zip_code:''),
                 item.vat_no,
-                item.party_type,
+                item.party_type.toUpperCase(),
                 item.opening_balance,
                 item.id,
               ]
