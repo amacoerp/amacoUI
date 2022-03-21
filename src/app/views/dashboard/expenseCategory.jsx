@@ -43,7 +43,7 @@ const ExpenseCategory =()=>{
      
 
      
-    console.log(result)
+    // console.log(result)
 
     
 

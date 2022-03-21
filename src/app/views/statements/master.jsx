@@ -196,7 +196,7 @@ const Master = ({
         moment(to_date).format("YYYY-MM-DD")
       )
       .then(({ data }) => {
-        console.log(data)
+        // console.log(data)
         const myArr = Object.values(data[0].data).sort(
           (a, b) => new Date(b[0]?.date) - new Date(b[0]?.date)
         );

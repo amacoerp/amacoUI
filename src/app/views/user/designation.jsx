@@ -157,7 +157,7 @@ const MemberEditorDialog1 = ({
       ...state,
       item: designationList,
     });
-    console.log(designationList)
+    // console.log(designationList)
   };
 
   const deleteItemFromInvoiceList = (index) => {

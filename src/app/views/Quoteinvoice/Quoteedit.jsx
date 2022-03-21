@@ -1178,7 +1178,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // rfq no
       setrfq_no(data?.sales?.rfq_no)
       setbank_id(parseInt(data?.sales?.bank?.id))
-      console.log(data?.sales)
+      // console.log(data?.sales)
       setother(isNaN(parseFloat(data?.sales?.other)) ? 0 : parseFloat(data?.sales?.other))
       settransport(isNaN(parseFloat(data?.sales?.transport)) ? 0 : parseFloat(data?.sales?.transport))
 
@@ -1203,7 +1203,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
       }
       setparty_id(data?.sales?.party_id)
-      console.log('qwerty',data?.sales?.sign)
+      // console.log('qwerty',data?.sales?.sign)
       setsign(data?.sales?.sign[0]?.id)
 
       setTestArr([...data?.sales?.notes]);
@@ -1701,7 +1701,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TableCell className="pl-sm-24" style={{ width: 70 }} align="left">S.NO.</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }}>ITEM</TableCell>
                   <TableCell className="px-0" style={{ width: '130px' }}>ITEM NAME</TableCell>
+                  {localStorage.getItem('division') == 1 && <>
                   <TableCell className="px-0" style={{ width: '130px' }}>RFQ DESCRIPTION</TableCell>
+                  </>}
                   <TableCell className="px-0" style={{ width: '130px' }}>AMACO DESCRIPTION</TableCell>
                   <TableCell className="px-0" style={{ width: '70px' }}>QUANTITY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
@@ -1917,7 +1919,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             none</TextValidator>)}
                       </TableCell>
 
-
+                      {localStorage.getItem('division') == 1 && <>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextValidator
                           label="description"
@@ -1940,6 +1942,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           errorMessages={["this field is required"]}
                         />
                       </TableCell>
+                      </>}
+                      
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         <TextValidator
                           label="Description"

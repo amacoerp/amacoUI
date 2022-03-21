@@ -125,7 +125,7 @@ const InvoiceForm = ({ }) => {
         firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push("/party/addparty")}>+Add New</Button>)
       });
     }
-    console.log(filtered)
+    // console.log(filtered)
     // setCustomerList(filtered)
     return filtered;
 
@@ -140,7 +140,7 @@ const InvoiceForm = ({ }) => {
   }, []);
 
   const setrfq = (event, newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
     if (newValue) {
       setparty_id(newValue?.id);
 
@@ -225,7 +225,7 @@ const InvoiceForm = ({ }) => {
         });
 
       } catch (error) {
-        console.log('err')
+        // console.log('err')
       }
     } else {
       setmessage(true);

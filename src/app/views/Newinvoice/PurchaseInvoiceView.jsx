@@ -272,7 +272,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
     // totalPages = totalPages - 2
-    console.log(componentRef.current.scrollHeight)
+    // console.log(componentRef.current.scrollHeight)
     if (componentRef.current.scrollHeight < 1551) {
       totalPages = 1
     }
@@ -379,7 +379,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setQrValue(data[0].party?.firm_name + "                                                         " + data[0].party?.firm_name_in_ar + "                                              VAT NUMBER :" + data[0].party?.vat_no + "                                              " + "DATE : " + data[0].issue_date + "                                              INVOICE NUMBER : " + data[0].invoice_no + "                                              VAT AMOUNT : " + data[0].vat_in_value + " SAR" + "                                              GRAND TOTAL :" + data[0].grand_total + " SAR");
 
         if (data[0].currency_type == "SAR") {
-          console.log(data[0].currency_type)
+          // console.log(data[0].currency_type)
           setress(words1.split(",").join(" ") + " Riyals " + ((parseFloat(data[0].grand_total.split('.')[1]) !== NaN) ? (parseFloat(data[0].grand_total.split('.')[1]) == 0.00 ? "." : (decimal ? " & " + (numberToWords?.toWords(decimal)) + " Halalas." : "")) : " "));
         }
         if (data[0].currency_type == "AED") {
@@ -543,7 +543,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       if (result.value) {
         url.delete(`purchase-invoice/${id}`)
           .then(res => {
-            console.log(res);
+            // console.log(res);
 
 
             Swal.fire(

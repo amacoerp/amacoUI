@@ -339,7 +339,6 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
   const controlKeyPress = async (e, id, nextid, prev,dropdown)  => {
 
     if(e.key === 'Enter' && !dropdown){
-      console.log('dsad')
      
       const a = id.split(parseInt(id));
       let i = parseInt(id)
@@ -349,11 +348,11 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
           addItemToInvoiceList();
           // if (r.includes('product_id')) {
             inputRef[parseInt(++i)].focus();
-            console.log(i)
+            // console.log(i)
           // }
         } catch (error) {
-          console.log(i)
-          console.log('error')
+          // console.log(i)
+          // console.log('error')
         }
       //  inputRef[parseInt(r)].focus();
     }

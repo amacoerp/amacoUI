@@ -1190,7 +1190,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
 
     url.get(`sale-quotation/${id}`).then(({ data }) => {
-      console.log(data)
+      // console.log(data)
       setcname(data[0]?.party?.firm_name)
       setcontactname(data[0]?.contact?.fname)
       setinco_terms(data[0]?.inco_terms)

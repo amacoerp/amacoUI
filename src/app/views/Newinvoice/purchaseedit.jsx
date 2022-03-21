@@ -400,7 +400,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           // }
         } catch (error) {
           console.log(i)
-          console.log('error')
+          // console.log('error')
         }
       //  inputRef[parseInt(r)].focus();
     }

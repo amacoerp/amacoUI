@@ -149,7 +149,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList }) => {
 
     url.post('add-permission', obj)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         // Swal.fire({
         //   title: 'Success',
         //   type: 'success',

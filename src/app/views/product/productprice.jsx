@@ -138,7 +138,7 @@ const MemberEditorDialog = ({ uid, open, fun, handleClose, catid, catList, produ
       });
 
       const l = c.length - 1;
-      console.log(c[l]);
+      // console.log(c[l]);
 
       c[l] == undefined ? setcustomerList(data.data) : setcustomerList(c[l])
 

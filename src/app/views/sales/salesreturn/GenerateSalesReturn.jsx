@@ -263,7 +263,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 } else if (false) {
                     priceRef[parseInt(prev)].focus();
                 } else {
-                    console.log(prev)
+                    // console.log(prev)
                     console.log(getRef(prev)?.current?.focus())
                 }
             }
@@ -316,11 +316,11 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         await url.get(`getInvSr/${newValue?.invoice_no}`).then(({ data }) => {
             const b = proList;
-            console.log('gds', b)
+            // console.log('gds', b)
             let yFilter = data.getPData.map(itemY => { return itemY.product_id; });
             let filteredX = b.filter(itemX => yFilter.includes(itemX.id));
-            console.log('ssds', filteredX)
-            console.log('ssdss', yFilter)
+            // console.log('ssds', filteredX)
+            // console.log('ssdss', yFilter)
             setproListt(filteredX);
             // console.log('aaa', filteredX);
         });
@@ -343,7 +343,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
             return element;
         });
-        console.log(tempItemList);
+        // console.log(tempItemList);
         setState({
             ...state,
             item: tempItemList,
@@ -373,7 +373,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             }
             return element;
         });
-        console.log(tempItemList);
+        // console.log(tempItemList);
         setState({
             ...state,
             item: tempItemList,
@@ -402,7 +402,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
             return element;
 
         });
-        console.log(tempItemList)
+        // console.log(tempItemList)
         setState({
             ...state,
             item: tempItemList,
@@ -563,12 +563,12 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.div_id = localStorage.getItem('division')
 
         const json = Object.assign({}, arr);
-        console.log(json)
-        console.log(user.id)
-        console.log(localStorage.getItem('division'))
+        // console.log(json)
+        // console.log(user.id)
+        // console.log(localStorage.getItem('division'))
         url.post('purchase-return', json)
             .then(function (response) {
-                console.log(response)
+                // console.log(response)
 
                 Swal.fire({
                     title: 'Success',
@@ -609,7 +609,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setDataList(newValue);
     }
     const handleDialogCloseAnnexure = () => {
-        console.log(DataList)
+        // console.log(DataList)
         setShouldOpenEditorDialogAnnexure(false);
 
 
@@ -661,12 +661,12 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     }
     const setcontact = (event, newValue) => {
-        console.log(newValue)
+        // console.log(newValue)
         newValue == null && setparty_id('')
         
 
         url.get("parties/" + newValue?.id).then(({ data }) => {
-            console.log(data[0].contacts)
+            // console.log(data[0].contacts)
             setState({
                 ...state,
                 item:[]
@@ -677,7 +677,7 @@ const GenSalesReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         });
 
         url.get(`getSalesFormData/${newValue?.id}`).then(({ data }) => {
-            console.log(data);
+            // console.log(data);
             // const poN = data.getPurchaseReturnData.map((item, i) => {
             //     return (
             //         item.po_number

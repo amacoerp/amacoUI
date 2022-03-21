@@ -83,7 +83,7 @@ const SimpleMuiTable = ({ logData, alive, setAlive }) => {
     setShouldOpenConfirmationDialog,
   ] = useState(false);
   const handleDialogClose = () => {
-    console.log('dd')
+    // console.log('dd')
     setuserid(null)
     setShouldOpenEditorDialog(false);
     setShouldOpenPermissionDialog(false);

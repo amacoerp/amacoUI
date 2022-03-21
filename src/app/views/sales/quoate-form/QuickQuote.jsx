@@ -735,7 +735,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
-      console.log(element)
+      // console.log(element)
       let sum = 0;
 
       if (index == i) {
@@ -784,7 +784,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
   const discountPer = (event, index, value) => {
 
-    console.log(event.target.value)
+    // console.log(event.target.value)
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -1042,7 +1042,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         } else if (false) {
           priceRef[parseInt(prev)].focus();
         } else {
-          console.log(prev)
+          // console.log(prev)
           console.log(getRef(prev)?.current?.focus())
         }
       }
@@ -1065,7 +1065,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
-        console.log(json);
+        // console.log(json);
         setState({
           ...state,
           item: json,

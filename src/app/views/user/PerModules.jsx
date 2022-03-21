@@ -94,7 +94,7 @@ export default function PerModules({ userid, id }) {
 
     useEffect(() => {
         url.get(`get-modules-per/${userid}/${id}`).then(({ data }) => {
-            console.log(data);
+            // console.log(data);
             setPList(data.gData);
             setListData(data.all);
             const filterD = data.permission.map((item, i) => {
@@ -134,7 +134,7 @@ export default function PerModules({ userid, id }) {
 
         url.post('add-permission', obj)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 // Swal.fire({
                 //   title: 'Success',
                 //   type: 'success',

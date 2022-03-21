@@ -111,7 +111,7 @@ const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userL
   const error = divisions.filter(v => v).length !== 1;
 
   useEffect(() => {
-    console.log(setIsAlive2, 'ss')
+    // console.log(setIsAlive2, 'ss')
     let tempList;
     url.get('roles').then(({ data }) => {
       setRoles(data)
@@ -204,7 +204,7 @@ const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userL
         opening_bal: opening_bal,
         profit_per: profit_per
       }
-      console.log(designationList)
+      // console.log(designationList)
       url.put(`users/${userid}`, formdata).then(function (data) {
         // url.get('users').then(({ data }) => {
         //    userList(data)
@@ -241,9 +241,9 @@ const MemberEditorDialog = ({ uid, open, setIsAlive2, handleClose, userid, userL
         profit_per: profit_per
       }
 
-      console.log(formdata)
+      // console.log(formdata)
       url.post('users', formdata).then(({ data }) => {
-        console.log(data)
+        // console.log(data)
         Swal.fire({
           title: 'Success',
           type: 'success',

@@ -223,7 +223,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   inputRef[parseInt(++i)].focus();
                 // }
               } catch (error) {
-                console.log('error')
+                // console.log('error')
               }
             //  inputRef[parseInt(r)].focus();
           }

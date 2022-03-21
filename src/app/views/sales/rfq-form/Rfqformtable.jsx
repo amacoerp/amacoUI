@@ -35,9 +35,9 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
 
   const controlKeyPress = (e, id, nextid, prev) => {
-    console.log(e?.keyCode)
-    console.log(id)
-    console.log(nextid)
+    // console.log(e?.keyCode)
+    // console.log(id)
+    // console.log(nextid)
 
     if (e?.keyCode == 39) {
       if (nextid?.includes('purchase_price')) {
@@ -47,7 +47,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
 
         // }
       } else {
-        console.log('else');
+        // console.log('else');
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38) {
@@ -135,7 +135,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                 <TableRow className="position-relative" key={ind}>
                   <TableCell className="pl-0" colSpan={2} align="center">
                     {ind + 1}
-                    {console.log(item.name)}
+                    {/* {console.log(item.name)} */}
 
                   </TableCell>
                   <TableCell>
@@ -275,7 +275,7 @@ const InvoiceItemTable = ({ values, handleChange, setFieldValue, CustomerList })
                           let m = productList.filter(obj => obj.name == newValue).map((it) => {
                             return it.unit_of_measure
                           })
-                          console.log(m[0])
+                          // console.log(m[0])
                           handleChange({
                             target: {
                               //  files: `rfq_details[${ind}].file`,

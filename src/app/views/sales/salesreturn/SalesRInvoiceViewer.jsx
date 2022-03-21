@@ -324,7 +324,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const handlePrinting = () => {
     var totalPages = Math.ceil(componentRef.current.scrollHeight / 1123);
-    console.log(totalPages);
+    // console.log(totalPages);
     // totalPages = totalPages - 2
     let a = [];
     for (var i = 0; i < totalPages; i++) {
@@ -333,7 +333,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       var q = "Page " + j + " of " + totalPages;
       a[i] = q;
     }
-    console.log(a);
+    // console.log(a);
     setPageNumber(a);
     setTimeout(() => {
       handlePrintingCur();
@@ -344,7 +344,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     // updateSidebarMode({ mode: "close" })
     document.title = "Purchase Order - Amaco";
     url.get(`getSalesReturnINV/${id}`).then(({ data }) => {
-      console.log(data);
+      // console.log(data);
 
       setParty(data.getReturnParty);
       setTableData(data.getReturnItems);
@@ -905,7 +905,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                               width="0px"
                               align="center"
                             >
-                              QUOTATION NO
+                              INVOICE NO
                             </TableCell>
                             <TableCell
                               className="px-0"
@@ -1026,7 +1026,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     fontSize: 16,
                                   }}
                                 >
-                                  {item?.quotation_no}
+                                  {item?.invoice_no ? item?.invoice_no : '--'}
                                 </TableCell>
                                 <TableCell
                                   className="pl-2 capitalize"

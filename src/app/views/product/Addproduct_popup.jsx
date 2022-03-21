@@ -316,7 +316,7 @@ const MemberEditorDialog_product = ({ uid, open, handleClose, productid, margin,
 
 
     }
-    console.log('dsds');
+    // console.log('dsds');
     // if (catid) {
     url.post('products', frmdetails)
       .then(function (response) {

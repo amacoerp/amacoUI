@@ -363,7 +363,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       // setrdate(moment(data[0]?.created_at).format('DD MMM YYYY'))
       // setddate(moment(data[0]?.require_date).format('DD MMM YYYY'))
       setparty_id(data[0]?.party_id);
-      console.log("dsd", data[0].rfq_details);
+      // console.log("dsd", data[0].rfq_details);
       setState({
         ...state,
         item: data[0].rfq_details,

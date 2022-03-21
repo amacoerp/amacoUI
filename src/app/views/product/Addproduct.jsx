@@ -198,7 +198,7 @@ const SimpleForm = ({ open, handleClose }) => {
       setCustomerList(data?.vendor)
       setooptions(data?.product_in_category);
       setmanufacture(data?.manufacture);
-      console.log(data)
+      // console.log(data)
       setsubcategory(data?.category[0]?.name);
     })
     // getVendorList().then(({ data }) => {
@@ -479,16 +479,15 @@ const SimpleForm = ({ open, handleClose }) => {
                 />
               </div>
               <div className="flex mb-4">
-                <TextValidator
+                <TextField
                   className="mr-2"
-                  type="text"
+                  type="number"
                   size="small"
 
                   label="Initial Quantity"
                   variant="outlined"
                   onChange={e => setiq(e.target.value)}
                   value={iq}
-
                   name="unit_of_measue"
                   validators={[
                     "required",'isNumber'
@@ -499,8 +498,8 @@ const SimpleForm = ({ open, handleClose }) => {
                
                 >
 
-                </TextValidator>
-                <TextValidator
+                </TextField>
+                <TextField
                   className="ml-2"
 
                   label="Minimum Quantity"
@@ -511,6 +510,7 @@ const SimpleForm = ({ open, handleClose }) => {
                   variant="outlined"
                   value={mq}
                   size="small"
+                  type='number'
                   validators={[
                     "required",'isNumber'
                   ]}

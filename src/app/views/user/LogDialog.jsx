@@ -111,7 +111,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, logData 
 
     useEffect(() => {
         setLogData(logData);
-        console.log(logData)
+        // console.log(logData)
         setLoad(false)
         setIsAlive(false)
 
@@ -140,7 +140,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, userid, userList, logData 
 
         url.post('add-permission', obj)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 // Swal.fire({
                 //   title: 'Success',
                 //   type: 'success',

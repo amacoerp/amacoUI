@@ -365,7 +365,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       var q = ("Page " + j + " of " + (totalPages));
       a[i] = q;
     }
-    console.log('sd', a)
+    // console.log('sd', a)
     setPageNumber(a)
     setTimeout(() => {
       handlePrintingCur()

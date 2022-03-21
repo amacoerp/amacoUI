@@ -252,7 +252,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const formData = new FormData()
   const handleChanges = (event, newValue, index) => {
 
-    console.log('fsdfs', event.target.value)
+    // console.log('fsdfs', event.target.value)
     if (!newValue) {
       setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
     }
