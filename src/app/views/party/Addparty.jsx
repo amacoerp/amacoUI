@@ -346,7 +346,7 @@ const Addparty = ({ open, handleClose }) => {
                     name="mobno"
                     type="text"
                     size="small"
-                    style={{ width: '150px' }}
+                    style={{ width: '260px' }}
                     variant="outlined"
                     value={mobnocode}
                     // fullWidth
@@ -656,7 +656,7 @@ const Addparty = ({ open, handleClose }) => {
                     name="mobno"
                     type="text"
                     size="small"
-                    style={{ width: '250px' }}
+                    style={{ width: '260px' }}
                     variant="outlined"
                     value={contactcode || ""}
                     fullWidth
@@ -675,7 +675,7 @@ const Addparty = ({ open, handleClose }) => {
                     onChange={e => setcontact(e.target.value)}
                     name="contact"
                     type="text"
-                    inputProps={{ style: { width: 100, marginRight: 10 } }}
+                    inputProps={{ style: { width: 90, marginRight: 10 } }}
                     size="small"
                     variant="outlined"
                     value={contact}
