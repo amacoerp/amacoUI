@@ -386,11 +386,12 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     useEffect(() => {
 
         // updateSidebarMode({ mode: "close" })
-        document.title = "Purchase Order - Amaco"
+        
         url.get(`getPurchaseReturnDetails/${id}`).then(({ data }) => {
 
             setParty(data.getReturnParty);
             setTableData(data.getReturnItems);
+            document.title = "PURCHASE RETURN-"+data.getReturnParty[0]?.firm_name+"-"+data.getReturnParty[0]?.pr_number
             // setcname(data[0].party.fname)
             // setpo_number(data[0].po_number)
 

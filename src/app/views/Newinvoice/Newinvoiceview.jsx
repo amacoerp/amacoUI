@@ -346,11 +346,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     // })
 
-    document.title = "VAT Invoice - Amaco"
+    
 
     url.get("invoice/" + id).then(({ data }) => {
       if (data) {
         // console.log(data[0].po_number)
+        document.title = "VAT Invoice -"+data[0].party?.firm_name+"-"+data[0].invoice_no
         setquoteid(data[0].quotation_id ? data[0].quotation_id : id)
         data[0].quotation_id ? setres(true) : setres(false)
         setdis_per(data[0].discount_in_percentage)

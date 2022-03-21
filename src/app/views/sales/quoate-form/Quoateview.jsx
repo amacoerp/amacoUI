@@ -417,7 +417,7 @@ const SimpleMuiTable = () => {
         <MUIDataTable
           title={"SALES QUOTATION"}
 
-          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division') && obj.status == "New").map((item, index) => {
+          data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division') && obj.status == "New" &&obj.is_revised!==1).map((item, index) => {
             return [
               ++index,
               item?.quotation_no,
