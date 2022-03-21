@@ -241,22 +241,19 @@ const Allquote = () => {
             return (
                 <>
                 {tableMeta.rowData[7]=="New"&&(
-                    <p>{tableMeta.rowData[1]}</p>
+                    <span>{tableMeta.rowData[1]}</span>
                 )}
                  {tableMeta.rowData[7]=="accept"&&(
-                    <p style={{color:'green'}}>{tableMeta.rowData[1]}</p>
+                    <span style={{color:'green'}}>{tableMeta.rowData[1]}</span>
                 )}
                  {tableMeta.rowData[7]=="reject"&&(
-                    <p style={{color:'red'}}>{tableMeta.rowData[1]}</p>
+                    <span style={{color:'red'}}>{tableMeta.rowData[1]}</span>
                 )}
                  {tableMeta.rowData[7]=="history"&&(
-                    <p style={{color:'#007bff'}}>{tableMeta.rowData[1]}</p>
+                    <span style={{color:'#007bff'}}>{tableMeta.rowData[1]}</span>
                 )}
                 </>
             )
-
-
-            // paddingLeft:24
         }
        
 
@@ -274,6 +271,27 @@ const Allquote = () => {
             </TableCell>
           )
         },
+        
+        customBodyRender: (value, tableMeta, updateValue) => {
+          
+          // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
+          return (
+              <>
+              {tableMeta.rowData[7]=="New"&&(
+                  <span>{tableMeta.rowData[2]}</span>
+              )}
+               {tableMeta.rowData[7]=="accept"&&(
+                  <span style={{color:'green'}}>{tableMeta.rowData[2]}</span>
+              )}
+               {tableMeta.rowData[7]=="reject"&&(
+                  <span style={{color:'red'}}>{tableMeta.rowData[2]}</span>
+              )}
+               {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[2]}</span>
+              )}
+              </>
+          )
+      },
         setCellProps: () => ({
           align: "center",
           // width:600,
@@ -292,6 +310,27 @@ const Allquote = () => {
             </TableCell>
           )
         },
+        
+        customBodyRender: (value, tableMeta, updateValue) => {
+          
+          // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
+          return (
+              <>
+              {tableMeta.rowData[7]=="New"&&(
+                  <span>{tableMeta.rowData[3]}</span>
+              )}
+               {tableMeta.rowData[7]=="accept"&&(
+                  <span style={{color:'green'}}>{tableMeta.rowData[3]}</span>
+              )}
+               {tableMeta.rowData[7]=="reject"&&(
+                  <span style={{color:'red'}}>{tableMeta.rowData[3]}</span>
+              )}
+               {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[3]}</span>
+              )}
+              </>
+          )
+      },
         setCellProps: () => ({
           align: "center",
           // width:600,
@@ -310,6 +349,27 @@ const Allquote = () => {
             </TableCell>
           )
         },
+        
+        customBodyRender: (value, tableMeta, updateValue) => {
+          
+          // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
+          return (
+              <>
+              {tableMeta.rowData[7]=="New"&&(
+                  <span>{tableMeta.rowData[4]}</span>
+              )}
+               {tableMeta.rowData[7]=="accept"&&(
+                  <span style={{color:'green'}}>{tableMeta.rowData[4]}</span>
+              )}
+               {tableMeta.rowData[7]=="reject"&&(
+                  <span style={{color:'red'}}>{tableMeta.rowData[4]}</span>
+              )}
+               {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[4]}</span>
+              )}
+              </>
+          )
+      },
         setCellProps: () => ({
           align: "center",
           // width:600,
@@ -335,6 +395,27 @@ const Allquote = () => {
             </TableCell>
           )
         },
+        
+        customBodyRender: (value, tableMeta, updateValue) => {
+          
+          // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
+          return (
+              <>
+              {tableMeta.rowData[7]=="New"&&(
+                  <span>{tableMeta.rowData[5]}</span>
+              )}
+               {tableMeta.rowData[7]=="accept"&&(
+                  <span style={{color:'green'}}>{tableMeta.rowData[5]}</span>
+              )}
+               {tableMeta.rowData[7]=="reject"&&(
+                  <span style={{color:'red'}}>{tableMeta.rowData[5]}</span>
+              )}
+               {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[5]}</span>
+              )}
+              </>
+          )
+      },
         setCellProps: () => ({
             align: "right",
             

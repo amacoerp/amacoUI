@@ -243,6 +243,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let arr = [];
     delete tempState.loading;
     let tempItemList = [...state.item];
+    console.log(tempItemList)
 
     arr.quotation_details = tempItemList;
     arr.discount_in_p = 0;

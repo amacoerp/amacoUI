@@ -253,7 +253,10 @@ const SimpleMuiTable = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#ffaf38'
+          }
         })
       },
     },
@@ -271,7 +274,10 @@ const SimpleMuiTable = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#ffaf38'
+          }
         })
       },
     },
@@ -289,7 +295,10 @@ const SimpleMuiTable = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'#ffaf38'
+          }
         })
       },
     },
@@ -314,6 +323,9 @@ const SimpleMuiTable = () => {
 
         setCellProps: () => ({
           align: "right",
+          style:{
+            color:'#ffaf38'
+          }
           
           // paddingLeft:24
         })

@@ -158,6 +158,6 @@ const CustomerViewer = () => {
   );
 };
 
-const tabList = ["All", "NEW","ACCEPTED QUOTATION", "TRASH","DRAFT","QUOTATION HISTORY",];
+const tabList = ["ALL", "NEW","ACCEPTED QUOTATION", "TRASH","DRAFT","QUOTATION HISTORY",];
 
 export default CustomerViewer;

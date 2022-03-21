@@ -252,7 +252,10 @@ const RejectQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'red'
+          }
         })
       },
     },
@@ -270,7 +273,10 @@ const RejectQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'red'
+          }
         })
       },
     },
@@ -288,7 +294,10 @@ const RejectQuote = () => {
         setCellProps: () => ({
           align: "center",
           // width:600,
-          wordWrap: 'break'
+          wordWrap: 'break',
+          style:{
+            color:'red'
+          }
         })
       },
     },
@@ -313,6 +322,9 @@ const RejectQuote = () => {
 
         setCellProps: () => ({
           align: "right",
+          style:{
+            color:'red'
+          }
           
           // paddingLeft:24
         })
