@@ -236,6 +236,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [res, setres] = useState("");
   const [ress, setress] = useState("");
   const { id } = useParams();
+  const { del} = useParams();
   const classes = useStyles();
   const routerHistory = useHistory();
 
@@ -533,10 +534,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     handleClose()
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this Invoice!',
+      text: 'You Want to Move This Invoice to Trash!',
       icon: 'danger',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Yes, Move it!',
       icon: 'warning',
       cancelButtonText: 'No, keep it'
     }).then((result) => {
@@ -544,21 +545,76 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         url.delete(`purchase-invoice/${id}`)
           .then(res => {
             // console.log(res);
-
-
             Swal.fire(
               'Deleted!',
               'Invoice has been deleted.',
               'success'
             )
-
-
             routerHistory.push("/purchaseinvoiceview")
-
           })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Invoice is safe :)',
+          'error'
+        )
+      }
+    })
+  }
 
+  const restoreInv = () => {
+    handleClose()
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You Want to Recover This Invoice from Trash!',
+      icon: 'danger',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Recover it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        url.put(`pInvRec/${id}`)
+          .then(res => {
+            // console.log(res);
+            Swal.fire(
+              'Deleted!',
+              'Invoice has been Recovered.',
+              'success'
+            )
+            routerHistory.push("/purchaseinvoiceview")
+          })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Invoice is in Trash :)',
+          'error'
+        )
+      }
+    })
+  }
 
-
+  const deleteInv = () => {
+    handleClose()
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Invoice!',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        url.delete(`deletePurInv/${id}`)
+          .then(res => {
+            // console.log(res);
+            Swal.fire(
+              'Deleted!',
+              'Invoice has been deleted.',
+              'success'
+            )
+            routerHistory.push("/purchaseinvoiceview")
+          })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -596,6 +652,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     vat,
     date,
   } = state;
+
 
   return (
     <Card elevation={6} className="m-sm-30">
@@ -651,7 +708,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
                     Generate Purchase Order
                       </MenuItem> */}
-
+            {del ? <>
+                <MenuItem onClick={() => restoreInv()}>
+                RESTORE INVOICE
+              </MenuItem>
+              <MenuItem onClick={() => deleteInv()}>
+                DELETE INVOICE
+              </MenuItem>
+              
+              </> : <>
               <MenuItem onClick={() => deleteinvoice()}>
                 DELETE INVOICE
               </MenuItem>
@@ -661,6 +726,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               <MenuItem onClick={() => routerHistory.push(`/piedit/${id}`)}>
                 EDIT INVOICE
               </MenuItem>
+              </>}
+              
 
 
             </Menu>

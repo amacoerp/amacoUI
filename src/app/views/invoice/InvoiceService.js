@@ -48,9 +48,9 @@ const url = axios.create({
   //  timeout: 1000,
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });
-  // export const basePath = "http://127.0.0.1:8000/";
+  export const basePath = "http://127.0.0.1:8000/";
     // export const basePath = "http://18.210.239.86/amaco/";
-  export const basePath = "http://www.amacoerp.com/test/amaco_test/";
+  // export const basePath = "http://www.amacoerp.com/test/amaco_test/";
   //  export const basePath = "http://www.amacoerp.com/amaco/";
 //   const url = axios.create({
 //     baseURL: 'http://www.amacoerp.com/amaco/public/api/',

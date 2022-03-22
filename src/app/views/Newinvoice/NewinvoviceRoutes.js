@@ -40,9 +40,14 @@ const NewinvoiceRoutes = [
     component: React.lazy(() => import("./PurchaseInvoices.jsx")),
   },
   {
+    path: navigatePath + "/piview/:id/:del",
+    component: React.lazy(() => import("./PurchaseInvoiceView.jsx")),
+  },
+  {
     path: navigatePath + "/piview/:id",
     component: React.lazy(() => import("./PurchaseInvoiceView.jsx")),
   },
+  
 
   {
     path: navigatePath + "/piedit/:id",
