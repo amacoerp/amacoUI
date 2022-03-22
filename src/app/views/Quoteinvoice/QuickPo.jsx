@@ -476,7 +476,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
 
-            routerHistory.push(navigatePath + "/Newinvoiceview")
+            routerHistory.push(navigatePath + "/PoTab")
           })
 
       })
@@ -493,7 +493,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   function cancelform() {
-    routerHistory.push(navigatePath + "/Newinvoiceview")
+    routerHistory.push(navigatePath + "/PoTab")
   }
 
   const handleDialogClose = () => {

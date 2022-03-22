@@ -40,6 +40,10 @@ const salesRoutes = [
     component: React.lazy(() => import("./Newinvoiceview")),
   },
   {
+    path: navigatePath + "/poTab/:t",
+    component: React.lazy(() => import("./poTab")),
+  },
+  {
     path: navigatePath + "/rfqproductview",
     component: React.lazy(() => import("./rfq-form/rfqproductview")),
   },

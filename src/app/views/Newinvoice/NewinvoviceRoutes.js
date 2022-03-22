@@ -6,6 +6,7 @@ const NewinvoiceRoutes = [
     path: navigatePath + "/newinvoice/:id",
     component: React.lazy(() => import("./Newinvoiceview")),
   },
+  
   {
     path: navigatePath + "/newEdit",
     component: React.lazy(() => import("./a/New")),

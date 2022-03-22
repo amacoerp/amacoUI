@@ -32,7 +32,7 @@ export const navigations = [
       },
       {
         name: "PURCHASE ORDER",
-        path: navigatePath + "/Newinvoiceview",
+        path: navigatePath + "/poTab/0",
       },
       {
         name: "PURCHASE INVOICE",

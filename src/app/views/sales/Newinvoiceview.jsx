@@ -312,16 +312,16 @@ const SimpleMuiTable = () => {
       <div className="m-sm-30">
         <div className="mb-sm-30">
           <div className="flex flex-wrap justify-between pt-2">
-            <Breadcrumb
+            {/* <Breadcrumb
               routeSegments={[
                 // { name: "Add new", path: "/sales/rfq-form/Rfqform" },
                 { name: "PURCHASE ORDER" },
               ]}
-            />
+            /> */}
 
             <div className="text-right">
               <div className="text-right">
-                <Link to={"quickPo"}>
+                {/* <Link to={"quickPo"}>
                   <Button
                     className="py-2"
                     variant="outlined"
@@ -329,14 +329,14 @@ const SimpleMuiTable = () => {
                   >
                     <Icon>add</Icon> GENERATE PURCHASE ORDER
                   </Button>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
         </div>
         <MUIDataTable
           title={"PURCHASE ORDER"}
-          data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
+          data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')&&obj.delete==0).map((item, index) => {
 
             return [
               ++index,
