@@ -8,6 +8,10 @@ import Swal from "sweetalert2";
 import url, { navigatePath, GDIV } from "../../invoice/InvoiceService"
 import moment from "moment";
 import { useParams } from "react-router-dom";
+import { Divider, Tab, Tabs } from "@material-ui/core";
+import RFQView from './RView';
+import RFQTrash from './RTrash.jsx';
+import RFQHistory from './RHistory.jsx';
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,6 +56,48 @@ const SimpleMuiTable = () => {
   const [searchh,setSearch] = useState(null)
   const { search } = useParams();
 
+const tabList = ['RFQ','TRASH','RFQ HISTORY'];
+const [tabIndex, setTabIndex] = useState(0);
+
+const colorset = (tabIndex) => {
+    
+  if(tabIndex==0)
+  return "dark"
+  if(tabIndex==1)
+  return "dark"
+  if(tabIndex==2)
+  return "#008000"
+  if(tabIndex==3)
+  return "rgba(255,0,0,1)"
+  if(tabIndex==4)
+  return "secondary"
+  if(tabIndex==5)
+  return "primary"
+};
+
+
+const getBackgroundColor = (ind) => {
+  if(ind == 0){
+    return '#00000014'
+  }else if(ind == 1){
+    return '#00000014'
+  }else if(ind == 2){
+    return '#00800029'
+  }else if(ind == 3){
+    return '#ff00001c';
+  }else if(ind == 4){
+    return '#ffaf3829';
+  }else if(ind == 5){
+    return '#1976d21f';
+  }
+}
+
+
+const handleTabChange = (e, value) => {
+  setTabIndex(value);
+};
+
+const [poRfq,setPoRfq] = useState([])
 
   useEffect(() => {
     url.get("rfq").then(({ data }) => {
@@ -60,9 +106,10 @@ const SimpleMuiTable = () => {
 
 
       if (data.length !== 0) {
-        setUserList(data);
+        setUserList(data.rfq);
+        setPoRfq(data.porfq);
 
-        setrfq_details(data[0].rfq_details);
+        // setrfq_details(data?.rfq[0].rfq_details);
       }
     });
     return () => setIsAlive(false);
@@ -275,112 +322,31 @@ const SimpleMuiTable = () => {
             </div>
           </div>
         </div>
-        <MUIDataTable
-          title={"RFQ"}
-          data={userList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
 
 
-            return [
+        <Tabs
+        className="mt-4"
+        value={tabIndex}
+        onChange={handleTabChange}
+        indicatorColor={colorset(tabIndex)}
+        textColor={colorset(tabIndex)}
+        TabIndicatorProps={{style: {background: tabIndex==0? 'black':tabIndex==1 ? 'rgba(255,0,0,1)' : tabIndex==2 ?  '#008000' : tabIndex == 3 ? 'rgba(255,0,0,1)' : tabIndex == 4 ? '#FFAF38': tabIndex == 5 ? '#1976d2' : '' }}}
+      >
+        {tabList.map((item, ind) => (
+          <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),
+          // color:(tabIndex==ind?colorset(tabIndex):"")
+          color:item == 'RFQ' ? 'black' : item == 'NEW' ? 'black' : item == 'RFQ HISTORY' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+          // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+          backgroundColor:ind == tabIndex ? getBackgroundColor(tabIndex) : ''
 
-              ++index,
-              item?.party[0]?.firm_name,
-              // ++index,
-              moment(item?.requested_date).format('DD MMM YYYY'),
-              moment(item?.require_date).format('DD MMM YYYY'),
-              item?.id,
-            ]
+        }} value={ind} label={item} key={ind} />
+        ))}
+      </Tabs>
+      <Divider className="mb-6" />
+      {tabIndex == 0 && <RFQView userList={userList}/>}
+      {tabIndex == 1 && <RFQTrash userList={userList}/>}
+      {tabIndex == 2 && <RFQHistory userList={poRfq}/>}
 
-          })}
-          columns={columns}
-          options={{
-            // filterType: "textField",
-            // responsive: "simple",
-            // selectableRows: "none", // set checkbox for each row
-            // search: false, // set search option
-            // filter: false, // set data filter option
-            // download: false, // set download option
-            // print: false, // set print option
-            // pagination: true, //set pagination option
-            // viewColumns: false, // set column option
-            // elevation: 0,
-            rowsPerPageOptions: [10, 20, 40, 80, 100],
-            selectableRows: "none",
-            searchProps: {
-              onKeyUp:(e) => {
-                setSearch(e.target.value);
-              }
-            },
-            searchText: search ? search : searchh ,
-            // searchPlaceholder: 'Your Custom Search Placeholder',
-            // customSearch: (searchQuery, currentRow, columns) => {
-            //   let isFound = false;
-            //   currentRow.forEach(col => {
-            //     if (col.toString().indexOf(searchQuery) >= 0) {
-            //       isFound = true;
-            //     }
-            //   });
-            //   return isFound;
-            // },
-            // filterType: "dropdown",
-            rowsPerPage: 10,
-            // expandableRows: true,
-            // expandableRowsOnClick: true,
-            renderExpandableRow: (rowData, rowMeta) => {
-
-              return (
-                <tr>
-                  <td colSpan={6}>
-                    <Table style={{ minWidth: "650" }} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>product Name</TableCell>
-                          <TableCell>description</TableCell>
-                          <TableCell>Quantity</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {/* {userList.map((item, index) => {
-                        if(rowData[0]===item.id)
-                      {
-                      {item.rfq_details.map((row,index) => {
-                      
-                       return(<TableRow key={row.product[0].id}>
-
-                          <TableCell>{row.description}</TableCell>
-                          <TableCell>{row.product[0].name}</TableCell>
-                          <TableCell>{row.product[0].id}</TableCell>
-                        </TableRow>
-                       )
-                      })}
-                      } */}
-                        {userList.map((item, index) => {
-
-                          {
-                            item.rfq_details.map(row => (
-                              <TableRow key={row.name}>
-                                <TableCell component="th" scope="row">
-                                  {row.id}
-                                </TableCell>
-                                <TableCell align="right">{row.product[0].name}</TableCell>
-                                <TableCell align="right">{row.product[0].name}</TableCell>
-                                <TableCell align="right">{row.product[0].name}</TableCell>
-                                <TableCell align="right">{row.product[0].name}</TableCell>
-                              </TableRow>
-                            ))
-                          }
-
-                        })}
-
-                        {/* })} */}
-
-                      </TableBody>
-                    </Table>
-                  </td>
-                </tr>
-              )
-            }
-          }}
-        />
       </div>
     </div>
   );
