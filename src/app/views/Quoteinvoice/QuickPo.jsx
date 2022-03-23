@@ -95,6 +95,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
+  const [vatt,setVat] = useState(0)
+
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -1303,12 +1305,21 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <div className="px-4 flex justify-end">
                 <div className="flex " >
                   <div className="pr-12">
-                    <p className="mb-8">Total Amount ({currency_type}) :</p>
+                    <p className="mb-8">Total Amount
+                     {/* ({currency_type})  */}
+                     :</p>
                     {/* <p className="mb-8">Discount:</p> */}
-                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
+                    <p className="mb-12" style={{ position: 'relative', top: '-4px' }}>Freight Charges 
+                    {/* ({currency_type}) */}
+                    </p>
+                    <p className="mb-8" style={{ position: 'relative', top: '-16px' }}>Vat (15%) 
+                    {/* ({currency_type}) */}
+                    </p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
+                      <p className="mb-8" style={{ position: 'relative', top: '-18px' }}>Net Total
+                       {/* ({currency_type}) */}
+                      </p>
                     </strong>
                   </div>
                   <div>
@@ -1343,6 +1354,22 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       }
                       value={charge}
+                    // value={subTotalCost?vat:parseFloat(0.00).toLocaleString(undefined,{
+                    //   minimumFractionDigits:2
+                    // })}
+                    />
+                    <CurrencyTextField
+                      className="w-full mb-4"
+                      label="Vat"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      currencySymbol={currency_type}
+                      name="vat_in_val"
+                      onChange={(e, value) => { setVat(value); settotal(value + subTotalCost); }
+
+                      }
+                      value={vatt}
                     // value={subTotalCost?vat:parseFloat(0.00).toLocaleString(undefined,{
                     //   minimumFractionDigits:2
                     // })}

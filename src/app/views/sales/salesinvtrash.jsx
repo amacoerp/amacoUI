@@ -12,7 +12,6 @@ import {
 
 export default function salesInv({podetails}) {
    
-    console.log('s',podetails)
     const columns = [
         {
           name: "index", // field name in the row object
@@ -170,7 +169,7 @@ export default function salesInv({podetails}) {
             customBodyRender: (value, tableMeta, updateValue) => {
               return (
                 <div style={{ textAlign: "right" }} className="pr-8">
-                  <Link to={navigatePath + "/newinvoice/" + tableMeta.rowData[7]}>
+                  <Link to={navigatePath + "/newinvoice/" + tableMeta.rowData[7]+'/trash'}>
                     <Tooltip title="view more">
                       <Icon color="primary">remove_red_eye</Icon>
                     </Tooltip>

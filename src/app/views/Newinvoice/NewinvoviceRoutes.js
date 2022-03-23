@@ -3,6 +3,10 @@ import { navigatePath } from "../invoice/InvoiceService";
 
 const NewinvoiceRoutes = [
   {
+    path: navigatePath + "/newinvoice/:id/:del",
+    component: React.lazy(() => import("./Newinvoiceview")),
+  },
+  {
     path: navigatePath + "/newinvoice/:id",
     component: React.lazy(() => import("./Newinvoiceview")),
   },

@@ -99,6 +99,10 @@ const salesRoutes = [
     component: React.lazy(() => import("./purchasereturn/PurchaseReturn")),
   },
   {
+    path: navigatePath + "/salesreturn/:t",
+    component: React.lazy(() => import("./salesreturn/SalesReturn")),
+  },
+  {
     path: navigatePath + "/salesreturn",
     component: React.lazy(() => import("./salesreturn/SalesReturn")),
   },
@@ -113,6 +117,11 @@ const salesRoutes = [
     component: React.lazy(() =>
       import("./purchasereturn/PurchaseRInvoiceViewer.jsx")
     ),
+  },
+
+  {
+    path: navigatePath + "/srinvoice/:id/:del",
+    component: React.lazy(() => import("./salesreturn/SalesRInvoiceViewer")),
   },
 
   {
