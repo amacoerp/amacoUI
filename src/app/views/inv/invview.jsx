@@ -222,11 +222,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   useEffect(() => {
 
-    document.title = "Delivery Note - Amaco"
+    
     // delivery-notes
     url.get("invoice_delivery_note/" + id + `/${s}`).then(({ data }) => {
 
-
+      document.title = `AMACO-${data[1]?.delivery_number}-${data[1]?.quotation?.party?.firm_name}`
 
       setcreatedate(data[1]?.created_at)
       if (data[1]?.quotation?.contact !== null) {

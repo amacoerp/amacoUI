@@ -73,7 +73,54 @@ const months = [{
 
 
 ]
+const receipt_months = [{
 
+  name: "Jan",
+  count: 0
+},
+{
+  name: "Feb",
+  count: 0
+},
+{
+  name: "Mar",
+  count: 0
+},
+{
+  name: "Apr",
+  count: 0
+},
+{
+  name: "May",
+  count: 0
+},
+{
+  name: "Jun",
+  count: 0
+},
+{
+  name: "Jul",
+  count: 0
+}, {
+  name: "Aug",
+  count: 0
+}, {
+  name: "Sep",
+  count: 0
+}, {
+  name: "Oct",
+  count: 0
+}, {
+  name: "Nov",
+  count: 0
+}, {
+  name: "Dec",
+  count: 0
+},
+
+
+
+]
 const Analytics = () => {
   const theme = useTheme();
   const [paiddivision_account, setpaiddivision_account] = useState([]);
@@ -85,6 +132,8 @@ const Analytics = () => {
   const [perList, setPerList] = useState('');
   const [date, setdate] = useState(moment(new Date()).format('YYYY'));
   const [responseData, setresponseData] = useState([]);
+  const [receiptData, setreceiptData] = useState([]);
+  const [dataReceipt, setdataReceipt] = useState([]);
   const [stackData,setStackData] = useState([]);
 
   var obj;
@@ -98,10 +147,14 @@ const Analytics = () => {
 
   useEffect(() => {
 
-    url.get("dashboard").then(({ data }) => {
+  url.get("dashboard").then(({ data }) => {
       // console.log(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      
+      receiptFun(data?.receipt,date)
+      setreceiptData(data?.receipt)
 
       setresponseData(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
+
       let dataList = data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division'))
       var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
         item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
@@ -117,6 +170,8 @@ const Analytics = () => {
           }
         });
       });
+
+      
       var finalArray = finalResult.map(function (obj) {
         return obj?.count ? obj?.count : 0;
       });
@@ -197,9 +252,66 @@ const Analytics = () => {
 
   }, [localStorage.getItem('division')])
 
+  async function receiptFun(data,date){
+   
+  //  await setreceiptData(data?.receipt?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      var receipt=await data.filter(obj => obj.division_id == localStorage.getItem('division'))
+        
+      var receiptResult = receipt.filter(obj => moment(obj.paid_date).format('YYYY') == moment(date).format('YYYY')).map((item, i) => {
+        item['debit'] = receipt.filter(x => moment(x.paid_date).format('MM YYY') == moment(item.paid_date).format('MM YYY')).reduce((result, item) => result + item.credit, 0);
+        item['count'] = receipt.filter(x => moment(x.paid_date).format('MM YYY') == moment(item.paid_date).format('MM YYY')).reduce((result, item) => result + parseFloat(item.credit), 0);
+        item['month'] = moment(item.paid_date).format('MMM');
+        return item
+      })
+      
+    
+      
+      var receiptArr = receiptResult.filter((ele, ind) => ind === localStorage.getItem('division') || ind === receiptResult.findIndex(elem => elem.voucher_no === ele.voucher_no));
+      console.log(receiptResult)
+      console.log(receipt_months.filter(function (o1) {
+        return receiptArr.map(function (o2) {
+          if (o1.name == o2.month) {
+            o1['count'] = o2.count
+          }
+         
+        });
+      }))
+
+      var receiptfinalResult = receipt_months.filter(function (o1) {
+        return receiptArr.map(function (o2) {
+          if (o1.name == o2.month) {
+            o1['count'] = o2.count
+          }
+        });
+      });
+    
+      
+
+     
+      var receiptfinalArray = receiptfinalResult.map(function (obj) {
+        
+        return obj?.count
+      });
+      if (receiptResult.length) {
+
+        setdataReceipt(receiptfinalArray);
+        // setmaxVal(Math.max(...finalArray))
+      }
+      else {
+        //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
+        setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      }
+      
+    
+        
+  }
   const handleChange = (i) => {
 
     // setPerList(compPer);
+   
+    // sol.then((result)=>{
+    //   console.log("result", result)
+    // })
     // setdate(moment(i).format('YYYY'));
     getpaidDivision().then(({ data }) => {
 
@@ -329,7 +441,10 @@ const Analytics = () => {
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format('YYYY'))
-                  handleChange(moment(date).format('YYYY'))
+                  // handleChange(moment(date).format('YYYY'))
+                  receiptFun(receiptData,date)
+                  // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+                  // receiptFun(receiptData,moment(date).format('YYYY'))
                 }}
               />
             </MuiPickersUtilsProvider>
@@ -353,7 +468,14 @@ const Analytics = () => {
                   data: data1,
                   type: "line",
                 },
+                {
+                  data: dataReceipt,
+                  type: "line",
+                  color:'#7FFF00'
+                },
+                
               ],
+             
               xAxis: {
                 data: [
                   "Jan",

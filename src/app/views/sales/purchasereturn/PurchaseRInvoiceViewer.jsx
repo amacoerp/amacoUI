@@ -391,7 +391,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
             setParty(data.getReturnParty);
             setTableData(data.getReturnItems);
-            document.title = "PURCHASE RETURN-"+data.getReturnParty[0]?.firm_name+"-"+data.getReturnParty[0]?.pr_number
+            document.title = "AMACO-"+data.getReturnParty[0]?.pr_number+"-"+data.getReturnParty[0]?.firm_name
             // setcname(data[0].party.fname)
             // setpo_number(data[0].po_number)
 

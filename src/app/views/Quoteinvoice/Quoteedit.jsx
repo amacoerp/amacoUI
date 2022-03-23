@@ -1219,7 +1219,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setCustomerList(data?.customer);
       setusers(data?.users);
       setcompanybank(data?.banks);
-      setproList(data?.products?.filter(obj => obj.div_id == localStorage('division')))
+      setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setData(data?.uom);
 
 

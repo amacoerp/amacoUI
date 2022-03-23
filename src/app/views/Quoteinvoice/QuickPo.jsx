@@ -91,6 +91,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [DataList, setDataList] = useState("ghhhhh");
   const [currency_type, setcurrency_type] = useState('SAR');
   const [charge, setcharge] = useState(0.00);
+  const [vatamount, setvatamount] = useState(0.00);
   const [total, settotal] = useState(0.00);
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
@@ -444,7 +445,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.total_value = parseFloat(subTotalCost).toFixed(2)
     arr.net_amount = GTotal
     arr.freight = freight
-    arr.vat_in_value = parseFloat(charge).toFixed(2)
+    arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.rfq_id = id
     arr.po_number = id
     arr.party_id = party_id
@@ -476,7 +477,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
 
-            routerHistory.push(navigatePath + "/PoTab")
+            routerHistory.push(navigatePath + "/PoTab/0")
           })
 
       })
@@ -493,7 +494,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   };
   function cancelform() {
-    routerHistory.push(navigatePath + "/PoTab")
+    routerHistory.push(navigatePath + "/PoTab/0")
   }
 
   const handleDialogClose = () => {
@@ -926,17 +927,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
                     subTotalCost += parseFloat(item.total_amount)
-                    vat = ((subTotalCost * 15) / 100).toFixed(2)
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    
                     // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
-                    GTotal = subTotalCost + charge
+                    GTotal = subTotalCost + charge +parseFloat(vat)
                   }
                   else {
 
                     subTotalCost += parseFloat(item.total_amount)
                     dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
-                    vat = (((subTotalCost - parseFloat(discounts * subTotalCost / 100)) * 15) / 100).toFixed(2)
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
-                    GTotal = subTotalCost + charge
+                    GTotal = subTotalCost + charge + parseFloat(vat)
                   }
 
 
@@ -1269,6 +1271,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                   />
+                  
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"
@@ -1306,6 +1309,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
                     <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
+                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>VAT (15%)</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
                       <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
@@ -1360,6 +1364,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
+              <div>
+                      <CurrencyTextField
+                        className="w-full mb-4"
+                        label="VAT"
+                        variant="outlined"
+                        fullWidth
+                        readOnly
+                        size="small"
+                        currencySymbol={currency_type}
+                        name="vat_amount"
+                        value={vat}
+                      />
+                    </div>
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4"

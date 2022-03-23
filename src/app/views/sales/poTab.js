@@ -86,7 +86,7 @@ const PoTab = () => {
         />
 
         <div className="text-right">
-        <Link to={"quickPo"}>
+        <Link to={"../quickPo"}>
                   <Button
                     className="py-2"
                     variant="outlined"
@@ -135,7 +135,7 @@ const PoTab = () => {
       <Divider className="mb-6" />
 
       {tabIndex == 0 && <SimpleMuiTable />}
-      {tabIndex == 1 && <Potrash />}
+      {tabIndex == 1 && <Potrash tabIndex={tabIndex} />}
      
        
     </div>
