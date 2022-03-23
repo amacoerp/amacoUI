@@ -653,7 +653,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         <TableBody >
 
                           {podetails.map((item, index) => {
-
+                            console.log(item)
                             return (
 
                               <TableRow key={index} style={{ border: "1px solid #ccc" }}>
@@ -664,7 +664,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                                 <TableCell className="pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
                                 {console.log(item[0]?.delivery_notes_detail)}
-                                  { localStorage.getItem('division') ?  item[0]?.description == 1 ? item[0]?.description : item[0]?.delivery_notes_detail?.product_descriptions : 's' }
+                                  { localStorage.getItem('division')==1 ?  item[0]?.description ? item[0]?.description : item[0]?.delivery_notes_detail?.product_descriptions :'' }
                                 </TableCell>
 
 

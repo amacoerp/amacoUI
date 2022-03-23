@@ -760,9 +760,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
             >
               PRINT QUOTATION
             </MenuItem>
-            {s !== "accept" ? <MenuItem onClick={() => editqoute()}>
+            <MenuItem onClick={() => editqoute()}>
               EDIT QUOTAION
-            </MenuItem> : ''}
+            </MenuItem>
             {s !== "accept" ? !is_revised && <MenuItem onClick={() => reviseqoute()}>
               REVISE QUOTAION
             </MenuItem> : ''}
