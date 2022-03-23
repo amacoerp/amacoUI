@@ -99,9 +99,16 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [contacts, setcontacts] = useState([]);
   const [PriceList, setPriceList] = useState([]);
   const [DataList, setDataList] = useState("ghhhhh");
+<<<<<<< HEAD
   const [currency_type, setcurrency_type] = useState("SAR");
   const [charge, setcharge] = useState(0.0);
   const [total, settotal] = useState(0.0);
+=======
+  const [currency_type, setcurrency_type] = useState('SAR');
+  const [charge, setcharge] = useState(0.00);
+  const [vatamount, setvatamount] = useState(0.00);
+  const [total, settotal] = useState(0.00);
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(
     moment(new Date()).format("DD MMM YYYY")
@@ -402,6 +409,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     delete tempState.loading;
     let tempItemList = [...state.item];
 
+<<<<<<< HEAD
     arr.quotation_details = tempItemList;
     arr.discount_in_p = 0;
     arr.total_value = parseFloat(subTotalCost).toFixed(2);
@@ -425,12 +433,40 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.other = 0.0;
     arr.div_id = localStorage.getItem("division");
     arr.user_id = user.id;
+=======
+
+
+    arr.quotation_details = tempItemList
+    arr.discount_in_p = 0
+    arr.total_value = parseFloat(subTotalCost).toFixed(2)
+    arr.net_amount = GTotal
+    arr.freight = freight
+    arr.vat_in_value = parseFloat(vat).toFixed(2)
+    arr.rfq_id = id
+    arr.po_number = id
+    arr.party_id = party_id
+    arr.warranty = warranty
+    arr.validity = validity
+    arr.delivery_time = delivery_time
+    arr.inco_terms = inco_terms
+    arr.payment_terms = payment_terms
+    arr.contact_id = contactid
+    arr.transaction_type = "purchase"
+    arr.status = "New"
+    arr.ps_date = Quote_date
+    arr.currency_type = currency_type
+    arr.transport = 0.00
+    arr.other = 0.00
+    arr.div_id = localStorage.getItem('division')
+    arr.user_id = user.id
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
     const json = Object.assign({}, arr);
 
     url
       .post("purchase-quotation", json)
       .then(function (response) {
         Swal.fire({
+<<<<<<< HEAD
           title: "Success",
           type: "success",
           icon: "success",
@@ -438,6 +474,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }).then((result) => {
           routerHistory.push(navigatePath + "/PoTab");
         });
+=======
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Data saved successfully.',
+        })
+          .then((result) => {
+
+            routerHistory.push(navigatePath + "/PoTab/0")
+          })
+
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
       })
       .catch(function (error) {
         Swal.fire({
@@ -451,7 +499,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       });
   };
   function cancelform() {
+<<<<<<< HEAD
     routerHistory.push(navigatePath + "/PoTab");
+=======
+    routerHistory.push(navigatePath + "/PoTab/0")
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
   }
 
   const handleDialogClose = () => {
@@ -914,6 +966,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
+<<<<<<< HEAD
                     subTotalCost += parseFloat(item.total_amount);
                     vat = ((subTotalCost * 15) / 100).toFixed(2);
                     // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
@@ -931,6 +984,21 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     ).toFixed(2);
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
                     GTotal = subTotalCost + charge;
+=======
+                    subTotalCost += parseFloat(item.total_amount)
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    
+                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
+                    GTotal = subTotalCost + charge +parseFloat(vat)
+                  }
+                  else {
+
+                    subTotalCost += parseFloat(item.total_amount)
+                    dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
+                    GTotal = subTotalCost + charge + parseFloat(vat)
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
                   }
 
                   return (
@@ -1365,6 +1433,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                   />
+                  
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"
@@ -1398,12 +1467,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <div className="pr-12">
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
+<<<<<<< HEAD
                     <p
                       className="mb-8"
                       style={{ position: "relative", top: "-4px" }}
                     >
                       Freight Charges ({currency_type})
                     </p>
+=======
+                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
+                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>VAT (15%)</p>
+>>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
                       <p
@@ -1467,6 +1541,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
+              <div>
+                      <CurrencyTextField
+                        className="w-full mb-4"
+                        label="VAT"
+                        variant="outlined"
+                        fullWidth
+                        readOnly
+                        size="small"
+                        currencySymbol={currency_type}
+                        name="vat_amount"
+                        value={vat}
+                      />
+                    </div>
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4"

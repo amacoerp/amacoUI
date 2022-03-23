@@ -300,28 +300,25 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     url.get("invoice/" + id).then(({ data }) => {
       if (data) {
         // console.log(data[0].po_number)
-        document.title =
-          "VAT Invoice -" + data[0].party?.firm_name + "-" + data[0].invoice_no;
-        setquoteid(data[0].quotation_id ? data[0].quotation_id : id);
-        data[0].quotation_id ? setres(true) : setres(false);
-        setdis_per(data[0].discount_in_percentage);
-        setpodetails(data[0].invoice_detail);
-        setcompany(data[0].party?.firm_name);
-        setcname_ar(data[0].party?.firm_name_in_ar);
-        setcity(data[0].party?.city);
-        setstreet(data[0].party?.street);
-        setzipcode(data[0].party?.zip_code);
-        setpo(
-          data[0].quotation ? data[0].quotation.po_number : data[0].po_number
-        );
-        setvatno(data[0].party?.vat_no);
-        setvatno_ar(toArabic(data[0].party?.vat_no));
-        setinvoiceno(data[0].invoice_no);
-        setissue_date(data[0].issue_date);
-        setvat_in_value(data[0].vat_in_value);
-        setnet_amount(data[0].grand_total);
-        settotal_value(data[0].total_value);
-        setfirm_name_in_ar(data[0].party?.firm_name_in_ar);
+        document.title = "AMACO-"+data[0].invoice_no+"-"+data[0].party?.firm_name
+        setquoteid(data[0].quotation_id ? data[0].quotation_id : id)
+        data[0].quotation_id ? setres(true) : setres(false)
+        setdis_per(data[0].discount_in_percentage)
+        setpodetails(data[0].invoice_detail)
+        setcompany(data[0].party?.firm_name)
+        setcname_ar(data[0].party?.firm_name_in_ar)
+        setcity(data[0].party?.city)
+        setstreet(data[0].party?.street)
+        setzipcode(data[0].party?.zip_code)
+        setpo(data[0].quotation ? data[0].quotation.po_number : data[0].po_number)
+        setvatno(data[0].party?.vat_no)
+        setvatno_ar(toArabic(data[0].party?.vat_no))
+        setinvoiceno(data[0].invoice_no)
+        setissue_date(data[0].issue_date)
+        setvat_in_value(data[0].vat_in_value)
+        setnet_amount(data[0].grand_total)
+        settotal_value(data[0].total_value)
+        setfirm_name_in_ar(data[0].party?.firm_name_in_ar)
         let words = toWords?.convert(parseFloat(data[0]?.grand_total));
         let riyal = words.replace("Rupees", "Riyals");
         let halala;

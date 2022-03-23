@@ -332,10 +332,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   useEffect(() => {
     // myFunction()
-    document.title = "VAT Invoice - Amaco"
+    // document.title = "VAT Invoice - Amaco"
     url.get("purchase-invoice/" + id).then(({ data }) => {
       // console.log('a', );
-      document.title = `AMACO INVOICE - ${data[0]?.party?.firm_name} - ${data[0]?.invoice_no}`
+      document.title = `AMACO- ${data[0]?.invoice_no}-${data[0]?.party?.firm_name}`
       if (data) {
 
         setFile(data[0].file);

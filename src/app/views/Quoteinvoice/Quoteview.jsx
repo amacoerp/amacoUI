@@ -404,7 +404,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         settab(2)
       }
 
-      document.title = `AMACO Quote - ${data[0]?.party?.firm_name} - ${data[0]?.quotation_no}`
+      document.title = `AMACO-${data[0]?.quotation_no}-${data[0]?.party?.firm_name}`
       setrfq(data[0]?.rfq_id)
       setFfile(data[0]?.file)
       setrfq_no(data[0]?.rfq_no)

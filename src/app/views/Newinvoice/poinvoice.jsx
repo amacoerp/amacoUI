@@ -336,6 +336,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [vendor_id, setvendor_id] = useState('');
   const [party_code, setparty_code] = useState('');
   const [editorLoaded, setEditorLoaded] = useState(false);
+  const [deleteStatus, setdeleteStatus] = useState(null);
 
   const { id } = useParams();
   const classes = useStyles();
@@ -425,9 +426,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // updateSidebarMode({ mode: "close" })
 
     url.get("purchase-quotation/" + id).then(({ data }) => {
-      document.title = `AMACO PURCHASE ORDER - ${data[0]?.party?.firm_name} - ${data[0]?.po_number}`
+      document.title = `AMACO-${data[0]?.po_number}-${data[0]?.party?.firm_name}`
       // setcname(data[0].party.fname)
       setpo_number(data[0]?.po_number)
+      setdeleteStatus(data[0]?.delete)
 
       setqid(data[0]?.id)
       setrno(data[0]?.rfq?.id)
@@ -686,6 +688,28 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     })
   }
 
+  const restorepo = () => {
+   
+        url.delete(`purchase-quotation/${id}`)
+          .then(res => {
+
+            Swal.fire(
+              'Restored!',
+              'Purchase Order Has Been restored.',
+              'success'
+            )
+
+            routerHistory.push(navigatePath + "/PoTab/0")
+            // routerHistory.push('/quoateview')
+
+          })
+
+
+
+      } 
+   
+  
+
 
   const handlePrint = () => window.print();
   window.onafterprint = function () {
@@ -754,9 +778,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     Genrate Purchase Order
                       </MenuItem> */}
 
-              <MenuItem onClick={() => deletepo()}>
+              {deleteStatus==0?(<MenuItem onClick={() => deletepo()}>
                 DELETE PURCHASE ORDER
-              </MenuItem>
+              </MenuItem>):
+              (<MenuItem onClick={() => restorepo()}>
+                RESTORE PURCHASE ORDER
+              </MenuItem>)}
               <MenuItem onClick={() => handlePrinting()}>
                 PRINT PURCHASE ORDER
               </MenuItem>

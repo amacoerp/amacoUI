@@ -240,7 +240,7 @@ const Allquote = () => {
             // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
             return (
                 <>
-                {tableMeta.rowData[7]=="New"&&(
+                {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==null)&&(
                     <span>{tableMeta.rowData[1]}</span>
                 )}
                  {tableMeta.rowData[7]=="accept"&&(
@@ -249,9 +249,12 @@ const Allquote = () => {
                  {tableMeta.rowData[7]=="reject"&&(
                     <span style={{color:'red'}}>{tableMeta.rowData[1]}</span>
                 )}
-                 {tableMeta.rowData[7]=="history"&&(
+                 {(tableMeta.rowData[7]=="history")&&(
                     <span style={{color:'#007bff'}}>{tableMeta.rowData[1]}</span>
                 )}
+                {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==1)&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[1]}</span>
+              )}
                 </>
             )
         }
@@ -277,7 +280,7 @@ const Allquote = () => {
           // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
           return (
               <>
-              {tableMeta.rowData[7]=="New"&&(
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==null)&&(
                   <span>{tableMeta.rowData[2]}</span>
               )}
                {tableMeta.rowData[7]=="accept"&&(
@@ -287,6 +290,9 @@ const Allquote = () => {
                   <span style={{color:'red'}}>{tableMeta.rowData[2]}</span>
               )}
                {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[2]}</span>
+              )}
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==1)&&(
                   <span style={{color:'#007bff'}}>{tableMeta.rowData[2]}</span>
               )}
               </>
@@ -316,7 +322,7 @@ const Allquote = () => {
           // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
           return (
               <>
-              {tableMeta.rowData[7]=="New"&&(
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==null)&&(
                   <span>{tableMeta.rowData[3]}</span>
               )}
                {tableMeta.rowData[7]=="accept"&&(
@@ -326,6 +332,9 @@ const Allquote = () => {
                   <span style={{color:'red'}}>{tableMeta.rowData[3]}</span>
               )}
                {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[3]}</span>
+              )}
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==1)&&(
                   <span style={{color:'#007bff'}}>{tableMeta.rowData[3]}</span>
               )}
               </>
@@ -355,7 +364,7 @@ const Allquote = () => {
           // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
           return (
               <>
-              {tableMeta.rowData[7]=="New"&&(
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==null)&&(
                   <span>{tableMeta.rowData[4]}</span>
               )}
                {tableMeta.rowData[7]=="accept"&&(
@@ -365,6 +374,9 @@ const Allquote = () => {
                   <span style={{color:'red'}}>{tableMeta.rowData[4]}</span>
               )}
                {tableMeta.rowData[7]=="history"&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[4]}</span>
+              )}
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==1)&&(
                   <span style={{color:'#007bff'}}>{tableMeta.rowData[4]}</span>
               )}
               </>
@@ -401,7 +413,7 @@ const Allquote = () => {
           // return tableMeta.rowData[7]=="New"&&(<p style={{color:'red'}}>{tableMeta.rowData[1]}</p>)
           return (
               <>
-              {tableMeta.rowData[7]=="New"&&(
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==null)&&(
                   <span>{tableMeta.rowData[5]}</span>
               )}
                {tableMeta.rowData[7]=="accept"&&(
@@ -410,7 +422,10 @@ const Allquote = () => {
                {tableMeta.rowData[7]=="reject"&&(
                   <span style={{color:'red'}}>{tableMeta.rowData[5]}</span>
               )}
-               {tableMeta.rowData[7]=="history"&&(
+               {(tableMeta.rowData[7]=="history")&&(
+                  <span style={{color:'#007bff'}}>{tableMeta.rowData[5]}</span>
+              )}
+              {(tableMeta.rowData[7]=="New"&&tableMeta.rowData[8]==1)&&(
                   <span style={{color:'#007bff'}}>{tableMeta.rowData[5]}</span>
               )}
               </>
@@ -440,7 +455,7 @@ const Allquote = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-
+          console.log(tableMeta.rowData[8])
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
               <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/"+tableMeta.rowData[7]+"/0"}>
@@ -458,6 +473,14 @@ const Allquote = () => {
           )
 
         },
+      },
+    },
+    {
+      name: "require_date",
+      label: "AMOUNT",
+      options: {
+        filter: true,
+        display:'none'
       },
     },
     {
@@ -517,6 +540,7 @@ const Allquote = () => {
           title={"SALES QUOTATION"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')&&obj.status!="draft").map((item, index) => {
+        
             return [
               ++index,
               item?.quotation_no,
@@ -526,7 +550,8 @@ const Allquote = () => {
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id,
-              item?.status
+              item?.status,
+              item?.is_revised
               
               // item.party[index].firm_name,
               // item.requested_date,

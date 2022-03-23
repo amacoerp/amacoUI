@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 
 
-const PoTrash = () => {
+const PoTrash = ({tabIndex}) => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [podetails, setpodetails] = useState([]);

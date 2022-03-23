@@ -135,7 +135,7 @@ const PoTab = () => {
       <Divider className="mb-6" />
 
       {tabIndex == 0 && <SimpleMuiTable />}
-      {tabIndex == 1 && <Potrash />}
+      {tabIndex == 1 && <Potrash tabIndex={tabIndex} />}
      
        
     </div>
