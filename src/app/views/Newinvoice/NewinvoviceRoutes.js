@@ -36,6 +36,10 @@ const NewinvoiceRoutes = [
     component: React.lazy(() => import("./Purchaseinvoice")),
   },
   {
+    path: navigatePath + "/purchaseinvoiceview/:t",
+    component: React.lazy(() => import("./PurchaseInvoices.jsx")),
+  },
+  {
     path: navigatePath + "/purchaseinvoiceview/",
     component: React.lazy(() => import("./PurchaseInvoices.jsx")),
   },

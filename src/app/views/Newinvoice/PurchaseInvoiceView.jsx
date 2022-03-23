@@ -534,7 +534,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     handleClose()
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You Want to Move This Invoice to Trash!',
+      text: 'Do You Want to Move This Invoice to Trash!',
       icon: 'danger',
       showCancelButton: true,
       confirmButtonText: 'Yes, Move it!',
@@ -547,10 +547,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             // console.log(res);
             Swal.fire(
               'Deleted!',
-              'Invoice has been deleted.',
+              'Invoice has been moved to trash.',
               'success'
             )
-            routerHistory.push("/purchaseinvoiceview")
+            routerHistory.push("/purchaseinvoiceview/1")
           })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -582,7 +582,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               'Invoice has been Recovered.',
               'success'
             )
-            routerHistory.push("/purchaseinvoiceview")
+            routerHistory.push("/purchaseinvoiceview/0")
           })
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(

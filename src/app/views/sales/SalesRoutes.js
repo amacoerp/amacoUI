@@ -61,6 +61,10 @@ const salesRoutes = [
     component: React.lazy(() => import("./Salesreturn")),
   },
   {
+    path: navigatePath + "/inv/:t",
+    component: React.lazy(() => import("./inv")),
+  },
+  {
     path: navigatePath + "/inv",
     component: React.lazy(() => import("./inv")),
   },
@@ -86,12 +90,23 @@ const salesRoutes = [
   },
 
   {
+    path: navigatePath + "/purchasereturn/:idd",
+    component: React.lazy(() => import("./purchasereturn/PurchaseReturn")),
+  },
+
+  {
     path: navigatePath + "/purchasereturn",
     component: React.lazy(() => import("./purchasereturn/PurchaseReturn")),
   },
   {
     path: navigatePath + "/salesreturn",
     component: React.lazy(() => import("./salesreturn/SalesReturn")),
+  },
+  {
+    path: navigatePath + "/prinvoice/:id/:del",
+    component: React.lazy(() =>
+      import("./purchasereturn/PurchaseRInvoiceViewer.jsx")
+    ),
   },
   {
     path: navigatePath + "/prinvoice/:id",

@@ -430,7 +430,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             ) : (
               <>
                 <MenuItem onClick={() => deleteRfq()}>DELETE RFQ</MenuItem>
-                <MenuItem onClick={() => handlePrinting}>PRINT RFQ</MenuItem>
+                <MenuItem onClick={ handlePrinting}>PRINT RFQ</MenuItem>
                 <MenuItem onClick={() => updateRfq()}>EDIT RFQ</MenuItem>
               </>
             )}
