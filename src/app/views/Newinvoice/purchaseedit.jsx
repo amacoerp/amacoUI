@@ -897,22 +897,26 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
                     subTotalCost += parseFloat(item?.total_amount);
-                    vat = ((subTotalCost * 15) / 100).toFixed(2);
+                    // vat = ((subTotalCost * 15) / 100).toFixed(2);
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
 
-                    GTotal = parseFloat(subTotalCost) + parseFloat(charge);
+
+                    GTotal = parseFloat(subTotalCost) + parseFloat(charge) + parseFloat(vat);
                   } else {
                     subTotalCost += parseFloat(item?.total_amount);
                     dis_per = parseFloat(
                       (discounts * subTotalCost) / 100
                     ).toFixed(2);
-                    vat = (
-                      ((subTotalCost -
-                        parseFloat((discounts * subTotalCost) / 100)) *
-                        15) /
-                      100
-                    ).toFixed(2);
+                    // vat = (
+                    //   ((subTotalCost -
+                    //     parseFloat((discounts * subTotalCost) / 100)) *
+                    //     15) /
+                    //   100
+                    // ).toFixed(2);
+                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
 
-                    GTotal = parseFloat(subTotalCost) + parseFloat(charge);
+
+                    GTotal = parseFloat(subTotalCost) + parseFloat(charge) + parseFloat(vat);
                   }
 
                   return (
