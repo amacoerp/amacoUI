@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import MemberEditorDialogcontact from "../party/partycontact";
 
 import {
@@ -17,7 +17,7 @@ import {
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import Annexure from "./Annexure";
-import useDynamicRefs from "use-dynamic-refs";
+import useDynamicRefs from 'use-dynamic-refs';
 
 import {
   MuiPickersUtilsProvider,
@@ -28,26 +28,19 @@ import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import UOMDialog from "../invoice/UOMDialog";
+import UOMDialog from '../invoice/UOMDialog';
 
-import url, {
-  divisionId,
-  getCustomerList,
-  getVendorList,
-  data,
-  currency,
-  navigatePath,
-  getUnitOfMeasure,
-  GDIV,
-} from "../invoice/InvoiceService";
+import url, { divisionId, getCustomerList, getVendorList, data, currency, navigatePath, getUnitOfMeasure, GDIV } from "../invoice/InvoiceService";
 import Swal from "sweetalert2";
 import { ConfirmationDialog } from "matx";
 // import FormDialog from "../product/productprice";
 import MemberEditorDialog from "../product/productprice";
 import moment from "moment";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { TextField } from "@material-ui/core";
 import useAuth from "app/hooks/useAuth";
+
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -56,82 +49,71 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
   },
   root: {
-    width: "100px",
+    width: "100px"
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
+    fontWeight: theme.typography.fontWeightRegular
+  }
 }));
 // const [getRef, setRef] = useDynamicRefs();
 
 const filter = createFilterOptions();
 const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
+
   const [getRef, setRef] = useDynamicRefs();
   let inputRef = [];
   let priceRef = [];
-  const [isAlive, setIsAlive] = useState(true); //Initialize the clean up fucntion
-  const [state, setState] = useState(initialValues); //set the initial array object
+  const [isAlive, setIsAlive] = useState(true);//Initialize the clean up fucntion
+  const [state, setState] = useState(initialValues);//set the initial array object 
   // const [customercontact, setcustomercontact] = useState([]);
 
-  const [party_id, setparty_id] = useState(""); //set the party id to null
-  const [discounts, setdiscounts] = useState("0"); //set the discounts to 0
-  const [proList, setproList] = useState([]); //set the product list to empty array
-  const [proListAll, setproListAll] = useState([]); //set the product list to empty array
-  const [validity, setvalidity] = useState("3 Days"); //set the validity to 3 days
-  const [payment_terms, setpayment_terms] = useState("100% Advance");
-  const [freight, setfreight] = useState("Air Freight");
-  const [warranty, setwarranty] = useState("NA");
-  const [delivery_time, setdelivery_time] = useState(
-    "Within 2-3 Days from the Date of PO"
-  );
-  const [inco_terms, setinco_terms] = useState(
-    "DDP-Delivery Duty Paid To Customer Office"
-  );
-  const [discount, setdiscount] = useState("0");
-  const [contactid, setcontactid] = useState("");
+  const [party_id, setparty_id] = useState('');//set the party id to null
+  const [discounts, setdiscounts] = useState('0');//set the discounts to 0
+  const [proList, setproList] = useState([]);//set the product list to empty array
+  const [proListAll, setproListAll] = useState([]);//set the product list to empty array
+  const [validity, setvalidity] = useState('3 Days')//set the validity to 3 days
+  const [payment_terms, setpayment_terms] = useState('100% Advance')
+  const [freight, setfreight] = useState('Air Freight')
+  const [warranty, setwarranty] = useState('NA')
+  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
+  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
+  const [discount, setdiscount] = useState('0')
+  const [contactid, setcontactid] = useState('')
   const [dstatus, setdstatus] = useState(false);
-  const [productid, setproductid] = useState("1");
+  const [productid, setproductid] = useState('1');
   const [indexset, setindex] = useState(0);
-  const [productname, setproductname] = useState("");
+  const [productname, setproductname] = useState('');
   const [partyids, setpartyids] = useState();
-  const [productprice, setproductprice] = useState([]);
-  const [contacts, setcontacts] = useState([]);
+  const [productprice, setproductprice] = useState([])
+  const [contacts, setcontacts] = useState([])
   const [PriceList, setPriceList] = useState([]);
   const [DataList, setDataList] = useState("ghhhhh");
-<<<<<<< HEAD
-  const [currency_type, setcurrency_type] = useState("SAR");
-  const [charge, setcharge] = useState(0.0);
-  const [total, settotal] = useState(0.0);
-=======
   const [currency_type, setcurrency_type] = useState('SAR');
   const [charge, setcharge] = useState(0.00);
   const [vatamount, setvatamount] = useState(0.00);
   const [total, settotal] = useState(0.00);
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
   const [catid, setcatid] = useState();
-  const [Quote_date, setQuote_date] = useState(
-    moment(new Date()).format("DD MMM YYYY")
-  );
+  const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
 
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] =
-    useState(false);
+  const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] = useState(false);
   const [values, setvalues] = useState({
     vendorList: [],
     contacts: [],
     supplier_id: " ",
-  });
-  const [
-    shouldOpenConfirmationDialogparty,
-    setshouldOpenConfirmationDialogparty,
-  ] = useState(false);
 
-  const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
-    useState(false);
+
+  })
+  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+
+  const [
+    shouldOpenConfirmationDialog,
+    setShouldOpenConfirmationDialog,
+  ] = useState(false);
 
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
@@ -139,39 +121,43 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setState((state) => ({ ...state, id }));
   }, []);
 
+
+
   const addItemToInvoiceList = () => {
+
     let tempItemList = [...state.item];
 
-    setproList(proListAll);
+    setproList(proListAll)
     tempItemList.push({
       product_id: "",
       item_name: "",
-      src: "",
+      src: '',
       description: "",
       descriptions: "",
       quantity: 0,
       product: "---",
       product_price_list: [
         {
-          price: "",
-        },
+          price: ""
+        }
       ],
       product: [
         {
-          description: "",
-        },
+          description: ""
+        }
       ],
-      purchase_price: parseFloat(0.0).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
+      purchase_price: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
       }),
       margin: 0,
-      sell_price: parseFloat(0.0).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
+      sell_price: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
       }),
       remark: "",
-      total_amount: parseFloat(0.0).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-      }),
+      total_amount: parseFloat(0.00).toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      })
+
     });
     setState({
       ...state,
@@ -180,7 +166,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const setremark = (event, index) => {
-    event.persist();
+    event.persist()
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -188,78 +174,79 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index === i) {
         element[event.target.name] = event.target.value;
+
+
+
       }
       return element;
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  };
+
+
+  }
 
   const filterOptions = (options, params) => {
+
     const filtered = filter(options, params);
     // if (params.inputValue !== "") {
     filtered.push({
       inputValue: params?.inputValue,
-      name: `${params?.inputValue}`,
+      name: `${params?.inputValue}`
     });
     // }
     return filtered;
   };
   const charges = (e) => {
-    vat = e.target.value;
-    GTotal = 50 + vat;
-  };
+    vat = e.target.value
+    GTotal = 50 + vat
+  }
 
   const routerHistory = useHistory();
 
+
   const handleChanges = (event, newValue, index) => {
     // {item?.product[0]?.product_price.filter(x=>x.party.id===party_id).map((item, id) => (
-    const price = PriceList?.filter(
-      (el) => el.product_id === newValue?.id && el.party_id == party_id
-    );
+    const price = PriceList?.filter(el => el.product_id === newValue?.id && el.party_id == party_id);
 
     let tempItemList = [...state.item];
     if (!newValue) {
-      setproList(
-        proListAll?.filter((obj) =>
-          obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())
-        )
-      );
+      setproList(proListAll?.filter(obj => obj?.name?.toLowerCase()?.includes(event.target.value?.toLowerCase())))
+
     }
     tempItemList.map((element, i) => {
       let sum = 0;
 
+
       if (index === i) {
-        element["product_name"] = newValue?.id
-          ? newValue?.name
-          : newValue
-          ? newValue
-          : event.target.value;
-        element["product"] = newValue?.id
-          ? newValue?.name
-          : newValue
-          ? newValue
-          : event.target.value;
-        element["item_name"] = newValue?.id
-          ? newValue?.name
-          : newValue
-          ? newValue
-          : event.target.value;
-        element["productId"] = newValue?.id ? newValue?.id : null;
+
+
+        element['product_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['product'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['item_name'] = newValue?.id ? newValue?.name : newValue ? newValue : event.target.value
+        element['productId'] = newValue?.id ? newValue?.id : null
         // element.product_id=newValue?.id?newValue?.id:null
-        element["product_price_list"] = price ? price : null;
-        element["arabic_description"] = null;
+        element['product_price_list'] = price ? price : null
+        element['arabic_description'] = null
+
+
+
       }
       return element;
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
+
+
+
   };
   const handleIvoiceListChange = (event, index, newValue) => {
     // event.persist()
@@ -269,35 +256,39 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-        element["total_amount"] = (
-          (newValue?.price ? newValue?.price : newValue) * element.quantity
-        ).toFixed(2);
-        element["purchase_price"] = newValue?.price
-          ? newValue?.price
-          : newValue;
+
+
+        element['total_amount'] = ((newValue?.price ? newValue?.price : newValue) * element.quantity).toFixed(2);
+        element['purchase_price'] = newValue?.price ? newValue?.price : newValue;
         // element[event.target.name] = event.target.value;
         element.margin = "";
         element.sell_price = "";
-        element["remark"] = "";
+        element['remark'] = "";
       }
       return element;
+
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
+
+
+
   };
+
+
 
   const deleteItemFromInvoiceList = (index) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You want to Delete this Purchase Details!",
-      icon: "danger",
+      title: 'Are you sure?',
+      text: 'You want to Delete this Purchase Details!',
+      icon: 'danger',
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      icon: "warning",
-      cancelButtonText: "No, keep it",
+      confirmButtonText: 'Yes, delete it!',
+      icon: 'warning',
+      cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
         let tempItemList = [...state.item];
@@ -309,14 +300,21 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ...state,
           item: tempItemList,
         });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your Purchase Details is safe :)", "error");
       }
-    });
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Purchase Details is safe :)',
+          'error'
+        )
+      }
+    })
   };
   const filterPrice = (options, params) => {
     // console.log(params.inputValue)
+
     // const filtered = filter(options, params);
+
     // // if (params.inputValue == "") {
     //   filtered.push({
     //     inputValue: params.inputValue,
@@ -328,28 +326,36 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   };
 
   const calcualteprice = (event, index) => {
-    event.persist();
+    event.persist()
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
       if (index === i) {
-        element["total_amount"] = (
-          event.target.value * element.purchase_price
-        ).toFixed(2);
+
+
+
+        element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
         element[event.target.name] = event.target.value;
-        element["remark"] = "";
+        element['remark'] = "";
+
+
+
+
       }
 
       return element;
+
     });
+
 
     setState({
       ...state,
       item: tempItemList,
     });
-  };
+
+  }
   const po_description = (event, index) => {
     //  event.persist()
     let tempItemList = [...state.item];
@@ -358,21 +364,29 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-        element["total_amount"] = (
-          event.target.value * element.purchase_price
-        ).toFixed(2);
+
+
+
+        element['total_amount'] = ((event.target.value) * element.purchase_price).toFixed(2);
         element[event.target.name] = event.target.value;
-        element["remark"] = "";
+        element['remark'] = "";
+
+
+
+
       }
 
       return element;
+
     });
+
 
     setState({
       ...state,
       item: tempItemList,
     });
-  };
+
+  }
 
   const ChangeName = (event, index) => {
     //  event.persist()
@@ -382,58 +396,48 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
+
+
+
+
         element[event.target.name] = event.target.value;
-        element["remark"] = "";
+        element['remark'] = "";
+
+
+
+
       }
 
       return element;
+
     });
+
 
     setState({
       ...state,
       item: tempItemList,
     });
-  };
+
+  }
+
+
 
   const setproductids = (id, index) => {
-    setcatid(id);
-    setpartyids(party_id);
-    setShouldOpenEditorDialog(true);
-  };
+    setcatid(id)
+    setpartyids(party_id)
+    setShouldOpenEditorDialog(true)
+  }
+
 
   const handleSubmit = (e) => {
+
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
-    let arr = [];
+    let arr = []
     delete tempState.loading;
     let tempItemList = [...state.item];
 
-<<<<<<< HEAD
-    arr.quotation_details = tempItemList;
-    arr.discount_in_p = 0;
-    arr.total_value = parseFloat(subTotalCost).toFixed(2);
-    arr.net_amount = GTotal;
-    arr.freight = freight;
-    arr.vat_in_value = parseFloat(charge).toFixed(2);
-    arr.rfq_id = id;
-    arr.po_number = id;
-    arr.party_id = party_id;
-    arr.warranty = warranty;
-    arr.validity = validity;
-    arr.delivery_time = delivery_time;
-    arr.inco_terms = inco_terms;
-    arr.payment_terms = payment_terms;
-    arr.contact_id = contactid;
-    arr.transaction_type = "purchase";
-    arr.status = "New";
-    arr.ps_date = Quote_date;
-    arr.currency_type = currency_type;
-    arr.transport = 0.0;
-    arr.other = 0.0;
-    arr.div_id = localStorage.getItem("division");
-    arr.user_id = user.id;
-=======
 
 
     arr.quotation_details = tempItemList
@@ -442,6 +446,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.net_amount = GTotal
     arr.freight = freight
     arr.vat_in_value = parseFloat(vat).toFixed(2)
+    arr.freight_charges = parseFloat(charge).toFixed(2)
     arr.rfq_id = id
     arr.po_number = id
     arr.party_id = party_id
@@ -459,22 +464,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.other = 0.00
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
     const json = Object.assign({}, arr);
 
-    url
-      .post("purchase-quotation", json)
+    url.post('purchase-quotation', json)
       .then(function (response) {
+
+
         Swal.fire({
-<<<<<<< HEAD
-          title: "Success",
-          type: "success",
-          icon: "success",
-          text: "Data saved successfully.",
-        }).then((result) => {
-          routerHistory.push(navigatePath + "/PoTab");
-        });
-=======
           title: 'Success',
           type: 'success',
           icon: 'success',
@@ -485,7 +481,6 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             routerHistory.push(navigatePath + "/PoTab/0")
           })
 
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
       })
       .catch(function (error) {
         Swal.fire({
@@ -496,19 +491,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }).then((result) => {
           setState({ ...state, loading: false });
         });
-      });
+      })
+
   };
   function cancelform() {
-<<<<<<< HEAD
-    routerHistory.push(navigatePath + "/PoTab");
-=======
     routerHistory.push(navigatePath + "/PoTab/0")
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
   }
 
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-    setIsAlive(true);
+    setIsAlive(true)
+
+
   };
 
   function handleChange(newValue) {
@@ -516,35 +510,29 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
   const handleDialogCloseAnnexure = () => {
     setShouldOpenEditorDialogAnnexure(false);
+
+
+
   };
-  const [data, setData] = useState([]);
-  const [uom, setUOM] = useState(false);
+  const [data, setData] = useState([])
+  const [uom, setUOM] = useState(false)
 
   useEffect(() => {
     // getUnitOfMeasure().then(({ data }) => {
     //   setData(data);
     // });
-    url
-      .get(`mjrRfqInc/${localStorage.getItem("division")}`)
-      .then(({ data }) => {
-        setproList(
-          data?.products.filter(
-            (obj) => obj.div_id == localStorage.getItem("division")
-          )
-        );
-        setproListAll(
-          data?.products.filter(
-            (obj) => obj.div_id == localStorage.getItem("division")
-          )
-        );
-        setData(data?.uom);
-        setvalues({
-          ...values,
-          vendorList: data?.vendor,
-          status: false,
-        });
-        setPriceList(data?.productPrice);
-      });
+    url.get(`mjrRfqInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      setproList(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setproListAll(data?.products.filter(obj => obj.div_id == localStorage.getItem('division')))
+      setData(data?.uom)
+      setvalues({
+        ...values,
+        vendorList: data?.vendor,
+        status: false
+      })
+      setPriceList(data?.productPrice)  
+
+    });
     // url.get("products").then(({ data }) => {
     //   setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
     //   setproListAll(data.filter(obj => obj.div_id == localStorage.getItem('division')))
@@ -562,33 +550,41 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // url.get("product-price").then(({ data }) => {
     //   setPriceList(data)
 
+
+
+
     // });
 
-    return setIsAlive(false); //The return function is the cleanup function, or when the user leaves the page and the component will unmount
+    return setIsAlive(false)//The return function is the cleanup function, or when the user leaves the page and the component will unmount
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
-  const setMargin = (id, index, name) => {
-    setproductid(id);
-    setproductname(name);
-    setindex(index);
-    setShouldOpenEditorDialog(true);
-  };
 
-  const controlKeyPress = (e, id, nextid, prev, dropdown) => {
-    if (e.key === "Enter" && !dropdown) {
-      let i = parseInt(id);
+  const setMargin = (id, index, name) => {
+
+    setproductid(id)
+    setproductname(name)
+    setindex(index)
+    setShouldOpenEditorDialog(true);
+
+  }
+
+  const controlKeyPress = (e, id, nextid, prev,dropdown) => {
+
+    if(e.key === 'Enter' && !dropdown){
+     
+      let i = parseInt(id)
       // const r = ++i + 'product_id';
       // console.log(r)
-      try {
-        addItemToInvoiceList();
-        // if (r.includes('product_id')) {
-        inputRef[parseInt(++i)].focus();
-        // console.log(i)
-        // }
-      } catch (error) {
-        // console.log(i)
-        // console.log('error')
-      }
+        try {
+          addItemToInvoiceList();
+          // if (r.includes('product_id')) {
+            inputRef[parseInt(++i)].focus();
+            // console.log(i)
+          // }
+        } catch (error) {
+          // console.log(i)
+          // console.log('error')
+        }
       //  inputRef[parseInt(r)].focus();
     }
 
@@ -597,32 +593,35 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
         // if (e?.keyCode == 13) {
+
         // }
       } else {
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
-      let i = parseInt(id);
+      let i = parseInt(id)
       if (--i >= 0) {
         const r = i + a[1];
-        if (r?.includes("purchase_price")) {
+        if (r?.includes('purchase_price')) {
           priceRef[parseInt(r)].focus();
-        } else if (r.includes("product_id")) {
+        } else if (r.includes('product_id')) {
           inputRef[parseInt(r)].focus();
         } else {
           getRef(r).current.focus();
         }
+
       }
+
     } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
-      let i = parseInt(id);
+      let i = parseInt(id)
       // if (++i) {
       const r = ++i + a[1];
       try {
-        if (r?.includes("purchase_price")) {
+        if (r?.includes('purchase_price')) {
           priceRef[parseInt(r)].focus();
-        } else if (r.includes("product_id")) {
+        } else if (r.includes('product_id')) {
           inputRef[parseInt(r)].focus();
 
           // inputRef.focus();
@@ -630,15 +629,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           getRef(r).current.focus();
         }
       } catch (error) {
-        console.error("eror");
+        console.error('eror')
         // addItemToInvoiceList();
       }
 
       // }
+
     } else if (e?.keyCode == 37) {
       if (prev == null) {
+
       } else {
-        if (prev.includes("product_id")) {
+        if (prev.includes('product_id')) {
           inputRef[parseInt(prev)].focus();
 
           // inputRef.focus();
@@ -649,8 +650,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }
       }
     }
-  };
+  }
   const setcontact = (event, newValue) => {
+
+
     // url.get("parties/" + event.target.value).then(({ data }) => {
 
     //   setcontacts(data[0].contacts)
@@ -658,49 +661,54 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     //   setvalues({ ...values, status: true });
 
+
     // });
     if (newValue?.id) {
       url.get("parties/" + newValue?.id).then(({ data }) => {
-        setcontacts(data[0].contacts);
-        setparty_id(newValue?.id);
+
+        setcontacts(data[0].contacts)
+        setparty_id(newValue?.id)
 
         setvalues({ ...values, status: true });
+
+
       });
-    } else {
-      setcontacts([]);
-      setparty_id();
+    }
+    else {
+      setcontacts([])
+      setparty_id()
 
       setvalues({ ...values, status: false });
     }
-  };
+  }
 
   let subTotalCost = 0;
   let GTotal = 0;
   let dis_per = 0;
   let {
+
     item: invoiceItemList = [],
     quote: quoteList = [],
     status,
     vat,
     loading,
+
   } = state;
 
   return (
+
     <div className="m-sm-30">
+
+
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm
-            autocomplete="off"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-            onError={(errors) => null}
-          >
+          <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h4 align="left"> CREATE PURCHASE ORDER</h4>
               </div>
               <div className="mb-6">
+
                 <Button
                   className="mr-4 py-2"
                   variant="outlined"
@@ -710,14 +718,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
 
+
                 <Button
                   // type="submit"
                   className="py-2"
                   variant="outlined"
                   color="primary"
-                  onClick={(e) => {
-                    handleSubmit();
-                  }}
+                  onClick={(e)=>{handleSubmit()}}
                   disabled={loading}
                 >
                   <Icon>save</Icon> SAVE & PRINT PURCHASEORDER
@@ -726,7 +733,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div>
 
             <div className="viewer__order-info px-4 mb-6 flex justify-between">
-              <div>
+              <div >
                 {/* <h5 className="font-normal capitalize">
               <strong>Customer: </strong>{" "}
               <span>
@@ -735,17 +742,20 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </h5> */}
                 <div>
                   <TextField
+
                     label="Currency Type"
-                    style={{ minWidth: 200, maxWidth: "250px" }}
+                    style={{ minWidth: 200, maxWidth: '250px' }}
                     name="party_id"
                     size="small"
                     variant="outlined"
+
                     value={currency_type}
                     // onChange={handleChange}
                     onChange={(event) => setcurrency_type(event.target.value)}
                     required
                     select
                   >
+
                     {currency.map((item) => (
                       <MenuItem value={item.value} key={item.id}>
                         {item.name}
@@ -785,93 +795,54 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     id="filter-demo"
                     variant="outlined"
                     options={values?.vendorList}
-                    style={{
-                      position: "relative",
-                      width: "350px",
-                      top: "-37px",
-                      left: "220px",
-                    }}
+
+                    style={{ position: 'relative', width:'350px', top: '-37px', left: '220px' }}
                     getOptionLabel={(option) => option.firm_name}
                     filterOptions={(options, params) => {
                       const filtered = filter(options, params);
                       if (params.inputValue !== " ") {
                         filtered.unshift({
                           inputValue: params.inputValue,
-                          firm_name: (
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              size="small"
-                              onClick={() =>
-                                routerHistory.push(
-                                  navigatePath + "/party/addparty"
-                                )
-                              }
-                            >
-                              +Add New
-                            </Button>
-                          ),
+                          firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
                         });
                       }
+
 
                       return filtered;
                     }}
                     onChange={(event, newValue) => setcontact(event, newValue)}
                     size="small"
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Vendor Name"
-                      />
-                    )}
+                    renderInput={(params) => <TextField {...params}
+                      variant="outlined" label="Vendor Name" />}
                   />
 
-                  {values.status && (
-                    <Autocomplete
-                      id="filter-demo"
-                      variant="outlined"
-                      options={contacts}
-                      style={{
-                        position: "relative",
-                        width: "250px",
-                        top: "-74px",
-                        left: "620px",
-                      }}
-                      getOptionLabel={(option) => option.fname}
-                      filterOptions={(options, params) => {
-                        const filtered = filter(options, params);
-                        if (params.inputValue !== " ") {
-                          filtered.unshift({
-                            inputValue: params.inputValue,
-                            fname: (
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                size="small"
-                                onClick={(e) =>
-                                  setshouldOpenConfirmationDialogparty(true)
-                                }
-                              >
-                                +Add New
-                              </Button>
-                            ),
-                          });
-                        }
+                  {values.status && <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    options={contacts}
 
-                        return filtered;
-                      }}
-                      onChange={(e, newValue) => setcontactid(newValue?.id)}
-                      size="small"
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label="Contact Person"
-                        />
-                      )}
-                    />
-                  )}
+                    style={{ position: 'relative',width:'250px', top: '-74px', left: '620px' }}
+                    getOptionLabel={(option) => option.fname}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (<Button variant="outlined" color="primary" size="small" onClick={(e) => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
+                        });
+                      }
+
+
+                      return filtered;
+                    }}
+                    onChange={(e, newValue) => setcontactid(newValue?.id)}
+                    size="small"
+                    renderInput={(params) => <TextField {...params}
+                      variant="outlined" label="Contact Person" />}
+                  />}
+
+
+
 
                   {/* {values.status &&
                   <TextField
@@ -899,7 +870,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
               </div>
 
+
               <div>
+
+
                 <div className="text-right pt-4">
                   {/* <h5 className="font-normal">
                 <strong>Quote Date: </strong>
@@ -908,7 +882,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <KeyboardDatePicker
                       className="m-2"
                       margin="none"
-                      style={{ position: "relative", top: "-23px" }}
+                      style={{position:'relative',top:'-23px'}}
                       label="Date"
                       format="dd MMMM yyyy"
                       inputVariant="outlined"
@@ -917,13 +891,20 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       selected={Quote_date}
                       value={Quote_date}
                       onChange={(date) => {
-                        setQuote_date(moment(date).format("DD MMM YYYY"));
+                        setQuote_date(moment(date).format('DD MMM YYYY'))
                         // return date
                       }}
                     />
                   </MuiPickersUtilsProvider>
+
+
                 </div>
+
               </div>
+
+
+
+
             </div>
 
             <Divider />
@@ -931,60 +912,21 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell
-                    className="pl-2"
-                    style={{ width: 100 }}
-                    align="center"
-                  >
-                    S.NO.
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "250px" }}>
-                    ITEM
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "250px" }}>
-                    OUR DESCRIPTION
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "100px" }}>
-                    QTY
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "130px" }}>
-                    UOM
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "150px" }}>
-                    PRICE
-                  </TableCell>
-                  <TableCell className="px-0" style={{ width: "150px" }}>
-                    TOTAL
-                  </TableCell>
+                  <TableCell className="pl-2" style={{ width: 100 }} align="center">S.NO.</TableCell>
+                  <TableCell className="px-0" style={{ width: '250px' }}>ITEM</TableCell>
+                  <TableCell className="px-0" style={{ width: '250px' }}>OUR DESCRIPTION</TableCell>
+                  <TableCell className="px-0" style={{ width: '100px' }}>QTY</TableCell>
+                  <TableCell className="px-0" style={{ width: '130px' }}>UOM</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '150px' }}>TOTAL</TableCell>
 
-                  <TableCell className="pr-2" style={{ textAlign: "right" }}>
-                    ACTION
-                  </TableCell>
+                  <TableCell className="pr-2" style={{ textAlign: "right" }}>ACTION</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
-<<<<<<< HEAD
-                    subTotalCost += parseFloat(item.total_amount);
-                    vat = ((subTotalCost * 15) / 100).toFixed(2);
-                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
-                    GTotal = subTotalCost + charge;
-                  } else {
-                    subTotalCost += parseFloat(item.total_amount);
-                    dis_per = parseFloat(
-                      (discounts * subTotalCost) / 100
-                    ).toFixed(2);
-                    vat = (
-                      ((subTotalCost -
-                        parseFloat((discounts * subTotalCost) / 100)) *
-                        15) /
-                      100
-                    ).toFixed(2);
-                    // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
-                    GTotal = subTotalCost + charge;
-=======
                     subTotalCost += parseFloat(item.total_amount)
                     vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
                     
@@ -998,23 +940,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
                     GTotal = subTotalCost + charge + parseFloat(vat)
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
                   }
+
 
                   return (
                     <TableRow key={index}>
-                      <TableCell
-                        className="pl-2 capitalize"
-                        align="center"
-                        style={{ width: 100 }}
-                      >
+                      <TableCell className="pl-2 capitalize" align="center" style={{ width: 100 }}>
                         {index + 1}
                       </TableCell>
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "250px" }}
-                      >
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         <Autocomplete
                           className="w-full"
                           size="small"
@@ -1022,27 +956,17 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           name="product_id"
                           multiline
                           value={item?.item_name}
+
+
+
                           // defaultValue={item.item_name}
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "product_id",
-                              index + "description",
-                              null,
-                              true
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null ,true) }}
                           // value={item?.product_id ? item?.product_id : " "}
                           // value={item?.product_id}
 
+
                           // renderOption={option => option.name}
-                          getOptionLabel={(option) =>
-                            option?.name
-                              ? option?.name
-                              : item?.item_name
-                              ? item?.item_name
-                              : ""
-                          }
+                          getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name ? item?.item_name : "")}
                           // getOptionLabel={option => {
 
                           //   // e.g value selected with enter, right from the input
@@ -1056,36 +980,28 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // }}
                           freeSolo
                           inputProps={{
-                            ref: setRef(index + "product_id"),
+                            ref: setRef(index + 'product_id')
                           }}
                           renderInput={(params) => (
                             // {console.log(params)}
-                            <TextField
-                              {...params}
-                              inputRef={(input) => {
+                            <TextField {...params}
+                              inputRef={input => {
                                 inputRef[index] = input;
                               }}
                               multiline
-                              variant="outlined"
-                              name="product_id"
-                              fullWidth
-                              onChange={(event, newValue) =>
-                                handleChanges(event, newValue, index)
-                              }
+
+                              variant="outlined" name="product_id" fullWidth
+                              onChange={(event, newValue) => handleChanges(event, newValue, index)}
                             />
                           )}
                           // onChange={handleChanges}
-                          onChange={(event, newValue) =>
-                            handleChanges(event, newValue, index)
-                          }
-                          // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+                          onChange={(event, newValue) => handleChanges(event, newValue, index)}
+                        // onInputChange={(event, newValue) => handleChanges(event, newValue, index)}
+
+
                         />
                       </TableCell>
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "350px" }}
-                      >
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '350px' }}>
                         <TextField
                           label="Our description"
                           type="text"
@@ -1095,30 +1011,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           variant="outlined"
                           size="small"
                           inputProps={{
-                            ref: setRef(index + "description"),
+                            ref: setRef(index + 'description')
                           }}
                           // ref={setRef(index + 'description')}
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "description",
-                              index + "quantity",
-                              index + "product_id",
-                              true
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'quantity', index + 'product_id',true) }}
                           name="description"
                           multiline
                           fullWidth
                           onChange={(event) => ChangeName(event, index)}
                           value={item.description ? item.description : ""}
+
                         />
                       </TableCell>
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "80px" }}
-                      >
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualteprice(event, index)}
@@ -1130,18 +1035,11 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // }}
                           fullWidth
                           inputProps={{
-                            min: 0,
-                            style: { textAlign: "center" },
-                            ref: setRef(index + "quantity"),
+                            min: 0, style: { textAlign: 'center' },
+                            ref: setRef(index + 'quantity')
                           }}
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "quantity",
-                              index + "unit_of_measure",
-                              index + "description"
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'description') }}
+
                           name="quantity"
                           value={item.quantity ? item.quantity : ""}
                           validators={["required", "isNumber"]}
@@ -1151,45 +1049,27 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           ]}
                         />
                       </TableCell>
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "80px" }}
-                      >
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
                         <TextField
                           label="UOM"
+
                           type="text"
                           variant="outlined"
                           size="small"
                           name="unit_of_measure"
                           required
-                          style={{ width: "100%", float: "left" }}
+                          style={{ width: '100%', float: 'left' }}
                           fullWidth
-                          value={
-                            item.unit_of_measure ? item.unit_of_measure : null
-                          }
+                          value={item.unit_of_measure ? item.unit_of_measure : null}
                           onChange={(event) => ChangeName(event, index)}
                           select
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "unit_of_measure",
-                              index + "purchase_price",
-                              index + "quantity",
-                              true
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity',true) }}
+
                           inputProps={{
-                            ref: setRef(index + "unit_of_measure"),
+                            ref: setRef(index + 'unit_of_measure')
                           }}
                         >
-                          <MenuItem
-                            onClick={(e) => {
-                              setUOM(true);
-                            }}
-                          >
-                            <Icon>add</Icon> ADD UOM
-                          </MenuItem>
+                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
 
                           {data.map((item, ind) => (
                             <MenuItem value={item.value} key={item}>
@@ -1197,12 +1077,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             </MenuItem>
                           ))}
                         </TextField>
+
                       </TableCell>
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "200px" }}
-                      >
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '200px' }}>
                         {/* <TextField
                       label="Unit Price"
                       variant="outlined"
@@ -1228,6 +1105,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         ))} 
                     </TextField> */}
                         <CurrencyTextField
+
                           className="w-full"
                           size="small"
                           variant="outlined"
@@ -1238,16 +1116,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // filterOptions={filterPrice}
                           // renderOption={option => option.price}
                           inputProps={{
-                            ref: setRef(index + "purchase_price"),
+                            ref: setRef(index + 'purchase_price')
                           }}
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "purchase_price",
-                              index + "total_amount",
-                              index + "unit_of_measure"
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'total_amount', index + 'unit_of_measure') }}
+
                           // getOptionLabel={option => {
                           //   // e.g value selected with enter, right from the input
                           //   if (typeof option === "string") {
@@ -1268,17 +1140,18 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // )}
                           // onKeyUp={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                           // onInputChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
-                          onChange={(event, newValue) =>
-                            handleIvoiceListChange(event, index, newValue)
-                          }
+                          onChange={(event, newValue) => handleIvoiceListChange(event, index, newValue)}
+
                         />
+
+
                       </TableCell>
 
-                      <TableCell
-                        className="pl-0 capitalize"
-                        align="left"
-                        style={{ width: "250px" }}
-                      >
+
+
+
+
+                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '250px' }}>
                         {/* <TextValidator
                       label="QTotal"
                       
@@ -1296,20 +1169,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="Total"
                           variant="outlined"
                           fullWidth
-                          onKeyDown={(e) => {
-                            controlKeyPress(
-                              e,
-                              index + "total_amount",
-                              null,
-                              index + "purchase_price"
-                            );
-                          }}
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'purchase_price') }}
                           inputProps={{
-                            ref: setRef(index + "total_amount"),
+                            ref: setRef(index + 'total_amount')
                           }}
                           size="small"
                           readOnly={true}
-                          currencySymbol=""
+                          currencySymbol=''
                           name="total_amount"
                           value={item.total_amount ? item.total_amount : ""}
                         />
@@ -1331,18 +1197,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     />
   
                   </TableCell> */}
-                      <TableCell
-                        className="pl-2 capitalize"
-                        align="left"
-                        style={{ textAlign: "right" }}
-                      >
-                        <Icon
-                          color="error"
-                          fontSize="small"
-                          onClick={() => deleteItemFromInvoiceList(index)}
-                        >
+                      <TableCell className="pl-2 capitalize" align="left" style={{ textAlign: "right" }}>
+
+                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index)}>
                           delete
                         </Icon>
+
                       </TableCell>
                     </TableRow>
                   );
@@ -1350,48 +1210,25 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
               </TableBody>
             </Table>
             <div className="flex justify-end px-4 mb-4">
-              <Button
-                className="mt-4 py-2"
+              <Button className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small"
-                onClick={addItemToInvoiceList}
-              >
-                <Icon>add</Icon>Add Item
-              </Button>
+                size="small" onClick={addItemToInvoiceList}><Icon>add</Icon>Add Item</Button>
             </div>
 
-            <h6 className="pl-4">
-              <strong>TERMS</strong>
-            </h6>
+            <h6 className="pl-4"><strong>TERMS</strong></h6>
             <div className="px-4 flex justify-between">
               <div className="flex">
+
                 <div className="pr-12">
+
+
+
                   {/* <p className="mb-8">Quotation Validity:</p> */}
-                  <p
-                    className="mb-8"
-                    style={{ position: "relative", top: "10px" }}
-                  >
-                    Payment Terms:
-                  </p>
-                  <p
-                    className="mb-8"
-                    style={{ position: "relative", top: "10px" }}
-                  >
-                    Freight type:
-                  </p>
-                  <p
-                    className="mb-8"
-                    style={{ position: "relative", top: "13px" }}
-                  >
-                    Delivery Time:
-                  </p>
-                  <p
-                    className="mb-8"
-                    style={{ position: "relative", top: "13px" }}
-                  >
-                    Inco-Term:
-                  </p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Payment Terms:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Freight type:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Delivery Time:</p>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Inco-Term:</p>
                 </div>
                 <div>
                   {/* <TextValidator
@@ -1410,7 +1247,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TextValidator
                     label="Payment Terms"
                     className="mb-4"
-                    onChange={(e) => setpayment_terms(e.target.value)}
+                    onChange={e => setpayment_terms(e.target.value)
+                    }
                     type="text"
                     style={{ width: 500 }}
                     variant="outlined"
@@ -1422,7 +1260,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Freight"
-                    onChange={(e) => setfreight(e.target.value)}
+                    onChange={e => setfreight(e.target.value)
+                    }
                     className="mb-4"
                     type="text"
                     variant="outlined"
@@ -1437,7 +1276,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"
-                    onChange={(e) => setdelivery_time(e.target.value)}
+                    onChange={e => setdelivery_time(e.target.value)
+                    }
                     type="text"
                     variant="outlined"
                     size="small"
@@ -1449,7 +1289,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Inco-Term"
-                    onChange={(e) => setinco_terms(e.target.value)}
+                    onChange={e => setinco_terms(e.target.value)
+                    }
                     type="text"
                     className="mb-4"
                     variant="outlined"
@@ -1461,45 +1302,29 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
                 </div>
+
               </div>
               <div className="px-4 flex justify-end">
-                <div className="flex ">
+                <div className="flex " >
                   <div className="pr-12">
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
-<<<<<<< HEAD
-                    <p
-                      className="mb-8"
-                      style={{ position: "relative", top: "-4px" }}
-                    >
-                      Freight Charges ({currency_type})
-                    </p>
-=======
                     <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
                     <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>VAT (15%)</p>
->>>>>>> 27a5f2c732941778045e73c19b148ccfe9f4122a
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p
-                        className="mb-8"
-                        style={{ position: "relative", top: "-4px" }}
-                      >
-                        Net Total ({currency_type})
-                      </p>
+                      <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>
                     </strong>
                   </div>
                   <div>
-                    <p className="mb-4" align="right">
-                      {subTotalCost
-                        ? subTotalCost.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                          })
-                        : "0.00"}
-                    </p>
+
+                    <p className="mb-4" align="right">{subTotalCost ? subTotalCost.toLocaleString(undefined, {
+                      minimumFractionDigits: 2
+                    }) : '0.00'}</p>
 
                     {/* <TextValidator
                 className="mb-4 "
-                label="Vat"`
+                label="Vat"
                 type="text"
                 variant="outlined"
                 size="small"
@@ -1519,14 +1344,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       size="small"
                       currencySymbol={currency_type}
                       name="vat"
-                      onChange={(e, value) => {
-                        setcharge(value);
-                        settotal(value + subTotalCost);
-                      }}
+                      onChange={(e, value) => { setcharge(value); settotal(value + subTotalCost); }
+
+                      }
                       value={charge}
-                      // value={subTotalCost?vat:parseFloat(0.00).toLocaleString(undefined,{
-                      //   minimumFractionDigits:2
-                      // })}
+                    // value={subTotalCost?vat:parseFloat(0.00).toLocaleString(undefined,{
+                    //   minimumFractionDigits:2
+                    // })}
                     />
                     {/* <TextValidator
                 label="Grand Total"
@@ -1567,11 +1391,14 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         value={GTotal}
                       />
                     </div>
+
+
                   </div>
                 </div>
               </div>
             </div>
           </ValidatorForm>
+
         </div>
       </Card>
 
@@ -1596,26 +1423,24 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       {uom && (
         <UOMDialog
           open={uom}
-          handleClose={() => {
-            setUOM(false);
-          }}
+          handleClose={() => { setUOM(false) }}
           setData={setData}
         />
       )}
 
-      {shouldOpenConfirmationDialogparty && (
-        <MemberEditorDialogcontact
-          open={shouldOpenConfirmationDialogparty}
-          onConfirmDialogClose={handleDialogClose}
-          handleClose={() => {
-            setshouldOpenConfirmationDialogparty(false);
-            setIsAlive(false);
-          }}
-          customercontact={setcontacts}
-          partyid={party_id}
-          text="Are you sure to delete?"
-        />
-      )}
+      {
+        shouldOpenConfirmationDialogparty && (
+          <MemberEditorDialogcontact
+            open={shouldOpenConfirmationDialogparty}
+            onConfirmDialogClose={handleDialogClose}
+            handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+            customercontact={setcontacts}
+            partyid={party_id}
+
+            text="Are you sure to delete?"
+          />
+        )
+      }
       {shouldOpenEditorDialogAnnexure && (
         <Annexure
           handleClose={handleDialogClose}
@@ -1625,9 +1450,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
           handleDialogClose={handleDialogCloseAnnexure}
         />
       )}
+
     </div>
   );
 };
+
+
 
 const initialValues = {
   id: "",
