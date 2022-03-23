@@ -3,10 +3,14 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useParams,useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath } from "../../invoice/InvoiceService";
 import moment from "moment";
+import { Divider, Tab, Tabs } from "@material-ui/core";
+import SalesView from './salesRV';
+import SalesTrash from './salesRTrash';
+
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -48,7 +52,48 @@ const SalesReturn = () => {
         textAlign: "center"
     }
 
+
+    const { t} = useParams();
+
+
+
+    const colorset = (tabIndex) => {
+      if (tabIndex == 0) return "dark";
+      if (tabIndex == 1) return "dark";
+      if (tabIndex == 2) return "#008000";
+      if (tabIndex == 3) return "rgba(255,0,0,1)";
+      if (tabIndex == 4) return "secondary";
+      if (tabIndex == 5) return "primary";
+    };
+  
+    const getBackgroundColor = (ind) => {
+      if (ind == 0) {
+        return "#00000014";
+      } else if (ind == 1) {
+        return "#00000014";
+      } else if (ind == 2) {
+        return "#00800029";
+      } else if (ind == 3) {
+        return "#ff00001c";
+      } else if (ind == 4) {
+        return "#ffaf3829";
+      } else if (ind == 5) {
+        return "#1976d21f";
+      }
+    };
+  
+    const tabList = ["SALES RETURN", "TRASH"];
+    const [tabIndex, setTabIndex] = useState(0);
+    const handleTabChange = (e, value) => {
+      setTabIndex(value);
+    };
+  
+  
+
     useEffect(() => {
+        if(t){
+            setTabIndex(parseInt(t))
+        }
         if(localStorage.getItem('page') !== 'salesreturn'){
             localStorage.removeItem('search')
             localStorage.removeItem('page')
@@ -329,49 +374,67 @@ const SalesReturn = () => {
                         </div>
                     </div>
                 </div>
-                <MUIDataTable
-                    title={"SALES RETURN"}
-                    data={podetails.filter(obj => obj.d_id == localStorage.getItem('division')).map((item, index) => {
-
-                        return [
-                            ++index,
-                            item.quotationr_no,
-                            item.firm_name,
-                            item.ps_date,
-                            parseFloat(item.net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-                            item.pr_id
-                        ]
-
-                    })}
-                    columns={columns}
-                    options={{
-                        // filterType: "textField",
-                        // responsive: "simple",
-                        // selectableRows: "none", // set checkbox for each row
-                        // search: false, // set search option
-                        // filter: false, // set data filter option
-                        // download: false, // set download option
-                        // print: false, // set print option
-                        // pagination: true, //set pagination option
-                        // viewColumns: false, // set column option
-                        // elevation: 0,
-                        rowsPerPageOptions: [10, 20, 40, 80, 100],
-                        selectableRows: "none",
-                        filterType: "dropdown",
-                        searchProps: {
-                            onKeyUp:(e) => {
-                              localStorage.setItem('search',e.target.value);
-                              localStorage.setItem('page','salesreturn');
-                            }
-                          },
-                        searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
-                        
-                        // responsive: "scrollMaxHeight",
-                        rowsPerPage: 10,
-
-
-                    }}
-                />
+                <Tabs
+          className="mt-4"
+          value={tabIndex}
+          onChange={handleTabChange}
+          indicatorColor={colorset(tabIndex)}
+          textColor={colorset(tabIndex)}
+          TabIndicatorProps={{
+            style: {
+              background:
+                tabIndex == 0
+                  ? "black"
+                  : tabIndex == 1
+                  ? "rgba(255,0,0,1)"
+                  : tabIndex == 2
+                  ? "#008000"
+                  : tabIndex == 3
+                  ? "rgba(255,0,0,1)"
+                  : tabIndex == 4
+                  ? "#FFAF38"
+                  : tabIndex == 5
+                  ? "#1976d2"
+                  : "",
+            },
+          }}
+        >
+          {tabList.map((item, ind) => (
+            <Tab
+              className="capitalize"
+              style={{
+                borderBottom:
+                  tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
+                // color:(tabIndex==ind?colorset(tabIndex):"")
+                color:
+                  item == "RFQ"
+                    ? "black"
+                    : item == "NEW"
+                    ? "black"
+                    : item == "ACCEPTED QUOTATION"
+                    ? "#008000"
+                    : item == "TRASH"
+                    ? "rgba(255,0,0,1)"
+                    : item == "DRAFT"
+                    ? "#FFAF38"
+                    : item == "QUOTATION HISTORY"
+                    ? "#1976d2"
+                    : "",
+                // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+                backgroundColor:
+                  ind == tabIndex ? getBackgroundColor(tabIndex) : "",
+              }}
+              value={ind}
+              label={item}
+              key={ind}
+            />
+          ))}
+        </Tabs>
+        <Divider className="mb-6" />
+        {tabIndex == 0 && <SalesView columns={columns}  podetails={podetails?.filter(obj => obj.delete_status == 0)}/>}
+        {tabIndex == 1 && <SalesTrash  podetails={podetails?.filter(obj => obj.delete_status == 1)} />}
+    
+              
             </div>
         </div>
     );

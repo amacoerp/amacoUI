@@ -3,7 +3,7 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link,useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath } from "../invoice/InvoiceService";
 import moment from "moment";
@@ -66,7 +66,12 @@ const SimpleMuiTable = () => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
 
   const classes = useStyles();
+  const {t} = useParams(); 
   useEffect(() => {
+    console.log(t)
+    if(t){
+      setTabIndex(parseInt(t))
+    }
     if (localStorage.getItem("page") !== "purchaseinvoice") {
       localStorage.removeItem("search");
       localStorage.removeItem("page");

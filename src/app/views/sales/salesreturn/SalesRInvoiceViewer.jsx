@@ -259,7 +259,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [contactperson, setcontactperson] = useState("");
   const [vendor_id, setvendor_id] = useState("");
   const [party_code, setparty_code] = useState("");
-  const { id } = useParams();
+  const { id, del } = useParams();
   const classes = useStyles();
   var fval = 10;
   const { settings, updateSettings } = useSettings();
@@ -348,7 +348,11 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       setParty(data.getReturnParty);
       setTableData(data.getReturnItems);
-      document.title = "AMACO-"+data.getReturnParty[0]?.quotationr_no+"-"+data.getReturnParty[0]?.firm_name
+      document.title =
+        "SALES RETURN-" +
+        data.getReturnParty[0]?.firm_name +
+        "-" +
+        data.getReturnParty[0]?.quotationr_no;
       // setcname(data[0].party.fname)
       // setpo_number(data[0].po_number)
 
@@ -393,43 +397,43 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
       if (data.getReturnParty[0].currency_type == "SAR") {
         setress(
           words1.split(",").join(" ") +
-          " Riyals " +
-          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-              0.0
-              ? "."
-              : decimal
+            " Riyals " +
+            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+                0.0
+                ? "."
+                : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " Halalas."
                 : ""
-            : " ")
+              : " ")
         );
       }
       if (data.getReturnParty[0].currency_type == "AED") {
         setress(
           words1.split(",").join(" ") +
-          " Dirham " +
-          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-              0.0
-              ? "."
-              : decimal
+            " Dirham " +
+            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+                0.0
+                ? "."
+                : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " fils."
                 : ""
-            : " ")
+              : " ")
         );
       }
       if (data.getReturnParty[0].currency_type == "USD") {
         setress(
           words1.split(",").join(" ") +
-          " Dollars" +
-          (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
-            ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
-              0.0
-              ? "."
-              : decimal
+            " Dollars" +
+            (parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) !== NaN
+              ? parseFloat(data.getReturnParty[0].net_amount.split(".")[1]) ==
+                0.0
+                ? "."
+                : decimal
                 ? " & " + numberToWords?.toWords(decimal) + " Cents."
                 : ""
-            : " ")
+              : " ")
         );
       }
     });
@@ -484,7 +488,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
     };
     // window.location.href=`../purchaseedit/${id}`
     setedit(false);
-    url.post("update_company", val).then(() => { });
+    url.post("update_company", val).then(() => {});
   };
   const invoicegenrate = (sidebarSettings) => {
     // alert(id)
@@ -530,15 +534,37 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
   const deletepo = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You will not be able to recover this Purchase Order!",
-      icon: "danger",
+      text: "Do You Want to Move this Sales Return to Trash!",
+      // icon: "danger",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Move it!",
       icon: "warning",
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
         url.delete(`purchase-return-delete/${id}`).then((res) => {
+          Swal.fire("Deleted!", "Sales Return has been moved to trash.", "success");
+
+          routerHistory.push("/salesreturn/1");
+          // routerHistory.push('/quoateview')
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your Sales Return is safe :)", "error");
+      }
+    });
+  };
+  const deleteSaleR = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this Sales Invoice!",
+      icon: "danger",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      // icon: "warning",
+      cancelButtonText: "No, keep it",
+    }).then((result) => {
+      if (result.value) {
+        url.delete(`deletePr/${id}`).then((res) => {
           Swal.fire("Deleted!", "Sales Return has been deleted.", "success");
 
           routerHistory.push("/salesreturn");
@@ -546,6 +572,28 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your Sales Return is safe :)", "error");
+      }
+    });
+  };
+  const restoreSaleR = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You Want to Restore Sales Return!",
+      icon: "danger",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Retore it!",
+      icon: "warning",
+      cancelButtonText: "No, keep it",
+    }).then((result) => {
+      if (result.value) {
+        url.put(`restorePr/${id}`).then((res) => {
+          Swal.fire("Restored!", "Sales Return has been Restored.", "success");
+
+          routerHistory.push("/salesreturn");
+          // routerHistory.push('/quoateview')
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your Sales Return is not Restored :)", "error");
       }
     });
   };
@@ -605,13 +653,28 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                     Genrate Purchase Order
                       </MenuItem> */}
 
-              <MenuItem onClick={() => deletepo()}>DELETE SALES RETURN</MenuItem>
-              <MenuItem onClick={() => handlePrinting()}>
-                PRINT SALES RETURN
-              </MenuItem>
-              <MenuItem onClick={() => editpurchase()}>
-                EDIT SALES RETURN
-              </MenuItem>
+              {del ? (
+                <>
+                  <MenuItem onClick={() => deleteSaleR()}>
+                    DELETE SALES RETURN
+                  </MenuItem>
+                  <MenuItem onClick={() => restoreSaleR()}>
+                    RESTORE SALES RETURN
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={() => deletepo()}>
+                    DELETE SALES RETURN
+                  </MenuItem>
+                  <MenuItem onClick={() => handlePrinting()}>
+                    PRINT SALES RETURN
+                  </MenuItem>
+                  <MenuItem onClick={() => editpurchase()}>
+                    EDIT SALES RETURN
+                  </MenuItem>
+                </>
+              )}
             </Menu>
 
             {/* <Button
@@ -1027,7 +1090,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     fontSize: 16,
                                   }}
                                 >
-                                  {item?.invoice_no ? item?.invoice_no : '--'}
+                                  {item?.invoice_no ? item?.invoice_no : "--"}
                                 </TableCell>
                                 <TableCell
                                   className="pl-2 capitalize"

@@ -3,11 +3,15 @@ import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { Icon, Tooltip } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link,useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { GDIV, navigatePath } from "../invoice/InvoiceService";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
+import { Divider, Tab, Tabs } from "@material-ui/core";
+import SView from './salesInv';
+import STrash from './salesinvtrash';
+
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -65,7 +69,47 @@ const SimpleMuiTable = () => {
   const [poid, setpoid] = useState("");
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const classes = useStyles();
+  const { t} = useParams();
+
+
+
+  const colorset = (tabIndex) => {
+    if (tabIndex == 0) return "dark";
+    if (tabIndex == 1) return "dark";
+    if (tabIndex == 2) return "#008000";
+    if (tabIndex == 3) return "rgba(255,0,0,1)";
+    if (tabIndex == 4) return "secondary";
+    if (tabIndex == 5) return "primary";
+  };
+
+  const getBackgroundColor = (ind) => {
+    if (ind == 0) {
+      return "#00000014";
+    } else if (ind == 1) {
+      return "#00000014";
+    } else if (ind == 2) {
+      return "#00800029";
+    } else if (ind == 3) {
+      return "#ff00001c";
+    } else if (ind == 4) {
+      return "#ffaf3829";
+    } else if (ind == 5) {
+      return "#1976d21f";
+    }
+  };
+
+  const tabList = ["PURCHASE INVOICE", "TRASH"];
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabChange = (e, value) => {
+    setTabIndex(value);
+  };
+
+
+
   useEffect(() => {
+    if(t){
+      setTabIndex(parseInt(t))
+  }
     if(localStorage.getItem('page') !== 'sinv'){
       localStorage.removeItem('search')
       localStorage.removeItem('page')
@@ -75,7 +119,6 @@ const SimpleMuiTable = () => {
     url.get("invoice").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-
       if (isAlive) setUserList(data);
 
       if (data.length) {
@@ -374,56 +417,67 @@ const SimpleMuiTable = () => {
             </Link>
           </div>
         </div>
-        <MUIDataTable
-          title={"SALES INVOICE"}
-          data={podetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
-
-            return [
-              ++index,
-              item?.invoice_no,
-              item?.po_number == 'null' || item?.po_number == null ? "--" : item?.po_number,
-              item?.party?.firm_name,
-
-              moment(item?.issue_date).format('DD MMM YYYY'),
-              isNaN(parseFloat(item?.grand_total)) ? 0.00 : parseFloat(item?.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-
-              item?.status,
-              item?.id,
-              item?.quotation_id ? "quote" : "invoice"
-              // moment(item.created_at).format('DD-MM-YYYY'),
-              // (parseFloat(item.net_amount)).toFixed(2),
-              // item.id
-            ]
-
-          })}
-          columns={columns}
-          options={{
-            // filterType: "textField",
-            // responsive: "simple",
-            // selectableRows: "none", // set checkbox for each row
-            // search: false, // set search option
-            // filter: false, // set data filter option
-            // download: false, // set download option
-            // print: false, // set print option
-            // pagination: true, //set pagination option
-            // viewColumns: false, // set column option
-            // elevation: 0,
-            rowsPerPageOptions: [10, 20, 40, 80, 100],
-            selectableRows: "none",
-            filterType: "dropdown",
-            // responsive: "scrollMaxHeight",
-            rowsPerPage: 10,
-            searchProps: {
-              onKeyUp:(e) => {
-                localStorage.setItem('search',e.target.value);
-                localStorage.setItem('page','sinv');
-              }
+        <Tabs
+          className="mt-4"
+          value={tabIndex}
+          onChange={handleTabChange}
+          indicatorColor={colorset(tabIndex)}
+          textColor={colorset(tabIndex)}
+          TabIndicatorProps={{
+            style: {
+              background:
+                tabIndex == 0
+                  ? "black"
+                  : tabIndex == 1
+                  ? "rgba(255,0,0,1)"
+                  : tabIndex == 2
+                  ? "#008000"
+                  : tabIndex == 3
+                  ? "rgba(255,0,0,1)"
+                  : tabIndex == 4
+                  ? "#FFAF38"
+                  : tabIndex == 5
+                  ? "#1976d2"
+                  : "",
             },
-          searchText: localStorage.getItem('search') && localStorage.getItem('search') ,
-          
-
           }}
-        />
+        >
+          {tabList.map((item, ind) => (
+            <Tab
+              className="capitalize"
+              style={{
+                borderBottom:
+                  tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
+                // color:(tabIndex==ind?colorset(tabIndex):"")
+                color:
+                  item == "RFQ"
+                    ? "black"
+                    : item == "NEW"
+                    ? "black"
+                    : item == "ACCEPTED QUOTATION"
+                    ? "#008000"
+                    : item == "TRASH"
+                    ? "rgba(255,0,0,1)"
+                    : item == "DRAFT"
+                    ? "#FFAF38"
+                    : item == "QUOTATION HISTORY"
+                    ? "#1976d2"
+                    : "",
+                // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+                backgroundColor:
+                  ind == tabIndex ? getBackgroundColor(tabIndex) : "",
+              }}
+              value={ind}
+              label={item}
+              key={ind}
+            />
+          ))}
+        </Tabs>
+        {console.log(userList?.filter(obj => obj.delete_status == 1))}
+        <Divider className="mb-6" />
+        {tabIndex == 0 && <SView columns={columns}  podetails={userList?.filter(obj => obj.delete_status == 0)}/>}
+        {tabIndex == 1 && <STrash  podetails={userList?.filter(obj => obj.delete_status == 1)} />}
+    
       </div>
     </div>
   );
