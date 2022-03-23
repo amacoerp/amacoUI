@@ -503,7 +503,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append("total_value", parseFloat(subTotalCost).toFixed(2));//total value 
     formData.append("net_amount", GTotal);//Net amount 
     formData.append("freight", freight);//Freight charges
-    formData.append("vat_in_value", parseFloat(charge).toFixed(2));//vat in value
+    formData.append("vat_in_value", parseFloat(vat).toFixed(2));//vat in value
+    formData.append("freight_charges", parseFloat(charge).toFixed(2));//vat in value
     formData.append("rfq_id", id);//rfq id
     formData.append("po_number", id);//purchase order 
     formData.append("party_id", party_id);//party id
@@ -591,7 +592,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setQuote_date(moment(data?.sales.ps_date).format('DD MMM YYYY'))
       updateCont(data?.sales?.party_id, data?.sales.contact?.id);
       setcurrency_type(data?.sales?.currency_type)
-      setcharge(data?.sales?.vat_in_value)
+      setcharge(data?.sales?.freight_charges)
       settotal(data?.sales?.net_amount)
       setState({
         ...state,
@@ -1307,6 +1308,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
 
                     <p className="mb-8">Freight Charges ({currency_type})</p>
+                    <p className="mb-8">Vat (15%) ({currency_type})</p>
 
                     <strong>
                       <p
@@ -1340,7 +1342,19 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       }}
                       value={charge}
                     />
-
+ <div>
+                      <CurrencyTextField
+                        className="w-full mb-4"
+                        label="VAT"
+                        variant="outlined"
+                        fullWidth
+                        readOnly
+                        size="small"
+                        currencySymbol={currency_type}
+                        name="vat_amount"
+                        value={vat}
+                      />
+                    </div>
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4"

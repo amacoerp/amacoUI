@@ -446,6 +446,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.net_amount = GTotal
     arr.freight = freight
     arr.vat_in_value = parseFloat(vat).toFixed(2)
+    arr.freight_charges = parseFloat(charge).toFixed(2)
     arr.rfq_id = id
     arr.po_number = id
     arr.party_id = party_id

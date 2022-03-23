@@ -318,6 +318,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [qdetails, setqdetails] = useState([]);
   const [net_amount, setnet_amount] = useState("");
   const [vat_in_value, setvat_in_value] = useState("");
+  const [freight_charges, setfreight_charges] = useState("");
   const [total_value, settotal_value] = useState("");
   const [validity, setvalidity] = useState()
   const [edit, setedit] = useState(false)
@@ -444,6 +445,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setqdetails(data[0]?.quotation_details)
       setnet_amount(data[0]?.net_amount)
       setvat_in_value(data[0]?.vat_in_value)
+      setfreight_charges(data[0]?.freight_charges)
       settotal_value(data[0]?.total_value)
       setcurrency_type(data[0]?.currency_type)
       setfreight_type(data[0]?.freight_type)
@@ -1046,6 +1048,32 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             </TableCell>
 
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges
+                            </TableCell>
+                            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
+                SAR
+                </TableCell> */}
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}
+
+                            >
+
+                              <div>
+                                <div style={{ float: "left" }} className="pl-15">{currency_type}</div>
+                                <div style={{ float: "right" }}>
+                                  {parseFloat(freight_charges).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+
+
+                            </TableCell>
+                          </TableRow>
+                          <TableRow style={{ border: "1px solid #ccc" }}>
+
+                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            </TableCell>
+
+                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Vat (15%)
                             </TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
