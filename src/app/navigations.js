@@ -75,6 +75,11 @@ export const navigations = [
     // ]
   },
   {
+    name: "STOCK",
+    icon: "show_chart",
+    path: navigatePath + "/stock",
+  },
+  {
     name: "ACCOUNT",
     icon: "developer_board",
     children: [
@@ -205,9 +210,5 @@ export const navigations = [
     icon: "badge",
     path: navigatePath + "/employees",
   },
-  {
-    name: "STOCK",
-    icon: "show_chart",
-    path: navigatePath + "/stock",
-  },
+ 
 ];

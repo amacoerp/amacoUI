@@ -469,10 +469,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       // annexure
       setContent(`<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ANNEXURE (1)</strong></p>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;DELIVERY TIME</strong> &nbsp; &nbsp; &nbsp; &nbsp; : Within 2-3 Days from the Date of PO&nbsp;</p>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;FREIGHT TYPE</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Air Freight&nbsp;</p>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;INCO TERMS</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : DDP-Delivery Duty Paid To Customer Office&nbsp;</p>
-      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;PAYMENT TERMS</strong> &nbsp; &nbsp; : 100% Advance<br>&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;DELIVERY TIME</strong> &nbsp; &nbsp; &nbsp; &nbsp; : ${data[0]?.delivery_time}&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;FREIGHT TYPE</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: ${data[0]?.freight_type}&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;INCO TERMS</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : ${data[0]?.inco_terms}&nbsp;</p>
+      <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;PAYMENT TERMS</strong> &nbsp; &nbsp; : ${data[0]?.payment_terms}<br>&nbsp;</p>
       <ul>
         <li>Purchase order acknowledgment – Acknowledgement of PO with 1 day of issuance is mandatory on supplier. The acknowledgement must be done by signing and stamping a copy of our PO.<br>&nbsp;</li>
         <li>Specification – It is requested to provide exact specification of material as mentioned in the purchase order, any deviation other than mentioned in PO, must be approved with amendment in purchase order.<br>&nbsp;</li>
