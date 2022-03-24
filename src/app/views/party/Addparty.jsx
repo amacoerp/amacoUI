@@ -106,6 +106,7 @@ const Addparty = ({ open, handleClose }) => {
   const [paiddivision_account, setpaiddivision_account] = useState([]);/*Array Holds the DivisionList */
   const [division, setdivision] = useState([]);/*Holds the Division Id */
   const { user } = useAuth();
+  const [payment_term,setpayment_term] = useState('');
 
 
 
@@ -165,6 +166,7 @@ const Addparty = ({ open, handleClose }) => {
       division: division,
       zip_code_ar: toArabic(zip_code),
       vat_no_in_ar: toArabic(vat_no),
+      payment_term: payment_term ? payment_term : '',
       user_id: user.id,
       div_id: localStorage.getItem('division')
 
@@ -748,7 +750,18 @@ const Addparty = ({ open, handleClose }) => {
                       </MenuItem>
                     ))}
                   </TextField>
-
+                  <TextField
+                    className="ml-2"
+                    label="Payment Term"
+                    autoComplete="none"
+                    onChange={e => setpayment_term(e.target.value)}
+                    name="payment_term"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={payment_term}
+                    fullWidth
+                  />
                 </div>
                 <div className="flex mb-4">
                   <TextField

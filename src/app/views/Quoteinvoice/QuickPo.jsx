@@ -668,6 +668,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         setcontacts(data[0].contacts)
         setparty_id(newValue?.id)
+        setpayment_terms(data[0]?.payment_term ? data[0]?.payment_term : '100% Advance')
 
         setvalues({ ...values, status: true });
 

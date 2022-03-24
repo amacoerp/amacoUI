@@ -1151,6 +1151,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     if (newValue?.id) {
       url.get("parties/" + newValue?.id).then(({ data }) => {
         setcustomercontact(data[0].contacts);
+        setpayment_terms(data[0]?.payment_term ? data[0]?.payment_term : '100% Advance')
 
         setparty_id(newValue?.id)
 
