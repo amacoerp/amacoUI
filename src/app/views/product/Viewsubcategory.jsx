@@ -148,9 +148,25 @@ const SimpleMuiTable = () => {
   const productUpdate = () => {
     routerHistory.push(navigatePath + "/product/other");//navigation to other Product list
   };
+  
+  // const [col,setCol] = useState('')
+
+  // const getColor = () => {
+  //   if(col == 'green'){
+  //     setCol('red')
+  //   }else{
+  //     setCol('black')
+  //   }
+  // }
+
+  // setInterval(() => {
+  //     getColor()
+  // }, 1000);
 
   return (
     <div className="m-sm-30">
+       {/* <div style={{color:col}}>ss</div> */}
+      
       <div className="mb-sm-30">
         <div className="flex flex-wrap justify-between mb-6">
           <Breadcrumb

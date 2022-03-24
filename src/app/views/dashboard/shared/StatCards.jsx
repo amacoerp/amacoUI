@@ -24,7 +24,7 @@ const StatCards = () => {
   const classes = useStyles();
 
   useEffect(() => {
-
+    
     url.get("stateCard").then(({ data }) => {
       setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division')&& moment(obj.issue_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))).length)
 
@@ -39,9 +39,7 @@ const StatCards = () => {
       let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
       setrequestedquoteCount(final + pendingCount)
 
-
-
-      var result = data?.salesTax?.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
+      var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
 
       var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
@@ -90,7 +88,7 @@ const StatCards = () => {
 
   return (
     <Grid container spacing={3} className="mb-3">
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
           elevation={6}
@@ -109,7 +107,7 @@ const StatCards = () => {
           </Tooltip> */}
         </Card>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between align-center p-sm-24 bg-paper"
           elevation={6}
@@ -130,7 +128,7 @@ const StatCards = () => {
           </Tooltip> */}
         </Card>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
           elevation={6}
@@ -151,7 +149,7 @@ const StatCards = () => {
           </Tooltip> */}
         </Card>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
           elevation={6}
@@ -160,6 +158,48 @@ const StatCards = () => {
             <Icon className={classes.icon}>monetization_on</Icon>
             <div className="ml-3">
               <small className="text-muted"> REVENUE</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
+                minimumFractionDigits: 2
+              })}</h6>
+            </div>
+          </div>
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Card
+          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
+          elevation={6}
+        >
+          <div className="flex items-center">
+            <Icon className={classes.icon}>monetization_on</Icon>
+            <div className="ml-3">
+              <small className="text-muted"> p</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
+                minimumFractionDigits: 2
+              })}</h6>
+            </div>
+          </div>
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Card
+          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
+          elevation={6}
+        >
+          <div className="flex items-center">
+            <Icon className={classes.icon}>monetization_on</Icon>
+            <div className="ml-3">
+              <small className="text-muted"> P</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
