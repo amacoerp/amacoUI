@@ -184,7 +184,7 @@ const StatCards = () => {
             <Icon className={classes.icon}>trending_up</Icon>
             <div className="ml-3">
               <small className="text-muted"> RECEIPTS</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{rec.toLocaleString(undefined, {
+              <h6 className="m-0 mt-1 text-primary font-medium">{rec?.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
             </div>
@@ -205,7 +205,7 @@ const StatCards = () => {
             <Icon className={classes.icon}>monetization_on</Icon>
             <div className="ml-3">
               <small className="text-muted"> PO</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{po.toLocaleString(undefined, {
+              <h6 className="m-0 mt-1 text-primary font-medium">{po?.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
             </div>
