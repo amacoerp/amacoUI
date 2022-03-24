@@ -441,7 +441,7 @@ const Analytics = () => {
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format('YYYY'))
-                  // handleChange(moment(date).format('YYYY'))
+                  handleChange(moment(date).format('YYYY'))
                   receiptFun(receiptData,date)
                   // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                   // receiptFun(receiptData,moment(date).format('YYYY'))
