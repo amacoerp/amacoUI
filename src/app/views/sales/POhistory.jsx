@@ -268,7 +268,7 @@ const SimpleMuiTable = () => {
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
               {/* <Link to={"/newinvoice/"+tableMeta.rowData[5]}></Link> */}
-              <Link to={navigatePath + "/poinvoice/" + tableMeta.rowData[5]}>
+              <Link to={navigatePath + "/poinvoice/" + tableMeta.rowData[5]+'/his'}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>

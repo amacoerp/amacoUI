@@ -339,7 +339,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [deleteStatus, setdeleteStatus] = useState(null);
 
-  const { id } = useParams();
+  const { id,his } = useParams();
+
   const classes = useStyles();
   var fval = 10;
   const { settings, updateSettings } = useSettings();
@@ -779,7 +780,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
                     Genrate Purchase Order
                       </MenuItem> */}
-
+              {his ? <>
+                <MenuItem onClick={() => handlePrinting()}>
+                PRINT PURCHASE ORDER
+              </MenuItem>
+              </> : <>
               {deleteStatus==0?(<MenuItem onClick={() => deletepo()}>
                 DELETE PURCHASE ORDER
               </MenuItem>):
@@ -792,6 +797,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
               <MenuItem onClick={() => editpurchase()}>
                 EDIT PURCHASE ORDER
               </MenuItem>
+              </>}
+             
 
             </Menu>
 
