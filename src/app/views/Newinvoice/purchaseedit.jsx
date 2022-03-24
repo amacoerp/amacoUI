@@ -594,6 +594,10 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcurrency_type(data?.sales?.currency_type)
       setcharge(data?.sales?.freight_charges)
       settotal(data?.sales?.net_amount)
+      setpayment_terms(data?.sales?.payment_terms)
+      setfreight(data?.sales?.freight_type)
+      setinco_terms(data?.sales?.inco_terms)
+      setdelivery_time(data?.sales?.delivery_time)
       setState({
         ...state,
         item: data?.sales?.quotation_details,
@@ -1208,12 +1212,12 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="px-4 flex justify-between">
               <div className="flex">
                 <div className="pr-12">
-                  <p
+                  {/* <p
                     className="mb-8"
                     style={{ position: "relative", top: "10px" }}
                   >
                     Quotation Validity:
-                  </p>
+                  </p> */}
                   <p
                     className="mb-8"
                     style={{ position: "relative", top: "10px" }}
@@ -1240,7 +1244,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </p>
                 </div>
                 <div>
-                  <TextValidator
+                  {/* <TextValidator
                     label="Quotation Validity"
                     className="mb-4"
                     type="text"
@@ -1251,7 +1255,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     value={validity}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
-                  />
+                  /> */}
                   <TextValidator
                     label="Payment Terms"
                     className="mb-4"
