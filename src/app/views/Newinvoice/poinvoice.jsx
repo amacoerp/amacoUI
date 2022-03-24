@@ -1070,7 +1070,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                           <TableRow style={{ border: "1px solid #ccc" }}>
 
-                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "", fontFamily: "Calibri", width: 200 }}>
                             </TableCell>
 
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Vat (15%)

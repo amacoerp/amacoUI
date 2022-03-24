@@ -5,7 +5,7 @@ import {
   MenuItem,
   Avatar,
   useMediaQuery,
-  Hidden, Button,
+  Hidden, Button, Tooltip,
 } from "@material-ui/core";
 import { useHistory } from 'react-router';
 import { MatxMenu, MatxSearchBox, ConfirmationDialog } from "matx";
@@ -179,15 +179,24 @@ const Layout1Topbar = () => {
                       item.name == "HQ " || item.name == "Manufacturing" ? <>
                       </> : <>
                         {divi?.includes(item.id) && (
-                          <Button
-                            style={{ width: 180, height: 64, position: "relative", left: -17 }}
-                            variant={item.id == dv && "contained"}
-                            backgroundColor="#c7c7c7"
-                            onClick={() => { changeDivision(item.id) }}>
-                            <div style={{ fontWeight: "bold" }}>
-                              {item.name.toUpperCase()}
-                            </div>
-                          </Button>
+                          // <Button
+                          //   style={{ width: 180, height: 64, position: "relative", left: -17 }}
+                          //   variant={item.id == dv && "contained"}
+                          //   backgroundColor="#c7c7c7"
+                          //   onClick={() => { changeDivision(item.id) }}>
+                          //   <div style={{ fontWeight: "bold" }}>
+                             
+                            
+                          //   {item.name.toUpperCase()}
+                          //   </div>
+                          // </Button>
+                          <div className="p-6">
+                            {item.name.toUpperCase()=="PRINTING DIVISION"&&<Tooltip title="Printing Division"><Icon name='print' onClick={() => { changeDivision(item.id) }}>print</Icon></Tooltip>}
+                            {item.name.toUpperCase()=="TRADING DIVISION"&&<Tooltip title="Trading Division"><Icon name='print' onClick={() => { changeDivision(item.id) }}>trending_up</Icon></Tooltip>}
+                          </div>
+                          
+                      
+            
                         )}
                       </>
 
