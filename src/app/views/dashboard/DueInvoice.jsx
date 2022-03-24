@@ -3,15 +3,16 @@ import {Icon,TableCell } from '@material-ui/core';
 import MUIDataTable from "mui-datatables";
 import url, { navigatePath } from '../invoice/InvoiceService';
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 
 const DueInvoice =()=>{
 
     const[accountStatement,setaccountStatement]=useState([]);
     useEffect(() => {
-        url.post('all-account-statement').then(({ data }) => {
+        url.get('mjrCustomerStatement/'+localStorage.getItem('division')).then(({ data }) => {
           try {
-            const myArr = Object.values(data[0]?.data).sort(
+            const myArr = Object.values(data?.customerStatement[0]?.data).sort(
               (a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)
             );
              
@@ -32,7 +33,7 @@ const DueInvoice =()=>{
              
           
             
-            setaccountStatement(Due)
+            setaccountStatement(myArr)
             
         
            
@@ -153,6 +154,63 @@ const DueInvoice =()=>{
         },
         },
       },
+      {
+        name: "id", // field name in the row object
+        // label: "DESIGNATION", // column title that will be shown in table
+        options: {
+           
+            filter: true,
+            customHeadRender: ({index, ...column}) =>{
+              return (
+                <TableCell key={index}  style={{textAlign:"center"}} >  
+                  <span >STATUS</span> 
+                </TableCell>
+              )
+           },
+           customBodyRender: (value, tableMeta, updateValue) => {
+           console.log(tableMeta.rowData[5])
+            return (
+             <div className="pr-8" style={{textAlign:'center'}}>
+             
+                          
+                          
+             {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]<0&&
+             (   
+             <p> due in {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} days</p>)}
+             {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]>0&&
+             (   
+             <p>  {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} from now</p>)}
+             {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]==0&&
+             (   
+             <p> Due today</p>)}
+              
+                
+                        
+                  
+            </div>
+            
+            )
+            
+        },
+        },
+      },
+      {
+        name: "id", // field name in the row object
+        label: "NAME", // column title that will be shown in table
+        options: {
+           
+            filter: true,
+            display:'none',
+            customHeadRender: ({index, ...column}) =>{
+              return (
+                <TableCell key={index}  style={{textAlign:"center"}} >  
+                  <span  >NAME</span> 
+                </TableCell>
+              )
+           },
+          
+        },
+    },
       ]
 
 return(
@@ -171,7 +229,9 @@ return(
                 parseFloat(item?.debit-item?.credit).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 }),
-                item[0].party?.id
+                item[0].party?.id,
+                item[0].credit_days,
+                item[0].date
                 
               ]
             
