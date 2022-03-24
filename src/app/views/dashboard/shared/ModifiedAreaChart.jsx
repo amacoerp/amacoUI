@@ -1,10 +1,11 @@
 import React from "react";
 import ReactEcharts from "echarts-for-react";
 import { merge } from "lodash";
-
+import { useTheme } from "@material-ui/core/styles";
 
 
 const ModifiedAreaChart = ({ height, option, maxVal }) => {
+  const { palette } = useTheme();
   const defaultOption = {
     grid: {
       top: 16,
@@ -12,7 +13,15 @@ const ModifiedAreaChart = ({ height, option, maxVal }) => {
       right: 16,
       bottom: 32,
     },
-    legend: {},
+    legend: {
+      itemGap: 20,
+      icon: "circle",
+      textStyle: {
+        color: palette.text.secondary,
+        fontSize: 13,
+        fontFamily: "roboto",
+      },
+    },
     tooltip: {
       show: true,
       trigger: "axis",
@@ -29,6 +38,7 @@ const ModifiedAreaChart = ({ height, option, maxVal }) => {
     },
     series: [
       {
+        
         areaStyle: {},
         smooth: true,
         lineStyle: {

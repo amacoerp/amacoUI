@@ -514,8 +514,8 @@ const Analytics = () => {
 
               </div>
               <div className="overflow-auto">
-
-                <AccountStatement />
+              <DueInvoice />
+               
               </div>
             </Card>
 
@@ -523,7 +523,7 @@ const Analytics = () => {
 
             {/* <h4 className="card-title text-muted mb-4">Ongoing Projects</h4>
             <RowCards /> */}
-            <DueInvoice />
+            <AccountStatement />
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>

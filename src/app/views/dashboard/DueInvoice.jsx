@@ -87,6 +87,40 @@ const DueInvoice =()=>{
         },
         {
           name: "id", // field name in the row object
+          // label: "DESIGNATION", // column title that will be shown in table
+          options: {
+             
+              filter: true,
+              customHeadRender: ({index, ...column}) =>{
+                return (
+                  <TableCell key={index}  style={{textAlign:"center"}} >  
+                    <span >INVOICE NUMBER</span> 
+                  </TableCell>
+                )
+             },
+             customBodyRender: (value, tableMeta, updateValue) => {
+             
+              return (
+               <div className="" style={{textAlign:'center'}}>
+               
+                            
+                            
+                  <p>{tableMeta.rowData[6]}</p>
+                          
+                    
+              </div>
+              
+              )
+              
+          },
+          setCellProps:()=>({
+            align:"center"
+          })
+          },
+        },
+        
+        {
+          name: "id", // field name in the row object
           label: "NAME", // column title that will be shown in table
           options: {
              
@@ -102,6 +136,39 @@ const DueInvoice =()=>{
               align:"center"
             })
           },
+      },
+      {
+        name: "id", // field name in the row object
+        // label: "DESIGNATION", // column title that will be shown in table
+        options: {
+           
+            filter: true,
+            customHeadRender: ({index, ...column}) =>{
+              return (
+                <TableCell key={index}  style={{textAlign:"center"}} >  
+                  <span >DATE</span> 
+                </TableCell>
+              )
+           },
+           customBodyRender: (value, tableMeta, updateValue) => {
+           
+            return (
+             <div className="" style={{textAlign:'center'}}>
+             
+                          
+                          
+                <p>{moment(tableMeta.rowData[5]).format('DD-MMM-YYYY')}</p>
+                        
+                  
+            </div>
+            
+            )
+            
+        },
+        setCellProps:()=>({
+          align:"center"
+        })
+        },
       },
       {
         name: "id", // field name in the row object
@@ -130,21 +197,22 @@ const DueInvoice =()=>{
             customHeadRender: ({index, ...column}) =>{
               return (
                 <TableCell key={index}  style={{textAlign:"center"}} >  
-                  <span >STATUS</span> 
+                  <span >AGE</span> 
                 </TableCell>
               )
            },
            customBodyRender: (value, tableMeta, updateValue) => {
            
             return (
-             <div className="pr-8" style={{textAlign:'center'}}>
+             <div className="" style={{textAlign:'center'}}>
              
                           
-                          <Link to={navigatePath+"/customer_account/"+tableMeta.rowData[3]}>
+                          {/* <Link to={navigatePath+"/customer_account/"+tableMeta.rowData[3]}> */}
                  
-                    <Icon color="primary">remove_red_eye</Icon>
+                    {/* <Icon color="primary">remove_red_eye</Icon>
               
-                </Link>
+                </Link> */}
+                <p>{moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")}</p>
                         
                   
             </div>
@@ -152,6 +220,9 @@ const DueInvoice =()=>{
             )
             
         },
+        setCellProps:()=>({
+          align:"center"
+        })
         },
       },
       {
@@ -225,13 +296,16 @@ return(
               return [
         
                 ++index,
-                item[0].party?.firm_name?.toUpperCase(),
+               
                 parseFloat(item?.debit-item?.credit).toLocaleString(undefined,{
                   minimumFractionDigits:2
                 }),
+                item[0].party?.firm_name?.toUpperCase(),
                 item[0].party?.id,
                 item[0].credit_days,
-                item[0].date
+                item[0].date,
+                item[0].invoice_no,
+
                 
               ]
             
