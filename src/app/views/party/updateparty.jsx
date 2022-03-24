@@ -68,6 +68,8 @@ const SimpleForm = () => {
   const [division, setdivision] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
   const routerHistory = useHistory();
+  const [payment_term,setpayment_term] = useState('');
+
 
 
   // get the id value
@@ -94,6 +96,8 @@ const SimpleForm = () => {
       setpost_box_no(data[0].post_box_no)
       setstreet(data[0].street)
       setcity(data[0].city)
+      setpayment_term(data[0].payment_term)
+
       setproviance(data[0].proviance)
       setcountry(data[0].country)
       setzip_code(data[0].zip_code)
@@ -168,6 +172,7 @@ const SimpleForm = () => {
       account_no: account_no,
       vendor_id: vendor_id,
       party_code: partycode,
+      payment_term: payment_term,
       company_name_ar: company_name_ar,
       division: division,
       zip_code_ar: zip_code ? toArabic(zip_code) : '',
@@ -626,6 +631,18 @@ const SimpleForm = () => {
                       </MenuItem>
                     ))}
                   </TextField>
+                  <TextField
+                    className="ml-2"
+                    label="Payment Term"
+                    autoComplete="none"
+                    onChange={e => setpayment_term(e.target.value)}
+                    name="payment_term"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={payment_term}
+                    fullWidth
+                  />
 
                 </div>
 

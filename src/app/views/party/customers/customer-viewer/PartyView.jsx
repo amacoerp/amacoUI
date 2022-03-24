@@ -103,6 +103,10 @@ const PartyInfo = ({ ids }) => {
             <TableCell className="pl-4">Fax</TableCell>
             <TableCell>{userList.fax}</TableCell>
           </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Payment Term</TableCell>
+            <TableCell>{userList?.payment_term}</TableCell>
+          </TableRow>
 
 
         </TableBody>
