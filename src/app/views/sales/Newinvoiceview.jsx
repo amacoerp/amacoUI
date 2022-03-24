@@ -203,7 +203,7 @@ const SimpleMuiTable = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center" }}>
+            <TableCell key={index} align='center' style={{ textAlign: "center" }}>
               <span >CREATED DATE</span>
             </TableCell>
           )
