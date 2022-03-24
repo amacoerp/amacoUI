@@ -279,14 +279,14 @@ const Adddivision = ({ uid, open, handleClose, division,divid}) => {
                 className="w-full mb-4"
                 label="شركة"
                 variant="outlined"
-                type="email"
+                type="text"
                 size="small"
                 
                 name="email"
                 value={company_arabic}
                 onChange={e => setcompany_arabic(e.target.value)}
-                validators={["required",'isEmail']}
-                errorMessages={["this field is required",'Email is Not Valid']}
+                validators={["required",]}
+                errorMessages={["this field is required"]}
               />
 
               {/* <TextValidator

@@ -22,6 +22,8 @@ const StatCards = () => {
   let final = 0;
   let pendingCount = 0;
   const classes = useStyles();
+  const [rec,setRec] = useState(0.00)
+  const [po,setPo] = useState(0.00)
 
   useEffect(() => {
     
@@ -43,6 +45,9 @@ const StatCards = () => {
 
       var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
+
+      setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD'))).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
+      setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD'))).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
       
 
 
@@ -176,10 +181,10 @@ const StatCards = () => {
           elevation={6}
         >
           <div className="flex items-center">
-            <Icon className={classes.icon}>monetization_on</Icon>
+            <Icon className={classes.icon}>trending_up</Icon>
             <div className="ml-3">
-              <small className="text-muted"> p</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
+              <small className="text-muted"> RECEIPTS</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{rec.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
             </div>
@@ -199,8 +204,8 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>monetization_on</Icon>
             <div className="ml-3">
-              <small className="text-muted"> P</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
+              <small className="text-muted"> PO</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{po.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
             </div>
