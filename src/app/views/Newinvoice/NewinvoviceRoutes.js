@@ -20,6 +20,10 @@ const NewinvoiceRoutes = [
     component: React.lazy(() => import("./poinvview")),
   },
   {
+    path: navigatePath + "/poinvoice/:id/:his",
+    component: React.lazy(() => import("./poinvoice")),
+  },
+  {
     path: navigatePath + "/poinvoice/:id",
     component: React.lazy(() => import("./poinvoice")),
   },
