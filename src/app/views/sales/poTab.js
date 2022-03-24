@@ -9,6 +9,7 @@ import { navigatePath } from "app/views/invoice/InvoiceService";
 import id from "date-fns/esm/locale/id/index.js";
 import SimpleMuiTable from './Newinvoiceview';
 import Potrash from './Potrash';
+import POhistory from './POhistory';
 
 const PoTab = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -125,7 +126,7 @@ const PoTab = () => {
         {tabList.map((item, ind) => (
           <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),
           // color:(tabIndex==ind?colorset(tabIndex):"")
-          color:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+          color:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'HISTORY' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
           // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
           backgroundColor:ind == tabIndex ? getBackgroundColor(tabIndex) : ''
 
@@ -136,12 +137,13 @@ const PoTab = () => {
 
       {tabIndex == 0 && <SimpleMuiTable />}
       {tabIndex == 1 && <Potrash tabIndex={tabIndex} />}
+      {tabIndex == 2 && <POhistory tabIndex={tabIndex} />}
      
        
     </div>
   );
 };
 
-const tabList = ["ALL","TRASH"];
+const tabList = ["ALL","TRASH","HISTORY"];
 
 export default PoTab;

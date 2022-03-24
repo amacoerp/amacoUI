@@ -267,7 +267,7 @@ const Analytics = () => {
     
       
       var receiptArr = receiptResult.filter((ele, ind) => ind === localStorage.getItem('division') || ind === receiptResult.findIndex(elem => elem.voucher_no === ele.voucher_no));
-      console.log(receiptResult)
+      // console.log(receiptResult)
       console.log(receipt_months.filter(function (o1) {
         return receiptArr.map(function (o2) {
           if (o1.name == o2.month) {
@@ -502,7 +502,7 @@ const Analytics = () => {
 
       <div className="analytics m-sm-30 mt--18">
         <Grid container spacing={3}>
-          <Grid item lg={8} md={8} sm={12} xs={12}>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
             <StatCards stackData={stackData}/>
 
             {/* Top Selling Products */}

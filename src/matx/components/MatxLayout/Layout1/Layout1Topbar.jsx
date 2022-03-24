@@ -5,9 +5,10 @@ import {
   MenuItem,
   Avatar,
   useMediaQuery,
-  Hidden, Button,
+  Hidden,Tooltip,
+  Button,
 } from "@material-ui/core";
-import { useHistory } from 'react-router';
+import { useHistory } from "react-router";
 import { MatxMenu, MatxSearchBox, ConfirmationDialog } from "matx";
 import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
@@ -19,8 +20,8 @@ import useAuth from "app/hooks/useAuth";
 import useSettings from "app/hooks/useSettings";
 import { NotificationProvider } from "app/contexts/NotificationContext";
 import history from "history.js";
-import FormDialog from "../../../../app/views/sessions/login/changepassword"
-import MemberEditorDialog from "../../../../app/views/sessions/login/changepassword"
+import FormDialog from "../../../../app/views/sessions/login/changepassword";
+import MemberEditorDialog from "../../../../app/views/sessions/login/changepassword";
 import url, { navigatePath } from "app/views/invoice/InvoiceService";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -59,7 +60,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     "& span": {
       margin: "0 8px",
       // color: palette.text.secondary
-    }
+    },
   },
   menuItem: {
     display: "flex",
@@ -75,37 +76,30 @@ const Layout1Topbar = () => {
   const { user } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const fixed = settings?.layout1Settings?.topbar?.fixed;
-  const userInfo = localStorage.getItem('user')
-  const [dv, setDv] = useState('');
+  const userInfo = localStorage.getItem("user");
+  const [dv, setDv] = useState("");
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  const [
-    shouldOpenConfirmationDialog,
-    setShouldOpenConfirmationDialog,
-  ] = useState(false);
+  const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+    useState(false);
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
-
   };
   const [divi, setDivi] = useState([]);
-
 
   const DIV = [
     {
       id: 1,
-      name: "TRADING"
+      name: "TRADING",
     },
     {
       id: 3,
-      name: "PRINTING"
+      name: "PRINTING",
     },
   ];
 
-
   const handleDeleteUser = (user) => {
-
     setShouldOpenConfirmationDialog(true);
   };
-
 
   const updateSidebarMode = (sidebarSettings) => {
     updateSettings({
@@ -130,77 +124,88 @@ const Layout1Topbar = () => {
     updateSidebarMode({ mode });
   };
   const logout = () => {
-    url.post(`logoutLog/${user.id}`,)
+    url
+      .post(`logoutLog/${user.id}`)
       .then(function (response) {
         localStorage.clear();
         window.location.reload();
         // routerHistory.push('/session/signin');
       })
-      .catch(function (error) {
-
-      })
-
-  }
+      .catch(function (error) {});
+  };
   const routerHistory = useHistory();
   const changeDivision = (div_id) => {
     setDv(div_id);
-    localStorage.setItem('division', div_id)
+    localStorage.setItem("division", div_id);
     // window.location.reload();
 
-    routerHistory.push('/dashboard/alternative');
+    routerHistory.push("/dashboard/alternative");
     // routerHistory.push('/dashboard/alternative');
-  }
-
+  };
 
   useEffect(() => {
     const d = user?.divs?.map((item) => {
-      return item.id
-    })
+      return item.id;
+    });
     setDivi(d);
-    setDv(localStorage.getItem('division'));
-  }, [])
-
+    setDv(localStorage.getItem("division"));
+  }, []);
 
   return (
-
     <div className={classes.topbar}>
       <div className={clsx({ "topbar-hold": true, fixed: fixed })}>
         <div className="flex justify-between items-center h-full">
           <div className="flex pr-4">
-            <IconButton name='sideToggle'  onClick={handleSidebarToggle} className="pr-4">
-              <Icon name='toggle'>menu</Icon>
+            <IconButton
+              name="sideToggle"
+              onClick={handleSidebarToggle}
+              className="pr-4"
+            >
+              <Icon name="toggle">menu</Icon>
             </IconButton>
 
-            <div className="hide-on-mobile" style={{ textAlign: 'right', marginLeft: 40 }}>
+            <div
+              className="hide-on-mobile"
+              style={{ textAlign: "right", marginLeft: 40 }}
+            >
               {user?.division?.map((item) => {
                 return (
                   <>
-                    {
-                      item.name == "HQ " || item.name == "Manufacturing" ? <>
-                      </> : <>
+                    {item.name == "HQ " || item.name == "Manufacturing" ? (
+                      <></>
+                    ) : (
+                      <>
                         {divi?.includes(item.id) && (
-                          <Button
-                            style={{ width: 180, height: 64, position: "relative", left: -17 }}
+                         <Tooltip title={item.name}>
+                            <Button
+                            style={{
+                              width: 180,
+                              height: 64,
+                              position: "relative",
+                              left: -17,
+                            }}
                             variant={item.id == dv && "contained"}
                             backgroundColor="#c7c7c7"
-                            onClick={() => { changeDivision(item.id) }}>
+                            onClick={() => {
+                              changeDivision(item.id);
+                            }}
+                          >
                             <div style={{ fontWeight: "bold" }}>
-                              {item.name.toUpperCase()}
+                              {/* {item.name.toUpperCase()} */}
+                              {item.name == "Printing Division" ? (
+                                <>
+                                  <Icon>print</Icon>
+                                </>
+                              ) : item.name == "Trading Division" ?   <Icon>trending_up</Icon> : ''}
                             </div>
                           </Button>
+                         </Tooltip>
                         )}
                       </>
-
-                    }
-
+                    )}
                   </>
-                )
+                );
               })}
-
-
-
-
-
             </div>
           </div>
           <div className="flex items-center">
@@ -233,14 +238,18 @@ const Layout1Topbar = () => {
                   <span className="pl-4"> Profile </span>
                 </Link>
               </MenuItem>
-              <MenuItem className={classes.menuItem} onClick={e => routerHistory.push(navigatePath + '/changepass')}>
-                <Icon > settings </Icon>
-                <span className="pl-4" >Change Password</span>
+              <MenuItem
+                className={classes.menuItem}
+                onClick={(e) =>
+                  routerHistory.push(navigatePath + "/changepass")
+                }
+              >
+                <Icon> settings </Icon>
+                <span className="pl-4">Change Password</span>
                 {shouldOpenEditorDialog && (
                   <MemberEditorDialog
                     handleClose={handleDialogClose}
                     open={shouldOpenEditorDialog}
-
                   />
                 )}
                 {shouldOpenConfirmationDialog && (
@@ -250,7 +259,6 @@ const Layout1Topbar = () => {
                     text="Are you sure to delete?"
                   />
                 )}
-
               </MenuItem>
 
               <MenuItem onClick={logout} className={classes.menuItem}>
@@ -261,7 +269,7 @@ const Layout1Topbar = () => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
