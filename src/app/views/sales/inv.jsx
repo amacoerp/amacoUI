@@ -473,7 +473,6 @@ const SimpleMuiTable = () => {
             />
           ))}
         </Tabs>
-        {console.log(userList?.filter(obj => obj.delete_status == 1))}
         <Divider className="mb-6" />
         {tabIndex == 0 && <SView columns={columns}  podetails={userList?.filter(obj => obj.delete_status == 0)}/>}
         {tabIndex == 1 && <STrash  podetails={userList?.filter(obj => obj.delete_status == 1)} />}
