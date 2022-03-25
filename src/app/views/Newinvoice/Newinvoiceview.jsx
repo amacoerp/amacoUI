@@ -282,6 +282,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     });
   };
 
+  const [vatExclude,setVatExclude] = useState(false);
+
   useEffect(() => {
     myFunction();
     // translate('Ik spreek Engels', {to: 'en'}).then(res => {
@@ -304,6 +306,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setquoteid(data[0].quotation_id ? data[0].quotation_id : id)
         data[0].quotation_id ? setres(true) : setres(false)
         setdis_per(data[0].discount_in_percentage)
+        setVatExclude(parseInt(data[0].exclude_from_vat) ? true : false)
         setpodetails(data[0].invoice_detail)
         setcompany(data[0].party?.firm_name)
         setcname_ar(data[0].party?.firm_name_in_ar)
@@ -1700,7 +1703,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                     <strong>TOTAL IN WORDS</strong>
                                     <br></br>
                                     {ress}
+                                    
                                   </div>
+                                  
                                 </div>
                               </div>
                             </TableCell>
@@ -1718,7 +1723,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                         </TableBody>
                       </Table>
+                      
                     </div>
+                    {vatExclude ?
+                        <div className="pl-4"><small><span style={{color:'red',fontWeight:'bold'}}>This Invoice is not for Filing</span></small></div>
+                    : ''}
+
 
                     <br></br>
                     <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
