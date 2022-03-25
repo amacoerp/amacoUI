@@ -236,6 +236,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     shouldOpenConfirmationDialogproduct,
     setshouldOpenConfirmationDialogproduct,
   ] = useState(false);
+  const [vatExclude,setVatExclude] = useState(false);
+
 
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
@@ -807,12 +809,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // });
     ;
     arr.invoice_details = tempItemList
+    console.log(vatExclude)
     formData.append('discount_in_p', discount)
     formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', GTotal)
     formData.append('vat_in_value', isNaN(parseFloat(vat)) ? 0 :  parseFloat(vat).toFixed(2))
     formData.append('po_number', ponumber)
     formData.append('grand_total', GTotal)
+    formData.append('vatExclude', vatExclude ? 1 : 0)
     formData.append('party_id', party_id ? party_id : 0)
     formData.append('validity', validity)
     formData.append('warranty', warranty)
@@ -1060,6 +1064,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         setdiscount(data?.inv[0].discount_in_percentage);
       setparty_id(data?.inv[0]?.party_id)
+      setVatExclude(parseInt(data?.inv[0]?.exclude_from_vat) == 1 ? true : false)
       setcname(data?.inv[0]?.party?.firm_name)
 
       setrfqstatus(true)
@@ -1316,7 +1321,27 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
+                {vatExclude ? <>
+                  <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {setVatExclude(false)}}
+                >
+                  <Icon>check_circle_outline</Icon> VAT EXCLUDED
+                </Button>
 
+                </> : <>
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  onClick={()=>{setVatExclude(true)}}
+                >
+                  <Icon>error_outline</Icon> EXCULUDE FROM VAT
+                </Button>
+
+                </>}
 
                 <Button
                   // type="submit"
