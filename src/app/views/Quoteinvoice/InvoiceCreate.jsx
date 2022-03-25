@@ -1344,6 +1344,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  onClick={cancelform}
+                >
+                  <Icon>cancel</Icon> CANCEL
+                </Button>
 
 
                 <Button
