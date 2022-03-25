@@ -40,7 +40,7 @@ export const getInvoice = () => {
 };
 
 const url = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+   baseURL: "http://127.0.0.1:8000/api/",
   // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
   //  baseURL: "http://18.210.239.86/test/amaco/public/api/",
   // baseURL: "http://18.210.239.86/amaco/public/api/",
@@ -51,7 +51,7 @@ const url = axios.create({
   export const basePath = "http://127.0.0.1:8000/";
     // export const basePath = "http://18.210.239.86/amaco/";
   // export const basePath = "http://www.amacoerp.com/test/amaco_test/";
-  // export const basePath = "http://www.amacoerp.com/amaco/";
+  //  export const basePath = "http://www.amacoerp.com/amaco/";
 //   const url = axios.create({
 //     baseURL: 'http://www.amacoerp.com/amaco/public/api/',
 
