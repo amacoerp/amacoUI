@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     wordBreak: "break-word",
     hyphens: "auto",
     textAlign: "center",
-    paddingRight: 30
+    // paddingRight: 30
 
   }
 
@@ -175,7 +175,7 @@ const SimpleMuiTable = () => {
         },
         setCellProps: () => ({
           align: "center",
-          paddingLeft: 20
+          // paddingLeft: 20
         })
       },
     },

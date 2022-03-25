@@ -275,22 +275,22 @@ const SimpleMuiTable = () => {
           title={"PRODUCTS"}
           data={
 
-            productList.map((item, index) => {
+            productList?.filter(Boolean)?.map((item, index) => {
 
               return [
 
                 ++index,
-                item.name?.toLowerCase()
+                item?.name?.toLowerCase()
                   .split(' ')
                   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
                   .join(' '),
-                item.description?.toLowerCase()
+                item?.description?.toLowerCase()
                   .split(' ')
                   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
                   .join(' '),
-                item.unit_of_measure,
-                item.category_name,
-                item.id,
+                item?.unit_of_measure,
+                item?.category_name,
+                item?.id,
               ]
 
             })

@@ -400,7 +400,7 @@ const ContactDetails = ({ ids }) => {
         <MUIDataTable
 
           data={
-            customercontact.map((item, index) => {
+            customercontact?.filter(obj=>obj.delete==0)?.map((item, index) => {
 
 
               return [
