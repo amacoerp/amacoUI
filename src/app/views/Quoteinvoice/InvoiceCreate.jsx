@@ -241,6 +241,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setshouldOpenConfirmationDialogproduct,
   ] = useState(false);
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [vatExclude,setVatExclude] = useState(false);
 
   const generateRandomId = useCallback(() => {
     let tempId = Math.random().toString();
@@ -926,6 +927,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.net_amount = GTotal
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.po_number = ponumber
+    arr.vatExclude = vatExclude
     arr.grand_total = GTotal
     arr.party_id = party_id ? party_id : 0
     arr.validity = validity
@@ -1344,7 +1346,28 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
+                {vatExclude ? <>
+                  <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {setVatExclude(false)}}
+                >
+                  <Icon>check_circle_outline</Icon> VAT EXCLUDED
+                </Button>
 
+                </> : <>
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  onClick={()=>{setVatExclude(true)}}
+                >
+                  <Icon>error_outline</Icon> EXCULUDE FROM VAT
+                </Button>
+
+                </>}
+                
 
                 <Button
                   // type="submit"
