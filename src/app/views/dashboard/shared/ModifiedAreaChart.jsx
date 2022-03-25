@@ -17,7 +17,7 @@ const ModifiedAreaChart = ({ height, option, maxVal }) => {
       itemGap: 20,
       icon: "circle",
       textStyle: {
-        color: palette.text.secondary,
+        color: "#fff",
         fontSize: 13,
         fontFamily: "roboto",
       },

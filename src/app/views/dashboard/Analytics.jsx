@@ -150,117 +150,62 @@ const Analytics = () => {
 
   useEffect(() => {
     url.get("dashboard").then(({ data }) => {
-      // console.log(data?.invoice?.filter(obj => obj.div_id == localStorage.getItem('division')))
+      
 
       receiptFun(data?.receipt, date);
+      invoiceFun(data,date)
       setreceiptData(data?.receipt);
+      setresponseData(data)
+     
 
-      setresponseData(
-        data?.invoice?.filter(
-          (obj) => obj.div_id == localStorage.getItem("division")
-        )
-      );
+      // let dataList = data?.invoice?.filter(
+      //   (obj) => obj.div_id == localStorage.getItem("division")
+      // );
+      // setresponseData(dataList)
+      // var result = dataList
+      //   .filter(
+      //     (obj) =>
+      //       moment(obj.issue_date).format("YYYY") ==
+      //       moment(new Date()).format("YYYY")
+      //   )
+      //   .map((item, i) => {
+      //     item["debit"] = dataList
+      //       .filter(
+      //         (x) =>
+      //           moment(x.issue_date).format("MM YYY") ==
+      //           moment(item.issue_date).format("MM YYY")
+      //       )
+      //       .reduce((result, item) => result + item.grand_total, 0);
+      //     item["count"] = dataList
+      //       .filter(
+      //         (x) =>
+      //           moment(x.issue_date).format("MM YYY") ==
+      //           moment(item.issue_date).format("MM YYY")
+      //       )
+      //       .reduce((result, item) => result + parseFloat(item.grand_total), 0);
+      //     item["month"] = moment(item.issue_date).format("MMM");
+      //     return item;
+      //   });
+      // var Due = result.filter(
+      //   (ele, ind) =>
+      //     ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
+      // );
+      // var finalResult = months.filter(function (o1) {
+      //   return Due.map(function (o2) {
+      //     if (o1.name == o2.month) {
+      //       o1["count"] = o2.count;
+      //     }
+      //   });
+      // });
 
-      let dataList = data?.invoice?.filter(
-        (obj) => obj.div_id == localStorage.getItem("division")
-      );
-      var result = dataList
-        .filter(
-          (obj) =>
-            moment(obj.created_at).format("YYYY") ==
-            moment(new Date()).format("YYYY")
-        )
-        .map((item, i) => {
-          item["debit"] = dataList
-            .filter(
-              (x) =>
-                moment(x.created_at).format("MM YYY") ==
-                moment(item.created_at).format("MM YYY")
-            )
-            .reduce((result, item) => result + item.grand_total, 0);
-          item["count"] = dataList
-            .filter(
-              (x) =>
-                moment(x.created_at).format("MM YYY") ==
-                moment(item.created_at).format("MM YYY")
-            )
-            .reduce((result, item) => result + parseFloat(item.grand_total), 0);
-          item["month"] = moment(item.created_at).format("MMM");
-          return item;
-        });
-      var Due = result.filter(
-        (ele, ind) =>
-          ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
-      );
-      var finalResult = months.filter(function (o1) {
-        return Due.map(function (o2) {
-          if (o1.name == o2.month) {
-            o1["count"] = o2.count;
-          }
-        });
-      });
-
-      var finalArray = finalResult.map(function (obj) {
-        return obj?.count ? obj?.count : 0;
-      });
-      setdata1(finalArray);
-      setmaxVal(Math.max(...finalArray));
+      // var finalArray = finalResult.map(function (obj) {
+      //   return obj?.count ? obj?.count : 0;
+      // });
+      // setdata1(finalArray);
+      // setmaxVal(Math.max(...finalArray));
     });
 
-    // console.log(compPer)
-    // setPerList(compPer);
-    // getpaidDivision().then(({ data }) => {
-
-    //   var arrVal = data.sort(function (obj1, obj2) {
-    //     return obj1.type.localeCompare(obj2.type);
-    //   });
-    // })
-    //  setlinegraph(option)
-
-    // url.get('invoice').then(({ data }) => {
-    //   // const myArr = Object.values(data[0].data).sort(
-    //   //   (a, b) => new Date(a[0].date) - new Date(b[0].date)
-    //   // );
-
-    //   // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
-    //   setresponseData(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-    //   let dataList = data.filter(obj => obj.div_id == localStorage.getItem('division'))
-    //   var result = dataList.filter(obj => moment(obj.created_at).format('YYYY') == moment(new Date()).format('YYYY')).map((item, i) => {
-    //     item['debit'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + item.grand_total, 0);
-    //     item['count'] = dataList.filter(x => moment(x.created_at).format('MM YYY') == moment(item.created_at).format('MM YYY')).reduce((result, item) => result + parseFloat(item.grand_total), 0);
-    //     item['month'] = moment(item.created_at).format('MMM');
-
-    //     return item
-    //   })
-
-    //   var Due = result.filter((ele, ind) => ind === result.findIndex(elem => elem.invoice_no === ele.invoice_no));
-
-    //   var finalResult = months.filter(function (o1) {
-    //     return Due.map(function (o2) {
-    //       if (o1.name == o2.month) {
-    //         o1['count'] = o2.count
-    //         // return o1;
-    //       }
-    //       // return the ones with equal id
-    //     });
-    //   });
-
-    //   var finalArray = finalResult.map(function (obj) {
-    //     return obj?.count ? obj?.count : 0;
-    //   });
-
-    //   setdata1(finalArray);
-
-    //   setmaxVal(Math.max(...finalArray))
-
-    //   // return the ones with equal id
-
-    //   // setaccountStatement(Due)
-
-    // });
-
-    //  return setdate(true);
+    
   }, [localStorage.getItem("division")]);
 
   async function receiptFun(data, date) {
@@ -300,15 +245,7 @@ const Analytics = () => {
           receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
     );
     // console.log(receiptResult)
-    console.log(
-      receipt_months.filter(function (o1) {
-        return receiptArr.map(function (o2) {
-          if (o1.name == o2.month) {
-            o1["count"] = o2.count;
-          }
-        });
-      })
-    );
+   
 
     var receiptfinalResult = receipt_months.filter(function (o1) {
       return receiptArr.map(function (o2) {
@@ -329,41 +266,94 @@ const Analytics = () => {
       setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
   }
-  const handleChange = (i) => {
-    // setPerList(compPer);
-
-    // sol.then((result)=>{
-    //   console.log("result", result)
-    // })
-    // setdate(moment(i).format('YYYY'));
-    getpaidDivision().then(({ data }) => {
-      var arrVal = data.sort(function (obj1, obj2) {
-        return obj1.type.localeCompare(obj2.type);
+  const  invoiceFun=(data,i)=>{
+    let dataList =  data?.invoice?.filter(
+      (obj) => obj.div_id == localStorage.getItem("division")
+    );
+   
+    var result = dataList
+      .filter(
+        (obj) =>
+          moment(obj.issue_date).format("YYYY") ==
+          moment(i).format("YYYY")
+      )
+      .map((item, i) => {
+        item["debit"] = dataList
+          .filter(
+            (x) =>
+              moment(x.issue_date).format("MM YYY") ==
+              moment(item.issue_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + item.grand_total, 0);
+        item["count"] = dataList
+          .filter(
+            (x) =>
+              moment(x.issue_date).format("MM YYY") ==
+              moment(item.issue_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        item["month"] = moment(item.issue_date).format("MMM");
+        return item;
+      });
+      console.log("array",result)
+    var Due = result.filter(
+      (ele, ind) =>
+        ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
+    );
+    
+    var finalResult = months.filter(function (o1) {
+      return Due.map(function (o2) {
+        if (o1.name == o2.month) {
+          o1["count"] = o2.count;
+        }
       });
     });
+
+    var finalArray = finalResult.map(function (obj) {
+      return obj?.count ? obj?.count : 0;
+    });
+
+    if (result.length) {
+      setdata1(finalArray);
+      setmaxVal(Math.max(...finalArray));
+      // setmaxVal(Math.max(...finalArray))
+    } else {
+      //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
+      setdata1([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    
+  }
+  const handleChange = (i) => {
+    
+    
+    // getpaidDivision().then(({ data }) => {
+    //   var arrVal = data.sort(function (obj1, obj2) {
+    //     return obj1.type.localeCompare(obj2.type);
+    //   });
+    // });
     //  setlinegraph(option)
-    url.get("invoice").then(({ data }) => {
-      let dataList = data.filter(
+    url.get("dashboard").then(({ data }) => {
+      let dataList = data.invoice.filter(
         (obj) => obj.div_id == localStorage.getItem("division")
       );
       const result = responseData
-        .filter((obj) => moment(obj.created_at).format("YYYY") == parseInt(i))
+        .filter((obj) => moment(obj.issue_date).format("YYYY") == parseInt(i))
         .map((item, i) => {
           item["debit"] = dataList
             .filter(
               (x) =>
-                moment(x.created_at).format("MM YYY") ==
-                moment(item.created_at).format("MM YYY")
+                moment(x.issue_date).format("MM YYY") ==
+                moment(item.issue_date).format("MM YYY")
             )
             .reduce((result, item) => result + item.grand_total, 0);
           item["count"] = dataList
             .filter(
               (x) =>
-                moment(x.created_at).format("MM YYY") ==
-                moment(item.created_at).format("MM YYY")
+                moment(x.issue_date).format("MM YYY") ==
+                moment(item.issue_date).format("MM YYY")
             )
             .reduce((result, item) => result + parseFloat(item.grand_total), 0);
-          item["month"] = moment(item.created_at).format("MMM");
+          item["month"] = moment(item.issue_date).format("MMM");
 
           return item;
         });
@@ -459,7 +449,8 @@ const Analytics = () => {
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format("YYYY"));
-                  handleChange(moment(date).format("YYYY"));
+                  invoiceFun(responseData,date)
+                  // handleChange(moment(date).format("YYYY"));
                   receiptFun(receiptData, date);
                   // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                   // receiptFun(receiptData,moment(date).format('YYYY'))
@@ -475,17 +466,51 @@ const Analytics = () => {
             className="pl-12"
             maxVal={maxVal}
             option={{
+              legend: {
+                itemGap: 20,
+                icon: "circle",
+                textStyle: {
+                  color: "#fff",
+                  fontSize: 13,
+                  fontFamily: "roboto",
+                },
+                
+              },
               series: [
                 {
                   data: data1,
+                  name:"invoice",
+                  label:"invoice",
                   type: "line",
+                  color: "#fff",
+               
+                  
+                  
                 },
                 {
                   data: dataReceipt,
+                  name:"receipt",
+                  label:"receipt",
                   type: "line",
                   color: "#7FFF00",
                 },
               ],
+              // dataset: {
+                
+              //   source: [
+              //     ["Month", "App", "Lin"],
+              //     ["Jan", 2200, 1200, 950, 800],
+              //     ["Feb", 800, 500, 1500, 600],
+              //     ["Mar", 700, 1350, 800, 700],
+              //     ["Apr", 1500, 1250, 950, 900],
+              //     ["May", 2450, 450, 950, 500],
+              //     ["June", 1700, 1250, 1500, 800],
+              //   ],
+              // },
+             
+            
+              
+             
 
               xAxis: {
                 data: [

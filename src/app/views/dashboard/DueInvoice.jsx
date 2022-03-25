@@ -94,7 +94,7 @@ const DueInvoice =()=>{
               customHeadRender: ({index, ...column}) =>{
                 return (
                   <TableCell key={index}  style={{textAlign:"center"}} >  
-                    <span >INVOICE NUMBER</span> 
+                    <span>INVOICE NUMBER</span> 
                   </TableCell>
                 )
              },
@@ -105,7 +105,7 @@ const DueInvoice =()=>{
                
                             
                             
-                  <p>{tableMeta.rowData[6]}</p>
+                  <span>{tableMeta.rowData[6]}</span>
                           
                     
               </div>
@@ -127,8 +127,8 @@ const DueInvoice =()=>{
               filter: true,
               customHeadRender: ({index, ...column}) =>{
                 return (
-                  <TableCell key={index}  style={{textAlign:"center"}} >  
-                    <span  >NAME</span> 
+                  <TableCell key={index}  style={{textAlign:"center",width:300}} >  
+                    NAME 
                   </TableCell>
                 )
              },
@@ -157,7 +157,7 @@ const DueInvoice =()=>{
              
                           
                           
-                <p>{moment(tableMeta.rowData[5]).format('DD-MMM-YYYY')}</p>
+                <span>{moment(tableMeta.rowData[5]).format('DD-MMM-YYYY')}</span>
                         
                   
             </div>
@@ -183,6 +183,21 @@ const DueInvoice =()=>{
                 </TableCell>
               )
            },
+           customBodyRender: (value, tableMeta, updateValue) => {
+           
+            return (
+             <div className="" style={{textAlign:'right'}}>
+             
+                          
+                       
+                <span>{tableMeta.rowData[1]}</span>
+                        
+                  
+            </div>
+            
+            )
+            
+        },
            setCellProps:()=>({
             align:"right"
           })
@@ -207,12 +222,8 @@ const DueInvoice =()=>{
              <div className="" style={{textAlign:'center'}}>
              
                           
-                          {/* <Link to={navigatePath+"/customer_account/"+tableMeta.rowData[3]}> */}
-                 
-                    {/* <Icon color="primary">remove_red_eye</Icon>
-              
-                </Link> */}
-                <p>{moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")}</p>
+                       
+                <span>{moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")}</span>
                         
                   
             </div>
@@ -239,7 +250,7 @@ const DueInvoice =()=>{
               )
            },
            customBodyRender: (value, tableMeta, updateValue) => {
-           console.log(tableMeta.rowData[5])
+           
             return (
              <div className="pr-8" style={{textAlign:'center'}}>
              
@@ -247,13 +258,13 @@ const DueInvoice =()=>{
                           
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]<0&&
              (   
-             <p> due in {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} days</p>)}
+             <span> due in {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} days</span>)}
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]>0&&
              (   
-             <p>  {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} from now</p>)}
+             <span>  {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} from now</span>)}
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]==0&&
              (   
-             <p> Due today</p>)}
+             <span> Due today</span>)}
               
                 
                         
