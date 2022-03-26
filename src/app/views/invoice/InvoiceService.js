@@ -248,7 +248,7 @@ export const data = [
 export const currency = [
   {
     name: "SAR",
-    value: "SAR",
+    value: "SAR", 
   },
   {
     name: "USD",

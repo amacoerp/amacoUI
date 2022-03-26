@@ -194,6 +194,10 @@ export default function RView({userList}) {
         // elevation: 0,
         rowsPerPageOptions: [10, 20, 40, 80, 100],
         selectableRows: "none",
+        onSearchClose: e => {
+          localStorage.removeItem("search");
+          localStorage.removeItem("page");
+        },
         searchProps: {
           onKeyUp:(e) => {
             setSearch(e.target.value);

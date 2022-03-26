@@ -113,7 +113,7 @@ return(
 
     <div>
         <MUIDataTable
-        title="EXPENSE"
+        title="EXPENSE LIST"
         data={
           accountStatement.map((item, index) => {
            

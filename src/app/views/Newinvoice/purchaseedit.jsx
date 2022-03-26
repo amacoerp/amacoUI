@@ -85,6 +85,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [delivery_time, setdelivery_time] = useState(
     "Within 2-3 Days from the Date of PO"
   ); /*delivery time */
+
+  const [showother,setShowOther] =useState('')
+  const [ofreight, setOfreight] = useState('')
   const [inco_terms, setinco_terms] = useState(
     "DDP-Delivery Duty Paid To Customer Office"
   ); /* Inco terms */
@@ -502,7 +505,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append("discount_in_p", 0);//discount in percentage is 0 
     formData.append("total_value", parseFloat(subTotalCost).toFixed(2));//total value 
     formData.append("net_amount", GTotal);//Net amount 
-    formData.append("freight", freight);//Freight charges
+    formData.append("freight", ofreight ? ofreight : freight);//Freight charges
     formData.append("vat_in_value", parseFloat(vat).toFixed(2));//vat in value
     formData.append("freight_charges", parseFloat(charge).toFixed(2));//vat in value
     formData.append("rfq_id", id);//rfq id
@@ -595,7 +598,15 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setcharge(data?.sales?.freight_charges)
       settotal(data?.sales?.net_amount)
       setpayment_terms(data?.sales?.payment_terms)
-      setfreight(data?.sales?.freight_type)
+      console.log(data?.sales?.freight_type)
+      if(data?.sales?.freight_type == 'Air Freight' || data?.sales?.freight_type == 'Sea Freight' || data?.sales?.freight_type == 'Road Freight'){
+        setfreight(data?.sales?.freight_type)
+      }else{
+        setfreight('Other')
+        setShowOther('Other')
+        setOfreight(data?.sales?.freight_type)
+      }
+     
       setinco_terms(data?.sales?.inco_terms)
       setdelivery_time(data?.sales?.delivery_time)
       setState({
@@ -1232,6 +1243,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   >
                     Freight type:
                   </p>
+                  {showother == 'Other' && <>
+                  <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Other Freight type:</p>
+                  </>}
                   <p
                     className="mb-8"
                     style={{ position: "relative", top: "14px" }}
@@ -1273,17 +1287,42 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Freight"
-                    onChange={(e) => setfreight(e.target.value)}
+                    onChange={(e)=>{setfreight(e.target.value);
+                      if(e.target.value == 'Other'){ setShowOther('Other') }else{setShowOther(''); setOfreight('')}} }
                     className="mb-4"
                     type="text"
                     variant="outlined"
                     size="small"
+                    select
                     name="net_amount"
                     style={{ width: 500 }}
                     value={freight}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
+                  >
+                    <MenuItem value='Air Freight'>Air Freight</MenuItem>
+                    <MenuItem value='Sea Freight'>Sea Freight</MenuItem>
+                    <MenuItem value='Road Freight'>Road Freight</MenuItem>
+                    <MenuItem value='Other'>Other</MenuItem>
+                  </TextValidator>
+                  {showother == 'Other' && <>
+                    <TextValidator
+                    label="Freight"
+                    className="mb-4"
+                    onChange={e => setOfreight(e.target.value)
+                    }
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    name="net_amount"
+                    value={ofreight}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
+                  
+                  </>}
+
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"
@@ -1318,7 +1357,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
 
                     <p className="mb-8">Freight Charges ({currency_type})</p>
-                    <p className="mb-8">Vat (15%) ({currency_type})</p>
+                    <p className="mb-8">VAT (15%) ({currency_type})</p>
 
                     <strong>
                       <p

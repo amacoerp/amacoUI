@@ -83,11 +83,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [total, settotal] = useState(0); /* total */
   const [currency_type, setcurrency_type] = useState("SAR"); /*currency Type */
   const [freight, setfreight] = useState("Air Freight"); /*freight */
+  const [ofreight, setOfreight] = useState('')
+
   const [productprice, setproductprice] = useState([]);
   const [catid, setcatid] = useState(); /*category id */
   const [Quote_date, setQuote_date] = useState(
     moment(new Date()).format("DD MMM YYYY")
   ); /*Quote_date */
+  const [showother,setShowOther] =useState('')
 
   const routerHistory = useHistory();
   const { id } = useParams();
@@ -249,7 +252,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.discount_in_p = 0;
     arr.total_value = parseFloat(subTotalCost).toFixed(2);
     arr.net_amount = GTotal;
-    arr.freight = freight;
+    arr.freight = ofreight ? ofreight :freight;
     arr.vat_in_value = parseFloat(charge).toFixed(2);
     arr.party_id = party_id;
     arr.warranty = warranty;
@@ -758,6 +761,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   >
                     Freight type:
                   </p>
+                  {showother == 'Other' && <>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Other Freight type:</p>
+                  </>}
                   <p
                     className="mb-8"
                     style={{ position: "relative", top: "10px" }}
@@ -787,19 +793,44 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     errorMessages={["this field is required"]}
                   />
 
-                  <TextValidator
+<TextValidator
                     label="Freight"
-                    onChange={(e) => setfreight(e.target.value)}
+                    onChange={(e)=>{setfreight(e.target.value);
+                      if(e.target.value == 'Other'){ setShowOther('Other') }else{setShowOther(''); setOfreight('')}} }
                     className="mb-4"
                     type="text"
                     variant="outlined"
                     size="small"
+                    select
                     name="net_amount"
                     style={{ width: 500 }}
                     value={freight}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
+                  >
+                    <MenuItem value='Air Freight'>Air Freight</MenuItem>
+                    <MenuItem value='Sea Freight'>Sea Freight</MenuItem>
+                    <MenuItem value='Road Freight'>Road Freight</MenuItem>
+                    <MenuItem value='Other'>Other</MenuItem>
+                  </TextValidator>
+                  {showother == 'Other' && <>
+                    <TextValidator
+                    label="Freight"
+                    className="mb-4"
+                    onChange={e => setOfreight(e.target.value)
+                    }
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    name="net_amount"
+                    value={ofreight}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
+                  
+                  </>}
+                  
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"

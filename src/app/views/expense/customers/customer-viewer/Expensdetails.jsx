@@ -152,7 +152,7 @@ const CustomerInfo = () => {
                     </TableCell>
                   </TableRow>)}
                   {ExpenseList.vatno!==null&&(<TableRow>
-                    <TableCell className="pl-4">Vat No</TableCell>
+                    <TableCell className="pl-4">VAT No</TableCell>
                     <TableCell>
                       {ExpenseList.vatno}
                     </TableCell>

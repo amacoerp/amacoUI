@@ -363,7 +363,7 @@ const handlefileSelect = (event,f) => {
               />
               <TextValidator
                 className="w-full mb-4"
-                label="Vat Number"
+                label="VAT Number"
                 size="small"
                 autoComplete="off"
                 multiline

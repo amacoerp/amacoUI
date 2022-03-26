@@ -101,7 +101,7 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>receipt</Icon>
             <div className="ml-3">
-              <small className="text-muted">QUOTATION REQUEST</small>
+              <small className="text-muted">QUOTED QUOTATION</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{requestedquoteCount}</h6>
             </div>
           </div>

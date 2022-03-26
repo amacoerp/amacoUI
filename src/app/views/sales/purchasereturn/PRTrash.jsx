@@ -230,6 +230,10 @@ export default function PReturn({podetails}) {
           rowsPerPageOptions: [10, 20, 40, 80, 100],
           selectableRows: "none",
           filterType: "dropdown",
+          onSearchClose: e => {
+            localStorage.removeItem("search");
+            localStorage.removeItem("page");
+          },
           searchProps: {
             onKeyUp: (e) => {
               localStorage.setItem("search", e.target.value);

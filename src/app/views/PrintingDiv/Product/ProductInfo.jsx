@@ -143,7 +143,7 @@ const CustomerInfo = [
     value: "USA",
   },
   {
-    title: "Vat number",
+    title: "VAT number",
     value: "New York",
   },
   {

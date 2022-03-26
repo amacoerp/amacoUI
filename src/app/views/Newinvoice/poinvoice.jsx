@@ -419,6 +419,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   }
 
+  const [bankD,setBankD] = useState([])
+
   useEffect(() => {
 
     // console.log('sdhsafsdghf', console.log(document.getElementById('componentRef').innerHTML))
@@ -432,7 +434,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       // setcname(data[0].party.fname)
       setpo_number(data[0]?.po_number)
       setdeleteStatus(data[0]?.delete)
-
+      setBankD(data[0]?.pBank[0])
       setqid(data[0]?.id)
       setrno(data[0]?.rfq?.id)
       setrdate(moment(data[0].ps_date).format('DD MMM YYYY'))
@@ -1025,7 +1027,66 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             );
                           })}
                           <TableRow style={{ border: "1px solid #ccc" }} >
-                            <TableCell className="pl-0 capitalize hidecell" colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            <TableCell className="pl-0 capitalize hidecell" colspan={6} rowSpan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                           
+                            <div
+                                className="pl-2 flex justify-between"
+                                style={{ fontFamily: "Calibri" }}
+                              >
+                                <div className="flex">
+                                  <div className="pr-0">
+                                    <tr>
+                                      <td>
+                                        <h5 className="font-normal capitalize">
+                                          <strong>BANK DETAILS</strong>{" "}
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                    <tr
+                                      style={{
+                                        height: 5,
+                                        fontSize: 16,
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      <td style={{ height: "auto !important" }}>
+                                        <strong>Bank Name</strong>
+                                      </td>
+                                      <td style={{ height: "auto !important" }}>
+                                        {bankD.bank_name ? bankD.bank_name : '---'}
+                                      </td>
+                                    </tr>
+                                    <tr
+                                      style={{
+                                        height: 5,
+                                        fontSize: 16,
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      <td style={{ height: "auto !important" }}>
+                                        <strong>Account No</strong>
+                                      </td>
+                                      <td style={{ height: "auto !important" }}>
+                                      {bankD.account_no ? bankD.account_no : '---'}
+                                      </td>
+                                    </tr>
+                                    <tr
+                                      style={{
+                                        height: 5,
+                                        fontSize: 16,
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      <td style={{ height: "auto !important" }}>
+                                        <strong>IBAN No</strong>
+                                      </td>
+                                      <td style={{ height: "auto !important" }}>
+                                      {bankD.iban_no ? bankD.iban_no : '---'}
+                                      </td>
+                                    </tr>
+                                  </div>
+                                </div>
+                              </div>
                             </TableCell>
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} colspan={2}>Total Amount</TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
@@ -1051,8 +1112,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                           <TableRow style={{ border: "1px solid #ccc" }}>
 
-                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
-                            </TableCell>
+                            {/* <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
+                            </TableCell> */}
 
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Freight Charges
                             </TableCell>
@@ -1077,15 +1138,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                           <TableRow style={{ border: "1px solid #ccc" }}>
 
-                            <TableCell className="pr-0 capitalize " colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 200 }}>
-                            </TableCell>
+                            {/* <TableCell className="pr-0 capitalize" style={{borderTop:'2px solid white'}} colspan={6}>
+                          
+                            </TableCell> */}
 
-                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>Vat (15%)
+                            <TableCell  style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}>VAT (15%)
                             </TableCell>
                             {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
                 SAR
                 </TableCell> */}
-                            <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}
+                            <TableCell colSpan={6} style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }} width="130px" colspan={2}
 
                             >
 

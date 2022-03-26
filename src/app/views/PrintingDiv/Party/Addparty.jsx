@@ -496,7 +496,7 @@ const Addparty = ({ open, handleClose }) => {
 
                 <TextField
                   className="ml-2"
-                  label="Vat Number"
+                  label="VAT Number"
                   autoComplete="none"
                   onChange={e => setvat_no(e.target.value)}
                   name="vat_no"
