@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import {
   Icon,
@@ -8,6 +8,10 @@ import {
   IconButton,
   Drawer,
 } from "@material-ui/core";
+import url, {
+  navigatePath,
+} from "../../../../app/views/invoice/InvoiceService";
+
 import { Link } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { getTimeDifference } from "utils.js";
@@ -15,6 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import useSettings from "app/hooks/useSettings";
 import useNotification from "app/hooks/useNotification";
+import shortId from "shortid";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   notification: {
@@ -55,21 +60,50 @@ const NotificationBar = ({ container }) => {
 
   const classes = useStyles();
   const { settings } = useSettings();
-  const {
-    deleteNotification,
-    clearNotifications,
-    notifications,
-  } = useNotification();
+  const { deleteNotification, clearNotifications, notifications } =
+    useNotification();
 
   const handleDrawerToggle = () => {
     setPanelOpen(!panelOpen);
+    if (count > 0) {
+      url.post("resetNotification").then(({ data }) => {
+        setCount(0);
+      });
+    }
   };
+
+  const [notificationss, setNotificationss] = useState([]);
+  const [count, setCount] = useState(0);
+
+  // setInterval(() => {
+  //   if(count > 0){
+  //     callFunction();
+  //   }
+   
+  // }, 5000);
+
+  useEffect(() => {
+      url.get("getNotifications").then(({ data }) => {
+        setCount(parseInt(data?.count));
+        if (localStorage.getItem("role") == "SA") {
+          setNotificationss(data?.noti);
+        } else {
+          let n = data?.noti?.map((item) => {
+            return item.user_id;
+          });
+          if (n[0].includes(localStorage.getItem("user_id"))) {
+            setNotificationss(
+              data?.noti?.filter((obj) => { obj.n_for !== 'SA' && obj.user_id.includes(localStorage.getItem("user_id"))})
+            );
+          }
+        }
+      });
+  }, []);
 
   return (
     <Fragment>
-
       <IconButton onClick={handleDrawerToggle}>
-        <Badge color="secondary" badgeContent={notifications?.length}>
+        <Badge color="secondary" badgeContent={count}>
           <Icon>notifications</Icon>
         </Badge>
       </IconButton>
@@ -92,12 +126,12 @@ const NotificationBar = ({ container }) => {
               <h5 className="ml-2 my-0 font-medium">Notifications</h5>
             </div>
 
-            {notifications?.map((notification) => (
+            {notificationss?.map((notification) => (
               <div
                 key={notification.id}
                 className={clsx("relative", classes.notificationCard)}
               >
-                <IconButton
+                {/* <IconButton
                   size="small"
                   className="delete-button bg-light-gray mr-6"
                   onClick={() => deleteNotification(notification.id)}
@@ -105,46 +139,45 @@ const NotificationBar = ({ container }) => {
                   <Icon className="text-muted" fontSize="small">
                     clear
                   </Icon>
-                </IconButton>
-                <Link to={`/${notification.path}`} onClick={handleDrawerToggle}>
-                  <Card className="mx-4 mb-6" elevation={3}>
-                    <div className="card__topbar flex items-center justify-between p-2 bg-light-gray">
-                      <div className="flex items-center">
-                        <div className="card__topbar__button flex items-center justify-between h-24 w-24 overflow-hidden">
-                          <Icon
-                            className="card__topbar__icon"
-                            fontSize="small"
-                            color={notification.icon.color}
-                          >
-                            {notification.icon.name}
-                          </Icon>
-                        </div>
-                        <span className="ml-4 font-medium text-muted">
-                          {notification.heading}
-                        </span>
+                </IconButton> */}
+                {/* <Link to={`/${notification.path}`} onClick={handleDrawerToggle}> */}
+                <Card className="mx-4 mb-6" elevation={3}>
+                  <div className="card__topbar flex items-center justify-between p-2 bg-light-gray">
+                    <div className="flex items-center">
+                      <div className="card__topbar__button flex items-center justify-between h-24 w-24 overflow-hidden">
+                        <Icon
+                          className="card__topbar__icon"
+                          fontSize="small"
+                          color={"error"}
+                        >
+                          {"done"}
+                        </Icon>
                       </div>
-                      <small className="card__topbar__time text-muted">
-                        {getTimeDifference(new Date(notification.timestamp))}{" "}
-                        ago
-                      </small>
+                      <span className="ml-4 font-medium text-muted">
+                        {notification.heading}
+                      </span>
                     </div>
-                    <div className="px-4 pt-2 pb-4">
-                      <p className="m-0">{notification.title}</p>
-                      <small className="text-muted">
-                        {notification.subtitle}
-                      </small>
-                    </div>
-                  </Card>
-                </Link>
+                    <small className="card__topbar__time text-muted">
+                      {getTimeDifference(new Date(notification.created_at))} ago
+                    </small>
+                  </div>
+                  <div className="px-4 pt-2 pb-4">
+                    <p className="m-0">{notification.title}</p>
+                    <small className="text-muted">
+                      {notification.subtitle}
+                    </small>
+                  </div>
+                </Card>
+                {/* </Link> */}
               </div>
             ))}
-            {!!notifications?.length && (
+            {/* {!!notificationss?.length && (
               <div className="text-center">
                 <Button onClick={clearNotifications}>
                   Clear Notifications
                 </Button>
               </div>
-            )}
+            )} */}
           </div>
         </Drawer>
       </ThemeProvider>

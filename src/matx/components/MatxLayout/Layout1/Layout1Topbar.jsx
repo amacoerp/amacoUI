@@ -133,6 +133,8 @@ const Layout1Topbar = () => {
       })
       .catch(function (error) {});
   };
+
+ 
   const routerHistory = useHistory();
   const changeDivision = (div_id) => {
     setDv(div_id);
@@ -210,7 +212,38 @@ const Layout1Topbar = () => {
           </div>
           <div className="flex items-center">
             {/* <MatxSearchBox /> */}
-
+          
+         
+                        {/* <NotificationBar /> */}
+                  
+             
+             
+              {/* <MatxMenu
+              menuButton={
+                <div className={classes.userMenu}>
+                  <Hidden xsDown>
+                    <span>
+                    <Icon> notification_important </Icon>
+                    </span>
+                  </Hidden>
+                </div>
+              }
+            >
+              {/* <MenuItem>
+                <Link className={classes.menuItem} to="/">
+                  <Icon> home </Icon>
+                  <span className="pl-4"> Home </span>
+                </Link>
+              </MenuItem> */}
+              {/* {noti.map((item,i)=>{
+                return  <MenuItem key={i} style={{maxWidth:'325' ,width:325, overflowWrap: 'break-word',whiteSpace: 'pre-wrap'}}>
+                {item.length > 40 ? item.substring(0,40)+'...' : item}
+              </MenuItem>
+              })}
+              <MenuItem style={{justifyContent: "center"}}>View All Notifications</MenuItem>
+              */}
+            
+            {/* </MatxMenu> */} 
             <MatxMenu
               menuButton={
                 <div className={classes.userMenu}>
