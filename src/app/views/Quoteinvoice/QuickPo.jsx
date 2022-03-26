@@ -75,6 +75,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [validity, setvalidity] = useState('3 Days')//set the validity to 3 days
   const [payment_terms, setpayment_terms] = useState('100% Advance')
   const [freight, setfreight] = useState('Air Freight')
+  const [ofreight, setOfreight] = useState('')
   const [warranty, setwarranty] = useState('NA')
   const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
   const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
@@ -95,6 +96,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [total, settotal] = useState(0.00);
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
+  const [showother,setShowOther] =useState('')
 
   const { id } = useParams();
   const { user } = useAuth();
@@ -444,7 +446,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.discount_in_p = 0
     arr.total_value = parseFloat(subTotalCost).toFixed(2)
     arr.net_amount = GTotal
-    arr.freight = freight
+    arr.freight = ofreight ? ofreight : freight
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.freight_charges = parseFloat(charge).toFixed(2)
     arr.rfq_id = id
@@ -1228,6 +1230,9 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   {/* <p className="mb-8">Quotation Validity:</p> */}
                   <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Payment Terms:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Freight type:</p>
+                  {showother == 'Other' && <>
+                  <p className="mb-8" style={{ position: 'relative', top: '10px' }}>Other Freight type:</p>
+                  </>}
                   <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Delivery Time:</p>
                   <p className="mb-8" style={{ position: 'relative', top: '13px' }}>Inco-Term:</p>
                 </div>
@@ -1261,18 +1266,41 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Freight"
-                    onChange={e => setfreight(e.target.value)
-                    }
+                    onChange={(e)=>{setfreight(e.target.value);
+                      if(e.target.value == 'Other'){ setShowOther('Other') }else{setShowOther(''); setOfreight('')}} }
                     className="mb-4"
                     type="text"
                     variant="outlined"
                     size="small"
+                    select
                     name="net_amount"
                     style={{ width: 500 }}
                     value={freight}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
+                  >
+                    <MenuItem value='Air Freight'>Air Freight</MenuItem>
+                    <MenuItem value='Sea Freight'>Sea Freight</MenuItem>
+                    <MenuItem value='Road Freight'>Road Freight</MenuItem>
+                    <MenuItem value='Other'>Other</MenuItem>
+                  </TextValidator>
+                  {showother == 'Other' && <>
+                    <TextValidator
+                    label="Freight"
+                    className="mb-4"
+                    onChange={e => setOfreight(e.target.value)
+                    }
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ width: 500 }}
+                    name="net_amount"
+                    value={ofreight}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
+                  
+                  </>}
                   
                   <TextValidator
                     label="Delivery Time"

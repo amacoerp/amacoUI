@@ -327,6 +327,10 @@ const SimpleMuiTable = () => {
             responsive: "simple",
             selectableRows: "none",
             rowsPerPageOptions: [10, 20, 40, 80, 100],
+            onSearchClose: e => {
+                          localStorage.removeItem("search");
+                          localStorage.removeItem("page");
+                        },
             searchProps: {
               onKeyUp:(e) => {
                 localStorage.setItem('search',e.target.value);

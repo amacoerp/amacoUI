@@ -98,7 +98,7 @@ const SimpleMuiTable = () => {
     }
   };
 
-  const tabList = ["PURCHASE INVOICE", "TRASH"];
+  const tabList = ["SALES INVOICE", "TRASH"];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (e, value) => {
     setTabIndex(value);

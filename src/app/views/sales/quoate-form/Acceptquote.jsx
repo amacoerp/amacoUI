@@ -457,6 +457,10 @@ const AcceptQuote = () => {
 
             rowsPerPageOptions: [10, 20, 40, 80, 100],
             selectableRows: "none",
+            onSearchClose: e => {
+                          localStorage.removeItem("search");
+                          localStorage.removeItem("page");
+                        },
             searchProps: {
               onKeyUp:(e) => {
                 localStorage.setItem('search',e.target.value);

@@ -1885,7 +1885,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <CurrencyTextField
                       className="w-full mb-4"
                       readOnly
-                      label="Vat"
+                      label="VAT"
                       style={{ width: '250px' }}
                       name="vat"
                       variant="outlined"

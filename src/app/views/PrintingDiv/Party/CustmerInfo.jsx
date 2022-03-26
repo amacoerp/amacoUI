@@ -60,7 +60,7 @@ const CustomerInfo = () => {
         <h3 className="mt-4 mb-2">{userList.firm_name}</h3>
         
         <small className="text-muted"><h5><strong>Registration Number:</strong>{userList.registration_no}</h5></small>
-        <small className="text-muted"><h5><strong>Vat Number:</strong>{userList.vat_no}</h5></small>
+        <small className="text-muted"><h5><strong>VAT Number:</strong>{userList.vat_no}</h5></small>
         <div className="flex-row">
         <small className="text-white bg-green border-radius-4 px-2 py-2px">
                 Credit Limit: <strong>{userList.credit_limit}</strong>
@@ -134,7 +134,7 @@ const customerInfo = [
     value: "USA",
   },
   {
-    title: "Vat number",
+    title: "VAT number",
     value: "New York",
   },
   {

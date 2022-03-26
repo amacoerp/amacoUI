@@ -258,13 +258,13 @@ const DueInvoice =()=>{
                           
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]<0&&
              (   
-             <span> due in {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} days</span>)}
+             <span> DUE IN {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} DAYS</span>)}
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]>0&&
              (   
-             <span>  {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} from now</span>)}
+             <span>  {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]} FROM NOW</span>)}
              {moment(new Date(), "YYYY-MM-DD").diff(moment(`${tableMeta.rowData[5]}`, "YYYY-MM-DD"),"days")-tableMeta.rowData[4]==0&&
              (   
-             <span> Due today</span>)}
+             <span> DUE TODAY</span>)}
               
                 
                         

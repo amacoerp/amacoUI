@@ -674,7 +674,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <div className="pr-12">
                   <p className="mb-8">Sub Total:</p>
                   <p className="mb-8">Discount:</p>
-                  <p className="mb-8">Vat(15%):</p>
+                  <p className="mb-8">VAT (15%):</p>
                   {/* <p className="mb-5">currency:</p> */}
                   <strong>
                     <p className="mb-8">Grand Total:</p>
@@ -725,7 +725,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <CurrencyTextField
                       className="w-full mb-4"
                       readOnly
-                      label="Vat"
+                      label="VAT"
                       variant="outlined"
                       fullWidth
                       size="small"

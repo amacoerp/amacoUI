@@ -1779,7 +1779,7 @@ const CustomerForm = () => {
                     {tax && (
                       <TextField
                         className="mb-4 w-full"
-                        label="Vat Number"
+                        label="VAT Number"
                         name="workPhone"
                         type="text"
                         size="small"
@@ -1819,7 +1819,7 @@ const CustomerForm = () => {
                       <label className="pl-8">Invoice Number</label>
                       <br></br>
                       <label className="pl-8">
-                        Vat Number Is as per the Uploaded File
+                        VAT Number Is as per the Uploaded File
                       </label>
                     </div>
                   )}

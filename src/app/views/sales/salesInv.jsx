@@ -50,6 +50,10 @@ export default function salesInv({podetails,columns}) {
           filterType: "dropdown",
           // responsive: "scrollMaxHeight",
           rowsPerPage: 10,
+          onSearchClose: e => {
+            localStorage.removeItem("search");
+            localStorage.removeItem("page");
+          },
           searchProps: {
             onKeyUp: (e) => {
               localStorage.setItem("search", e.target.value);
