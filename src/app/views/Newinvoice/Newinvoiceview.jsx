@@ -318,7 +318,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       setBuildNumber(data[0]?.party?.building_no)
       setpost_box_no(data[0]?.party?.post_box_no)
-      
+
         setcname_ar(data[0].party?.firm_name_in_ar)
         setcity(data[0].party?.city)
         setstreet(data[0].party?.street)
@@ -1058,7 +1058,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-0 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" xs align="right">
                         <span style={{ fontWeight: 1000 }}>
@@ -1066,7 +1066,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           رقم أمر الشراء
                         </span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid
                         className="pl-2 pb-4 pr-2"
@@ -1113,7 +1113,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                         <br></br>
-                        {vatno}
+                        {vatno ? vatno : '---'}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}> رقم ضريبة</span>
@@ -1122,7 +1122,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         toArabic(vatno) == null ||
                         toArabic(vatno) == undefined ||
                         toArabic(vatno) == "undefined"
-                          ? "--"
+                          ? "---"
                           : toArabic(vatno)}
                       </Grid>
                       <Grid
