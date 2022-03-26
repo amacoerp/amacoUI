@@ -212,10 +212,10 @@ const Layout1Topbar = () => {
           </div>
           <div className="flex items-center">
             {/* <MatxSearchBox /> */}
-              {/* <Icon>notification_important</Icon> */}
-              {/* <NotificationProvider> */}
-                        <NotificationBar />
-                    {/* </NotificationProvider> */}
+          
+         
+                        {/* <NotificationBar /> */}
+                  
              
              
               {/* <MatxMenu

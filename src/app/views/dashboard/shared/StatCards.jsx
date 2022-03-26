@@ -204,7 +204,7 @@ const StatCards = () => {
           <div className="flex items-center">
             <Icon className={classes.icon}>monetization_on</Icon>
             <div className="ml-3">
-              <small className="text-muted"> PO</small>
+              <small className="text-muted"> PURCHASE ORDER</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{po.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}</h6>
