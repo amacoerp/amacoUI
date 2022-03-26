@@ -69,6 +69,8 @@ const SimpleForm = () => {
   const [filterArr, setfilterArr] = useState([]);
   const routerHistory = useHistory();
   const [payment_term,setpayment_term] = useState('');
+  const [buildNumber,setBuildNumber] = useState('')
+
 
 
 
@@ -90,7 +92,7 @@ const SimpleForm = () => {
       getparties()
       if (isAlive) setUserList(data);
 
-
+      setBuildNumber(data[0].building_no)
       setFirm_name(data[0].firm_name)
       setvat_no(data[0].vat_no)
       setpost_box_no(data[0].post_box_no)
@@ -171,6 +173,7 @@ const SimpleForm = () => {
       bank_address: bank_address ? (bank_address) : '',
       account_no: account_no,
       vendor_id: vendor_id,
+      buildNumber: buildNumber ? buildNumber : '',
       party_code: partycode,
       payment_term: payment_term,
       company_name_ar: company_name_ar,
@@ -294,17 +297,38 @@ const SimpleForm = () => {
                   />
                 </div>
 
+              
+                   <div className="flex mb-4">
+                
                 <TextField
-                  className="mb-4 w-full"
-                  label="P.O. Box"
-                  onChange={e => setpost_box_no(e.target.value)}
-                  type="text"
-                  name="post_box_no"
-                  size="small"
-                  variant="outlined"
-                  value={post_box_no}
+             className="mr-2"
+              label="P.O. Box"
+              autoComplete="none"
+              onChange={e => setpost_box_no(e.target.value)}
+              type="text"
+              name="post_box_no"
+              size="small"
+              variant="outlined"
+              value={post_box_no}
+              fullWidth
+            />
 
-                />
+
+              <TextField
+                className="ml-2"
+                label="Buliding Number"
+                // inputProps={{ style: { textTransform: 'capitalize' } }}
+                autoComplete="none"
+                variant="outlined"
+                type='text'
+                value={buildNumber}
+                size="small"
+                name='buildNumber'
+                onChange={e => setBuildNumber(e.target.value)}
+                fullWidth
+              />
+            </div>
+
                 <TextValidator
                   className="mb-4 w-full"
                   label="Street"

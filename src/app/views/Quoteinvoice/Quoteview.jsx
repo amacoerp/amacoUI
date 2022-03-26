@@ -386,6 +386,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     setAnchorEl(null);
   }
 
+  const [buildNumber,setBuildNumber] = useState('');
+  const [post_box_no,setpost_box_no] = useState('');
+
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
     url.get("sale-quotation/" + id).then(({ data }) => {
@@ -419,6 +422,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setsubject(data[0]?.subject)
       setsign(data[0]?.sign)
       setcity(data[0]?.party?.city)
+     
+      setBuildNumber(data[0]?.party?.building_no)
+      setpost_box_no(data[0]?.party?.post_box_no)
       setstreet(data[0]?.party?.street)
       setzipcode(data[0]?.party?.zip_code)
       setpo(data[0]?.party?.post_box_no)
@@ -1159,13 +1165,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>RFQ NO</span><br></br>
-                        {rfq_no !== null ? rfq_no : "--"}
+                        {rfq_no !== null ? rfq_no : "---"}
 
 
                       </Grid>
                       <Grid className="pl-0 pb-4" xs={4}>
                         <span style={{ fontWeight: 1000 }}>ATTENTION</span><br></br>
-                        {prefix ? prefix + ". " : " "}{contactperson ? contactperson : '--'}
+                        {prefix ? prefix + ". " : " "}{contactperson ? contactperson : '---'}
 
 
                       </Grid>
@@ -1184,13 +1190,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-4 pr-2 mr-2" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>CUSTOMER</span><br></br>
-                        {company ? company : "--"}
+                        {company ? company : "---"}
 
 
                       </Grid>
                       <Grid className="pl-0 pb-4" xs={4}>
                         <span style={{ fontWeight: 1000 }}>DESIGNATION</span><br></br>
-                        {designation ? designation : '--'}
+                        {designation ? designation : '---'}
 
 
                       </Grid>
@@ -1199,7 +1205,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           QUOTATION NUMBER
                         </span><br></br>
 
-                        {qid ? qid : "--"}
+                        {qid ? qid : "---"}
 
                       </Grid>
 
@@ -1209,13 +1215,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-0" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span><br></br>
-                        {street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}
+                         { buildNumber ? (buildNumber +', ') : ''}{street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}{post_box_no ? (' ,'+post_box_no) : ''}
 
 
                       </Grid>
                       <Grid className="pl-2 pb-4" xs={4}>
                         <span style={{ fontWeight: 1000 }}>EMAIL ID</span><br></br>
-                        {contactpersonemail ? contactpersonemail : '--'}
+                        {contactpersonemail ? contactpersonemail : '---'}
 
                       </Grid>
 
@@ -1233,7 +1239,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
                         <span style={{ fontWeight: 1000 }}>CONTACT NUMBER</span><br></br>
-                        {contactpersoncontact ? (mcode!==null?"+"+mcode:"")+" "+contactpersoncontact : "--"}
+                        {contactpersoncontact ? (mcode!==null?"+"+mcode:"")+" "+contactpersoncontact : "---"}
 
                       </Grid>
                       <Grid className="pl-2 pb-4" xs={2}>
@@ -1260,7 +1266,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   <div className="viewer__order-info px-4 mb-4 flex justify-between" >
                     <Table>
                       <TableRow style={{ marginBottom: 200 }} >
-                        Subject: {subject == null || subject == 0 || subject == 'null' ? '--' : subject}
+                        Subject: {subject == null || subject == 0 || subject == 'null' ? '---' : subject}
                       </TableRow>
                     </Table>
                   </div>

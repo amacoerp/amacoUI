@@ -107,6 +107,7 @@ const Addparty = ({ open, handleClose }) => {
   const [division, setdivision] = useState([]);/*Holds the Division Id */
   const { user } = useAuth();
   const [payment_term,setpayment_term] = useState('');
+  const [buildNumber,setBuildNumber] = useState('')
 
 
 
@@ -164,6 +165,7 @@ const Addparty = ({ open, handleClose }) => {
       party_code: partycode,
       prefix: prefix ? prefix : "",
       division: division,
+      buildNumber: buildNumber ? buildNumber : '',
       zip_code_ar: toArabic(zip_code),
       vat_no_in_ar: toArabic(vat_no),
       payment_term: payment_term ? payment_term : '',
@@ -543,8 +545,10 @@ const Addparty = ({ open, handleClose }) => {
                   />
                 </div>
 
-                <TextValidator
-                  className="mb-4 w-full"
+                <div className="flex mb-4">
+                
+                    <TextField
+                 className="mr-2"
                   label="P.O. Box"
                   autoComplete="none"
                   onChange={e => setpost_box_no(e.target.value)}
@@ -553,8 +557,26 @@ const Addparty = ({ open, handleClose }) => {
                   size="small"
                   variant="outlined"
                   value={post_box_no}
-
+                  fullWidth
                 />
+
+
+                  <TextField
+                    className="ml-2"
+                    label="Buliding Number"
+                    // inputProps={{ style: { textTransform: 'capitalize' } }}
+                    autoComplete="none"
+                    variant="outlined"
+                    type='text'
+                    value={buildNumber}
+                    size="small"
+                    name='buildNumber'
+                    onChange={e => setBuildNumber(e.target.value)}
+                    fullWidth
+                  />
+                </div>
+
+              
                 <TextValidator
                   className="mb-4 w-full"
                   autoComplete="none"

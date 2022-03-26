@@ -209,6 +209,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const componentRef = useRef();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+
+
+
   const [qrValue, setQrValue] = useState("");
 
   const [pageNumber, setPageNumber] = useState([]);
@@ -284,6 +287,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const [vatExclude,setVatExclude] = useState(false);
 
+  const [buildNumber,setBuildNumber] = useState('');
+  const [post_box_no,setpost_box_no] = useState('');
+
   useEffect(() => {
     myFunction();
     // translate('Ik spreek Engels', {to: 'en'}).then(res => {
@@ -309,6 +315,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setVatExclude(parseInt(data[0].exclude_from_vat) ? true : false)
         setpodetails(data[0].invoice_detail)
         setcompany(data[0].party?.firm_name)
+
+      setBuildNumber(data[0]?.party?.building_no)
+      setpost_box_no(data[0]?.party?.post_box_no)
+      
         setcname_ar(data[0].party?.firm_name_in_ar)
         setcity(data[0].party?.city)
         setstreet(data[0].party?.street)
@@ -1087,7 +1097,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {street
+                        { buildNumber ? (buildNumber +', ') : ''}{street
                           ? street +
                             (city
                               ? "," + city + (zipcode ? "," + zipcode : " ")
@@ -1098,7 +1108,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           ? city + (zipcode ? " ," + zipcode : " ")
                           : zipcode
                           ? zipcode
-                          : " "}
+                          : " "}{post_box_no ? (' ,'+post_box_no) : ''}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
