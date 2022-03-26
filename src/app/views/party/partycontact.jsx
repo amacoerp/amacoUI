@@ -17,6 +17,18 @@ const prefixs = [
   { value: 'Mrs', label: 'Mrs' },
   { value: 'Ms', label: 'Ms' }
 ];
+
+const telcode = [
+  { value: 91, label: "+91" },
+  { value: 973, label: "+973" },
+  { value: 965, label: "+965" },
+  { value: 961, label: "+961" },
+  { value: 968, label: "+968" },
+  { value: 974, label: "+974" },
+  { value: 966, label: "+966" },
+  { value: 971, label: "+971" },
+  { value: 967, label: "+967" },
+];
 const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact, partyid }) => {
   // let search = window.location.search;
   // let params = new URLSearchParams(search);
@@ -27,6 +39,10 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
   const [email, setemail] = useState('');
   const [contact1, setcontact1] = useState('');
   const [contact2, setcontact2] = useState('');
+  const [lcode, setlcode] = useState('');
+  const [mcode, setmcode] = useState('');
+  const [lext, setlext] = useState('');
+  const [mext, setmext] = useState('');
   const [address, setaddress] = useState('');
   const [designation, setdesignation] = useState('');
   const [prefix, setprefix] = useState('');
@@ -68,6 +84,10 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
         mobno: contact1,
         landline: contact2,
         email: email,
+        lcode:lcode,
+        mcode:mcode,
+        lext: lext,
+        mext: mext,
         address: address,
         prefix: prefix,
         user_id: user.id,
@@ -107,8 +127,11 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
         fname: (fname),
         lname: (lname),
         designation: (designation),
-        mobno: contact1,
-        landline: contact2,
+        mobno:contact1,
+        lcode:lcode,
+        mcode:mcode,
+        lext: lext,
+        mext: mext,
         email: email,
         address: (address),
         prefix: prefix,
@@ -162,6 +185,10 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
         setdesignation(data[0].designation)
         setaddress(data[0].address)
         setprefix(data[0].prefix)
+        setmcode(data[0].mcode)
+        setlcode(data[0].lcode)
+        setmext(data[0].mext)
+        setlext(data[0].lext)
 
       });
     }
@@ -265,8 +292,29 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             value={designation}
 
           />
+           <div className="flex">
+          <TextField
+                    className="mr-2"
+                    label="Code"
+                    autoComplete="none"
+                    onChange={e => setmcode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '260px' }}
+                    variant="outlined"
+                    value={mcode || ""}
+                    fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
           <TextValidator
-            className="w-full mb-4"
+            className="w-full mb-4 mr-2"
             label="Mobile Number"
             size="small"
             variant="outlined"
@@ -275,18 +323,56 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             onChange={e => setcontact1(e.target.value)
 
             }
+            inputProps={{style:{width:400}}}
             type="text"
             name="contact1"
             value={contact1}
           />
+          <TextField
+            className="w-50 mb-4 ml-2"
+            label="Ext"
+            size="small"
+            variant="outlined"
+            // validators={['matchRegexp:^(0|[1-9][0-9]*)$']}
+            // errorMessages={["Number is not valid"]}
+            onChange={e => setmext(e.target.value)
+
+            }
+            type="text"
+            name="mext"
+            value={mext}
+          />
+          </div>
+          <div className="flex">
+          <TextField
+                    className="mr-2"
+                    label="Code"
+                    autoComplete="none"
+                    onChange={e => setlcode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '260px' }}
+                    variant="outlined"
+                    value={lcode || ""}
+                    fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
           <TextValidator
-            className="w-full mb-4"
+            className="mb-4"
             label="Landline Number"
             size="small"
             variant="outlined"
             onChange={e => setcontact2(e.target.value)
 
             }
+            inputProps={{style:{width:400}}}
             validators={['matchRegexp:^(0|[1-9][0-9]*)$']}
             errorMessages={["Number is not valid"]}
             type="text"
@@ -294,6 +380,21 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
             value={contact2}
 
           />
+          <TextField
+            className="w-50 mb-4 ml-2"
+            label="Ext"
+            size="small"
+            variant="outlined"
+            // validators={['matchRegexp:^(0|[1-9][0-9]*)$']}
+            // errorMessages={["Number is not valid"]}
+            onChange={e => setlext(e.target.value)
+
+            }
+            type="text"
+            name="lext"
+            value={lext}
+          />
+          </div>
           <TextValidator
             className="w-full mb-4"
             label="Address"

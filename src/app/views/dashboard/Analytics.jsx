@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Grid, Card, Icon, TableCell, MenuItem } from "@material-ui/core";
-import DoughnutChart from "../charts/echarts/Doughnut";
+// import DoughnutChart from "../charts/echarts/Doughnut";
 import ModifiedAreaChart from "./shared/ModifiedAreaChart";
 import StatCards from "./shared/StatCards";
 import "./s.css";
-import TopSellingTable from "./shared/TopSellingTable";
-import RowCards from "./shared/RowCards";
-import StatCards2 from "./shared/StatCards2";
-import UpgradeCard from "./shared/UpgradeCard";
-import Campaigns from "./shared/Campaigns";
+// import TopSellingTable from "./shared/TopSellingTable";
+// import RowCards from "./shared/RowCards";
+// import StatCards2 from "./shared/StatCards2";
+// import UpgradeCard from "./shared/UpgradeCard";
+// import Campaigns from "./shared/Campaigns";
 import { useTheme } from "@material-ui/styles";
 import url, { getpaidDivision } from "../invoice/InvoiceService";
 import MUIDataTable from "mui-datatables";
@@ -21,8 +21,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { TreeItem } from "@material-ui/lab";
-import { TextField } from "@material-ui/core";
+// import { TreeItem } from "@material-ui/lab";
+// import { TextField } from "@material-ui/core";
 
 const months = [
   {
@@ -125,22 +125,17 @@ const receipt_months = [
   },
 ];
 const Analytics = () => {
-  const theme = useTheme();
-  const [paiddivision_account, setpaiddivision_account] = useState([]);
-  const [tempList, settempList] = useState([]);
-  const [linegraph, setlinegraph] = useState([]);
-  const [accountStatement, setaccountStatement] = useState([]);
-  const [data1, setdata1] = useState();
+  
+  const [invoiceData, setinvoiceData] = useState([]);
   const [maxVal, setmaxVal] = useState("");
-  const [perList, setPerList] = useState("");
   const [date, setdate] = useState(moment(new Date()).format("YYYY"));
   const [responseData, setresponseData] = useState([]);
   const [receiptData, setreceiptData] = useState([]);
   const [dataReceipt, setdataReceipt] = useState([]);
   const [stackData, setStackData] = useState([]);
 
-  var obj;
-  var parentData;
+  // var obj;
+  // var parentData;
   const styles = (theme) => ({
     notchedOutline: {
       borderWidth: "1px",
@@ -150,70 +145,37 @@ const Analytics = () => {
 
   useEffect(() => {
     url.get("dashboard").then(({ data }) => {
+    
       
-
-      receiptFun(data?.receipt, date);
-      invoiceFun(data,date)
-      setreceiptData(data?.receipt);
-      setresponseData(data)
+      
+      console.log(months)
+     async function callFun(){
+      // await receiptFun(data?.receipt, date);
+       invoiceFun(data,date,months);
+      // setreceiptData(data?.receipt);
+      // setresponseData(data)
+     }
+      callFun()  
+   
+      
+      
      
 
-      // let dataList = data?.invoice?.filter(
-      //   (obj) => obj.div_id == localStorage.getItem("division")
-      // );
-      // setresponseData(dataList)
-      // var result = dataList
-      //   .filter(
-      //     (obj) =>
-      //       moment(obj.issue_date).format("YYYY") ==
-      //       moment(new Date()).format("YYYY")
-      //   )
-      //   .map((item, i) => {
-      //     item["debit"] = dataList
-      //       .filter(
-      //         (x) =>
-      //           moment(x.issue_date).format("MM YYY") ==
-      //           moment(item.issue_date).format("MM YYY")
-      //       )
-      //       .reduce((result, item) => result + item.grand_total, 0);
-      //     item["count"] = dataList
-      //       .filter(
-      //         (x) =>
-      //           moment(x.issue_date).format("MM YYY") ==
-      //           moment(item.issue_date).format("MM YYY")
-      //       )
-      //       .reduce((result, item) => result + parseFloat(item.grand_total), 0);
-      //     item["month"] = moment(item.issue_date).format("MMM");
-      //     return item;
-      //   });
-      // var Due = result.filter(
-      //   (ele, ind) =>
-      //     ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
-      // );
-      // var finalResult = months.filter(function (o1) {
-      //   return Due.map(function (o2) {
-      //     if (o1.name == o2.month) {
-      //       o1["count"] = o2.count;
-      //     }
-      //   });
-      // });
-
-      // var finalArray = finalResult.map(function (obj) {
-      //   return obj?.count ? obj?.count : 0;
-      // });
-      // setdata1(finalArray);
-      // setmaxVal(Math.max(...finalArray));
+     
     });
 
     
   }, [localStorage.getItem("division")]);
 
+  /*Function to calculate the monthly wise receipt amount */
   async function receiptFun(data, date) {
-    //  await setreceiptData(data?.receipt?.filter(obj => obj.div_id == localStorage.getItem('division')))
+    
     var receipt = await data.filter(
       (obj) => obj.division_id == localStorage.getItem("division")
-    );
+    );//division wise filter the array object
 
+
+    /*filter the array object by issue date and map the credit amount ,month*/
     var receiptResult = receipt
       .filter(
         (obj) =>
@@ -238,15 +200,15 @@ const Analytics = () => {
         return item;
       });
 
+      /*filter the array based on voucher number */
     var receiptArr = receiptResult.filter(
       (ele, ind) =>
-        ind === localStorage.getItem("division") ||
         ind ===
           receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
     );
-    // console.log(receiptResult)
+    
    
-
+      /*monthly wise assign the mount */
     var receiptfinalResult = receipt_months.filter(function (o1) {
       return receiptArr.map(function (o2) {
         if (o1.name == o2.month) {
@@ -254,29 +216,35 @@ const Analytics = () => {
         }
       });
     });
-
+     /*retrive only the count from the receiptFinalResult */
     var receiptfinalArray = receiptfinalResult.map(function (obj) {
       return obj?.count;
     });
+    /*If data exists update the array value */
     if (receiptResult.length) {
       setdataReceipt(receiptfinalArray);
-      // setmaxVal(Math.max(...finalArray))
-    } else {
-      //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
+      
+    } else {/*else data not exists update the array value to 0 */
+      
       setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
   }
-  const  invoiceFun=(data,i)=>{
-    let dataList =  data?.invoice?.filter(
+  /*Function to calculate the monthly wise Invoice amount */
+  async function  invoiceFun(data,i,m){
+    
+   console.log(m)
+        
+    
+    const dataList =  data?.invoice?.filter(
       (obj) => obj.div_id == localStorage.getItem("division")
-    );
+    );//division wise filter the array object
    
-    var result = dataList
+    const result = dataList
       .filter(
         (obj) =>
           moment(obj.issue_date).format("YYYY") ==
           moment(i).format("YYYY")
-      )
+      )//filter the array object year wise map the data filter the month and year wise and creat the new array element debit,count,month
       .map((item, i) => {
         item["debit"] = dataList
           .filter(
@@ -295,100 +263,121 @@ const Analytics = () => {
         item["month"] = moment(item.issue_date).format("MMM");
         return item;
       });
-      console.log("array",result)
-    var Due = result.filter(
+    
+      /*filter the array based on the invoice number */
+   const Due = result.filter(
       (ele, ind) =>
         ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
     );
-    
-    var finalResult = months.filter(function (o1) {
-      return Due.map(function (o2) {
-        if (o1.name == o2.month) {
-          o1["count"] = o2.count;
-        }
-      });
-    });
+   console.log(m)
+    /*return the month if the there is a sales in the month List */
 
-    var finalArray = finalResult.map(function (obj) {
+
+    const finalResult = m.filter(el => {
+
+      return Due.find(element => {
+       
+         if(el.name == element.month)
+         {
+           return el['count']=element.count
+         }
+         else
+         {
+           return el['count']=0
+         }
+      });
+   });
+  
+
+
+    // const finalResult = await Due.filter(function (o1) {
+    //    return months.find(function (o2) {
+    //     console.log(o2.month)
+    //     if (o1.name == o2.month) {
+    //        return o1["count"] = o2.count;
+         
+    //     }
+        
+       
+    //   });
+    // });
+   
+  
+    const finalArray = finalResult.map(function (obj) {
       return obj?.count ? obj?.count : 0;
     });
 
     if (result.length) {
-      setdata1(finalArray);
+   
+      setinvoiceData(finalArray);
       setmaxVal(Math.max(...finalArray));
-      // setmaxVal(Math.max(...finalArray))
+      
     } else {
-      //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
-      setdata1([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      
+      setinvoiceData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
     
   }
-  const handleChange = (i) => {
+  // const handleChange = (i) => {
     
     
-    // getpaidDivision().then(({ data }) => {
-    //   var arrVal = data.sort(function (obj1, obj2) {
-    //     return obj1.type.localeCompare(obj2.type);
-    //   });
-    // });
-    //  setlinegraph(option)
-    url.get("dashboard").then(({ data }) => {
-      let dataList = data.invoice.filter(
-        (obj) => obj.div_id == localStorage.getItem("division")
-      );
-      const result = responseData
-        .filter((obj) => moment(obj.issue_date).format("YYYY") == parseInt(i))
-        .map((item, i) => {
-          item["debit"] = dataList
-            .filter(
-              (x) =>
-                moment(x.issue_date).format("MM YYY") ==
-                moment(item.issue_date).format("MM YYY")
-            )
-            .reduce((result, item) => result + item.grand_total, 0);
-          item["count"] = dataList
-            .filter(
-              (x) =>
-                moment(x.issue_date).format("MM YYY") ==
-                moment(item.issue_date).format("MM YYY")
-            )
-            .reduce((result, item) => result + parseFloat(item.grand_total), 0);
-          item["month"] = moment(item.issue_date).format("MMM");
+    
+  //   url.get("dashboard").then(({ data }) => {
+  //     let dataList = data.invoice.filter(
+  //       (obj) => obj.div_id == localStorage.getItem("division")
+  //     );
+  //     const result = responseData
+  //       .filter((obj) => moment(obj.issue_date).format("YYYY") == parseInt(i))
+  //       .map((item, i) => {
+  //         item["debit"] = dataList
+  //           .filter(
+  //             (x) =>
+  //               moment(x.issue_date).format("MM YYY") ==
+  //               moment(item.issue_date).format("MM YYY")
+  //           )
+  //           .reduce((result, item) => result + item.grand_total, 0);
+  //         item["count"] = dataList
+  //           .filter(
+  //             (x) =>
+  //               moment(x.issue_date).format("MM YYY") ==
+  //               moment(item.issue_date).format("MM YYY")
+  //           )
+  //           .reduce((result, item) => result + parseFloat(item.grand_total), 0);
+  //         item["month"] = moment(item.issue_date).format("MMM");
 
-          return item;
-        });
+  //         return item;
+  //       });
 
-      let Due = result.filter(
-        (ele, ind) =>
-          ind === localStorage.getItem("division") ||
-          ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
-      );
-      // Due = Due.filter(obj => obj.div_id == localStorage.getItem('division'))
-      // console.log(Due, 'sss')
-      const finalResult = months.filter(function (o1) {
-        return Due.map(function (o2) {
-          if (o1.name == o2.month) {
-            o1["count"] = o2.count;
-          } else {
-            o1["count"] = 0;
-          }
-        });
-      });
+  //     let Due = result.filter(
+  //       (ele, ind) =>
+  //         ind === localStorage.getItem("division") ||
+  //         ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
+  //     );
+      
+  //     const finalResult = months.filter(function (o1) {
+  //       return Due.map(function (o2) {
+  //         if (o1.name == o2.month) {
+  //           o1["count"] = o2.count;
+  //         } else {
+  //           o1["count"] = 0;
+  //         }
+  //       });
+  //     });
 
-      var finalArray = finalResult.map(function (obj) {
-        return obj.count;
-      });
+  //     var finalArray = finalResult.map(function (obj) {
+  //       return obj.count;
+  //     });
 
-      setmaxVal(Math.max(...finalArray));
-      if (result.length) {
-        setdata1(finalArray);
-        // setmaxVal(Math.max(...finalArray))
-      } else {
-        //  setmaxVal([0,0,0,0,0,0,0,0,0,0,0,0])
-        setdata1([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-      }
-    });
-  };
+  //     setmaxVal(Math.max(...finalArray));
+  //     if (result.length) {
+  //       setinvoiceData(finalArray);
+        
+  //     } else {
+        
+  //       setinvoiceData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  //     }
+  //   });
+  // };
 
   return (
     <Fragment>
@@ -449,9 +438,9 @@ const Analytics = () => {
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format("YYYY"));
-                  invoiceFun(responseData,date)
+                  // invoiceFun(responseData,date)
                   // handleChange(moment(date).format("YYYY"));
-                  receiptFun(receiptData, date);
+                  // receiptFun(receiptData, date);
                   // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                   // receiptFun(receiptData,moment(date).format('YYYY'))
                 }}
@@ -478,7 +467,7 @@ const Analytics = () => {
               },
               series: [
                 {
-                  data: data1,
+                  data: invoiceData,
                   name:"invoice",
                   label:"invoice",
                   type: "line",

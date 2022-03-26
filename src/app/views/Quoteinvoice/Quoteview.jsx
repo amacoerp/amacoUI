@@ -243,6 +243,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [qid, setqid] = useState()
   const [inco_terms, setinco_terms] = useState()
   const [contactperson, setcontactperson] = useState('');
+  const [mcode, setmcode] = useState('');
   const [contactpersonemail, setcontactpersonemail] = useState('');
   const [contactpersoncontact, setcontactpersoncontact] = useState('');
   const [is_revised, setis_revised] = useState('');
@@ -476,7 +477,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
         setcontactpersonemail(data[0].contact.email)
       }
 
-      setcontactpersoncontact(data[0]?.party?.contact)
+      setcontactpersoncontact(data[0]?.contact?.mobno)
+      setmcode(data[0]?.contact?.mcode)
       // console.log(data[0])
       var item = data[0].party?.party_division?.find(item => item.div_id === 75);
       setvendor_id(data[0]?.party?.vendor_id)
@@ -1231,7 +1233,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
                         <span style={{ fontWeight: 1000 }}>CONTACT NUMBER</span><br></br>
-                        {contactpersoncontact ? contactpersoncontact : "--"}
+                        {contactpersoncontact ? (mcode!==null?"+"+mcode:"")+" "+contactpersoncontact : "--"}
 
                       </Grid>
                       <Grid className="pl-2 pb-4" xs={2}>

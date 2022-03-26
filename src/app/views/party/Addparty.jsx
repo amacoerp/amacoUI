@@ -368,7 +368,7 @@ const Addparty = ({ open, handleClose }) => {
                     onChange={e => setmobno(e.target.value)}
                     name="mobno"
                     type="text"
-                    inputProps={{ style: { width: 200, marginRight: 10 } }}
+                    inputProps={{ style: { width: 120, marginRight: 10 } }}
                     size="small"
                     variant="outlined"
                     value={mobno || ""}
@@ -405,7 +405,7 @@ const Addparty = ({ open, handleClose }) => {
                     autoComplete="none"
                     onChange={e => setlandline(e.target.value)}
                     name="landline"
-                    inputProps={{ style: { width: 200 } }}
+                    inputProps={{ style: { width: 120 } }}
                     size="small"
                     variant="outlined"
                     value={landline}
@@ -635,21 +635,7 @@ const Addparty = ({ open, handleClose }) => {
                     fullWidth
 
                   />
-                  <TextField
-                    className="ml-2"
-                    autoComplete="none"
-                    label="Ext."
-                    style={{ width: '180px' }}
-                    onChange={e => setfaxext(e.target.value)}
-                    name="fax"
-                    type="text"
-                    size="small"
-                    variant="outlined"
-                    value={faxext}
-                    fullWidth
-
-                  />
-
+                  
                   <TextField
                     className="ml-2"
                     label="Code"
@@ -687,6 +673,21 @@ const Addparty = ({ open, handleClose }) => {
 
 
                   />
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
+                    label="Ext."
+                    style={{ width: '180px' }}
+                    onChange={e => setfaxext(e.target.value)}
+                    name="fax"
+                    type="text"
+                    size="small"
+                    variant="outlined"
+                    value={faxext}
+                    fullWidth
+
+                  />
+
 
                 </div>
                 <div className="flex mb-4">
