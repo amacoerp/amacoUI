@@ -94,6 +94,9 @@ const Addparty = ({ open, handleClose }) => {
   const [contact, setcontact] = useState('');/*Holds the contact */
   const [contactcode, setcontactcode] = useState(+966);/*Holds the company contact country code */
   const [creditlimit, setcreditlimit] = useState(0);/*Holds the creditlimits */
+  const [mext, setmext] = useState('');/*Holds the creditlimits */
+  const [lext, setlext] = useState('');/*Holds the creditlimits */
+  const [ext, setext] = useState('');/*Holds the creditlimits */
   const [creditdays, setcreditdays] = useState(0);/*Holds the credit Days */
   const [partycode, setpartycode] = useState('');/*Holds the party code */
   const [account_no, setaccount_no] = useState('');/*Holds the account number */
@@ -140,14 +143,21 @@ const Addparty = ({ open, handleClose }) => {
       street: street ? street : '',
       proviance: proviance ? proviance : '',
       country: country ? country : '',
-      contact: contact ? contactcode + contact : '',
+      contact: contact ,
       zip_code: zip_code,
-      mobno: mobno ? mobnocode + mobno : '',
-      landline: landline ? landlinecode + landline : '',
+      mobno: mobno,
+      lcode: landlinecode,
+      mcode: mobnocode,
+      landline: landline,
       email: email,
       website: website,
       city: city ? city : "",
       fax: fax + "/" + faxext,
+      ext: ext,
+      lext: lext,
+      mext: mext,
+      mext: mext,
+      code: contactcode,
       fname: fname ? fname : "",
       lname: lname ? lname : "",
       designation: designation ? designation : "",
@@ -200,8 +210,8 @@ const Addparty = ({ open, handleClose }) => {
   const handleMultiselect = (index) => {
 
     var res = index.map((item, id) => {
-
-      item['vendor_code'] = 'AMC' + item.name.charAt(0);//Autogenerate vendor code
+     
+      item['vendor_code'] = 'AMC' + (item.name.charAt(0)=='T'?'-TRD':'-PR');//Autogenerate vendor code
       return item
     })
     console.log(res)
@@ -341,14 +351,14 @@ const Addparty = ({ open, handleClose }) => {
                 />
                 <div className="flex mb-4">
                   <TextField
-                    className="mr-2"
+                    className=""
                     autoComplete="none"
                     label="Code"
                     onChange={e => setmobnocode(e.target.value)}
                     name="mobno"
                     type="text"
                     size="small"
-                    style={{ width: '260px' }}
+                    style={{ width: '100px' }}
                     variant="outlined"
                     value={mobnocode}
                     // fullWidth
@@ -362,13 +372,13 @@ const Addparty = ({ open, handleClose }) => {
                   </TextField>
 
                   <TextValidator
-                    className="mr-2"
+                    className="ml-2"
                     label="Mobile Number"
                     autoComplete="none"
                     onChange={e => setmobno(e.target.value)}
                     name="mobno"
                     type="text"
-                    inputProps={{ style: { width: 120, marginRight: 10 } }}
+                    inputProps={{ style: { width: 80, marginRight: 10 } }}
                     size="small"
                     variant="outlined"
                     value={mobno || ""}
@@ -381,12 +391,26 @@ const Addparty = ({ open, handleClose }) => {
                   <TextField
                     className="ml-2"
                     autoComplete="none"
+                    label="Ext"
+                    onChange={e => setmext(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '50px' }}
+                    variant="outlined"
+                    value={mext}
+                    // fullWidth
+                    selected
+                  ></TextField>
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
                     label="Code"
                     onChange={e => setlandlinecode(e.target.value)}
                     name="mobno"
                     type="text"
                     size="small"
-                    style={{ width: '150px' }}
+                    style={{ width: '100px' }}
                     variant="outlined"
                     value={landlinecode || ""}
                     fullWidth
@@ -398,14 +422,14 @@ const Addparty = ({ open, handleClose }) => {
                       </MenuItem>
                     ))}
                   </TextField>
-
+                  
                   <TextValidator
                     className="ml-2"
                     label="Landline Number"
                     autoComplete="none"
                     onChange={e => setlandline(e.target.value)}
                     name="landline"
-                    inputProps={{ style: { width: 120 } }}
+                    inputProps={{ style: { width: 100 } }}
                     size="small"
                     variant="outlined"
                     value={landline}
@@ -415,6 +439,20 @@ const Addparty = ({ open, handleClose }) => {
                     errorMessages={["Number is not valid"]}
 
                   />
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
+                    label="Ext"
+                    onChange={e => setlext(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '50px' }}
+                    variant="outlined"
+                    value={lext}
+                    // fullWidth
+                    selected
+                  ></TextField>
                 </div>
                 <TextField
                   className="mb-4 w-full"
@@ -678,12 +716,12 @@ const Addparty = ({ open, handleClose }) => {
                     autoComplete="none"
                     label="Ext."
                     style={{ width: '180px' }}
-                    onChange={e => setfaxext(e.target.value)}
+                    onChange={e => setext(e.target.value)}
                     name="fax"
                     type="text"
                     size="small"
                     variant="outlined"
-                    value={faxext}
+                    value={ext}
                     fullWidth
 
                   />

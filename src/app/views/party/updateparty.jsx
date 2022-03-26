@@ -23,7 +23,17 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import useAuth from '../../hooks/useAuth';
 
-
+const telcode = [
+  { value: 91, label: "+91" },
+  { value: 973, label: "+973" },
+  { value: 965, label: "+965" },
+  { value: 961, label: "+961" },
+  { value: 968, label: "+968" },
+  { value: 974, label: "+974" },
+  { value: 966, label: "+966" },
+  { value: 971, label: "+971" },
+  { value: 967, label: "+967" },
+];
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const customerList = [
@@ -51,6 +61,8 @@ const SimpleForm = () => {
   const [regno, setregno] = useState('');
   const [opening_balnce, setopening_balnce] = useState('');
   const [fax, setfax] = useState('');
+  const [code, setcode] = useState('');
+  const [ext, setext] = useState('');
   const [city, setcity] = useState('');
   const [contact, setcontact] = useState('');
   const [partytype, setpartytype] = useState('');
@@ -116,6 +128,8 @@ const SimpleForm = () => {
       setaccount_no(data[0].account_no)
       setbank_name(data[0].bank_name)
       setiban_no(data[0].iban_no)
+      setext(data[0].ext)
+      setcode(data[0].code)
 
 
 
@@ -158,6 +172,8 @@ const SimpleForm = () => {
       proviance: proviance ? (proviance) : '',
       country: country ? (country) : '',
       contact: contact,
+      ext: ext,
+      code: code,
       zip_code: zip_code,
       website: website,
       city: city ? (city) : '',
@@ -185,7 +201,7 @@ const SimpleForm = () => {
 
     url.put("parties/" + id, frmdetails)
       .then(function (response) {
-
+        console.log('division',division)
         Swal.fire({
           title: 'Success',
           type: 'success',
@@ -206,7 +222,7 @@ const SimpleForm = () => {
     setfilterArr(index)
     var res = index.map((item, id) => {
 
-      item['vendor_code'] = 'AMC' + item.name.charAt(0);
+      item['vendor_code'] = 'AMC' + (item.name.charAt(0)=='T'?'-TRD':'-PRD');
       return item
     })
     //  console.log(res)
@@ -551,6 +567,7 @@ const SimpleForm = () => {
                     className="mr-2"
                     label="Fax"
                     onChange={e => setfax(e.target.value)}
+                    style={{ width: '120px' }}
                     name="fax"
                     type="text"
                     size="small"
@@ -559,6 +576,27 @@ const SimpleForm = () => {
                     fullWidth
 
                   />
+                  <TextField
+                    className=""
+                    autoComplete="none"
+                    label="Code"
+                    onChange={e => setcode(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '100px' }}
+                    variant="outlined"
+                    value={code}
+                    // fullWidth
+                    select
+                  >
+                    {telcode.map((item, ind) => (
+                      <MenuItem value={item.value} key={item}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
                   <TextValidator
                     className="ml-2"
                     label="Contact"
@@ -567,12 +605,26 @@ const SimpleForm = () => {
                     type="text"
                     size="small"
                     variant="outlined"
-                    inputProps={{ style: { width: 300, paddingRight: 50 } }}
+                    inputProps={{ style: { width: 180, paddingRight: 50 } }}
                     value={contact}
                     validators={['isNumber']}
                     errorMessages={["Number is not valid"]}
 
                   />
+                  <TextField
+                    className="ml-2"
+                    autoComplete="none"
+                    label="Ext"
+                    onChange={e => setext(e.target.value)}
+                    name="mobno"
+                    type="text"
+                    size="small"
+                    style={{ width: '80px' }}
+                    variant="outlined"
+                    value={ext}
+                    // fullWidth
+                    selected
+                  ></TextField>
                 </div>
                 <div className="flex mb-4">
                   <CurrencyTextField

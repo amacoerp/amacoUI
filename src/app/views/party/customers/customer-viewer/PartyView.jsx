@@ -93,7 +93,7 @@ const PartyInfo = ({ ids }) => {
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Contact</TableCell>
-            <TableCell>{userList.contact}</TableCell>
+            <TableCell>+{userList.code} {userList.contact}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Website URL</TableCell>
