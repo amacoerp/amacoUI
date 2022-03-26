@@ -70,6 +70,11 @@ const PartyInfo = ({ ids }) => {
             <TableCell className="pl-4">P.O Box</TableCell>
             <TableCell>{userList.post_box_no}</TableCell>
           </TableRow>
+
+          <TableRow>
+            <TableCell className="pl-4">Building Number</TableCell>
+            <TableCell>{userList.building_no}</TableCell>
+          </TableRow>
           <TableRow>
             <TableCell className="pl-4">Street</TableCell>
             <TableCell>{userList.street}</TableCell>

@@ -386,7 +386,7 @@ const SimpleMuiTable = ({ logData, alive, setAlive }) => {
                 ++index,
                 item.name,
                 item.email,
-                item.designation,
+                item.designationsN,
                 item.role_name,
                 item.contact,
                 item.id,

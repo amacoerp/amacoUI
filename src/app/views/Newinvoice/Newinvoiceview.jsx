@@ -209,6 +209,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const componentRef = useRef();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+
+
+
   const [qrValue, setQrValue] = useState("");
 
   const [pageNumber, setPageNumber] = useState([]);
@@ -284,6 +287,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const [vatExclude,setVatExclude] = useState(false);
 
+  const [buildNumber,setBuildNumber] = useState('');
+  const [post_box_no,setpost_box_no] = useState('');
+
   useEffect(() => {
     myFunction();
     // translate('Ik spreek Engels', {to: 'en'}).then(res => {
@@ -309,6 +315,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setVatExclude(parseInt(data[0].exclude_from_vat) ? true : false)
         setpodetails(data[0].invoice_detail)
         setcompany(data[0].party?.firm_name)
+
+      setBuildNumber(data[0]?.party?.building_no)
+      setpost_box_no(data[0]?.party?.post_box_no)
+
         setcname_ar(data[0].party?.firm_name_in_ar)
         setcity(data[0].party?.city)
         setstreet(data[0].party?.street)
@@ -1048,7 +1058,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-0 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" xs align="right">
                         <span style={{ fontWeight: 1000 }}>
@@ -1056,7 +1066,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           رقم أمر الشراء
                         </span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid
                         className="pl-2 pb-4 pr-2"
@@ -1087,7 +1097,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {street
+                        { buildNumber ? (buildNumber +', ') : ''}{street
                           ? street +
                             (city
                               ? "," + city + (zipcode ? "," + zipcode : " ")
@@ -1098,12 +1108,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           ? city + (zipcode ? " ," + zipcode : " ")
                           : zipcode
                           ? zipcode
-                          : " "}
+                          : " "}{post_box_no ? (' ,'+post_box_no) : ''}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                         <br></br>
-                        {vatno}
+                        {vatno ? vatno : '---'}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}> رقم ضريبة</span>
@@ -1112,7 +1122,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         toArabic(vatno) == null ||
                         toArabic(vatno) == undefined ||
                         toArabic(vatno) == "undefined"
-                          ? "--"
+                          ? "---"
                           : toArabic(vatno)}
                       </Grid>
                       <Grid
