@@ -78,6 +78,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   // const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState('');
   const [contactname, setcontactname] = useState('');
+  const [po_number, setpo_number] = useState('');
 
   const [party_id, setparty_id] = useState(0);
   const [rfq_details, setrfqdetails] = useState([]);
@@ -124,6 +125,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'));
   const [transport, settransport] = useState('0.00')
   const [other, setother] = useState('0.00')
+  const [quote_status, setquote_status] = useState('')
   const [
     shouldOpenConfirmationDialog,
     setShouldOpenConfirmationDialog,
@@ -991,7 +993,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
     formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-    formData.append('po_number', id)
+    formData.append('po_number', po_number)
     formData.append('party_id', party_id ? party_id : 0)
     formData.append('validity', validity)
     formData.append('warranty', warranty)
@@ -1038,9 +1040,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         })
           .then((result) => {
 
-            if (status == "New") {
+            if (quote_status.toUpperCase() == "NEW") {
               routerHistory.push(navigatePath + "/quote/" + response.data + "/New/"+t)
 
+            }
+            else if(quote_status.toUpperCase() == "ACCEPT")
+            {
+              routerHistory.push(navigatePath + "/quote/" + response.data + "/accept/"+t)
             }
             else {
               routerHistory.push(navigatePath + "/quoateview/4")
@@ -1164,6 +1170,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       
       setinco_terms(data?.sales?.inco_terms)
+      setpo_number(data?.sales?.po_number)
+      setquote_status(data?.sales?.status)
       setcname(data?.sales?.party?.firm_name)
       setcontactname(data?.sales?.contact?.fname);
       setdiscounts(data?.sales?.discount_in_p)
@@ -1449,7 +1457,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
-                <Button
+                {quote_status=="accept"&&(<Button
                   // type="submit"
                   className="mr-4 py-2"
                   variant="outlined"
@@ -1458,7 +1466,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   onClick={() => handleSubmit('draft')}
                 >
                   <Icon>drafts</Icon> DRAFT
-                </Button>
+                </Button>)}
 
                 <Button
                   // type="submit"
@@ -1676,11 +1684,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </MuiPickersUtilsProvider>
               </Grid>
             </Grid>
-            <div className="pl-4">
+            <div className="pl-4 pt-4 flex">
               <h5 className="font-normal capitalize">
                 {/* <strong>Subject: </strong>{" "} */}
 
               </h5>
+              <div>
               <TextValidator
                 label="Subject"
                 className="mb-4"
@@ -1693,7 +1702,23 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 value={subject == "null" || subject == null ? null : subject}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              /></div>
+              />
+              </div><div>
+               <TextValidator
+                label="P.O. Number"
+                className="mb-4 pl-2"
+                type="text"
+                variant="outlined"
+                size="small"
+                style={{ width: 300 }}
+                onChange={e => setpo_number(e.target.value)
+                }
+                value={po_number}
+                // validators={["required"]}
+                // errorMessages={["this field is required"]}
+              />
+              </div>
+              </div>
             <Divider />
 
             <Table className="mb-4">
