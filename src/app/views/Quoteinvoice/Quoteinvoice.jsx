@@ -191,7 +191,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // }, 5000);
   };
   function cancelform() {
-    routerHistory.push(navigatePath + `/quote/${id}/accept`)
+    // quote/37/accept/2
+    routerHistory.push(navigatePath + `/quote/${id}/accept/2`)
   }
 
   useEffect(() => {
@@ -548,9 +549,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           inputProps={{ style: { textTransform: 'capitalize' } }}
                           value={localStorage.getItem('division') == 3 ? item ? item.descriptionss : null : item ? item.description : null}
-                          validators={["required"]}
+                          // validators={["required"]}
                           multiline
-                          errorMessages={["this field is required"]}
+                          // errorMessages={["this field is required"]}
                         />
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left">

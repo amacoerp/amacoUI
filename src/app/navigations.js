@@ -202,6 +202,10 @@ export const navigations = [
         name: "MODULES",
         path: navigatePath + "/modules",
       },
+      {
+        name: "NOTIFICATION",
+        path: navigatePath + "/noti",
+      },
     ],
   },
 
