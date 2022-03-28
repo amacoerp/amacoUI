@@ -305,6 +305,27 @@ const AcceptQuote = () => {
         })
       },
     },
+    {
+      name: "name",
+      label: "Quote Date",
+      options: {
+        customHeadRender: ({ index, ...column }) => {
+          return (
+            <TableCell key={index} style={quotedate} textAlign="center">
+              <span>PO Number</span>
+            </TableCell>
+          )
+        },
+        setCellProps: () => ({
+          align: "center",
+          // width:600,
+          wordWrap: 'break',
+          style:{
+            color:'green'
+          }
+        })
+      },
+    },
     // {
     //   name: "require_date",
     //   label: "AMOUNT",
@@ -370,7 +391,7 @@ const AcceptQuote = () => {
 
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
-              <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/accept/2"}>
+              <Link to={navigatePath + "/quote/" + tableMeta.rowData[7] + "/accept/2"}>
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -443,6 +464,7 @@ const AcceptQuote = () => {
               item?.party?.firm_name,
               item?.subject == "null" || item?.subject == "" || item?.subject == null  ? '--' : item?.subject,
               moment(item?.created_at).format('DD MMM YYYY'),
+              item?.po_number ? item?.po_number : '--',
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id
               // item.party[index].firm_name,
