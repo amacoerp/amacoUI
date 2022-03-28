@@ -4,6 +4,11 @@ import { navigatePath } from "../invoice/InvoiceService";
 
 const dashboardRoutes = [
   {
+    path: navigatePath + "/dashboard/alternative/:d",
+    component: React.lazy(() => import("./Analytics")),
+    // auth: authRoles.sa,
+  },
+  {
     path: navigatePath + "/dashboard/alternative",
     component: React.lazy(() => import("./Analytics")),
     // auth: authRoles.sa,

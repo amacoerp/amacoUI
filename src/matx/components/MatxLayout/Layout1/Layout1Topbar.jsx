@@ -23,6 +23,7 @@ import history from "history.js";
 import FormDialog from "../../../../app/views/sessions/login/changepassword";
 import MemberEditorDialog from "../../../../app/views/sessions/login/changepassword";
 import url, { navigatePath } from "app/views/invoice/InvoiceService";
+import Analytics from "app/views/dashboard/Analytics";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   topbar: {
@@ -141,7 +142,8 @@ const Layout1Topbar = () => {
     localStorage.setItem("division", div_id);
     // window.location.reload();
 
-    routerHistory.push("/dashboard/alternative");
+     routerHistory.push("/dashboard/alternative/");
+   
     // routerHistory.push('/dashboard/alternative');
   };
 

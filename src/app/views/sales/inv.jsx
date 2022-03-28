@@ -120,7 +120,7 @@ const SimpleMuiTable = () => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
       if (isAlive) setUserList(data);
-
+      
       if (data.length) {
 
         setpoid(data[0].id)

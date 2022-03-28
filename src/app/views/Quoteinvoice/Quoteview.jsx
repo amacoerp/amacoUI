@@ -676,7 +676,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
     url.post(`updateQuotestatus`, formData)
       .then(res => {
 
-        // console.log(res.data)
+        console.log(res)
         if (res.data.msg) {
           setmessage(true)
           handleClicks({ vertical: "top", horizontal: "center" })

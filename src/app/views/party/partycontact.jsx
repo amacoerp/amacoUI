@@ -249,9 +249,9 @@ const MemberEditorDialog = ({ uid, open, handleClose, contactid, customercontact
           <TextValidator
             className="w-full mb-4"
             label="Last Name"
-            inputProps={{ required:true, style: { textTransform: 'capitalize' } }}
+            inputProps={{  style: { textTransform: 'capitalize' } }}
             size="small"
-            required={true}
+            // required={true}
             variant="outlined"
             onChange={e => setlname(e.target.value)
 

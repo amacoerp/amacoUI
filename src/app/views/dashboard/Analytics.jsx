@@ -21,10 +21,12 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { useParams } from "react-router-dom";
+
 // import { TreeItem } from "@material-ui/lab";
 // import { TextField } from "@material-ui/core";
 
-const months = [
+let months = [
   {
     name: "Jan",
     count: 0,
@@ -124,6 +126,7 @@ const receipt_months = [
     count: 0,
   },
 ];
+
 const Analytics = () => {
   
   const [invoiceData, setinvoiceData] = useState([]);
@@ -133,7 +136,8 @@ const Analytics = () => {
   const [receiptData, setreceiptData] = useState([]);
   const [dataReceipt, setdataReceipt] = useState([]);
   const [stackData, setStackData] = useState([]);
-
+  const [monthss, setmonthss] = useState(months);
+  const { d }=useParams()
   // var obj;
   // var parentData;
   const styles = (theme) => ({
@@ -148,14 +152,15 @@ const Analytics = () => {
     
       
       
-      console.log(months)
-     async function callFun(){
-      // await receiptFun(data?.receipt, date);
-       invoiceFun(data,date,months);
-      // setreceiptData(data?.receipt);
-      // setresponseData(data)
-     }
-      callFun()  
+  
+      
+        receiptFun(data?.receipt, date)
+        invoiceFun(data?.invoice,date,months);
+        setreceiptData(data?.receipt);
+        setresponseData(data?.invoice)
+       
+     
+     
    
       
       
@@ -163,13 +168,14 @@ const Analytics = () => {
 
      
     });
+  // return localStorage.getItem('division')
 
     
-  }, [localStorage.getItem("division")]);
+  }, [localStorage.getItem('division')]);
 
   /*Function to calculate the monthly wise receipt amount */
   async function receiptFun(data, date) {
-    
+    setdataReceipt([])
     var receipt = await data.filter(
       (obj) => obj.division_id == localStorage.getItem("division")
     );//division wise filter the array object
@@ -232,14 +238,14 @@ const Analytics = () => {
   /*Function to calculate the monthly wise Invoice amount */
   async function  invoiceFun(data,i,m){
     
-   console.log(m)
-        
+  
+       
     
-    const dataList =  data?.invoice?.filter(
+    var dataList =  data?.filter(
       (obj) => obj.div_id == localStorage.getItem("division")
     );//division wise filter the array object
    
-    const result = dataList
+    var result = dataList
       .filter(
         (obj) =>
           moment(obj.issue_date).format("YYYY") ==
@@ -265,28 +271,28 @@ const Analytics = () => {
       });
     
       /*filter the array based on the invoice number */
-   const Due = result.filter(
+      var Due = result.filter(
       (ele, ind) =>
         ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
     );
-   console.log(m)
+   
     /*return the month if the there is a sales in the month List */
 
 
-    const finalResult = m.filter(el => {
 
-      return Due.find(element => {
+    var finalResult = monthss.filter(el => {
+
+      return Due.map(element => {
        
          if(el.name == element.month)
          {
-           return el['count']=element.count
+            return el['count']=element.count
          }
-         else
-         {
-           return el['count']=0
-         }
+         
       });
    });
+   
+  
   
 
 
@@ -301,9 +307,10 @@ const Analytics = () => {
        
     //   });
     // });
+    
    
   
-    const finalArray = finalResult.map(function (obj) {
+    var finalArray = finalResult.map(function (obj) {
       return obj?.count ? obj?.count : 0;
     });
 
@@ -316,7 +323,7 @@ const Analytics = () => {
       
       setinvoiceData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
-    
+    setmonthss(months)
   }
   // const handleChange = (i) => {
     
@@ -438,9 +445,9 @@ const Analytics = () => {
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format("YYYY"));
-                  // invoiceFun(responseData,date)
+                  invoiceFun(responseData,date)
                   // handleChange(moment(date).format("YYYY"));
-                  // receiptFun(receiptData, date);
+                  receiptFun(receiptData, date);
                   // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                   // receiptFun(receiptData,moment(date).format('YYYY'))
                 }}

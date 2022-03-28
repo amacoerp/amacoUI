@@ -383,7 +383,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           size="small"
                           multiline
                           fullWidth
-                          value={localStorage.getItem('division') == 1 ? item ? item.description : null : item ? item.descriptionss : null}
+                          value={ item?.descriptionss }
                         // validators={["required"]}
                         // errorMessages={["this field is required"]}
                         />

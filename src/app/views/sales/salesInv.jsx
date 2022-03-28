@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import moment from "moment";
 
 export default function salesInv({podetails,columns}) {
+  console.log(podetails)
   return (
     <div>
       <MUIDataTable
@@ -10,6 +11,7 @@ export default function salesInv({podetails,columns}) {
         data={podetails
           .filter((obj) => obj.div_id == localStorage.getItem("division"))
           .map((item, index) => {
+            
             return [
               ++index,
               item?.invoice_no,
