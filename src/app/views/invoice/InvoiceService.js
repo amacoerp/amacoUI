@@ -40,11 +40,11 @@ export const getInvoice = () => {
 };
 
 const url = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+  baseURL: "http://127.0.0.1:8000/api/",
   // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
   //  baseURL: "http://18.210.239.86/test/amaco/public/api/",
   // baseURL: "http://18.210.239.86/amaco/public/api/",
-    // baseURL: "http://www.amacoerp.com/amaco/public/api/",
+    //  baseURL: "http://www.amacoerp.com/amaco/public/api/",
   //  timeout: 1000,
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });

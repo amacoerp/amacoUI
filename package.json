@@ -155,6 +155,8 @@
     "customize-cra": "^0.9.1",
     "eslint-plugin-react-hooks": "0.0.0-8d7535e54",
     "gh-pages": "^2.1.1",
+    "laravel-echo": "^1.11.4",
+    "pusher-js": "^7.0.6",
     "react-app-rewired": "^2.1.6"
   }
 }

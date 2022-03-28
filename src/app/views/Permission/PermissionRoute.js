@@ -9,6 +9,12 @@ const PermissionRoute = [
       import("./MainPage")
     ),
   },
+  {
+    path: navigatePath+"/noti",
+    component: React.lazy(() =>
+      import("./Noti")
+    ),
+  },
 
 ];
 
