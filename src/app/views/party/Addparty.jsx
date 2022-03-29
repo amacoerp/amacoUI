@@ -190,6 +190,7 @@ const Addparty = ({ open, handleClose }) => {
 
       .then(function (response) {
 
+       if(localStorage.getItem('role') == 'SA'){
         Swal.fire({
           title: 'Success',
           type: 'success',
@@ -200,6 +201,18 @@ const Addparty = ({ open, handleClose }) => {
             getparties()
             routerHistory.push(navigatePath + '/party/viewparty')
           })
+       }else{
+        Swal.fire({
+          title: 'Success',
+          type: 'success',
+          icon: 'success',
+          text: 'Super Admin Verification Required.',
+        })
+          .then((result) => {
+            getparties()
+            routerHistory.push(navigatePath + '/party/viewparty')
+          })
+       }
       })
       .catch(function (error) {
 
