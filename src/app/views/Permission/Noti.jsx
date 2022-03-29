@@ -1,30 +1,23 @@
-// import React from 'react'
-// import { useEffect } from 'react';
+
+import React from 'react'
 // import Pusher from 'pusher-js';
 
-// export default function Noti() {
-
-//     useEffect(()=>{
-//         var pusher = new Pusher("Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=", {
-//             cluster: "ap2",
-//             encrypted: true,
-//           });
-     
-//           var channel = pusher.subscribe("notifyChannel");
-//            channel.bind("notifyChannel", async function (response) {
-//                alert('some notification');
-//            })
-//     },[])
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-import React from 'react'
 
 export default function Noti() {
+
+//   Pusher.logToConsole = true;
+
+// var pusher = new Pusher('76b5d8513b2ab0b9930c', {
+//   cluster: 'ap2'
+// });
+
+// var channel = pusher.subscribe('notification');
+// channel.bind('notification-event', function(data) {
+//   alert(JSON.stringify(data));
+// });
+
   return (
+    
     <div>
       
     </div>

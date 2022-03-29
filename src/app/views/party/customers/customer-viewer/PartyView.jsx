@@ -8,7 +8,7 @@ import {
   Card,
   Divider,
   // Grid,
-  // Icon,
+  Icon,
   Table,
   TableBody,
   // IconButton,
@@ -17,38 +17,45 @@ import {
 } from "@material-ui/core";
 // import FormDialog from "../../partycontact"
 // import MemberEditorDialog from "../../partycontact"
-import url from "../../../invoice/InvoiceService"
+import url from "../../../invoice/InvoiceService";
 
-
-const PartyInfo = ({ ids }) => {
+const PartyInfo = ({ ids,setVerify,verify }) => {
   let search = window.location.search;
   let params = new URLSearchParams(search);
-  const foo = parseInt(params.get('id'));
+  const foo = parseInt(params.get("id"));
   const [userList, setUserList] = useState(false);
 
   useEffect(() => {
-
-
     url.get("parties/" + ids).then(({ data }) => {
       setUserList(data[0]);
-
+      setVerify(parseInt(data[0]?.status) ? true : false)
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-
-
   return (
-
     <Card className="pt-6" elevation={3}>
       <div className="flex-column items-center mb-6">
         {/* <Avatar className="w-84 h-84" src="/assets/images/faces/10.jpg" /> */}
-        <h3 className="mt-4 mb-2">{userList.firm_name}</h3>
 
-        <small className="text-muted"><h5><strong>Registration Number:</strong>{userList.registration_no}</h5></small>
-        <small className="text-muted"><h5><strong>VAT Number:</strong>{userList.vat_no}</h5></small>
+        <h3 className="mt-4 mb-2">
+          {userList.firm_name}{" "}
+          {verify ? <Icon color="primary">verified</Icon> :''}
+        </h3>
+
+        <small className="text-muted">
+          <h5>
+            <strong>Registration Number:</strong>
+            {userList.registration_no}
+          </h5>
+        </small>
+        <small className="text-muted">
+          <h5>
+            <strong>VAT Number:</strong>
+            {userList.vat_no}
+          </h5>
+        </small>
         <div className="flex-row">
           <small className="text-white bg-green border-radius-4 px-2 py-2px">
             Credit Limit: <strong>{userList.credit_limit}</strong>
@@ -62,10 +69,6 @@ const PartyInfo = ({ ids }) => {
       <Divider />
       <Table className="mb-4">
         <TableBody>
-
-
-
-
           <TableRow>
             <TableCell className="pl-4">P.O Box</TableCell>
             <TableCell>{userList.post_box_no}</TableCell>
@@ -98,7 +101,9 @@ const PartyInfo = ({ ids }) => {
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Contact</TableCell>
-            <TableCell>+{userList.code} {userList.contact}</TableCell>
+            <TableCell>
+              +{userList.code} {userList.contact}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Website URL</TableCell>
@@ -112,15 +117,10 @@ const PartyInfo = ({ ids }) => {
             <TableCell className="pl-4">Payment Term</TableCell>
             <TableCell>{userList?.payment_term}</TableCell>
           </TableRow>
-
-
         </TableBody>
       </Table>
-
     </Card>
   );
 };
-
-
 
 export default PartyInfo;

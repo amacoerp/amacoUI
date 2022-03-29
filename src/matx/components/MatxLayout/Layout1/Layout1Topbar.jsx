@@ -111,15 +111,25 @@ const Layout1Topbar = () => {
     });
   };
 
+  const [cIcon,setCIcon] = useState(false)
+
   const handleSidebarToggle = () => {
     let { layout1Settings } = settings;
     let mode;
 
     if (isMdScreen) {
+     
       mode = layout1Settings.leftSidebar.mode === "close" ? "mobile" : "close";
     } else {
+      
       mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
     }
+    if(mode == 'full'){
+      setCIcon(false)
+    }else{
+      setCIcon(true)
+    }
+   
 
     updateSidebarMode({ mode });
   };
@@ -163,7 +173,8 @@ const Layout1Topbar = () => {
               onClick={handleSidebarToggle}
               className="pr-4"
             >
-              <Icon name="toggle">menu</Icon>
+              {cIcon ? <Tooltip title='Maximized'><Icon name="toggle">zoom_in_map</Icon></Tooltip>:  <Tooltip title='Minimized'><Icon name="toggle">zoom_out_map</Icon></Tooltip> }
+             
             </IconButton>
 
             <div
@@ -214,7 +225,7 @@ const Layout1Topbar = () => {
             {/* <MatxSearchBox /> */}
           
          
-                        {/* <NotificationBar /> */}
+                        <NotificationBar />
                   
              
              

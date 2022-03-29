@@ -8,7 +8,7 @@ import url, { navigatePath, urlphp } from "../../../invoice/InvoiceService"
 import { useHistory } from 'react-router';
 
 
-const CustomerActions = ({ ids }) => {
+const CustomerActions = ({ ids,setVerif }) => {
   const routerHistory = useHistory();
 
   let search = window.location.search;
@@ -67,6 +67,7 @@ const CustomerActions = ({ ids }) => {
         'success'
       )
       setVerify(1)
+      setVerif(true)
       // routerHistory.push(navigatePath + '/pages/view-customer/'+ids)
 
     })
@@ -106,12 +107,12 @@ const CustomerActions = ({ ids }) => {
           </Button>
 
           {localStorage.getItem('role') == 'SA' && (  verify ? <>
-            <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }}>
+            {/* <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }}>
             <Icon className="mr-2" fontSize="small">
               done
             </Icon>{" "}
             VERIFYED
-          </Button>
+          </Button> */}
           </> : <>
           <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }} onClick={() => verifyParty(ids)}>
             <Icon className="mr-2" fontSize="small">
