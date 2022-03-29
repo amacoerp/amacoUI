@@ -120,7 +120,22 @@ const Addparty = ({ open, handleClose }) => {
 
   const [alllPartyDivisons,setAlllPartyDivisons] = useState([])
 
+  const [vatList,setVatList] = useState([])
+  const [regList,setRegist] = useState([])
+
   useEffect(() => {
+
+    url.get(`validationParty`).then(({ data }) => {
+      var regNo = data?.map((item)=>{
+        return item?.registration_no?.toUpperCase()
+      })
+      var vatNo = data?.map((item)=>{
+        return item?.vat_no?.toUpperCase()
+      })
+      setVatList(vatNo?.filter(Boolean))
+      setRegist(regNo?.filter(Boolean))
+    });
+
 
     /*getpaidDivision Function Returns the DivisionList*/
     getpaidDivision().then(({ data }) => {
@@ -134,7 +149,30 @@ const Addparty = ({ open, handleClose }) => {
 
   /*HandleSubmit  Function Submits the Data */
   const handleSubmit = () => {
-    setState({ ...state, loading: true });//disable the SAVE Button
+    // setState({ ...state, loading: true });//disable the SAVE Button
+
+    if(vatList?.includes(vat_no?.toUpperCase())){
+      Swal.fire({
+        title: 'Warning',
+        type: 'warning',
+        icon: 'warning',
+        text: 'Party VAT Number is Already Existed.',
+      })
+        .then((result) => {
+        
+        })
+    }else if(regList?.includes(regno?.toUpperCase())){
+      Swal.fire({
+        title: 'Warning',
+        type: 'warning',
+        icon: 'warning',
+        text: 'Party Commercial Register Number is Already Existed.',
+      })
+        .then((result) => {
+        
+        })
+    }else{
+
     /*creating the frmdetails object*/
     const frmdetails = {
       firm_name: Firm_Name ? Firm_Name.toUpperCase() : '',
@@ -186,7 +224,7 @@ const Addparty = ({ open, handleClose }) => {
 
 
 
-    url.post('parties', frmdetails)
+    url.post('partdsies', frmdetails)
 
       .then(function (response) {
 
@@ -219,6 +257,9 @@ const Addparty = ({ open, handleClose }) => {
       })
 
     resetform()
+    }
+
+
 
   }
   /*Function to generate the vendor code based on division selection*/
