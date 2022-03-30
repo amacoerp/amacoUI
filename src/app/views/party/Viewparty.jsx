@@ -85,10 +85,6 @@ const SimpleMuiTable = () => {
       if (isAlive) setUserList(data);
 
     });
-
-
-
-
     return () => setIsAlive(false);
   }, [isAlive]);
 

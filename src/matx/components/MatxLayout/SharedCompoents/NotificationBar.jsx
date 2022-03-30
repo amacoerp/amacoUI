@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import Pusher from "pusher-js";
 
 import {
   Icon,
@@ -58,6 +59,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const NotificationBar = ({ container }) => {
   const [panelOpen, setPanelOpen] = React.useState(false);
 
+  const [isAlive, setIsAlive] = useState(true);
+
   const classes = useStyles();
   const { settings } = useSettings();
   const { deleteNotification, clearNotifications, notifications } =
@@ -79,26 +82,58 @@ const NotificationBar = ({ container }) => {
   //   if(count > 0){
   //     callFunction();
   //   }
-   
+
   // }, 5000);
+  // Pusher.logToConsole = true;
+  if(localStorage.getItem('role') == 'SA'){
+    var pusher = new Pusher("76b5d8513b2ab0b9930c", {
+      cluster: "ap2",
+    });
+    var channel = pusher.subscribe("notification");
+    channel.bind("notification-event", function (data) {
+      setIsAlive(true);
+      // console.log(JSON.stringify(data));
+    });
+  }
+
+  const clearNotification = () =>{
+    if(localStorage.getItem('role') == 'SA'){
+      url.delete("clearNotification/sa").then(({ data }) => {
+        setNotificationss([]);
+      });
+    }else{
+      url.delete("clearNotification/"+localStorage.getItem('user_id')).then(({ data }) => {
+        setNotificationss([]);
+      });
+    }
+    
+  }
+
+ 
+  
 
   useEffect(() => {
-      url.get("getNotifications").then(({ data }) => {
-        setCount(parseInt(data?.count));
-        if (localStorage.getItem("role") == "SA") {
-          setNotificationss(data?.noti);
-        } else {
-          let n = data?.noti?.map((item) => {
-            return item.user_id;
-          });
-          if (n[0].includes(localStorage.getItem("user_id"))) {
-            setNotificationss(
-              data?.noti?.filter((obj) => { obj.n_for !== 'SA' && obj.user_id.includes(localStorage.getItem("user_id"))})
-            );
-          }
+    url.get("getNotifications").then(({ data }) => {
+      setCount(parseInt(data?.count));
+      if (localStorage.getItem("role") == "SA") {
+        setNotificationss(data?.noti);
+      } else {
+        let n = data?.noti?.map((item) => {
+          return item.user_id;
+        });
+        if (n[0]?.includes(localStorage.getItem("user_id"))) {
+          setNotificationss(
+            data?.noti?.filter((obj) => {
+              obj.n_for !== "SA" &&
+                obj.user_id.includes(localStorage.getItem("user_id"));
+            })
+          );
         }
-      });
-  }, []);
+      }
+    });
+
+    setIsAlive(false);
+  }, [isAlive]);
 
   return (
     <Fragment>
@@ -140,7 +175,7 @@ const NotificationBar = ({ container }) => {
                     clear
                   </Icon>
                 </IconButton> */}
-                {/* <Link to={`/${notification.path}`} onClick={handleDrawerToggle}> */}
+                <Link to={`${notification.path}`} onClick={handleDrawerToggle}>
                 <Card className="mx-4 mb-6" elevation={3}>
                   <div className="card__topbar flex items-center justify-between p-2 bg-light-gray">
                     <div className="flex items-center">
@@ -164,20 +199,20 @@ const NotificationBar = ({ container }) => {
                   <div className="px-4 pt-2 pb-4">
                     <p className="m-0">{notification.title}</p>
                     <small className="text-muted">
-                      {notification.subtitle}
+                      {notification.notification}
                     </small>
                   </div>
                 </Card>
-                {/* </Link> */}
+                </Link>
               </div>
             ))}
-            {/* {!!notificationss?.length && (
+            {!!notificationss?.length && (
               <div className="text-center">
-                <Button onClick={clearNotifications}>
+                <Button onClick={()=>{clearNotification()}}>
                   Clear Notifications
                 </Button>
               </div>
-            )} */}
+            )}
           </div>
         </Drawer>
       </ThemeProvider>

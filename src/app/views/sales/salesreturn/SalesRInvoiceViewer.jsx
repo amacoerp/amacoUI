@@ -862,8 +862,12 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <br></br>
                             {party[0]?.firm_name}
                             <br />
+                            {party[0]?.building_no && party[0]?.building_no}{" "}
+                            {party[0]?.post_box_no && party[0]?.post_box_no}{" "}
                             {party[0]?.street && party[0]?.street}{" "}
                             {party[0]?.city && "," + party[0]?.city}{" "}
+                            {party[0]?.zip_code && "," + party[0]?.zip_code}{" "}
+                            {party[0]?.country && "," + party[0]?.country}{" "}
                             {party[0]?.po_no && "-" + party[0]?.po_no}
                           </div>
                           <div className="pl-2 pb-4">

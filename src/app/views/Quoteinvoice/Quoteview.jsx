@@ -388,6 +388,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
   const [buildNumber,setBuildNumber] = useState('');
   const [post_box_no,setpost_box_no] = useState('');
+  const [country,setcountry] = useState('');
 
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
@@ -424,6 +425,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
       setcity(data[0]?.party?.city)
      
       setBuildNumber(data[0]?.party?.building_no)
+      setcountry(data[0]?.party?.country)
       setpost_box_no(data[0]?.party?.post_box_no)
       setstreet(data[0]?.party?.street)
       setzipcode(data[0]?.party?.zip_code)
@@ -1215,7 +1217,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     <Grid container spacing={3} className="p-4">
                       <Grid className="pl-2 pb-0" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span><br></br>
-                         { buildNumber ? (buildNumber +', ') : ''}{street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}{post_box_no ? (' ,'+post_box_no) : ''}
+                         { buildNumber ? (buildNumber +', ') : ''}{street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}{post_box_no ? (' ,'+post_box_no) : ''}{country ? ' ,'+ country : ''}
 
 
                       </Grid>

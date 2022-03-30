@@ -1,14 +1,14 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { Button, Card, Divider, Icon } from "@material-ui/core";
 // import { GetApp } from "@material-ui/icons";
 import Swal from "sweetalert2";
 import history from "history.js"
 // import Axios from "axios";
-import url, { navigatePath } from "../../../invoice/InvoiceService"
+import url, { navigatePath, urlphp } from "../../../invoice/InvoiceService"
 import { useHistory } from 'react-router';
 
 
-const CustomerActions = ({ ids }) => {
+const CustomerActions = ({ ids,setVerif }) => {
   const routerHistory = useHistory();
 
   let search = window.location.search;
@@ -56,6 +56,32 @@ const CustomerActions = ({ ids }) => {
     })
 
   }
+
+  const verifyParty = (id) => {
+    url.put(`verifyParty/${id}`)
+    .then(res => {
+
+      Swal.fire(
+        'Verified!',
+        'Party Has Been Verified.',
+        'success'
+      )
+      setVerify(1)
+      setVerif(true)
+      // routerHistory.push(navigatePath + '/pages/view-customer/'+ids)
+
+    })
+  }
+
+  const [verify,setVerify] = useState(0)
+
+  useEffect(()=>{
+    url.get(`checkVerifyParty/${ids}`).then(({ data }) => {
+    
+      setVerify(parseInt(data))
+    });
+  },[])
+
   return (
     <Card elevation={3}>
       <h5 className="p-4 m-0">ACTIONS</h5>
@@ -79,6 +105,23 @@ const CustomerActions = ({ ids }) => {
             </Icon>{" "}
             EDIT PARTY
           </Button>
+
+          {localStorage.getItem('role') == 'SA' && (  verify ? <>
+            {/* <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }}>
+            <Icon className="mr-2" fontSize="small">
+              done
+            </Icon>{" "}
+            VERIFYED
+          </Button> */}
+          </> : <>
+          <Button className="mr-4 py-2" variant="outlined" style={{ border: '1px solid #379c60', color: '#379c60' }} onClick={() => verifyParty(ids)}>
+            <Icon className="mr-2" fontSize="small">
+              done
+            </Icon>{" "}
+            VERIFY PARTY
+          </Button>
+          </> )}
+          
           <Button className="py-2 " variant="outlined" onClick={() => removeData(ids)} style={{ border: '1px solid #ff3d57', color: '#ff3d57' }}>
             <Icon className="mr-2" fontSize="small">
               delete

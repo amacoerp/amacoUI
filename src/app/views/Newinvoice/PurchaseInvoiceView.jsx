@@ -328,7 +328,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
   }
-
+ 
+  const [country,setCountry] = useState('');
 
   useEffect(() => {
     // myFunction()
@@ -352,6 +353,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setcompany(data[0].party?.firm_name)
         setcname_ar(data[0].party?.firm_name_in_ar)
         setcity(data[0].party?.city)
+        setCountry(data[0].party?.country)
         setstreet(data[0].party?.street)
         setzipcode(data[0].party?.zip_code)
         setpo(data[0].quotation ? data[0].quotation.po_number : data[0].po_number)
@@ -990,7 +992,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             ? city + (zipcode ? " ," + zipcode : " ")
                             : zipcode
                               ? zipcode
-                              : " "}
+                              : " "}{country ? ','+country : ''}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>

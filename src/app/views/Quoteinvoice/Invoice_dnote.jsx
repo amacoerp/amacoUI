@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useDynamicRefs from 'use-dynamic-refs';
+
 import {
   Button,
   Divider,
@@ -21,6 +23,7 @@ import url, { navigatePath } from "../invoice/InvoiceService";
 // expandable table
 import Swal from "sweetalert2";
 import moment from "moment";
+import { Autocomplete } from '@material-ui/lab';
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -182,6 +185,113 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     routerHistory.push(navigatePath + `/quote/${id}/accept`)
   }
 
+  let inputRef = [];
+  let priceRef = [];
+  let proRef = [];
+  const [getRef, setRef] = useDynamicRefs();
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
+    if(e.key === 'Enter' && !dropdown){
+     
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      let r;
+      if(localStorage.getItem('division') == 3){
+         r = ++i + 'descriptionss';
+      }else{
+         r = ++i + 'description';
+      }
+     
+      // console.log(r)
+        try {
+          // if (r.includes('product_id')) {
+            // inputRef[parseInt(++i)].focus();
+
+            console.log(getRef(r).current?.focus())
+          
+          // }
+        } catch (error) {
+         
+        }
+      //  inputRef[parseInt(r)].focus();
+    }
+
+
+    if (e?.keyCode == 39) {
+      if (nextid?.includes('product_id')) {
+        proRef[parseInt(nextid)].focus();
+      } else if (nextid?.includes('purch3ase_price')) {
+        priceRef[parseInt(nextid)].focus();
+      } else if (nextid == null) {
+        // if (e?.keyCode == 13) {
+
+        // }
+      } else {
+        console.log(getRef(nextid).current?.focus())
+      }
+    } else if (e?.keyCode == 38) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      if (--i >= 0) {
+        const r = i + a[1];
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_3price')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+        } else {
+          getRef(r).current.focus();
+        }
+
+      }
+
+    } else if (e?.keyCode == 40 && !dropdown) {
+      const a = id.split(parseInt(id));
+      let i = parseInt(id)
+      // if (++i) {
+      const r = ++i + a[1];
+      try {
+        if (r.includes('product_id')) {
+          proRef[parseInt(r)].focus();
+        } else if (r.includes('purchase_p3rice')) {
+          priceRef[parseInt(r)].focus();
+        } else if (r.includes('invoice_no')) {
+          inputRef[parseInt(r)].focus();
+
+          // inputRef.focus();
+        } else {
+          getRef(r).current.focus();
+        }
+      } catch (error) {
+        console.error('eror')
+        // addItemToInvoiceList(invoiceItemList);
+      }
+
+      // }
+
+    } else if (e?.keyCode == 37) {
+      if (prev == null) {
+
+      } else {
+        if (prev.includes('product_id')) {
+          proRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (prev.includes('purchase3_price')) {
+          priceRef[parseInt(prev)].focus();
+        } if (prev.includes('invoice_no')) {
+          inputRef[parseInt(prev)].focus();
+
+          // inputRef.focus();
+        } else if (false) {
+          priceRef[parseInt(prev)].focus();
+        } else {
+          // console.log(prev)
+          console.log(getRef(prev)?.current?.focus())
+        }
+      }
+    }
+  }
 
 
   useEffect(() => {
@@ -201,6 +311,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       });
 
     });
+
+
+
+
+
 
     // url.get("products").then(({ data }) => {
     //   setproList(data)
@@ -242,7 +357,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     <div className="m-sm-30">
       <Card elevation={3}>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
+          <ValidatorForm autocomplete='off' onSubmit={handleSubmit} onError={(errors) => null}>
 
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
@@ -414,6 +529,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           inputProps={{ min: 0, style: { textAlign: 'center' } }}
                           fullWidth
                           variant="outlined"
+
                           size="small"
                           value={item.delivered_quantity ? item.delivered_quantity : 0}
                           validators={[
@@ -428,8 +544,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           label="delivery quantity"
                           onChange={(event) => handleIvoiceListChange(event, index)}
                           type="text"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'delivered_quantity', null, null, null) }}
 
-                          inputProps={{ min: -1, style: { textAlign: 'center' } }}
+                          inputProps={{  ref: setRef(index + 'delivered_quantity'),min: -1, style: { textAlign: 'center' } }}
                           name="delivering_quantity"
                           fullWidth
                           validators={["required", "isNumber"]}

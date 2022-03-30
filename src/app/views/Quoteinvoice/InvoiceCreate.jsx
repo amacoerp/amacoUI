@@ -1543,6 +1543,7 @@ select
                   <TableCell className="px-0" style={{ width: '50px' }} align="center">COST PRICE</TableCell>
                   <TableCell className="px-0" style={{ width: '30px' }} align="center">MARGIN %</TableCell>
                   <TableCell className="px-0" style={{ width: '50px' }} align="center">SELL PRICE</TableCell>
+                  {/* <TableCell className="px-0" style={{ width: '50px' }} align="center">TAX</TableCell> */}
                   <TableCell className="px-0" style={{ width: '50px' }} align="center">TOTAL</TableCell>
                   <TableCell className="px-0" style={{ width: '20px' }}>ACTION</TableCell>
 
@@ -1898,6 +1899,30 @@ select
                           value={parseFloat(item?.sell_price) ? (isNaN(item?.sell_price) ? parseFloat(0) : parseFloat(item.sell_price)) : parseFloat(0)}
                         />
                       </TableCell>
+
+                      {/* <TableCell className="pl-0 capitalize" align="left">
+                        <TextValidator autoComplete="none"
+                          label="TAX"
+                          onChange={(event, newValue) => {console.log(event.target.value,'+',item.sell_price)}}
+                          // onBlur={(event) => handleIvoiceListChange(event, index)}
+                          type="text"
+                          variant="outlined"
+
+                          inputProps={{ ref: setRef(index + 'tax'), min: 0, style: { textAlign: 'center' } }}
+                          size="small"
+                          name="tax"
+                          onKeyDown={(e) => { controlKeyPress(e, index + 'tax', index + 'total_amount', index + 'sell_price') }}
+
+                          fullWidth
+                          value={isNaN(item.tax) ? " " : item.tax}
+                          validators={["required"]}
+                          errorMessages={["this field is required"]}
+
+                        />
+                     
+
+                      </TableCell> */}
+
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
                         {/* <TextValidator autoComplete="none"
                       label="QTotal"
