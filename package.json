@@ -31,6 +31,8 @@
     "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.3",
+    "buffer": "^6.0.3",
+    "ckeditor5": "^33.0.0",
     "clsx": "^1.1.1",
     "counter": "^0.1.1",
     "cross-fetch": "^3.0.5",
@@ -41,7 +43,7 @@
     "draftjs-to-html": "^0.9.1",
     "echarts": "^4.8.0",
     "echarts-for-react": "^2.0.16",
-    "firebase": "^4.8.0",
+    "firebase": "^9.6.10",
     "formik": "^2.1.5",
     "globalize": "^0.1.1",
     "google-translate-api": "^2.3.0",
@@ -158,5 +160,16 @@
     "laravel-echo": "^1.11.4",
     "pusher-js": "^7.0.6",
     "react-app-rewired": "^2.1.6"
-  }
+  },
+  "main": ".babelrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amacoerp/amacoUI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amacoerp/amacoUI/issues"
+  },
+  "description": ""
 }

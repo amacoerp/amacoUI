@@ -338,7 +338,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [party_code, setparty_code] = useState('');
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [deleteStatus, setdeleteStatus] = useState(null);
-
+  let pushArr=[];
   const { id,his } = useParams();
 
   const classes = useStyles();
@@ -355,6 +355,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [address, setaddress] = useState([{ street: '', city: ' ', po_no: ' ' }]);
   const [content, setContent] = useState('');
   const [pageNumber, setPageNumber] = useState([])
+  const [vendorAddress, setvendorAddress] = useState([])
   // const x = [1557, 3125, 4693, 6261, 7829, 9397, 10965];
   let x = 1557;
   let pos = 0;
@@ -439,6 +440,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setrno(data[0]?.rfq?.id)
       setrdate(moment(data[0].ps_date).format('DD MMM YYYY'))
       setcompany(data[0]?.party?.firm_name)
+      setvendorAddress(data[0]?.party)
       setcity(data[0]?.party?.city)
       setstreet(data[0]?.party?.street)
       setzipcode(data[0]?.party?.zip_code)
@@ -463,6 +465,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setdesignation(data[0]?.contact?.designation)
       setvendor_id(data[0]?.party?.vendor_id)
       setparty_code(data[0]?.party?.party_code)
+      pushArr.push([
+        null,1,2,8,5
+      ])
       setaddress({ ...address, street: data[0]?.party?.street, city: data[0]?.party?.city, po_no: data[0]?.party?.post_box_no })
       let words = toWords.convert(parseFloat(data[0].net_amount));
       let riyal = words.replace("Rupees", "Riyals");
@@ -471,7 +476,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       let decimal = parseFloat(parseFloat(data[0].net_amount).toFixed(2).split('.')[1]);
 
       // annexure
-      setContent(`<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ANNEXURE (1)</strong></p>
+      setContent(`<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNEXURE</strong></p>
       <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;DELIVERY TIME</strong> &nbsp; &nbsp; &nbsp; &nbsp; : ${data[0]?.delivery_time}&nbsp;</p>
       <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;FREIGHT TYPE</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: ${data[0]?.freight_type}&nbsp;</p>
       <p><strong>&nbsp; &nbsp; &nbsp; &nbsp;INCO TERMS</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : ${data[0]?.inco_terms}&nbsp;</p>
@@ -874,8 +879,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                   <Box display="flex" p={1} bgcolor="background.paper" className="pl-2 pr-2 flex justify-between">
                     <Grid container spacing={3} className="p-4">
-                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={6} style={{ wordBreak: 'break-word' }}>
-                        <span style={{ fontWeight: 1000 }}>SUPPLIER NUMBER</span><br></br>
+                      <Grid className="pl-2 pb-4 pr-2 mr-2" xs={4} style={{ wordBreak: 'break-word' }}>
+                        <span style={{ fontWeight: 1000 }}>VENDOR NUMBER</span><br></br>
                         {party_code}
 
 
@@ -899,41 +904,60 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   </Box>
                   <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
                     <Grid container spacing={3} className="p-4">
-                      <Grid className="pl-0 pb-0" xs={6} style={{ wordBreak: 'break-word' }}>
+                      <Grid className="pl-0 pb-0" xs={4} style={{ wordBreak: 'break-word' }}>
                         <div className="pl-2 pb-4" style={{ width: 250 }}>
-                          <span style={{ fontWeight: 1000 }}>DELIVERY ADDRESS {!edit ? (<span id="edits"><Icon onClick={() => setedit(true)} style={{ fontSize: "12px" }}>edit</Icon></span>) : (<Icon style={{ fontSize: "12px" }} onClick={() => updateCompany()}>done</Icon>)}</span><br></br>
+                          {/* <span style={{ fontWeight: 1000 }}>DELIVERY ADDRESS {!edit ? (<span id="edits"><Icon onClick={() => setedit(true)} style={{ fontSize: "12px" }}>edit</Icon></span>) : (<Icon style={{ fontSize: "12px" }} onClick={() => updateCompany()}>done</Icon>)}</span><br></br>
                           {!edit && (<div style={{ flexDirection: 'row', display: 'flex' }}>
                             {company_address}
-                          </div>)}
+                          </div>)} */}
 
 
-                          {edit && (<><TextField style={{ width: 250 }} value={company_address} onChange={(e) => setcompany_address(e.target.value)} multiline>
+                          {/* {edit && (<><TextField style={{ width: 250 }} value={company_address} onChange={(e) => setcompany_address(e.target.value)} multiline>
 
-                          </TextField></>)}
+                          </TextField></>)} */}
+                           <span style={{ fontWeight: 1000 }}>VENDOR NAME</span><br></br>
+                        {company}
 
 
                         </div>
 
                       </Grid>
                       <Grid className="pl-2 pb-4" xs={4}>
-                        <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
-                        {company}
+                        {/* <span style={{ fontWeight: 1000 }}>SUPPLIER</span><br></br>
+                        {company} */}
+                         <span style={{ fontWeight: 1000 }}>DELIVERY ADDRESS {!edit ? (<span id="edits"><Icon onClick={() => setedit(true)} style={{ fontSize: "12px" }}>edit</Icon></span>) : (<Icon style={{ fontSize: "12px" }} onClick={() => updateCompany()}>done</Icon>)}</span><br></br>
+                          {!edit && (<div style={{ flexDirection: 'row', display: 'flex' }}>
+                            {company_address}
+                          </div>)}
 
                       </Grid>
+                      <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
+                      <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                        {inco_terms}
+
+
+
+                     
+                      </Grid>
+
 
 
                     </Grid>
                   </Box>
                   <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
                     <Grid container spacing={3} className="p-4">
-                      <Grid className="pl-2 pb-0" xs={6} style={{ wordBreak: 'break-word' }} >
-                        <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
-                        {payment_terms}
-
-                      </Grid>
+                      <Grid className="pl-2 pb-0" xs={4} style={{ wordBreak: 'break-word' }} >
+                        {/* <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
+                        {payment_terms} */}
+                        <span style={{ fontWeight: 1000 }}>VENDOR ADDRESS</span><br></br>
+                        {[vendorAddress?.building_no,vendorAddress?.street,vendorAddress?.city,vendorAddress?.zip_code,vendorAddress?.country,vendorAddress?.post_box_no].filter(Boolean).join(",")}
+                        
+                         </Grid>
                       <Grid className="pl-2 pb-4" xs={2}>
-                        <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
-                        {inco_terms}
+                        {/* <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
+                        {inco_terms} */}
+                         <span style={{ fontWeight: 1000 }}>PAYMENT TERMS</span><br></br>
+                        {payment_terms}
 
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
@@ -1211,7 +1235,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                     </div>
                     
-                    <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure (1) for terms & condition
+                    <p style={{ display: 'inline' }} className="pl-6 text-error">NOTE</p>: Please refer annexure for terms & condition
                     <div id="annexure"></div>
                     <div id="panel" className="pt-2"  >
                       <ExpansionPanel

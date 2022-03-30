@@ -32,7 +32,7 @@ import { useReactToPrint } from "react-to-print";
 import { Breadcrumb } from "matx";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import Division from "../user/divisionview";
-import { database } from "firebase";
+// import { database } from "firebase";
 
 
 // import Image from 'react-image-resizer';

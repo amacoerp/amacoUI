@@ -1655,7 +1655,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     margin_val += ((item.margin_val));
 
                     margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
-                    subCost = Math.round(costTotal + margin_val);
+                    subCost = (costTotal + margin_val);
                     subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
 
                     // margin_val=((subCost-costTotal));
