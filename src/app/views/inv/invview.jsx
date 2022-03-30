@@ -8,7 +8,6 @@ import { useHistory } from "react-router";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
-
 import moment from "moment";
 import Header from "../../views/statements/Header";
 import Box from "@material-ui/core/Box";
@@ -166,7 +165,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const routerHistory = useHistory();
   const filter = createFilterOptions();
 
-
   const [pageNumber, setPageNumber] = useState([]);
 
   let pos = 0;
@@ -198,21 +196,29 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     }, 500);
   };
 
-  const [users,setUsers] = useState([])
+  const [users, setUsers] = useState([]);
+  const [delBys, SetDelBy] = useState([]);
+  const [alive, setAlive] = useState(true);
+
+  useEffect(()=>{
+    url.get("dDetails").then(({ data }) => {
+      setUsers(data?.prepBy);
+      SetDelBy(data?.delBy);
+      // console.log
+      console.log(data?.delBy)
+    });
+    setAlive(false)
+  },[alive])
 
   useEffect(() => {
     // delivery-notes
-    url.get("users").then(({ data }) => {
-      setUsers(data)
-      // console.log(data)
-    });
-
+   
 
     url.get("invoice_delivery_note/" + id + `/${s}`).then(({ data }) => {
       document.title = `AMACO-${data[1]?.delivery_number}-${data[1]?.quotation?.party?.firm_name}`;
 
-      setPrefBy(data[1]?.prepared_by)
-      setDelBy(data[1]?.delevered_by)
+      setPrefBy(data[1]?.prepared_by);
+      setDelBy(data[1]?.delevered_by);
 
       setcreatedate(data[1]?.created_at);
       if (data[1]?.quotation?.contact !== null) {
@@ -281,19 +287,37 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     });
   };
 
-const [prepBy,setPrefBy] = useState('')
-const [delBy,setDelBy] = useState('')
-  const changeData = (e,n,o) => {
+  const [prepBy, setPrefBy] = useState("");
+  const [delBy, setDelBy] = useState("");
 
-    if(o == 'p'){
-      setPrefBy(n?.name)
-    }else{
-      setDelBy(n?.name)
-    }
-      url.post("deleveryPrep/"+n.name+"/"+o+"/"+id).then(({ data }) => {
-        setE1(!e1)
+  const changeSub1 = (e, n) => {
+    url.post("deleveryPrep/" + delBy + "/d/" + id).then(({ data }) => {
+      setE1(false);
+      setE2(false);
+      setAlive(true)
+    });
+  };
+
+  const changeSub = (e, n) => {
+    console.log(e.target.value)
+    setDelBy(n);
+   
+  };
+
+  const changeData = (e, n, o) => {
+    if (o == "p") {
+      setPrefBy(n?.name);
+      url.post("deleveryPrep/" + n.name + "/" + o + "/" + id).then(({ data }) => {
+        setE1(false);
+        setE2(false);
+        setAlive(true)
       });
-  }
+    } else {
+      console.log(n)
+      setDelBy(n?.delevered_by ? n?.delevered_by : n);
+    }
+   
+  };
 
   const handlePrint = () => window.print();
   window.onafterprint = function () {
@@ -331,15 +355,15 @@ const [delBy,setDelBy] = useState('')
     }
   };
 
-  const [e1,setE1] = useState(false)
-  const [e2,setE2] = useState(false)
+  const [e1, setE1] = useState(false);
+  const [e2, setE2] = useState(false);
 
   const openEdit = () => {
-    setE1(!e1)
-  }  
+    setE1(!e1);
+  };
   const openEditD = () => {
-    setE2(!e2)
-  }
+    setE2(!e2);
+  };
   let subTotalCost = 0;
   let {
     orderNo,
@@ -739,7 +763,6 @@ const [delBy,setDelBy] = useState('')
                         </TableHead>
                         <TableBody>
                           {podetails.map((item, index) => {
-                         
                             return (
                               <TableRow
                                 key={index}
@@ -858,15 +881,37 @@ const [delBy,setDelBy] = useState('')
                     <div className="viewer__order-info px-4 mb-4 flex justify-between">
                       <div className="ml-24" style={{ fontWeight: 1000 }}>
                         Prepared By{" "}
-                        <span onClick={()=>{openEdit()}}>
+                        <span
+                          onClick={() => {
+                            openEdit();
+                          }}
+                        >
                           <Icon fontSize="small">edit</Icon>
                         </span>
                       </div>
                       <div className="ml-4" style={{ fontWeight: 1000 }}>
-                        Delivered By
-                        {/* <span onClick={()=>{openEditD()}}>
-                          <Icon fontSize="small">edit</Icon>
-                        </span> */}
+                        Delivered By 
+                        {e2 ? (
+                          <>
+                            <span
+                              onClick={() => {
+                                changeSub1();
+                              }}
+                            >
+                               <Icon fontSize="small">done</Icon>
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span
+                              onClick={() => {
+                                openEditD();
+                              }}
+                            >
+                              <Icon fontSize="small">edit</Icon>
+                            </span>
+                          </>
+                        )}
                       </div>
                       <div className="mr-24" style={{ fontWeight: 1000 }}>
                         <h5 style={{ fontWeight: 1000 }}>Received by</h5>
@@ -874,70 +919,117 @@ const [delBy,setDelBy] = useState('')
                     </div>
                     <div className="viewer__order-info px-4 mb-4  flex justify-between">
                       <div className="ml-4">
-                        { !e1 && prepBy ?  <center><div className="mr-14">
-                       <h5 style={{marginRight:'-246px'}}  className="font-normal  capitalize">
-                          {prepBy}
-                        </h5>
-                      </div></center> : <></>}
-                        {e1 && <>
-                          <Autocomplete
-                  id="filter-demo"
-                  variant="outlined"
-                  style={{ minWidth: 300, maxWidth: '300px' }}
-                  options={users}
-
-
-                  getOptionLabel={(option) => option?.name ? option?.name : ''}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    if (params.inputValue !== " ") {
-                      // filtered.unshift({
-                      //   inputValue: params.inputValue,
-                      //   firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-                      // });
-                    }
-                    return filtered;
-                  }}
-                  onChange={(event, newValue) => changeData(event, newValue,'p')}
-                  size="small"
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Choose Prepared By" />}
-                />
-                        </>}
-                        
+                        {!e1 && prepBy ? (
+                          <center>
+                            <div className="mr-14">
+                              <h5
+                                style={{ marginRight: "-246px" }}
+                                className="font-normal  capitalize"
+                              >
+                                {prepBy}
+                              </h5>
+                            </div>
+                          </center>
+                        ) : (
+                          <></>
+                        )}
+                        {e1 && (
+                          <>
+                            <Autocomplete
+                              id="filter-demo"
+                              variant="outlined"
+                              style={{ minWidth: 300, maxWidth: "300px" }}
+                              options={users}
+                              getOptionLabel={(option) =>
+                                option?.name ? option?.name : ""
+                              }
+                              filterOptions={(options, params) => {
+                                const filtered = filter(options, params);
+                                if (params.inputValue !== " ") {
+                                  // filtered.unshift({
+                                  //   inputValue: params.inputValue,
+                                  //   firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                                  // });
+                                }
+                                return filtered;
+                              }}
+                              onChange={(event, newValue) =>
+                                changeData(event, newValue, "p")
+                              }
+                              size="small"
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  variant="outlined"
+                                  label="Choose Prepared By"
+                                />
+                              )}
+                            />
+                          </>
+                        )}
                       </div>
                       <div>
-                      { !e1 && delBy ?  <center><div className="mr-14">
-                       <h5 style={{marginRight:'-234px'}}  className="font-normal  capitalize">
-                          {delBy}
-                        </h5>
-                      </div></center> : <></>}
-                        {e1 && <>
-                          <Autocomplete
-                  id="filter-demo"
-                  variant="outlined"
-                  style={{ minWidth: 300, maxWidth: '300px' }}
-                  options={users}
-
-
-                  getOptionLabel={(option) => option?.name ? option?.name : ''}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    if (params.inputValue !== " ") {
-                      // filtered.unshift({
-                      //   inputValue: params.inputValue,
-                      //   firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-                      // });
-                    }
-                    return filtered;
-                  }}
-                  onChange={(event, newValue) => changeData(event, newValue,'d')}
-                  size="small"
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Choose Delivered By" />}
-                />
-                        </>}
-                        
+                        {!e2 && delBy ? (
+                          <center>
+                            <div className="mr-14">
+                              <h5
+                                style={{ marginRight: e1 ? "35px" : prepBy ? '-216px' : "-271px" }}
+                                className="font-normal  capitalize"
+                              >
+                                {delBy}
+                              </h5>
+                            </div>
+                          </center>
+                        ) : (
+                          <></>
+                        )}
+                        {e2 && (
+                          <>
+                            <span
+                              style={{
+                                marginRight: "100",
+                                position: "relative",
+                                left: "88px",
+                              }}
+                            >
+                              <Autocomplete
+                                id="filter-demo"
+                                variant="outlined"
+                                style={{ minWidth: 300, maxWidth: "300px" }}
+                                options={delBys}
+                                freeSolo
+                                value={delBy}
+                                getOptionLabel={(option) =>
+                                  option?.delevered_by ? option?.delevered_by : delBy ? delBy : ''
+                                }
+                                filterOptions={(options, params) => {
+                                  const filtered = filter(options, params);
+                                  if (params.inputValue !== " ") {
+                                    filtered.unshift({
+                                      inputValue: params?.inputValue,
+                                      // firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                                    });
+                                  }
+                                  return filtered;
+                                }}
+                                onInputChange={(event, newValue) =>
+                                  changeData(event, newValue,'d')
+                                }
+                                onChange={(event, newValue) =>
+                                  changeData(event, newValue, "d")
+                                }
+                                size="small"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    variant="outlined"
+                                    label="Choose Delivered By"
+                                  />
+                                )}
+                              />
+                            </span>
+                          </>
+                        )}
                       </div>
                       <div className="mr-14">
                         <h5 className="font-normal  capitalize">

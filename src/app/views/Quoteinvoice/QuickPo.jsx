@@ -971,7 +971,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           // renderOption={option => option.name}
                           getOptionLabel={(option) => option?.name ? option?.name : (item?.item_name ? item?.item_name : "")}
                           // getOptionLabel={option => {
-
+                            Autoc
                           //   // e.g value selected with enter, right from the input
                           //   if (typeof option === "string") {
                           //     return option;
