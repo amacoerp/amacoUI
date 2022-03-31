@@ -172,7 +172,7 @@ const Addparty = ({ open, handleClose }) => {
         
         })
     }else{
-
+        setState({ ...state, loading: true });//disable the SAVE Button
     /*creating the frmdetails object*/
     const frmdetails = {
       firm_name: Firm_Name ? Firm_Name.toUpperCase() : '',
@@ -224,7 +224,7 @@ const Addparty = ({ open, handleClose }) => {
 
 
 
-    url.post('partdsies', frmdetails)
+    url.post('parties', frmdetails)
 
       .then(function (response) {
 

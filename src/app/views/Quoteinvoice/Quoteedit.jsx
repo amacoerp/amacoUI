@@ -1014,7 +1014,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('other', other)
     formData.append('user_id', user.id)
     formData.append('div_id', localStorage.getItem('division'))
-    formData.append('status', status)
+    formData.append('status', quote_status)
+    
     // JSON.stringify(values.rfq_details)
     var spl = basePath.replace('api', '');
 
