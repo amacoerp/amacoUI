@@ -98,6 +98,17 @@ const SimpleForm = () => {
 
   useEffect(() => {
 
+    url.get(`validationParty`).then(({ data }) => {
+      var regNo = data?.map((item)=>{
+        return item?.registration_no?.toUpperCase()
+      })
+      var vatNo = data?.map((item)=>{
+        return item?.vat_no?.toUpperCase()
+      })
+      setVatList(vatNo?.filter(Boolean))
+      setRegist(regNo?.filter(Boolean))
+    });
+
     var obj;
     url.get("parties/" + id).then(({ data }) => {
 
@@ -163,7 +174,36 @@ const SimpleForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAlive]);
 
+
+  const [vatList,setVatList] = useState([])
+  const [regList,setRegist] = useState([])
+
   const handleSubmit = () => {
+
+
+    if(vatList?.includes(vat_no?.toUpperCase())){
+      Swal.fire({
+        title: 'Warning',
+        type: 'warning',
+        icon: 'warning',
+        text: 'Party VAT Number is Already Existed.',
+      })
+        .then((result) => {
+        
+        })
+    }else if(regList?.includes(regno?.toUpperCase())){
+      Swal.fire({
+        title: 'Warning',
+        type: 'warning',
+        icon: 'warning',
+        text: 'Party Commercial Register Number is Already Existed.',
+      })
+        .then((result) => {
+        
+        })
+    }
+
+
     setloading(true);
     const frmdetails = {
       firm_name: Firm_Name ? (Firm_Name.toUpperCase()) : '',

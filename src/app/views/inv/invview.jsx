@@ -358,6 +358,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [e1, setE1] = useState(false);
   const [e2, setE2] = useState(false);
 
+  const editDelNote = () => {
+    routerHistory.push(`/editDelivery/${id}`)
+  }
+
   const openEdit = () => {
     setE1(!e1);
   };
@@ -385,14 +389,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
             </IconButton>
           </Link>
           <div>
-            {/* <Button
+            <Button
             className="mr-4 py-2"
             color="primary"
             variant="outlined"
-            onClick={() => invoicegenrate({ mode: "on" })}
+            onClick={() => {editDelNote()}}
           >
-            Genrate Invoice
-          </Button> */}
+            EDIT
+          </Button>
             <Button
               onClick={handlePrinting}
               className="py-2"

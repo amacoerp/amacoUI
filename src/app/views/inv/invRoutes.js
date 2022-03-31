@@ -7,6 +7,11 @@ const invRoutes = [
     // exact: true,
     component: React.lazy(() => import("./invview"))
   },
+  {
+    path: "/editDelivery/:id",
+    // exact: true,
+    component: React.lazy(() => import("./editDel"))
+  },
   
 
 ];
