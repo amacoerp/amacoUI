@@ -104,6 +104,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         width: "100%",
         justifySelf: "end",
       },
+      '#none':{
+        display:'none'
+      },
 
       "#table": {
         display: "-webkit-box",
@@ -870,7 +873,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <div className="viewer__order-info px-4 mb-4 flex justify-between">
                       <div className="ml-24" style={{ fontWeight: 1000 }}>
                         Prepared By{" "}
-                        <span
+                        <span id="none" 
                           onClick={() => {
                             openEdit();
                           }}
@@ -882,7 +885,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         Delivered By 
                         {e2 ? (
                           <>
-                            <span
+                            <span id="none"
                               onClick={() => {
                                 changeSub1();
                               }}
@@ -892,7 +895,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </>
                         ) : (
                           <>
-                            <span
+                            <span id="none"
                               onClick={() => {
                                 openEditD();
                               }}
