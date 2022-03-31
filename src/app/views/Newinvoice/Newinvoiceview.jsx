@@ -85,6 +85,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
         marginTop: "10px",
       },
+      '#pageCut':{
+        'height':80
+      },
 
       "#header": {
         // padding: "10px",
@@ -1747,7 +1750,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                     <br></br>
-                    <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
+                    <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between" id="pageCut">
                       <div className="pl-24" style={{ fontWeight: 1000 }}>
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
