@@ -222,7 +222,7 @@ const ProductPrice = () => {
               return [
 
                 ++index,
-                item.firm_name,
+                item.firm_name ? item.firm_name : '--',
                 parseFloat(item.price).toLocaleString(undefined, { minimumFractionDigits: 2 }),
                 item.id,
               ]

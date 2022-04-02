@@ -1193,7 +1193,7 @@ const SalesRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <TableCell
                               className="pl-0 capitalize hidecell"
                               colspan={8}
-                              style={{ fontFamily: "Calibri", width: 200 }}
+                              style={{border: "1px solid white", fontFamily: "Calibri", width: 200 }}
                             ></TableCell>
                             <TableCell
                               style={{

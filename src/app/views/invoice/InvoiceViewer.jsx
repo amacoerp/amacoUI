@@ -644,12 +644,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             SUPPLIER NAME
                           </span>
                           <br></br>
-                          {company}
+                          {company ? company : '---'}
                         </div>
                         <div className="pl-2 pb-4 ">
                           <span style={{ fontWeight: 1000 }}>EMAIL ID</span>
                           <br></br>
-                          {contactpersonemail}
+                          {contactpersonemail ? contactpersonemail : '---'}
                         </div>
                       </div>
                       <div></div>

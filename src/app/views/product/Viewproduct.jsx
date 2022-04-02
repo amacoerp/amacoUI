@@ -281,16 +281,16 @@ const SimpleMuiTable = () => {
               return [
 
                 ++index,
-                item?.name?.toLowerCase()
+                item?.name ? item?.name?.toLowerCase()
                   .split(' ')
                   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                  .join(' '),
-                item?.description?.toLowerCase()
+                  .join(' ') : '--',
+                  item?.description ? item?.description?.toLowerCase()
                   .split(' ')
                   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                  .join(' '),
-                item?.unit_of_measure,
-                item?.category_name,
+                  .join(' ') : '--',
+                item?.unit_of_measure ? item?.unit_of_measure : '--',
+                item?.category_name ? item?.category_name : '--',
                 item?.id,
               ]
 

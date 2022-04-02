@@ -1182,7 +1182,7 @@ const PurchaseRInvoiceViewer = ({ toggleInvoiceEditor }) => {
                               className="pl-0 capitalize hidecell"
                               colspan={8}
                               style={{
-                                border: "1px solid #ccc",
+                                border: "1px solid white",
                                 fontFamily: "Calibri",
                                 width: 200,
                               }}

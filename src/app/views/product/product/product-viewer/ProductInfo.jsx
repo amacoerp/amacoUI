@@ -39,7 +39,7 @@ const ProductInfo = () => {
       
         <h3 className="mt-4 mb-2">{productList.name}</h3>
 
-        <h5><small className="text-muted"><strong>Model Number:</strong>{productList.model_no}</small></h5>
+        <h5><small className="text-muted"><strong>Model Number:</strong>{productList.model_no ? productList.model_no : ' --'}</small></h5>
        
       </div>
 
@@ -50,38 +50,38 @@ const ProductInfo = () => {
 
           <TableRow>
             <TableCell className="pl-4">Category Name</TableCell>
-            <TableCell>{productList.category_name}</TableCell>
+            <TableCell>{productList.category_name ? productList.category_name : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Manufacturer</TableCell>
-            <TableCell>{productList.manufacturer_name}</TableCell>
+            <TableCell>{productList.manufacturer_name ? productList.manufacturer_name : '--'}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell className="pl-4" >Description</TableCell>
-            <TableCell style={{ whiteSpace: 'unset', wordBreak: 'break-word' }}>{productList.description}</TableCell>
+            <TableCell style={{ whiteSpace: 'unset', wordBreak: 'break-word' }}>{productList.description ? productList.description : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">UOM</TableCell>
-            <TableCell>{productList.unit_of_measure}</TableCell>
+            <TableCell>{productList.unit_of_measure ? productList.unit_of_measure : '--'}</TableCell>
           </TableRow>
 
 
           <TableRow>
             <TableCell className="pl-4">Product Type</TableCell>
-            <TableCell >{productList.type}</TableCell>
+            <TableCell >{productList.type ? productList.type : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">HSN Number</TableCell>
-            <TableCell>{productList.hsn_code}</TableCell>
+            <TableCell>{productList.hsn_code ? productList.hsn_code : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Initial Quantity</TableCell>
-            <TableCell>{productList.initial_quantity}</TableCell>
+            <TableCell>{productList.initial_quantity ? productList.initial_quantity : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Minimum Quantity</TableCell>
-            <TableCell>{productList.minimum_quantity}</TableCell>
+            <TableCell>{productList.minimum_quantity ? productList.minimum_quantity : '--'}</TableCell>
           </TableRow>
           
         </TableBody>

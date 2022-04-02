@@ -294,7 +294,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [delBy, setDelBy] = useState("");
 
   const changeSub1 = (e, n) => {
-    url.post("deleveryPrep/" + delBy ? delBy : null + "/d/" + id).then(({ data }) => {
+    console.log('dsd')
+    url.post("deleveryPrep/" + (delBy ? delBy : null) + "/d/" + id).then(({ data }) => {
       setE1(false);
       setE2(false);
       setAlive(true)

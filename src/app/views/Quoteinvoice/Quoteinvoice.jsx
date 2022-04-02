@@ -68,8 +68,35 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
 
+  const handleIvoiceListChange1 = (event, index,value) => {
+    // event.persist()
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index === i) {
+
+        element['total_amount'] = (parseInt(element.quantity) * (value ? value : event.target.value)).toFixed(2);
+        element[event.target.name] = value ? value : event.target.value;
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+
+
+  };
   const handleIvoiceListChange = (event, index) => {
-    event.persist()
+    // event.persist()
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -602,6 +629,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     /> */}
                         <CurrencyTextField
                           className="w-full"
+                          onChange={(event,value) => handleIvoiceListChange1(event, index,value)}
                           label="Unit Price"
                           variant="outlined"
                           fullWidth

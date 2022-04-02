@@ -14,7 +14,7 @@ export default function ({columns,podetails}) {
                             item?.po_number ? item?.po_number : "--",
                             item?.invoice_no ? (item?.invoice_no!=="true"?item?.invoice_no:"--") : "--",
 
-                            item?.party?.firm_name,
+                            item?.party?.firm_name ? item?.party?.firm_name : '--',
 
                             moment(item?.issue_date).format('DD MMM YYYY'),
                             parseFloat(item?.grand_total).toLocaleString(undefined, { minimumFractionDigits: 2 }),

@@ -41,11 +41,11 @@ const PartyInfo = ({ ids }) => {
 
           <TableRow>
             <TableCell className="pl-4">Party Type</TableCell>
-            <TableCell>{userList.party_type}</TableCell>
+            <TableCell>{userList.party_type ? userList.party_type : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Vendor Id</TableCell>
-            <TableCell>{userList.vendor_id}</TableCell>
+            <TableCell>{userList.vendor_id ? userList.vendor_id : '--'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="pl-4">Party Code</TableCell>
