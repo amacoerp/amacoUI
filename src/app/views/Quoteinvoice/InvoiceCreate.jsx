@@ -1109,6 +1109,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get(`mjrInvInc/${localStorage.getItem('division')}`).then(({ data }) => {
+      console.log(data?.products)
       setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproListAll(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setData(data?.uom);
@@ -1603,7 +1604,7 @@ select
                           </MenuItem>
                         ))} 
                     </TextValidator> */}
-
+{console.log(proList)}
                         <Autocomplete
                           className="w-full"
                           size="small"

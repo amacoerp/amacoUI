@@ -173,7 +173,7 @@ const MemberEditorDialog = ({ uid, open, handleClose, catid, catList }) => {
         url.delete(`categories/${id}`)
           .then(res => {
             getcategories().then(({ data }) => {
-              catList(data)
+              catList(data.filter(obj => obj.div_id == localStorage.get('division')))
 
             });
           })

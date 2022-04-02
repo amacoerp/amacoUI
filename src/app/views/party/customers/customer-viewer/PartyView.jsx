@@ -8,6 +8,7 @@ import {
   Card,
   Divider,
   // Grid,
+  Tooltip,
   Icon,
   Table,
   TableBody,
@@ -41,7 +42,7 @@ const PartyInfo = ({ ids,setVerify,verify }) => {
 
         <h3 className="mt-4 mb-2">
           {userList.firm_name}{" "}
-          {verify ? <Icon color="primary">verified</Icon> :''}
+          {verify ? <> <Icon color="primary">verified</Icon>  </>:''}
         </h3>
 
         <small className="text-muted">

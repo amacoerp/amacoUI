@@ -99,10 +99,10 @@ const SimpleForm = () => {
   useEffect(() => {
 
     url.get(`validationParty`).then(({ data }) => {
-      var regNo = data?.map((item)=>{
+      var regNo = data?.filter(obj => parseInt(obj.id) !== parseInt(id))?.map((item)=>{
         return item?.registration_no?.toUpperCase()
       })
-      var vatNo = data?.map((item)=>{
+      var vatNo = data?.filter(obj => parseInt(obj.id) !== parseInt(id))?.map((item)=>{
         return item?.vat_no?.toUpperCase()
       })
       setVatList(vatNo?.filter(Boolean))
@@ -201,7 +201,7 @@ const SimpleForm = () => {
         .then((result) => {
         
         })
-    }
+    }else{ 
 
 
     setloading(true);
@@ -258,7 +258,7 @@ const SimpleForm = () => {
       .catch(function (error) {
 
       })
-
+    }
 
   }
   const handleMultiselect = (index) => {

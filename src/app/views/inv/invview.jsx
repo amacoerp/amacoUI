@@ -206,7 +206,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   useEffect(()=>{
     url.get("dDetails").then(({ data }) => {
       setUsers(data?.prepBy);
-      SetDelBy(data?.delBy);
+      SetDelBy(data?.delBy ? data?.delBy : '');
       // console.log
       console.log(data?.delBy)
     });
@@ -294,7 +294,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [delBy, setDelBy] = useState("");
 
   const changeSub1 = (e, n) => {
-    url.post("deleveryPrep/" + delBy + "/d/" + id).then(({ data }) => {
+    url.post("deleveryPrep/" + delBy ? delBy : null + "/d/" + id).then(({ data }) => {
       setE1(false);
       setE2(false);
       setAlive(true)
@@ -367,9 +367,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
   const openEdit = () => {
     setE1(!e1);
+    setE2(false);
   };
   const openEditD = () => {
     setE2(!e2);
+    setE1(false);
   };
   let subTotalCost = 0;
   let {
@@ -864,6 +866,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         item[0]?.total_delivered_quantity
                                       ) -
                                       parseInt(item[0]?.delivering_quantity)
+                                  ).toLocaleString() < 0 ? 0 : parseInt(
+                                    parseInt(item[0]?.total_quantity) -
+                                      parseInt(
+                                        item[0]?.total_delivered_quantity
+                                      ) -
+                                      parseInt(item[0]?.delivering_quantity)
                                   ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
@@ -882,7 +890,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             openEdit();
                           }}
                         >
-                          <Icon fontSize="small">edit</Icon>
+                          <Icon style={{fontSize:'15px'}}>edit</Icon>
                         </span>
                       </div>
                       <div className="ml-4" style={{ fontWeight: 1000 }}>
@@ -894,7 +902,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 changeSub1();
                               }}
                             >
-                               <Icon fontSize="small">done</Icon>
+                             &nbsp;  <Icon style={{fontSize:'15px'}}>done</Icon>
                             </span>
                           </>
                         ) : (
@@ -904,7 +912,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 openEditD();
                               }}
                             >
-                              <Icon fontSize="small">edit</Icon>
+                            &nbsp;  <Icon style={{fontSize:'15px'}}>edit</Icon>
                             </span>
                           </>
                         )}

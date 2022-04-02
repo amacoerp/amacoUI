@@ -929,6 +929,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           {!edit && (<div style={{ flexDirection: 'row', display: 'flex' }}>
                             {company_address}
                           </div>)}
+ {edit && (<><TextField style={{ width: 250 }} value={company_address} onChange={(e) => setcompany_address(e.target.value)} multiline>
+
+                          </TextField></>)}
 
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-0 mr-1" align="right" xs>
@@ -1077,7 +1080,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Bank Name</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                        {bankD.bank_name ? bankD.bank_name : '---'}
+                                        {bankD?.bank_name ? bankD?.bank_name : '---'}
                                       </td>
                                     </tr>
                                     <tr
@@ -1091,7 +1094,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Account No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                      {bankD.account_no ? bankD.account_no : '---'}
+                                      {bankD?.account_no ? bankD?.account_no : '---'}
                                       </td>
                                     </tr>
                                     <tr
@@ -1105,7 +1108,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>IBAN No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                      {bankD.iban_no ? bankD.iban_no : '---'}
+                                      {bankD?.iban_no ? bankD?.iban_no : '---'}
                                       </td>
                                     </tr>
                                   </div>

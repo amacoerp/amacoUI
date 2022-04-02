@@ -898,15 +898,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         <span style={{ fontWeight: 1000 }}>INVOICE NUMBER</span>
                         <br></br>
                         {invoiceno == null || invoiceno == "null" ||invoiceno=="true"
-                          ? "--"
+                          ? "---"
                           : invoiceno}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}> رقم الفاتورة</span>
                         <br></br>
                         {invoiceno == null || invoiceno == "null"||invoiceno == "true"
-                          ? "--"
-                          : (invoiceno!=="true"?invoiceno:"--")}
+                          ? "---"
+                          : (invoiceno!=="true"?invoiceno:"---")}
                       </Grid>
                       <Grid
                         className="pl-2 pb-4 pr-2"
@@ -936,12 +936,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       >
                         <span style={{ fontWeight: 1000 }}>COMPANY NAME</span>
                         <br></br>
-                        {company}
+                        {company ? company : '---'}
                       </Grid>
                       <Grid className="pl-0 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>P.O. NUMBER</span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" xs align="right">
                         <span style={{ fontWeight: 1000 }}>
@@ -949,7 +949,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           رقم أمر الشراء
                         </span>
                         <br></br>
-                        {pono !== null ? pono : "--"}
+                        {pono !== null ? pono : "---"}
                       </Grid>
                       <Grid
                         className="pl-2 pb-4 pr-2"
@@ -960,7 +960,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           اسم الشركة
                         </span>
                         <br></br>
-                        {cname_ar}
+                        {cname_ar ? cname_ar : '---'}
                       </Grid>
                     </Grid>
                   </Box>
@@ -997,13 +997,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                         <br></br>
-                        {vatno}
+                        {vatno ? vatno  : '---'}
                       </Grid>
                       <Grid className="pl-2 pb-4 pr-20 mr-1" align="right" xs>
                         <span style={{ fontWeight: 1000 }}> رقم ضريبة</span>
                         <br></br>
-                        {toArabic(vatno) == "null" || toArabic(vatno) == null
-                          ? "--"
+                        {toArabic(vatno) == "null" || toArabic(vatno) == null || toArabic(vatno) == 'undefined'
+                          ? "---"
                           : toArabic(vatno)}
                       </Grid>
                       <Grid

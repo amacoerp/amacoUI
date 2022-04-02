@@ -475,7 +475,7 @@ const Analytics = () => {
               series: [
                 {
                   data: invoiceData,
-                  name:"invoice",
+                  name:"INVOICE",
                   label:"invoice",
                   type: "line",
                   color: "#fff",
@@ -485,7 +485,7 @@ const Analytics = () => {
                 },
                 {
                   data: dataReceipt,
-                  name:"receipt",
+                  name:"RECEIPT",
                   label:"receipt",
                   type: "line",
                   color: "#7FFF00",

@@ -395,10 +395,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   } = state;
 
   return (
-    <div className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
+    <Card className={clsx("invoice-viewer py-4", classes.invoiceViewer)}>
        
       <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-        <Link to={navigatePath + "/sales/rfq-form/rfqview"}>
+        <Link to={  search == 'po' ? navigatePath + "/sales/rfq-form/rfqview/2" : navigatePath + "/sales/rfq-form/rfqview/0" }>
           <IconButton>
             <Icon>arrow_back</Icon>
           </IconButton>
@@ -904,7 +904,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

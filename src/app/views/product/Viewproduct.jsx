@@ -70,6 +70,7 @@ const SimpleMuiTable = () => {
       .then(function (response) {
         const d = response.data
         setproductList(d)//set the products
+        console.log('das',d)
 
       })
    

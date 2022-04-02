@@ -139,7 +139,7 @@ const StatCards = () => {
           elevation={6}
         >
           <div className="flex items-center">
-            <Icon className={classes.icon}>dvr</Icon>
+            <Icon className={classes.icon}>published_with_changes</Icon>
             <div className="ml-3">
               <small className="text-muted">TOTAL SALES</small>
               <h6 className="m-0 mt-1 text-primary font-medium">
@@ -181,7 +181,7 @@ const StatCards = () => {
           elevation={6}
         >
           <div className="flex items-center">
-            <Icon className={classes.icon}>trending_up</Icon>
+            <Icon className={classes.icon}>credit_score</Icon>
             <div className="ml-3">
               <small className="text-muted"> RECEIPTS</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{rec?.toLocaleString(undefined, {
@@ -202,7 +202,7 @@ const StatCards = () => {
           elevation={6}
         >
           <div className="flex items-center">
-            <Icon className={classes.icon}>monetization_on</Icon>
+            <Icon className={classes.icon}>shopping_cart_checkout</Icon>
             <div className="ml-3">
               <small className="text-muted"> PURCHASE ORDER</small>
               <h6 className="m-0 mt-1 text-primary font-medium">{po.toLocaleString(undefined, {

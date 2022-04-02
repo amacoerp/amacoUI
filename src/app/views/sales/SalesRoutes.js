@@ -3,6 +3,10 @@ import { navigatePath } from "../invoice/InvoiceService";
 
 const salesRoutes = [
   {
+    path: navigatePath + "/sales/rfq-form/rfqview/:t",
+    component: React.lazy(() => import("./rfq-form/rfqview")),
+  },
+  {
     path: navigatePath + "/sales/rfq-form/rfqview",
     component: React.lazy(() => import("./rfq-form/rfqview")),
   },

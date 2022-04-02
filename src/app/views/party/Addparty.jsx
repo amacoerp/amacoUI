@@ -277,6 +277,7 @@ const Addparty = ({ open, handleClose }) => {
   // Form reset Function clears the Input
   const resetform = () => {
     setprefix('');
+    setpayment_term('');
     setfname('');
     setlname('');
     setFirm_name('');

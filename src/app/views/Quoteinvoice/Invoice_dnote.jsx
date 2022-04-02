@@ -299,7 +299,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get(`mjrEditInc/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
       setproList(data?.products)
 
-      setcname(data?.inv[0].party.firm_name)
+      setcname(data?.inv[0]?.party?.firm_name)
       setqno(data?.inv[0].invoice_no)
       setpono(data?.inv[0].po_number)
 

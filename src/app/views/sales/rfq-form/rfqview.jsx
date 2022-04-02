@@ -59,6 +59,8 @@ const SimpleMuiTable = () => {
 const tabList = ['RFQ','TRASH','RFQ HISTORY'];
 const [tabIndex, setTabIndex] = useState(0);
 
+const {t} = useParams();
+
 const colorset = (tabIndex) => {
     
   if(tabIndex==0)
@@ -100,6 +102,8 @@ const handleTabChange = (e, value) => {
 const [poRfq,setPoRfq] = useState([])
 
   useEffect(() => {
+   
+    setTabIndex(parseInt(t ? t : 0))
     url.get("rfq").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);

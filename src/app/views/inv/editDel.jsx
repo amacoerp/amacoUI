@@ -88,7 +88,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }else{
             element[event.target.name] = event.target.value
             var del = parseInt(element.quantity) - event.target.value
-            element['delivered_quantity'] = parseInt(element.quantity) - event.target.value
+            // element['delivered_quantity'] = parseInt(element.quantity) - event.target.value
             // console.log((parseInt(element.quantity) - event.target.value))
             element['balance'] = parseInt(element.quantity) - (parseInt(element.quantity) - del) ;
         }
@@ -241,7 +241,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   const handleSubmit = () => {
 
-    setState({ ...state, loading: true });
+    // setState({ ...state, loading: true });
 
     let tempState = { ...state };
     let arr = []
