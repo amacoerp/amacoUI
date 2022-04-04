@@ -1338,7 +1338,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   color="primary"
                   onClick={()=>{setVatExclude(true)}}
                 >
-                  <Icon>error_outline</Icon> EXCULUDE FROM VAT
+                  <Icon>error_outline</Icon> EXCLUDE FROM VAT
                 </Button>
 
                 </>}
