@@ -67,12 +67,17 @@ const NotificationBar = ({ container }) => {
     useNotification();
 
   const handleDrawerToggle = () => {
+    if(!panelOpen){
+      setIsAlive(true);
+    }
+
     setPanelOpen(!panelOpen);
     if (count > 0) {
       url.post("resetNotification").then(({ data }) => {
         setCount(0);
       });
     }
+   
   };
 
   const [notificationss, setNotificationss] = useState([]);
@@ -85,16 +90,16 @@ const NotificationBar = ({ container }) => {
 
   // }, 5000);
   // Pusher.logToConsole = true;
-  if(localStorage.getItem('role') == 'SA'){
-    var pusher = new Pusher("76b5d8513b2ab0b9930c", {
-      cluster: "ap2",
-    });
-    var channel = pusher.subscribe("notification");
-    channel.bind("notification-event", function (data) {
-      setIsAlive(true);
-      // console.log(JSON.stringify(data));
-    });
-  }
+  // if(localStorage.getItem('role') == 'SA'){
+  //   var pusher = new Pusher("76b5d8513b2ab0b9930c", {
+  //     cluster: "ap2",
+  //   });
+  //   var channel = pusher.subscribe("notification");
+  //   channel.bind("notification-event", function (data) {
+  //     setIsAlive(true);
+  //     // console.log(JSON.stringify(data));
+  //   });
+  // }
 
   const clearNotification = () =>{
     if(localStorage.getItem('role') == 'SA'){
@@ -114,6 +119,7 @@ const NotificationBar = ({ container }) => {
 
   useEffect(() => {
     url.get("getNotifications").then(({ data }) => {
+      console.log('s')
       setCount(parseInt(data?.count));
       if (localStorage.getItem("role") == "SA") {
         setNotificationss(data?.noti);

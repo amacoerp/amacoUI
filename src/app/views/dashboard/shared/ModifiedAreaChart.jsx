@@ -66,7 +66,7 @@ const ModifiedAreaChart = ({ height, option, maxVal }) => {
     yAxis: {
       type: "value",
       min: 0,
-      max: Math.round(maxVal) + 1000,
+      max: Math.round(maxVal) + 99999,
       axisLabel: {
         color: "#ccc",
         margin: 0,

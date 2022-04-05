@@ -3,7 +3,7 @@ import {
   Button,
   Divider,
   Card,
-  Table,
+  Table,MenuItem,
   TableHead,
   TableRow,
   TableCell,
@@ -95,6 +95,33 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   };
+
+  const handleDescriptionChange = (event,index) => {
+    let tempItemList = [...state.item];
+    console.log(event.target.value)
+    tempItemList.map((element, i) => {
+      let sum = 0;
+
+
+      if (index === i) {
+
+        // element['total_amount'] = (parseInt(element.sell_price) * event.target.value).toFixed(2);
+        element[event.target.name] = event.target.value;
+
+
+      }
+      return element;
+
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+
+  }
+
+
   const handleIvoiceListChange = (event, index) => {
     // event.persist()
     let tempItemList = [...state.item];
@@ -177,7 +204,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // arr.push({
     //   invoice_details:tempItemList,
     // });
-    // console.log(tempItemList)
+    console.log(tempItemList)
     arr.invoice_details = tempItemList
     arr.quotation_id = parseInt(id)
     arr.discount_in_percentage = discount
@@ -457,11 +484,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 <TableRow className="bg-default">
                   <TableCell className="pl-2" align="center" width={80}>S.NO.</TableCell>
                   {/* <TableCell className="px-0">ITEM NAME</TableCell> */}
-                  <TableCell className="px-0" align="center">RFQ DESCRIPTION</TableCell>
+                  <TableCell className="px-0" align="center"> DESCRIPTION</TableCell>
                   <TableCell className="px-0" align="center" width={100}>UOM</TableCell>
-                  <TableCell className="px-0" align="center" style={{ width: '80px' }}>QUANTITY</TableCell>
+                  <TableCell className="px-0" align="center" style={{ width: '100px' }}>QUANTITY</TableCell>
                   <TableCell className="px-0" align="center" style={{ width: '150px' }}>UNIT PRICE</TableCell>
-                  <TableCell className="px-0" align="center">TOTAL</TableCell>
+                  <TableCell className="px-0" align="center" style={{ width: '150px' }}>TOTAL</TableCell>
                   {/* <TableCell className="px-0">Action</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -569,17 +596,22 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         <TextValidator
                           label="description"
                           // onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
+                          // type="text"
                           name="description"
                           fullWidth
                           variant="outlined"
                           size="small"
+                          select
+                          onChange={(event) => handleDescriptionChange(event, index)}
                           inputProps={{ style: { textTransform: 'capitalize' } }}
-                          value={localStorage.getItem('division') == 3 ? item ? item.descriptionss : null : item ? item.description : null}
+                          value={ item?.description ? item.description : null}
                           // validators={["required"]}
-                          multiline
+                          // multiline
                           // errorMessages={["this field is required"]}
-                        />
+                        >
+                          <MenuItem value={item?.descriptionss}>{item?.descriptionss}</MenuItem>
+                          <MenuItem value={item?.descriptions}>{item?.descriptions}</MenuItem>
+                        </TextValidator>
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left">
                         <TextValidator

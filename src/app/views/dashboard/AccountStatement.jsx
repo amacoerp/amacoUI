@@ -94,11 +94,11 @@ const AccountStatement =()=>{
              <div className="pr-8" style={{textAlign:'center'}}>
              {tableMeta.rowData[2].replace(/,/g, '')< 0 ? (
                           
-                          <Icon style={{color:"#08ad6c"}} size="small">arrow_downward</Icon>
+                          <Icon size="small" color="error">arrow_downward</Icon>
                          
                         ) : (
                           
-                            <Icon size="small" color="error">arrow_upward</Icon>
+                            <Icon size="small" style={{color:"#08ad6c"}}> arrow_upward</Icon>
                           
                         )
                       }

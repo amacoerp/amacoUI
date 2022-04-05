@@ -97,7 +97,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [catid, setcatid] = useState();
   const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'))
   const [showother,setShowOther] =useState('')
-
+const [vatExclude,setVatExclude] = useState(0)
+const [vatValue,setVatValue] = useState(15)
   const { id } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
@@ -466,6 +467,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.other = 0.00
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
+    arr.exclude_from_vat = parseInt(vatExclude)
     const json = Object.assign({}, arr);
 
     url.post('purchase-quotation', json)
@@ -694,6 +696,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     quote: quoteList = [],
     status,
     vat,
+    vatV,
     loading,
 
   } = state;
@@ -720,6 +723,28 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
+
+                {vatExclude ? <>
+                  <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {setVatExclude(0)}}
+                >
+                  <Icon>check_circle_outline</Icon> VAT EXCLUDED
+                </Button>
+
+                </> : <>
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  onClick={()=>{setVatExclude(1)}}
+                >
+                  <Icon>error_outline</Icon> EXCLUDE FROM VAT
+                </Button>
+
+                </>}
 
 
                 <Button
@@ -754,7 +779,13 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     value={currency_type}
                     // onChange={handleChange}
-                    onChange={(event) => setcurrency_type(event.target.value)}
+                    onChange={(event) => {setcurrency_type(event.target.value)
+                     if(event.target.value == 'USD'){
+                      setVatValue(0)
+                     }else{
+                      setVatValue(15)
+                     }
+                    }}
                     required
                     select
                   >
@@ -931,7 +962,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 {invoiceItemList?.map((item, index) => {
                   if (!dstatus) {
                     subTotalCost += parseFloat(item.total_amount)
-                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    vat = vatExclude ? 0 : parseFloat((subTotalCost * parseInt(vatValue)) / 100).toFixed(2)
                     
                     // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2)
                     GTotal = subTotalCost + charge +parseFloat(vat)
@@ -940,7 +971,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     subTotalCost += parseFloat(item.total_amount)
                     dis_per = parseFloat(discounts * subTotalCost / 100).toFixed(2)
-                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    vat = vatExclude ? 0 :  parseFloat((subTotalCost * parseInt(vatValue)) / 100).toFixed(2)
                     // GTotal=((subTotalCost-parseFloat(discounts * subTotalCost/100))+ parseFloat(vat)).toFixed(2);
                     GTotal = subTotalCost + charge + parseFloat(vat)
                   }
@@ -960,7 +991,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           multiline
                           value={item?.item_name}
 
-
+                         
 
                           // defaultValue={item.item_name}
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null ,true) }}
@@ -992,7 +1023,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                                 inputRef[index] = input;
                               }}
                               multiline
-
+                              label='Item'
                               variant="outlined" name="product_id" fullWidth
                               onChange={(event, newValue) => handleChanges(event, newValue, index)}
                             />

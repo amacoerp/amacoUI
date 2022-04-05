@@ -123,6 +123,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
   const [shouldOpenEditorDialogAnnexure, setShouldOpenEditorDialogAnnexure] =
     useState(false);
+    const [vatExclude,setVatExclude] = useState(0)
+
   const [values, setvalues] = useState({
     vendorList: [],//set the vendorList
     contacts: [],//set the contact details
@@ -519,6 +521,8 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append("contact_id", contactid ? contactid : 0);//contact id
     formData.append("transaction_type", "purchase");//transaction type is purchase
     formData.append("status", "New");//status is New
+    
+    formData.append("exclude_from_vat", parseInt(vatExclude));
     formData.append("ps_date", Quote_date);//purchase order date 
     formData.append("currency_type", currency_type);//currency type
     formData.append("id", id);//purchase order id
@@ -607,6 +611,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setOfreight(data?.sales?.freight_type)
       }
      
+      setVatExclude(parseInt(data?.sales?.exclude_from_vat))
       setinco_terms(data?.sales?.inco_terms)
       setdelivery_time(data?.sales?.delivery_time)
       setState({
@@ -725,6 +730,27 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <Icon>cancel</Icon> CANCEL
                 </Button>
 
+                {vatExclude ? <>
+                  <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {setVatExclude(0)}}
+                >
+                  <Icon>check_circle_outline</Icon> VAT EXCLUDED
+                </Button>
+
+                </> : <>
+                <Button
+                  className="mr-4 py-2"
+                  variant="outlined"
+                  color="primary"
+                  onClick={()=>{setVatExclude(1)}}
+                >
+                  <Icon>error_outline</Icon> EXCLUDE FROM VAT
+                </Button>
+
+                </>}
                 <Button
                   // type="submit"
                   className="py-2"
@@ -915,7 +941,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   if (!dstatus) {
                     subTotalCost += parseFloat(item?.total_amount);
                     // vat = ((subTotalCost * 15) / 100).toFixed(2);
-                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    vat = vatExclude ? 0 : parseFloat((subTotalCost * 15) / 100).toFixed(2)
 
 
                     GTotal = parseFloat(subTotalCost) + parseFloat(charge) + parseFloat(vat);
@@ -930,7 +956,7 @@ const QuickPo = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     //     15) /
                     //   100
                     // ).toFixed(2);
-                    vat = parseFloat((subTotalCost * 15) / 100).toFixed(2)
+                    vat = vatExclude ? 0 : parseFloat((subTotalCost * 15) / 100).toFixed(2)
 
 
                     GTotal = parseFloat(subTotalCost) + parseFloat(charge) + parseFloat(vat);
