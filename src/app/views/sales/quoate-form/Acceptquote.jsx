@@ -463,8 +463,8 @@ const AcceptQuote = () => {
               item?.quotation_no,
               item?.party?.firm_name,
               item?.subject == "null" || item?.subject == "" || item?.subject == null  ? '--' : item?.subject,
-              moment(item?.created_at).format('DD MMM YYYY'),
-              item?.po_number ? item?.po_number : '--',
+              moment(item?.quotation_date).format('DD MMM YYYY'),
+              item?.po_number ? item?.po_number == null || item?.po_number == 'null' ? '--' : item?.po_number : '--',
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id
               // item.party[index].firm_name,

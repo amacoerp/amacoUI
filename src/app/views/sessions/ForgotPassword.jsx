@@ -82,7 +82,6 @@ const ForgotPassword = () => {
   useEffect(() => {
     url.get(`getAllEmails`).then(({ data }) => {
 
-
       // var key = 'Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=';
       // let encrypted = data
       // encrypted = atob(encrypted);

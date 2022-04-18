@@ -1284,7 +1284,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                     </Table>
                   </div>
                   <div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
-                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri' }} className="pl-4" id="table" >
+                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri',zIndex:'1000' }} className="pl-4" id="table" >
                       <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                           <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
@@ -1465,8 +1465,40 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                             </TableRow>
                           );
                         })} */}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  <div  className="viewer__order-info px-4 mb-4 flex justify-between" style={{pageBreakInside: 'avoid'}}>
+                    <Table className="bandkDetTop" style={{position:'relative',top:'-57px'}}>
+                    <TableHead style={{ backgroundColor: 'trasparent',visibility:'hidden' }}>
+                        <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
+                          <TableCell className="pr-0" colspan={1} style={{  width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
+                          {
+                            localStorage.getItem('division') == 3 ? <></> : <>
+                              <TableCell className="px-0" colspan={2} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell>
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
 
-                        <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
+                            </>
+                          }
+                          {
+                            localStorage.getItem('division') == 3 ? <>
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO OFFERED DESCRIPTION </TableCell>
+
+                            </> : <>
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO DESCRIPTION</TableCell>
+
+                            </>
+                          }
+
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", width: 80, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">QTY</TableCell>
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} colSpan={2} align="center">UOM</TableCell>
+
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", width: 110, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">UNIT PRICE</TableCell>
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", width: 110, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">TOTAL</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                      <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
                           <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : 11}>
                             <div className="px-4 flex justify-between" style={{ fontFamily: "Calibri" }}>
                               <div className="flex">
@@ -1516,26 +1548,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                           </TableCell>
 
                         </TableRow>
-                        {/* <TableRow style={{ border: "1px solid #ccc",pageBreakInside:'avoid' }}>
-                  <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc",wordBreak:'break-word',fontFamily: "Calibri",   fontSize:'11pt'  }} colspan={3}>
-                  
-                  TRANSPORT
-                  </TableCell>
-                  
-                  <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc",fontFamily: "Calibri",   fontSize:'11pt'  }} colspan={3}>
-                  {parseFloat(transport).toLocaleString(undefined, {minimumFractionDigits:2})} SAR
-                  </TableCell>
-                </TableRow> */}
-                        {/* <TableRow style={{ border: "1px solid #ccc",pageBreakInside:'avoid' }}>
-                  <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc",wordBreak:'break-word',fontFamily: "Calibri",   fontSize:'11pt'  }} colspan={3}>
-                  
-                 OTHER
-                  </TableCell>
-                 
-                  <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc",fontFamily: "Calibri",   fontSize:'11pt'  }} colspan={3}>
-                  {parseFloat(other).toLocaleString(undefined, {minimumFractionDigits:2})} SAR
-                  </TableCell>
-                </TableRow> */}
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }} id="abc">
                           {(parseFloat(discount_per) !== 0.00 && !isNaN(parseFloat(discount_per))) && (<>
@@ -1563,9 +1575,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             TOTAL VAT AMOUNT (15%)
                           </TableCell>
-                          {/* <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc",width: "500px",fontFamily: "Calibri",borderRight:"1px solid #fff" }}>
-                    SAR
-                  </TableCell> */}
+                        
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
                             <div>
                               <div style={{ float: "left" }} className="pl-10">SAR</div>
@@ -1575,7 +1585,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               </div>
                               <div style={{ clear: "left" }} />
                             </div>
-                            {/* {parseFloat(vat_in_value).toLocaleString(undefined, {minimumFractionDigits:2})} SAR */}
                           </TableCell>
                         </TableRow>
 
@@ -1596,9 +1605,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
                             <strong>GRAND TOTAL</strong>
                           </TableCell>
-                          {/* <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc",width: "50px",fontFamily: "Calibri",borderRight:"1px solid #fff" }}>
-                    SAR
-                  </TableCell> */}
+                      
                           <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", width: "500px", fontFamily: "Calibri", fontSize: '14pt', color: '#000' }} colspan={2}>
 
                             <div>
@@ -1609,14 +1616,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                               </div>
                               <div style={{ clear: "left" }} />
                             </div>
-                            {/* <strong>{parseFloat(net_amount).toLocaleString(undefined,{minimumFractionDigits:2})} SAR</strong> */}
 
                           </TableCell>
                         </TableRow>
-
-
-
-
 
                       </TableBody>
                     </Table>

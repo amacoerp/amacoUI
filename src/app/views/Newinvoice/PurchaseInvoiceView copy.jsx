@@ -336,12 +336,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // myFunction()
     // document.title = "VAT Invoice - Amaco"
     url.get("purchase-invoice/" + id).then(({ data }) => {
-      // console.log('a', );
-      setBank(data[3]?.[0])
-
+     
       document.title = `AMACO- ${data[0]?.invoice_no}-${data[0]?.party?.firm_name}`
       if (data) {
-
         setFile(data[0].file);
         if (data[0].file) {
           var type = data[0].file.slice(-3);
@@ -1042,7 +1039,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     borderRadius="borderRadius"
                   >
                     <div className="viewer__order-info px-4 pt-4 mb-4 flex justify-between">
-                      <Table style={{ border: "1px solid #ccc" ,zIndex:'1000'}}>
+                      <Table style={{ border: "1px solid #ccc" }}>
                         <TableHead
                           style={{
                             backgroundColor: "#1d2257",
@@ -1325,151 +1322,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             );
                           })}
 
-                         
-
-                        </TableBody>
-                      </Table>
-                    </div>
-                    <div style={{ pageBreakInside: 'avoid'}} className="viewer__order-info px-4 pt-4 mb-4 flex justify-between">
-                      <Table style={{position:'relative',top:'-105px'}}>
-                        <TableHead  style={{ backgroundColor: 'trasparent',visibility:'hidden' }}>
-                        <TableRow style={{  }}>
-                            <TableCell
-                              className="pl-0"
-                              colspan={1}
-                              style={{
-                                // border: "1px solid #ccc",
-                                width: "50px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>رقم</span>
-                              <br></br> S.No.
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              colspan={3}
-                              style={{
-                                // border: "1px solid #ccc",
-                                width: "px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>وصف</span>
-                              <br></br> DESCRIPTION
-                            </TableCell>
-
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                // border: "1px solid #ccc",
-                                width: "90px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                                wordBreak: "break-word",
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>وحدة</span>
-                              <br></br>UOM
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              colspan={2}
-                              style={{
-                                // border: "1px solid #ccc",
-                                width: "90px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>كمية</span>
-                              <br></br>QTY
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                // border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                width: "130px",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>سعر الوحدة</span>
-                              <br></br> UNIT PRICE
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                // border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                width: "130px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>
-                                المجموع الفرعي
-                              </span>
-                              <br></br> SUB TOTAL
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                // border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                width: "130px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>
-                                القيمة الضريبية
-                              </span>
-                              <br></br>VAT AMOUNT{" "}
-                            </TableCell>
-                            <TableCell
-                              className="px-0"
-                              style={{
-                                // border: "1px solid #ccc",
-                                wordBreak: "break-word",
-                                width: "130px",
-                                fontFamily: "Calibri",
-                                color: "#fff",
-                                fontWeight: 1000,
-                                fontSize: 16,
-                              }}
-                              align="center"
-                            >
-                              <span style={{ fontSize: 16 }}>مجموع</span>
-                              <br></br> GRAND TOTAL
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        <TableRow style={{ border: "1px solid #ccc" }}>
+                          {/* <TableRow style={{ border: "1px solid #ccc" }}>
                             <TableCell
                               className="pl-0 capitalize"
                               align="center"
@@ -1486,7 +1339,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               >
                                 <div className="flex">
                                   <div className="pr-12">
-                                  <tr>
+                                    <tr>
                                       <td>
                                         <h5 className="font-normal capitalize">
                                           <strong>BANK DETAILS</strong>{" "}
@@ -1504,9 +1357,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Bank Name</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                        {bank?.bank_name
-                                          ? bank?.bank_name
-                                          : "---"}
+                                        {bank?.bank_name ? bank?.bank_name : '---'}
                                       </td>
                                     </tr>
                                     <tr
@@ -1520,9 +1371,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Account No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                        {bank?.account_no
-                                          ? bank?.account_no
-                                          : "---"}
+                                        {bank?.account_no ? bank?.account_no : '---'}
                                       </td>
                                     </tr>
                                     <tr
@@ -1536,9 +1385,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>IBAN No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                        {bank?.iban_no
-                                          ? bank?.iban_no
-                                          : "---"}
+                                        {bank?.iban_no ? bank?.iban_no : '---'}
                                       </td>
                                     </tr>
                                   </div>
@@ -1561,9 +1408,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               SUB TOTAL
                             </TableCell>
 
-                            {/* <TableCell style={{textAlign: "right",border: "1px solid #ccc",fontFamily: "Calibri",width:"130px",borderRight:"1px solid #fff"}}>
-                SAR
-                </TableCell> */}
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
                               {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  {currency_type}
 
@@ -1579,6 +1423,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               TOTAL VAT AMOUNT (15%)
                             </TableCell>
 
+                            
                             <TableCell style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", width: "130px", fontSize: 18 }} colspan={2}>
                               {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
 
@@ -1606,11 +1451,237 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
 
                             </TableCell>
-                          </TableRow>
+                          </TableRow> */}
+
                         </TableBody>
                       </Table>
                     </div>
+                    <div
+                      className="flex justify-between"
+                      style={{
+                        border: "1px solid #ccc",
+                        marginRight: "16px",
+                        pageBreakInside: "avoid",
+                        marginLeft: "16px",
+                        position: "relative",
+                        top: "-16px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderRight: "1px solid #ccc",
+                          marginTop: "-1px",
+                          marginBottom: "-1px",
+                        }}
+                      >
+                      </div>
+                      <div
+                        style={{
+                          // borderRight: "1px solid #ccc",
+                          marginTop: "-1px",
+                          marginBottom: "-1px",
+                        }}
+                      >
+                        <div
+                          className="pl-2 flex justify-between"
+                          style={{ fontFamily: "Calibri" }}
+                        >
+                          <div className="flex">
+                            <div
+                              className="pr-0 printPoInv"
+                              style={{
+                                width: "638px",
+                                paddingTop: "32px",
+                                paddingLeft: "17px",
+                              }}
+                            >
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          // borderRight: "1px solid #ccc",
+                          marginTop: "-1px",
+                          marginBottom: "-1px",
+                        }}
+                      >
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell
+                                className="pr-0 capitalize"
+                                align="center"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  wordBreak: "break-word",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                  width: "130px",
+                                }}
+                                colSpan={2}
+                              >
+                                االمجموع الفرعي <br />
+SUB TOTAL
+                              </TableCell>
 
+                              <TableCell
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  width: "130px",
+                                  fontSize: 18,
+                                }}
+                                colspan={2}
+                              >
+                               <div>
+                                <div
+                                  style={{ float: "left" }}
+                                  className="pl-15"
+                                >
+                                  {/* {currency_type}{" "} */}
+                                </div>
+                                <div style={{ float: "right" }}>
+                                {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}  {currency_type}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+                              </TableCell>
+                            </TableRow>
+                           
+                            <TableRow style={{ border: "1px solid #ccc" }}>
+                              <TableCell
+                                className="pr-0 capitalize"
+                                align="center"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  wordBreak: "break-word",
+                                  fontSize: 16,
+                                  height: "62px",
+                                }}
+                                colSpan={2}
+                              >
+                              القيمة الضريبية
+                              <br></br>
+                              TOTAL VAT AMOUNT (15%)
+                              </TableCell>
+
+                              <TableCell
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  width: "130px",
+                                  fontSize: 18,
+                                }}
+                                colspan={2}
+                              >
+                                 <div>
+                                <div
+                                  style={{ float: "left" }}
+                                  className="pl-15"
+                                >
+                                  {/* {currency_type} */}
+                                </div>
+                                <div style={{ float: "right" }}>
+                                {parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+                                
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </div>
+                    <div
+                      className="flex justify-between"
+                      style={{
+                        border: "1px solid #ccc",
+                        marginRight: "16px",
+                        // padding:'9px',
+                        pageBreakInside: "avoid",
+                        marginLeft: "16px",
+                        position: "relative",
+                        top: "-16px",
+                      }}
+                    >
+                      <div className="px-4 flex justify-between">
+                                <div className="flex">
+                                  <div
+                                    className="pr-12 printPoInvv capitalize"
+                                    style={{ wordBreak: "break-word" ,marginTop:'16px',width:'615px'}}
+                                  >
+                                    <strong>TOTAL IN WORDS</strong>
+                                    <br></br>
+                                    <b>{currency_type}</b> {ress}
+                                    <br></br>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                        style={{
+                          // borderRight: "1px solid #ccc",
+                          marginTop: "-1px",
+                          marginBottom: "-1px",
+                        }}
+                      >
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell
+                                className="pr-0 capitalize"
+                                align="center"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  wordBreak: "break-word",
+                                  fontFamily: "Calibri",
+                                  fontSize: 16,
+                                  height:'80px',
+                                  width: "130px",
+                                }}
+                                colSpan={2}
+                              >
+                               المجموع الكلي  <br />
+GRAND TOTAL
+                              </TableCell>
+
+                              <TableCell
+                                style={{
+                                  textAlign: "right",
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  width: "130px",
+                                  fontSize: 18,
+                                }}
+                                colspan={2}
+                              >
+                               <div>
+                                <div
+                                  style={{ float: "left" }}
+                                  className="pl-15"
+                                >
+                                  {/* {currency_type}{" "} */}
+                                </div>
+                                <div style={{ float: "right" }}>
+                                <strong>{parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency_type}</strong>
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+                              </TableCell>
+                            </TableRow>
+                           
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </div>
                     <br></br>
                     <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
 

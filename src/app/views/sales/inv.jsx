@@ -122,7 +122,7 @@ const SimpleMuiTable = () => {
       if (isAlive) setUserList(data);
       
       if (data.length) {
-
+        console.log(data)
         setpoid(data[0].id)
         setpodetails(data);
       }

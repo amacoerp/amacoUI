@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 import moment from "moment";
 
 export default function salesInv({podetails,columns}) {
-  console.log(podetails)
   return (
     <div>
       <MUIDataTable

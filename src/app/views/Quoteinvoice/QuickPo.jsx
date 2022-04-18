@@ -1370,7 +1370,7 @@ const [vatValue,setVatValue] = useState(15)
                     <p className="mb-8">Total Amount ({currency_type}) :</p>
                     {/* <p className="mb-8">Discount:</p> */}
                     <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Freight Charges ({currency_type})</p>
-                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>VAT (15%)</p>
+                    <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>VAT ({vatValue}%)</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
                       <p className="mb-8" style={{ position: 'relative', top: '-4px' }}>Net Total ({currency_type})</p>

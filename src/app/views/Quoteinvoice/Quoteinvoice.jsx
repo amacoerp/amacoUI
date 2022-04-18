@@ -212,7 +212,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.grand_total = GTotal
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.party_id = party_id
-    arr.ps_date = tempDate
+    arr.po_number = pono
+    arr.ps_date = ps_date
     arr.user_id = user.id
     arr.div_id = localStorage.getItem('division')
 
@@ -249,14 +250,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     routerHistory.push(navigatePath + `/quote/${id}/accept/2`)
   }
 
+  const [ps_date,setps_date] = useState('')
+
   useEffect(() => {
 
     url.get(`mjrQuoteDno/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+      console.log(data)
       setproList(data?.products)
 
 
       setcname(data?.sales?.party?.firm_name)
       setqno(data?.sales?.quotation_no)
+      setps_date(data?.sales?.ps_date)
       setpono(data?.sales?.po_number)
       // setrdate(data[0].requested_date)
       setparty_id(data?.sales?.party_id)
@@ -435,7 +440,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <h5 className="font-normal">
                     <strong>P.O Number: </strong>
                     <span>
-                      {pono}
+                      {pono ? pono == null || pono =='null' ? '--' : pono : '--'}
                     </span>
                   </h5>
                   {/* <TextField

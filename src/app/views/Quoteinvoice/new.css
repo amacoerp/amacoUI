@@ -8,3 +8,22 @@
 .hideBottomLine {
   border-bottom: 1px solid white !important;
 }
+
+@media print {
+  .breakthis {
+    page-break-inside: auto;    
+    /* height: 0;
+    clear: both; */
+  }  
+
+  .bandkDetTop{
+    position: relative !important;
+    top :-54px !important; 
+  }
+  .newWidth {
+    width: 205px !important;
+  }
+  .printClass{
+    width: 38.9% !important;
+  }
+}

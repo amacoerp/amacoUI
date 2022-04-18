@@ -9,6 +9,18 @@ p {
 
 /* div.onepage {page-break-after: always; } */
 
+@media print {
+  .printInv{
+    width: 316px !important;
+  }
+  .printPoInv{
+    width: 552px !important;
+  }
+  .printPoInvv{
+    width: 530px !important;
+  }
+}
+
 .hidecell {
   /* border-bottom: 1px solid white !important; */
   border-top: 1px solid white !important;
@@ -25,6 +37,23 @@ p {
   .annexturee{
     color: red;
     page-break-inside: avoid;
+  }
+
+  .movetable{
+    position: relative !important;
+    /* top :  */
+  }
+
+  .bankHead{
+    visibility: none !important;
+    background-color: transparent !important;
+  }
+  .printPoInv{
+    width: 560px !important;
+  }
+  
+  .printPoInvv{
+    width: 538px !important;
   }
   
   

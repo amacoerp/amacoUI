@@ -1061,9 +1061,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       setCustomerList(data?.customer)
       setPriceList(data?.productPrice)
 
-
-        setdiscount(data?.inv[0].discount_in_percentage);
+        setdiscount(data?.inv[0].discount_in_percentage ? data?.inv[0].discount_in_percentage == null || data?.inv[0].discount_in_percentage == 'null' ? 0 : data?.inv[0].discount_in_percentage : 0);
       setparty_id(data?.inv[0]?.party_id)
+      setQuote_date(data?.inv[0]?.issue_date)
       setVatExclude(parseInt(data?.inv[0]?.exclude_from_vat) == 1 ? true : false)
       setcname(data?.inv[0]?.party?.firm_name)
 

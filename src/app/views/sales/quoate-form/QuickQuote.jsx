@@ -687,7 +687,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (parseFloat(element.purchase_price)) {
           element[event.target.name] = value ? value : event.target.value;
 
-          element.sell_price = Math.round(
+          element.sell_price = (
             parseFloat(
               (element.margin * parseFloat(element.purchase_price)) / 100 +
                 parseFloat(element.purchase_price)
@@ -868,7 +868,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   const discountPer = (event, index, value) => {
-    console.log(dis_per);
+  
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -889,7 +889,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ? 0
           : parseFloat(event.target.value);
 
-        element.sell_price = element.purchase_price
+        element.sell_price = Math.round(element.purchase_price
           ? parseFloat(
               (element.margin * parseFloat(element.purchase_price)) / 100 +
                 parseFloat(element.purchase_price)
@@ -902,7 +902,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ).toFixed(3)) /
                 100
             ).toFixed(3)
-          : element.sell_price - (element.discount * element.sell_price) / 100;
+          : element.sell_price - (element.discount * element.sell_price) / 100);
 
         element.margin_val = element.purchase_price
           ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
@@ -1808,7 +1808,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       // margin_per=((subCost-costTotal)/costTotal)*100;
 
-                      margin_val += item.margin_val;
+                      margin_val += Math.round(item.margin_val);
 
                       margin_per = costTotal
                         ? (margin_val / costTotal) * 100
@@ -2919,11 +2919,14 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         />
                       )}
                       {show ? <>
+                        <Tooltip title='Done'>
+
                         <Icon
                         style={{
                           fontSize: "18px",
                           position: "relative",
                           left: "-5px",
+                          cursor:'pointer',
                           top: "-7px",
                         }}
                         onClick={()=>{setShow(!show)
@@ -2931,12 +2934,14 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         }}
                       >
                         done
-                      </Icon></> : <>
+                      </Icon></Tooltip> </>: <>
+                      <Tooltip title='Edit Discount'>
                       <Icon
                         style={{
                           fontSize: "18px",
                           position: "relative",
                           left: "-5px",
+                          cursor:'pointer',
                           top: "-7px",
                         }}
                         onClick={()=>{setShow(!show)
@@ -2945,6 +2950,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       >
                         edit
                       </Icon>
+                      </Tooltip>
                       </>}
                       
 

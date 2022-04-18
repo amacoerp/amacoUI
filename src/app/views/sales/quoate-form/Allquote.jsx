@@ -115,7 +115,6 @@ const Allquote = () => {
       // {
           // console.log(data)
       setUserList(data);
-
       setqdetails(data);
       // }
     });
@@ -455,7 +454,6 @@ const Allquote = () => {
           )
         },
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log(tableMeta.rowData[8])
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
               <Link to={navigatePath + "/quote/" + tableMeta.rowData[6] + "/"+tableMeta.rowData[7]+"/0"}>
@@ -540,13 +538,12 @@ const Allquote = () => {
           title={"SALES QUOTATION"}
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')&&obj.status!="draft").map((item, index) => {
-        
             return [
               ++index,
               item?.quotation_no,
               item?.party?.firm_name,
               item?.subject == "null" || item?.subject == "" || item?.subject == null  ? '--' : item?.subject,
-              moment(item?.created_at).format('DD MMM YYYY'),
+              moment(item?.ps_date).format('DD MMM YYYY'),
               // Number(parseFloat(3000).toFixed(2)).toLocaleString('en', {minimumFractionDigits: 2}),
               (parseFloat(item?.net_amount)).toLocaleString(undefined, { minimumFractionDigits: 2 }),
               item?.id,

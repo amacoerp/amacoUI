@@ -791,7 +791,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
 
 
-        element.sell_price = element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100);
+        element.sell_price = Math.round(element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100));
 
         element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : dumy_sellPrice * element.quantity
 
@@ -872,7 +872,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
           element[event.target.name] = value ? value : event.target.value;
 
-          element.sell_price = Math.round(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price);
+          element.sell_price = (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : element.purchase_price);
 
           element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
           element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
@@ -1175,6 +1175,56 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
   }, [id, isNewInvoice, isAlive, generateRandomId]);
+  const [show, setShow] = useState(false);
+  const [discPer, setDiscPer] = useState(0);
+  const handleDiscountChange = (event, oldper) => {
+    // setDiscPer(event.target.value)
+    console.log(oldper);
+    let tempItemList = [...state.item];
+
+    tempItemList.map((element, i) => {
+      element["discount"] = isNaN(parseFloat(event)) ? 0 : parseFloat(event);
+      const dumy_sellPrice = element.sell_price;
+      element.sell_price = element.purchase_price
+        ? parseFloat(
+            (element.margin * parseFloat(element.purchase_price)) / 100 +
+              parseFloat(element.purchase_price)
+          ).toFixed(3) -
+          parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3)
+        : element.sell_price - (event * element.sell_price) / 100;
+      element.margin_val = element.purchase_price
+        ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+            100) *
+          parseFloat(element.quantity)
+        : dumy_sellPrice * element.quantity;
+      element.total_amount = (element.sell_price * element.quantity).toFixed(2);
+      element.cost_qty = (element.purchase_price * element.quantity).toFixed(2);
+      element.discount_val = element.purchase_price
+        ? parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3) * parseFloat(element.quantity)
+        : ((element.discount * dumy_sellPrice) / 100) * element.quantity;
+
+      return element;
+    });
+
+    setState({
+      ...state,
+      item: tempItemList,
+    });
+  };
 
 
   const setMargin = (id, index, name) => {
@@ -1652,7 +1702,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     // margin_per=((subCost-costTotal)/costTotal)*100;
 
-                    margin_val += ((item.margin_val));
+                    margin_val += (Math.round(item.margin_val));
 
                     margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
                     subCost = (costTotal + margin_val);
@@ -2062,12 +2112,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                           decimalPlaces={2}
                           variant="outlined"
-                          inputProps={{ min: 0, style: { textAlign: 'center' } }}
+                          inputProps={{ ref: setRef(index + 'discount'), min: 0, style: { textAlign: 'center' } }}
                           size="small"
                           name="discount"
-                          inputProps={{
-                            ref: setRef(index + 'discount')
-                          }}
+                        
                           onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin', invoiceItemList) }}
 
                           currencySymbol=""
@@ -2514,19 +2562,85 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                     </div>
                     <div>
-                      <TextField
-                        className="mb-4 mr-2"
-                        label="Discount %"
-                        type="text"
-                        variant="outlined"
-                        readOnly
-                        size="small"
-                        style={{ width: '90px' }}
-                        // onChange={(event) => handleChange(event, "discount")}
-                        inputProps={{ min: 0, style: { textAlign: 'center' } }}
-                        value={isNaN(dis_per) ? 0 : dis_per}
+                    {show ? (
+                        <TextField
+                          className="mb-4 mr-2"
+                          label="Discount %"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          // readOnly
+                          style={{ width: "90px" }}
+                          onBlur={() => {
+                            handleDiscountChange(discPer, dis_per);
+                          }}
+                          onChange={(event) => setDiscPer(event.target.value)}
+                          inputProps={{
+                            min: 0,
+                            style: { textAlign: "center" },
+                          }}
+                          value={
+                            discPer
+                              ? isNaN(discPer)
+                                ? 0
+                                : discPer
+                              : isNaN(dis_per)
+                              ? 0
+                              : dis_per
+                          }
+                        />
+                      ) : (
+                        <TextField
+                          className="mb-4 mr-2"
+                          label="Discount %"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          // readOnly
+                          style={{ width: "90px" }}
+                          // onBlur={()=>{handleDiscountChange(discPer,dis_per)}}
+                          // onChange={(event) => setDiscPer(event.target.value)}
+                          inputProps={{
+                            min: 0,
+                            style: { textAlign: "center" },
+                          }}
+                          value={isNaN(dis_per) ? 0 : dis_per}
+                        />
+                      )}
+                    {show ? <>
+                        <Tooltip title='Done'>
 
-                      />
+                        <Icon
+                        style={{
+                          fontSize: "18px",
+                          position: "relative",
+                          left: "-5px",
+                          cursor:'pointer',
+                          top: "-7px",
+                        }}
+                        onClick={()=>{setShow(!show)
+                          setDiscPer(0)
+                        }}
+                      >
+                        done
+                      </Icon></Tooltip> </>: <>
+                      <Tooltip title='Edit Discount'>
+                      <Icon
+                        style={{
+                          fontSize: "18px",
+                          position: "relative",
+                          left: "-5px",
+                          cursor:'pointer',
+                          top: "-7px",
+                        }}
+                        onClick={()=>{setShow(!show)
+                          setDiscPer(dis_per)
+                        }}
+                      >
+                        edit
+                      </Icon>
+                      </Tooltip>
+                      </>}
 
 
                       {/* <TextField
