@@ -825,6 +825,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('payment_terms', payment_terms)
     formData.append('contact_id', contactid)
     formData.append('ps_date', Quote_date)
+    formData.append('old_date', oldDate)
     formData.append('rfq_id', null)
     formData.append('transaction_type', "sale")
     formData.append('id', id)
@@ -1051,6 +1052,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }
   const [data, setData] = useState([])
   const [uom, setUOM] = useState(false)
+  const [oldDate,setOldDate] = useState()
   useEffect(() => {
 
 
@@ -1064,6 +1066,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setdiscount(data?.inv[0].discount_in_percentage ? data?.inv[0].discount_in_percentage == null || data?.inv[0].discount_in_percentage == 'null' ? 0 : data?.inv[0].discount_in_percentage : 0);
       setparty_id(data?.inv[0]?.party_id)
       setQuote_date(data?.inv[0]?.issue_date)
+      setOldDate(data?.inv[0]?.issue_date)
       setVatExclude(parseInt(data?.inv[0]?.exclude_from_vat) == 1 ? true : false)
       setcname(data?.inv[0]?.party?.firm_name)
 

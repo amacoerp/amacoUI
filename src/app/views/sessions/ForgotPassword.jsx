@@ -7,11 +7,10 @@ import clsx from "clsx";
 import url from "../invoice/InvoiceService";
 import bcrypt from "bcryptjs";
 import { useParams, useHistory } from "react-router-dom";
-import CryptoAES from 'crypto-js/aes';
-import CryptoENC from 'crypto-js/enc-utf8';
-import CryptoJS from 'crypto-js';
-
-
+import CryptoAES from "crypto-js/aes";
+import CryptoENC from "crypto-js/enc-utf8";
+import CryptoJS from "crypto-js";
+import { split } from "lodash";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   cardHolder: {
@@ -27,12 +26,10 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const ForgotPassword = () => {
   const [state, setState] = useState({});
   const classes = useStyles();
-  const [emails, setEmails] = useState([])
-  const [hash, setHash] = useState('')
-  const [message, setMessage] = useState('');
+  const [emails, setEmails] = useState([]);
+  const [hash, setHash] = useState("");
+  const [message, setMessage] = useState("");
   const [color, setColor] = useState(false);
-
-
 
   const handleChange = ({ target: { name, value } }) => {
     setState({
@@ -43,80 +40,64 @@ const ForgotPassword = () => {
   const routerHistory = useHistory();
 
   const checkOtp = async (otp, hash) => {
-
     const isMatch = await bcrypt.compare(otp, hash);
     if (isMatch) {
-      routerHistory.push("/session/change-password/" + state.email)
+      routerHistory.push("/session/change-password/" + state.email);
     } else {
-      setColor(false)
-      setMessage('Entered OTP is Wrong')
+      setColor(false);
+      setMessage("Entered OTP is Wrong");
     }
-
-  }
+  };
 
   const handleFormSubmit = async (event) => {
     if (hash) {
-      checkOtp(state.totp, hash)
+      checkOtp(state.totp, hash);
     } else {
       if (emails.includes(state.email)) {
-
-        await url.post('sendOtp', state)
-          .then(function (data) {
-            setMessage('A OTP has been sent to ')
-            setHash(data.data.message)
-            setColor(true)
-
-          })
+        await url.post("sendOtp", state).then(function (data) {
+          setMessage("A OTP has been sent to ");
+          setHash(data.data.message);
+          setColor(true);
+        });
         const salt = await bcrypt.genSalt(10);
         const token = await bcrypt.hash(hash, salt);
-        localStorage.setItem('token', token)
-
-
+        localStorage.setItem("token", token);
       } else {
-        setMessage('Email Not Found')
+        setMessage("Email Not Found");
       }
     }
+  };
 
+  const decryptData = async (data) => {
+    const emails = data?.map((item) => {
+      var doe = item;
+      var krl = "Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=";
+
+      // P var krl = "rPf8WKIvLBzpk5RZ02mBAA0RQg+FsfkMid7R0rKS0RQ=";
+      doe = atob(doe);
+      doe = JSON.parse(doe);
+      const iv = CryptoJS.enc.Base64.parse(doe.iv);
+      const value = doe.value;
+      krl = CryptoJS.enc.Base64.parse(krl);
+      var dopaw = CryptoJS.AES.decrypt(value, krl, {
+        iv: iv,
+      });
+      dopaw = dopaw.toString(CryptoJS.enc.Utf8);
+      return dopaw.split(':"')[1].split('";')[0];
+    });
+    setEmails(emails);
   };
 
   useEffect(() => {
     url.get(`getAllEmails`).then(({ data }) => {
-
-      // var key = 'Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=';
-      // let encrypted = data
-      // encrypted = atob(encrypted);
-      // encrypted = JSON.parse(encrypted);
-     
-
-     
-      // const iv = CryptoJS.enc.Base64.parse(encrypted.iv);
-      // const value = encrypted.value;
-      // key = CryptoJS.enc.Base64.parse(key);
-      // var decrypted = CryptoJS.AES.decrypt(value, key, {
-      //   iv: iv
-      // });
-      // decrypted = decrypted.toString(CryptoJS.enc.Utf8);
-    
-      // let index = decrypted.replace(/s:/g, '').indexOf(":")
-      // let slicedData = decrypted.replace(/s:/g, '').slice(index)
-      // let len = JSON.stringify(slicedData.slice(1)).slice(2).length;
-      // let stringfy = JSON.stringify(slicedData.slice(1)).slice(2)
-      // len = len - 4
-      // let finalD = stringfy.slice(0,len)+'"'
-      // let da = JSON.parse(finalD)
-
-      // console.log(da)
-   
-
-
-      const emails = data.filter(obj => obj.email !== null).map((item, i) => {
-        return item.email
-      })
-      setEmails(emails)
-    })
-
+      const emails = data
+        .filter((obj) => obj.email !== null)
+        .map((item, i) => {
+          return item.email;
+        });
+      decryptData(emails);
+    });
   }, []);
-
 
   let { email, totp } = state;
 
@@ -141,7 +122,7 @@ const ForgotPassword = () => {
           <Grid item lg={7} md={7} sm={7} xs={12}>
             <div className="p-8 h-full bg-light-gray relative">
               <ValidatorForm onSubmit={handleFormSubmit}>
-                {hash ?
+                {hash ? (
                   <TextValidator
                     className="mb-6 w-full"
                     variant="outlined"
@@ -152,11 +133,9 @@ const ForgotPassword = () => {
                     size="small"
                     value={totp || ""}
                     validators={["required"]}
-                    errorMessages={[
-                      "this field is required",
-                    ]}
+                    errorMessages={["this field is required"]}
                   />
-                  :
+                ) : (
                   <TextValidator
                     className="mb-6 w-full"
                     variant="outlined"
@@ -172,11 +151,15 @@ const ForgotPassword = () => {
                       "email is not valid",
                     ]}
                   />
-                }
-                {message && <p className={color ? "text-success" : "text-error"}>{message} {color && (<b>{state.email}</b>)}</p>}
+                )}
+                {message && (
+                  <p className={color ? "text-success" : "text-error"}>
+                    {message} {color && <b>{state.email}</b>}
+                  </p>
+                )}
                 <div className="flex items-center">
                   <Button variant="contained" color="primary" type="submit">
-                    {hash ? 'VERIFY OTP' : 'GET OTP'}
+                    {hash ? "VERIFY OTP" : "GET OTP"}
                   </Button>
                   <span className="ml-4 mr-2">or</span>
                   <Link to="/session/signin">
@@ -188,7 +171,7 @@ const ForgotPassword = () => {
           </Grid>
         </Grid>
       </Card>
-    </div >
+    </div>
   );
 };
 

@@ -29,6 +29,8 @@ export default function salesInv({podetails,columns}) {
               item?.status,
               item?.id,
               item?.quotation_id ? "quote" : "invoice",
+              item?.is_vat_filed,
+              item?.invoice_status
               // moment(item.created_at).format('DD-MM-YYYY'),
               // (parseFloat(item.net_amount)).toFixed(2),
               // item.id

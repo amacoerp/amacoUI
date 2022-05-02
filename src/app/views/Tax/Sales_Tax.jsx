@@ -178,8 +178,8 @@ const Master = ({
     // updateSidebarMode({ mode: "close" })
     document.title = "Request for quoatation - Amaco";
     url.get('salesTax').then(({ data }) => {
-      console.log(data)
-      setstatements(data)
+      
+      setstatements(data?.filter(obj => parseInt(obj.div_id) == parseInt(localStorage.getItem('division')) && parseInt(obj.exclude_from_vat) == 0))
       setresponse_data(data)
       var sumTotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.grand_total), 0)
       settotal(sumTotal)
@@ -271,6 +271,32 @@ const Master = ({
   }
 
 
+  const handleXlsx = () => {
+    const XLSX = require('xlsx')
+
+    const stmnt = statements?.map((item,i)=>{
+      let a =  i
+      return {
+        'S.NO' : ++a,
+        'DATE' : moment(item?.issue_date).format('DD MMM YYYY'),
+        'NAME' : item?.party?.firm_name,
+        'INVOICE NUMBER' : item?.invoice_no,
+        'VAT' : item?.party?.vat_no,
+        'SUB TOTAL' : item?.total_value,
+        'VAT AMOUNT' : item?.vat_in_value,
+        'TOTAL' : item?.grand_total,
+      }
+    })
+  
+    let binaryWS = XLSX.utils.json_to_sheet(stmnt); 
+    
+    var wb = XLSX.utils.book_new() 
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values') 
+    
+    XLSX.writeFile(wb, `AMACO SALES-TAX REPORT ${moment(from_date).format('DD-MM-YYYY')} - ${moment(to_date).format('DD-MM-YYYY')}.xlsx`);
+  }
+
+
 
   return (
     <div className="m-sm-30">
@@ -282,7 +308,17 @@ const Master = ({
               { name: "SALES TAX" },
             ]}
           />
+         
           <div className="text-right">
+          <Button
+              className="mr-4 py-2"
+              color="primary"
+              variant="outlined"
+              onClick={(e)=>{handleXlsx()}}
+            >
+              <Icon>import_export</Icon> EXPORT TO XLSX
+            </Button>
+
             <Button
               className="mr-4 py-2"
               color="secondary"
@@ -787,7 +823,7 @@ const Master = ({
                                         fontSize: 16,
                                       }}
                                     >
-                                      {moment(item.created_at).format('DD MMM YYYY')}
+                                      {moment(item.issue_date).format('DD MMM YYYY')}
                                     </TableCell>
                                     <TableCell
                                       className="pl-2 capitalize"

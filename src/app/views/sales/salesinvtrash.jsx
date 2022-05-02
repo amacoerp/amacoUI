@@ -204,7 +204,7 @@ export default function salesInv({podetails}) {
           .map((item, index) => {
             return [
               ++index,
-              item?.invoice_no,
+              item?.invoice_no ? item?.invoice_no : '--',
               item?.po_number == "null" || item?.po_number == null
                 ? "--"
                 : item?.po_number,

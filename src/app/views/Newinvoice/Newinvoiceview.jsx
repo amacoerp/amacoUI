@@ -616,7 +616,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        url.put(`restoreSInv/${id}`).then((res) => {
+        url.put(`restoreSInv/${id}/${localStorage.getItem('division')}`).then((res) => {
           Swal.fire("Moved!", "Invoice has been Restored.", "success");
 
           routerHistory.push(navigatePath + "/inv");
@@ -1106,7 +1106,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {buildNumber ? buildNumber + ", " : ""}
+                        {post_box_no ?  post_box_no + " ," : ""}
+                        {buildNumber ? ", "+ buildNumber  : ""}
                         {street
                           ? street +
                             (city
@@ -1119,7 +1120,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           : zipcode
                           ? zipcode
                           : " "}
-                        {post_box_no ? " ," + post_box_no : ""}
                         {country ? ", " + country : ""}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs>
@@ -1146,6 +1146,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           الشركة عنوان
                         </span>
                         <br></br>
+                        {post_box_no ?  toArabic(post_box_no) + " ," : ""}
                         {street_ar
                           ? street_ar +
                             (city_ar
@@ -1649,7 +1650,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Bank Name</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                       {bank?.bank_name ? bank?.bank_name : '---' }
+                                       {/* {bank?.bank_name ? bank?.bank_name : '---' } */}
+                                       Saudi National Bank
                                       </td>
                                     </tr>
                                     <tr
@@ -1663,7 +1665,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Account No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                       {bank?.account_no ? bank?.account_no : '--'}
+                                       {/* {bank?.account_no ? bank?.account_no : '--'} */}
+                                       6000000242200
                                       </td>
                                     </tr>
                                     <tr
@@ -1677,7 +1680,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>IBAN No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                        {bank?.iban_no ? bank?.iban_no : '--' }
+                                        {/* {bank?.iban_no ? bank?.iban_no : '--' } */}
+                                        SA3610000006000000242200
                                       </td>
                                     </tr>
                                   </div>

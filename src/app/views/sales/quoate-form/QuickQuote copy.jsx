@@ -889,7 +889,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ? 0
           : parseFloat(event.target.value);
 
-        element.sell_price = (element.purchase_price
+        element.sell_price = Math.round(element.purchase_price
           ? parseFloat(
               (element.margin * parseFloat(element.purchase_price)) / 100 +
                 parseFloat(element.purchase_price)
@@ -1808,8 +1808,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                       // margin_per=((subCost-costTotal)/costTotal)*100;
 
-                      margin_val += item.margin_val;
-                      console.log(costTotal)
+                      margin_val += Math.round(item.margin_val);
+
                       margin_per = costTotal
                         ? (margin_val / costTotal) * 100
                         : 100;

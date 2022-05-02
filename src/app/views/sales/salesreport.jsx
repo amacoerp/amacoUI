@@ -265,7 +265,7 @@ const removeData = (id) => {
               type="submit"
               onClick={handleSubmit}
             >
-              <Icon>save</Icon> Save
+              <Icon>save</Icon> Filter
             </Button>
           </Grid>
         </Grid>

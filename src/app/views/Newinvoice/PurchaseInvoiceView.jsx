@@ -273,8 +273,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
     // totalPages = totalPages - 2
-    // console.log(componentRef.current.scrollHeight)
-    if (componentRef.current.scrollHeight < 1551) {
+    console.log(componentRef.current.scrollHeight)
+    if (componentRef.current.scrollHeight < 1586) {
       totalPages = 1
     }
 
@@ -1612,7 +1612,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
 
                     <br></br>
-                    <div className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
+                    <div style={{ pageBreakInside: 'avoid'}} className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between">
 
                       <div className="pl-24" style={{ fontWeight: 1000 }}>
                         <h5 className="font-normal t-4 capitalize">
