@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Tab, Tabs } from "@material-ui/core";
+import { Divider, Tab,Card, Tabs } from "@material-ui/core";
 import { Breadcrumb, ConfirmationDialog } from "matx";
 import PartyDetails from "./PartyDetails";
 // import CustomerInvoice from "./CustomerInvoice";
@@ -9,6 +9,7 @@ import MemberEditorDialog from "../../partycontact"
 import ContactDetails from "./ContactDetails";
 // import PartyInfo from "./PartyView";
 import BankDetails from "./BankDetails";
+import Invoice from "./Invoice";
 import { navigatePath } from "app/views/invoice/InvoiceService";
 import { useParams } from "react-router-dom";
 
@@ -62,7 +63,7 @@ const CustomerViewer = () => {
           />
         )}
       </div>
-
+<Card>
       <Tabs
         className="mt-4"
         value={tabIndex}
@@ -79,6 +80,8 @@ const CustomerViewer = () => {
       {tabIndex === 0 && <PartyDetails ids={id} />}
       {tabIndex === 1 && <ContactDetails ids={id} />}
       {tabIndex === 2 && <BankDetails ids={id} />}
+      {tabIndex === 3 && <Invoice ids={id} />}
+      </Card>
     </div>
   );
 };

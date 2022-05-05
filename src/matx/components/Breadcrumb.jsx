@@ -6,13 +6,13 @@ import { navigatePath } from "app/views/invoice/InvoiceService";
 const Breadcrumb = ({ routeSegments }) => {
   return (
     <div className="flex flex-wrap items-center">
-      {routeSegments ? (
-        <Hidden xsDown>
-          <h4 className="m-0 pb-1px text-16 capitalize align-middle">
-            {routeSegments[routeSegments.length - 1]["name"]}
-          </h4>
-          <h4 className="m-0 pb-3px ml-2 text-hint">|</h4>
-        </Hidden>
+      {routeSegments ? (<></>
+        // <Hidden xsDown>
+        //   <h4 className="m-0 pb-1px text-16 capitalize align-middle">
+        //     {routeSegments[routeSegments.length - 1]["name"]}
+        //   </h4>
+        //   <h4 className="m-0 pb-3px ml-2 text-hint">|</h4>
+        // </Hidden>
       ) : null}
       <Breadcrumbs
         separator={<Icon className="text-hint">navigate_next</Icon>}

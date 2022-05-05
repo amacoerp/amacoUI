@@ -606,6 +606,7 @@ const GenPurchaseReturn = ({ isNewInvoice, toggleInvoiceEditor }) => {
         arr.currency_type = currency_type
         arr.user_id = user.id
         arr.div_id = localStorage.getItem('division')
+        arr.divi = localStorage.getItem('division') == 1 ? "T" : "P"
         const json = Object.assign({}, arr);
 
         url.post('purchase-return', json)

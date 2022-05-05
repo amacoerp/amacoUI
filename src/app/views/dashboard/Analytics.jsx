@@ -76,6 +76,56 @@ let months = [
     count: 0,
   },
 ];
+let monthse = [
+  {
+    name: "Jan",
+    count: 0,
+  },
+  {
+    name: "Feb",
+    count: 0,
+  },
+  {
+    name: "Mar",
+    count: 0,
+  },
+  {
+    name: "Apr",
+    count: 0,
+  },
+  {
+    name: "May",
+    count: 0,
+  },
+  {
+    name: "Jun",
+    count: 0,
+  },
+  {
+    name: "Jul",
+    count: 0,
+  },
+  {
+    name: "Aug",
+    count: 0,
+  },
+  {
+    name: "Sep",
+    count: 0,
+  },
+  {
+    name: "Oct",
+    count: 0,
+  },
+  {
+    name: "Nov",
+    count: 0,
+  },
+  {
+    name: "Dec",
+    count: 0,
+  },
+];
 const receipt_months = [
   {
     name: "Jan",
@@ -175,7 +225,59 @@ const Analytics = () => {
 
   /*Function to calculate the monthly wise receipt amount */
   async function receiptFun(data, date) {
-    setdataReceipt([])
+    months = monthse
+    setmonthss(monthse)
+
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
     var receipt = await data.filter(
       (obj) => obj.division_id == localStorage.getItem("division")
     );//division wise filter the array object
@@ -212,7 +314,56 @@ const Analytics = () => {
         ind ===
           receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
     );
-    
+    const receipt_months = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
    
       /*monthly wise assign the mount */
     var receiptfinalResult = receipt_months.filter(function (o1) {
@@ -234,13 +385,65 @@ const Analytics = () => {
       
       setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
+    setmonthss(monthse)
+
   }
   /*Function to calculate the monthly wise Invoice amount */
   async function  invoiceFun(data,i,m){
+    months = monthse
     
-  
-       
-    
+    setmonthss(months)
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+
     var dataList =  data?.filter(
       (obj) => obj.div_id == localStorage.getItem("division")
     );//division wise filter the array object
@@ -269,18 +472,23 @@ const Analytics = () => {
         item["month"] = moment(item.issue_date).format("MMM");
         return item;
       });
+
+
+
     
       /*filter the array based on the invoice number */
       var Due = result.filter(
       (ele, ind) =>
         ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
     );
-   
+
+    // console.log(Due)
+
     /*return the month if the there is a sales in the month List */
 
 
 
-    var finalResult = monthss.filter(el => {
+    var finalResult = monthsq.filter(el => {
 
       return Due.map(element => {
        
@@ -293,7 +501,7 @@ const Analytics = () => {
    });
    
   
-  
+
 
 
     // const finalResult = await Due.filter(function (o1) {
@@ -314,6 +522,7 @@ const Analytics = () => {
       return obj?.count ? obj?.count : 0;
     });
 
+
     if (result.length) {
    
       setinvoiceData(finalArray);
@@ -323,7 +532,7 @@ const Analytics = () => {
       
       setinvoiceData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
-    setmonthss(months)
+    setmonthss(monthse)
   }
   // const handleChange = (i) => {
     

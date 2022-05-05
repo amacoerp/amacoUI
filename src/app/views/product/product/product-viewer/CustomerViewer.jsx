@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Tab, Tabs } from "@material-ui/core";
+import { Divider,Card, Tab, Tabs } from "@material-ui/core";
 import { Breadcrumb } from "matx";
 import ProductDetails from "./ProductDetails";
 import { navigatePath } from "app/views/invoice/InvoiceService";
@@ -26,7 +26,8 @@ const CustomerViewer = () => {
         />
       </div>
 
-      <Tabs
+    <Card>
+    <Tabs
         className="mt-4"
         value={tabIndex}
         onChange={handleTabChange}
@@ -39,7 +40,8 @@ const CustomerViewer = () => {
       </Tabs>
       <Divider className="mb-6" />
 
-      {tabIndex === 0 && <ProductDetails />}
+      {tabIndex === 0 && <ProductDetails />}  
+    </Card>
     </div>
   );
 };

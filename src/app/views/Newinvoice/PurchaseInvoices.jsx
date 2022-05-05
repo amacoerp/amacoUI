@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { Icon, Tooltip } from "@material-ui/core";
-import { Link,useParams, useHistory } from "react-router-dom";
+import { Icon, Card, Tooltip } from "@material-ui/core";
+import { Link, useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath } from "../invoice/InvoiceService";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import { Divider, Tab, Tabs } from "@material-ui/core";
-import PurchaseView from './purchaseInv';
-import PurchaseTrash from './purchaseInvTrash';
+import PurchaseView from "./purchaseInv";
+import PurchaseTrash from "./purchaseInvTrash";
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -66,11 +66,11 @@ const SimpleMuiTable = () => {
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
 
   const classes = useStyles();
-  const {t} = useParams(); 
+  const { t } = useParams();
   useEffect(() => {
-    console.log(t)
-    if(t){
-      setTabIndex(parseInt(t))
+    console.log(t);
+    if (t) {
+      setTabIndex(parseInt(t));
     }
     if (localStorage.getItem("page") !== "purchaseinvoice") {
       localStorage.removeItem("search");
@@ -421,65 +421,76 @@ const SimpleMuiTable = () => {
           </div>
         </div>
 
-        <Tabs
-          className="mt-4"
-          value={tabIndex}
-          onChange={handleTabChange}
-          indicatorColor={colorset(tabIndex)}
-          textColor={colorset(tabIndex)}
-          TabIndicatorProps={{
-            style: {
-              background:
-                tabIndex == 0
-                  ? "black"
-                  : tabIndex == 1
-                  ? "rgba(255,0,0,1)"
-                  : tabIndex == 2
-                  ? "#008000"
-                  : tabIndex == 3
-                  ? "rgba(255,0,0,1)"
-                  : tabIndex == 4
-                  ? "#FFAF38"
-                  : tabIndex == 5
-                  ? "#1976d2"
-                  : "",
-            },
-          }}
-        >
-          {tabList.map((item, ind) => (
-            <Tab
-              className="capitalize"
-              style={{
-                borderBottom:
-                  tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
-                // color:(tabIndex==ind?colorset(tabIndex):"")
-                color:
-                  item == "RFQ"
+        <Card>
+          <Tabs
+            className="mt-4"
+            value={tabIndex}
+            onChange={handleTabChange}
+            indicatorColor={colorset(tabIndex)}
+            textColor={colorset(tabIndex)}
+            TabIndicatorProps={{
+              style: {
+                background:
+                  tabIndex == 0
                     ? "black"
-                    : item == "NEW"
-                    ? "black"
-                    : item == "ACCEPTED QUOTATION"
-                    ? "#008000"
-                    : item == "TRASH"
+                    : tabIndex == 1
                     ? "rgba(255,0,0,1)"
-                    : item == "DRAFT"
+                    : tabIndex == 2
+                    ? "#008000"
+                    : tabIndex == 3
+                    ? "rgba(255,0,0,1)"
+                    : tabIndex == 4
                     ? "#FFAF38"
-                    : item == "QUOTATION HISTORY"
+                    : tabIndex == 5
                     ? "#1976d2"
                     : "",
-                // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
-                backgroundColor:
-                  ind == tabIndex ? getBackgroundColor(tabIndex) : "",
-              }}
-              value={ind}
-              label={item}
-              key={ind}
+              },
+            }}
+          >
+            {tabList.map((item, ind) => (
+              <Tab
+                className="capitalize"
+                style={{
+                  borderBottom:
+                    tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
+                  // color:(tabIndex==ind?colorset(tabIndex):"")
+                  color:
+                    item == "RFQ"
+                      ? "black"
+                      : item == "NEW"
+                      ? "black"
+                      : item == "ACCEPTED QUOTATION"
+                      ? "#008000"
+                      : item == "TRASH"
+                      ? "rgba(255,0,0,1)"
+                      : item == "DRAFT"
+                      ? "#FFAF38"
+                      : item == "QUOTATION HISTORY"
+                      ? "#1976d2"
+                      : "",
+                  // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+                  backgroundColor:
+                    ind == tabIndex ? getBackgroundColor(tabIndex) : "",
+                }}
+                value={ind}
+                label={item}
+                key={ind}
+              />
+            ))}
+          </Tabs>
+          <Divider className="mb-6" />
+          {tabIndex == 0 && (
+            <PurchaseView
+              columns={columns}
+              podetails={podetails?.filter((obj) => obj.delete_status == 0)}
             />
-          ))}
-        </Tabs>
-        <Divider className="mb-6" />
-        {tabIndex == 0 && <PurchaseView columns={columns}  podetails={podetails?.filter(obj => obj.delete_status == 0)}/>}
-        {tabIndex == 1 && <PurchaseTrash  podetails={podetails?.filter(obj => obj.delete_status == 1)} />}
+          )}
+          {tabIndex == 1 && (
+            <PurchaseTrash
+              podetails={podetails?.filter((obj) => obj.delete_status == 1)}
+            />
+          )}
+        </Card>
       </div>
     </div>
   );

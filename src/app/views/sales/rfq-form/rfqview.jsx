@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { Icon } from "@material-ui/core";
+import { Icon, Card } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
-import url, { navigatePath, GDIV } from "../../invoice/InvoiceService"
+import url, { navigatePath, GDIV } from "../../invoice/InvoiceService";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import { Divider, Tab, Tabs } from "@material-ui/core";
-import RFQView from './RView';
-import RFQTrash from './RTrash.jsx';
-import RFQHistory from './RHistory.jsx';
+import RFQView from "./RView";
+import RFQTrash from "./RTrash.jsx";
+import RFQHistory from "./RHistory.jsx";
 
 // import { Button } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,7 +25,7 @@ import {
   TableRow,
   Button,
   Typography,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 const columnStyleWithWidth = {
   top: "0px",
@@ -35,8 +35,8 @@ const columnStyleWithWidth = {
   backgroundColor: "#fff",
   width: "80px",
   wordBreak: "break-all",
-  textAlign: "center"
-}
+  textAlign: "center",
+};
 const columnStyleWithWidth1 = {
   top: "0px",
   left: "0px",
@@ -46,68 +46,57 @@ const columnStyleWithWidth1 = {
   backgroundColor: "#fff",
   width: "500px",
   wordBreak: "break-all",
-}
+};
 
 const SimpleMuiTable = () => {
   const [isAlive, setIsAlive] = useState(true);
   const [userList, setUserList] = useState([]);
   const [rfq_details, setrfq_details] = useState([]);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  const [searchh,setSearch] = useState(null)
+  const [searchh, setSearch] = useState(null);
   const { search } = useParams();
 
-const tabList = ['RFQ','TRASH','RFQ HISTORY'];
-const [tabIndex, setTabIndex] = useState(0);
+  const tabList = ["RFQ", "TRASH", "RFQ HISTORY"];
+  const [tabIndex, setTabIndex] = useState(0);
 
-const {t} = useParams();
+  const { t } = useParams();
 
-const colorset = (tabIndex) => {
-    
-  if(tabIndex==0)
-  return "dark"
-  if(tabIndex==1)
-  return "dark"
-  if(tabIndex==2)
-  return "#008000"
-  if(tabIndex==3)
-  return "rgba(255,0,0,1)"
-  if(tabIndex==4)
-  return "secondary"
-  if(tabIndex==5)
-  return "primary"
-};
+  const colorset = (tabIndex) => {
+    if (tabIndex == 0) return "dark";
+    if (tabIndex == 1) return "dark";
+    if (tabIndex == 2) return "#008000";
+    if (tabIndex == 3) return "rgba(255,0,0,1)";
+    if (tabIndex == 4) return "secondary";
+    if (tabIndex == 5) return "primary";
+  };
 
+  const getBackgroundColor = (ind) => {
+    if (ind == 0) {
+      return "#00000014";
+    } else if (ind == 1) {
+      return "#00000014";
+    } else if (ind == 2) {
+      return "#00800029";
+    } else if (ind == 3) {
+      return "#ff00001c";
+    } else if (ind == 4) {
+      return "#ffaf3829";
+    } else if (ind == 5) {
+      return "#1976d21f";
+    }
+  };
 
-const getBackgroundColor = (ind) => {
-  if(ind == 0){
-    return '#00000014'
-  }else if(ind == 1){
-    return '#00000014'
-  }else if(ind == 2){
-    return '#00800029'
-  }else if(ind == 3){
-    return '#ff00001c';
-  }else if(ind == 4){
-    return '#ffaf3829';
-  }else if(ind == 5){
-    return '#1976d21f';
-  }
-}
+  const handleTabChange = (e, value) => {
+    setTabIndex(value);
+  };
 
-
-const handleTabChange = (e, value) => {
-  setTabIndex(value);
-};
-
-const [poRfq,setPoRfq] = useState([])
+  const [poRfq, setPoRfq] = useState([]);
 
   useEffect(() => {
-   
-    setTabIndex(parseInt(t ? t : 0))
+    setTabIndex(parseInt(t ? t : 0));
     url.get("rfq").then(({ data }) => {
       // if (isAlive) setUserList(data);
       // var myJSON = JSON.stringify(data.id);
-
 
       if (data.length !== 0) {
         setUserList(data.rfq);
@@ -121,7 +110,6 @@ const [poRfq,setPoRfq] = useState([])
   const [count, setCount] = useState(0);
   const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
-
     routerHistory.push(`/rfqanalysis/${invoiceId}`);
   };
 
@@ -132,7 +120,7 @@ const [poRfq,setPoRfq] = useState([])
     return () => setIsAlive(false);
   }
   function Increment(e) {
-    alert('3')
+    alert("3");
   }
   function Decrement() {
     setCount(count - 1);
@@ -147,62 +135,55 @@ const [poRfq,setPoRfq] = useState([])
       ...click,
       {
         id: click.length,
-        value: Math.random() * 10
-      }
+        value: Math.random() * 10,
+      },
     ]);
   };
   const removeData = (id) => {
     // alert(id)
     // let url = `https://jsonplaceholder.typicode.com/users/${id}`
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
-      icon: 'danger',
+      title: "Are you sure?",
+      text: "You will not be able to recover this imaginary file!",
+      icon: "danger",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        url.delete(`products/${id}`)
-          .then(res => {
-            getrow()
-            Swal.fire(
-              'Deleted!',
-              'Your imaginary file has been deleted.',
-              'success'
-            )
-
-          })
-
-
-
+        url.delete(`products/${id}`).then((res) => {
+          getrow();
+          Swal.fire(
+            "Deleted!",
+            "Your imaginary file has been deleted.",
+            "success"
+          );
+        });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
+        Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
       }
-    })
-
-  }
+    });
+  };
   const columns = [
     {
       name: "id", // field name in the row object
       label: "S.NO.", // column title that will be shown in table
       options: {
-
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={columnStyleWithWidth} className="pr-0">
-              <span >S.NO.</span>
+            <TableCell
+              key={index}
+              style={columnStyleWithWidth}
+              className="pr-0"
+            >
+              <span>S.NO.</span>
             </TableCell>
-          )
+          );
         },
         setCellProps: () => ({
-          align: "center"
-        })
-      }
+          align: "center",
+        }),
+      },
     },
     {
       name: "fname", // field name in the row object
@@ -211,14 +192,16 @@ const [poRfq,setPoRfq] = useState([])
         customHeadRender: ({ index, ...column }) => {
           return (
             <TableCell key={index} style={columnStyleWithWidth1}>
-              <span style={{ marginLeft: 18, align: "center" }}>COMPANY NAME</span>
+              <span style={{ marginLeft: 18, align: "center" }}>
+                COMPANY NAME
+              </span>
             </TableCell>
-          )
+          );
         },
         setCellProps: () => ({
-          align: "center"
-        })
-      }
+          align: "center",
+        }),
+      },
     },
     {
       name: "name",
@@ -226,12 +209,16 @@ const [poRfq,setPoRfq] = useState([])
       options: {
         customHeadRender: (value, tableMeta, updateValue) => {
           return (
-            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>RFQ DATE</span>  </TableCell>)
+            <TableCell style={{ textAlign: "center" }}>
+              {" "}
+              <span style={{ align: "center" }}>RFQ DATE</span>{" "}
+            </TableCell>
+          );
         },
         setCellProps: () => ({
-          align: "center"
-        })
-      }
+          align: "center",
+        }),
+      },
     },
     {
       name: "require_date",
@@ -240,11 +227,15 @@ const [poRfq,setPoRfq] = useState([])
         filter: true,
         customHeadRender: (value, tableMeta, updateValue) => {
           return (
-            <TableCell style={{ textAlign: "center" }}> <span style={{ align: "center" }}>BID CLOSING DATE</span>  </TableCell>)
+            <TableCell style={{ textAlign: "center" }}>
+              {" "}
+              <span style={{ align: "center" }}>BID CLOSING DATE</span>{" "}
+            </TableCell>
+          );
         },
         setCellProps: () => ({
-          align: "center"
-        })
+          align: "center",
+        }),
       },
     },
     {
@@ -254,15 +245,29 @@ const [poRfq,setPoRfq] = useState([])
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: 'right' }} className="pr-8">
+            <TableCell
+              key={index}
+              style={{ textAlign: "right" }}
+              className="pr-8"
+            >
               <span style={{ marginLeft: 18 }}>ACTION</span>
             </TableCell>
-          )
+          );
         },
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <div style={{ textAlign: 'right' }} className="pr-8">
-              <Link to={ searchh ? navigatePath + "/invoice/" + tableMeta.rowData[4] +'/'+ searchh : navigatePath + "/invoice/" + tableMeta.rowData[4]}>
+            <div style={{ textAlign: "right" }} className="pr-8">
+              <Link
+                to={
+                  searchh
+                    ? navigatePath +
+                      "/invoice/" +
+                      tableMeta.rowData[4] +
+                      "/" +
+                      searchh
+                    : navigatePath + "/invoice/" + tableMeta.rowData[4]
+                }
+              >
                 <Tooltip title="View More">
                   <Icon color="primary">remove_red_eye</Icon>
                 </Tooltip>
@@ -273,9 +278,7 @@ const [poRfq,setPoRfq] = useState([])
             </IconButton>
           </Link> */}
             </div>
-
-          )
-
+          );
         },
       },
     },
@@ -298,8 +301,6 @@ const [poRfq,setPoRfq] = useState([])
     //     },
     // },
   ];
-
-
 
   return (
     <div>
@@ -326,35 +327,71 @@ const [poRfq,setPoRfq] = useState([])
             </div>
           </div>
         </div>
-
-
-        <Tabs
-        className="mt-4"
-        value={tabIndex}
-        onChange={handleTabChange}
-        indicatorColor={colorset(tabIndex)}
-        textColor={colorset(tabIndex)}
-        TabIndicatorProps={{style: {background: tabIndex==0? 'black':tabIndex==1 ? 'rgba(255,0,0,1)' : tabIndex==2 ?  '#008000' : tabIndex == 3 ? 'rgba(255,0,0,1)' : tabIndex == 4 ? '#FFAF38': tabIndex == 5 ? '#1976d2' : '' }}}
-      >
-        {tabList.map((item, ind) => (
-          <Tab className="capitalize" style={{borderBottom:(tabIndex==ind?`2px solid ${colorset(tabIndex)}`:" "),
-          // color:(tabIndex==ind?colorset(tabIndex):"")
-          color:item == 'RFQ' ? 'black' : item == 'NEW' ? 'black' : item == 'RFQ HISTORY' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
-          // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
-          backgroundColor:ind == tabIndex ? getBackgroundColor(tabIndex) : ''
-
-        }} value={ind} label={item} key={ind} />
-        ))}
-      </Tabs>
-      <Divider className="mb-6" />
-      {tabIndex == 0 && <RFQView userList={userList}/>}
-      {tabIndex == 1 && <RFQTrash userList={userList}/>}
-      {tabIndex == 2 && <RFQHistory userList={poRfq}/>}
-
+        <Card>
+          <Tabs
+            className="mt-4"
+            value={tabIndex}
+            onChange={handleTabChange}
+            indicatorColor={colorset(tabIndex)}
+            textColor={colorset(tabIndex)}
+            TabIndicatorProps={{
+              style: {
+                background:
+                  tabIndex == 0
+                    ? "black"
+                    : tabIndex == 1
+                    ? "rgba(255,0,0,1)"
+                    : tabIndex == 2
+                    ? "#008000"
+                    : tabIndex == 3
+                    ? "rgba(255,0,0,1)"
+                    : tabIndex == 4
+                    ? "#FFAF38"
+                    : tabIndex == 5
+                    ? "#1976d2"
+                    : "",
+              },
+            }}
+          >
+            {tabList.map((item, ind) => (
+              <Tab
+                className="capitalize"
+                style={{
+                  borderBottom:
+                    tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
+                  // color:(tabIndex==ind?colorset(tabIndex):"")
+                  color:
+                    item == "RFQ"
+                      ? "black"
+                      : item == "NEW"
+                      ? "black"
+                      : item == "RFQ HISTORY"
+                      ? "#008000"
+                      : item == "TRASH"
+                      ? "rgba(255,0,0,1)"
+                      : item == "DRAFT"
+                      ? "#FFAF38"
+                      : item == "QUOTATION HISTORY"
+                      ? "#1976d2"
+                      : "",
+                  // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+                  backgroundColor:
+                    ind == tabIndex ? getBackgroundColor(tabIndex) : "",
+                }}
+                value={ind}
+                label={item}
+                key={ind}
+              />
+            ))}
+          </Tabs>
+          <Divider className="mb-6" />
+          {tabIndex == 0 && <RFQView userList={userList} />}
+          {tabIndex == 1 && <RFQTrash userList={userList} />}
+          {tabIndex == 2 && <RFQHistory userList={poRfq} />}
+        </Card>
       </div>
     </div>
   );
-}
-
+};
 
 export default SimpleMuiTable;

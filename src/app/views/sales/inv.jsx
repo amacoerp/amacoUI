@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { Icon, Tooltip } from "@material-ui/core";
+import { Icon, Card, Tooltip } from "@material-ui/core";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { GDIV, navigatePath } from "../invoice/InvoiceService";
@@ -107,7 +107,6 @@ const SimpleMuiTable = () => {
   const [allData, setAllData] = useState([]);
 
   useEffect(() => {
-    console.log("call ding dong");
 
     if (t) {
       setTabIndex(parseInt(t));
@@ -251,10 +250,10 @@ const SimpleMuiTable = () => {
     }
   };
   const invoiceStatus = (id, st) => {
-    let v = 'Not Printed';
-    
-    if (st == 'Not Printed') {
-      v = 'Printed';
+    let v = "Not Printed";
+
+    if (st == "Not Printed") {
+      v = "Printed";
 
       Swal.fire({
         title: "Are you sure?",
@@ -277,11 +276,7 @@ const SimpleMuiTable = () => {
                 })
               );
             }
-            Swal.fire(
-              "Success!",
-              "",
-              "success"
-            ).then(() => {
+            Swal.fire("Success!", "", "success").then(() => {
               setIsAlive(true);
             });
           });
@@ -290,7 +285,7 @@ const SimpleMuiTable = () => {
         }
       });
     } else {
-      v = 'Not Printed';
+      v = "Not Printed";
 
       Swal.fire({
         title: "Are you sure?",
@@ -313,11 +308,7 @@ const SimpleMuiTable = () => {
                 })
               );
             }
-            Swal.fire(
-              "Success!",
-              "",
-              "success"
-            ).then(() => {
+            Swal.fire("Success!", "", "success").then(() => {
               setIsAlive(true);
             });
           });
@@ -593,12 +584,23 @@ const SimpleMuiTable = () => {
                   </Icon>
                 </Tooltip>
               </span>
-              <Tooltip title={tableMeta.rowData[10] ? tableMeta.rowData[10] : 'Not Printed' }>
+              <Tooltip
+                title={
+                  tableMeta.rowData[10] ? tableMeta.rowData[10] : "Not Printed"
+                }
+              >
                 <Icon
                   onClick={(e) => {
                     invoiceStatus(tableMeta.rowData[7], tableMeta.rowData[10]);
                   }}
-                  style={{ color: tableMeta.rowData[10] == 'Not Printed' || tableMeta.rowData[10] == null || tableMeta.rowData[10]  == '' ? 'gray' : "#22d322" }}
+                  style={{
+                    color:
+                      tableMeta.rowData[10] == "Not Printed" ||
+                      tableMeta.rowData[10] == null ||
+                      tableMeta.rowData[10] == ""
+                        ? "gray"
+                        : "#22d322",
+                  }}
                 >
                   print
                 </Icon>
@@ -751,74 +753,76 @@ const SimpleMuiTable = () => {
             </ValidatorForm>
           </div>
         </div>
-        <Tabs
-          className="mt-4"
-          value={tabIndex}
-          onChange={handleTabChange}
-          indicatorColor={colorset(tabIndex)}
-          textColor={colorset(tabIndex)}
-          TabIndicatorProps={{
-            style: {
-              background:
-                tabIndex == 0
-                  ? "black"
-                  : tabIndex == 1
-                  ? "rgba(255,0,0,1)"
-                  : tabIndex == 2
-                  ? "#008000"
-                  : tabIndex == 3
-                  ? "rgba(255,0,0,1)"
-                  : tabIndex == 4
-                  ? "#FFAF38"
-                  : tabIndex == 5
-                  ? "#1976d2"
-                  : "",
-            },
-          }}
-        >
-          {tabList.map((item, ind) => (
-            <Tab
-              className="capitalize"
-              style={{
-                borderBottom:
-                  tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
-                // color:(tabIndex==ind?colorset(tabIndex):"")
-                color:
-                  item == "RFQ"
+        <Card>
+          <Tabs
+            className="mt-4"
+            value={tabIndex}
+            onChange={handleTabChange}
+            indicatorColor={colorset(tabIndex)}
+            textColor={colorset(tabIndex)}
+            TabIndicatorProps={{
+              style: {
+                background:
+                  tabIndex == 0
                     ? "black"
-                    : item == "NEW"
-                    ? "black"
-                    : item == "ACCEPTED QUOTATION"
-                    ? "#008000"
-                    : item == "TRASH"
+                    : tabIndex == 1
                     ? "rgba(255,0,0,1)"
-                    : item == "DRAFT"
+                    : tabIndex == 2
+                    ? "#008000"
+                    : tabIndex == 3
+                    ? "rgba(255,0,0,1)"
+                    : tabIndex == 4
                     ? "#FFAF38"
-                    : item == "QUOTATION HISTORY"
+                    : tabIndex == 5
                     ? "#1976d2"
                     : "",
-                // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
-                backgroundColor:
-                  ind == tabIndex ? getBackgroundColor(tabIndex) : "",
-              }}
-              value={ind}
-              label={item}
-              key={ind}
+              },
+            }}
+          >
+            {tabList.map((item, ind) => (
+              <Tab
+                className="capitalize"
+                style={{
+                  borderBottom:
+                    tabIndex == ind ? `2px solid ${colorset(tabIndex)}` : " ",
+                  // color:(tabIndex==ind?colorset(tabIndex):"")
+                  color:
+                    item == "RFQ"
+                      ? "black"
+                      : item == "NEW"
+                      ? "black"
+                      : item == "ACCEPTED QUOTATION"
+                      ? "#008000"
+                      : item == "TRASH"
+                      ? "rgba(255,0,0,1)"
+                      : item == "DRAFT"
+                      ? "#FFAF38"
+                      : item == "QUOTATION HISTORY"
+                      ? "#1976d2"
+                      : "",
+                  // backgroundColor:item == 'All' ? 'black' : item == 'NEW' ? 'black' : item == 'ACCEPTED QUOTATION' ? '#008000' : item == 'TRASH' ? 'rgba(255,0,0,1)' : item == 'DRAFT' ? '#FFAF38' : item == 'QUOTATION HISTORY' ? '#1976d2' : '' ,
+                  backgroundColor:
+                    ind == tabIndex ? getBackgroundColor(tabIndex) : "",
+                }}
+                value={ind}
+                label={item}
+                key={ind}
+              />
+            ))}
+          </Tabs>
+          <Divider className="mb-6" />
+          {tabIndex == 0 && (
+            <SView
+              columns={columns}
+              podetails={userList?.filter((obj) => obj.delete_status == 0)}
             />
-          ))}
-        </Tabs>
-        <Divider className="mb-6" />
-        {tabIndex == 0 && (
-          <SView
-            columns={columns}
-            podetails={userList?.filter((obj) => obj.delete_status == 0)}
-          />
-        )}
-        {tabIndex == 1 && (
-          <STrash
-            podetails={userList?.filter((obj) => obj.delete_status == 1)}
-          />
-        )}
+          )}
+          {tabIndex == 1 && (
+            <STrash
+              podetails={userList?.filter((obj) => obj.delete_status == 1)}
+            />
+          )}
+        </Card>
       </div>
     </div>
   );

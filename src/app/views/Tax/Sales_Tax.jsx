@@ -179,7 +179,11 @@ const Master = ({
     document.title = "Request for quoatation - Amaco";
     url.get('salesTax').then(({ data }) => {
       
-      setstatements(data?.filter(obj => parseInt(obj.div_id) == parseInt(localStorage.getItem('division')) && parseInt(obj.exclude_from_vat) == 0))
+      setstatements(data?.sort(function (a, b) {
+        var dateA = new Date(a?.issue_date),
+          dateB = new Date(b?.issue_date);
+        return dateB - dateA;
+      })?.filter(obj => parseInt(obj.div_id) == parseInt(localStorage.getItem('division')) && parseInt(obj.exclude_from_vat) == 0))
       setresponse_data(data)
       var sumTotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.grand_total), 0)
       settotal(sumTotal)
@@ -253,7 +257,7 @@ const Master = ({
 
 
 
-    var result = response_data.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj.created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
+    var result = response_data.filter(obj => (moment(obj.issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj.issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
     var sumTotal = result.reduce((initial, cal) => initial = initial + parseFloat(cal.grand_total), 0)
     settotal(sumTotal)
     var sumVat = result.reduce((initial, cal) => initial = initial + parseFloat(cal.vat_in_value), 0)

@@ -468,6 +468,7 @@ const [vatValue,setVatValue] = useState(15)
     arr.div_id = localStorage.getItem('division')
     arr.user_id = user.id
     arr.exclude_from_vat = parseInt(vatExclude)
+    arr.divi = localStorage.getItem('division') == 1 ? 'T' : 'P'
     const json = Object.assign({}, arr);
 
     url.post('purchase-quotation', json)

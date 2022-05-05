@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Divider, Tab, Tabs,  Button } from "@material-ui/core";
+import { Divider, Card,Tab, Tabs,  Button } from "@material-ui/core";
 import { Breadcrumb,ConfirmationDialog } from "matx";
 import { Icon } from "@material-ui/core";
 import { Link,useParams } from "react-router-dom";
@@ -127,7 +127,8 @@ const CustomerViewer = () => {
         )}
       </div> */}
       
-      <Tabs
+    <Card>
+    <Tabs
         className="mt-4"
         value={tabIndex}
         onChange={handleTabChange}
@@ -154,6 +155,7 @@ const CustomerViewer = () => {
       {tabIndex == 4 && <Draft />}  
       {tabIndex == 5 && <History />} 
        
+    </Card>
     </div>
   );
 };

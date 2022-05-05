@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Divider, Tab, Tabs,  Button } from "@material-ui/core";
+import { Divider, Card,Tab, Tabs,  Button } from "@material-ui/core";
 import { Breadcrumb,ConfirmationDialog } from "matx";
 import { Icon } from "@material-ui/core";
 import { Link,useParams } from "react-router-dom";
@@ -114,7 +114,7 @@ const PoTab = () => {
           />
         )}
       </div> */}
-      
+      <Card>
       <Tabs
         className="mt-4"
         value={tabIndex}
@@ -138,7 +138,7 @@ const PoTab = () => {
       {tabIndex == 0 && <SimpleMuiTable />}
       {tabIndex == 1 && <Potrash tabIndex={tabIndex} />}
       {tabIndex == 2 && <POhistory tabIndex={tabIndex} />}
-     
+      </Card>
        
     </div>
   );

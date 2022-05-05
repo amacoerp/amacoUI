@@ -30,9 +30,7 @@ const SingleReceipt = () => {
   
   useEffect(() => {
     url.get("receipts/" + id).then(({ data }) => {
-      setReceiptList(data);
-
-    
+      setReceiptList(data);       
       setimg(data[0].referrenceImgUrl);
       setref_img(data.referrenceImgUrl);
     })

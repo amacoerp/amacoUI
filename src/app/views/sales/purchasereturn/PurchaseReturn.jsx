@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { Icon, Tooltip } from "@material-ui/core";
+import { Icon,Card, Tooltip } from "@material-ui/core";
 import { Link,useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { navigatePath } from "../../invoice/InvoiceService";
@@ -366,7 +366,8 @@ const PurchaseReturn = () => {
           </div>
         </div>
 
-        <Tabs
+       <Card>
+       <Tabs
           className="mt-4"
           value={tabIndex}
           onChange={handleTabChange}
@@ -426,6 +427,7 @@ const PurchaseReturn = () => {
         {tabIndex == 0 && <PReturn columns={columns}  podetails={podetails?.filter(obj => obj.delete_status == 0)}/>}
         {tabIndex == 1 && <PRTrash  podetails={podetails?.filter(obj => obj.delete_status == 1)} />}
     
+       </Card>
       </div>
     </div>
   );

@@ -9,6 +9,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useReactToPrint } from "react-to-print";
 import { numberToWords } from "number-to-words";
 import "./print.css";
+import DeleteComment from "./DeleteComment";
+import Alert from '@mui/material/Alert';
+
 
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from "react-intl";
@@ -293,6 +296,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [post_box_no, setpost_box_no] = useState("");
   const [country, setcountry] = useState("");
   const [bank, setBank] = useState([]);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     myFunction();
@@ -310,11 +314,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // })
 
     url.get("invoice/" + id).then(({ data }) => {
+      console.log(data)
       if (data) {
-        setBank(data[4]?.[0])
+        setBank(data[4]?.[0]);
         document.title =
           "AMACO-" + data[0].invoice_no + "-" + data[0].party?.firm_name;
         setquoteid(data[0].quotation_id ? data[0].quotation_id : id);
+        setComment(data[0].comment ? data[0].comment : '');
         data[0].quotation_id ? setres(true) : setres(false);
         setdis_per(data[0].discount_in_percentage);
         setVatExclude(parseInt(data[0].exclude_from_vat) ? true : false);
@@ -558,8 +564,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // })
   };
 
+  const [dcDailog, setDcDailog] = useState(false);
+  const [dcComment, setDcComment] = useState("");
+
   const deleteinvoice = () => {
     handleClose();
+    setDcDailog(true);
+  };
+
+  const callDeleteFun = (comment) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do You Want To Move This Invoice To Trash!",
@@ -570,7 +583,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        url.delete(`invoice/${id}`).then((res) => {
+        url.delete(`invoiceDelete/${id}/${comment}`).then(({ res }) => {
           Swal.fire("Moved!", "Invoice has been Moved to Trash.", "success");
 
           routerHistory.push(navigatePath + "/inv/1");
@@ -579,6 +592,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         Swal.fire("Cancelled", "Your Invoice is safe :)", "error");
       }
     });
+  };
+
+  const closeDeleteDialog = () => {
+    setDcDailog(false);
+    callDeleteFun(dcComment);
   };
 
   const deleteSinv = () => {
@@ -616,11 +634,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        url.put(`restoreSInv/${id}/${localStorage.getItem('division')}`).then((res) => {
-          Swal.fire("Moved!", "Invoice has been Restored.", "success");
+        url
+          .put(`restoreSInv/${id}/${localStorage.getItem("division")}`)
+          .then((res) => {
+            Swal.fire("Moved!", "Invoice has been Restored.", "success");
 
-          routerHistory.push(navigatePath + "/inv");
-        });
+            routerHistory.push(navigatePath + "/inv");
+          });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your Invoice is safe :)", "error");
       }
@@ -815,6 +835,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   <div className="px-2 pt-5 flex justify-between">
                     <div className="flex">
                       <div className="pl-2  mb-4">
+                        {del && <><Alert severity="warning">{comment}</Alert></>}
                         <h3 style={{ fontSize: 20 }}>
                           <strong>VAT INVOICE</strong>
                         </h3>
@@ -830,12 +851,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
                   </div>
                   {/* 
-
-
-
-
-
-
                   <div className="px-2 flex justify-between" style={{'flex-shrink':1}}>
                     <div className="px-2 flex justify-end">
                     <div className="flex" style={{width:'25%'}}>
@@ -1106,8 +1121,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {post_box_no ?  post_box_no + " ," : ""}
-                        {buildNumber ? ", "+ buildNumber  : ""}
+                        {post_box_no ? post_box_no + " ," : ""}
+                        {buildNumber ? ", " + buildNumber : ""}
                         {street
                           ? street +
                             (city
@@ -1146,7 +1161,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           الشركة عنوان
                         </span>
                         <br></br>
-                        {post_box_no ?  toArabic(post_box_no) + " ," : ""}
+                        {post_box_no ? toArabic(post_box_no) + " ," : ""}
                         {street_ar
                           ? street_ar +
                             (city_ar
@@ -1171,7 +1186,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     borderRadius="borderRadius"
                   >
                     <div className="viewer__order-info px-4 pt-4 mb-4 flex justify-between">
-                      <Table  style={{ zIndex:'1000', border: "1px solid #ccc" }}>
+                      <Table
+                        style={{ zIndex: "1000", border: "1px solid #ccc" }}
+                      >
                         <TableHead
                           style={{
                             backgroundColor: "#1d2257",
@@ -1445,15 +1462,24 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </TableRow>
                             );
                           })}
-
                         </TableBody>
                       </Table>
                     </div>
-                    <div className="viewer__order-info px-4 pt-4 mb-4 flex justify-between" style={{pageBreakInside: 'avoid'}}>
-
-                      <Table className="movetable" style={{position:'relative',top:'-105px'}}>
-                        <TableHead style={{backgroundColor: 'trasparent',visibility:'hidden'}}>
-                        <TableRow  style={{  }}>
+                    <div
+                      className="viewer__order-info px-4 pt-4 mb-4 flex justify-between"
+                      style={{ pageBreakInside: "avoid" }}
+                    >
+                      <Table
+                        className="movetable"
+                        style={{ position: "relative", top: "-105px" }}
+                      >
+                        <TableHead
+                          style={{
+                            backgroundColor: "trasparent",
+                            visibility: "hidden",
+                          }}
+                        >
+                          <TableRow style={{}}>
                             <TableCell
                               className="pl-0"
                               colspan={1}
@@ -1589,8 +1615,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-
-                        <TableRow style={{ border: "1px solid #ccc" }}>
+                          <TableRow style={{ border: "1px solid #ccc" }}>
                             <TableCell
                               className="pl-0 capitalize"
                               align="center"
@@ -1650,8 +1675,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Bank Name</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                       {/* {bank?.bank_name ? bank?.bank_name : '---' } */}
-                                       Saudi National Bank
+                                        {/* {bank?.bank_name ? bank?.bank_name : '---' } */}
+                                        Saudi National Bank
                                       </td>
                                     </tr>
                                     <tr
@@ -1665,8 +1690,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         <strong>Account No</strong>
                                       </td>
                                       <td style={{ height: "auto !important" }}>
-                                       {/* {bank?.account_no ? bank?.account_no : '--'} */}
-                                       6000000242200
+                                        {/* {bank?.account_no ? bank?.account_no : '--'} */}
+                                        6000000242200
                                       </td>
                                     </tr>
                                     <tr
@@ -1731,7 +1756,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </div>
                             </TableCell>
                           </TableRow>
-                        
+
                           <TableRow style={{ border: "1px solid #ccc" }}>
                             <TableCell
                               className="pr-0 pl-1 capitalize"
@@ -1792,7 +1817,6 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               GRAND TOTAL
                             </TableCell>
 
-                            
                             <TableCell
                               style={{
                                 textAlign: "right",
@@ -1847,11 +1871,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 </div>
                               </div>
                             </TableCell>
-                        
                           </TableRow>
                         </TableBody>
                       </Table>
-                  </div>
+                    </div>
                     {vatExclude ? (
                       <div className="pl-4">
                         <small>
@@ -1981,6 +2004,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           </div>
         </div>
       </div>
+      {dcDailog && (
+        <DeleteComment
+          handleClose={closeDeleteDialog}
+          open={dcDailog}
+          setDcComment={setDcComment}
+        />
+      )}
     </Card>
   );
 };
