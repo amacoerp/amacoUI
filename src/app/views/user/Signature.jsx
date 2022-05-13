@@ -112,7 +112,7 @@ const Division = () => {
                 <>
                   <img
                     src={basePath + tableMeta.rowData[1]}
-                    alt={tableMeta.rowData[1]}
+                    alt={''}
                     height={100}
                     width={100}
                   />

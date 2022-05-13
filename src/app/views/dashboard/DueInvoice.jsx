@@ -118,31 +118,31 @@ const DueInvoice = () => {
           return (
             <div className="" style={{ textAlign: "center" }}>
               <span
-               style={{
-                color:
-                  moment(new Date(), "YYYY-MM-DD").diff(
-                    moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                    "days"
-                  ) -
-                    tableMeta.rowData[4] <=
-                  3
-                    ? "yellow"
-                    : moment(new Date(), "YYYY-MM-DD").diff(
-                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                        "days"
-                      ) -
-                        tableMeta.rowData[4] >
-                      0
-                    ? "red"
-                    : moment(new Date(), "YYYY-MM-DD").diff(
-                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                        "days"
-                      ) -
-                        tableMeta.rowData[4] ==
-                      0
-                    ? "red"
-                    : "black",
-              }}  
+                style={{
+                  color:
+                    moment(new Date(), "YYYY-MM-DD").diff(
+                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                      "days"
+                    ) -
+                      tableMeta.rowData[4] <=
+                    3
+                      ? "yellow"
+                      : moment(new Date(), "YYYY-MM-DD").diff(
+                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                          "days"
+                        ) -
+                          tableMeta.rowData[4] >
+                        0
+                      ? "red"
+                      : moment(new Date(), "YYYY-MM-DD").diff(
+                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                          "days"
+                        ) -
+                          tableMeta.rowData[4] ==
+                        0
+                      ? "red"
+                      : "black",
+                }}
               >
                 {tableMeta.rowData[6]}
               </span>
@@ -331,31 +331,31 @@ const DueInvoice = () => {
           return (
             <div className="" style={{ textAlign: "center" }}>
               <span
-               style={{
-                color:
-                  moment(new Date(), "YYYY-MM-DD").diff(
-                    moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                    "days"
-                  ) -
-                    tableMeta.rowData[4] <=
-                  3
-                    ? "yellow"
-                    : moment(new Date(), "YYYY-MM-DD").diff(
-                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                        "days"
-                      ) -
-                        tableMeta.rowData[4] >
-                      0
-                    ? "red"
-                    : moment(new Date(), "YYYY-MM-DD").diff(
-                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                        "days"
-                      ) -
-                        tableMeta.rowData[4] ==
-                      0
-                    ? "red"
-                    : "black",
-              }}
+                style={{
+                  color:
+                    moment(new Date(), "YYYY-MM-DD").diff(
+                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                      "days"
+                    ) -
+                      tableMeta.rowData[4] <=
+                    3
+                      ? "yellow"
+                      : moment(new Date(), "YYYY-MM-DD").diff(
+                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                          "days"
+                        ) -
+                          tableMeta.rowData[4] >
+                        0
+                      ? "red"
+                      : moment(new Date(), "YYYY-MM-DD").diff(
+                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                          "days"
+                        ) -
+                          tableMeta.rowData[4] ==
+                        0
+                      ? "red"
+                      : "black",
+                }}
               >
                 {moment(new Date(), "YYYY-MM-DD").diff(
                   moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
@@ -393,37 +393,45 @@ const DueInvoice = () => {
                 0 && (
                 <span
                   style={{
-                  color:
-                    moment(new Date(), "YYYY-MM-DD").diff(
-                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                      "days"
-                    ) -
-                      tableMeta.rowData[4] <=
-                    3
-                      ? "yellow"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] >
-                        0
-                      ? "red"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] ==
-                        0
-                      ? "red"
-                      : "black",
-                }}
+                    color:
+                      moment(new Date(), "YYYY-MM-DD").diff(
+                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                        "days"
+                      ) -
+                        tableMeta.rowData[4] <=
+                      3
+                        ? "yellow"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] >
+                          0
+                        ? "red"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] ==
+                          0
+                        ? "red"
+                        : "black",
+                  }}
                 >
                   {" "}
                   DUE IN{" "}
-                  {Math.abs(moment(new Date(), "YYYY-MM-DD").diff(
-                    moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                    "days"
-                  ) - tableMeta.rowData[4])}{" "}
+                  {Math.abs(
+                    moment(new Date(), "YYYY-MM-DD").diff(
+                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                      "days"
+                    ) - tableMeta.rowData[4]
+                  )}{" "}
                   DAYS
                 </span>
               )}
@@ -435,30 +443,36 @@ const DueInvoice = () => {
                 0 && (
                 <span
                   style={{
-                  color:
-                    moment(new Date(), "YYYY-MM-DD").diff(
-                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                      "days"
-                    ) -
-                      tableMeta.rowData[4] <=
-                    3
-                      ? "yellow"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] >
-                        0
-                      ? "red"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] ==
-                        0
-                      ? "red"
-                      : "black",
-                }}
+                    color:
+                      moment(new Date(), "YYYY-MM-DD").diff(
+                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                        "days"
+                      ) -
+                        tableMeta.rowData[4] <=
+                      3
+                        ? "yellow"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] >
+                          0
+                        ? "red"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] ==
+                          0
+                        ? "red"
+                        : "black",
+                  }}
                 >
                   {" "}
                   DUE SINCE{" "}
@@ -477,30 +491,36 @@ const DueInvoice = () => {
                 0 && (
                 <span
                   style={{
-                  color:
-                    moment(new Date(), "YYYY-MM-DD").diff(
-                      moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                      "days"
-                    ) -
-                      tableMeta.rowData[4] <=
-                    3
-                      ? "yellow"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] >
-                        0
-                      ? "red"
-                      : moment(new Date(), "YYYY-MM-DD").diff(
-                          moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
-                          "days"
-                        ) -
-                          tableMeta.rowData[4] ==
-                        0
-                      ? "red"
-                      : "black",
-                }}
+                    color:
+                      moment(new Date(), "YYYY-MM-DD").diff(
+                        moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
+                        "days"
+                      ) -
+                        tableMeta.rowData[4] <=
+                      3
+                        ? "yellow"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] >
+                          0
+                        ? "red"
+                        : moment(new Date(), "YYYY-MM-DD").diff(
+                            moment(
+                              new Date(tableMeta.rowData[5]),
+                              "YYYY-MM-DD"
+                            ),
+                            "days"
+                          ) -
+                            tableMeta.rowData[4] ==
+                          0
+                        ? "red"
+                        : "black",
+                  }}
                 >
                   {" "}
                   DUE TODAY
@@ -532,21 +552,24 @@ const DueInvoice = () => {
     <div>
       <MUIDataTable
         title="DUE STATEMENTS"
-        data={accountStatement?.filter(obj => obj.debit - obj.credit > 0)?.map((item, index) => {
-          
-          return [
-            ++index,
-            item[0]?.grand_total,
-            // parseFloat(item?.debit - item?.credit).toLocaleString(undefined, {
-            //   minimumFractionDigits: 2,
-            // }),
-            item[0].party?.firm_name?.toUpperCase(),
-            item[0].party?.id,
-            item[0].credit_days,
-            item[0].date,
-            item[0].invoice_no,
-          ];
-        })}
+        data={accountStatement
+          ?.filter((obj) => obj.debit - obj.credit > 0)
+          ?.map((item, index) => {
+            return [
+              ++index,
+              parseFloat(item[0]?.grand_total).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+              }),
+              // parseFloat(item?.debit - item?.credit).toLocaleString(undefined, {
+              //   minimumFractionDigits: 2,
+              // }),
+              item[0].party?.firm_name?.toUpperCase(),
+              item[0].party?.id,
+              item[0].credit_days,
+              item[0].date,
+              item[0].invoice_no,
+            ];
+          })}
         columns={columnsDue}
         options={{
           filterType: "textField",

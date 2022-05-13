@@ -2787,14 +2787,16 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             : parseFloat(margin_per).toFixed(3)
                         }
                       />
-                      <TextField
+                      <CurrencyTextField
                         className="w-full "
                         readOnly
+                        currencySymbol="SAR"
+
                         label="Margin Value"
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: "150px", alignItems: "right" }}
+                        style={{ width: "168px", alignItems: "right" }}
                         // currencySymbol="SAR"
                         // name="dis_per"
                         value={

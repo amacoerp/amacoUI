@@ -410,6 +410,7 @@ const CustomerForm = () => {
     url
       .get("mjrExpense/" + localStorage.getItem("division"))
       .then(({ data }) => {
+        console.log(data.parties)
         setvendorList(data.vendor);
         setParties(data.parties);
         setvendorList(data.vendor);
@@ -851,7 +852,7 @@ const CustomerForm = () => {
 
       <Card elevation={3}>
         <div className="flex px-4">
-          <h4 className="m-0 mr-4 mt-4 mb-4">EXPENSE ENTRY</h4>
+          <h4 className="m-0 mr-4 mt-4 mb-4"></h4>
           {/* <Button
                     className="mb-4 ml-4"
                     variant="outlined"

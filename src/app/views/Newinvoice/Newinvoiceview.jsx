@@ -1905,7 +1905,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </IntlProvider>
                         </h5>
                         Prepared by 
-                        {sign && <><br /><img src={basePath+sign[0]?.prepared_by} height={90} width={120} alt={sign[0]?.prepared_by} /></> }
+                        {sign[0]?.prepared_by && <><br /><img src={basePath+sign[0]?.prepared_by} height={90} width={120} alt={sign[0]?.prepared_by} /></> }
                       </div>
                       <div style={{ fontWeight: 1000 }} className="pl-2">
                         <h5 className="font-normal t-4 capitalize">
@@ -1914,7 +1914,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </IntlProvider>
                         </h5>
                         Approved by
-                        {sign && <><br /><img src={basePath+sign[0]?.approval_by} height={100} width={120} alt={sign[0]?.approval_by} /></> }
+                        {sign[0]?.approval_by && <><br /><img src={basePath+sign[0]?.approval_by} height={100} width={120} alt={sign[0]?.approval_by} /></> }
 
                       </div>
                       <div className="mr-0 pr-24" style={{ fontWeight: 1000 }}>

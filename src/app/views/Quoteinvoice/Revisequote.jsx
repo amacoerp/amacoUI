@@ -2499,7 +2499,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: '150px' }}
+                        style={{ width: '168px' }}
                         currencySymbol="SAR"
                         name="dis_per"
                         value={margin_val}
