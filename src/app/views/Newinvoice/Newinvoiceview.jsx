@@ -38,6 +38,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import {
   ApiKey,
+  basePath,
   getInvoiceById,
   navigatePath,
 } from "../invoice/InvoiceService";
@@ -296,6 +297,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [post_box_no, setpost_box_no] = useState("");
   const [country, setcountry] = useState("");
   const [bank, setBank] = useState([]);
+  const [sign, setSignature] = useState([]);
   const [comment, setComment] = useState('');
 
   useEffect(() => {
@@ -312,6 +314,10 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // url.get(`https://api.mymemory.translated.net/get?q=Hello%20World!&langpair=en|ar`).then(({ data }) => {
 
     // })
+
+    url.get("signature").then(({ data }) => {
+      setSignature(data)
+    });
 
     url.get("invoice/" + id).then(({ data }) => {
       console.log(data)
@@ -1898,7 +1904,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             <FormattedMessage id="preparedby" />
                           </IntlProvider>
                         </h5>
-                        Prepared by
+                        Prepared by 
+                        {sign && <><br /><img src={basePath+sign[0]?.prepared_by} height={90} width={120} alt={sign[0]?.prepared_by} /></> }
                       </div>
                       <div style={{ fontWeight: 1000 }} className="pl-2">
                         <h5 className="font-normal t-4 capitalize">
@@ -1907,6 +1914,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </IntlProvider>
                         </h5>
                         Approved by
+                        {sign && <><br /><img src={basePath+sign[0]?.approval_by} height={100} width={120} alt={sign[0]?.approval_by} /></> }
+
                       </div>
                       <div className="mr-0 pr-24" style={{ fontWeight: 1000 }}>
                         <h5 className="font-normal t-4 capitalize">

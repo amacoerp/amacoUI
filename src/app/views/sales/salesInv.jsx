@@ -30,7 +30,10 @@ export default function salesInv({podetails,columns}) {
               item?.id,
               item?.quotation_id ? "quote" : "invoice",
               item?.is_vat_filed,
-              item?.invoice_status
+              item?.invoice_status,
+              item?.submit_status,
+              item?.genarate_status,
+              item?.acknowledge_status,
               // moment(item.created_at).format('DD-MM-YYYY'),
               // (parseFloat(item.net_amount)).toFixed(2),
               // item.id

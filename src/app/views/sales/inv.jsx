@@ -107,7 +107,6 @@ const SimpleMuiTable = () => {
   const [allData, setAllData] = useState([]);
 
   useEffect(() => {
-
     if (t) {
       setTabIndex(parseInt(t));
     }
@@ -130,7 +129,7 @@ const SimpleMuiTable = () => {
 
       setAllData(
         data?.sort(function (a, b) {
-          var dateA = new Date(a?.issue_date),
+          var dateA = new Date(a?.issue_date),  
             dateB = new Date(b?.issue_date);
           return dateB - dateA;
         })
@@ -148,7 +147,8 @@ const SimpleMuiTable = () => {
         );
       }
     });
-    return () => setIsAlive(false);
+    // return () => 
+    setIsAlive(false);
   }, [isAlive]);
   const [count, setCount] = useState(0);
   const routerHistory = useHistory();
@@ -175,146 +175,100 @@ const SimpleMuiTable = () => {
 
   const vatFiled = (id, vat) => {
     let v = 0;
-    if (vat == 0) {
+    if (vat == 0 || vat == '' || vat == null || vat == undefined) {
       v = 1;
+      url.post(`invoice-vat-file/${id}/${v}`).then(({ data }) => {
+        setIsAlive(true);
 
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to add this invoice to VAT",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.value) {
-          url.post(`invoice-vat-file/${id}/${v}`).then(({ data }) => {
-            if (data.length) {
-              // console.log(data);
-              setpoid(data[0].id);
-              setUserList(
-                data?.sort(function (a, b) {
-                  var dateA = new Date(a?.issue_date),
-                    dateB = new Date(b?.issue_date);
-                  return dateB - dateA;
-                })
-              );
-            }
-            Swal.fire(
-              "Success!",
-              "Invoice Has been Added to VAT Filed.",
-              "success"
-            ).then(() => {
-              setIsAlive(true);
-            });
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "", "error");
-        }
+        Swal.fire(
+          "Success!",
+          "Invoice Has been Added to VAT File.",
+          "success"
+        ).then(() => {
+        });
       });
     } else {
       v = 0;
 
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to remove this invoice to VAT File",
-        icon: "danger",
-        showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.value) {
-          url.post(`invoice-vat-file/${id}/${v}`).then(({ data }) => {
-            if (data.length) {
-              console.log(data);
-              setpoid(data[0].id);
-              setUserList(
-                data?.sort(function (a, b) {
-                  var dateA = new Date(a?.issue_date),
-                    dateB = new Date(b?.issue_date);
-                  return dateB - dateA;
-                })
-              );
-            }
-            Swal.fire(
-              "Success!",
-              "Invoice Has been Removed from VAT File.",
-              "success"
-            ).then(() => {
-              setIsAlive(true);
-            });
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "", "error");
-        }
+      url.post(`invoice-vat-file/${id}/${v}`).then(({ data }) => {
+        setIsAlive(true);
+
+        Swal.fire(
+          "Success!",
+          "Invoice Has been Removed from VAT File.",
+          "success"
+        ).then(() => {
+        });
       });
     }
+  };
+
+  const updateStatus = (id, st, type) => {
+    if (type == "generate") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Invoice Not Generated"
+      ) {
+        st = "Invoice Generated";
+      } else {
+        st = "Invoice Not Generated";
+      }
+    } else if (type == "submit") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Invoice Not Submitted"
+      ) {
+        st = "Invoice Submitted";
+      } else {
+        st = "Invoice Not Submitted";
+      }
+    } else if (type == "ack") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Invoice Not Acknowledge"
+      ) {
+        st = "Invoice Acknowledge";
+      } else {
+        st = "Invoice Not Acknowledge";
+      }
+    }
+
+    url
+      .post(`change-invoice-status/${id}/${st}/${type}`)
+      .then(({ data }) => {
+        setIsAlive(true)
+        Swal.fire(st, "", "success").then(() => {
+        });
+      })
+      .catch(() => {});
   };
   const invoiceStatus = (id, st) => {
     let v = "Not Printed";
 
-    if (st == "Not Printed") {
+    if (st == "Not Printed" || st == '' || st == null || st == undefined) {
       v = "Printed";
 
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Is this Invoice is Printed",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.value) {
-          url.post(`invoice-Status/${id}/${v}`).then(({ data }) => {
-            if (data.length) {
-              // console.log(data);
-              setpoid(data[0].id);
-              setUserList(
-                data?.sort(function (a, b) {
-                  var dateA = new Date(a?.issue_date),
-                    dateB = new Date(b?.issue_date);
-                  return dateB - dateA;
-                })
-              );
-            }
-            Swal.fire("Success!", "", "success").then(() => {
-              setIsAlive(true);
-            });
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "", "error");
-        }
+      url.post(`invoice-Status/${id}/${v}`).then(({ data }) => {
+        setIsAlive(true);
+
+        Swal.fire("Success!", "", "success").then(() => {
+        });
       });
     } else {
       v = "Not Printed";
 
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Is This Invoice is Not Printed",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.value) {
-          url.post(`invoice-Status/${id}/${v}`).then(({ data }) => {
-            if (data.length) {
-              console.log(data);
-              setpoid(data[0].id);
-              setUserList(
-                data?.sort(function (a, b) {
-                  var dateA = new Date(a?.issue_date),
-                    dateB = new Date(b?.issue_date);
-                  return dateB - dateA;
-                })
-              );
-            }
-            Swal.fire("Success!", "", "success").then(() => {
-              setIsAlive(true);
-            });
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "", "error");
-        }
+      url.post(`invoice-Status/${id}/${v}`).then(({ data }) => {
+        setIsAlive(true);
+
+        Swal.fire("Success!", "", "success").then(() => {
+          setIsAlive(true);
+        });
       });
     }
   };
@@ -548,42 +502,45 @@ const SimpleMuiTable = () => {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <div style={{ textAlign: "right" }} className="pr-8">
+
               <Link to={navigatePath + "/newinvoice/" + tableMeta.rowData[7]}>
                 <Tooltip title="view more">
-                  <Icon color="primary">remove_red_eye</Icon>
-                </Tooltip>
-              </Link>
-              <span
-                style={{
-                  backgroundColor:
-                    tableMeta.rowData[9] == 0 ? "gray" : "#22d322",
-                  cursor: "pointer",
-                  marginLeft: "5px",
-                  borderRadius: "50%",
-                  padding: "3px",
-                  position: "relative",
-                  top: "-7px",
-                }}
-              >
-                <Tooltip
-                  onClick={(e) => {
-                    vatFiled(tableMeta.rowData[7], tableMeta.rowData[9]);
-                  }}
-                  title="Vat File"
-                >
-                  <Icon
-                    style={{
-                      color: "white",
-                      fontSize: "medium",
-                      position: "relative",
-                      top: "2px",
-                      left: "-2px",
-                    }}
-                  >
-                    V
+                  <Icon style={{ fontSize: "20px" }} color="primary">
+                    remove_red_eye
                   </Icon>
                 </Tooltip>
-              </span>
+              </Link>
+              <Tooltip
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[7],
+                    tableMeta.rowData[12],
+                    "generate"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[12]
+                    ? tableMeta.rowData[12]
+                    : "Invoice Generated"
+                }
+              >
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    color:
+                      tableMeta.rowData[12] == "" ||
+                      tableMeta.rowData[12] == null ||
+                      tableMeta.rowData[12] == undefined ||
+                      tableMeta.rowData[12] == "Invoice Not Generated"
+                        ? "gray"
+                        : "green",
+                    fontSize: "20px",
+                  }}
+                >
+                  add_circle
+                </Icon>
+              </Tooltip>
+
               <Tooltip
                 title={
                   tableMeta.rowData[10] ? tableMeta.rowData[10] : "Not Printed"
@@ -594,15 +551,88 @@ const SimpleMuiTable = () => {
                     invoiceStatus(tableMeta.rowData[7], tableMeta.rowData[10]);
                   }}
                   style={{
+                    fontSize: "20px",
+                    cursor: "pointer",
                     color:
-                      tableMeta.rowData[10] == "Not Printed" ||
+                      tableMeta.rowData[10] == "" ||
                       tableMeta.rowData[10] == null ||
-                      tableMeta.rowData[10] == ""
+                      tableMeta.rowData[10] == undefined ||
+                      tableMeta.rowData[10] == "Not Printed"
                         ? "gray"
-                        : "#22d322",
+                        : "#374c91",
+                    
                   }}
                 >
                   print
+                </Icon>
+              </Tooltip>
+              <Tooltip
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[7],
+                    tableMeta.rowData[11],
+                    "submit"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[11]
+                    ? tableMeta.rowData[11]
+                    : "Invoice Not Submitted"
+                }
+              >
+                <Icon style={{ cursor: "pointer",
+                    color:
+                      tableMeta.rowData[11] == "" ||
+                      tableMeta.rowData[11] == null ||
+                      tableMeta.rowData[11] == undefined ||
+                      tableMeta.rowData[11] == "Invoice Not Submitted"
+                        ? "gray"
+                        : "#d4192f", fontSize: "20px" }}>
+                  publish
+                </Icon>
+              </Tooltip>
+              <Tooltip
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[7],
+                    tableMeta.rowData[13],
+                    "ack"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[13]
+                    ? tableMeta.rowData[13]
+                    : "Invoice Not Acknowledge"
+                }
+              >
+                <Icon style={{cursor: "pointer",
+                    color:
+                      tableMeta.rowData[13] == "" ||
+                      tableMeta.rowData[13] == null ||
+                      tableMeta.rowData[13] == undefined ||
+                      tableMeta.rowData[13] == "Invoice Not Acknowledge"
+                        ? "gray"
+                        : "#d98716", fontSize: "20px" }}>
+                  assignment_return
+                </Icon>
+              </Tooltip>
+
+              <Tooltip
+                onClick={(e) => {
+                  vatFiled(tableMeta.rowData[7], tableMeta.rowData[9]);
+                }}
+                title={tableMeta.rowData[9] == 0 ? 'Not Filed in Vat' : 'Filed in Vat'}
+              >
+                <Icon
+                  style={{
+                    cursor:'pointer',
+                    color: tableMeta.rowData[9] == 0 ? "gray" : "#22d322",
+                    fontSize: "20px",
+                  }}
+                >
+                  article
                 </Icon>
               </Tooltip>
 
@@ -643,6 +673,30 @@ const SimpleMuiTable = () => {
     {
       name: "",
       label: "print",
+      options: {
+        filter: true,
+        display: false,
+      },
+    },
+    {
+      name: "",
+      label: "sub",
+      options: {
+        filter: true,
+        display: false,
+      },
+    },
+    {
+      name: "",
+      label: "gen",
+      options: {
+        filter: true,
+        display: false,
+      },
+    },
+    {
+      name: "",
+      label: "ack",
       options: {
         filter: true,
         display: false,

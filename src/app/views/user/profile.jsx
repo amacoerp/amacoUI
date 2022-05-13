@@ -23,6 +23,7 @@ import Division from "./divisionview";
 import url from "../invoice/InvoiceService";
 import { makeStyles } from "@material-ui/styles";
 import MemberEditorDialog from "./useradd";
+import Signature from "./Signature";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -234,6 +235,7 @@ const UserList4 = () => {
        {tabIndex === 0 && <CompanyInfo />}
       {tabIndex === 1 && <Bank_Account />}
       {tabIndex === 2 && <Division />}
+      {tabIndex === 3 && <Signature />}
      {/* </div> */}
             </Card>
          
@@ -253,4 +255,4 @@ const UserList4 = () => {
 };
 
 export default UserList4;
-const tabList = ["COMPANY", "BANK ACCOUNT","DIVISION"];
+const tabList = ["COMPANY", "BANK ACCOUNT","DIVISION",'DIGITAL SIGNATURE'];

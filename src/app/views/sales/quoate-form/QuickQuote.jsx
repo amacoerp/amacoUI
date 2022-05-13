@@ -687,35 +687,33 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
         if (parseFloat(element.purchase_price)) {
           element[event.target.name] = value ? value : event.target.value;
 
-          element.sell_price = (
+          element.sell_price =
             parseFloat(
               (element.margin * parseFloat(element.purchase_price)) / 100 +
                 parseFloat(element.purchase_price)
             ).toFixed(3) -
-              parseFloat(
-                (parseFloat(element.discount) *
-                  parseFloat(
-                    (element.margin * parseFloat(element.purchase_price)) /
-                      100 +
-                      parseFloat(element.purchase_price)
-                  ).toFixed(3)) /
-                  100
-              ).toFixed(3)
+            parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3)
               ? parseFloat(
                   (element.margin * parseFloat(element.purchase_price)) / 100 +
                     parseFloat(element.purchase_price)
                 ).toFixed(3) -
-                  parseFloat(
-                    (parseFloat(element.discount) *
-                      parseFloat(
-                        (element.margin * parseFloat(element.purchase_price)) /
-                          100 +
-                          parseFloat(element.purchase_price)
-                      ).toFixed(3)) /
-                      100
-                  ).toFixed(3)
-              : element.purchase_price
-          );
+                parseFloat(
+                  (parseFloat(element.discount) *
+                    parseFloat(
+                      (element.margin * parseFloat(element.purchase_price)) /
+                        100 +
+                        parseFloat(element.purchase_price)
+                    ).toFixed(3)) /
+                    100
+                ).toFixed(3)
+              : element.purchase_price;
 
           element.total_amount = (
             element.sell_price * element.quantity
@@ -868,7 +866,6 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   const discountPer = (event, index, value) => {
-  
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -889,7 +886,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
           ? 0
           : parseFloat(event.target.value);
 
-        element.sell_price = (element.purchase_price
+        element.sell_price = element.purchase_price
           ? parseFloat(
               (element.margin * parseFloat(element.purchase_price)) / 100 +
                 parseFloat(element.purchase_price)
@@ -902,7 +899,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 ).toFixed(3)) /
                 100
             ).toFixed(3)
-          : element.sell_price - (element.discount * element.sell_price) / 100);
+          : element.sell_price - (element.discount * element.sell_price) / 100;
 
         element.margin_val = element.purchase_price
           ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
@@ -1463,6 +1460,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let margin_per = 0;
   let margin_val = 0;
   let subTotalCost = 0;
+  let afterMargin = 0;
   let sellTotal = 0;
   let subCost = 0;
   let GTotal = 0;
@@ -1809,7 +1807,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       // margin_per=((subCost-costTotal)/costTotal)*100;
 
                       margin_val += item.margin_val;
-                      console.log(costTotal)
+                      console.log(costTotal);
                       margin_per = costTotal
                         ? (margin_val / costTotal) * 100
                         : 100;
@@ -1826,6 +1824,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         (parseFloat(dis_val) / parseFloat(subCost)) *
                         100
                       ).toFixed(3);
+
+                      afterMargin = parseFloat(margin_val - dis_val).toFixed(2);
 
                       sellTotal = subTotalCost - dis_val;
                       vat = (
@@ -2709,23 +2709,25 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     >
                       Other:
                     </p>
-                    <p
-                      style={{ position: "relative", top: "18px" }}
-                      className="mb-8 pt-0"
-                    >
-                      Net Total:
-                    </p>
+
                     <p
                       style={{ position: "relative", top: "18px" }}
                       className="mb-8"
                     >
                       Discount:
                     </p>
+                    {dis_val > 0 &&  <p
+                      style={{ position: "relative", top: "18px" }}
+                      className="mb-8 pt-0"
+                    >
+                      After Discount Margin:
+                    </p> }
+                   
                     <p
                       style={{ position: "relative", top: "22px" }}
                       className="mb-8"
                     >
-                      Selling Total:
+                      Net Total:
                     </p>
                     <p
                       style={{ position: "relative", top: "18px" }}
@@ -2851,26 +2853,6 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         value={other}
                       />
                     </div>
-                    <div>
-                      <CurrencyTextField
-                        className="w-full mb-4 "
-                        label="Net Total"
-                        readOnly
-                        onChange={handleChange}
-                        variant="outlined"
-                        fullWidth
-                        size="small"
-                        currencySymbol="SAR"
-                        name="net_amount"
-                        value={
-                          subTotalCost
-                            ? subTotalCost
-                            : parseFloat(0.0).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                              })
-                        }
-                      />
-                    </div>
 
                     <div>
                       {show ? (
@@ -2918,41 +2900,47 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={isNaN(dis_per) ? 0 : dis_per}
                         />
                       )}
-                      {show ? <>
-                        <Tooltip title='Done'>
-
-                        <Icon
-                        style={{
-                          fontSize: "18px",
-                          position: "relative",
-                          left: "-5px",
-                          cursor:'pointer',
-                          top: "-7px",
-                        }}
-                        onClick={()=>{setShow(!show)
-                          setDiscPer(0)
-                        }}
-                      >
-                        done
-                      </Icon></Tooltip> </>: <>
-                      <Tooltip title='Edit Discount'>
-                      <Icon
-                        style={{
-                          fontSize: "18px",
-                          position: "relative",
-                          left: "-5px",
-                          cursor:'pointer',
-                          top: "-7px",
-                        }}
-                        onClick={()=>{setShow(!show)
-                          setDiscPer(dis_per)
-                        }}
-                      >
-                        edit
-                      </Icon>
-                      </Tooltip>
-                      </>}
-                      
+                      {show ? (
+                        <>
+                          <Tooltip title="Done">
+                            <Icon
+                              style={{
+                                fontSize: "18px",
+                                position: "relative",
+                                left: "-5px",
+                                cursor: "pointer",
+                                top: "-7px",
+                              }}
+                              onClick={() => {
+                                setShow(!show);
+                                setDiscPer(0);
+                              }}
+                            >
+                              done
+                            </Icon>
+                          </Tooltip>{" "}
+                        </>
+                      ) : (
+                        <>
+                          <Tooltip title="Edit Discount">
+                            <Icon
+                              style={{
+                                fontSize: "18px",
+                                position: "relative",
+                                left: "-5px",
+                                cursor: "pointer",
+                                top: "-7px",
+                              }}
+                              onClick={() => {
+                                setShow(!show);
+                                setDiscPer(dis_per);
+                              }}
+                            >
+                              edit
+                            </Icon>
+                          </Tooltip>
+                        </>
+                      )}
 
                       {/* <TextField
                 className="mb-4 ml-2"
@@ -2980,10 +2968,27 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         value={parseFloat(dis_val)}
                       />
                     </div>
+                    {dis_val > 0 && (
+                      <div>
+                        <CurrencyTextField
+                          className="w-full mb-4 "
+                          label="After Discount Margin Value"
+                          readOnly
+                          // onChange={handleChange}
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          currencySymbol="SAR"
+                          name="net_amount"
+                          value={afterMargin}
+                        />
+                      </div>
+                    )}
+
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="Selling Total"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"

@@ -4,6 +4,12 @@ import Swal from "sweetalert2";
 import NestedMenuItem from "material-ui-nested-menu-item";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import { useHistory } from "react-router";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import './Style.css'
 
 import clsx from "clsx";
 // import { useDropzone } from "react-dropzone";
@@ -394,6 +400,9 @@ const CustomerForm = () => {
     setisAlive(false);
   };
 
+  const [parties, setParties] = useState([]);
+  const [ck, setChecked] = useState("");
+
   useEffect(() => {
     // getVendorList().then(({ data }) => {
     //   setvendorList(data)
@@ -401,6 +410,8 @@ const CustomerForm = () => {
     url
       .get("mjrExpense/" + localStorage.getItem("division"))
       .then(({ data }) => {
+        setvendorList(data.vendor);
+        setParties(data.parties);
         setvendorList(data.vendor);
         setaccounttype(data.payment_account);
         setemployeeList(data.employee.getData);
@@ -512,6 +523,7 @@ const CustomerForm = () => {
     formData.append("bank_id", bank_id);
 
     formData.append("vatno", vatno ? vatno : "");
+    formData.append("q_i_number", ck ? ck : "");
     formData.append("inv_no", inv_no ? inv_no : "");
     formData.append("vendor_id", vendor_id);
     formData.append("employee_id", employee_id);
@@ -1000,6 +1012,119 @@ const CustomerForm = () => {
                       </Button>
                     </div>
                   </div>
+                  {payment_account_name == 'Material Purchase' &&  <> Choose Quotation or Invoice Number : <br /></>}
+                  
+{payment_account_name == 'Material Purchase' &&   <div className="px-0 flex justify-between">
+  
+                    <div>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                        >
+                          <Typography>Quotations</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          {parties?.map((item, i) => {
+                            return (
+                              <Accordion key={i}>
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography>{item?.firm_name}</Typography>
+                                </AccordionSummary>
+
+                                {item?.quotation?.map((k, j) => {
+                                  return (
+                                    <AccordionDetails>
+                                      {" "}
+                                      <Typography key={j}>
+                                        {k?.quotation_no}{" "}{" "}
+                                        <Icon
+                                          onClick={(e) => {
+                                            setChecked(k?.quotation_no);
+                                          }}
+                                          style={{
+                                            backgroundColor:
+                                              k?.quotation_no == ck
+                                                ? "green"
+                                                : "black",
+                                            color: "white",
+                                            float: "right",
+                                          }}
+                                        >
+                                          checkBox
+                                        </Icon>
+                                      </Typography>
+                                    </AccordionDetails>
+                                  );
+                                })}
+                              </Accordion>
+                            );
+                          })}
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
+                    <div>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                        >
+                          <Typography>Invoices</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          {parties?.map((item, i) => {
+                            return (
+                              <Accordion key={i}>
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography>{item?.firm_name}</Typography>
+                                </AccordionSummary>
+
+                                {item?.invoice?.map((k, j) => {
+                                  return (
+                                    <AccordionDetails>
+                                      {" "}
+                                      <Typography key={j}>
+                                        {k?.invoice_no}{" "}
+                                        <Icon
+                                          onClick={(e) => {
+                                            setChecked(k?.invoice_no);
+                                          }}
+                                          style={{
+                                            backgroundColor:
+                                              k?.invoice_no == ck
+                                                ? "green"
+                                                : "black",
+                                            color: "white",
+                                            float: "right",
+                                          }}
+                                        >
+                                          checkBox
+                                        </Icon>
+                                      </Typography>
+                                    </AccordionDetails>
+                                  );
+                                })}
+                              </Accordion>
+                            );
+                          })}
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
+                    <div></div>
+                    <br /><br />
+                    <br />
+                  </div>  }
+                
 
                   <span>
                     <div className="px-0 flex justify-between">
@@ -1853,8 +1978,12 @@ const CustomerForm = () => {
                   <span
                     color="primary"
                     variant="outlined"
-                    type='button'
-                    style={{border:'1px solid red',borderRadius:5,padding:12}}
+                    type="button"
+                    style={{
+                      border: "1px solid red",
+                      borderRadius: 5,
+                      padding: 12,
+                    }}
                     className="mr-4 py-2"
                     onClick={(e) => setloading(false)}
                   >

@@ -1350,6 +1350,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let subCost = 0;
   let margin_val = 0;
   let sellTotal = 0;
+  let afterMargin = 0;
+
 
   let GTotal = 0;
   let dis_per = 0;
@@ -1716,6 +1718,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
 
 
+                    afterMargin = parseFloat(margin_val - dis_val).toFixed(2)
 
                     sellTotal = subTotalCost - dis_val
                     vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
@@ -2433,9 +2436,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
-                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-0">Net Total:</p>
                     <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
-                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Selling Total:</p>
+                    {dis_val > 0 &&  <p
+                      style={{ position: "relative", top: "18px" }}
+                      className="mb-8 pt-0"
+                    >
+                      After Discount Margin:
+                    </p> }
+                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Net Total:</p>
                     <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">VAT (15%):</p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
@@ -2543,24 +2551,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       />
 
                     </div>
-                    <div>
-                      <CurrencyTextField
-                        className="w-full mb-4 "
-                        label="Net Total"
-                        readOnly
-                        onChange={handleChange}
-                        variant="outlined"
-                        fullWidth
-                        size="small"
-                        currencySymbol="SAR"
-                        name="net_amount"
-                        value={subTotalCost ? subTotalCost : parseFloat(0.00).toLocaleString(undefined, {
-                          minimumFractionDigits: 2
-                        })}
-
-                      />
-
-                    </div>
+                  
                     <div>
                     {show ? (
                         <TextField
@@ -2653,6 +2644,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 style={{width:'90px'}}
                 inputProps={{min: 0, style: { textAlign: 'right' }}}
                
+
                 value={discount?dis_per:0.00}
                
               /> */}
@@ -2669,10 +2661,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         value={parseFloat(dis_val)}
                       />
                     </div>
+                    {dis_val > 0 && (
+                      <div>
+                        <CurrencyTextField
+                          className="w-full mb-4 "
+                          label="After Discount Margin Value"
+                          readOnly
+                          // onChange={handleChange}
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          currencySymbol="SAR"
+                          name="net_amount"
+                          value={afterMargin}
+                        />
+                      </div>
+                    )}
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
-                        label="Selling Total"
+                        label="Net Total"
                         readOnly
                         onChange={handleChange}
                         variant="outlined"
