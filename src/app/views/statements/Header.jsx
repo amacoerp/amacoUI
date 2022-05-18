@@ -97,7 +97,7 @@ function Header() {
       <tr>
 
         <td>
-          <div class="empty-header">
+          <div style={{height:'120px'}} class="empty-header">
             {/* <header> */}
             <div className="px-2 flex justify-between">
               <div className="flex">

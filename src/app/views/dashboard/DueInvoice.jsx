@@ -16,6 +16,7 @@ const DueInvoice = () => {
             (a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)
           );
 
+
           // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
           var result = myArr?.map((item, i) => {
             item["debit"] = myArr

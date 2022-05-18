@@ -5,6 +5,7 @@ import { Icon } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import ProfitLoss from "./ProfitLoss";
 import ProfitLossShare from "./profitLossShare"
+import ExpensePLReport from './ExpensePLReport'
 
 
 const ProfitLossTab = () => {
@@ -52,11 +53,12 @@ const ProfitLossTab = () => {
 
        {tabIndex === 0 && <ProfitLoss />}
      {tabIndex === 1 && <ProfitLossShare />}
+     {tabIndex === 2 && <ExpensePLReport />}
       {/* {tabIndex === 1 && <UserTrash />}   */}
     </div>
   );
 };
 
-const tabList = ["PROFIT & LOSS REPORT", "PROFIT & LOSS SHARE"];
+const tabList = ["PROFIT & LOSS REPORT", "PROFIT & LOSS SHARE",'EXPENSE PROFIT & LOSS REPORT'];
 
 export default ProfitLossTab;

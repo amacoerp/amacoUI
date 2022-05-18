@@ -2720,7 +2720,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       style={{ position: "relative", top: "18px" }}
                       className="mb-8 pt-0"
                     >
-                      After Discount Margin:
+                      Margin After Discount:
                     </p> }
                    
                     <p
@@ -2974,7 +2974,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <div>
                         <CurrencyTextField
                           className="w-full mb-4 "
-                          label="After Discount Margin Value"
+                          label="Margin After Discount"
                           readOnly
                           // onChange={handleChange}
                           variant="outlined"

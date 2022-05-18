@@ -984,10 +984,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.delivery_time = delivery_time
     arr.inco_terms = inco_terms
     arr.payment_terms = payment_terms
-    arr.contact_id = contactid
+    // arr.contact_id = contactid
     arr.ps_date = Quote_date
     arr.rfq_id = null
     arr.transaction_type = "sale"
+    console.log(contactid)
     const json = Object.assign({}, arr);
     formData.append('discount_in_p', isNaN(dis_per) ? 0 : dis_per)
     formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
@@ -1251,8 +1252,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       if (parseInt(data?.sales?.qstatus)) {
         setquickstatus(true)
       }
-      if (data?.sales?.contact !== null) {
-        setcontactid(data?.sales?.contact.id)
+      if (data?.sales?.contact_id !== null) {
+        setcontactid(data?.sales?.contact_id)
         url.get("parties/" + data?.sales?.party_id).then(({ data }) => {
 
           setcustomercontact(data[0]?.contacts);
@@ -2605,7 +2606,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       style={{ position: "relative", top: "18px" }}
                       className="mb-8 pt-0"
                     >
-                      After Discount Margin:
+                      Margin After Discount:
                     </p> }
                     <p style={{ position: 'relative', top: '22px' }} className="mb-8">Net Total:</p>
                     <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">VAT (15%):</p>
@@ -2831,7 +2832,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <div>
                         <CurrencyTextField
                           className="w-full mb-4 "
-                          label="After Discount Margin Value"
+                          label="Margin After Discount"
                           readOnly
                           // onChange={handleChange}
                           variant="outlined"

@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Pusher from "pusher-js";
+import Snackbar from '@mui/material/Snackbar';
 
 import {
   Icon,
@@ -21,7 +22,8 @@ import clsx from "clsx";
 import useSettings from "app/hooks/useSettings";
 import useNotification from "app/hooks/useNotification";
 import shortId from "shortid";
-
+import useSound from 'use-sound';
+import nSound from './Notification.mp3'
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   notification: {
     width: "var(--sidenav-width)",
@@ -67,7 +69,7 @@ const NotificationBar = ({ container }) => {
     useNotification();
 
   const handleDrawerToggle = () => {
-    if(!panelOpen){
+    if (!panelOpen) {
       setIsAlive(true);
     }
 
@@ -77,7 +79,6 @@ const NotificationBar = ({ container }) => {
         setCount(0);
       });
     }
-   
   };
 
   const [notificationss, setNotificationss] = useState([]);
@@ -89,37 +90,93 @@ const NotificationBar = ({ container }) => {
   //   }
 
   // }, 5000);
-  // Pusher.logToConsole = true;
-  // if(localStorage.getItem('role') == 'SA'){
-  //   var pusher = new Pusher("76b5d8513b2ab0b9930c", {
-  //     cluster: "ap2",
-  //   });
-  //   var channel = pusher.subscribe("notification");
-  //   channel.bind("notification-event", function (data) {
-  //     setIsAlive(true);
-  //     // console.log(JSON.stringify(data));
-  //   });
-  // }
+  
 
-  const clearNotification = () =>{
-    if(localStorage.getItem('role') == 'SA'){
+  const [pu, setPusher] = useState(false);
+  // const [play] = useSound(
+  //   nSound,
+  //   { volume: 0.5 }
+  // );
+  const [play] = useSound(nSound);
+
+
+  const [message,setMessage] = useState('')
+
+  const playSound = async ()  => {
+    play()
+  }
+
+  const [state, setState] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
+
+  
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  useEffect(() => {
+
+
+    if (localStorage.getItem("role") == "SA") {
+   
+
+      var pusher = new Pusher("76b5d8513b2ab0b9930c", {
+        cluster: "ap2",
+      });
+      Pusher.logToConsole = true;
+
+      var channel = pusher.subscribe('notification');
+        channel.bind('notification-event', function(data) {
+
+          if(data){
+            play()
+            setMessage(data)
+            setState({ ...state, open: true });
+
+          
+            setIsAlive(true);
+          }
+        }, channel.unbind());
+    }
+
+    return () => console.log("Pusher");
+  }, []);
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+       <Icon>close</Icon>
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const clearNotification = () => {
+    if (localStorage.getItem("role") == "SA") {
       url.delete("clearNotification/sa").then(({ data }) => {
         setNotificationss([]);
       });
-    }else{
-      url.delete("clearNotification/"+localStorage.getItem('user_id')).then(({ data }) => {
-        setNotificationss([]);
-      });
+    } else {
+      url
+        .delete("clearNotification/" + localStorage.getItem("user_id"))
+        .then(({ data }) => {
+          setNotificationss([]);
+        });
     }
-    
-  }
-
- 
-  
+  };
 
   useEffect(() => {
+   
     url.get("getNotifications").then(({ data }) => {
-      console.log('s')
       setCount(parseInt(data?.count));
       if (localStorage.getItem("role") == "SA") {
         setNotificationss(data?.noti);
@@ -137,8 +194,10 @@ const NotificationBar = ({ container }) => {
         }
       }
     });
-
     setIsAlive(false);
+
+    return () => console.log("one time");
+
   }, [isAlive]);
 
   return (
@@ -182,39 +241,44 @@ const NotificationBar = ({ container }) => {
                   </Icon>
                 </IconButton> */}
                 <Link to={`${notification.path}`} onClick={handleDrawerToggle}>
-                <Card className="mx-4 mb-6" elevation={3}>
-                  <div className="card__topbar flex items-center justify-between p-2 bg-light-gray">
-                    <div className="flex items-center">
-                      <div className="card__topbar__button flex items-center justify-between h-24 w-24 overflow-hidden">
-                        <Icon
-                          className="card__topbar__icon"
-                          fontSize="small"
-                          color={"error"}
-                        >
-                          {"done"}
-                        </Icon>
+                  <Card className="mx-4 mb-6" elevation={3}>
+                    <div className="card__topbar flex items-center justify-between p-2 bg-light-gray">
+                      <div className="flex items-center">
+                        <div className="card__topbar__button flex items-center justify-between h-24 w-24 overflow-hidden">
+                          <Icon
+                            className="card__topbar__icon"
+                            fontSize="small"
+                            color={"error"}
+                          >
+                            {"done"}
+                          </Icon>
+                        </div>
+                        <span className="ml-4 font-medium text-muted">
+                          {notification.heading}
+                        </span>
                       </div>
-                      <span className="ml-4 font-medium text-muted">
-                        {notification.heading}
-                      </span>
+                      <small className="card__topbar__time text-muted">
+                        {getTimeDifference(new Date(notification.created_at))}{" "}
+                        ago
+                      </small>
                     </div>
-                    <small className="card__topbar__time text-muted">
-                      {getTimeDifference(new Date(notification.created_at))} ago
-                    </small>
-                  </div>
-                  <div className="px-4 pt-2 pb-4">
-                    <p className="m-0">{notification.title}</p>
-                    <small className="text-muted">
-                      {notification.notification}
-                    </small>
-                  </div>
-                </Card>
+                    <div className="px-4 pt-2 pb-4">
+                      <p className="m-0">{notification.title}</p>
+                      <small className="text-muted">
+                        {notification.notification}
+                      </small>
+                    </div>
+                  </Card>
                 </Link>
               </div>
             ))}
             {!!notificationss?.length && (
               <div className="text-center">
-                <Button onClick={()=>{clearNotification()}}>
+                <Button
+                  onClick={() => {
+                    clearNotification();
+                  }}
+                >
                   Clear Notifications
                 </Button>
               </div>
@@ -222,6 +286,14 @@ const NotificationBar = ({ container }) => {
           </div>
         </Drawer>
       </ThemeProvider>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message={message}
+        key={vertical + horizontal}
+        action={action}
+      />
     </Fragment>
   );
 };

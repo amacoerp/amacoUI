@@ -205,9 +205,9 @@ const Analytics = () => {
   
       
         receiptFun(data?.receipt, date)
-        invoiceFun(data?.invoice,date,months);
+        invoiceFun(data?.invoice?.filter((obj)=>obj.approve == '1'),date,months);
         setreceiptData(data?.receipt);
-        setresponseData(data?.invoice)
+        setresponseData(data?.invoice?.filter((obj)=>obj.approve == '1'))
        
      
      
@@ -663,7 +663,7 @@ const Analytics = () => {
               />
             </MuiPickersUtilsProvider>
           </div>
-          <div>LAST 12 MONTHS MONTHS SALES</div>
+          <div>LAST 12 MONTHS SALES</div>
         </div>
         <div className="container">
           <ModifiedAreaChart

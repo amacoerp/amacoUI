@@ -113,9 +113,16 @@ const Allquote = () => {
 
       // if(data.length)
       // {
-          // console.log(data)
-      setUserList(data);
-      setqdetails(data);
+      setUserList(data?.sort(function (a, b) {
+        var dateA = new Date(a?.ps_date),
+          dateB = new Date(b?.ps_date);
+        return dateB - dateA;
+      }));
+      setqdetails(data?.sort(function (a, b) {
+        var dateA = new Date(a?.ps_date),
+          dateB = new Date(b?.ps_date);
+        return dateB - dateA;
+      }));
       // }
     });
     return () => setIsAlive(false);

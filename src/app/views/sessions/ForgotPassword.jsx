@@ -10,7 +10,6 @@ import { useParams, useHistory } from "react-router-dom";
 import CryptoAES from "crypto-js/aes";
 import CryptoENC from "crypto-js/enc-utf8";
 import CryptoJS from "crypto-js";
-import { split } from "lodash";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   cardHolder: {
@@ -83,7 +82,7 @@ const ForgotPassword = () => {
         iv: iv,
       });
       dopaw = dopaw.toString(CryptoJS.enc.Utf8);
-      return dopaw.split(':"')[1].split('";')[0];
+      return dopaw?.split(':"')[1]?.split('";')[0];
     });
     setEmails(emails);
   };

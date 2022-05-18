@@ -2441,7 +2441,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       style={{ position: "relative", top: "18px" }}
                       className="mb-8 pt-0"
                     >
-                      After Discount Margin:
+                      Margin After Discount:
                     </p> }
                     <p style={{ position: 'relative', top: '22px' }} className="mb-8">Net Total:</p>
                     <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">VAT (15%):</p>
@@ -2665,7 +2665,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <div>
                         <CurrencyTextField
                           className="w-full mb-4 "
-                          label="After Discount Margin Value"
+                          label="Margin After Discount"
                           readOnly
                           // onChange={handleChange}
                           variant="outlined"

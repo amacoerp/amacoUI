@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "matx";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { Icon, Card, Tooltip } from "@material-ui/core";
+import { Icon, Card, Tooltip ,TextField,MenuItem} from "@material-ui/core";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import url, { GDIV, navigatePath } from "../invoice/InvoiceService";
@@ -12,6 +12,7 @@ import { Divider, Grid, Tab, Tabs } from "@material-ui/core";
 import SView from "./salesInv";
 import STrash from "./salesinvtrash";
 import { ValidatorForm } from "react-material-ui-form-validator";
+import PendingList from './PendingInvList'
 
 import {
   MuiPickersUtilsProvider,
@@ -98,7 +99,7 @@ const SimpleMuiTable = () => {
     }
   };
 
-  const tabList = ["SALES INVOICE", "TRASH"];
+  const tabList = ["SALES INVOICE","PENDING INVOICES", "TRASH"];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (e, value) => {
     setTabIndex(value);
@@ -172,6 +173,43 @@ const SimpleMuiTable = () => {
   const [isNewInvoice, setIsNewInvoice] = useState(false);
 
   const [click, setClick] = useState([]);
+
+  const filterbyStatus = (e) => {
+    if(e.target.value == 'All'){
+      setUserList(allData)
+    }else{
+      if(e.target.value == 'Invoice Generated'){
+        const data = allData?.filter((obj)=>obj.genarate_status == e.target.value)
+        setUserList(data)
+      }else if(e.target.value == 'Printed'){
+        const data = allData?.filter((obj)=>obj.invoice_status == e.target.value)
+        setUserList(data)
+      }else if(e.target.value == 'Invoice Submitted'){
+        const data = allData?.filter((obj)=>obj.submit_status == e.target.value)
+        setUserList(data)
+      }else if(e.target.value == 'Invoice Acknowledge'){
+        const data = allData?.filter((obj)=>obj.acknowledge_status == e.target.value)
+        setUserList(data)
+      }else if(e.target.value == '1'){
+        const data = allData?.filter((obj)=>parseInt(obj.is_vat_filed) == parseInt(e.target.value))
+        setUserList(data)
+      }
+
+    
+    }
+    // const datas = allData.filter(
+    //   (obj) =>
+    //     new Date(obj.issue_date).getTime() >= new Date(from_date).getTime() &&
+    //     new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    // );
+    // setUserList(
+    //   datas?.sort(function (a, b) {
+    //     var dateA = new Date(a?.issue_date),
+    //       dateB = new Date(b?.issue_date);
+    //     return dateB - dateA;
+    //   })
+    // );
+  }
 
   const vatFiled = (id, vat) => {
     let v = 0;
@@ -904,7 +942,7 @@ const SimpleMuiTable = () => {
           <div>
             <ValidatorForm className="px-0 pb-0" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                <Grid item lg={3} md={6} xs={12}>
+                <Grid item >
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="mb-4 w-full"
@@ -922,7 +960,7 @@ const SimpleMuiTable = () => {
                   </MuiPickersUtilsProvider>
                 </Grid>
 
-                <Grid item lg={3} xs={12}>
+                <Grid item>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="mb-4 w-full"
@@ -938,7 +976,7 @@ const SimpleMuiTable = () => {
                     />
                   </MuiPickersUtilsProvider>
                 </Grid>
-                <Grid item lg={3} xs={12}>
+                <Grid item >
                   <Button
                     color="primary"
                     variant="outlined"
@@ -947,6 +985,27 @@ const SimpleMuiTable = () => {
                   >
                     <Icon>save</Icon> Filter
                   </Button>
+                </Grid>
+                <Grid item >
+                  <TextField
+                    className="mb-4 mr-2"
+                    label="Filter By Status"
+                    variant="outlined"
+                    fullWidth
+                    style={{width:'175px'}}
+                    onChange={(e)=>{filterbyStatus(e)}}
+                    select
+                    size="small"
+                    name="filter_by_status"
+                  >
+                    <MenuItem value={'All'}>ALL</MenuItem>
+                    <MenuItem value={'Invoice Generated'}>GENERATED INVOICES</MenuItem>
+                    <MenuItem value={'Printed'}>PRINTED INVOICES</MenuItem>
+                    <MenuItem value={'Invoice Submitted'}>SUBMITTED INVOICES</MenuItem>
+                    <MenuItem value={'Invoice Acknowledge'}>ACKNOWLEDGED INVOICES</MenuItem>
+                    <MenuItem value={'1'}>VAT FILED INVOICES</MenuItem>
+
+                  </TextField>
                 </Grid>
                 <Grid item lg={3} xs={12}>
                   <div className="text-right">
@@ -977,13 +1036,13 @@ const SimpleMuiTable = () => {
                 background:
                   tabIndex == 0
                     ? "black"
-                    : tabIndex == 1
-                    ? "rgba(255,0,0,1)"
                     : tabIndex == 2
-                    ? "#008000"
-                    : tabIndex == 3
                     ? "rgba(255,0,0,1)"
+                    : tabIndex == 3
+                    ? "#008000"
                     : tabIndex == 4
+                    ? "rgba(255,0,0,1)"
+                    : tabIndex == 1
                     ? "#FFAF38"
                     : tabIndex == 5
                     ? "#1976d2"
@@ -1007,7 +1066,7 @@ const SimpleMuiTable = () => {
                       ? "#008000"
                       : item == "TRASH"
                       ? "rgba(255,0,0,1)"
-                      : item == "DRAFT"
+                      : item == "PENDING INVOICES"
                       ? "#FFAF38"
                       : item == "QUOTATION HISTORY"
                       ? "#1976d2"
@@ -1017,7 +1076,7 @@ const SimpleMuiTable = () => {
                     ind == tabIndex ? getBackgroundColor(tabIndex) : "",
                 }}
                 value={ind}
-                label={item}
+                label={item == 'TRASH' ? localStorage.getItem('role') == 'SA' ? item : '' : item}
                 key={ind}
               />
             ))}
@@ -1026,14 +1085,31 @@ const SimpleMuiTable = () => {
           {tabIndex == 0 && (
             <SView
               columns={columns}
-              podetails={userList?.filter((obj) => obj.delete_status == 0)}
+              podetails={userList?.filter((obj) => obj.delete_status == 0 && obj.approve == 1)}
             />
           )}
-          {tabIndex == 1 && (
+          {tabIndex == 2 && (
+           
             <STrash
               podetails={userList?.filter((obj) => obj.delete_status == 1)}
             />
           )}
+          {localStorage.getItem('role') == 'SA' ? <>
+          {tabIndex == 1 && (
+             <PendingList
+             columns={columns}
+             podetails={userList?.filter((obj) => obj.delete_status == 0 && obj.approve == 0)}
+           />
+          )}
+          </> : <>
+          {tabIndex == 1 && (
+             <PendingList
+             columns={columns}
+             podetails={userList?.filter((obj) => obj.delete_status == 0 && parseInt(obj.user_id) == parseInt(localStorage.getItem('user_id')) && obj.approve == 0)}
+           />
+          )}
+          </>}
+         
         </Card>
       </div>
     </div>

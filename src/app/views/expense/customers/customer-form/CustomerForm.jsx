@@ -410,7 +410,6 @@ const CustomerForm = () => {
     url
       .get("mjrExpense/" + localStorage.getItem("division"))
       .then(({ data }) => {
-        console.log(data.parties)
         setvendorList(data.vendor);
         setParties(data.parties);
         setvendorList(data.vendor);
@@ -1014,8 +1013,8 @@ const CustomerForm = () => {
                     </div>
                   </div>
                   {payment_account_name == 'Material Purchase' &&  <> Choose Quotation or Invoice Number : <br /></>}
-                  
-{payment_account_name == 'Material Purchase' &&   <div className="px-0 flex justify-between">
+                  <span className='expenseStyle'>
+{payment_account_name == 'Material Purchase' &&   <div className="px-0">
   
                     <div>
                       <Accordion>
@@ -1043,8 +1042,7 @@ const CustomerForm = () => {
                                     <AccordionDetails>
                                       {" "}
                                       <Typography key={j}>
-                                        {k?.quotation_no}{" "}{" "}
-                                        <Icon
+                                      <Icon
                                           onClick={(e) => {
                                             setChecked(k?.quotation_no);
                                           }}
@@ -1054,11 +1052,14 @@ const CustomerForm = () => {
                                                 ? "green"
                                                 : "black",
                                             color: "white",
-                                            float: "right",
+                                            float: "left",
                                           }}
                                         >
                                           checkBox
-                                        </Icon>
+                                        </Icon> &nbsp; {' '} <b> {k?.quotation_no}{":-"} </b>{parseFloat(k?.net_amount).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}{'/- '}({k?.subject})
+                                        
                                       </Typography>
                                     </AccordionDetails>
                                   );
@@ -1069,6 +1070,7 @@ const CustomerForm = () => {
                         </AccordionDetails>
                       </Accordion>
                     </div>
+                    <br />
                     <div>
                       <Accordion>
                         <AccordionSummary
@@ -1095,8 +1097,7 @@ const CustomerForm = () => {
                                     <AccordionDetails>
                                       {" "}
                                       <Typography key={j}>
-                                        {k?.invoice_no}{" "}
-                                        <Icon
+                                      <Icon
                                           onClick={(e) => {
                                             setChecked(k?.invoice_no);
                                           }}
@@ -1106,11 +1107,15 @@ const CustomerForm = () => {
                                                 ? "green"
                                                 : "black",
                                             color: "white",
-                                            float: "right",
+                                            float: "left",
                                           }}
                                         >
                                           checkBox
-                                        </Icon>
+                                        </Icon> &nbsp;
+                                        <b> {k?.invoice_no}{":-"} </b>{parseFloat(k?.grand_total).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}{'/- '}
+                                       
                                       </Typography>
                                     </AccordionDetails>
                                   );
@@ -1123,8 +1128,8 @@ const CustomerForm = () => {
                     </div>
                     <div></div>
                     <br /><br />
-                    <br />
                   </div>  }
+                  </span>
                 
 
                   <span>

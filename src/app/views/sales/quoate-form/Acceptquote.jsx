@@ -114,9 +114,17 @@ const AcceptQuote = () => {
 
       // if(data.length)
       // {
-      setUserList(data);
+      setUserList(data?.sort(function (a, b) {
+        var dateA = new Date(a?.ps_date),
+          dateB = new Date(b?.ps_date);
+        return dateB - dateA;
+      }));
 
-      setqdetails(data);
+      setqdetails(data?.sort(function (a, b) {
+        var dateA = new Date(a?.ps_date),
+          dateB = new Date(b?.ps_date);
+        return dateB - dateA;
+      }));
       // }
     });
     return () => setIsAlive(false);

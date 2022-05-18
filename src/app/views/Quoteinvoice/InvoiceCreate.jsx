@@ -974,7 +974,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           title: 'Success',
           type: 'success',
           icon: 'success',
-          text: 'Data saved successfully.',
+          text: localStorage.getItem('role') == 'SA' ? 'Data saved successfully.' : 'Please wait till Super Admin approves your invoice before proceeding.',
         })
 
           .then((result) => {
@@ -1109,7 +1109,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   useEffect(() => {
 
     url.get(`mjrInvInc/${localStorage.getItem('division')}`).then(({ data }) => {
-      console.log(data?.products)
       setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setproListAll(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
       setData(data?.uom);
@@ -1604,7 +1603,7 @@ select
                           </MenuItem>
                         ))} 
                     </TextValidator> */}
-{console.log(proList)}
+
                         <Autocomplete
                           className="w-full"
                           size="small"

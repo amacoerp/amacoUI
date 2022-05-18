@@ -10,8 +10,7 @@ import { useReactToPrint } from "react-to-print";
 import { numberToWords } from "number-to-words";
 import "./print.css";
 import DeleteComment from "./DeleteComment";
-import Alert from '@mui/material/Alert';
-
+import Alert from "@mui/material/Alert";
 
 // import { IntlProvider } from "react-intl-number-format"
 import { FormattedMessage } from "react-intl";
@@ -298,7 +297,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [country, setcountry] = useState("");
   const [bank, setBank] = useState([]);
   const [sign, setSignature] = useState([]);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
+  const [aprove, setApprove] = useState("");
+  const [sstatus, setSStatus] = useState("");
 
   useEffect(() => {
     myFunction();
@@ -316,19 +317,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // })
 
     url.get("signature").then(({ data }) => {
-      setSignature(data)
+      setSignature(data);
     });
 
     url.get("invoice/" + id).then(({ data }) => {
-      console.log(data)
+      console.log(data);
       if (data) {
         setBank(data[4]?.[0]);
         document.title =
           "AMACO-" + data[0].invoice_no + "-" + data[0].party?.firm_name;
         setquoteid(data[0].quotation_id ? data[0].quotation_id : id);
-        setComment(data[0].comment ? data[0].comment : '');
+        setComment(data[0].comment ? data[0].comment : "");
         data[0].quotation_id ? setres(true) : setres(false);
         setdis_per(data[0].discount_in_percentage);
+        setApprove(data[0].approve);
+
+        setSStatus(data[0]?.submit_status);
         setVatExclude(parseInt(data[0].exclude_from_vat) ? true : false);
         setpodetails(data[0].invoice_detail);
         setcompany(data[0].party?.firm_name);
@@ -342,7 +346,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setstreet(data[0].party?.street);
         setzipcode(data[0].party?.zip_code);
         setpo(
-          data[0].quotation ? data[0].quotation.po_number : data[0].po_number
+          data[0].po_number == 'null' ? '' : data[0].po_number ? data[0].po_number : data[0]?.quotation ? data[0]?.quotation?.po_number == 'null' ? '' : data[0]?.quotation?.po_number : ''
         );
         setvatno(data[0].party?.vat_no);
         setvatno_ar(toArabic(data[0].party?.vat_no));
@@ -570,6 +574,43 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     // })
   };
 
+  const aproveStatus = (st) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text:
+        st === "0"
+          ? "Do you want to Reject this Invoice ?"
+          : "Do you want to Approve this Invoice ?",
+      // icon: 'danger',
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      icon: "warning",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.value) {
+        const arr = {
+          data: st,
+        };
+        url
+          .post(`updateApproveRejectStatus/${id}`, arr)
+          .then(() => {
+            if (st == "0") {
+              Swal.fire(
+                "Rejected!",
+                "Invoice has been Moved to Trash.",
+                "success"
+              );
+            } else {
+              Swal.fire("Approved!", "Invoice has been Approved.", "success");
+            }
+          })
+          .catch(() => {});
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
+  };
+
   const [dcDailog, setDcDailog] = useState(false);
   const [dcComment, setDcComment] = useState("");
 
@@ -746,6 +787,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   >
                     EDIT INVOICE
                   </MenuItem>
+                  {aprove == 0 && (
+                    <>
+                      <MenuItem onClick={() => aproveStatus("1")}>
+                        APPROVE
+                      </MenuItem>
+                      <MenuItem onClick={() => aproveStatus("0")}>
+                        REJECT / TRASH
+                      </MenuItem>
+                    </>
+                  )}
                 </>
               )}
             </Menu>
@@ -769,18 +820,18 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
           {pageNumber.map((item, i) => {
             if (i == 0) {
-              pos = 1557;
+              pos = 1538;
             } else {
-              pos = pos + 1587;
+              pos = pos + 1568;
             }
 
             return (
               <span
                 className="showPageNumber"
                 style={{
-                  position: "fixed",
+                  position: "relative",
                   top: pos,
-                  left: "50%",
+                  // left: "50%",
                   display: "none",
                 }}
               >
@@ -841,7 +892,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                   <div className="px-2 pt-5 flex justify-between">
                     <div className="flex">
                       <div className="pl-2  mb-4">
-                        {del && <><Alert severity="warning">{comment}</Alert></>}
+                        {del && (
+                          <>
+                            <Alert severity="warning">{comment}</Alert>
+                          </>
+                        )}
                         <h3 style={{ fontSize: 20 }}>
                           <strong>VAT INVOICE</strong>
                         </h3>
@@ -1493,7 +1548,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: "50px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1509,7 +1564,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: "px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1525,7 +1580,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: "90px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                                 wordBreak: "break-word",
@@ -1542,7 +1597,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: "90px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1557,7 +1612,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 fontFamily: "Calibri",
                                 width: "130px",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1573,7 +1628,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 wordBreak: "break-word",
                                 width: "130px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1591,7 +1646,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 wordBreak: "break-word",
                                 width: "130px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1609,7 +1664,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 wordBreak: "break-word",
                                 width: "130px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: 1000,
                                 fontSize: 16,
                               }}
@@ -1896,28 +1951,54 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <br></br>
                     <div
                       className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between"
-                      id="pageCut"
+                      style={{ pageBreakInside: "avoid" ,height:'200px'}}
                     >
-                      <div className="pl-24" style={{ fontWeight: 1000 }}>
+                      <div className="pl-24" style={{ fontWeight: 1000,width:'200px' }}>
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="preparedby" />
                           </IntlProvider>
                         </h5>
-                        Prepared by 
-                        {sign[0]?.prepared_by && <><br /><img src={basePath+sign[0]?.prepared_by} height={90} width={120} alt={sign[0]?.prepared_by} /></> }
+                        Prepared by
+                        {sstatus == "Invoice Submitted" && (
+                          <>
+                            {sign[0]?.prepared_by && (
+                              <>
+                                <img
+                                  src={basePath + sign[0]?.prepared_by}
+                                  height={100}
+                                  width={180}
+                                  alt={sign[0]?.prepared_by}
+                                />
+                              </>
+                            )}
+                          </>
+                        )}
                       </div>
-                      <div style={{ fontWeight: 1000 }} className="pl-2">
+                      <div style={{ fontWeight: 1000,width:'-1px' }} className="pl-2">
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="approvedby" />
                           </IntlProvider>
                         </h5>
                         Approved by
-                        {sign[0]?.approval_by && <><br /><img src={basePath+sign[0]?.approval_by} height={100} width={120} alt={sign[0]?.approval_by} /></> }
-
+                        {sstatus == "Invoice Submitted" && (
+                          <>
+                            {sign[0]?.approval_by && (
+                              <>
+                              
+                                <img
+                                  src={basePath + sign[0]?.approval_by}
+                                  height={100}
+                                  width={180}
+                                  alt={sign[0]?.approval_by}
+                                />
+                              </>
+                            )}
+                          </>
+                        )}
                       </div>
-                      <div className="mr-0 pr-24" style={{ fontWeight: 1000 }}>
+                      <div className="mr-0 pr-24" style={{ fontWeight: 1000 ,width:'205px'}}>
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="receivedby" />
