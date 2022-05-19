@@ -1024,8 +1024,8 @@ const CustomerForm = () => {
                           id="panel1a-header"
                         >
                           <Typography>Quotations</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
+                        </AccordionSummary >
+                        <AccordionDetails className='accc'>
                           {parties?.map((item, i) => {
                             return (
                               <Accordion key={i}>
@@ -1056,9 +1056,9 @@ const CustomerForm = () => {
                                           }}
                                         >
                                           checkBox
-                                        </Icon> &nbsp; {' '} <b> {k?.quotation_no}{":-"} </b>{parseFloat(k?.net_amount).toLocaleString(undefined, {
+                                        </Icon> &nbsp; {' '} <b> {k?.quotation_no}{" | "} </b>{parseFloat(k?.net_amount).toLocaleString(undefined, {
                     minimumFractionDigits: 2,
-                  })}{'/- '}({k?.subject})
+                  })}{'/- '}{k?.subject == 'null' ? '' : k?.subject ? <>| ({k?.subject})</> : ''}
                                         
                                       </Typography>
                                     </AccordionDetails>
@@ -1080,7 +1080,7 @@ const CustomerForm = () => {
                         >
                           <Typography>Invoices</Typography>
                         </AccordionSummary>
-                        <AccordionDetails>
+                        <AccordionDetails className='accc'>
                           {parties?.map((item, i) => {
                             return (
                               <Accordion key={i}>
@@ -1112,7 +1112,7 @@ const CustomerForm = () => {
                                         >
                                           checkBox
                                         </Icon> &nbsp;
-                                        <b> {k?.invoice_no}{":-"} </b>{parseFloat(k?.grand_total).toLocaleString(undefined, {
+                                        <b> {k?.invoice_no}{" | "} </b>{parseFloat(k?.grand_total).toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                   })}{'/- '}
                                        

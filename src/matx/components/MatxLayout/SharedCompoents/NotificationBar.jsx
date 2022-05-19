@@ -174,6 +174,41 @@ const NotificationBar = ({ container }) => {
     }
   };
 
+  const getTimeDifferenceNew = (date) => {
+    var date1 = new Date(date);
+var date2 = new Date();
+
+var diff = date2.getTime() - date1.getTime();
+
+if (date1 < date2) {
+  var milisec_diff = date2 - date1;
+}else{
+  var milisec_diff = date1 - date2;
+}
+
+var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+
+var msec = diff;
+var hh = Math.floor(msec / 1000 / 60 / 60);
+msec -= hh * 1000 * 60 * 60;
+var mm = Math.floor(msec / 1000 / 60);
+msec -= mm * 1000 * 60;
+var ss = Math.floor(msec / 1000);
+msec -= ss * 1000;
+
+if(days > 0){
+  return days + ' days ago' 
+}else if(hh > 0){
+  return hh+ ' hour ago'
+}else if(mm > 0){
+  return  mm+ ' minute ago'
+}else{
+  return ss + ' seconds ago'
+}
+
+// return (hh + ":" + mm + ":" + ss);
+  }
+
   useEffect(() => {
    
     url.get("getNotifications").then(({ data }) => {
@@ -250,7 +285,7 @@ const NotificationBar = ({ container }) => {
                             fontSize="small"
                             color={"error"}
                           >
-                            {"done"}
+                            {"notifications_active"}
                           </Icon>
                         </div>
                         <span className="ml-4 font-medium text-muted">
@@ -258,8 +293,8 @@ const NotificationBar = ({ container }) => {
                         </span>
                       </div>
                       <small className="card__topbar__time text-muted">
-                        {getTimeDifference(new Date(notification.created_at))}{" "}
-                        ago
+                        {getTimeDifferenceNew(notification.created_at)}
+                      
                       </small>
                     </div>
                     <div className="px-4 pt-2 pb-4">

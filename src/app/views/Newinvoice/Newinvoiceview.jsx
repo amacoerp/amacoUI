@@ -905,9 +905,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
                     <div className="flex">
                       <div className="pr-2 px-4 mb-4">
-                        <h1>
+                        <h3>
                           <strong>فاتورة ضريبة</strong>
-                        </h1>
+                        </h3>
                       </div>
                     </div>
                   </div>

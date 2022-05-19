@@ -983,7 +983,7 @@ const SimpleMuiTable = () => {
                     type="submit"
                     onClick={handleSubmit}
                   >
-                    <Icon>save</Icon> Filter
+                    <Icon>search</Icon>&nbsp;&nbsp; Filter
                   </Button>
                 </Grid>
                 <Grid item >

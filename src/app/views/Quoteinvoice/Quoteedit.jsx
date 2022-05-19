@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UOMDialog from '../invoice/UOMDialog';
+import UOMDialog from "../invoice/UOMDialog";
 
 import {
   Button,
@@ -19,8 +19,7 @@ import {
   TextField,
   Tooltip,
   FormGroup,
-  useMediaQuery
-
+  useMediaQuery,
 } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
@@ -29,17 +28,31 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield/dist/CurrencyTextField";
-import { getInvoiceById, addInvoice, getUnitOfMeasure, updateInvoice, getCustomerList, getusers, getcompanybank, navigatePath, basePath } from "../invoice/InvoiceService";
+import {
+  getInvoiceById,
+  addInvoice,
+  getUnitOfMeasure,
+  updateInvoice,
+  getCustomerList,
+  getusers,
+  getcompanybank,
+  navigatePath,
+  basePath,
+} from "../invoice/InvoiceService";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { useCallback } from "react";
-import url, { getVendorList, divisionId, data } from "../invoice/InvoiceService";
+import url, {
+  getVendorList,
+  divisionId,
+  data,
+} from "../invoice/InvoiceService";
 import useAuth from "app/hooks/useAuth";
 
 // expandable table
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from "@material-ui/core/IconButton";
 import Swal from "sweetalert2";
 import { Breadcrumb, ConfirmationDialog } from "matx";
 import MemberEditorDialog from "../product/productprice";
@@ -49,8 +62,7 @@ import MemberEditorDialog_product from "../../views/product/Addproduct_popup";
 import MemberEditorDialogcontact from "../party/partycontact";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import useSettings from "app/hooks/useSettings";
-import useDynamicRefs from 'use-dynamic-refs';
-
+import useDynamicRefs from "use-dynamic-refs";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceEditor: {
@@ -59,12 +71,12 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
   },
   root: {
-    width: "100px"
+    width: "100px",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular
-  }
+    fontWeight: theme.typography.fontWeightRegular,
+  },
 }));
 
 const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
@@ -76,72 +88,79 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   // const [rfq, setrfq] = useState([]);
   // const [rdate, setrdate] = useState([]);
   // const [ddate, setddate] = useState([]);
-  const [cname, setcname] = useState('');
-  const [contactname, setcontactname] = useState('');
-  const [po_number, setpo_number] = useState('');
+  const [cname, setcname] = useState("");
+  const [contactname, setcontactname] = useState("");
+  const [po_number, setpo_number] = useState("");
 
   const [party_id, setparty_id] = useState(0);
   const [rfq_details, setrfqdetails] = useState([]);
-  const [discounts, setdiscounts] = useState('0');
+  const [discounts, setdiscounts] = useState("0");
   const [proList, setproList] = useState([]);
   const [ProductList, setProductList] = useState([]);
-  const [validity, setvalidity] = useState('3 Days')
-  const [payment_terms, setpayment_terms] = useState('100% Advance')
-  const [warranty, setwarranty] = useState('NA')
-  const [delivery_time, setdelivery_time] = useState('Within 2-3 Days from the Date of PO')
-  const [inco_terms, setinco_terms] = useState('DDP-Delivery Duty Paid To Customer Office')
-  const [discount, setdiscount] = useState('0')
-  const [contactid, setcontactid] = useState('')
+  const [validity, setvalidity] = useState("3 Days");
+  const [payment_terms, setpayment_terms] = useState("100% Advance");
+  const [warranty, setwarranty] = useState("NA");
+  const [delivery_time, setdelivery_time] = useState(
+    "Within 2-3 Days from the Date of PO"
+  );
+  const [inco_terms, setinco_terms] = useState(
+    "DDP-Delivery Duty Paid To Customer Office"
+  );
+  const [discount, setdiscount] = useState("0");
+  const [contactid, setcontactid] = useState("");
   const [dstatus, setdstatus] = useState(false);
   const [price, setprice] = useState(0);
   const [pprice, setpprice] = useState(0);
   const [marginprice, setmarginprice] = useState(0);
-  const [testArr, setTestArr] = useState([])
-  const [productid, setproductid] = useState('1');
+  const [testArr, setTestArr] = useState([]);
+  const [productid, setproductid] = useState("1");
   const [indexset, setindex] = useState(0);
-  const [productname, setproductname] = useState('');
+  const [productname, setproductname] = useState("");
   const [CustomerList, setCustomerList] = useState([]);
   const [customercontact, setcustomercontact] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [ProductList1, setProductList1] = useState([]);
-  const [catid, setcatid] = useState()
-  const [indexvalue, setindexvalue] = useState()
-  const [productprice, setproductprice] = useState([])
-  const [users, setusers] = useState([])
-  const [sign, setsign] = useState('')
-  const [rfq_no, setrfq_no] = useState('')
-  const [subject, setsubject] = useState('')
-  const [bank_id, setbank_id] = useState('')
-  const [quickstatus, setquickstatus] = useState(false)
+  const [catid, setcatid] = useState();
+  const [indexvalue, setindexvalue] = useState();
+  const [productprice, setproductprice] = useState([]);
+  const [users, setusers] = useState([]);
+  const [sign, setsign] = useState("");
+  const [rfq_no, setrfq_no] = useState("");
+  const [subject, setsubject] = useState("");
+  const [bank_id, setbank_id] = useState("");
+  const [quickstatus, setquickstatus] = useState(false);
   let calculateAmount = [];
   const history = useHistory();
-    const { id,t } = useParams();
+  const { id, t } = useParams();
   const { user } = useAuth();
   const classes = useStyles();
   const [companybank, setcompanybank] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [shouldOpenEditorDialog, setShouldOpenEditorDialog] = useState(false);
-  const [shouldOpenEditorDialogproduct, setshouldOpenEditorDialogproduct] = useState(false);
-  const [Quote_date, setQuote_date] = useState(moment(new Date()).format('DD MMM YYYY'));
-  const [transport, settransport] = useState('0.00')
-  const [other, setother] = useState('0.00')
-  const [quote_status, setquote_status] = useState('')
-  const [
-    shouldOpenConfirmationDialog,
-    setShouldOpenConfirmationDialog,
-  ] = useState(false);
+  const [shouldOpenEditorDialogproduct, setshouldOpenEditorDialogproduct] =
+    useState(false);
+  const [Quote_date, setQuote_date] = useState(
+    moment(new Date()).format("DD MMM YYYY")
+  );
+  const [transport, settransport] = useState("0.00");
+  const [other, setother] = useState("0.00");
+  const [quote_status, setquote_status] = useState("");
+  const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+    useState(false);
   const routerHistory = useHistory();
 
   const [
     shouldOpenConfirmationDialogproduct,
     setshouldOpenConfirmationDialogproduct,
   ] = useState(false);
-  const [shouldOpenConfirmationDialogparty, setshouldOpenConfirmationDialogparty] = useState(false);
+  const [
+    shouldOpenConfirmationDialogparty,
+    setshouldOpenConfirmationDialogparty,
+  ] = useState(false);
   const formData = new FormData();
   const filter = createFilterOptions();
 
-
-  const addRow = async e => {
+  const addRow = async (e) => {
     var obj = {
       // id: 1,
       // start: inputFrom,
@@ -154,29 +173,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     setTestArr([...data]);
   };
   const noteList = (val, index) => {
-
-
     let tempItemList = [...testArr];
 
     tempItemList.map((element, i) => {
-
-
       if (index === i) {
-
-
-        element['notes'] = val
-
+        element["notes"] = val;
 
         return element;
-
       }
-
-
     });
 
-
-    setTestArr([...tempItemList])
-
+    setTestArr([...tempItemList]);
   };
 
   const generateRandomId = useCallback(() => {
@@ -193,21 +200,16 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // vat= ((discount * 15) / 100).toFixed(2);
     // GTotal=discount + vat;
 
-
     // setState({ ...state, ['fieldname']:event.target.value });
     let tempItemList = [...state.item];
-    setdstatus(true)
-    setdiscount(event.target.value)
-    setdiscounts(event.target.value)
+    setdstatus(true);
+    setdiscount(event.target.value);
+    setdiscounts(event.target.value);
 
     // setState({ ...state, ['vat']: vat });
     // setState({ ...state, ['net_amount']: GTotal });
     // setdstatus(true)
-
-
-
   };
-
 
   const handleSellerBuyerChange = (event, fieldName) => {
     event.persist();
@@ -220,7 +222,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   const setremark = (event, index) => {
-    event.persist()
+    event.persist();
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
@@ -228,21 +230,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       if (index === i) {
         element[event.target.name] = event.target.value;
-
-
-
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-  }
+  };
   const filterPrice = (options, params) => {
     // //console.log(params.inputValue)
     const filtered = filter(options, params);
@@ -251,13 +247,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     filtered.push({
       inputValue: params.inputValue,
       price: params.inputValue,
-      amount: params.inputValue
+      amount: params.inputValue,
     });
     // }
     return filtered;
   };
   const handleIvoiceListChange = (event, index) => {
-    event.persist()
+    event.persist();
 
     let tempItemList = [...state.item];
 
@@ -265,28 +261,20 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
         element[event.target.name] = event.target.value;
-
-
-
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-
   };
   const changeindex = (event, index) => {
-    event.persist()
+    event.persist();
 
     let tempItemList = [...state.item];
 
@@ -294,27 +282,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
-        element['index1'] = event.target.value;
-
-
-
+        element["index1"] = event.target.value;
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-
   };
-
 
   const addItemToInvoiceList_Index = (i) => {
     let tempItemList = [...state.item];
@@ -325,26 +304,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       name: " ",
       description: " ",
       descriptionss: " ",
-      descriptions: '---',
+      descriptions: "---",
       quantity: 0,
       unit_of_measure: " ",
       product_price_list: [
         {
           price: "",
-          firm_name: ""
-        }
+          firm_name: "",
+        },
       ],
       purchase_price: 0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
       discount: 0,
-      sell_price: 0.00,
-      cost_qty: 0.00,
+      sell_price: 0.0,
+      cost_qty: 0.0,
       remark: "",
-      total_amount: 0.00,
-      amaco_description: ""
-
+      total_amount: 0.0,
+      amaco_description: "",
     });
     setState({
       ...state,
@@ -363,48 +341,46 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       index1: lastIndexarr + 1,
       description: "",
       descriptionss: "",
-      descriptions: '---',
+      descriptions: "---",
       quantity: 0,
       unit_of_measure: " ",
       product_price_list: [
         {
           price: "",
-          firm_name: ""
-        }
+          firm_name: "",
+        },
       ],
       purchase_price: 0,
       margin: 0,
       margin_val: 0,
       discount_val: 0,
       discount: 0,
-      sell_price: 0.00,
-      cost_qty: 0.00,
+      sell_price: 0.0,
+      cost_qty: 0.0,
       remark: "",
-      total_amount: 0.00,
-      amaco_description: ""
-
+      total_amount: 0.0,
+      amaco_description: "",
     });
     setState({
       ...state,
       item: tempItemList,
     });
-
   };
 
   const deleteItemFromInvoiceList = (index, id, i) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You want to Delete this Quotation Details!',
-      icon: 'danger',
+      title: "Are you sure?",
+      text: "You want to Delete this Quotation Details!",
+      icon: "danger",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      icon: 'warning',
-      cancelButtonText: 'No, keep it'
+      confirmButtonText: "Yes, delete it!",
+      icon: "warning",
+      cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
         let tempItemList = [...state.item];
 
-        let count = tempItemList.filter(obj => obj.index1 == i).length;
+        let count = tempItemList.filter((obj) => obj.index1 == i).length;
         //console.log(id)
 
         // if (id) {
@@ -422,53 +398,43 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         //   });
         // }
 
-
         if (count > 1) {
-
-
           tempItemList.splice(index, 1);
 
           setState({
             ...state,
             item: tempItemList,
           });
-        }
-        else {
+        } else {
           tempItemList.splice(index, 1);
           let newArr = tempItemList.map((item) => {
             if (item.index1 > i) {
-              item['index1'] = item.index1 - 1;
+              item["index1"] = item.index1 - 1;
             }
-            return item
-          })
+            return item;
+          });
           setState({
             ...state,
             item: newArr,
           });
         }
-
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your Quotation Details is safe :)", "error");
       }
-      else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your Quotation Details is safe :)',
-          'error'
-        )
-      }
-    })
+    });
   };
 
   const handleDateChange = (rdate) => {
     setState({
-      rdate: date
+      rdate: date,
     });
   };
   const deleteItemFromNoteList = (index) => {
     let tempItemList = [...testArr];
     tempItemList.splice(index, 1);
 
-    setTestArr([...tempItemList])
-  }
+    setTestArr([...tempItemList]);
+  };
   const calcualteprice = (pprice, marginprice) => {
     let tempItemList = [...state.item];
 
@@ -476,19 +442,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (indexset === i) {
+        element["purchase_price"] = pprice;
+        element["sell_price"] = parseFloat(
+          (marginprice * pprice) / 100 + parseFloat(pprice)
+        );
 
-        element['purchase_price'] = pprice;
-        element['sell_price'] = (parseFloat((marginprice * pprice / 100) + parseFloat(pprice)));
-
-        element['total_amount'] = ((element.sell_price) * element.quantity).toFixed(2);
-        element['margin'] = marginprice;
-        element['name'] = pprice;
-
-
-
+        element["total_amount"] = (
+          element.sell_price * element.quantity
+        ).toFixed(2);
+        element["margin"] = marginprice;
+        element["name"] = pprice;
       }
       return element;
-
     });
 
     setState({
@@ -497,20 +462,17 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
 
     // setprice(parseInt(event.target.value))
-  }
+  };
   const priceset = (a, b, c) => {
     url.get("parties/" + c).then(({ data }) => {
       setproList(data[0].contacts);
-
     });
-    alert(c)
+    alert(c);
   };
   const expandData = (id) => {
+    var filtered = proList.filter((a) => a.id == id);
 
-    var filtered = proList.filter(a => a.id == id);
-
-    setProductList(filtered)
-
+    setProductList(filtered);
   };
   const calculatemargin = (event, index, value) => {
     let tempItemList = [...state.item];
@@ -518,38 +480,63 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     tempItemList.map((element, i) => {
       let sum = 0;
 
-
-
       if (index == i) {
         // 29-1-2022
         let m = element.margin ? element.margin : 100;
-        element['costprice'] = element.purchase_price ? element.purchase_price : 0
-        element['margin'] = element.purchase_price ? (isNaN((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3)) ? 0 : (isFinite((((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3))) ? (((parseFloat(d_val) - parseFloat(element.costprice)) / parseFloat(element.costprice)) * 100).toFixed(3) : 0) : 100;
+        element["costprice"] = element.purchase_price
+          ? element.purchase_price
+          : 0;
+        element["margin"] = element.purchase_price
+          ? isNaN(
+              (
+                ((parseFloat(d_val) - parseFloat(element.costprice)) /
+                  parseFloat(element.costprice)) *
+                100
+              ).toFixed(3)
+            )
+            ? 0
+            : isFinite(
+                (
+                  ((parseFloat(d_val) - parseFloat(element.costprice)) /
+                    parseFloat(element.costprice)) *
+                  100
+                ).toFixed(3)
+              )
+            ? (
+                ((parseFloat(d_val) - parseFloat(element.costprice)) /
+                  parseFloat(element.costprice)) *
+                100
+              ).toFixed(3)
+            : 0
+          : 100;
 
         // element.margin_val = element.purchase_price?element.purchase_price:d_val*element.quantity
-        element.margin_val = element.purchase_price ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity) : d_val * element.quantity
+        element.margin_val = element.purchase_price
+          ? ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+              100) *
+            parseFloat(element.quantity)
+          : d_val * element.quantity;
 
         // //console.log((parseFloat(event.target.value)-parseFloat(element.purchase_price))/parseFloat(element.purchase_price)*100)
         // element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)) : d_val;
         // element['discount']=((parseFloat(element.purchase_price)*parseFloat(element.margin))/100)*parseFloat(element.quantity);
-        element.sell_price = d_val
-        element.total_amount = ((parseFloat(d_val) * element.quantity).toFixed(2));
+        element.sell_price = d_val;
+        element.total_amount = (parseFloat(d_val) * element.quantity).toFixed(
+          2
+        );
         // element.discount_val = ((parseFloat(parseFloat(d_val) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-        element.discount = 0
-        element.discount_val = 0
+        element.discount = 0;
+        element.discount_val = 0;
         // element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-
-
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  }
+  };
 
   const [getRef, setRef] = useDynamicRefs();
 
@@ -557,73 +544,99 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let priceRef = [];
 
   const calcualte_qty = (event, index, value) => {
-
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
       if (index == i) {
-
         if (parseFloat(element.purchase_price)) {
           element[event.target.name] = value ? value : event.target.value;
-          element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3));
-          element.total_amount = (parseFloat(element.sell_price) * element.quantity).toFixed(2);
-          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-
-        }
-
-        else {
+          element.sell_price =
+            parseFloat(
+              (element.margin * parseFloat(element.purchase_price)) / 100 +
+                parseFloat(element.purchase_price)
+            ).toFixed(3) -
+            parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3);
+          element.total_amount = (
+            parseFloat(element.sell_price) * element.quantity
+          ).toFixed(2);
+          element.cost_qty = (
+            element.purchase_price * element.quantity
+          ).toFixed(2);
+          element.margin_val =
+            ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+              100) *
+            parseFloat(element.quantity);
+          element.discount_val =
+            parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3) * parseFloat(element.quantity);
+        } else {
           element[event.target.name] = value ? value : event.target.value;
 
-          element.total_amount = (parseFloat(element.sell_price) * element.quantity).toFixed(2);
-          element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-          element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-          element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-
+          element.total_amount = (
+            parseFloat(element.sell_price) * element.quantity
+          ).toFixed(2);
+          element.cost_qty = (
+            element.purchase_price * element.quantity
+          ).toFixed(2);
+          element.margin_val =
+            ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+              100) *
+            parseFloat(element.quantity);
+          element.discount_val =
+            parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3) * parseFloat(element.quantity);
         }
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  }
+  };
 
-
-  const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
-
-
-
-    if(e.key === 'Enter' && !dropdown){
-     
+  const controlKeyPress = (e, id, nextid, prev, invoiceItemList, dropdown) => {
+    if (e.key === "Enter" && !dropdown) {
       const a = id.split(parseInt(id));
-      let i = parseInt(id)
+      let i = parseInt(id);
       // const r = ++i + 'product_id';
       // console.log(r)
 
-
-      // setTimeout(() => 
+      // setTimeout(() =>
       // try {
-        
+
       // } catch (error) {
-        
+
       // };
       // , 0);
-      
-        try {
-          addItemToInvoiceList(invoiceItemList);
-          // if (r.includes('product_id')) 
-          getRef(++i + 'description').current.focus()
-          
-        } catch (error) {
-         
-        }
+
+      try {
+        addItemToInvoiceList(invoiceItemList);
+        // if (r.includes('product_id'))
+        getRef(++i + "description").current.focus();
+      } catch (error) {}
       //  inputRef[parseInt(r)].focus();
     }
 
@@ -633,14 +646,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         priceRef[parseInt(nextid)].focus();
       } else if (nextid == null) {
         // if (e?.keyCode == 13) {
-
         // }
       } else {
         getRef(nextid).current.focus();
       }
     } else if (e?.keyCode == 38 && !dropdown) {
       const a = id.split(parseInt(id));
-      let i = parseInt(id)
+      let i = parseInt(id);
       if (--i >= 0) {
         const r = i + a[1];
         // if (r?.includes('purchase_price')) {
@@ -652,12 +664,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         } else {
           getRef(r).current.focus();
         }
-
       }
-
     } else if (e?.keyCode == 40 && !dropdown) {
       const a = id.split(parseInt(id));
-      let i = parseInt(id)
+      let i = parseInt(id);
       // if (++i) {
       const r = ++i + a[1];
       try {
@@ -673,15 +683,13 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           getRef(r).current.focus();
         }
       } catch (error) {
-        console.error('eror')
+        console.error("eror");
         // addItemToInvoiceList(invoiceItemList);
       }
 
       // }
-
     } else if (e?.keyCode == 37) {
       if (prev == null) {
-
       } else {
         // if (prev.includes('product_id')) {
         if (false) {
@@ -692,92 +700,127 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         } else if (false) {
           priceRef[parseInt(prev)].focus();
         } else {
-          console.log(getRef(prev)?.current.focus())
+          console.log(getRef(prev)?.current.focus());
         }
       }
     }
-  }
+  };
 
   const calcualte_margin = (event, index, value) => {
-
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
       if (index == i) {
-
-
         element[event.target.name] = value ? value : event.target.value;
-        element.sell_price = (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3)));
-        element.total_amount = (parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
+        element.sell_price =
+          parseFloat(
+            (element.margin * parseFloat(element.purchase_price)) / 100 +
+              parseFloat(element.purchase_price)
+          ).toFixed(3) -
+          parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3);
+        element.total_amount = (
+          parseFloat(element.sell_price) * parseFloat(element.quantity)
+        ).toFixed(2);
+        element.cost_qty = (element.purchase_price * element.quantity).toFixed(
+          2
+        );
+        element.margin_val =
+          ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+            100) *
+          parseFloat(element.quantity);
+        element.discount_val =
+          parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3) * parseFloat(element.quantity);
         //console.log((parseFloat(element.sell_price) * parseFloat(element.quantity)).toFixed(2))
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  }
+  };
   const calcualtep = (event, index, value) => {
-
-
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
-
       if (index === i) {
+        element["purchase_price"] = value?.price
+          ? value?.price
+          : value == null
+          ? 0
+          : value;
 
+        element.sell_price =
+          parseFloat(
+            (element.margin * parseFloat(element.purchase_price)) / 100 +
+              parseFloat(element.purchase_price)
+          ).toFixed(3) -
+          parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3);
 
-        element['purchase_price'] = value?.price ? value?.price : (value == null ? 0 : value);
-
-        element.sell_price = parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3))
-
-
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.margin_val = ((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity)
-        element.discount_val = ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity))
-
+        element.total_amount = (element.sell_price * element.quantity).toFixed(
+          2
+        );
+        element.cost_qty = (element.purchase_price * element.quantity).toFixed(
+          2
+        );
+        element.margin_val =
+          ((parseFloat(element.purchase_price) * parseFloat(element.margin)) /
+            100) *
+          parseFloat(element.quantity);
+        element.discount_val =
+          parseFloat(
+            (parseFloat(element.discount) *
+              parseFloat(
+                (element.margin * parseFloat(element.purchase_price)) / 100 +
+                  parseFloat(element.purchase_price)
+              ).toFixed(3)) /
+              100
+          ).toFixed(3) * parseFloat(element.quantity);
       }
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  }
+  };
   const discountPer = (event, index, value) => {
-
     let tempItemList = [...state.item];
 
     tempItemList.map((element, i) => {
       let sum = 0;
 
       if (index === i) {
-
-
-
-
-
-
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
 
-
         // element.sell_price = element.purchase_price?(parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat((element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100)).toFixed(3)) / 100)).toFixed(3)):element.sell_price-((element.discount*element.sell_price)/100);
-
-
-
 
         // element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
         // element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
@@ -786,39 +829,55 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         const dumy_sellPrice = element.sell_price;
         // element['discount'] = !isNaN(parseFloat(value)) ? (parseFloat(value)? 0 :value) : event.target.value;
 
-        element['discount'] = (isNaN(parseFloat(event.target.value))) ? 0 : parseFloat(event.target.value);
+        element["discount"] = isNaN(parseFloat(event.target.value))
+          ? 0
+          : parseFloat(event.target.value);
         //console.log(element.discount)
-        element.sell_price = (element.purchase_price ? parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3) - (parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) : element.sell_price - ((element.discount * element.sell_price) / 100));
-
+        element.sell_price = element.purchase_price
+          ? parseFloat(
+              (element.margin * parseFloat(element.purchase_price)) / 100 +
+                parseFloat(element.purchase_price)
+            ).toFixed(3) -
+            parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3)
+          : element.sell_price - (element.discount * element.sell_price) / 100;
 
         // element.margin_val = element.purchase_price?((parseFloat(element.purchase_price) * parseFloat(element.margin)) / 100) * parseFloat(element.quantity):dumy_sellPrice*element.quantity
 
-        element.total_amount = ((element.sell_price) * element.quantity).toFixed(2);
-        element.cost_qty = ((element.purchase_price) * element.quantity).toFixed(2);
-        element.discount_val = element.purchase_price ? ((parseFloat(parseFloat(element.discount) * (parseFloat((element.margin * parseFloat(element.purchase_price) / 100) + parseFloat(element.purchase_price)).toFixed(3)) / 100)).toFixed(3) * parseFloat(element.quantity)) : ((((element.discount * dumy_sellPrice) / 100) * element.quantity))
-
-
-
-
-
-
+        element.total_amount = (element.sell_price * element.quantity).toFixed(
+          2
+        );
+        element.cost_qty = (element.purchase_price * element.quantity).toFixed(
+          2
+        );
+        element.discount_val = element.purchase_price
+          ? parseFloat(
+              (parseFloat(element.discount) *
+                parseFloat(
+                  (element.margin * parseFloat(element.purchase_price)) / 100 +
+                    parseFloat(element.purchase_price)
+                ).toFixed(3)) /
+                100
+            ).toFixed(3) * parseFloat(element.quantity)
+          : ((element.discount * dumy_sellPrice) / 100) * element.quantity;
       }
 
       return element;
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-  }
+  };
   const deleteFileSelect = (event, index) => {
-
-
-
-
-    event.persist()
+    event.persist();
 
     let tempItemList = [...state.item];
 
@@ -826,71 +885,45 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
-        element['src'] = null;
+        element["src"] = null;
         element[`files`] = null;
 
-
         return element;
-
       }
-
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-
-
-
   };
   const deletequotefile = (id) => {
-
-
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this File!',
-      icon: 'danger',
+      title: "Are you sure?",
+      text: "You will not be able to recover this File!",
+      icon: "danger",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      icon: 'warning',
-      cancelButtonText: 'No, keep it'
+      confirmButtonText: "Yes, delete it!",
+      icon: "warning",
+      cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        url.delete(`delete-quotation-detail/${id}`)
+        url
+          .delete(`delete-quotation-detail/${id}`)
           // axios.get(`http://www.dataqueuesystems.com/amaco/amaco/php_file/controller/deleterfqfile.php?id=${id}`)
-          .then(res => {
-
-
-            Swal.fire(
-              'Deleted!',
-              'File has been deleted.',
-              'success'
-            )
-            setIsAlive(true)
-
-
-          })
-
-
+          .then((res) => {
+            Swal.fire("Deleted!", "File has been deleted.", "success");
+            setIsAlive(true);
+          });
 
         // For more information about handling dismissals please visit
         // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your File is safe :)',
-          'error'
-        )
+        Swal.fire("Cancelled", "Your File is safe :)", "error");
       }
-    })
-
+    });
   };
 
   const handleSidebarToggle = () => {
@@ -915,11 +948,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     });
   };
   const handleFileSelect = (event, index) => {
-
-
-
-
-    event.persist()
+    event.persist();
 
     let tempItemList = [...state.item];
 
@@ -927,134 +956,126 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       let sum = 0;
 
       if (index === i) {
-
         // element['sell_price']=parseFloat((event.target.value * element.purchase_price/100)+parseFloat(element.purchase_price)).toFixed(2);
         // element['total_amount']=((element['sell_price'])*element.quantity_required).toFixed(2);
-        element['src'] = URL.createObjectURL(event.target.files[0]);
+        element["src"] = URL.createObjectURL(event.target.files[0]);
         let files = event.target.files[0];
         // formData.append('files',event.target.files[0])
 
-
-
-        element[`files`] = event.target.files[0]
-
+        element[`files`] = event.target.files[0];
 
         return element;
-
       }
-
-
     });
 
     setState({
       ...state,
       item: tempItemList,
     });
-
-
-
-
-
   };
 
   const handleSubmit = (status) => {
-    let mode = "full"
-    updateSidebarMode({ mode })
+    let mode = "full";
+    updateSidebarMode({ mode });
     // setState({ ...state, ['subTotalCost']: subTotalCost });
     setState({ ...state, loading: true });
 
     let tempState = { ...state };
-    let arr = []
+    let arr = [];
     delete tempState.loading;
     let tempItemList = [...state.item];
 
     // arr.push({
     // Quotedetails:tempItemList,
     // });
-    arr.contact_id = contactid
-    arr.quotation_details = tempItemList
-    arr.discount_in_p = discount
-    arr.total_value = parseFloat(subTotalCost).toFixed(2)
-    arr.net_amount = GTotal
-    arr.vat_in_value = parseFloat(vat).toFixed(2)
-    arr.po_number = id
-    arr.party_id = party_id
-    arr.validity = validity
-    arr.warranty = warranty
-    arr.delivery_time = delivery_time
-    arr.inco_terms = inco_terms
-    arr.payment_terms = payment_terms
+    arr.contact_id = contactid;
+    arr.quotation_details = tempItemList;
+    arr.discount_in_p = discount;
+    arr.total_value = parseFloat(subTotalCost).toFixed(2);
+    arr.net_amount = GTotal;
+    arr.vat_in_value = parseFloat(vat).toFixed(2);
+    arr.po_number = id;
+    arr.party_id = party_id;
+    arr.validity = validity;
+    arr.warranty = warranty;
+    arr.delivery_time = delivery_time;
+    arr.inco_terms = inco_terms;
+    arr.payment_terms = payment_terms;
     // arr.contact_id = contactid
-    arr.ps_date = Quote_date
-    arr.rfq_id = null
-    arr.transaction_type = "sale"
-    console.log(contactid)
+    arr.ps_date = Quote_date;
+    arr.rfq_id = null;
+    arr.transaction_type = "sale";
+    console.log(contactid);
     const json = Object.assign({}, arr);
-    formData.append('discount_in_p', isNaN(dis_per) ? 0 : dis_per)
-    formData.append('total_value', isNaN(parseFloat(subTotalCost).toFixed(2)) ? 0 : parseFloat(subTotalCost).toFixed(2))
-    formData.append('net_amount', isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2))
-    formData.append('vat_in_value', parseFloat(vat).toFixed(2))
-    formData.append('po_number', po_number)
-    formData.append('party_id', party_id ? party_id : 0)
-    formData.append('validity', validity)
-    formData.append('warranty', warranty)
-    formData.append('delivery_time', delivery_time)
-    formData.append('inco_terms', inco_terms)
-    formData.append('payment_terms', payment_terms)
-    formData.append('contact_id', contactid ? contactid : 0)
-    formData.append('ps_date', Quote_date)
-    formData.append('rfq_id', null)
-    formData.append('transaction_type', "sale")
-    formData.append('id', id)
-    formData.append('sign', sign)
-    formData.append('subject', subject ? subject : null)
-    formData.append('rfq_no', rfq_no ? rfq_no : " ")
-    formData.append('bank_id', parseInt(bank_id))
-    formData.append('notes', JSON.stringify(testArr))
-    formData.append('transport', transport)
-    formData.append('other', other)
-    formData.append('user_id', user.id)
-    formData.append('div_id', localStorage.getItem('division'))
-    formData.append('status', quote_status)
-    
-    // JSON.stringify(values.rfq_details)
-    var spl = basePath.replace('api', '');
+    formData.append("discount_in_p", isNaN(dis_per) ? 0 : dis_per);
+    formData.append(
+      "total_value",
+      isNaN(parseFloat(subTotalCost).toFixed(2))
+        ? 0
+        : parseFloat(subTotalCost).toFixed(2)
+    );
+    formData.append(
+      "net_amount",
+      isNaN(GTotal) ? 0 : parseFloat(GTotal).toFixed(2)
+    );
+    formData.append("vat_in_value", parseFloat(vat).toFixed(2));
+    formData.append("po_number", po_number);
+    formData.append("party_id", party_id ? party_id : 0);
+    formData.append("validity", validity);
+    formData.append("warranty", warranty);
+    formData.append("delivery_time", delivery_time);
+    formData.append("inco_terms", inco_terms);
+    formData.append("payment_terms", payment_terms);
+    formData.append("contact_id", contactid ? contactid : 0);
+    formData.append("ps_date", Quote_date);
+    formData.append("rfq_id", null);
+    formData.append("transaction_type", "sale");
+    formData.append("id", id);
+    formData.append("sign", sign);
+    formData.append("subject", subject ? subject : null);
+    formData.append("rfq_no", rfq_no ? rfq_no : " ");
+    formData.append("bank_id", parseInt(bank_id));
+    formData.append("notes", JSON.stringify(testArr));
+    formData.append("transport", transport);
+    formData.append("other", other);
+    formData.append("user_id", user.id);
+    formData.append("div_id", localStorage.getItem("division"));
+    formData.append("status", quote_status);
 
+    // JSON.stringify(values.rfq_details)
+    var spl = basePath.replace("api", "");
 
     tempItemList.map((answer, i) => {
-
-      answer.file && (answer.file = answer.file.replace(spl, ''))
+      answer.file && (answer.file = answer.file.replace(spl, ""));
       //console.log("2",answer)
 
-      formData.append(`quotation_detail${i}`, JSON.stringify(answer))
-      answer.files && (formData.append(`files${i}`, answer.files))
-    })
+      formData.append(`quotation_detail${i}`, JSON.stringify(answer));
+      answer.files && formData.append(`files${i}`, answer.files);
+    });
 
-    url.post(`sale-quotation-update`, formData)
+    url
+      .post(`sale-quotation-update`, formData)
       .then(function (response) {
-
         //console.log(tempItemList)
         Swal.fire({
-          title: 'Success',
-          type: 'success',
-          icon: 'success',
-          text: 'Data saved successfully.',
-        })
-          .then((result) => {
-
-            if (quote_status.toUpperCase() == "NEW") {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/New/"+t)
-
-            }
-            else if(quote_status.toUpperCase() == "ACCEPT")
-            {
-              routerHistory.push(navigatePath + "/quote/" + response.data + "/accept/"+t)
-            }
-            else {
-              routerHistory.push(navigatePath + "/quoateview/4")
-            }
-            // window.location.href="../quoateview"
-          })
+          title: "Success",
+          type: "success",
+          icon: "success",
+          text: "Data saved successfully.",
+        }).then((result) => {
+          if (quote_status.toUpperCase() == "NEW") {
+            routerHistory.push(
+              navigatePath + "/quote/" + response.data + "/New/" + t
+            );
+          } else if (quote_status.toUpperCase() == "ACCEPT") {
+            routerHistory.push(
+              navigatePath + "/quote/" + response.data + "/accept/" + t
+            );
+          } else {
+            routerHistory.push(navigatePath + "/quoateview/4");
+          }
+          // window.location.href="../quoateview"
+        });
       })
       .catch(function (error) {
         Swal.fire({
@@ -1065,9 +1086,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         }).then((result) => {
           setState({ ...state, loading: false });
         });
-      })
+      });
   };
-
 
   const [show, setShow] = useState(false);
   const [discPer, setDiscPer] = useState(0);
@@ -1119,67 +1139,55 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       item: tempItemList,
     });
   };
-  
+
   function cancelform() {
-    let mode = "full"
-    updateSidebarMode({ mode })
-    routerHistory.push(navigatePath + "/quoateview/"+t)
+    let mode = "full";
+    updateSidebarMode({ mode });
+    routerHistory.push(navigatePath + "/quoateview/" + t);
   }
 
   const handleDialogClose = () => {
     setShouldOpenEditorDialog(false);
     url.get("products/" + catid).then(({ data }) => {
       let tempItemList = [...state.item];
-      data.prices.map((element, i) => {
-
-      })
-      setProductList1(data.prices)
+      data.prices.map((element, i) => {});
+      setProductList1(data.prices);
       tempItemList.map((element, i) => {
         let sum = 0;
 
         if (indexvalue === i) {
+          element["product_id"] = catid;
+          element["descriptionss"] = data.product[0].description;
 
-          element['product_id'] = catid;
-          element['descriptionss'] = data.product[0].description;
-
-
-
-
-
-          element.product_price_list.splice(id, element.product_price_list.length);
+          element.product_price_list.splice(
+            id,
+            element.product_price_list.length
+          );
 
           data.prices.map((v, i) => {
-
             element.product_price_list.push({
               price: v.price,
               firm_name: v.firm_name,
-              id: v.product_id
-            })
-
-          })
-
-
+              id: v.product_id,
+            });
+          });
         }
-        return element
-      })
+        return element;
+      });
       setState({
         ...state,
         item: tempItemList,
       });
-
-
-    })
+    });
 
     setshouldOpenEditorDialogproduct(false);
     url.get("products").then(({ data }) => {
-      setproList(data.filter(obj => obj.div_id == localStorage.getItem('division')))
-
-
+      setproList(
+        data.filter((obj) => obj.div_id == localStorage.getItem("division"))
+      );
     });
-
   };
   // const setcontact = (event) => {
-
 
   //   url.get("parties/" + event.target.value).then(({ data }) => {
 
@@ -1189,107 +1197,107 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   //     setrfqstatus(true);
 
-
   //   });
   // }
   const setcontact = (event, newValue) => {
-
     if (newValue?.id) {
       url.get("parties/" + newValue?.id).then(({ data }) => {
         setcustomercontact(data[0].contacts);
-        setpayment_terms(data[0]?.payment_term ? data[0]?.payment_term : '100% Advance')
+        setpayment_terms(
+          data[0]?.payment_term ? data[0]?.payment_term : "100% Advance"
+        );
 
-        setparty_id(newValue?.id)
-        setcname(newValue?.firm_name)
-        setcontactname()
+        setparty_id(newValue?.id);
+        setcname(newValue?.firm_name);
+        setcontactname();
         setrfqstatus(true);
-
-
       });
-    }
-    else {
+    } else {
       setcustomercontact([]);
 
-      setparty_id()
-      setcname()
+      setparty_id();
+      setcname();
       setrfqstatus(false);
     }
-  }
+  };
 
-  const [data, setData] = useState([])
-  const [uom, setUOM] = useState(false)
+  const [data, setData] = useState([]);
+  const [uom, setUOM] = useState(false);
   useEffect(() => {
+    url
+      .get(`mjrQuoteEdit/${localStorage.getItem("division")}/${id}`)
+      .then(({ data }) => {
+        setinco_terms(data?.sales?.inco_terms);
+        setpo_number(
+          data?.sales?.po_number
+            ? data?.sales?.po_number == null || data?.sales?.po_number == "null"
+              ? ""
+              : data?.sales?.po_number
+            : ""
+        );
+        setquote_status(data?.sales?.status);
+        setcname(data?.sales?.party?.firm_name);
+        setcontactname(data?.sales?.contact?.fname);
+        setdiscounts(data?.sales?.discount_in_p);
+        setdiscount(data?.sales?.discount_in_p);
+        setvalidity(data?.sales?.validity);
+        setdelivery_time(data?.sales?.delivery_time);
+        setwarranty(data?.sales?.warranty);
+        setpayment_terms(data?.sales?.payment_terms);
+        setQuote_date(data?.sales?.ps_date);
+        setsubject(data?.sales?.subject);
 
+        setsign(data?.sales?.sign?.id);
+        // rfq no
+        setrfq_no(data?.sales?.rfq_no);
+        setbank_id(parseInt(data?.sales?.bank?.id));
+        // console.log(data?.sales)
+        setother(
+          isNaN(parseFloat(data?.sales?.other))
+            ? 0
+            : parseFloat(data?.sales?.other)
+        );
+        settransport(
+          isNaN(parseFloat(data?.sales?.transport))
+            ? 0
+            : parseFloat(data?.sales?.transport)
+        );
 
-    url.get(`mjrQuoteEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
+        setProductList1(data?.sales?.quotation_details[0]?.product_price_list);
 
-      
-      setinco_terms(data?.sales?.inco_terms)
-      setpo_number(data?.sales?.po_number ? data?.sales?.po_number == null || data?.sales?.po_number == 'null' ? '' : data?.sales?.po_number : '')
-      setquote_status(data?.sales?.status)
-      setcname(data?.sales?.party?.firm_name)
-      setcontactname(data?.sales?.contact?.fname);
-      setdiscounts(data?.sales?.discount_in_p)
-      setdiscount(data?.sales?.discount_in_p)
-      setvalidity(data?.sales?.validity)
-      setdelivery_time(data?.sales?.delivery_time)
-      setwarranty(data?.sales?.warranty)
-      setpayment_terms(data?.sales?.payment_terms) 
-      setQuote_date(data?.sales?.ps_date)
-      setsubject(data?.sales?.subject)
+        if (parseInt(data?.sales?.qstatus)) {
+          setquickstatus(true);
+        }
+        if (data?.sales?.contact_id !== null) {
+          setcontactid(data?.sales?.contact_id);
+          url.get("parties/" + data?.sales?.party_id).then(({ data }) => {
+            setcustomercontact(data[0]?.contacts);
+            // setcustomercontact(data[0].contacts);
 
-      setsign(data?.sales?.sign?.id)
-      // rfq no
-      setrfq_no(data?.sales?.rfq_no)
-      setbank_id(parseInt(data?.sales?.bank?.id))
-      // console.log(data?.sales)
-      setother(isNaN(parseFloat(data?.sales?.other)) ? 0 : parseFloat(data?.sales?.other))
-      settransport(isNaN(parseFloat(data?.sales?.transport)) ? 0 : parseFloat(data?.sales?.transport))
+            setrfqstatus(true);
+          });
+        }
+        setparty_id(data?.sales?.party_id);
+        // console.log('qwerty',data?.sales?.sign)
+        setsign(data?.sales?.sign[0]?.id);
 
+        setTestArr([...data?.sales?.notes]);
 
-      setProductList1(data?.sales?.quotation_details[0]?.product_price_list)
-
-      if (parseInt(data?.sales?.qstatus)) {
-        setquickstatus(true)
-      }
-      if (data?.sales?.contact_id !== null) {
-        setcontactid(data?.sales?.contact_id)
-        url.get("parties/" + data?.sales?.party_id).then(({ data }) => {
-
-          setcustomercontact(data[0]?.contacts);
-          // setcustomercontact(data[0].contacts);
-
-
-
-          setrfqstatus(true);
-
-
+        setState({
+          ...state,
+          item: data?.sales?.quotation_details,
         });
-      }
-      setparty_id(data?.sales?.party_id)
-      // console.log('qwerty',data?.sales?.sign)
-      setsign(data?.sales?.sign[0]?.id)
 
-      setTestArr([...data?.sales?.notes]);
-
-      setState({
-        ...state,
-        item: data?.sales?.quotation_details,
+        setCustomerList(data?.customer);
+        setusers(data?.users);
+        setcompanybank(data?.banks);
+        setproList(
+          data?.products?.filter(
+            (obj) => obj.div_id == localStorage.getItem("division")
+          )
+        );
+        setData(data?.uom);
       });
-
-
-
-
-      setCustomerList(data?.customer);
-      setusers(data?.users);
-      setcompanybank(data?.banks);
-      setproList(data?.products?.filter(obj => obj.div_id == localStorage.getItem('division')))
-      setData(data?.uom);
-
-
-      
-    });
-
 
     // getUnitOfMeasure().then(({ data }) => {
     //   setData(data);
@@ -1297,12 +1305,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // getCustomerList().then(({ data }) => {
     //   setCustomerList(data);
 
-
     // });
     // url.get('designation').then(({ data }) => {
     //   //console.log(data)
     //   setusers(data);
-
 
     // });
     // getcompanybank().then(({ data }) => {
@@ -1311,10 +1317,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // url.get("products").then(({ data }) => {
     //   setproList(data)
 
-
     // });
-
-
 
     // url.get(`sale-quotation/${id}`).then(({ data }) => {
     //   setinco_terms(data[0]?.inco_terms)
@@ -1336,7 +1339,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     //   setother(isNaN(parseFloat(data[0]?.other)) ? 0 : parseFloat(data[0]?.other))
     //   settransport(isNaN(parseFloat(data[0]?.transport)) ? 0 : parseFloat(data[0]?.transport))
 
-
     //   setProductList1(data[0]?.quotation_details[0]?.product_price_list)
 
     //   if (data[0]?.quotation_details[0]?.product_price_list) {
@@ -1349,10 +1351,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     //       setcustomercontact(data[0]?.contacts);
     //       // setcustomercontact(data[0].contacts);
 
-
-
     //       setrfqstatus(true);
-
 
     //     });
     //   }
@@ -1366,23 +1365,15 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     //   });
 
     // });
-    return setIsAlive(false)
-
-
-
-
-
+    return setIsAlive(false);
   }, [id, isNewInvoice, isAlive, generateRandomId]);
 
-
   const setMargin = (id, index, name) => {
-
-    setproductid(id)
-    setproductname(name)
-    setindex(index)
+    setproductid(id);
+    setproductname(name);
+    setindex(index);
     setShouldOpenEditorDialog(true);
-
-  }
+  };
   const setProductdescription = (event, index, newValue) => {
     if (newValue !== false) {
       url.get("products/" + newValue?.id).then(({ data }) => {
@@ -1390,80 +1381,63 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         // setProductList1(data.prices)
 
-
-
         tempItemList.map((element, i) => {
           let sum = 0;
 
           if (index === i) {
-
             // element.product_price_list.push(
             //   {
             //     price:data.prices
             //   }
             // )
-            element['product_id'] = newValue?.id;
-            element['descriptionss'] = data.product[0].description;
-            element['name'] = newValue?.name;
+            element["product_id"] = newValue?.id;
+            element["descriptionss"] = data.product[0].description;
+            element["name"] = newValue?.name;
             if (element.product_price_list.length >= 1) {
-
-
-
-              element.product_price_list.splice(id, element.product_price_list.length);
+              element.product_price_list.splice(
+                id,
+                element.product_price_list.length
+              );
               data.prices.map((v, i) => {
-
                 element.product_price_list.push({
                   price: v.price,
                   firm_name: v.firm_name,
-                })
-
-              })
-
-
-            }
-            else {
-
+                });
+              });
+            } else {
               data.prices.map((v, i) => {
-
                 element.product_price_list.push({
                   price: v.price,
-                  firm_name: v.firm_name
-                })
-
-              })
+                  firm_name: v.firm_name,
+                });
+              });
             }
 
-            setproductid(id)
-
-
-
+            setproductid(id);
           }
           return element;
-
         });
 
         setState({
           ...state,
           item: tempItemList,
         });
-
-      })
+      });
+    } else {
+      setshouldOpenEditorDialogproduct(true);
     }
-    else {
-      setshouldOpenEditorDialogproduct(true)
-    }
-
-  }
+  };
 
   const setproductids = (id, index) => {
-    setcatid(id)
-    setindexvalue(index)
-    setShouldOpenEditorDialog(true)
-  }
+    setcatid(id);
+    setindexvalue(index);
+    setShouldOpenEditorDialog(true);
+  };
   let subTotalCost = 0;
   let subCost = 0;
-  let costTotal = parseFloat('0');
+  let costTotal = parseFloat("0");
   let margin_per = 0;
+  let adjust = 0;
   let totalmargin = 0;
   let temp = 0;
   let sellTotal = 0;
@@ -1486,25 +1460,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     loading,
     margin,
     remark,
-    quantity
-
+    quantity,
   } = state;
 
   return (
-
     <div className="m-sm-30">
       <Card elevation={6}>
         <IconButton onClick={handleSidebarToggle}>
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm autocomplete="off" onSubmit={() => handleSubmit} onError={(errors) => null}>
+          <ValidatorForm
+            autocomplete="off"
+            onSubmit={() => handleSubmit}
+            onError={(errors) => null}
+          >
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> UPDATE SALES QUOTATION</h3>
               </div>
               <div className="mb-6">
-
                 <Button
                   className="mr-4 py-2"
                   variant="outlined"
@@ -1513,16 +1488,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 >
                   <Icon>cancel</Icon> CANCEL
                 </Button>
-                {quote_status=="accept"&&(<Button
-                  // type="submit"
-                  className="mr-4 py-2"
-                  variant="outlined"
-                  color="primary"
-                  disabled={loading}
-                  onClick={() => handleSubmit('draft')}
-                >
-                  <Icon>drafts</Icon> DRAFT
-                </Button>)}
+                {quote_status == "accept" && (
+                  <Button
+                    // type="submit"
+                    className="mr-4 py-2"
+                    variant="outlined"
+                    color="primary"
+                    disabled={loading}
+                    onClick={() => handleSubmit("draft")}
+                  >
+                    <Icon>drafts</Icon> DRAFT
+                  </Button>
+                )}
 
                 <Button
                   // type="submit"
@@ -1530,7 +1507,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   variant="outlined"
                   color="primary"
                   disabled={loading}
-                  onClick={() => handleSubmit('New')}
+                  onClick={() => handleSubmit("New")}
                 >
                   <Icon>save</Icon> SAVE & PRINT QUOTATION
                 </Button>
@@ -1641,64 +1618,102 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             </div> */}
             <Grid container spacing={2}>
               <Grid item className="ml-4">
-
-
                 <Autocomplete
                   id="filter-demo"
                   variant="outlined"
-                  style={{ minWidth: 450, maxWidth: '500px' }}
+                  style={{ minWidth: 450, maxWidth: "500px" }}
                   options={CustomerList}
                   value={cname}
-
-                  getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
+                  getOptionLabel={(option) =>
+                    option.firm_name ? option.firm_name : cname
+                  }
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     if (params.inputValue !== " ") {
                       filtered.unshift({
                         inputValue: params.inputValue,
-                        firm_name: (<Button variant="outlined" color="primary" size="small" onClick={() => routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
+                        firm_name: (
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            size="small"
+                            onClick={() =>
+                              routerHistory.push(
+                                navigatePath + "/party/addparty"
+                              )
+                            }
+                          >
+                            +Add New
+                          </Button>
+                        ),
                       });
                     }
-
 
                     return filtered;
                   }}
                   onChange={(event, newValue) => setcontact(event, newValue)}
                   size="small"
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Customer Name" value={cname} />}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Customer Name"
+                      value={cname}
+                    />
+                  )}
                 />
-
-
               </Grid>
-              <Grid item >
-
-                {rfqstatus && <Autocomplete
-                  id="filter-demo"
-                  variant="outlined"
-                  style={{ minWidth: 250, maxWidth: '300px' }}
-                  options={customercontact}
-
-                  value={contactname}
-                  getOptionLabel={(option) => option?.fname ? option?.fname : (contactname ? contactname : " ")}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    if (params.inputValue !== " ") {
-                      filtered.unshift({
-                        inputValue: params.inputValue,
-                        fname: (<Button variant="outlined" color="primary" size="small" onClick={() => setshouldOpenConfirmationDialogparty(true)}>+Add New</Button>)
-                      });
+              <Grid item>
+                {rfqstatus && (
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    style={{ minWidth: 250, maxWidth: "300px" }}
+                    options={customercontact}
+                    value={contactname}
+                    getOptionLabel={(option) =>
+                      option?.fname
+                        ? option?.fname
+                        : contactname
+                        ? contactname
+                        : " "
                     }
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              onClick={() =>
+                                setshouldOpenConfirmationDialogparty(true)
+                              }
+                            >
+                              +Add New
+                            </Button>
+                          ),
+                        });
+                      }
 
-
-                    return filtered;
-                  }}
-                  onChange={(event, newValue) => { setcontactid(newValue?.id); setcontactname(newValue?.fname) }}
-
-                  size="small"
-                  renderInput={(params) => <TextField {...params}
-                    variant="outlined" label="Contact Person" />}
-                />}
+                      return filtered;
+                    }}
+                    onChange={(event, newValue) => {
+                      setcontactid(newValue?.id);
+                      setcontactname(newValue?.fname);
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Contact Person"
+                      />
+                    )}
+                  />
+                )}
               </Grid>
               {!rfqstatus && <Grid item xl></Grid>}
               <Grid item xl></Grid>
@@ -1711,14 +1726,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   size="small"
                   variant="outlined"
                   onChange={(e) => {
-                    setrfq_no(e.target.value)
+                    setrfq_no(e.target.value);
                     // return date
                   }}
-
-                >
-
-                </TextField>
-
+                ></TextField>
               </Grid>
               <Grid item xs>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -1733,7 +1744,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     selected={Quote_date}
                     value={Quote_date}
                     onChange={(date) => {
-                      setQuote_date(moment(date).format('DD MMM YYYY'))
+                      setQuote_date(moment(date).format("DD MMM YYYY"));
                       // return date
                     }}
                   />
@@ -1743,312 +1754,479 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             <div className="pl-4 pt-4 flex">
               <h5 className="font-normal capitalize">
                 {/* <strong>Subject: </strong>{" "} */}
-
               </h5>
               <div>
-              <TextValidator
-                label="Subject"
-                className="mb-4"
-                type="text"
-                variant="outlined"
-                size="small"
-                style={{ width: 450 }}
-                onChange={e => setsubject(e.target.value)
-                }
-                value={subject == "null" || subject == null ? null : subject}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              </div><div>
-               <TextValidator
-                label="P.O. Number"
-                className="mb-4 pl-2"
-                type="text"
-                variant="outlined"
-                size="small"
-                style={{ width: 300 }}
-                onChange={e => setpo_number(e.target.value)
-                }
-                value={po_number}
-                // validators={["required"]}
-                // errorMessages={["this field is required"]}
-              />
+                <TextValidator
+                  label="Subject"
+                  className="mb-4"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  style={{ width: 450 }}
+                  onChange={(e) => setsubject(e.target.value)}
+                  value={subject == "null" || subject == null ? null : subject}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
+                />
               </div>
+              <div>
+                <TextValidator
+                  label="P.O. Number"
+                  className="mb-4 pl-2"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  style={{ width: 300 }}
+                  onChange={(e) => setpo_number(e.target.value)}
+                  value={po_number}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
+                />
               </div>
+            </div>
             <Divider />
 
             <Table className="mb-4">
               <TableHead>
                 <TableRow className="bg-default">
-                  <TableCell className="pl-sm-24" style={{ width: 70 }} align="left">S.NO.</TableCell>
-                  <TableCell className="px-0" style={{ width: '50px' }}>ITEM</TableCell>
-                  <TableCell className="px-0" style={{ width: '130px' }}>ITEM NAME</TableCell>
-                  {localStorage.getItem('division') == 1 && <>
-                  <TableCell className="px-0" style={{ width: '130px' }}>RFQ DESCRIPTION</TableCell>
-                  </>}
-                  <TableCell className="px-0" style={{ width: '130px' }}>AMACO DESCRIPTION</TableCell>
-                  <TableCell className="px-0" style={{ width: '70px' }}>QUANTITY</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>PRICE</TableCell>
-                  <TableCell className="px-0" style={{ width: '80px' }}>MARGIN %</TableCell>
-                  <TableCell className="px-0" style={{ width: '80px' }} align="center">DISCOUNT %</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }}>SELL PRICE</TableCell>
-                  <TableCell className="px-0" style={{ width: '110px' }}>TOTAL</TableCell>
+                  <TableCell
+                    className="pl-sm-24"
+                    style={{ width: 70 }}
+                    align="left"
+                  >
+                    S.NO.
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "50px" }}>
+                    ITEM
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "130px" }}>
+                    ITEM NAME
+                  </TableCell>
+                  {localStorage.getItem("division") == 1 && (
+                    <>
+                      <TableCell className="px-0" style={{ width: "130px" }}>
+                        RFQ DESCRIPTION
+                      </TableCell>
+                    </>
+                  )}
+                  <TableCell className="px-0" style={{ width: "130px" }}>
+                    AMACO DESCRIPTION
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "70px" }}>
+                    QUANTITY
+                  </TableCell>
+                  <TableCell
+                    className="px-0"
+                    style={{ width: "100px" }}
+                    align="center"
+                  >
+                    UOM
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "100px" }}>
+                    PRICE
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "80px" }}>
+                    MARGIN %
+                  </TableCell>
+                  <TableCell
+                    className="px-0"
+                    style={{ width: "80px" }}
+                    align="center"
+                  >
+                    DISCOUNT %
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "100px" }}>
+                    SELL PRICE
+                  </TableCell>
+                  <TableCell className="px-0" style={{ width: "110px" }}>
+                    TOTAL
+                  </TableCell>
                   {/* <TableCell className="px-0"style={{width:'120px'}}>REMARK</TableCell> */}
-                  <TableCell className="px-0" style={{ width: '40px' }}><Icon>delete</Icon></TableCell>
+                  <TableCell className="px-0" style={{ width: "40px" }}>
+                    <Icon>delete</Icon>
+                  </TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-                {invoiceItemList.sort((a, b) => a.index1 - b.index1).map((item, index) => {
-                  if (!dstatus) {
-                    costTotal += item.purchase_price ? item.purchase_price * item.quantity : 0;
-                    // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
-                    totalmargin += parseFloat(item.margin);
+                {invoiceItemList
+                  .sort((a, b) => a.index1 - b.index1)
+                  .map((item, index) => {
+                    if (!dstatus) {
+                      costTotal += item.purchase_price
+                        ? item.purchase_price * item.quantity
+                        : 0;
+                      // costTotal += item.purchase_price?parseFloat(item.purchase_price) * parseFloat(item.quantity):(item.costprice*item.quantity);
+                      totalmargin += parseFloat(item.margin);
 
-                    // subCost += parseFloat(item.total_amount)
-                    // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+                      // subCost += parseFloat(item.total_amount)
+                      // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
-                    // margin_per=((subCost-costTotal)/costTotal)*100;
-                    // if(parseFloat(item?.purchase_price))
-                    // {
+                      // margin_per=((subCost-costTotal)/costTotal)*100;
+                      // if(parseFloat(item?.purchase_price))
+                      // {
 
-                    margin_val += (item.margin_val);
-                    // }
-                    // else
-                    // {
+                      adjust =
+                        adjust +
+                        (Math.round(item.margin_val) - item.margin_val);
 
+                      margin_val += Math.round(item.margin_val);
+                      // }
+                      // else
+                      // {
 
-                    //   temp+= ((item.margin_val));
-                    // margin_val=temp+item.discount_val
-                    // }
+                      //   temp+= ((item.margin_val));
+                      // margin_val=temp+item.discount_val
+                      // }
 
-                    margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
-                    subCost = (costTotal + margin_val);
-                    subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
+                      margin_per = costTotal
+                        ? (margin_val / costTotal) * 100
+                        : 100;
+                      subCost = costTotal + margin_val;
+                      subTotalCost =
+                        parseFloat(subCost) +
+                        parseFloat(other) +
+                        parseFloat(transport);
 
-                    // margin_val=((subCost-costTotal));
-                    dis_val += (item?.discount_val ? item?.discount_val : 0)
+                      // margin_val=((subCost-costTotal));
+                      dis_val += item?.discount_val ? item?.discount_val : 0;
 
+                      dis_per = (
+                        (parseFloat(dis_val) / parseFloat(subCost)) *
+                        100
+                      ).toFixed(3);
 
+                      afterMargin = parseFloat(margin_val - dis_val).toFixed(2);
 
-                    dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
+                      sellTotal = subTotalCost - dis_val;
+                      vat = (
+                        ((parseFloat(sellTotal) -
+                          parseFloat(other + transport)) *
+                          15) /
+                        100
+                      ).toFixed(2);
 
+                      // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+                      GTotal = parseFloat(vat) + parseFloat(sellTotal);
+                    } else {
+                      costTotal +=
+                        parseFloat(item.purchase_price) *
+                        parseFloat(item.quantity);
+                      totalmargin += parseFloat(item.margin);
 
-                    afterMargin = parseFloat(margin_val - dis_val).toFixed(2)
+                      // subCost += parseFloat(item.total_amount)
+                      // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
-                    sellTotal = subTotalCost - dis_val
-                    vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
+                      // margin_per=((subCost-costTotal)/costTotal)*100;
 
-                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-                    GTotal = (parseFloat(vat) + parseFloat(sellTotal))
+                      margin_val += item.margin_val;
 
-                  }
-                  else {
-                    costTotal += parseFloat(item.purchase_price) * parseFloat(item.quantity);
-                    totalmargin += parseFloat(item.margin);
+                      margin_per = ((margin_val / costTotal) * 100).toFixed(3);
 
-                    // subCost += parseFloat(item.total_amount)
-                    // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
+                      subCost = parseFloat(costTotal + margin_val);
 
-                    // margin_per=((subCost-costTotal)/costTotal)*100;
+                      subTotalCost =
+                        parseFloat(subCost) +
+                        parseFloat(other) +
+                        parseFloat(transport);
 
-                    margin_val += ((item.margin_val));
+                      // margin_val=((subCost-costTotal));
+                      dis_val += item?.discount_val ? item?.discount_val : 0;
 
-                    margin_per = ((margin_val / costTotal) * 100).toFixed(3);
+                      dis_per = (
+                        (parseFloat(dis_val) / parseFloat(subCost)) *
+                        100
+                      ).toFixed(3);
 
-                    subCost = (parseFloat(costTotal + margin_val));
+                      sellTotal = subTotalCost - dis_val;
+                      vat = (
+                        ((parseFloat(sellTotal) -
+                          parseFloat(other + transport)) *
+                          15) /
+                        100
+                      ).toFixed(2);
 
-                    subTotalCost = parseFloat(subCost) + parseFloat(other) + parseFloat(transport)
+                      // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
+                      GTotal = parseFloat(vat) + parseFloat(sellTotal);
+                    }
+                    // vat= (discount * 15) / 100
+                    // GTotal=item.discount + item.vat;
+                    // vat= (discount * 15) / 100
+                    // GTotal=item.discount + item.vat;
 
-                    // margin_val=((subCost-costTotal));
-                    dis_val += (item?.discount_val ? item?.discount_val : 0)
-
-
-                    dis_per = ((parseFloat(dis_val) / parseFloat(subCost)) * 100).toFixed(3);
-
-
-
-                    sellTotal = subTotalCost - dis_val
-                    vat = (((parseFloat(sellTotal) - parseFloat(other + transport)) * 15) / 100).toFixed(2);
-
-                    // GTotal=(subTotalCost+(subTotalCost * 15) / 100).toFixed(2);
-                    GTotal = (parseFloat(vat) + parseFloat(sellTotal))
-                  }
-                  // vat= (discount * 15) / 100
-                  // GTotal=item.discount + item.vat;        
-                  // vat= (discount * 15) / 100
-                  // GTotal=item.discount + item.vat;
-
-                  return (
-                    <TableRow key={index}>
-
-
-                      <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
-                        {item.index1}
-                        {/* <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} /> */}
-
-                      </TableCell>
-                      <TableCell className="px-0" style={{ width: '50px' }}>
-
-                        {item.file ? (<span><Icon color="error" onClick={(event) => deletequotefile(item.id)}>close</Icon><img className="w-48" src={item.file} alt="" ></img></span>) : !item.src ? (<Icon
-                          variant="contained"
-                          component="label"
-                          onChange={(event) => handleFileSelect(event, index)}
+                    return (
+                      <TableRow key={index}>
+                        <TableCell
+                          className="pl-sm-24 capitalize"
+                          align="left"
+                          style={{ width: 50 }}
                         >
-                          file_upload
-                          <input
-                            type="file"
-                            hidden
-                          />
-                        </Icon>)
-
-                          : (<span><Tooltip title="delete"><Icon color="error" onClick={(event) => deleteFileSelect(event, index)}>close</Icon></Tooltip><img className="w-48" src={item.src} alt="" ></img></span>)}
-                      </TableCell>
-
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        {quickstatus ? (
-                          //   <TextValidator
-                          //   label="Item"
-                          //   onChange={(event) => setProductdescription(event, index)}
-                          //   type="text"
-                          //   name="product_id"
-                          //   fullWidth
-                          //   variant="outlined"
-
-                          //   // inputProps={{style: {textTransform: 'capitalize'}}}
-
-                          //   size="small"
-                          //   value={item.product_id ? item.product_id : ""}
-                          //   //   validators={["required"]}
-                          //   inputProps={{
-                          //     ref: setRef(index + 'product_id')
-                          //   }}
-                          //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
-
-                          //   //   errorMessages={["this field is required"]}
-                          //   select
-                          // >
-                          //   <MenuItem value="false">
-                          //     <Icon>add</Icon>Add New
-                          //   </MenuItem>
-                          //   {proList.map((item) => (
-                          //     <MenuItem value={item.id} key={item.id}>
-                          //       {item.name}
-                          //     </MenuItem>
-                          //   ))}
-                          // </TextValidator> 
-                          <Autocomplete
-                            id="filter-demo"
-                            variant="outlined"
-                            style={{ minWidth: 100, maxWidth: '150px' }}
-                            options={proList ? proList : []}
-
-                            value={item?.name}
-                            getOptionLabel={option => {
-
-                              // e.g value selected with enter, right from the input
-                              if (typeof option === "string") {
-                                return option;
+                          {item.index1}
+                          {/* <TextField name="index1" value={item.index1} onChange={(e) => changeindex(e, index)} /> */}
+                        </TableCell>
+                        <TableCell className="px-0" style={{ width: "50px" }}>
+                          {item.file ? (
+                            <span>
+                              <Icon
+                                color="error"
+                                onClick={(event) => deletequotefile(item.id)}
+                              >
+                                close
+                              </Icon>
+                              <img
+                                className="w-48"
+                                src={item.file}
+                                alt=""
+                              ></img>
+                            </span>
+                          ) : !item.src ? (
+                            <Icon
+                              variant="contained"
+                              component="label"
+                              onChange={(event) =>
+                                handleFileSelect(event, index)
                               }
-                              if (option?.inputValue) {
-                                return option?.inputValue;
+                            >
+                              file_upload
+                              <input type="file" hidden />
+                            </Icon>
+                          ) : (
+                            <span>
+                              <Tooltip title="delete">
+                                <Icon
+                                  color="error"
+                                  onClick={(event) =>
+                                    deleteFileSelect(event, index)
+                                  }
+                                >
+                                  close
+                                </Icon>
+                              </Tooltip>
+                              <img className="w-48" src={item.src} alt=""></img>
+                            </span>
+                          )}
+                        </TableCell>
+
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "150px" }}
+                        >
+                          {quickstatus ? (
+                            //   <TextValidator
+                            //   label="Item"
+                            //   onChange={(event) => setProductdescription(event, index)}
+                            //   type="text"
+                            //   name="product_id"
+                            //   fullWidth
+                            //   variant="outlined"
+
+                            //   // inputProps={{style: {textTransform: 'capitalize'}}}
+
+                            //   size="small"
+                            //   value={item.product_id ? item.product_id : ""}
+                            //   //   validators={["required"]}
+                            //   inputProps={{
+                            //     ref: setRef(index + 'product_id')
+                            //   }}
+                            //   onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
+
+                            //   //   errorMessages={["this field is required"]}
+                            //   select
+                            // >
+                            //   <MenuItem value="false">
+                            //     <Icon>add</Icon>Add New
+                            //   </MenuItem>
+                            //   {proList.map((item) => (
+                            //     <MenuItem value={item.id} key={item.id}>
+                            //       {item.name}
+                            //     </MenuItem>
+                            //   ))}
+                            // </TextValidator>
+                            <Autocomplete
+                              id="filter-demo"
+                              variant="outlined"
+                              style={{ minWidth: 100, maxWidth: "150px" }}
+                              options={proList ? proList : []}
+                              value={item?.name}
+                              getOptionLabel={(option) => {
+                                // e.g value selected with enter, right from the input
+                                if (typeof option === "string") {
+                                  return option;
+                                }
+                                if (option?.inputValue) {
+                                  return option?.inputValue;
+                                }
+
+                                return option?.name
+                                  ? option?.name
+                                  : item?.name
+                                  ? item?.name
+                                  : " ";
+                              }}
+                              filterOptions={(options, params) => {
+                                const filtered = filter(options, params);
+                                if (params?.inputValue !== " ") {
+                                  filtered.unshift({
+                                    inputValue: params?.inputValue,
+                                    name: (
+                                      <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        size="small"
+                                        value="false"
+                                        onClick={(event, newValue) =>
+                                          setProductdescription(
+                                            event,
+                                            index,
+                                            false
+                                          )
+                                        }
+                                      >
+                                        +Add New
+                                      </Button>
+                                    ),
+                                  });
+                                }
+
+                                return filtered;
+                              }}
+                              onChange={(event, newValue) =>
+                                setProductdescription(event, index, newValue)
                               }
-
-                              return option?.name ? option?.name : (item?.name ? item?.name : " ");
-                            }}
-
-                            filterOptions={(options, params) => {
-                              const filtered = filter(options, params);
-                              if (params?.inputValue !== " ") {
-                                filtered.unshift({
-                                  inputValue: params?.inputValue,
-                                  name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event, newValue) => setProductdescription(event, index, false)}>+Add New</Button>)
-                                });
+                              size="small"
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  multiline
+                                  variant="outlined"
+                                  label="Item"
+                                />
+                              )}
+                            />
+                          ) : (
+                            <TextValidator
+                              label="Item"
+                              onChange={(event) =>
+                                setProductdescription(event, index)
                               }
+                              type="text"
+                              name="product_id"
+                              fullWidth
+                              variant="outlined"
+                              // inputProps={{style: {textTransform: 'capitalize'}}}
+                              inputProps={{
+                                ref: setRef(index + "product_id"),
+                              }}
+                              onKeyDown={(e) => {
+                                controlKeyPress(
+                                  e,
+                                  index + "product_id",
+                                  index + "description",
+                                  null,
+                                  invoiceItemList,
+                                  true
+                                );
+                              }}
+                              multiline
+                              size="small"
+                              disabled
+                              value={"---"}
+                              // value={item.product_id ? item.product_id : "---"}
+                              //   validators={["required"]}
 
+                              //   errorMessages={["this field is required"]}
+                            >
+                              none
+                            </TextValidator>
+                          )}
+                        </TableCell>
 
-                              return filtered
-                            }}
-                            onChange={(event, newValue) => setProductdescription(event, index, newValue)}
-                            size="small"
-                            renderInput={(params) => <TextField {...params} multiline
-                              variant="outlined" label="Item" />}
-                          />
+                        {localStorage.getItem("division") == 1 && (
+                          <>
+                            <TableCell
+                              className="pl-0 capitalize"
+                              align="left"
+                              style={{ width: "150px" }}
+                            >
+                              <TextValidator
+                                label="description"
+                                onChange={(event) =>
+                                  handleIvoiceListChange(event, index)
+                                }
+                                type="text"
+                                name="description"
+                                fullWidth
+                                inputProps={{
+                                  ref: setRef(index + "description"),
+                                }}
+                                onKeyDown={(e) => {
+                                  controlKeyPress(
+                                    e,
+                                    index + "description",
+                                    index + "descriptionss",
+                                    index + "product_id",
+                                    invoiceItemList,
+                                    true
+                                  );
+                                }}
+                                variant="outlined"
+                                // inputProps={{style: {textTransform: 'capitalize'}}}
 
-                        ) :
-                          (<TextValidator
-                            label="Item"
-                            onChange={(event) => setProductdescription(event, index)}
+                                size="small"
+                                value={
+                                  item?.description ? item?.description : ""
+                                }
+                                validators={["required"]}
+                                multiline
+                                errorMessages={["this field is required"]}
+                              />
+                            </TableCell>
+                          </>
+                        )}
+
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "150px" }}
+                        >
+                          <TextValidator
+                            label="Description"
+                            onChange={(event) =>
+                              handleIvoiceListChange(event, index)
+                            }
                             type="text"
-                            name="product_id"
-                            fullWidth
                             variant="outlined"
-                            // inputProps={{style: {textTransform: 'capitalize'}}}
-                            inputProps={{
-                              ref: setRef(index + 'product_id')
-                            }}
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList,true) }}
-                            multiline
                             size="small"
-                            disabled
-                            value={"---"}
-                            // value={item.product_id ? item.product_id : "---"}
-                          //   validators={["required"]}
-
-                          //   errorMessages={["this field is required"]}
-
-                          >
-                            none</TextValidator>)}
-                      </TableCell>
-
-                      {localStorage.getItem('division') == 1 && <>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextValidator
-                          label="description"
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          name="description"
-                          fullWidth
-                          inputProps={{
-                            ref: setRef(index + 'description')
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'description', index + 'descriptionss', index + 'product_id', invoiceItemList,true) }}
-
-                          variant="outlined"
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
-
-                          size="small"
-                          value={item?.description ? item?.description : ""}
-                          validators={["required"]}
-                          multiline
-                          errorMessages={["this field is required"]}
-                        />
-                      </TableCell>
-                      </>}
-                      
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextValidator
-                          label="Description"
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-
-                          variant="outlined"
-                          size="small"
-                          inputProps={{
-                            ref: setRef(index + 'descriptionss')
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList,true) }}
-
-                          name="descriptionss"
-                          fullWidth
-                          multiline
-                          value={item.product_id ? item?.descriptionss : item.descriptionss}
-
-                        />
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '70px' }}>
-                        {/* <TextValidator
+                            inputProps={{
+                              ref: setRef(index + "descriptionss"),
+                            }}
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "descriptionss",
+                                index + "quantity",
+                                index + "description",
+                                invoiceItemList,
+                                true
+                              );
+                            }}
+                            name="descriptionss"
+                            fullWidth
+                            multiline
+                            value={
+                              item.product_id
+                                ? item?.descriptionss
+                                : item.descriptionss
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "70px" }}
+                        >
+                          {/* <TextValidator
                       label="Qty"
                       required
                       onChange={(event) => calcualte_qty(event, index)}
@@ -2060,64 +2238,92 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       name="quantity"
                       value={item.quantity}
                     /> */}
-                        <TextValidator
-                          label="Qty"
-                          onChange={(event) => calcualte_qty(event, index)}
-                          type="text"
-                          // requried
-                          variant="outlined"
-                          size="small"
-                          fullWidth
-                          inputProps={{
-                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'quantity')
-                          }}
-
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'quantity', index + 'unit_of_measure', index + 'descriptionss', invoiceItemList) }}
-
-                          name="quantity"
-                          value={item.quantity}
-                          validators={["isNumber"]}
-                          errorMessages={[
-                            "Input is not Valid",
-                          ]}
-                        />
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
-                        <TextField
-                          className="mr-2"
-                          label="UOM"
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          // onChange={e => setunit_of_measure(e.target.value)}
-                          type="text"
-                          inputProps={{
-                            ref: setRef(index + 'unit_of_measure')
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'unit_of_measure', index + 'purchase_price', index + 'quantity', invoiceItemList,true) }}
-
-                          size="small"
-                          value={item.unit_of_measure}
-                          name="unit_of_measure"
-                          variant="outlined"
-                          validators={[
-                            "required",
-                          ]}
-                          fullWidth
-                          errorMessages={["this field is required"]}
-                          select
-                        // validators={["required"]}
-                        // errorMessages={["this field is required"]}
+                          <TextValidator
+                            label="Qty"
+                            onChange={(event) => calcualte_qty(event, index)}
+                            type="text"
+                            // requried
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            inputProps={{
+                              min: 0,
+                              style: { textAlign: "center" },
+                              ref: setRef(index + "quantity"),
+                            }}
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "quantity",
+                                index + "unit_of_measure",
+                                index + "descriptionss",
+                                invoiceItemList
+                              );
+                            }}
+                            name="quantity"
+                            value={item.quantity}
+                            validators={["isNumber"]}
+                            errorMessages={["Input is not Valid"]}
+                          />
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "100px" }}
                         >
-                          <MenuItem onClick={(e) => { setUOM(true) }}><Icon>add</Icon> ADD UOM</MenuItem>
-
-                          {data.map((item, ind) => (
-                            <MenuItem value={item.value} key={item}>
-                              {item.label}
+                          <TextField
+                            className="mr-2"
+                            label="UOM"
+                            onChange={(event) =>
+                              handleIvoiceListChange(event, index)
+                            }
+                            // onChange={e => setunit_of_measure(e.target.value)}
+                            type="text"
+                            inputProps={{
+                              ref: setRef(index + "unit_of_measure"),
+                            }}
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "unit_of_measure",
+                                index + "purchase_price",
+                                index + "quantity",
+                                invoiceItemList,
+                                true
+                              );
+                            }}
+                            size="small"
+                            value={item.unit_of_measure}
+                            name="unit_of_measure"
+                            variant="outlined"
+                            validators={["required"]}
+                            fullWidth
+                            errorMessages={["this field is required"]}
+                            select
+                            // validators={["required"]}
+                            // errorMessages={["this field is required"]}
+                          >
+                            <MenuItem
+                              onClick={(e) => {
+                                setUOM(true);
+                              }}
+                            >
+                              <Icon>add</Icon> ADD UOM
                             </MenuItem>
-                          ))}
-                        </TextField>
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
-                        {/* <TextField
+
+                            {data.map((item, ind) => (
+                              <MenuItem value={item.value} key={item}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "50px" }}
+                        >
+                          {/* <TextField
                       label="Unit Price"
                       variant="outlined"
                       // onChange={(event) => calcualtep(event,index)}
@@ -2141,8 +2347,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         </MenuItem>
                       ))} 
                     </TextField> */}
-                        {quickstatus ? <span>
-                          {/* <FormControl variant="outlined" className={classes.formControl}>
+                          {quickstatus ? (
+                            <span>
+                              {/* <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="outlined-age-native-simple">Price</InputLabel>
         <Select
           native
@@ -2166,7 +2373,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           
         </Select>
         </FormControl>{item.product_id?(<Tooltip title="add price"><Icon onClick={()=>setproductids(item.product_id,index)}>add</Icon></Tooltip>):''} */}
-                          {/* <Autocomplete
+                              {/* <Autocomplete
                         
                         className="w-full"
                         size="small"
@@ -2194,94 +2401,119 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         onChange={(event,newValue) => calcualtep(event, index,newValue,'purchase_price')}
                         
                       /> */}
-                          <CurrencyTextField
-                            // native
+                              <CurrencyTextField
+                                // native
 
-                            // onChange={handleChange}
-                            // required
+                                // onChange={handleChange}
+                                // required
+                                variant="outlined"
+                                currencySymbol=""
+                                decimalPlaces={3}
+                                onChange={(event, value) =>
+                                  calcualtep(event, index, value)
+                                }
+                                value={item?.purchase_price}
+                                label="Price"
+                                size="small"
+                                onKeyDown={(e) => {
+                                  controlKeyPress(
+                                    e,
+                                    index + "purchase_price",
+                                    index + "margin",
+                                    index + "unit_of_measure",
+                                    invoiceItemList
+                                  );
+                                }}
+                                inputProps={{
+                                  ref: setRef(index + "purchase_price"),
+
+                                  name: "purchase_price",
+                                  id: "outlined-age-native-simple",
+                                  style: { textAlign: "right" },
+                                }}
+                              ></CurrencyTextField>
+                            </span>
+                          ) : (
+                            <CurrencyTextField
+                              // native
+
+                              // onChange={handleChange}
+
+                              variant="outlined"
+                              currencySymbol=""
+                              value={item.purchase_price}
+                              // decimalPlaces={3}
+                              onChange={(event, value) =>
+                                calcualtep(event, index, value)
+                              }
+                              label="Price"
+                              size="small"
+                              onKeyDown={(e) => {
+                                controlKeyPress(
+                                  e,
+                                  index + "purchase_price",
+                                  index + "margin",
+                                  index + "unit_of_measure",
+                                  invoiceItemList
+                                );
+                              }}
+                              inputProps={{
+                                ref: setRef(index + "purchase_price"),
+                                id: "outlined-age-native-simple",
+                                style: { textAlign: "right" },
+                              }}
+                            ></CurrencyTextField>
+                          )}
+                        </TableCell>
+
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "50px" }}
+                        >
+                          <TextField
+                            label="Margin"
+                            required
+                            onChange={(event) => calcualte_margin(event, index)}
+                            // onBlur={(event) => handleIvoiceListChange(event, index)}
+                            type="text"
                             variant="outlined"
-                            currencySymbol=""
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "margin",
+                                index + "discount",
+                                index + "purchase_price",
+                                invoiceItemList
+                              );
+                            }}
+                            size="small"
+                            name="margin"
                             decimalPlaces={3}
-                            onChange={(event, value) => calcualtep(event, index, value)}
-                            value={item?.purchase_price}
-                            label="Price"
-                            size="small"
-
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
-
+                            fullWidth
+                            value={item.margin}
                             inputProps={{
-                              ref: setRef(index + 'purchase_price'),
-
-                              name: 'purchase_price',
-                              id: 'outlined-age-native-simple',
-                              style: { textAlign: 'right' }
+                              min: 0,
+                              style: { textAlign: "center" },
+                              ref: setRef(index + "margin"),
                             }}
-
-
-                          ></CurrencyTextField>
-                        </span>
-                          : <CurrencyTextField
-                            // native
-
-                            // onChange={handleChange}
-
-                            variant="outlined"
-                            currencySymbol=""
-                            value={item.purchase_price}
-                            // decimalPlaces={3}
-                            onChange={(event, value) => calcualtep(event, index, value)}
-                            label="Price"
-                            size="small"
-
-                            onKeyDown={(e) => { controlKeyPress(e, index + 'purchase_price', index + 'margin', index + 'unit_of_measure', invoiceItemList) }}
-
-                            inputProps={{
-                              ref: setRef(index + 'purchase_price'),
-                              id: 'outlined-age-native-simple',
-                              style: { textAlign: 'right' }
-                            }}
-
-
-                          ></CurrencyTextField>}
-
-                      </TableCell>
-
-
-
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
-                        <TextField
-                          label="Margin"
-                          required
-                          onChange={(event) => calcualte_margin(event, index)}
-                          // onBlur={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          variant="outlined"
-
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price', invoiceItemList) }}
-
-                          size="small"
-                          name="margin"
-                          decimalPlaces={3}
-                          fullWidth
-                          value={item.margin}
-                          inputProps={{
-                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'margin')
-                          }}
-                          validators={["required"]}
-                          errorMessages={["this field is required"]}
-
-                        />
-                        {/* <Tooltip title="Reference">
+                            validators={["required"]}
+                            errorMessages={["this field is required"]}
+                          />
+                          {/* <Tooltip title="Reference">
                   <Icon aria-label="expand row" size="small" style={{width:'25%',float:'left',cursor:'pointer'}} onClick={() => {
                          setMargin(item.product_id,index,item.name);
                       }}>
                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </Icon>
                 </Tooltip> */}
-
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
-                        {/* <TextValidator
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "80px" }}
+                        >
+                          {/* <TextValidator
                           label="Discount"
                           required
                           onChange={(event) => discountPer(event, index)}
@@ -2299,73 +2531,102 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           errorMessages={["this field is required"]}
 
                         /> */}
-                        <CurrencyTextField
-                          label="Discount"
-                          // onChange={(event) => discountPer(event, index)}
-                          onBlur={(e, value) => discountPer(e, index, value)}
-                          // onBlur={(event) => handleIvoiceListChange(event, index)}
+                          <CurrencyTextField
+                            label="Discount"
+                            // onChange={(event) => discountPer(event, index)}
+                            onBlur={(e, value) => discountPer(e, index, value)}
+                            // onBlur={(event) => handleIvoiceListChange(event, index)}
 
-                          decimalPlaces={2}
-                          variant="outlined"
-                          inputProps={{
-                            min: 0, style: { textAlign: 'center' }, ref: setRef(index + 'discount')
-                          }}
-                          size="small"
-
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'discount', index + 'sell_price', index + 'margin', invoiceItemList) }}
-
-                          name="discount"
-                          currencySymbol=""
-                          // style={{width:'75%',float:'left'}}
-                          fullWidth
-                          value={item.discount}
-                        // validators={["required"]}
-                        // errorMessages={["this field is required"]}
-
-                        />
-
-
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
-                        <CurrencyTextField
-                          className="w-full "
-                          label="Price"
-                          decimalPlaces={3}
-                          variant="outlined"
-                          fullWidth
-                          size="small"
-                          inputProps={{
-                            ref: setRef(index + 'sell_price')
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'sell_price', index + 'total_amount', index + 'discount', invoiceItemList) }}
-
-                          currencySymbol=""
-                          name="sell_price"
-                          value={parseFloat(item.sell_price)}
-                          onChange={(e, value) => calculatemargin(e, index, value)}
-                        />
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
-                        <TextValidator
-                          label="QTotal"
-
-                          // onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          variant="outlined"
-                          size="small"
-
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'total_amount', null, index + 'sell_price', invoiceItemList) }}
-
-                          name="total_amount"
-
-                          value={isNaN(item.total_amount) ? " " : item.total_amount}
-                          inputProps={{
-                            min: 0, style: { textAlign: 'right' }, ref: setRef(index + 'total_amount')
-                          }}
-
-                        />
-                      </TableCell>
-                      {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
+                            decimalPlaces={2}
+                            variant="outlined"
+                            inputProps={{
+                              min: 0,
+                              style: { textAlign: "center" },
+                              ref: setRef(index + "discount"),
+                            }}
+                            size="small"
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "discount",
+                                index + "sell_price",
+                                index + "margin",
+                                invoiceItemList
+                              );
+                            }}
+                            name="discount"
+                            currencySymbol=""
+                            // style={{width:'75%',float:'left'}}
+                            fullWidth
+                            value={item.discount}
+                            // validators={["required"]}
+                            // errorMessages={["this field is required"]}
+                          />
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "100px" }}
+                        >
+                          <CurrencyTextField
+                            className="w-full "
+                            label="Price"
+                            decimalPlaces={3}
+                            variant="outlined"
+                            fullWidth
+                            size="small"
+                            inputProps={{
+                              ref: setRef(index + "sell_price"),
+                            }}
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "sell_price",
+                                index + "total_amount",
+                                index + "discount",
+                                invoiceItemList
+                              );
+                            }}
+                            currencySymbol=""
+                            name="sell_price"
+                            value={parseFloat(item.sell_price)}
+                            onChange={(e, value) =>
+                              calculatemargin(e, index, value)
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "100px" }}
+                        >
+                          <TextValidator
+                            label="QTotal"
+                            // onChange={(event) => handleIvoiceListChange(event, index)}
+                            type="text"
+                            variant="outlined"
+                            size="small"
+                            onKeyDown={(e) => {
+                              controlKeyPress(
+                                e,
+                                index + "total_amount",
+                                null,
+                                index + "sell_price",
+                                invoiceItemList
+                              );
+                            }}
+                            name="total_amount"
+                            value={
+                              isNaN(item.total_amount) ? " " : item.total_amount
+                            }
+                            inputProps={{
+                              min: 0,
+                              style: { textAlign: "right" },
+                              ref: setRef(index + "total_amount"),
+                            }}
+                          />
+                        </TableCell>
+                        {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'140px'}}>
                     <TextValidator
                       label="Remark"
                       onChange={(event) => setremark(event, index)}
@@ -2383,29 +2644,49 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     />
   
                   </TableCell> */}
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
-
-                        <Icon color="error" fontSize="small" onClick={() => deleteItemFromInvoiceList(index, item?.id, item.index1)}>
-                          delete
-                        </Icon>
-                        <Icon color="primary" fontSize="small" onClick={() => addItemToInvoiceList_Index(item.index1)}>
-                          add
-                        </Icon>
-
-                      </TableCell>
-
-                    </TableRow>
-                  );
-                })}
-
+                        <TableCell
+                          className="pl-0 capitalize"
+                          align="left"
+                          style={{ width: "50px" }}
+                        >
+                          <Icon
+                            color="error"
+                            fontSize="small"
+                            onClick={() =>
+                              deleteItemFromInvoiceList(
+                                index,
+                                item?.id,
+                                item.index1
+                              )
+                            }
+                          >
+                            delete
+                          </Icon>
+                          <Icon
+                            color="primary"
+                            fontSize="small"
+                            onClick={() =>
+                              addItemToInvoiceList_Index(item.index1)
+                            }
+                          >
+                            add
+                          </Icon>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
-
             </Table>
             <div className="flex justify-end px-4 mb-4">
-              <Button className="mt-4 py-2"
+              <Button
+                className="mt-4 py-2"
                 color="primary"
                 variant="contained"
-                size="small" onClick={() => addItemToInvoiceList(invoiceItemList)}><Icon>add</Icon>Add Item</Button>
+                size="small"
+                onClick={() => addItemToInvoiceList(invoiceItemList)}
+              >
+                <Icon>add</Icon>Add Item
+              </Button>
             </div>
             {/* {testArr.map((item, index) => {
               
@@ -2451,21 +2732,54 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 errorMessages={["this field is required"]}
               /></div>
 </div> */}
-            <h6 className="pl-4"><strong>Terms</strong></h6>
+            <h6 className="pl-4">
+              <strong>Terms</strong>
+            </h6>
             <div className="px-4 flex justify-between">
               <div className="flex">
-
                 <div className="pr-12">
-
-
-
-                  <p style={{ position: 'relative', top: '10px' }} className="mb-6">Quotation Validity:</p>
-                  <p style={{ position: 'relative', top: '17px' }} className="mb-8">Payment Terms:</p>
-                  <p style={{ position: 'relative', top: '18px' }} className="mb-10">Warranty:</p>
-                  <p style={{ position: 'relative', top: '15px' }} className="mb-10">Delivery Time:</p>
-                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Inco-Term:</p>
-                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Signature:</p>
-                  <p style={{ position: 'relative', top: '10px' }} className="mb-8">Bank:</p>
+                  <p
+                    style={{ position: "relative", top: "10px" }}
+                    className="mb-6"
+                  >
+                    Quotation Validity:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "17px" }}
+                    className="mb-8"
+                  >
+                    Payment Terms:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "18px" }}
+                    className="mb-10"
+                  >
+                    Warranty:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "15px" }}
+                    className="mb-10"
+                  >
+                    Delivery Time:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "10px" }}
+                    className="mb-8"
+                  >
+                    Inco-Term:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "10px" }}
+                    className="mb-8"
+                  >
+                    Signature:
+                  </p>
+                  <p
+                    style={{ position: "relative", top: "10px" }}
+                    className="mb-8"
+                  >
+                    Bank:
+                  </p>
                 </div>
                 <div>
                   <TextValidator
@@ -2475,8 +2789,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     variant="outlined"
                     size="small"
                     style={{ width: 500 }}
-                    onChange={e => setvalidity(e.target.value)
-                    }
+                    onChange={(e) => setvalidity(e.target.value)}
                     value={validity}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
@@ -2484,8 +2797,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TextValidator
                     label="Payment Terms"
                     className="mb-4"
-                    onChange={e => setpayment_terms(e.target.value)
-                    }
+                    onChange={(e) => setpayment_terms(e.target.value)}
                     type="text"
                     style={{ width: 500 }}
                     variant="outlined"
@@ -2497,8 +2809,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Warranty"
-                    onChange={e => setwarranty(e.target.value)
-                    }
+                    onChange={(e) => setwarranty(e.target.value)}
                     className="mb-4"
                     type="text"
                     variant="outlined"
@@ -2512,8 +2823,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <TextValidator
                     label="Delivery Time"
                     className="mb-4"
-                    onChange={e => setdelivery_time(e.target.value)
-                    }
+                    onChange={(e) => setdelivery_time(e.target.value)}
                     type="text"
                     variant="outlined"
                     size="small"
@@ -2525,8 +2835,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <TextValidator
                     label="Inco-Term"
-                    onChange={e => setinco_terms(e.target.value)
-                    }
+                    onChange={(e) => setinco_terms(e.target.value)}
                     type="text"
                     className="mb-4"
                     variant="outlined"
@@ -2539,84 +2848,147 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   />
                   <FormGroup>
                     <FormControl variant="outlined" minWidth="120" size="small">
-                      <InputLabel htmlFor="outlined-age-native-simple" className="mr-5" width="20px">Signature</InputLabel>
+                      <InputLabel
+                        htmlFor="outlined-age-native-simple"
+                        className="mr-5"
+                        width="20px"
+                      >
+                        Signature
+                      </InputLabel>
                       <Select
                         native
                         value={sign}
                         // defaultValue={sign}
                         // onChange={handleChange}
-                        onChange={e => setsign(e.target.value)}
+                        onChange={(e) => setsign(e.target.value)}
                         size="small"
                         label="Signature"
                         inputProps={{
-                          name: 'Bank',
-                          id: 'outlined-age-native-simple',
+                          name: "Bank",
+                          id: "outlined-age-native-simple",
                         }}
-
                       >
                         <option value="">--Select--</option>
 
                         {users.map((item, ind) => (
                           // {//console.log(item.id)}
-                          <option value={item.id} defaultValue={item.name}>{item.name}-{item.designation}</option>
+                          <option value={item.id} defaultValue={item.name}>
+                            {item.name}-{item.designation}
+                          </option>
                         ))}
                       </Select>
                     </FormControl>
                   </FormGroup>
                   <FormGroup>
-                    <FormControl variant="outlined" size="small" minWidth="120"
-                      className="mt-4">
-                      <InputLabel htmlFor="outlined-age-native-simple">Bank</InputLabel>
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      minWidth="120"
+                      className="mt-4"
+                    >
+                      <InputLabel htmlFor="outlined-age-native-simple">
+                        Bank
+                      </InputLabel>
                       <Select
                         native
                         value={bank_id}
                         defaultValue={bank_id}
                         // onChange={handleChange}
-                        onChange={e => setbank_id(e.target.value)}
+                        onChange={(e) => setbank_id(e.target.value)}
                         size="small"
                         label="Bank"
                         inputProps={{
-                          name: 'Bank',
-                          id: 'outlined-age-native-simple',
+                          name: "Bank",
+                          id: "outlined-age-native-simple",
                         }}
                       >
-                        <option value={0}>
-                          --select--
-                        </option>
+                        <option value={0}>--select--</option>
                         {companybank.map((item, ind) => (
-                          <option value={item.id}>{item.name}-{item.ac_no}</option>
+                          <option value={item.id}>
+                            {item.name}-{item.ac_no}
+                          </option>
                         ))}
                       </Select>
                     </FormControl>
                   </FormGroup>
-
                 </div>
-
               </div>
               <div className="px-4 flex justify-end">
-                <div className="flex " >
+                <div className="flex ">
                   <div className="pr-12">
-                    <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
-                    <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
-                    <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
-                    <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
-                    <p style={{ position: 'relative', top: '18px' }} className="mb-8">Discount:</p>
-                    {dis_val > 0 &&  <p
-                      style={{ position: "relative", top: "18px" }}
+                    <p
+                      style={{ position: "relative", top: "10px" }}
+                      className="mb-8"
+                    >
+                      Total Cost:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "13px" }}
+                      className="mb-8"
+                    >
+                      Margin%:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "13px" }}
+                      className="mb-8"
+                    >
+                      Adjusted Margin Value:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "13px" }}
                       className="mb-8 pt-0"
                     >
-                      Margin After Discount:
-                    </p> }
-                    <p style={{ position: 'relative', top: '22px' }} className="mb-8">Net Total:</p>
-                    <p style={{ position: 'relative', top: '18px' }} className="mb-8 pt-2">VAT (15%):</p>
+                      Sub Total:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "14px" }}
+                      className="mb-8"
+                    >
+                      Transport:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "16px" }}
+                      className="mb-8"
+                    >
+                      Other:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "18px" }}
+                      className="mb-8"
+                    >
+                      Discount:
+                    </p>
+                    {dis_val > 0 && (
+                      <p
+                        style={{ position: "relative", top: "18px" }}
+                        className="mb-8 pt-0"
+                      >
+                        Margin After Discount:
+                      </p>
+                    )}
+                    <p
+                      style={{ position: "relative", top: "22px" }}
+                      className="mb-8"
+                    >
+                      Net Total:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "18px" }}
+                      className="mb-8 pt-2"
+                    >
+                      VAT (15%):
+                    </p>
                     {/* <p className="mb-5">currency:</p> */}
                     <strong>
-                      <p style={{ position: 'relative', top: '18px' }} className="mb-8">Grand Total:</p>
+                      <p
+                        style={{ position: "relative", top: "18px" }}
+                        className="mb-8"
+                      >
+                        Grand Total:
+                      </p>
                     </strong>
                   </div>
                   <div>
-
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
@@ -2628,12 +3000,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol="SAR"
                         name="net_amount"
-                        value={costTotal ? costTotal : parseFloat(0.00).toLocaleString(undefined, {
-                          minimumFractionDigits: 2
-                        })}
-
+                        value={
+                          costTotal
+                            ? costTotal
+                            : parseFloat(0.0).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                              })
+                        }
                       />
-
                     </div>
 
                     {/* <p className="mb-4 pt-4">{margin_per?parseFloat(margin_per).toLocaleString(undefined,{minimumFractionDigits:2}):0.00}</p> */}
@@ -2642,7 +3016,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         className="mb-4 mr-2"
                         label="Margin %"
                         readOnly
-                        style={{ width: '90px' }}
+                        style={{ width: "90px" }}
                         // onChange={handleChange}
                         variant="outlined"
                         fullWidth
@@ -2650,7 +3024,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         // currencySymbol=""
                         name="net_amount"
                         value={isNaN(margin_per) ? 0 : margin_per}
-
                       />
 
                       <CurrencyTextField
@@ -2660,12 +3033,25 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: '168px' }}
+                        style={{ width: "168px" }}
                         currencySymbol="SAR"
                         name="dis_per"
                         value={margin_val}
                       />
-
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Adjusted Value"
+                        readOnly
+                        // onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={adjust}
+                      />
                     </div>
                     {/* <p className="mb-4 pt-4">{subTotalCost?subTotalCost.toFixed(2):'0.00'}</p> */}
                     <div>
@@ -2679,12 +3065,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         size="small"
                         currencySymbol="SAR"
                         name="net_amount"
-                        value={subCost ? subCost : parseFloat(0.00).toLocaleString(undefined, {
-                          minimumFractionDigits: 2
-                        })}
-
+                        value={
+                          subCost
+                            ? subCost
+                            : parseFloat(0.0).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                              })
+                        }
                       />
-
                     </div>
                     <div>
                       <CurrencyTextField
@@ -2697,16 +3085,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         currencySymbol="SAR"
                         name="net_amount"
                         value={transport}
-
                       />
-
                     </div>
                     <div>
                       <CurrencyTextField
                         className="w-full mb-4 "
                         label="Other"
-
-
                         variant="outlined"
                         fullWidth
                         size="small"
@@ -2714,13 +3098,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         onChange={(e, value) => setother(parseFloat(value))}
                         name="net_amount"
                         value={other}
-
                       />
-
                     </div>
-                  
+
                     <div>
-                    {show ? (
+                      {show ? (
                         <TextField
                           className="mb-4 mr-2"
                           label="Discount %"
@@ -2765,42 +3147,47 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           value={isNaN(dis_per) ? 0 : dis_per}
                         />
                       )}
-                      {show ? <>
-                        <Tooltip title='Done'>
-
-                        <Icon
-                        style={{
-                          fontSize: "18px",
-                          position: "relative",
-                          left: "-5px",
-                          cursor:'pointer',
-                          top: "-7px",
-                        }}
-                        onClick={()=>{setShow(!show)
-                          setDiscPer(0)
-                        }}
-                      >
-                        done
-                      </Icon></Tooltip> </>: <>
-                      <Tooltip title='Edit Discount'>
-                      <Icon
-                        style={{
-                          fontSize: "18px",
-                          position: "relative",
-                          left: "-5px",
-                          cursor:'pointer',
-                          top: "-7px",
-                        }}
-                        onClick={()=>{setShow(!show)
-                          setDiscPer(dis_per)
-                        }}
-                      >
-                        edit
-                      </Icon>
-                      </Tooltip>
-                      </>}
-
-
+                      {show ? (
+                        <>
+                          <Tooltip title="Done">
+                            <Icon
+                              style={{
+                                fontSize: "18px",
+                                position: "relative",
+                                left: "-5px",
+                                cursor: "pointer",
+                                top: "-7px",
+                              }}
+                              onClick={() => {
+                                setShow(!show);
+                                setDiscPer(0);
+                              }}
+                            >
+                              done
+                            </Icon>
+                          </Tooltip>{" "}
+                        </>
+                      ) : (
+                        <>
+                          <Tooltip title="Edit Discount">
+                            <Icon
+                              style={{
+                                fontSize: "18px",
+                                position: "relative",
+                                left: "-5px",
+                                cursor: "pointer",
+                                top: "-7px",
+                              }}
+                              onClick={() => {
+                                setShow(!show);
+                                setDiscPer(dis_per);
+                              }}
+                            >
+                              edit
+                            </Icon>
+                          </Tooltip>
+                        </>
+                      )}
 
                       {/* <TextField
                 className="mb-4 ml-2"
@@ -2821,7 +3208,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         variant="outlined"
                         fullWidth
                         size="small"
-                        style={{ width: '150px' }}
+                        style={{ width: "150px" }}
                         currencySymbol="SAR"
                         name="dis_per"
                         value={parseFloat(dis_val)}
@@ -2856,11 +3243,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         currencySymbol="SAR"
                         name="net_amount"
                         value={parseFloat(sellTotal).toLocaleString(undefined, {
-                          minimumFractionDigits: 2
+                          minimumFractionDigits: 2,
                         })}
-
                       />
-
                     </div>
 
                     {/* <TextValidator
@@ -2916,21 +3301,24 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         currencySymbol="SAR"
                         name="net_amount"
                         readOnly
-                        value={subTotalCost ? GTotal : parseFloat(0.00).toLocaleString(undefined, {
-                          minimumFractionDigits: 2
-                        })} />
-
+                        value={
+                          subTotalCost
+                            ? GTotal
+                            : parseFloat(0.0).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                              })
+                        }
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             {testArr.map((item, index) => {
-
               return (
                 <div>
-
-                  <TextField label={'Note'}
+                  <TextField
+                    label={"Note"}
                     className="mb-4 ml-4"
                     type="text"
                     variant="outlined"
@@ -2941,19 +3329,26 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     value={item.notes ? item.notes : " "}
                     errorMessages={["this field is required"]}
                     name="note"
-                    onChange={(e) => noteList(e.target.value, index)}></TextField>
+                    onChange={(e) => noteList(e.target.value, index)}
+                  ></TextField>
 
                   <Button onClick={() => deleteItemFromNoteList(index)}>
-                    <Icon color="error" className="mt-2" >delete</Icon>
+                    <Icon color="error" className="mt-2">
+                      delete
+                    </Icon>
                   </Button>
-
                 </div>
-              )
+              );
             })}
-            <Button className="mt-4 py-2 mb-2 ml-4"
+            <Button
+              className="mt-4 py-2 mb-2 ml-4"
               color="primary"
               variant="contained"
-              size="small" onClick={addRow}><Icon>add</Icon>Add Note</Button>
+              size="small"
+              onClick={addRow}
+            >
+              <Icon>add</Icon>Add Note
+            </Button>
           </ValidatorForm>
         </div>
 
@@ -2964,7 +3359,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
             open={shouldOpenEditorDialog}
             catid={catid}
             productprice={setproductprice}
-
           />
         )}
         {shouldOpenConfirmationDialog && (
@@ -2978,14 +3372,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <MemberEditorDialog_product
             handleClose={handleDialogClose}
             open={shouldOpenEditorDialogproduct}
-
-
           />
         )}
         {uom && (
           <UOMDialog
             open={uom}
-            handleClose={() => { setUOM(false) }}
+            handleClose={() => {
+              setUOM(false);
+            }}
             setData={setData}
           />
         )}
@@ -2993,7 +3387,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <ConfirmationDialog
             open={shouldOpenConfirmationDialogproduct}
             onConfirmDialogClose={handleDialogClose}
-
             text="Are you sure to delete?"
           />
         )}
@@ -3002,20 +3395,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <MemberEditorDialogcontact
             open={shouldOpenConfirmationDialogparty}
             onConfirmDialogClose={handleDialogClose}
-            handleClose={() => { setshouldOpenConfirmationDialogparty(false); setIsAlive(false) }}
+            handleClose={() => {
+              setshouldOpenConfirmationDialogparty(false);
+              setIsAlive(false);
+            }}
             customercontact={setcustomercontact}
             partyid={party_id}
-
             text="Are you sure to delete?"
           />
         )}
       </Card>
     </div>
-
   );
 };
-
-
 
 const initialValues = {
   id: "",

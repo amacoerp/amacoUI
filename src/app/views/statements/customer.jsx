@@ -1202,10 +1202,13 @@ const Customer = ({
                                     }}
                                   >
                                     {item[0].debit
-                                      ? moment(new Date(), "YYYY-MM-DD").diff(
+                                      ? isNaN(moment(new Date(), "YYYY-MM-DD").diff(
                                         moment(`${item[0].date}`, "YYYY-MM-DD"),
                                         "days"
-                                      )
+                                      )) ? "" : moment(new Date(), "YYYY-MM-DD").diff(
+                                        moment(`${item[0].date}`, "YYYY-MM-DD"),
+                                        "days"
+                                      )  
                                       : ""}
                                   </TableCell>
                                   {!item[0].invoice_no ? (<TableCell
