@@ -1948,10 +1948,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                       ""
                     )}
 
-                    <br></br>
                     <div
                       className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between"
-                      style={{ pageBreakInside: "avoid" ,height:'200px'}}
+                      style={{ pageBreakInside: "avoid" ,height:'200px',marginTop:'-68px'}}
                     >
                       <div className="pl-24" style={{ fontWeight: 1000,width:'200px' }}>
                         <h5 className="font-normal t-4 capitalize">

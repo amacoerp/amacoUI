@@ -215,6 +215,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [indexvalue, setindexvalue] = useState();
   const [CustomerList, setCustomerList] = useState([]);
   const [customercontact, setcustomercontact] = useState([]);
+  const [contactname, setcontactname] = useState("");
+
   const [PriceList, setPriceList] = useState([]);
   const [rfqstatus, setrfqstatus] = useState(false);
   const [pricestatus, setpricestatus] = useState(false);
@@ -809,7 +811,6 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // });
     ;
     arr.invoice_details = tempItemList
-    console.log(vatExclude)
     formData.append('discount_in_p', discount)
     formData.append('total_value', parseFloat(subTotalCost).toFixed(2))
     formData.append('net_amount', GTotal)
@@ -823,7 +824,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('delivery_time', delivery_time)
     formData.append('inco_terms', inco_terms)
     formData.append('payment_terms', payment_terms)
-    formData.append('contact_id', contactid)
+    formData.append('contact_id', contactid ? contactid : '')
     formData.append('ps_date', Quote_date)
     formData.append('old_date', oldDate)
     formData.append('rfq_id', null)
@@ -1066,6 +1067,21 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setdiscount(data?.inv[0].discount_in_percentage ? data?.inv[0].discount_in_percentage == null || data?.inv[0].discount_in_percentage == 'null' ? 0 : data?.inv[0].discount_in_percentage : 0);
       setparty_id(data?.inv[0]?.party_id)
       setQuote_date(data?.inv[0]?.issue_date)
+      // if (data?.inv[0]?.contact_id !== null) {
+        let f = data?.inv[4]?.fname ? data?.inv[4]?.fname  : ''
+        let l = data?.inv[4]?.lname ?  ' ' +data?.inv[4]?.lname : ''
+        f = f + l
+        setcontactname(f)
+
+        setcontactid(data?.inv[0]?.contact_id);
+        url.get("parties/" + data?.inv[0]?.party_id).then(({ data }) => {
+          setcustomercontact(data[0]?.contacts);
+          // setcustomercontact(data[0].contacts);
+
+          setrfqstatus(true);
+        });
+      // }
+      // setcontactid(data?.inv[0]?.contact_id)
       setOldDate(data?.inv[0]?.issue_date)
       setVatExclude(parseInt(data?.inv[0]?.exclude_from_vat) == 1 ? true : false)
       setcname(data?.inv[0]?.party?.firm_name)
@@ -1398,7 +1414,7 @@ select
                   variant="outlined"
                   options={CustomerList}
 
-                  style={{ width: 500 }}
+                  style={{ width: 350 }}
                   value={cname}
                   getOptionLabel={(option) => option.firm_name ? option.firm_name : cname}
                   filterOptions={(options, params) => {
@@ -1447,32 +1463,56 @@ select
                   </TextField>
                 } */}
 
-                {/* {rfqstatus&&<Autocomplete
-      id="filter-demo"
-      variant="outlined"
-      options={customercontact}
-     
-      style={{width:200}}
-      getOptionLabel={(option) => option?.fname?option?.fname:contactname}
-   
-      filterOptions={(options, params)=>{
-        const filtered = filter(options, params);
-        if(params.inputValue !== " ") {
-          filtered.unshift({
-            inputValue: params.inputValue,
-            fname: (<Button variant="outlined" color="primary" size="small" onClick={()=> routerHistory.push(navigatePath + "/party/addparty")}>+Add New</Button>)
-          });
-        }
-        
-       
-        return filtered;
-      }}
-      onChange={(e) => setcontactid(e.target.value)}
-      size="small"
-      renderInput={(params) => <TextField {...params} 
-      variant="outlined" label="Contact Person" />}
-    />} */}
+{rfqstatus && (
+                  <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    style={{ minWidth: 250, maxWidth: "300px" }}
+                    options={customercontact}
+                    value={contactname}
+                    getOptionLabel={(option) =>
+                      option?.fname
+                        ? option?.fname
+                        : contactname
+                        ? contactname
+                        : " "
+                    }
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              // onClick={() =>
+                              //   // setshouldOpenConfirmationDialogparty(true)
+                              // }
+                            >
+                              +Add New
+                            </Button>
+                          ),
+                        });
+                      }
 
+                      return filtered;
+                    }}
+                    onChange={(event, newValue) => {
+                      setcontactid(newValue?.id);
+                      setcontactname(newValue?.fname);
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Contact Person"
+                      />
+                    )}
+                  />
+                )}
               </Grid>
               <Grid item>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

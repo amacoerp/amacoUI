@@ -738,6 +738,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           >
             Edit Quote
           </Button> */}
+          {localStorage.getItem('role') == 'SA' && s == 'history' && <Button
+            variant="outlined"
+            color="primary"
+            className="mr-4 py-2"
+            aria-owns={anchorEl ? "simple-menu" : undefined}
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            ACTION<Icon>expand_more</Icon>
+          </Button>}
           {s !== "history" && <Button
             variant="outlined"
             color="primary"

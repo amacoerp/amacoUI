@@ -464,7 +464,7 @@ function ExpenseReport() {
                       <TableRow>
                         {/* <TableCell colSpan={1}></TableCell> */}
                         <TableCell
-                          colSpan={6}
+                          colSpan={7}
                           style={{
                             color: "#fff",
                             textAlign: "center",
@@ -496,6 +496,20 @@ function ExpenseReport() {
                           align="center"
                         >
                           SL.NO
+                        </TableCell>
+                        <TableCell
+                          className="px-0"
+                          style={{
+                            border: "1px solid #ccc",
+                            fontFamily: "Calibri",
+                            color: "#fff",
+                            fontColor: "#fff",
+                            fontWeight: 1000,
+                            fontSize: "11pt",
+                          }}
+                          align="center"
+                        >
+                          NAME
                         </TableCell>
                         <TableCell
                           className="px-0"
@@ -570,6 +584,7 @@ function ExpenseReport() {
                     </TableHead>
                     <TableBody>
                       {data?.map((item, i) => {
+                        console.log(item)
                         return (
                           <>
                             <TableRow
@@ -588,6 +603,17 @@ function ExpenseReport() {
                                 }}
                               >
                                 {++i}
+                              </TableCell>
+                              <TableCell
+                                className="pr-4"
+                                align="center"
+                                style={{
+                                  border: "1px solid #ccc",
+                                  fontFamily: "Calibri",
+                                  fontSize: "11pt",
+                                }}
+                              >
+                                {item?.party?.firm_name}
                               </TableCell>
                               <TableCell
                                 className="pr-4"
@@ -740,6 +766,18 @@ function ExpenseReport() {
                             fontWeight: 1000,
                             color: "white",
                           }}
+                        ></TableCell>
+                        <TableCell
+                          className="pr-4"
+                          align="right"
+                          colspan={1}
+                          style={{
+                            border: "1px solid #ccc",
+                            fontFamily: "Calibri",
+                            fontSize: "11pt",
+                            fontWeight: 1000,
+                            color: "white",
+                          }}
                         >
                           {parseFloat(data.reduce(function (prev, current) {
                             return prev + +current.tot_amount;
@@ -809,7 +847,7 @@ function ExpenseReport() {
                         <TableCell
                           className="pr-0"
                           align="center"
-                          colspan={5}
+                          colspan={6}
                           style={{
                             border: "1px solid #ccc",
                             fontFamily: "Calibri",
@@ -848,7 +886,7 @@ function ExpenseReport() {
                         <TableCell
                           className="pr-0"
                           align="center"
-                          colspan={5}
+                          colspan={6}
                           style={{
                             border: "1px solid #ccc",
                             fontFamily: "Calibri",
@@ -927,13 +965,13 @@ function ExpenseReport() {
                             color: "white",
                           }}
                         >
-                          NET PROFIT
+                          GROSS PROFIT
                         </TableCell>
                         <TableCell
                           id="net"
                           className="pr-0"
                           align="center"
-                          colspan={5}
+                          colspan={6}
                           style={{
                             border: "1px solid #ccc",
                             fontFamily: "Calibri",

@@ -19,7 +19,11 @@ import {
   Grid,
   FormGroup,
   IconButton,
-  useMediaQuery
+  useMediaQuery,
+  List,
+ListItem,
+ListItemIcon,
+ListItemSecondaryAction
 } from "@material-ui/core";
 import useDynamicRefs from 'use-dynamic-refs';
 
@@ -38,6 +42,10 @@ import clsx from "clsx";
 import { useCallback } from "react";
 import url, { getusers, divisionId, getUnitOfMeasure, data, getcompanybank } from "../invoice/InvoiceService";
 import UOMDialog from '../invoice/UOMDialog';
+
+import DragHandleIcon from "@material-ui/icons/DragHandle";
+import { arrayMove } from "react-sortable-hoc";
+import { Container, Draggable } from "react-smooth-dnd";
 
 // expandable table
 
@@ -236,6 +244,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
   let inputRef = [];
   let priceRef = [];
+  const onDrop = ({ removedIndex, addedIndex }) => {
+    setTestArr((items) => arrayMove(items, removedIndex, addedIndex));
+  };
 
   const controlKeyPress = (e, id, nextid, prev, invoiceItemList,dropdown) => {
     if(e.key === 'Enter' && !dropdown){
@@ -1350,6 +1361,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let subCost = 0;
   let margin_val = 0;
   let sellTotal = 0;
+  let adjust = 0;
+
   let afterMargin = 0;
 
 
@@ -1703,8 +1716,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
                     // margin_per=((subCost-costTotal)/costTotal)*100;
+                    adjust =
+                    adjust +
+                    (Math.round(item.margin_val) - item.margin_val);
 
-                    margin_val += item.margin_val;
+                    margin_val += Math.round(item.margin_val);
 
                     margin_per = costTotal ? (margin_val / costTotal) * 100 : 100;
                     subCost = (costTotal + margin_val);
@@ -2433,6 +2449,12 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   <div className="pr-12">
                     <p style={{ position: 'relative', top: '10px' }} className="mb-8">Total Cost:</p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8">Margin%:</p>
+                    <p
+                      style={{ position: "relative", top: "13px" }}
+                      className="mb-8"
+                    >
+                      Adjusted Margin Value:
+                    </p>
                     <p style={{ position: 'relative', top: '13px' }} className="mb-8 pt-0">Sub Total:</p>
                     <p style={{ position: 'relative', top: '14px' }} className="mb-8">Transport:</p>
                     <p style={{ position: 'relative', top: '16px' }} className="mb-8">Other:</p>
@@ -2499,6 +2521,20 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         value={margin_val}
                       />
 
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Adjusted Value"
+                        readOnly
+                        // onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={adjust}
+                      />
                     </div>
                     {/* <p className="mb-4 pt-4">{subTotalCost?subTotalCost.toFixed(2):'0.00'}</p> */}
                     <div>
@@ -2761,7 +2797,49 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
               </div>
             </div>
-            {testArr.map((item, index) => {
+            <Container
+              dragHandleSelector=".drag-handle"
+              lockAxis="y"
+              onDrop={onDrop}
+            >
+              {testArr?.map((item, index) => {
+                return (
+                  <Draggable key={index}>
+                    <ListItem>
+                      <div>
+                        <TextField
+                          label={"Note"}
+                          className="mb-4 ml-4"
+                          multiline
+                          type="text"
+                          variant="outlined"
+                          value={item?.note}
+                          size="small"
+                          style={{ width: 500 }}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
+                          name="note"
+                          onChange={(e) => noteList(e.target.value, index)}
+                        ></TextField>
+                        <Button onClick={() => deleteItemFromNoteList(index)}>
+                          <Icon color="error" className="mt-2">
+                            delete
+                          </Icon>
+                        </Button>
+                        <div>
+                          <ListItemSecondaryAction>
+                            <ListItemIcon className="drag-handle">
+                              <DragHandleIcon />
+                            </ListItemIcon>
+                          </ListItemSecondaryAction>
+                        </div>
+                      </div>
+                    </ListItem>
+                  </Draggable>
+                );
+              })}
+            </Container>
+            {/* {testArr.map((item, index) => {
 
               return (
                 <div>
@@ -2785,7 +2863,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
                 </div>
               )
-            })}
+            })} */}
             <Button className="mt-4 py-2 mb-2 ml-4"
               color="primary"
               variant="contained"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import useDynamicRefs from "use-dynamic-refs";
 import UOMDialog from "../../invoice/UOMDialog";
+import "./style.css";
 
 import {
   Button,
@@ -14,6 +15,9 @@ import {
   Table,
   TableHead,
   TableRow,
+  List,
+  ListItem,
+  ListItemIcon,
   TableCell,
   TableBody,
   InputLabel,
@@ -22,8 +26,15 @@ import {
   Tooltip,
   FormGroup,
   IconButton,
+  ListItemSecondaryAction,
   useMediaQuery,
 } from "@material-ui/core";
+// import {arrayMove} from "array-move";
+
+import { arrayMove } from "react-sortable-hoc";
+import { Container, Draggable } from "react-smooth-dnd";
+
+import DragHandleIcon from "@material-ui/icons/DragHandle";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   MuiPickersUtilsProvider,
@@ -265,6 +276,16 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [productprice, setproductprice] = useState([]);
   const formData = new FormData();
   const filter = createFilterOptions();
+  const [items, setItems] = useState([
+    { id: "1", text: "Item 1" },
+    { id: "2", text: "Item 2" },
+    { id: "3", text: "Item 3" },
+    { id: "4", text: "Item 4" },
+  ]);
+
+  const onDrop = ({ removedIndex, addedIndex }) => {
+    setTestArr((items) => arrayMove(items, removedIndex, addedIndex));
+  };
 
   const addRow = async (e) => {
     var obj = {
@@ -1458,6 +1479,8 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   let costTotal = 0;
   let totalmargin = 0;
   let margin_per = 0;
+  let adjust = 0;
+
   let margin_val = 0;
   let subTotalCost = 0;
   let afterMargin = 0;
@@ -1805,9 +1828,11 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       // subTotalCost = parseFloat(subCost)+parseFloat(other)+parseFloat(transport)
 
                       // margin_per=((subCost-costTotal)/costTotal)*100;
+                      adjust =
+                      adjust +
+                      (Math.round(item.margin_val) - item.margin_val);
 
-                      margin_val += item.margin_val;
-                      console.log(costTotal);
+                      margin_val += Math.round(item.margin_val);
                       margin_per = costTotal
                         ? (margin_val / costTotal) * 100
                         : 100;
@@ -2693,6 +2718,12 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     </p>
                     <p
                       style={{ position: "relative", top: "13px" }}
+                      className="mb-8"
+                    >
+                      Adjusted Margin Value:
+                    </p>
+                    <p
+                      style={{ position: "relative", top: "13px" }}
                       className="mb-8 pt-0"
                     >
                       Sub Total:
@@ -2716,13 +2747,15 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                     >
                       Discount:
                     </p>
-                    {dis_val > 0 &&  <p
-                      style={{ position: "relative", top: "18px" }}
-                      className="mb-8 pt-0"
-                    >
-                      Margin After Discount:
-                    </p> }
-                   
+                    {dis_val > 0 && (
+                      <p
+                        style={{ position: "relative", top: "18px" }}
+                        className="mb-8 pt-0"
+                      >
+                        Margin After Discount:
+                      </p>
+                    )}
+
                     <p
                       style={{ position: "relative", top: "22px" }}
                       className="mb-8"
@@ -2791,7 +2824,6 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                         className="w-full "
                         readOnly
                         currencySymbol="SAR"
-
                         label="Margin Value"
                         variant="outlined"
                         fullWidth
@@ -2806,6 +2838,20 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             ? parseFloat(margin_val).toFixed(2)
                             : 0
                         }
+                      />
+                    </div>
+                    <div>
+                      <CurrencyTextField
+                        className="w-full mb-4 "
+                        label="Adjusted Value"
+                        readOnly
+                        // onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        currencySymbol="SAR"
+                        name="net_amount"
+                        value={adjust}
                       />
                     </div>
                     {/* <p className="mb-4 pt-4">{subTotalCost?subTotalCost.toFixed(2):'0.00'}</p> */}
@@ -3070,7 +3116,49 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
               </div>
             </div>
-            {testArr.map((item, index) => {
+            <Container
+              dragHandleSelector=".drag-handle"
+              lockAxis="y"
+              onDrop={onDrop}
+            >
+              {testArr?.map((item, index) => {
+                return (
+                  <Draggable key={index}>
+                    <ListItem>
+                      <div>
+                        <TextField
+                          label={"Note"}
+                          className="mb-4 ml-4"
+                          multiline
+                          type="text"
+                          variant="outlined"
+                          value={item?.note}
+                          size="small"
+                          style={{ width: 500 }}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
+                          name="note"
+                          onChange={(e) => noteList(e.target.value, index)}
+                        ></TextField>
+                        <Button onClick={() => deleteItemFromNoteList(index)}>
+                          <Icon color="error" className="mt-2">
+                            delete
+                          </Icon>
+                        </Button>
+                        <div>
+                          <ListItemSecondaryAction>
+                            <ListItemIcon className="drag-handle">
+                              <DragHandleIcon />
+                            </ListItemIcon>
+                          </ListItemSecondaryAction>
+                        </div>
+                      </div>
+                    </ListItem>
+                  </Draggable>
+                );
+              })}
+            </Container>
+            {/* {testArr.map((item, index) => {
               return (
                 <div>
                   <TextField
@@ -3094,7 +3182,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </Button>
                 </div>
               );
-            })}
+            })} */}
             <Button
               className="mt-4 py-2 mb-2 ml-4"
               color="primary"

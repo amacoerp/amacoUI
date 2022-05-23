@@ -415,7 +415,8 @@ const ContactDetails = ({ ids }) => {
                   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
                   .join(' '),
                 // item.address,
-                item.mobno ? "+"+item.mcode+" "+item.mobno : '--',
+                item?.mobno ? (item?.mcode ? '+'+item?.mcode+' ' : '' )+ item?.mobno : '',
+                //  item.mobno ? item.mcode ? "+"+ item.mcode : '' +" "+item.mobno : '--',
                 item.email,
                 item.id,
               ]

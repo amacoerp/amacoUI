@@ -218,15 +218,34 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
    
 
     url.get("invoice_delivery_note/" + id + `/${s}`).then(({ data }) => {
-      document.title = `AMACO-${data[1]?.delivery_number}-${data[1]?.quotation?.party?.firm_name}`;
+      if(s == 'invoice'){
+        document.title = `AMACO ${data[1]?.delivery_number}-${data[5]?.firm_name}`;
+
+      }else{
+        document.title = `AMACO ${data[1]?.delivery_number}-${data[1]?.quotation?.party?.firm_name}`;
+
+      }
 
       setPrefBy(data[1]?.prepared_by);
       setDelBy(data[1]?.delevered_by);
 
       setcreatedate(data[1]?.created_at);
+      if(s == 'invoice'){
+        let f = data[8]?.fname ? ' '+data[8]?.fname.toUpperCase() : '';
+        let l = data[8]?.lname ? ' '+ data[8]?.lname.toUpperCase() : '';
+        let pr = data[8]?.prefix ? data[8]?.prefix+'.' : '';
+        let fu = pr + f + l
+        setattn(fu);
+      }else{
+
       if (data[1]?.quotation?.contact !== null) {
-        setattn(data[1]?.quotation?.contact?.fname);
+        let f = data[1]?.quotation?.contact?.fname ? ' '+data[1]?.quotation?.contact?.fname.toUpperCase() : '';
+        let l = data[1]?.quotation?.contact?.lname ? ' '+ data[1]?.quotation?.contact?.lname.toUpperCase() : '';
+        let pr = data[1]?.quotation?.contact?.prefix ? data[1]?.quotation?.contact?.prefix+'.' : '';
+        let fu = pr + f + l
+        setattn(fu);
       }
+    }
       // setpodetails(data[1])
       if (s === "invoice") {
         setcompany(data[1]?.invoice?.party?.firm_name);

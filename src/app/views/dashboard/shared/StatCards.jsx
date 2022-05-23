@@ -41,7 +41,7 @@ const StatCards = () => {
       let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
       setrequestedquoteCount(final + pendingCount)
 
-      var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && obj.approve == '1' && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
+      var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && obj.approve == '1' && (moment(obj.issue_date).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
 
       var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)

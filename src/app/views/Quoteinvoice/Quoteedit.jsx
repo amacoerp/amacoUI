@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import UOMDialog from "../invoice/UOMDialog";
+import DragHandleIcon from "@material-ui/icons/DragHandle";
+import { arrayMove } from "react-sortable-hoc";
+import { Container, Draggable } from "react-smooth-dnd";
 
 import {
   Button,
   FormControl,
-  Select,
+  Select,  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
   Divider,
   InputLabel,
   Grid,
@@ -210,6 +216,11 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     // setState({ ...state, ['net_amount']: GTotal });
     // setdstatus(true)
   };
+
+  const onDrop = ({ removedIndex, addedIndex }) => {
+    setTestArr((items) => arrayMove(items, removedIndex, addedIndex));
+  };
+
 
   const handleSellerBuyerChange = (event, fieldName) => {
     event.persist();
@@ -1280,8 +1291,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setparty_id(data?.sales?.party_id);
         // console.log('qwerty',data?.sales?.sign)
         setsign(data?.sales?.sign[0]?.id);
-
-        setTestArr([...data?.sales?.notes]);
+        console.log(data?.sales?.notes)
+        setTestArr(data?.sales?.notes);
 
         setState({
           ...state,
@@ -3314,7 +3325,50 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 </div>
               </div>
             </div>
-            {testArr.map((item, index) => {
+            <Container
+              dragHandleSelector=".drag-handle"
+              lockAxis="y"
+              onDrop={onDrop}
+            >
+              {testArr?.map((item, index) => {
+                console.log(item)
+                return (
+                  <Draggable key={index}>
+                    <ListItem>
+                      <div>
+                        <TextField
+                          label={"Note"}
+                          className="mb-4 ml-4"
+                          multiline
+                          type="text"
+                          variant="outlined"
+                          value={item.notes ? item.notes : " "}
+                          size="small"
+                          style={{ width: 500 }}
+                          // validators={["required"]}
+                          // errorMessages={["this field is required"]}
+                          name="note"
+                          onChange={(e) => noteList(e.target.value, index)}
+                        ></TextField>
+                        <Button onClick={() => deleteItemFromNoteList(index)}>
+                          <Icon color="error" className="mt-2">
+                            delete
+                          </Icon>
+                        </Button>
+                        <div>
+                          <ListItemSecondaryAction>
+                            <ListItemIcon className="drag-handle">
+                              <DragHandleIcon />
+                            </ListItemIcon>
+                          </ListItemSecondaryAction>
+                        </div>
+                      </div>
+                    </ListItem>
+                  </Draggable>
+                );
+              })}
+            </Container>
+            {/* {testArr.map((item, index) => {
               return (
                 <div>
                   <TextField
@@ -3339,7 +3393,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   </Button>
                 </div>
               );
-            })}
+            })} */}
             <Button
               className="mt-4 py-2 mb-2 ml-4"
               color="primary"

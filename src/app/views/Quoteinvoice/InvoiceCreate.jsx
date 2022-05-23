@@ -916,7 +916,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     let arr = []
     delete tempState.loading;
 
-
+console.log(contactid)
     // arr.push({
     // Quotedetails:tempItemList,
     // });
@@ -935,7 +935,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.delivery_time = delivery_time
     arr.inco_terms = inco_terms
     arr.payment_terms = payment_terms
-    arr.contact_id = contactid
+    arr.contact_id = contactid ? contactid : ''
     arr.ps_date = Quote_date
     arr.rfq_id = null
     arr.user_id = user.id
@@ -1331,7 +1331,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <Icon>arrow_back</Icon>
         </IconButton>
         <div className={clsx("invoice-viewer py-4", classes.invoiceEditor)}>
-          <ValidatorForm  onSubmit={e => { e.preventDefault(); }}  onError={(errors) => null}>
+          <ValidatorForm autoComplete='off' onSubmit={e => { e.preventDefault(); }}  onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
                 <h3 align="left"> CREATE SALES INVOICE</h3>
@@ -1418,7 +1418,7 @@ select
                   variant="outlined"
                   options={CustomerList}
 
-                  style={{ width: 500 }}
+                  style={{ width: 350 }}
                   getOptionLabel={(option) => option.firm_name}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
@@ -1466,7 +1466,7 @@ select
                   </TextField>
                 } */}
 
-                {/* {rfqstatus&&<Autocomplete
+                {rfqstatus&&<Autocomplete
       id="filter-demo"
       variant="outlined"
       options={customercontact}
@@ -1485,11 +1485,11 @@ select
        
         return filtered;
       }}
-      onChange={(e) => setcontactid(e.target.value)}
+      onChange={(e,newValue) => setcontactid(newValue?.id)}
       size="small"
       renderInput={(params) => <TextField {...params} 
       variant="outlined" label="Contact Person" />}
-    />} */}
+    />}
 
               </Grid>
               
@@ -1577,7 +1577,7 @@ select
                         {index + 1}
                       </TableCell>
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '100px' }}>
-                        {/* <TextValidator autoComplete="none"
+                        {/* <TextValidator autoComplete="off"
                       label="Item"
                       onChange={(event) => setProductdescription(event, index)}
                       type="text"
@@ -1644,7 +1644,7 @@ select
 
 
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
-                    <TextValidator autoComplete="none"
+                    <TextValidator autoComplete="off"
                       label="description"
                       onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -1660,7 +1660,7 @@ select
                     />
                   </TableCell> */}
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'150px'}}>
-                    <TextValidator autoComplete="none"
+                    <TextValidator autoComplete="off"
                       label="Our description"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -1675,7 +1675,7 @@ select
                     />
                   </TableCell> */}
                       {/* <TableCell className="pl-0 capitalize" align="left" style={{width:'100px'}}>
-                    <TextValidator autoComplete="none"
+                    <TextValidator autoComplete="off"
                       label="UOM"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -1692,7 +1692,7 @@ select
                   </TableCell> */}
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '50px' }}>
                         <TextValidator
-                          autoComplete="none"
+                          autoComplete="off"
                           label="Qty"
                           required
                           onChange={(event, newValue) => calcualte_qty(event, index, newValue = null, 'quantity')}
@@ -1805,7 +1805,7 @@ select
                         /> */}
                         <CurrencyTextField
                           className="w-full"
-                          autoComplete="none"
+                          autoComplete="off"
                           label="Purchase Price"
                           // decimalPlaces={3}
                           variant="outlined"
@@ -1833,7 +1833,7 @@ select
 
 
                       <TableCell className="pl-0 capitalize" align="left">
-                        <TextValidator autoComplete="none"
+                        <TextValidator autoComplete="off"
                           label="Margin"
                           onChange={(event, newValue) => calcualte_margin(event, index, newValue, 'margin')}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
@@ -1862,7 +1862,7 @@ select
                       </TableCell>
 
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '200px' }}>
-                        {/* <TextValidator autoComplete="none"
+                        {/* <TextValidator autoComplete="off"
                       label="price"
                       // onChange={(event) => handleIvoiceListChange(event, index)}
                       type="text"
@@ -1878,7 +1878,7 @@ select
                     /> */}
                         <CurrencyTextField
                           className="w-full"
-                          autoComplete="none"
+                          autoComplete="off"
                           label="Sell Price"
                           decimalPlaces={3}
                           variant="outlined"
@@ -1901,7 +1901,7 @@ select
                       </TableCell>
 
                       {/* <TableCell className="pl-0 capitalize" align="left">
-                        <TextValidator autoComplete="none"
+                        <TextValidator autoComplete="off"
                           label="TAX"
                           onChange={(event, newValue) => {console.log(event.target.value,'+',item.sell_price)}}
                           // onBlur={(event) => handleIvoiceListChange(event, index)}
@@ -1924,7 +1924,7 @@ select
                       </TableCell> */}
 
                       <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        {/* <TextValidator autoComplete="none"
+                        {/* <TextValidator autoComplete="off"
                       label="QTotal"
                       
                       // onChange={(event) => handleIvoiceListChange(event, index)}
@@ -1944,7 +1944,7 @@ select
                           className="w-full"
                           readOnly
                           label="Total"
-                          autoComplete="none"
+                          autoComplete="off"
                           variant="outlined"
                           fullWidth
                           size="small"
@@ -2059,7 +2059,7 @@ select
                       />
                     </div>
 
-                    {/* <TextValidator autoComplete="none"
+                    {/* <TextValidator autoComplete="off"
                 className="mb-4 "
                 label="Vat"
                 // onChange={handleChange}
@@ -2074,7 +2074,7 @@ select
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               /> */}
-                    {/* <TextValidator autoComplete="none"
+                    {/* <TextValidator autoComplete="off"
                 label="Grand Total"
                 onChange={handleChange}
                 type="text"

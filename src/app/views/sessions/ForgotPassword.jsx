@@ -70,9 +70,10 @@ const ForgotPassword = () => {
   const decryptData = async (data) => {
     const emails = data?.map((item) => {
       var doe = item;
-      var krl = "Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=";
+      // var krl = "Avhcqfuedh6BGPXVRyXJtjPIoxjgUqMELSwTlbsj5OY=";
 
-      // P var krl = "rPf8WKIvLBzpk5RZ02mBAA0RQg+FsfkMid7R0rKS0RQ=";
+      // P r
+      var krl = "rPf8WKIvLBzpk5RZ02mBAA0RQg+FsfkMid7R0rKS0RQ=";
       doe = atob(doe);
       doe = JSON.parse(doe);
       const iv = CryptoJS.enc.Base64.parse(doe.iv);

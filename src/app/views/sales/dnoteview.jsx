@@ -46,6 +46,166 @@ const SimpleMuiTable = () => {
     wordBreak: "break-word",
 
   }
+
+
+  const updateStatus = (id, st, type) => {
+    if (type == "generate") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Delivery Note Not Generated"
+      ) {
+        st = "Delivery Note Generated";
+        Swal.fire({
+          title: "Is Delivery Note Generated?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      } else {
+        st = "Delivery Note Not Generated";
+        Swal.fire({
+          title: "Is Delivery Note Not Generated?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      }
+    } else if (type == "print") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Delivery Note Not Printed"
+      ) {
+        st = "Delivery Note Printed";
+        Swal.fire({
+          title: "Is Delivery Note Printed?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      } else {
+        st = "Delivery Note Not Printed";
+        Swal.fire({
+          title: "Is Delivery Note Not Printed?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      }
+    } else if (type == "ack") {
+      if (
+        st == "" ||
+        st == null ||
+        st == undefined ||
+        st == "Delivery Note Not Acknowledged"
+      ) {
+        st = "Delivery Note Acknowledged";
+        Swal.fire({
+          title: "Is Delivery Note Acknowledged?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      } else {
+        st = "Delivery Note Not Acknowledged";
+        Swal.fire({
+          title: "Is Delivery Note Not Acknowledged?",
+          text: "",
+          icon: "",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.value) {
+            url
+            .post(`change-delivery-status/${id}/${st}/${type}`)
+            .then(({ data }) => {
+              setIsAlive(true);
+            })
+            .catch(() => {});
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Cancelled", "", "error");
+          }
+        });
+      }
+    }
+
+    // url
+    //   .post(`change-delivery-status/${id}/${st}/${type}`)
+    //   .then(({ data }) => {
+    //     setIsAlive(true);
+    //   })
+    //   .catch(() => {});
+  };
+
   useEffect(() => {
     if(localStorage.getItem('page') !== 'dnote'){
       localStorage.removeItem('search')
@@ -61,8 +221,8 @@ const SimpleMuiTable = () => {
       setqdetails(data);
       // }
     });
-    return () => setIsAlive(false);
-  }, []);
+   setIsAlive(false);
+  }, [isAlive]);
   const [count, setCount] = useState(0);
   const routerHistory = useHistory();
   const handeViewClick = (invoiceId) => {
@@ -269,9 +429,100 @@ const SimpleMuiTable = () => {
             <div style={{ textAlign: "right" }} className="pr-8">
               <Link to={"/invview/" + tableMeta.rowData[5] + "/" + tableMeta.rowData[6]}>
                 <Tooltip title="View More">
-                  <Icon color="primary">remove_red_eye</Icon>
+                  <Icon style={{fontSize: "20px"}} color="primary">remove_red_eye</Icon>
                 </Tooltip>
               </Link>
+
+            <Tooltip
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[5],
+                    tableMeta.rowData[8],
+                    "generate"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[8]
+                    ? tableMeta.rowData[8]
+                    : "Delivery Note Not Generated"
+                }
+              >
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    color:
+                      tableMeta.rowData[8] == "" ||
+                      tableMeta.rowData[8] == null ||
+                      tableMeta.rowData[8] == undefined ||
+                      tableMeta.rowData[8] == "Delivery Note Not Generated"
+                        ? "gray"
+                        : "green",
+                    fontSize: "20px",
+                  }}
+                >
+                  add_circle
+                </Icon>
+              </Tooltip>
+            <Tooltip
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[5],
+                    tableMeta.rowData[9],
+                    "print"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[9]
+                    ? tableMeta.rowData[9]
+                    : "Delivery Note Not Printed"
+                }
+              >
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    color:
+                      tableMeta.rowData[9] == "" ||
+                      tableMeta.rowData[9] == null ||
+                      tableMeta.rowData[9] == undefined ||
+                      tableMeta.rowData[9] == "Delivery Note Not Printed"
+                        ? "gray"
+                        : "green",
+                    fontSize: "20px",
+                  }}
+                >
+                  print
+                </Icon>
+              </Tooltip>
+            <Tooltip
+                onClick={(e) => {
+                  updateStatus(
+                    tableMeta.rowData[5],
+                    tableMeta.rowData[7],
+                    "ack"
+                  );
+                }}
+                title={
+                  tableMeta.rowData[7]
+                    ? tableMeta.rowData[7]
+                    : "Delivery Note Not Acknowledged"
+                }
+              >
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    color:
+                      tableMeta.rowData[7] == "" ||
+                      tableMeta.rowData[7] == null ||
+                      tableMeta.rowData[7] == undefined ||
+                      tableMeta.rowData[7] == "Delivery Note Not Acknowledged"
+                        ? "gray"
+                        : "green",
+                    fontSize: "20px",
+                  }}
+                >
+                  assignment_return
+                </Icon>
+              </Tooltip>
               {/* <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
             <IconButton>
               <Icon color="secondary">find_in_page</Icon>
@@ -292,11 +543,80 @@ const SimpleMuiTable = () => {
         display: 'none',
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
+           <>
             <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
               <IconButton>
                 <Icon color="secondary">find_in_page</Icon>
               </IconButton>
             </Link>
+
+           </>
+
+          )
+
+        },
+      },
+    },
+    {
+      name: "",
+      // label: "Action",
+      options: {
+        filter: true,
+        display: 'none',
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+           <>
+            <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <IconButton>
+                <Icon color="secondary">find_in_page</Icon>
+              </IconButton>
+            </Link>
+
+           </>
+
+          )
+
+        },
+      },
+    },
+    {
+      name: "",
+      // label: "Action",
+      options: {
+        filter: true,
+        display: 'none',
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+           <>
+            <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <IconButton>
+                <Icon color="secondary">find_in_page</Icon>
+              </IconButton>
+            </Link>
+
+           </>
+
+          )
+
+        },
+      },
+    },
+    {
+      name: "",
+      // label: "Action",
+      options: {
+        filter: true,
+        display: 'none',
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+           <>
+            <Link to={"/sales/rfq-form/rfqanalysis?id=" + tableMeta.rowData[0]}>
+              <IconButton>
+                <Icon color="secondary">find_in_page</Icon>
+              </IconButton>
+            </Link>
+
+           </>
 
           )
 
@@ -333,6 +653,7 @@ const SimpleMuiTable = () => {
 
           data={qdetails.filter(obj => obj.div_id == localStorage.getItem('division')).map((item, index) => {
             // console.log(item.party[0]?.firm_name)
+            console.log(item)
             return [
               ++index,
               item?.delivery_number,
@@ -342,6 +663,9 @@ const SimpleMuiTable = () => {
               moment(item?.created_at).format('DD MMM YYYY'),
               item?.id,
               item.quotation_id ? "quote" : "invoice",
+              item.acknowledge_status,
+              item.created_status,
+              item.printed_status,
               // item.requested_date,
               // item.require_date,
             ]
