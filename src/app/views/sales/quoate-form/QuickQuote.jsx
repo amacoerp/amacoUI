@@ -1165,24 +1165,82 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     routerHistory.push(navigatePath + "/quoateview/0");
   }
 
-  const readUploadFile = (e) => {
+  const readUploadFile = async (e) => {
     e.preventDefault();
-    if (e.target.files) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const json = XLSX.utils.sheet_to_json(worksheet);
-        // console.log(json);
-        setState({
-          ...state,
-          item: json,
-        });
-      };
-      reader.readAsArrayBuffer(e.target.files[0]);
-    }
+    let json = []
+    try {
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          json = XLSX.utils.sheet_to_json(worksheet);
+  
+          let a = json?.map((item,i)=>{
+            return { 
+             'description' : item?.RFQ_DESCRIPTION,
+             'product_id': "",
+             'src': "",
+             'index1': ++i,
+             'descriptions': "",
+             'descriptionss': item?.OUR_DESCRIPTION,
+             'product_description': "",
+             'uom': item?.UNIT_OF_MEASURE,
+             'unit_of_measure': item?.UNIT_OF_MEASURE,
+             'quantity': item?.QUANTITY,
+             'product_price_list': [
+               {
+                 'price': "",
+               },
+             ],
+             'purchase_price': item?.PURCHASE_PRICE,
+             'costprice': 0,
+             'margin': item?.MARGIN,
+             'margin_val': 0,
+             'discount_val': 0,
+             'discount': item?.DISCOUNT,
+             'sell_price': item?.SELL_PRICE,
+            
+             'remark': "",
+             'total_amount': parseFloat(item?.TOTAL_AMOUNT).toLocaleString(undefined, {
+               minimumFractionDigits: 2,
+             }),
+          }
+          });
+  
+          try{
+            setState({
+              ...state,
+              item : a,
+            });
+          }catch (e) {
+            Swal.fire({
+              title: "Error",
+              type: "error",
+              icon: "error",
+              text: "File is Not Supporting.",
+            }).then(()=>{
+              window.location.reload()
+            })
+            console.log(e)
+          }
+        };
+  
+        reader.readAsArrayBuffer(e.target.files[0]);
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        type: "error",
+        icon: "error",
+        text: "File is Not Supporting.",
+      }).then(()=>{
+        window.location.reload()
+      })
+        console.log('dsdasdas',error)
+    } 
   };
 
   const handleDialogClose = () => {
@@ -1542,7 +1600,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   className={classes.input}
                   style={{ display: "none" }}
                   id="raised-button-file"
-                  onChange={readUploadFile}
+                  onChange={(e)=>{readUploadFile(e)}}
                   type="file"
                 />
                 <label htmlFor="raised-button-file">

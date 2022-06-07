@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
-import Header from '../../views/statements/Header';
-import Footer from '../../views/statements/Footer';
+import Header from './Header';
+import Footer from './Footer';
 import './new.css';
 import '../Newinvoice/print.css';
 
@@ -216,7 +216,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   handleAddList,
-  handleAddNewCard, }) => {
+  handleAddNewCard,data }) => {
   // let search = window.location.search;
   // let params = new URLSearchParams(search);
   // const foo =parseInt(params.get('s'));
@@ -313,10 +313,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const handlePrinting = () => {
 
     var totalPages = Math.ceil((componentRef.current.scrollHeight) / 1123)
-    console.log(componentRef.current.scrollHeight)
-    if (componentRef.current.scrollHeight <= 1720) {
-      totalPages = 1
-    } 
+    // console.log(componentRef.current.scrollHeight)
+    // if (componentRef.current.scrollHeight <= 1720) {
+    //   totalPages = 1
+    // } else {
+    //   totalPages = totalPages - 1
+    // }
 
 
     // totalPages = totalPages - 2
@@ -390,24 +392,24 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
-    url.get("sale-quotation/" + id).then(({ data }) => {
-      if (s == "new") {
-        settab(0)
-      }
-      else if (s == "draft") {
-        settab(3)
-      }
-      else if (s == "accept") {
-        settab(1)
-      }
-      else if (s == "history") {
-        settab(4)
-      }
-      else {
-        settab(2)
-      }
+    // url.get("sale-quotation/" + id).then(({ data }) => {
+      // if (s == "new") {
+      //   settab(0)
+      // }
+      // else if (s == "draft") {
+      //   settab(3)
+      // }
+      // else if (s == "accept") {
+      //   settab(1)
+      // }
+      // else if (s == "history") {
+      //   settab(4)
+      // }
+      // else {
+      //   settab(2)
+      // }
 
-      document.title = `AMACO-${data[0]?.quotation_no}-${data[0]?.party?.firm_name}`
+      // document.title = `AMACO-${data[0]?.quotation_no}-${data[0]?.party?.firm_name}`
       setrfq(data[0]?.rfq_id)
       setFfile(data[0]?.file)
       setrfq_no(data[0]?.rfq_no)
@@ -503,7 +505,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
 
 
 
-    });
+    // });
 
     // if (id !== "add")
     //   getInvoiceById(id).then((res) => {
@@ -736,216 +738,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           >
             Edit Quote
           </Button> */}
-          {localStorage.getItem('role') == 'SA' && s == 'history' && <Button
-            variant="outlined"
-            color="primary"
-            className="mr-4 py-2"
-            aria-owns={anchorEl ? "simple-menu" : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            ACTION<Icon>expand_more</Icon>
-          </Button>}
-          {s !== "history" && <Button
-            variant="outlined"
-            color="primary"
-            className="mr-4 py-2"
-            aria-owns={anchorEl ? "simple-menu" : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            ACTION<Icon>expand_more</Icon>
-          </Button>}
-          <Menu
-
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
-                    Generate Purchase Order
-                      </MenuItem> */}
-
-            {s == "accept" || s == "New" ? <MenuItem onClick={() => statuschange('reject', 'deleted')}>
-              DELETE QUOTATION
-            </MenuItem> : <MenuItem onClick={() => deletequote()}>
-              DELETE QUOTATION
-            </MenuItem>}
-            <MenuItem
-              onClick={() => handlePrinting()}
-            // onClick={() => window.print()}
-            >
-              PRINT QUOTATION
-            </MenuItem>
-            <MenuItem onClick={() => editqoute()}>
-              EDIT QUOTAION
-            </MenuItem>
-            {s !== "accept" ? !is_revised && <MenuItem onClick={() => reviseqoute()}>
-              REVISE QUOTAION
-            </MenuItem> : ''}
-            {s === "reject" && <MenuItem onClick={() => {
-
-              statuschange('New', 'restored')
-            }}>
-              RESTORE
-            </MenuItem>}
-
-          </Menu>
-          {s === "accept" &&
-            <>
-              {/* <Link
-                to={{ pathname: basePath + fFile }}
-                target="_blank" >
-                <Button
-                  className="mr-4 py-2"
-                  color="primary"
-                  variant="outlined"
-                >
-                  VIEW QUOTATION
-                </Button>
-              </Link> */}
-
-              <Button
-                className="mr-4 py-2"
-                color="primary"
-                variant="outlined"
-                onClick={() => invoicegenrate({ mode: "on" })}
-              >
-                GENERATE INVOICE
-              </Button>
-            </>
-          }
-          {s === "accept" &&
-            <Button
-              className="mr-4 py-2"
-              color="primary"
-              variant="outlined"
-              onClick={() => dnotegenrate({ mode: "on" })}
-            >
-              GENERATE DELIVERY NOTE
-            </Button>
-          }
-          {s === "New" &&
-            <Button
-              className="mr-4 py-2"
-              style={{ border: '1px solid #ff3d57', color: '#ff3d57' }}
-              variant="outlined"
-              onClick={() => statuschange('reject', 'reject')}
-            >
-              <Icon>cancel</Icon> REJECTED
-            </Button>
-          }
-
-          {shouldOpenAddList ? (
-            <ClickAwayListener onClickAway={() => handleAddListToggle(false)}>
-              <Card
-                className="mx-3 border-radius-0 cursor-pointer p-4 min-w-288"
-                elevation={3}
-              >
-
-                <TextField
-                  size="small"
-                  className="mb-3"
-                  variant="outlined"
-                  name="po_no"
-                  value={po_no}
-                  fullWidth
-                  onChange={e => { setpo_no(e.target.value); setmessage(''); setloading('') }}
-                  label="Enter P.O. Number"
-                  onKeyDown={e => { setpo_no(e.target.value); setmessage(''); setloading('') }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          size="small"
-                          onClick={() => handleAddListToggle(false)}
-                        >
-                          <Icon fontSize="small">clear</Icon>
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                {po_no && <label htmlFor="upload-multiple-file">
-                  <Button
-                    className=""
-                    color="primary"
-                    component="span"
-                    variant="contained"
-                  >
-                    <div className="flex items-center">
-                      <Icon className="pr-8">cloud_upload</Icon>
-                      <span>Upload File</span>
-                    </div>
-                  </Button>
-                </label>}
-
-                <input
-                  className="hidden"
-                  onChange={(e) => handleFileSelect(e)}
-                  id="upload-multiple-file"
-                  type="file"
-                  multiple
-                />
-                {fileurl && <img
-                  width="50px"
-                  height="50px"
-                  // className={classes.media}
-                  src={fileurl}
-                />}
-
-
-                <div className="flex justify-end">
-                  <Button
-                    onClick={() => {
-                      // handleAddList(columnTitle);
-                      // setColumnTitle("");
-                      statuschange('accept')
-                    }}
-                    variant="outlined"
-                    color="primary"
-                    disabled={loading}
-                  >
-                    <Icon>add</Icon> ADD
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      // handleAddList(columnTitle);
-                      // setColumnTitle("");
-                      statuschange('accept')
-                    }}
-                    variant="outlined"
-                    color="secondary"
-                    className="ml-2"
-                  >
-                    <Icon>cancel</Icon>Skip
-                  </Button>
-
-
-                  {message &&
-                    <h6 color="error">P.O. Number already exits</h6>
-                  }
-
-                </div>
-              </Card>
-            </ClickAwayListener>
-          ) : (
-            <span>
-
-              {s === "New" &&
-                !is_revised && <Button
-                  className="mr-4 py-2"
-                  variant="outlined"
-                  onClick={() => handleAddListToggle(true)}
-                  style={{ border: '1px solid #119144', color: '#119144' }}
-                >
-                  <Icon>check_circle</Icon> ACCEPTED
-                </Button>
-
-              }
-            </span>
-          )}
+         
 
 
 
@@ -960,14 +753,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
           if (i == 0) {
             pos = 1557;
           } else {
-            pos = pos + 1565;
+            pos = pos + 1572;
           }
 
           return (
             <span className="showPageNumber" style={{
-              position: 'fixed',
+              position: 'relative',
               top: pos,
-              left: '50%',
+              // left: '50%',
               display: 'none',
             }}> <center>{item}</center></span>
           )
@@ -1223,26 +1016,12 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                   </Box>
                   <Box display="flex" p={1} bgcolor="background.paper" className="px-2 flex justify-between">
                     <Grid container spacing={3} className="p-4">
-                      <Grid className="pl-2 pb-0" xs={4} style={{ wordBreak: 'break-word' }}>
+                      <Grid className="pl-2 pb-0" xs={5} style={{ wordBreak: 'break-word' }}>
                         <span style={{ fontWeight: 1000 }}>CUSTOMER ADDRESS</span><br></br>
-                         {/* { buildNumber ? (buildNumber +', ') : ''}{street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}{post_box_no ? (' ,'+post_box_no) : ''}{country ? ' ,'+ country : ''} */}
-                         {post_box_no ? 'PO BOX NUMBER '+ post_box_no + ", " : ""}
-                        {buildNumber ? ", " + buildNumber : ""}
-                        {street
-                          ? street +
-                            (city
-                              ? ", " + city + (zipcode ? "-" + zipcode : " ")
-                              : zipcode
-                              ? "-" + zipcode
-                              : " ")
-                          : city
-                          ? city + (zipcode ? "-" + zipcode : " ")
-                          : zipcode
-                          ? zipcode
-                          : " "}
+                         { buildNumber ? (buildNumber +', ') : ''}{street ? street + (city ? "," + city + (zipcode ? "," + zipcode : " ") : (zipcode ? "," + zipcode : " ")) : (city ? city + (zipcode ? " ," + zipcode : " ") : (zipcode ? zipcode : " "))}{post_box_no ? (' ,'+post_box_no) : ''}{country ? ' ,'+ country : ''}
+
 
                       </Grid>
-                      <Grid className="pl-2 pb-0" xs={1} ></Grid>
                       <Grid className="pl-2 pb-4" xs={4}>
                         <span style={{ fontWeight: 1000 }}>EMAIL ID</span><br></br>
                         {contactpersonemail ? contactpersonemail : '---'}
@@ -1650,7 +1429,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
                 }}>
 
 
-                    <div style={{height:'235px',marginTop:'-60px'}} className="viewer__order-info pt-2 px-4 mb-2 flex justify-between" >
+                    <div className="viewer__order-info pt-2 px-4 mb-2 flex justify-between" >
                       <div >
                         <div class="break" >
 

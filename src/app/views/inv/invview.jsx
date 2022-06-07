@@ -79,7 +79,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         marginTop: "10px",
       },
       ".empty-footer": {
-        height: "150px",
+        height: "100px",
         marginTop: "10px",
       },
       ".header": {
@@ -89,7 +89,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
       },
       ".footer": {
         position: "fixed",
-        height: "150px",
+        height: "100px",
         bottom: 0,
         width: "100%",
       },
@@ -104,8 +104,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         width: "100%",
         justifySelf: "end",
       },
-      '#none':{
-        display:'none'
+      "#none": {
+        display: "none",
       },
 
       "#table": {
@@ -180,9 +180,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     var totalPages = Math.ceil(componentRef.current.scrollHeight / 1123);
 
     // console.log(componentRef.current.scrollHeight);
-    if (componentRef.current.scrollHeight <= 1529) {
-      totalPages = 1;
-    }
+    // if (componentRef.current.scrollHeight <= 1529) {
+    //   totalPages = 1;
+    // }
     // console.log(totalPages);
     // totalPages = totalPages - 2
     let a = [];
@@ -203,49 +203,74 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [delBys, SetDelBy] = useState([]);
   const [alive, setAlive] = useState(true);
 
-  useEffect(()=>{
+  useEffect(() => {
     url.get("dDetails").then(({ data }) => {
       setUsers(data?.prepBy);
-      SetDelBy(data?.delBy ? data?.delBy : '');
+      SetDelBy(data?.delBy ? data?.delBy : "");
       // console.log
-      console.log(data?.delBy)
     });
-    setAlive(false)
-  },[alive])
+    setAlive(false);
+  }, [alive]);
 
   useEffect(() => {
     // delivery-notes
-   
 
     url.get("invoice_delivery_note/" + id + `/${s}`).then(({ data }) => {
-      if(s == 'invoice'){
+      if (s == "invoice") {
         document.title = `AMACO ${data[1]?.delivery_number}-${data[5]?.firm_name}`;
-
-      }else{
+      } else {
         document.title = `AMACO ${data[1]?.delivery_number}-${data[1]?.quotation?.party?.firm_name}`;
-
       }
 
       setPrefBy(data[1]?.prepared_by);
       setDelBy(data[1]?.delevered_by);
 
-      setcreatedate(data[1]?.created_at);
-      if(s == 'invoice'){
-        let f = data[8]?.fname ? ' '+data[8]?.fname.toUpperCase() : '';
-        let l = data[8]?.lname ? ' '+ data[8]?.lname.toUpperCase() : '';
-        let pr = data[8]?.prefix ? data[8]?.prefix+'.' : '';
-        let fu = pr + f + l
-        setattn(fu);
-      }else{
-
-      if (data[1]?.quotation?.contact !== null) {
-        let f = data[1]?.quotation?.contact?.fname ? ' '+data[1]?.quotation?.contact?.fname.toUpperCase() : '';
-        let l = data[1]?.quotation?.contact?.lname ? ' '+ data[1]?.quotation?.contact?.lname.toUpperCase() : '';
-        let pr = data[1]?.quotation?.contact?.prefix ? data[1]?.quotation?.contact?.prefix+'.' : '';
-        let fu = pr + f + l
-        setattn(fu);
+      setcreatedate(data[1]?.issue_date);
+      if (s == "invoice") {
+        if (data[9].length > 0) {
+          let f = data[9][0]?.fname
+            ? " " + data[9][0]?.fname.toUpperCase()
+            : "";
+          let l = data[9][0]?.lname
+            ? " " + data[9][0]?.lname.toUpperCase()
+            : "";
+          let pr = data[9][0]?.prefix ? data[9][0]?.prefix + "." : "";
+          let fu = pr + f + l;
+          setattn(fu);
+        } else {
+          let f = data[8]?.fname ? " " + data[8]?.fname.toUpperCase() : "";
+          let l = data[8]?.lname ? " " + data[8]?.lname.toUpperCase() : "";
+          let pr = data[8]?.prefix ? data[8]?.prefix + "." : "";
+          let fu = pr + f + l;
+          setattn(fu);
+        }
+      } else {
+        if (data[9].length > 0) {
+          let f = data[9][0]?.fname
+            ? " " + data[9][0]?.fname.toUpperCase()
+            : "";
+          let l = data[9][0]?.lname
+            ? " " + data[9][0]?.lname.toUpperCase()
+            : "";
+          let pr = data[9][0]?.prefix ? data[9][0]?.prefix + "." : "";
+          let fu = pr + f + l;
+          setattn(fu);
+        } else {
+          if (data[1]?.quotation?.contact !== null) {
+            let f = data[1]?.quotation?.contact?.fname
+              ? " " + data[1]?.quotation?.contact?.fname.toUpperCase()
+              : "";
+            let l = data[1]?.quotation?.contact?.lname
+              ? " " + data[1]?.quotation?.contact?.lname.toUpperCase()
+              : "";
+            let pr = data[1]?.quotation?.contact?.prefix
+              ? data[1]?.quotation?.contact?.prefix + "."
+              : "";
+            let fu = pr + f + l;
+            setattn(fu);
+          }
+        }
       }
-    }
       // setpodetails(data[1])
       if (s === "invoice") {
         setcompany(data[1]?.invoice?.party?.firm_name);
@@ -257,7 +282,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
       setpodetails(data[0]);
       setdeliveryno(data[1]?.delivery_number);
-      setpo(data[1]?.po_number);
+      setpo(data[10]?.po_number ? data[10]?.po_number : data[1]?.po_number);
     });
     // url.get("invoice/" + id).then(({ data }) => {
 
@@ -313,33 +338,32 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [delBy, setDelBy] = useState("");
 
   const changeSub1 = (e, n) => {
-    console.log('dsd')
-    url.post("deleveryPrep/" + (delBy ? delBy : null) + "/d/" + id).then(({ data }) => {
-      setE1(false);
-      setE2(false);
-      setAlive(true)
-    });
+    url
+      .post("deleveryPrep/" + (delBy ? delBy : null) + "/d/" + id)
+      .then(({ data }) => {
+        setE1(false);
+        setE2(false);
+        setAlive(true);
+      });
   };
 
   const changeSub = (e, n) => {
-    console.log(e.target.value)
     setDelBy(n);
-   
   };
 
   const changeData = (e, n, o) => {
     if (o == "p") {
       setPrefBy(n?.name);
-      url.post("deleveryPrep/" + n.name + "/" + o + "/" + id).then(({ data }) => {
-        setE1(false);
-        setE2(false);
-        setAlive(true)
-      });
+      url
+        .post("deleveryPrep/" + n.name + "/" + o + "/" + id)
+        .then(({ data }) => {
+          setE1(false);
+          setE2(false);
+          setAlive(true);
+        });
     } else {
-      console.log(n)
       setDelBy(n?.delevered_by ? n?.delevered_by : n);
     }
-   
   };
 
   const handlePrint = () => window.print();
@@ -382,8 +406,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [e2, setE2] = useState(false);
 
   const editDelNote = () => {
-    routerHistory.push(`/editDelivery/${id}`)
-  }
+    routerHistory.push(`/editDelivery/${id}`);
+  };
 
   const openEdit = () => {
     setE1(!e1);
@@ -415,13 +439,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           </Link>
           <div>
             <Button
-            className="mr-4 py-2"
-            color="primary"
-            variant="outlined"
-            onClick={() => {editDelNote()}}
-          >
-            EDIT
-          </Button>
+              className="mr-4 py-2"
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                editDelNote();
+              }}
+            >
+              EDIT
+            </Button>
             <Button
               onClick={handlePrinting}
               className="py-2"
@@ -440,16 +466,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         >
           {pageNumber.map((item, i) => {
             if (i == 0) {
-              pos = 1515;
+              pos = 1538;
             } else {
-              pos = pos + 1568;
+              pos = pos + 1590;
             }
 
             return (
               <span
                 className="showPageNumber"
                 style={{
-                  position: "fixed",
+                  position: "absolute",
                   top: pos,
                   left: "50%",
                   display: "none",
@@ -810,9 +836,16 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                   {index + 1}
                                 </TableCell>
 
-
-                                <TableCell className="pl-2 capitalize" align="left" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: 16 }}>
-                                
+                                <TableCell
+                                  className="pl-2 capitalize"
+                                  align="left"
+                                  colspan={3}
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    fontFamily: "Calibri",
+                                    fontSize: 16,
+                                  }}
+                                >
                                   {/* { localStorage.getItem('division')==1 ?  item[0]?.description ? item[0]?.description : item[0]?.description :item[0]?.description } */}
                                   {item[0]?.description}
                                 </TableCell>
@@ -886,13 +919,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                         item[0]?.total_delivered_quantity
                                       ) -
                                       parseInt(item[0]?.delivering_quantity)
-                                  ).toLocaleString() < 0 ? 0 : parseInt(
-                                    parseInt(item[0]?.total_quantity) -
-                                      parseInt(
-                                        item[0]?.total_delivered_quantity
-                                      ) -
-                                      parseInt(item[0]?.delivering_quantity)
-                                  ).toLocaleString()}
+                                  ).toLocaleString() < 0
+                                    ? 0
+                                    : parseInt(
+                                        parseInt(item[0]?.total_quantity) -
+                                          parseInt(
+                                            item[0]?.total_delivered_quantity
+                                          ) -
+                                          parseInt(item[0]?.delivering_quantity)
+                                      ).toLocaleString()}
                                 </TableCell>
                               </TableRow>
                             );
@@ -902,37 +937,49 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </div>
 
                     <br></br>
-                    <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                    <div style={{
+                        pageBreakInside: "avoid",
+                      }}>
+                        
+                    <div
+                      
+                      className="viewer__order-info px-4 mb-4 flex justify-between"
+                    >
                       <div className="ml-24" style={{ fontWeight: 1000 }}>
                         Prepared By{" "}
-                        <span id="none" 
+                        <span
+                          id="none"
                           onClick={() => {
                             openEdit();
                           }}
                         >
-                          <Icon style={{fontSize:'15px'}}>edit</Icon>
+                          <Icon style={{ fontSize: "15px" }}>edit</Icon>
                         </span>
                       </div>
                       <div className="ml-4" style={{ fontWeight: 1000 }}>
-                        Delivered By 
+                        Delivered By
                         {e2 ? (
                           <>
-                            <span id="none"
+                            <span
+                              id="none"
                               onClick={() => {
                                 changeSub1();
                               }}
                             >
-                             &nbsp;  <Icon style={{fontSize:'15px'}}>done</Icon>
+                              &nbsp;{" "}
+                              <Icon style={{ fontSize: "15px" }}>done</Icon>
                             </span>
                           </>
                         ) : (
                           <>
-                            <span id="none"
+                            <span
+                              id="none"
                               onClick={() => {
                                 openEditD();
                               }}
                             >
-                            &nbsp;  <Icon style={{fontSize:'15px'}}>edit</Icon>
+                              &nbsp;{" "}
+                              <Icon style={{ fontSize: "15px" }}>edit</Icon>
                             </span>
                           </>
                         )}
@@ -997,7 +1044,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           <center>
                             <div className="mr-14">
                               <h5
-                                style={{ marginRight: e1 ? "35px" : prepBy ? '-216px' : "-271px" }}
+                                style={{
+                                  marginRight: e1
+                                    ? "35px"
+                                    : prepBy
+                                    ? "-216px"
+                                    : "-271px",
+                                }}
                                 className="font-normal  capitalize"
                               >
                                 {delBy}
@@ -1024,7 +1077,11 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 freeSolo
                                 value={delBy}
                                 getOptionLabel={(option) =>
-                                  option?.delevered_by ? option?.delevered_by : delBy ? delBy : ''
+                                  option?.delevered_by
+                                    ? option?.delevered_by
+                                    : delBy
+                                    ? delBy
+                                    : ""
                                 }
                                 filterOptions={(options, params) => {
                                   const filtered = filter(options, params);
@@ -1037,7 +1094,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                   return filtered;
                                 }}
                                 onInputChange={(event, newValue) =>
-                                  changeData(event, newValue,'d')
+                                  changeData(event, newValue, "d")
                                 }
                                 onChange={(event, newValue) =>
                                   changeData(event, newValue, "d")
@@ -1063,7 +1120,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         {/* <h5 align="center"> DIQ 5210 </h5> */}
                       </div>
                     </div>
-                    <div className="viewer__order-info px-4 mb-4 pt-20 flex justify-between">
+                    </div>
+
+                    <div style={{pageBreakInside:'avoid'}} className="viewer__order-info px-4 mb-4 pt-20 flex justify-between">
                       <div className="ml-4"></div>
 
                       <div className="mr-4">
@@ -1079,15 +1138,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         >
                           (Sign & Stamp)
                         </h5>
-                      </div>
                     </div>
-                    {/* <div className="viewer__order-info pt-60 mb-50 pl-4 flex justify-between">
-          <div>
-          <span style={{color:'red',wordBreak:'break-word'}}>IMPORTANT:</span>
-          <br></br>
-          <span>Acceptance by the signatory confirms that all goods indicated were received in good condition.</span>
-          </div>
-          </div> */}
+                    </div>
                     <div></div>
                   </Card>
                   <div></div>
@@ -1100,26 +1152,63 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           </table>
 
           <div class="footer">
-            {/* <footer  style={{visibility: "hidden" }}>
-        
-       
-        <div  className="ml-4 pt-1800 pb-5 " style={{textAlign:"center"}}>
-          <span style={{color:'red',wordBreak:'break-word',textAlign:'center'}}>IMPORTANT:</span>
-          <span style={{paddingBottom:'50px',color:'red'}}>Acceptance by the signatory confirms that all goods indicated were received in good condition.</span>
-         </div>   
-         <div >
-        <div id="outer" style={{"position": "relative", width:'1050px', backgroundColor:'#c1c1c1',"transform": "skew(-20deg)",marginLeft:'40px',marginRight:'50px'}}>
-        <p style={{color:'#fff',paddingTop:5,paddingBottom:5,"transform": "skew(20deg)"}} align="center"> Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 9290 | Jubail 31951 | Kingdom of Saudi Arabia</p>
-        <div id="spacer" style={{width: "200px", height: "10px", marginRight:0,}}></div>
-        <div style={{"position": "fixed", bottom: 0, width: "100%", height: 30, backgroundColor:"#1d2257",}}> <p   style={{textAlign: 'center',color:'white',fontFamily: "Calibri",paddingTop:5,paddingBottom:10,"transform": "skew(20deg)"}}>E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa</p></div>
-    </div> 
-           </div>
-        
-        
-        
-        
-        </footer> */}
-            <Footer></Footer>
+            <footer style={{ visibility: "hidden" }}>
+              <div>
+                <div
+                  id="outer"
+                  style={{
+                    position: "relative",
+                    width: "1050px",
+                    backgroundColor: "#c1c1c1",
+                    transform: "skew(-20deg)",
+                    marginLeft: "40px",
+                    marginRight: "50px",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "#fff",
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                      transform: "skew(20deg)",
+                    }}
+                    align="center"
+                  >
+                    {" "}
+                    Tel.: +966 13 363 2387| Fax: +966 13 363 2387 | P.O.Box 7452
+                    | Jubail 31951 | Kingdom of Saudi Arabia
+                  </p>
+                  <div
+                    id="spacer"
+                    style={{ width: "200px", height: "10px", marginRight: 0 }}
+                  ></div>
+                  <div
+                    style={{
+                      position: "fixed",
+                      bottom: 0,
+                      width: "100%",
+                      height: 30,
+                      backgroundColor: "#1d2257",
+                    }}
+                  >
+                    {" "}
+                    <p
+                      style={{
+                        textAlign: "center",
+                        color: "white",
+                        fontFamily: "Calibri",
+                        paddingTop: 5,
+                        paddingBottom: 10,
+                        transform: "skew(20deg)",
+                      }}
+                    >
+                      E-mail: sales@amaco.com.sa | Website: www.amaco.com.sa
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            {/* <Footer></Footer> */}
           </div>
         </div>
       </div>

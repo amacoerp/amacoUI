@@ -332,6 +332,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
   const [country,setCountry] = useState('');
   const [bank,setBank] = useState('');
 
+  const [buildNumber,setBuildNumber] = useState('');
+  const [post_box_no,setpost_box_no] = useState('');
   useEffect(() => {
     // myFunction()
     // document.title = "VAT Invoice - Amaco"
@@ -358,6 +360,8 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setcity(data[0].party?.city)
         setCountry(data[0].party?.country)
         setstreet(data[0].party?.street)
+        setBuildNumber(data[0].party?.building_no)
+setpost_box_no(data[0].party?.post_box_no)
         setzipcode(data[0].party?.zip_code)
         setpo(data[0].quotation ? data[0].quotation.po_number : data[0].po_number)
         setvatno(data[0].party?.vat_no)
@@ -984,18 +988,20 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
+                        {post_box_no ? 'PO BOX NUMBER '+ post_box_no + ", " : ""}
+                        {buildNumber ? ", " + buildNumber : ""}
                         {street
                           ? street +
-                          (city
-                            ? "," + city + (zipcode ? "," + zipcode : " ")
-                            : zipcode
-                              ? "," + zipcode
+                            (city
+                              ? ", " + city + (zipcode ? "-" + zipcode : " ")
+                              : zipcode
+                              ? "-" + zipcode
                               : " ")
                           : city
-                            ? city + (zipcode ? " ," + zipcode : " ")
-                            : zipcode
-                              ? zipcode
-                              : " "}{country ? ','+country : ''}
+                          ? city + (zipcode ? "-" + zipcode : " ")
+                          : zipcode
+                          ? zipcode
+                          : " "}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>

@@ -250,6 +250,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }, []);
   const [catid, setcatid] = useState('')
   const [productprice, setproductprice] = useState([])
+  const [openList,setOpenList] = useState(false)
   const formData = new FormData()
   const handleChanges = (event, newValue, index) => {
 
@@ -1613,6 +1614,7 @@ select
                           // filterOptions={filterOptions}
                           // renderOption={option => option.name}
                           // multiline
+                        
                           getOptionLabel={option => {
                             // e.g value selected with enter, right from the input
                             if (typeof option === "string") {
@@ -1623,7 +1625,7 @@ select
                             }
                             return option?.name ? option?.name : (item?.item_name ? item?.item_name : " ");
                           }}
-                          freeSolo
+                          // freeSolo
                           onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'quantity', null,true) }}
 
                           renderInput={(params) => (
@@ -1807,7 +1809,7 @@ select
                           className="w-full"
                           autoComplete="off"
                           label="Purchase Price"
-                          // decimalPlaces={3}
+                          decimalPlaces={3}
                           variant="outlined"
                           fullWidth
                           size="small"

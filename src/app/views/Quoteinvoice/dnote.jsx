@@ -7,12 +7,17 @@ import {
   Card,
   Table,
   TableHead,
-  TableRow,
+  TableRow,Grid,
   TableCell,
   TableBody,
   Icon,
   TextField
 } from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +28,7 @@ import url, { navigatePath } from "../invoice/InvoiceService";
 import useAuth from 'app/hooks/useAuth';
 import Swal from "sweetalert2";
 import moment from "moment";
-import { Autocomplete } from '@material-ui/lab';
+import { Autocomplete,createFilterOptions } from '@material-ui/lab';
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -45,7 +50,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [isAlive, setIsAlive] = useState(true);
   const [state, setState] = useState(initialValues);
   const [cname, setcname] = useState('');
-  var tempDate = new Date();
+  const [tempDate,settempDate] = useState(new Date())
   const [qno, setqno] = useState('');
   const [pono, setpono] = useState('');
   const [discounts, setdiscounts] = useState('0');
@@ -59,6 +64,8 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const { user } = useAuth();
   const classes = useStyles();
   const routerHistory = useHistory();
+    const [customercontact, setcustomercontact] = useState([]);
+
 
 
   const generateRandomId = useCallback(() => {
@@ -228,7 +235,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     }
   }
 
+  const filter = createFilterOptions();
 
+  const [contactid, setcontactid] = useState("");
+  const [contactname, setcontactname] = useState("");
 
 
   const handleSubmit = () => {
@@ -253,11 +263,14 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
     arr.delivery_note_details = tempItemList
     arr.quotation_id = parseInt(id)
+    arr.contact_id = contactid ? contactid : ""
     arr.discount_in_percentage = discount
     arr.total_value = parseFloat(subTotalCost).toFixed(2)
     arr.grand_total = GTotal
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.user_id = user.id
+    arr.issue_date = moment(tempDate).format("DD MMM YYYY")
+
     arr.div_id = localStorage.getItem('division')
 
     const json = Object.assign({}, arr);
@@ -303,9 +316,19 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     url.get(`mjrQuoteEdit/${localStorage.getItem('division')}/${id}`).then(({ data }) => {
       setproList(data?.products)
 
+      if(data?.sales?.contact){
+        let f = data?.sales?.contact?.fname ? ' '+data?.sales?.contact?.fname?.toUpperCase() : '';
+        let l = data?.sales?.contact?.lname ? ' '+data?.sales?.contact?.lname?.toUpperCase() : '';
+        let fu = f + l
+        setcontactname(fu);
+      }
 
 
       setcname(data?.sales?.party?.firm_name)
+      url.get("parties/" + data?.sales?.party?.id).then(({ data }) => {
+        setcustomercontact(data[0]?.contacts);
+        // setcustomercontac
+      });
 
       setqno(data?.sales?.quotation_no)
       setpono(data?.sales?.po_number)
@@ -416,15 +439,84 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
 
                 <div className="text-right">
-                  <h5 className="font-normal">
-                    <strong>Due date: </strong>
-                    <span>
-                      {moment(tempDate).format('DD MMM YYYY')}
-                    </span>
-                  </h5>
+                <Grid container spacing={2}>
+              <Grid item className="ml-4">
+              <Autocomplete
+                    id="filter-demo"
+                    variant="outlined"
+                    style={{ minWidth: 250, maxWidth: "300px"}}
+                    options={customercontact}
+                    value={contactname}
+                    getOptionLabel={(option) =>
+                      option?.fname
+                        ? option?.fname
+                        : contactname
+                        ? contactname
+                        : " "
+                    }
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+                      if (params.inputValue !== " ") {
+                        filtered.unshift({
+                          inputValue: params.inputValue,
+                          fname: (
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              // onClick={() =>
+                              //   // setshouldOpenConfirmationDialogparty(true)
+                              // }
+                            >
+                              +Add New
+                            </Button>
+                          ),
+                        });
+                      }
+
+                      return filtered;
+                    }}
+                    onChange={(event, newValue) => {
+                      setcontactid(newValue?.id);
+                      setcontactname(newValue?.fname);
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Contact Person"
+                      />
+                    )}
+                  />
+                   
+                </Grid>
+              <Grid item className="ml-4">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    className=""
+                    margin="none"
+                    label="Issue Date"
+                    format="dd MMMM yyyy"
+                    inputVariant="outlined"
+                    type="text"
+                    size="small"
+                    selected={tempDate}
+                    value={tempDate}
+                    onChange={(date) => {
+                      settempDate(moment(date).format("DD MMM YYYY"));
+                      // return date
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                
+                </Grid>
+                </Grid>
                 </div>
                 <div className="text-right">
+                <br />
                   <h5 className="font-normal">
+                    
                     <strong>P.O Number: </strong>
                     <span>
                       {pono}

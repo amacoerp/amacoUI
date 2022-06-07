@@ -9,7 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useReactToPrint } from "react-to-print";
 import { numberToWords } from "number-to-words";
 import "./print.css";
-import DeleteComment from "./DeleteComment";
+// import DeleteComment from "./DeleteComment";
 import Alert from "@mui/material/Alert";
 
 // import { IntlProvider } from "react-intl-number-format"
@@ -19,8 +19,8 @@ import { useHistory } from "react-router";
 // import translate from 'google-translate-api';
 import { Translator, Translate } from "react-auto-translate";
 import { toArabic } from "arabic-digits";
-import Header from "../../views/statements/Header";
-import Footer from "../../views/statements/Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 import {
   Icon,
   Divider,
@@ -176,7 +176,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
   invoiceViewer: {},
 }));
 
-const InvoiceViewer = ({ toggleInvoiceEditor }) => {
+const InvoiceViewer = ({ toggleInvoiceEditor ,data}) => {
   const [state, setState] = useState({});
   const [rfq, setrfq] = useState([]);
   const [rdate, setrdate] = useState([]);
@@ -320,7 +320,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       setSignature(data);
     });
 
-    url.get("invoice/" + id).then(({ data }) => {
+    // url.get("invoice/" + id).then(({ data }) => {
       console.log(data);
       if (data) {
         setBank(data[4]?.[0]);
@@ -480,7 +480,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
       //     // console.log(data.data.translations[0].translatedText);
 
       // })
-    });
+    // });
   }, [id]);
   const updateSidebarMode = (sidebarSettings) => {
     if (sidebarSettings.mode == "close") {
@@ -744,70 +744,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
           >
             Print Invoice
           </Button> */}
-            <Button
-              variant="outlined"
-              color="primary"
-              className="mr-4 py-2"
-              aria-owns={anchorEl ? "simple-menu" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              ACTION<Icon>expand_more</Icon>
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {/* <MenuItem  onClick={() => invoicegenrate({ mode: "on" })}>
-                    Generate Purchase Order
-                      </MenuItem> */}
-              {del ? (
-                <>
-                  <MenuItem onClick={() => deleteSinv()}>
-                    DELETE INVOICE
-                  </MenuItem>
-                  <MenuItem onClick={() => restoreSInv()}>
-                    RESTORE INVOICE
-                  </MenuItem>
-                </>
-              ) : (
-                <>
-                  <MenuItem onClick={() => deleteinvoice()}>
-                    DELETE INVOICE
-                  </MenuItem>
-                  <MenuItem onClick={() => handlePrinting()}>
-                    PRINT INVOICE
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() =>
-                      routerHistory.push(navigatePath + "/InvoiceEdit/" + id)
-                    }
-                  >
-                    EDIT INVOICE
-                  </MenuItem>
-                  {aprove == 0 && (
-                    <>
-                      <MenuItem onClick={() => aproveStatus("1")}>
-                        APPROVE
-                      </MenuItem>
-                      <MenuItem onClick={() => aproveStatus("0")}>
-                        REJECT / TRASH
-                      </MenuItem>
-                    </>
-                  )}
-                </>
-              )}
-            </Menu>
-            <Button
+          
+            {/* <Button
               className="mr-4 py-2"
               color="primary"
               variant="outlined"
-              onClick={() => dnotegenrate({ mode: "on" })}
+              onClick={() => handlePrinting()}
             >
-              GENERATE DELIVERY NOTE
-            </Button>
+             PRINT INVOICE
+            </Button> */}
           </div>
         </div>
 
@@ -1175,30 +1120,29 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     <Grid container spacing={3} className="p-4">
                       <Grid
                         className="pl-2 pb-4"
-                        xs={3}
+                        xs={4}
                         style={{ wordBreak: "break-word" }}
                       >
                         <span style={{ fontWeight: 1000 }}>
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {post_box_no ? 'PO BOX NUMBER '+ post_box_no + ", " : ""}
+                        {post_box_no ? post_box_no + " ," : ""}
                         {buildNumber ? ", " + buildNumber : ""}
                         {street
                           ? street +
                             (city
-                              ? ", " + city + (zipcode ? "-" + zipcode : " ")
+                              ? "," + city + (zipcode ? "," + zipcode : " ")
                               : zipcode
-                              ? "-" + zipcode
+                              ? "," + zipcode
                               : " ")
                           : city
-                          ? city + (zipcode ? "-" + zipcode : " ")
+                          ? city + (zipcode ? " ," + zipcode : " ")
                           : zipcode
                           ? zipcode
                           : " "}
-                        {country ? ", " + country : ""}.
+                        {country ? ", " + country : ""}
                       </Grid>
-                      <Grid  xs={1}></Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                         <br></br>
@@ -2126,13 +2070,7 @@ THIS FILE CANNOT BE FILED FOR VAT RETURNS</strong>
           </div>
         </div>
       </div>
-      {dcDailog && (
-        <DeleteComment
-          handleClose={closeDeleteDialog}
-          open={dcDailog}
-          setDcComment={setDcComment}
-        />
-      )}
+      
     </Card>
   );
 };

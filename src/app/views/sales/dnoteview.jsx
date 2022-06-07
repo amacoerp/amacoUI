@@ -218,7 +218,11 @@ const SimpleMuiTable = () => {
       // {
       //   setUserList(data);
 
-      setqdetails(data);
+      setqdetails(data?.sort(function (a, b) {
+        var dateA = new Date(a?.issue_date ? a?.issue_date : a?.created_at),
+          dateB = new Date(b?.issue_date ? b?.issue_date : b?.created_at);
+        return dateB - dateA;
+      }));
       // }
     });
    setIsAlive(false);
@@ -660,7 +664,7 @@ const SimpleMuiTable = () => {
               item?.party[0]?.firm_name ? item?.party[0]?.firm_name : '--',
               item?.po_number,
 
-              moment(item?.created_at).format('DD MMM YYYY'),
+              moment(item?.issue_date ? item?.issue_date : item?.created_at).format('DD MMM YYYY'),
               item?.id,
               item.quotation_id ? "quote" : "invoice",
               item.acknowledge_status,

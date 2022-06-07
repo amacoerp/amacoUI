@@ -33,6 +33,7 @@ import { Breadcrumb } from "matx";
 import Header from "./Header";
 import Footer from "./Footer";
 import { DatePicker, InlineDatePicker } from "material-ui-pickers";
+import Dialog from './Dialog'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
   "@global": {
@@ -194,6 +195,32 @@ function ExpenseReport() {
     }
     setquater(val);
   };
+
+  const [invoiceData, setInvoiceData] = useState([]);
+  const [type, setType] = useState('');
+  const [invDialog, setInvDialog] = useState(false);
+
+
+  const openDialogFunction = (all,type) => {
+    if(type == 'I'){
+      setType(type)
+      setInvoiceData(all)
+      setInvDialog(true);
+    }else{
+      setType(type)
+      setInvoiceData(all)
+      setInvDialog(true);
+
+    }
+  
+  };
+
+  const handleClose = () => {
+    setType('')
+      setInvoiceData([])
+      setInvDialog(false);
+  }
+
   const caluclateTotalExpense = (arr, m, c1, c2, c3, c4) => {
     var result = arr.filter(function (o1) {
       return m.some(function (o2) {
@@ -336,10 +363,13 @@ function ExpenseReport() {
   });
   const handleDateChangeYear = (date) => {
     setyear(date);
-  
+
     // filterData(date)
-    const fData = alldata.filter((obj)=>moment(obj.created_at).format("YYYY") === moment(date).format("YYYY"))
-    setData(fData)
+    const fData = alldata.filter(
+      (obj) =>
+        moment(obj.created_at).format("YYYY") === moment(date).format("YYYY")
+    );
+    setData(fData);
   };
 
   const handleDateChange = (date) => {
@@ -472,7 +502,6 @@ function ExpenseReport() {
                           }}
                         >
                           SALES & EXPENSE REPORT - {moment(year).format("YYYY")}{" "}
-                          
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -584,7 +613,6 @@ function ExpenseReport() {
                     </TableHead>
                     <TableBody>
                       {data?.map((item, i) => {
-                        console.log(item)
                         return (
                           <>
                             <TableRow
@@ -624,7 +652,26 @@ function ExpenseReport() {
                                   fontSize: "11pt",
                                 }}
                               >
-                                {item?.q_i_number}
+                                <span style={{ cursor: "pointer" }}>
+                                  {item?.type == "I" ? (
+                                    <span
+                                      onClick={() => {
+                                        openDialogFunction(item?.allData,'I')
+                                        
+                                      }}
+                                    >
+                                      {item?.q_i_number}
+                                    </span>
+                                  ) : (
+                                    <span
+                                      onClick={() => {
+                                        openDialogFunction(item?.allData,'Q')
+                                      }}
+                                    >
+                                      {item?.q_i_number}
+                                    </span>
+                                  )}{" "}
+                                </span>
                               </TableCell>
                               <TableCell
                                 className="pr-4"
@@ -779,9 +826,11 @@ function ExpenseReport() {
                             color: "white",
                           }}
                         >
-                          {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.tot_amount;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.tot_amount;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -797,9 +846,11 @@ function ExpenseReport() {
                             color: "white",
                           }}
                         >
-                          {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.amount;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.amount;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -815,9 +866,11 @@ function ExpenseReport() {
                             color: "white",
                           }}
                         >
-                          {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.profit;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.profit;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -855,9 +908,11 @@ function ExpenseReport() {
                             fontWeight: 1000,
                           }}
                         >
-                         {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.tot_amount;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.tot_amount;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -894,9 +949,11 @@ function ExpenseReport() {
                             fontWeight: 1000,
                           }}
                         >
-                          {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.amount;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.amount;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -980,9 +1037,11 @@ function ExpenseReport() {
                             color: "white",
                           }}
                         >
-                         {parseFloat(data.reduce(function (prev, current) {
-                            return prev + +current.profit;
-                          }, 0)).toLocaleString(undefined, {
+                          {parseFloat(
+                            data.reduce(function (prev, current) {
+                              return prev + +current.profit;
+                            }, 0)
+                          ).toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}
                         </TableCell>
@@ -1017,6 +1076,8 @@ function ExpenseReport() {
           </div>
         </div>
       </Card>
+
+      {invDialog && <Dialog type={type} handleClose={handleClose} data={invoiceData} open={invDialog}/>}
     </div>
   );
 }

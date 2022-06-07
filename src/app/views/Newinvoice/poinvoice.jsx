@@ -931,7 +931,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           vendorAddress?.post_box_no,
                         ]
                           .filter(Boolean)
-                          .join(",")}
+                          .join(", ")}
                       </Grid>
                       <Grid className="pl-2 pb-4" xs={2}>
                         {/* <span style={{ fontWeight: 1000 }}>INCO TERMS</span><br></br>
