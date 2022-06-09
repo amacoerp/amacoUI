@@ -11,11 +11,11 @@ const DueInvoice = () => {
     url
       .get("mjrCustomerStatement/" + localStorage.getItem("division"))
       .then(({ data }) => {
+       
         try {
           const myArr = Object.values(data?.customerStatement[0]?.data).sort(
             (a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)
           );
-
 
           // var result =myArr.reduce((total,currentItem) =>  total = total + parseFloat(currentItem[0][0].grand_total) , 0 );
           var result = myArr?.map((item, i) => {
@@ -33,6 +33,7 @@ const DueInvoice = () => {
               result.findIndex((elem) => elem[0].party_id === ele[0].party_id)
           );
 
+          console.log(myArr)
           setaccountStatement(myArr);
         } catch (error) {}
         //   const myArr = Object.values(data[0]?.data).sort(
@@ -558,9 +559,8 @@ const DueInvoice = () => {
           ?.map((item, index) => {
             return [
               ++index,
-              parseFloat(item[0]?.grand_total).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              }),
+           
+              parseFloat(item[0]?.grand_total).toFixed(3) - parseFloat(item[0]?.paid_amount).toFixed(3),
               // parseFloat(item?.debit - item?.credit).toLocaleString(undefined, {
               //   minimumFractionDigits: 2,
               // }),

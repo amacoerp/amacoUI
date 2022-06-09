@@ -14,7 +14,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const StatCards = () => {
+const StatCards = ({years}) => {
+ 
   const [salesCount, setsalesCount] = useState('')
   const [pendingquoteCount, setpendingquoteCount] = useState('')
   const [requestedquoteCount, setrequestedquoteCount] = useState('')
@@ -26,11 +27,13 @@ const StatCards = () => {
   const [po,setPo] = useState(0.00)
 
   useEffect(() => {
+    var today = new Date();
+    var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 0);
     
     url.get("stateCard").then(({ data }) => {
-      setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))).length)
+      setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('YYYY')==years)).length)
 
-      let res = data?.salesList?.filter((item) => item.status == 'New'  && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY')).map((obj) => {
+      let res = data?.salesList?.filter((item) => item.status == 'New'  && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('YYYY')==years).map((obj) => {
         return obj
       });
       pendingCount = res?.length;
@@ -38,23 +41,22 @@ const StatCards = () => {
 
       
      
-      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.length;
+      let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('YYYY')==years)?.length;
       setrequestedquoteCount(final + pendingCount)
 
-      var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && obj.approve == '1' && (moment(obj.issue_date).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD')));
+      var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && obj.approve == '1' && (moment(obj.issue_date).format('YYYY') >= years));
 
-      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MM-YYYY')==moment(new Date()).format('MM-YYYY'))?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
+      var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('YYYY')==years)?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
 
-      setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD'))).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
-      setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY-MM-DD') > moment(firstDayOfMonth).format('YYYY-MM-DD'))).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
+      setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY') == years)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
+      setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY') == years)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
       
 
 
     });
 
-    var today = new Date();
-    var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+  
     var date = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
 
@@ -89,7 +91,7 @@ const StatCards = () => {
     // });
 
 
-  }, [localStorage.getItem('division')])
+  }, [localStorage.getItem('division'),years])
 
   return (
     <Grid container spacing={3} className="mb-3">

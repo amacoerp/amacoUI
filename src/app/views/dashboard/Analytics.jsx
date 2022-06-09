@@ -743,7 +743,7 @@ const Analytics = () => {
       <div className="analytics m-sm-30 mt--18">
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
-            <StatCards stackData={stackData} />
+            <StatCards years={moment(date).format('YYYY')} stackData={stackData} />
 
             {/* Top Selling Products */}
             {/* <TopSellingTable /> */}

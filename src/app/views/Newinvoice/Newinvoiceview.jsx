@@ -346,7 +346,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
         setstreet(data[0].party?.street);
         setzipcode(data[0].party?.zip_code);
         setpo(
-          data[0].po_number == 'null' ? '' : data[0].po_number ? data[0].po_number : data[0]?.quotation ? data[0]?.quotation?.po_number == 'null' ? '' : data[0]?.quotation?.po_number : ''
+          data[0].po_number == "null"
+            ? ""
+            : data[0].po_number
+            ? data[0].po_number
+            : data[0]?.quotation
+            ? data[0]?.quotation?.po_number == "null"
+              ? ""
+              : data[0]?.quotation?.po_number
+            : ""
         );
         setvatno(data[0].party?.vat_no);
         setvatno_ar(toArabic(data[0].party?.vat_no));
@@ -1182,7 +1190,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           COMPANY ADDRESS
                         </span>
                         <br></br>
-                        {post_box_no ? 'PO BOX NUMBER '+ post_box_no + ", " : ""}
+                        {post_box_no
+                          ? "PO BOX NUMBER " + post_box_no + ", "
+                          : ""}
                         {buildNumber ? ", " + buildNumber : ""}
                         {street
                           ? street +
@@ -1198,7 +1208,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           : " "}
                         {country ? ", " + country : ""}.
                       </Grid>
-                      <Grid  xs={1}></Grid>
+                      <Grid xs={1}></Grid>
                       <Grid className="pl-2 pb-4" xs>
                         <span style={{ fontWeight: 1000 }}>VAT NUMBER</span>
                         <br></br>
@@ -1934,39 +1944,45 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </div>
                             </TableCell>
                           </TableRow>
-{vatExclude && <>
-  <TableRow style={{ border: "1px solid #ccc" }}>
-                            <TableCell
-                              className="pl-0 capitalize"
-                              colspan={12}
-                              style={{
-                                border: "1px solid #ccc",
-                                fontFamily: "Calibri",
-                                fontSize: 16,
-                              }}
-                            >
-                              <div className="px-4 flex justify-between">
-                                <div className="flex">
-                                  <div
-                                    className="pr-12"
-                                    style={{ wordBreak: "break-word" ,color:'red'}}
-                                  >
-                                   <center>
-                                   <strong>THIS IS AN INTER-COMPANY INVOICE.
-THIS FILE CANNOT BE FILED FOR VAT RETURNS</strong>
-                                   </center>
-                                    
+                          {vatExclude && (
+                            <>
+                              <TableRow style={{ border: "1px solid #ccc" }}>
+                                <TableCell
+                                  className="pl-0 capitalize"
+                                  colspan={12}
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    fontFamily: "Calibri",
+                                    fontSize: 16,
+                                  }}
+                                >
+                                  <div className="px-4 flex justify-between">
+                                    <div className="flex">
+                                      <div
+                                        className="pr-12"
+                                        style={{
+                                          wordBreak: "break-word",
+                                          color: "red",
+                                        }}
+                                      >
+                                        <center>
+                                          <strong>
+                                            THIS IS AN INTER-COMPANY INVOICE.
+                                            THIS FILE CANNOT BE FILED FOR VAT
+                                            RETURNS
+                                          </strong>
+                                        </center>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-</>}
-                       
+                                </TableCell>
+                              </TableRow>
+                            </>
+                          )}
                         </TableBody>
                       </Table>
                     </div>
-{/*                     
+                    {/*                     
                    <div>
                    {vatExclude ? (
                       <p className="pl-4">
@@ -1983,9 +1999,16 @@ THIS FILE CANNOT BE FILED FOR VAT RETURNS</strong>
 
                     <div
                       className="viewer__order-info px-4 pl-24 pr-24 mb-4 flex justify-between"
-                      style={{ pageBreakInside: "avoid" ,height:'200px',marginTop:'-68px'}}
+                      style={{
+                        pageBreakInside: "avoid",
+                        height: "200px",
+                        marginTop: "-68px",
+                      }}
                     >
-                      <div className="pl-24" style={{ fontWeight: 1000,width:'200px' }}>
+                      <div
+                        className="pl-24"
+                        style={{ fontWeight: 1000, width: "200px" }}
+                      >
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="preparedby" />
@@ -1998,16 +2021,19 @@ THIS FILE CANNOT BE FILED FOR VAT RETURNS</strong>
                               <>
                                 <img
                                   src={basePath + sign[0]?.prepared_by}
-                                  height={100}
+                                  height={120}
                                   width={180}
-                                  alt={sign[0]?.prepared_by}
+                                  alt={"Prepared By"}
                                 />
                               </>
                             )}
                           </>
                         )}
                       </div>
-                      <div style={{ fontWeight: 1000,width:'-1px' }} className="pl-2">
+                      <div
+                        style={{ fontWeight: 1000, width: "-1px" }}
+                        className="pl-2"
+                      >
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="approvedby" />
@@ -2018,19 +2044,21 @@ THIS FILE CANNOT BE FILED FOR VAT RETURNS</strong>
                           <>
                             {sign[0]?.approval_by && (
                               <>
-                              
                                 <img
                                   src={basePath + sign[0]?.approval_by}
-                                  height={100}
+                                  height={120}
                                   width={180}
-                                  alt={sign[0]?.approval_by}
+                                  alt={"Approval By"}
                                 />
                               </>
                             )}
                           </>
                         )}
                       </div>
-                      <div className="mr-0 pr-24" style={{ fontWeight: 1000 ,width:'205px'}}>
+                      <div
+                        className="mr-0 pr-24"
+                        style={{ fontWeight: 1000, width: "205px" }}
+                      >
                         <h5 className="font-normal t-4 capitalize">
                           <IntlProvider locale={locale} messages={Arabic}>
                             <FormattedMessage id="receivedby" />
