@@ -33,7 +33,7 @@ const DueInvoice = () => {
               result.findIndex((elem) => elem[0].party_id === ele[0].party_id)
           );
 
-          console.log(myArr)
+          // console.log(myArr)
           setaccountStatement(myArr);
         } catch (error) {}
         //   const myArr = Object.values(data[0]?.data).sort(

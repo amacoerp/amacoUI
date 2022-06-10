@@ -185,6 +185,8 @@ const Analytics = () => {
   const [responseData, setresponseData] = useState([]);
   const [receiptData, setreceiptData] = useState([]);
   const [dataReceipt, setdataReceipt] = useState([]);
+  const [expeseData, setExpenseData] = useState([]);
+  const [dataExpense, setdataExpense] = useState([]);
   const [stackData, setStackData] = useState([]);
   const [monthss, setmonthss] = useState(months);
   const { d }=useParams()
@@ -205,8 +207,10 @@ const Analytics = () => {
   
       
         receiptFun(data?.receipt, date)
+        expenseFun(data?.expense, date)
         invoiceFun(data?.invoice?.filter((obj)=>obj.approve == '1'),date,months);
         setreceiptData(data?.receipt);
+        setExpenseData(data?.expense);
         setresponseData(data?.invoice?.filter((obj)=>obj.approve == '1'))
        
      
@@ -384,6 +388,171 @@ const Analytics = () => {
     } else {/*else data not exists update the array value to 0 */
       
       setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    setmonthss(monthse)
+
+  }
+  async function expenseFun(data, date) {
+    months = monthse
+    setmonthss(monthse)
+
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+    var receipt = await data.filter(
+      (obj) => obj.div_id == localStorage.getItem("division")
+    );//division wise filter the array object
+
+    /*filter the array object by issue date and map the credit amount ,month*/
+    var receiptResult = receipt
+      .filter(
+        (obj) =>
+          moment(obj.paid_date).format("YYYY") == moment(date).format("YYYY")
+      )
+      .map((item, i) => {
+        item["debit"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + item.amount, 0);
+        item["count"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + parseFloat(item.amount), 0);
+        item["month"] = moment(item.paid_date).format("MMM");
+        return item;
+      });
+
+      /*filter the array based on voucher number */
+    var receiptArr = receiptResult.filter(
+      (ele, ind) =>
+        ind ===
+          receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
+    );
+    const receipt_months = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+   
+      /*monthly wise assign the mount */
+    var receiptfinalResult = receipt_months.filter(function (o1) {
+      return receiptArr.map(function (o2) {
+        if (o1.name == o2.month) {
+          o1["count"] = o2.count;
+        }
+      });
+    });
+     /*retrive only the count from the receiptFinalResult */
+    var receiptfinalArray = receiptfinalResult.map(function (obj) {
+      return obj?.count;
+    });
+
+    // console.log(receiptfinalArray)
+    /*If data exists update the array value */
+    if (receiptResult.length) {
+      setdataExpense(receiptfinalArray);
+      
+    } else {/*else data not exists update the array value to 0 */
+      
+    setdataExpense([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
     setmonthss(monthse)
 
@@ -643,20 +812,21 @@ const Analytics = () => {
               <KeyboardDatePicker
                 className="m-2"
                 // margin="none"
-                label="Choose Year"
+                label=""
                 format="yyyy"
                 // inputVariant="outlined"
                 type="text"
                 size="small"
                 selected={date}
                 value={date}
-                style={{ float: "right" }}
+                style={{ float: "right",width:140 }}
                 views={["year"]}
                 onChange={(date) => {
                   setdate(moment(date).format("YYYY"));
                   invoiceFun(responseData,date)
                   // handleChange(moment(date).format("YYYY"));
                   receiptFun(receiptData, date);
+                  expenseFun(expeseData, date);
                   // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                   // receiptFun(receiptData,moment(date).format('YYYY'))
                 }}
@@ -698,6 +868,13 @@ const Analytics = () => {
                   label:"receipt",
                   type: "line",
                   color: "#7FFF00",
+                },
+                {
+                  data: dataExpense,
+                  name:"EXPENSE",
+                  label:"expense",
+                  type: "line",
+                  color: "#ff0000",
                 },
               ],
               // dataset: {

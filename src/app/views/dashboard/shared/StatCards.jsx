@@ -25,6 +25,7 @@ const StatCards = ({years}) => {
   const classes = useStyles();
   const [rec,setRec] = useState(0.00)
   const [po,setPo] = useState(0.00)
+  const [expense,setExpense] = useState(0.00)
 
   useEffect(() => {
     var today = new Date();
@@ -32,7 +33,11 @@ const StatCards = ({years}) => {
     
     url.get("stateCard").then(({ data }) => {
       setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('YYYY')==years)).length)
-
+      
+      var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('YYYY')==years)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
+      setExpense(exp)
+      
+      
       let res = data?.salesList?.filter((item) => item.status == 'New'  && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('YYYY')==years).map((obj) => {
         return obj
       });
@@ -95,6 +100,72 @@ const StatCards = ({years}) => {
 
   return (
     <Grid container spacing={3} className="mb-3">
+         <Grid item xs={12} md={4}>
+        <Card
+          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
+          elevation={6}
+        >
+          <div className="flex items-center">
+            <Icon className={classes.icon}>published_with_changes</Icon>
+            <div className="ml-3">
+              <small className="text-muted">TOTAL SALES</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
+                minimumFractionDigits: 2
+              })}</h6>
+            </div>
+          </div>
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Card
+          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
+          elevation={6}
+        >
+          <div className="flex items-center">
+            <Icon className={classes.icon}>credit_score</Icon>
+            <div className="ml-3">
+              <small className="text-muted"> RECEIPTS</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">{rec?.toLocaleString(undefined, {
+                minimumFractionDigits: 2
+              })}</h6>
+            </div>
+          </div>
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <Card
+          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
+          elevation={6}
+        >
+          <div className="flex items-center">
+            <Icon className={classes.icon}>monetization_on</Icon>
+            <div className="ml-3">
+              <small className="text-muted">TOTAL EXPENSE</small>
+              <h6 className="m-0 mt-1 text-primary font-medium">
+                {expense.toLocaleString(undefined, {
+                minimumFractionDigits: 2
+              })}
+              </h6>
+            </div>
+          </div>
+          {/* <Tooltip title="View Details" placement="top">
+            <IconButton>
+              <Icon>arrow_right_alt</Icon>
+            </IconButton>
+          </Tooltip> */}
+        </Card>
+      </Grid>
       <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
@@ -135,69 +206,8 @@ const StatCards = ({years}) => {
           </Tooltip> */}
         </Card>
       </Grid>
-      <Grid item xs={12} md={4}>
-        <Card
-          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
-          elevation={6}
-        >
-          <div className="flex items-center">
-            <Icon className={classes.icon}>published_with_changes</Icon>
-            <div className="ml-3">
-              <small className="text-muted">TOTAL SALES</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">
-                {salesCount}
-              </h6>
-            </div>
-          </div>
-          {/* <Tooltip title="View Details" placement="top">
-            <IconButton>
-              <Icon>arrow_right_alt</Icon>
-            </IconButton>
-          </Tooltip> */}
-        </Card>
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Card
-          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
-          elevation={6}
-        >
-          <div className="flex items-center">
-            <Icon className={classes.icon}>monetization_on</Icon>
-            <div className="ml-3">
-              <small className="text-muted"> REVENUE</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{revenueCount.toLocaleString(undefined, {
-                minimumFractionDigits: 2
-              })}</h6>
-            </div>
-          </div>
-          {/* <Tooltip title="View Details" placement="top">
-            <IconButton>
-              <Icon>arrow_right_alt</Icon>
-            </IconButton>
-          </Tooltip> */}
-        </Card>
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Card
-          className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
-          elevation={6}
-        >
-          <div className="flex items-center">
-            <Icon className={classes.icon}>credit_score</Icon>
-            <div className="ml-3">
-              <small className="text-muted"> RECEIPTS</small>
-              <h6 className="m-0 mt-1 text-primary font-medium">{rec?.toLocaleString(undefined, {
-                minimumFractionDigits: 2
-              })}</h6>
-            </div>
-          </div>
-          {/* <Tooltip title="View Details" placement="top">
-            <IconButton>
-              <Icon>arrow_right_alt</Icon>
-            </IconButton>
-          </Tooltip> */}
-        </Card>
-      </Grid>
+   
+    
       <Grid item xs={12} md={4}>
         <Card
           className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
