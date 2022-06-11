@@ -184,7 +184,7 @@ const Customer = ({
 
 
   useEffect(() => {
-    document.title = "Customer Statement - Amaco";
+    document.title = "Request for quoatation - Amaco";
     // getCustomerList().then(({ data }) => {
     //   // console.log(data)
     //   setUserList(data);
@@ -1202,10 +1202,14 @@ const Customer = ({
                                     }}
                                   >
                                     {item[0].debit
-                                      ?  moment(new Date(), "YYYY-MM-DD").diff(
-                                        moment(new Date(item[0].date), "YYYY-MM-DD"),
+                                      ? isNaN(moment(new Date(), "YYYY-MM-DD").diff(
+                                        moment(`${item[0].date}`, "YYYY-MM-DD"),
                                         "days"
-                                      )   : ''}
+                                      )) ? "" : moment(new Date(), "YYYY-MM-DD").diff(
+                                        moment(`${item[0].date}`, "YYYY-MM-DD"),
+                                        "days"
+                                      )  
+                                      : ""}
                                   </TableCell>
                                   {!item[0].invoice_no ? (<TableCell
                                     className="pl-0 capitalize"
@@ -1217,9 +1221,50 @@ const Customer = ({
                                     }}
                                   >
 
-                                  </TableCell>) : <TableCell align='center'>
-                                    {item[0]?.invStatus == true ? <>
-                                      <small
+                                  </TableCell>) :
+                                    (csum < parseFloat(osum.split(",").join("")) ? (<TableCell
+                                      className="pl-0 capitalize"
+                                      style={{
+                                        textAlign: "center",
+                                        border: "1px solid #ccc",
+                                        fontFamily: "Calibri",
+                                        fontSize: 16,
+                                        color: 'blue'
+                                      }}
+                                    >
+                                      {moment(new Date(), "YYYY-MM-DD").diff(
+                                        moment(`${item[0].date}`, "YYYY-MM-DD"),
+                                        "days"
+                                      ) >= item[0].credit_days ? <small
+                                        className={clsx({
+                                          "border-radius-4  text-white px-2 py-2px bg-error": true,
+
+                                        })}
+                                      >
+                                        OVERDUE
+                                      </small> : moment(new Date(), "YYYY-MM-DD").diff(
+                                        moment(`${item[0].date}`, "YYYY-MM-DD"),
+                                        "days"
+                                      ) > (item[0].credit_days - 5) && <small
+                                        className={clsx({
+                                          "border-radius-4  text-white px-2 py-2px bg-secondary": true,
+
+                                        })}
+                                      >
+                                        OVERDUE SOON
+                                      </small>}
+                                    </TableCell>) :
+                                      (<TableCell
+                                        className="pl-0 capitalize"
+                                        style={{
+                                          textAlign: "center",
+                                          border: "1px solid #ccc",
+                                          fontFamily: "Calibri",
+                                          fontSize: 16,
+                                          color: 'green'
+                                        }}
+                                      >
+                                        <small
                                           className={clsx({
                                             "border-radius-4  text-white px-2 py-2px bg-green": true,
 
@@ -1227,94 +1272,7 @@ const Customer = ({
                                         >
                                           CLEARED
                                         </small>
-                                    </> : <> { moment(new Date(), "YYYY-MM-DD").diff(
-                                        moment(new Date(item[0].date), "YYYY-MM-DD"),
-                                        "days"
-                                      ) > 0 ?  <>  
-                                      <small
-                                        className={clsx({
-                                          "border-radius-4  text-white px-2 py-2px bg-secondary": true,
-
-                                        })}
-                                      >
-                                        DUE IN <br />{ Math.abs(item[0].credit_days -  moment(new Date(), "YYYY-MM-DD").diff(
-                                        moment(new Date(item[0].date), "YYYY-MM-DD"),
-                                        "days"
-                                      ))} DAYS
-                                      </small>
-                                      </>:<> 
-                                     {
-                                       moment(new Date(), "YYYY-MM-DD").diff(
-                                        moment(new Date(item[0].date), "YYYY-MM-DD"),
-                                        "days"
-                                      ) < 0 && <>
-                                      <small
-                                        className={clsx({
-                                          "border-radius-4  text-white px-2 py-2px bg-error": true,
-
-                                        })}
-                                      >
-                                         DUE SINCE <br />{ Math.abs(item[0].credit_days -  moment(new Date(), "YYYY-MM-DD").diff(
-                                        moment(new Date(item[0].date), "YYYY-MM-DD"),
-                                        "days"
-                                      ))} DAYS
-                                      </small>
-                                      </>
-                                     }
-                                      
-                                      </> }</>}
-                                  </TableCell>
-                                    // (csum < parseFloat(osum.split(",").join("")) ? (<TableCell
-                                    //   className="pl-0 capitalize"
-                                    //   style={{
-                                    //     textAlign: "center",
-                                    //     border: "1px solid #ccc",
-                                    //     fontFamily: "Calibri",
-                                    //     fontSize: 16,
-                                    //     color: 'blue'
-                                    //   }}
-                                    // >
-                                    //   {moment(new Date(), "YYYY-MM-DD").diff(
-                                    //     moment(`${new Date(item[0].date)}`, "YYYY-MM-DD"),
-                                    //     "days"
-                                    //   ) >= item[0].credit_days ? <small
-                                    //     className={clsx({
-                                    //       "border-radius-4  text-white px-2 py-2px bg-error": true,
-
-                                    //     })}
-                                    //   >
-                                    //     OVERDUE
-                                    //   </small> : moment(new Date(), "YYYY-MM-DD").diff(
-                                    //     moment(`${new Date(item[0].date)}`, "YYYY-MM-DD"),
-                                    //     "days"
-                                    //   ) > (item[0].credit_days - 5) && <small
-                                    //     className={clsx({
-                                    //       "border-radius-4  text-white px-2 py-2px bg-secondary": true,
-
-                                    //     })}
-                                    //   >
-                                    //     OVERDUE SOON
-                                    //   </small>}
-                                    // </TableCell>) :
-                                    //   (<TableCell
-                                    //     className="pl-0 capitalize"
-                                    //     style={{
-                                    //       textAlign: "center",
-                                    //       border: "1px solid #ccc",
-                                    //       fontFamily: "Calibri",
-                                    //       fontSize: 16,
-                                    //       color: 'green'
-                                    //     }}
-                                    //   >
-                                    //     <small
-                                    //       className={clsx({
-                                    //         "border-radius-4  text-white px-2 py-2px bg-green": true,
-
-                                    //       })}
-                                    //     >
-                                    //       CLEARED
-                                    //     </small>
-                                    //   </TableCell>))
+                                      </TableCell>))
 
                                   }
 

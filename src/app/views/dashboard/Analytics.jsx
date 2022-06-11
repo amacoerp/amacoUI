@@ -182,6 +182,7 @@ const Analytics = () => {
   const [invoiceData, setinvoiceData] = useState([]);
   const [maxVal, setmaxVal] = useState("");
   const [date, setdate] = useState(moment(new Date()).format("YYYY"));
+  const [eDate, setExtraDate] = useState('');
   const [responseData, setresponseData] = useState([]);
   const [receiptData, setreceiptData] = useState([]);
   const [dataReceipt, setdataReceipt] = useState([]);
@@ -207,8 +208,10 @@ const Analytics = () => {
   
       
         receiptFun(data?.receipt, date)
+        // receiptFun1(data?.receipt, date)
         expenseFun(data?.expense, date)
         invoiceFun(data?.invoice?.filter((obj)=>obj.approve == '1'),date,months);
+        // invoiceFun1(data?.invoice?.filter((obj)=>obj.approve == '1'),date,months);
         setreceiptData(data?.receipt);
         setExpenseData(data?.expense);
         setresponseData(data?.invoice?.filter((obj)=>obj.approve == '1'))
@@ -292,6 +295,170 @@ const Analytics = () => {
       .filter(
         (obj) =>
           moment(obj.paid_date).format("YYYY") == moment(date).format("YYYY")
+      )
+      .map((item, i) => {
+        item["debit"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + item.credit, 0);
+        item["count"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + parseFloat(item.credit), 0);
+        item["month"] = moment(item.paid_date).format("MMM");
+        return item;
+      });
+
+      /*filter the array based on voucher number */
+    var receiptArr = receiptResult.filter(
+      (ele, ind) =>
+        ind ===
+          receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
+    );
+    const receipt_months = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+   
+      /*monthly wise assign the mount */
+    var receiptfinalResult = receipt_months.filter(function (o1) {
+      return receiptArr.map(function (o2) {
+        if (o1.name == o2.month) {
+          o1["count"] = o2.count;
+        }
+      });
+    });
+     /*retrive only the count from the receiptFinalResult */
+    var receiptfinalArray = receiptfinalResult.map(function (obj) {
+      return obj?.count;
+    });
+    /*If data exists update the array value */
+    if (receiptResult.length) {
+      setdataReceipt(receiptfinalArray);
+      
+    } else {/*else data not exists update the array value to 0 */
+      
+      setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    setmonthss(monthse)
+
+  }
+  async function receiptFun1(data, date) {
+    months = monthse
+    setmonthss(monthse)
+
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+    var receipt = await data.filter(
+      (obj) => obj.division_id == localStorage.getItem("division")
+    );//division wise filter the array object
+
+
+    /*filter the array object by issue date and map the credit amount ,month*/
+    var receiptResult = receipt
+      .filter(
+        (obj) =>
+          moment(obj.paid_date).format("MMM YYYY") == moment(date).format("MMM YYYY")
       )
       .map((item, i) => {
         item["debit"] = receipt
@@ -557,6 +724,171 @@ const Analytics = () => {
     setmonthss(monthse)
 
   }
+  async function expenseFun1(data, date) {
+    months = monthse
+    setmonthss(monthse)
+
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+    var receipt = await data.filter(
+      (obj) => obj.div_id == localStorage.getItem("division")
+    );//division wise filter the array object
+
+    /*filter the array object by issue date and map the credit amount ,month*/
+    var receiptResult = receipt
+      .filter(
+        (obj) =>
+          moment(obj.paid_date).format("MMM YYYY") == moment(date).format("MMM YYYY")
+      )
+      .map((item, i) => {
+        item["debit"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + item.amount, 0);
+        item["count"] = receipt
+          .filter(
+            (x) =>
+              moment(x.paid_date).format("MM YYY") ==
+              moment(item.paid_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + parseFloat(item.amount), 0);
+        item["month"] = moment(item.paid_date).format("MMM");
+        return item;
+      });
+
+      /*filter the array based on voucher number */
+    var receiptArr = receiptResult.filter(
+      (ele, ind) =>
+        ind ===
+          receiptResult.findIndex((elem) => elem.voucher_no === ele.voucher_no)
+    );
+    const receipt_months = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+   
+      /*monthly wise assign the mount */
+    var receiptfinalResult = receipt_months.filter(function (o1) {
+      return receiptArr.map(function (o2) {
+        if (o1.name == o2.month) {
+          o1["count"] = o2.count;
+        }
+      });
+    });
+     /*retrive only the count from the receiptFinalResult */
+    var receiptfinalArray = receiptfinalResult.map(function (obj) {
+      return obj?.count;
+    });
+
+    // console.log(receiptfinalArray)
+    /*If data exists update the array value */
+    if (receiptResult.length) {
+      setdataExpense(receiptfinalArray);
+      
+    } else {/*else data not exists update the array value to 0 */
+      
+    setdataExpense([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    setmonthss(monthse)
+
+  }
   /*Function to calculate the monthly wise Invoice amount */
   async function  invoiceFun(data,i,m){
     months = monthse
@@ -622,6 +954,151 @@ const Analytics = () => {
         (obj) =>
           moment(obj.issue_date).format("YYYY") ==
           moment(i).format("YYYY")
+      )//filter the array object year wise map the data filter the month and year wise and creat the new array element debit,count,month
+      .map((item, i) => {
+        item["debit"] = dataList
+          .filter(
+            (x) =>
+              moment(x.issue_date).format("MM YYY") ==
+              moment(item.issue_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + item.grand_total, 0);
+        item["count"] = dataList
+          .filter(
+            (x) =>
+              moment(x.issue_date).format("MM YYY") ==
+              moment(item.issue_date).format("MM YYY")
+          )
+          .reduce((result, item) => result + parseFloat(item.grand_total), 0);
+        item["month"] = moment(item.issue_date).format("MMM");
+        return item;
+      });
+
+
+
+    
+      /*filter the array based on the invoice number */
+      var Due = result.filter(
+      (ele, ind) =>
+        ind === result.findIndex((elem) => elem.invoice_no === ele.invoice_no)
+    );
+
+    // console.log(Due)
+
+    /*return the month if the there is a sales in the month List */
+
+
+
+    var finalResult = monthsq.filter(el => {
+
+      return Due.map(element => {
+       
+         if(el.name == element.month)
+         {
+            return el['count']=element.count
+         }
+         
+      });
+   });
+   
+  
+
+
+
+    // const finalResult = await Due.filter(function (o1) {
+    //    return months.find(function (o2) {
+    //     console.log(o2.month)
+    //     if (o1.name == o2.month) {
+    //        return o1["count"] = o2.count;
+         
+    //     }
+        
+       
+    //   });
+    // });
+    
+   
+  
+    var finalArray = finalResult.map(function (obj) {
+      return obj?.count ? obj?.count : 0;
+    });
+
+
+    if (result.length) {
+   
+      setinvoiceData(finalArray);
+      setmaxVal(Math.max(...finalArray));
+      
+    } else {
+      
+      setinvoiceData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    setmonthss(monthse)
+  }
+  async function  invoiceFun1(data,i,m){
+    months = monthse
+    
+    setmonthss(months)
+    let monthsq = [
+      {
+        name: "Jan",
+        count: 0,
+      },
+      {
+        name: "Feb",
+        count: 0,
+      },
+      {
+        name: "Mar",
+        count: 0,
+      },
+      {
+        name: "Apr",
+        count: 0,
+      },
+      {
+        name: "May",
+        count: 0,
+      },
+      {
+        name: "Jun",
+        count: 0,
+      },
+      {
+        name: "Jul",
+        count: 0,
+      },
+      {
+        name: "Aug",
+        count: 0,
+      },
+      {
+        name: "Sep",
+        count: 0,
+      },
+      {
+        name: "Oct",
+        count: 0,
+      },
+      {
+        name: "Nov",
+        count: 0,
+      },
+      {
+        name: "Dec",
+        count: 0,
+      },
+    ];
+
+    var dataList =  data?.filter(
+      (obj) => obj.div_id == localStorage.getItem("division")
+    );//division wise filter the array object
+   
+    var result = dataList
+      .filter(
+        (obj) =>
+          moment(obj.issue_date).format("MMM YYYY") ==
+          moment(i).format("MMM YYYY")
       )//filter the array object year wise map the data filter the month and year wise and creat the new array element debit,count,month
       .map((item, i) => {
         item["debit"] = dataList
@@ -813,6 +1290,31 @@ const Analytics = () => {
                 className="m-2"
                 // margin="none"
                 label=""
+                format="MMM yyyy"
+                // inputVariant="outlined"
+                type="text"
+                size="small"
+                selected={date}
+                value={date}
+                style={{ float: "right",width:140 }}
+                views={["month","year"]}
+                onChange={(date) => {
+                  setdate(moment(date).format("MMM YYYY"));
+                  setExtraDate(moment(date).format("MMM YYYY"));
+                  invoiceFun1(responseData,date)
+                  // handleChange(moment(date).format("YYYY"));
+                  receiptFun1(receiptData, date);
+                  expenseFun1(expeseData, date);
+                  // setdataReceipt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+                  // receiptFun(receiptData,moment(date).format('YYYY'))
+                }}
+              />
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                className="m-2"
+                // margin="none"
+                label=""
                 format="yyyy"
                 // inputVariant="outlined"
                 type="text"
@@ -920,7 +1422,7 @@ const Analytics = () => {
       <div className="analytics m-sm-30 mt--18">
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
-            <StatCards years={moment(date).format('YYYY')} stackData={stackData} />
+            <StatCards eDate={eDate} years={moment(date).format('YYYY')} stackData={stackData} />
 
             {/* Top Selling Products */}
             {/* <TopSellingTable /> */}

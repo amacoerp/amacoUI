@@ -11,7 +11,6 @@ const DueInvoice = () => {
     url
       .get("mjrCustomerStatement/" + localStorage.getItem("division"))
       .then(({ data }) => {
-       
         try {
           const myArr = Object.values(data?.customerStatement[0]?.data).sort(
             (a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)
@@ -164,7 +163,7 @@ const DueInvoice = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center", width: 300 }}>
+            <TableCell key={index} width={350} style={{ textAlign: "center" }}>
               NAME
             </TableCell>
           );
@@ -216,7 +215,7 @@ const DueInvoice = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center" }}>
+            <TableCell key={index} width={180} style={{ textAlign: "center" }}>
               <span>DATE</span>
             </TableCell>
           );
@@ -251,7 +250,7 @@ const DueInvoice = () => {
                       : "black",
                 }}
               >
-                {moment(new Date(tableMeta.rowData[5])).format("DD-MMM-YYYY")}
+                {moment(new Date(tableMeta.rowData[5])).format("DD MMM YYYY")}
               </span>
             </div>
           );
@@ -270,6 +269,7 @@ const DueInvoice = () => {
           return (
             <TableCell
               key={index}
+              width={150}
               className="pr-2"
               style={{ textAlign: "right" }}
             >
@@ -307,7 +307,11 @@ const DueInvoice = () => {
                       : "black",
                 }}
               >
-                {tableMeta.rowData[1]}
+                {
+                  parseFloat(tableMeta.rowData[1]).toLocaleString(undefined,{
+                    minimumFractionDigits:2
+                  })
+                }
               </span>
             </div>
           );
@@ -324,7 +328,7 @@ const DueInvoice = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center" }}>
+            <TableCell key={index} width={100} style={{ textAlign: "center" }}>
               <span>AGE</span>
             </TableCell>
           );
@@ -379,7 +383,7 @@ const DueInvoice = () => {
         filter: true,
         customHeadRender: ({ index, ...column }) => {
           return (
-            <TableCell key={index} style={{ textAlign: "center" }}>
+            <TableCell key={index} width={150} style={{ textAlign: "center" }}>
               <span>STATUS</span>
             </TableCell>
           );
@@ -427,7 +431,7 @@ const DueInvoice = () => {
                   }}
                 >
                   {" "}
-                  DUE IN{" "}
+                  DUE IN<br />
                   {Math.abs(
                     moment(new Date(), "YYYY-MM-DD").diff(
                       moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
@@ -477,7 +481,7 @@ const DueInvoice = () => {
                   }}
                 >
                   {" "}
-                  DUE SINCE{" "}
+                  DUE SINCE<br />
                   {moment(new Date(), "YYYY-MM-DD").diff(
                     moment(new Date(tableMeta.rowData[5]), "YYYY-MM-DD"),
                     "days"
@@ -556,14 +560,17 @@ const DueInvoice = () => {
         title="DUE STATEMENTS"
         data={accountStatement
           ?.filter((obj) => obj.debit - obj.credit > 0)
+          ?.filter((obj) => obj[0].paid_amount > 0)
           ?.map((item, index) => {
             return [
               ++index,
-           
-              parseFloat(item[0]?.grand_total).toFixed(3) - parseFloat(item[0]?.paid_amount).toFixed(3),
-              // parseFloat(item?.debit - item?.credit).toLocaleString(undefined, {
-              //   minimumFractionDigits: 2,
-              // }),
+
+              parseFloat(item[0]?.paid_amount)
+                .toFixed(2)
+                .toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                }),
+              // ,
               item[0].party?.firm_name?.toUpperCase(),
               item[0].party?.id,
               item[0].credit_days,

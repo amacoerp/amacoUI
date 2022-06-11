@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const StatCards = ({years}) => {
+const StatCards = ({years,eDate}) => {
  
   const [salesCount, setsalesCount] = useState('')
   const [pendingquoteCount, setpendingquoteCount] = useState('')
@@ -26,6 +26,48 @@ const StatCards = ({years}) => {
   const [rec,setRec] = useState(0.00)
   const [po,setPo] = useState(0.00)
   const [expense,setExpense] = useState(0.00)
+
+  useEffect(()=>{
+    if(eDate.length > 0){
+      console.log('dsaCeeDate')
+      var today = new Date();
+      var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      
+      url.get("stateCard").then(({ data }) => {
+        setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('MMM YYYY')==eDate)).length)
+        
+        var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MMM YYYY')==eDate)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
+        setExpense(exp)
+        
+        
+        let res = data?.salesList?.filter((item) => item.status == 'New'  && item.div_id == localStorage.getItem('division')&& moment(item.quote_date).format('MMM YYYY')==eDate).map((obj) => {
+          return obj
+        });
+        pendingCount = res?.length;
+        setpendingquoteCount(res.length)
+  
+        
+       
+        let final = data?.acceptedList?.filter(obj => obj.div_id == localStorage.getItem('division')&& obj.status !== 'trash'&& moment(obj.quotation_date).format('MMM YYYY')==eDate)?.length;
+        setrequestedquoteCount(final + pendingCount)
+  
+        var result = data?.salesTax?.filter(obj => obj.delete_status == 0 && obj.approve == '1' && (moment(obj.issue_date).format('MMM YYYY') >= eDate));
+  
+        var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MMM YYYY')==eDate)?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
+        setrevenueCount(revenue)
+        
+        setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('MMM YYYY') == eDate)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
+        setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('MMM YYYY') == eDate)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
+        
+  
+  
+      });
+  
+    
+      var date = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  
+    }
+  },[eDate])
 
   useEffect(() => {
     var today = new Date();

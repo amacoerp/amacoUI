@@ -79,7 +79,7 @@ const ExpenseCategory =()=>{
               customHeadRender: ({index, ...column}) =>{
                 return (
                   <TableCell key={index}  style={{textAlign:"center"}} >  
-                    <span  >NAME</span> 
+                    <span  >DESCRIPTION</span> 
                   </TableCell>
                 )
              },
@@ -97,7 +97,7 @@ const ExpenseCategory =()=>{
             customHeadRender: ({index, ...column}) =>{
               return (
                 <TableCell key={index} className="pr-2" style={{textAlign:"right"}} >  
-                  <span >BALANCE</span> 
+                  <span >AMOUNT</span> 
                 </TableCell>
               )
            },

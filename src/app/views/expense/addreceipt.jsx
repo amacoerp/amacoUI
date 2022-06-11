@@ -59,7 +59,7 @@ const MemberEditorDialog = ({
   const [allData, setAllData] = useState([]);
   const [divisions, setdivisions] = useState([]);
   const [paymentaccount, setpaymentaccount] = useState([]);
-  const [div_id, setdiv_id] = useState("");
+  const [div_id, setdiv_id] = useState(localStorage.getItem("division") == 1 ? 24 : 26);
   const [companybank, setcompanybank] = useState([]);
   const [bank_id, setbank_id] = useState(null);
   const [file, setfile] = useState();
@@ -93,7 +93,6 @@ const MemberEditorDialog = ({
 
   const sortInvoice = (pid) => {
     let a = allData?.filter((obj) => parseInt(obj?.id) == parseInt(pid));
-    console.log("asddaa", a);
     // const a = allData?.filter((obj) => parseInt(obj?.id) == parseInt(pid));
     setInvoice(a[0]?.invoice);
   };
@@ -119,8 +118,16 @@ const MemberEditorDialog = ({
     });
     if (id) {
       url.get("receipts/" + id).then(({ data }) => {
+        console.log(data)
         // console.log(data.party_id)
         setparty_id(data[0]?.party_id);
+        setInvoice_id(data[0]?.invoice_id);
+        // sortInvoice(data[0]?.party_id)
+        url.get(`findInvoices/${data[0]?.party_id}`).then(({data})=>{
+          setInvoice(data[0]?.invoice);
+        }).catch(()=>{
+
+        })
         setdiv_id(data[0]?.div_id);
         setpaid_amount(data[0]?.paid_amount);
         setpayment_mode(data[0]?.payment_mode);
@@ -146,6 +153,11 @@ const MemberEditorDialog = ({
       setfileurl(filename);
     }
   };
+
+  const newFunction = (iId) => {
+    let da = invoice?.filter((obj)=>obj.id == iId)
+    setpaid_amount(da[0]?.grand_total)
+  }
   const handleFormSubmit = () => {
     setdisable(true);
     const formData = new FormData();
@@ -239,7 +251,7 @@ const MemberEditorDialog = ({
                   .filter((obj) => obj.type == "division")
                   .map((item, ind) => (
                     <MenuItem value={item.id} key={item}>
-                      {item.name}
+                      {item.name} 
                     </MenuItem>
                   ))}
               </TextValidator>
@@ -280,6 +292,7 @@ const MemberEditorDialog = ({
                     onChange={
                       (e) => {
                         setInvoice_id(e.target.value);
+                        newFunction(e.target.value)
                         // setsender(e.target.value);
                       }
                       // .log(isAlive)
@@ -291,12 +304,14 @@ const MemberEditorDialog = ({
                     required
                     select
                   >
-                    <MenuItem value={""} key={""}>
+                    <MenuItem style={{justifyContent:'flex-end'}} value={""} key={""}>
                       Choose Invoice
                     </MenuItem>
                     {invoice?.map((item, ind) => (
-                      <MenuItem value={item?.id} key={item}>
-                        {item?.invoice_no} | {parseFloat(item?.grand_total)?.toFixed(3) - parseFloat(item?.paid_amount)?.toFixed(3)}/-
+                      <MenuItem style={{justifyContent:'flex-end'}} value={item?.id} key={item}>
+                        <div>{item?.invoice_no} | { parseFloat(parseFloat(item?.grand_total)?.toFixed(3) - parseFloat(item?.paid_amount)?.toFixed(3)).toLocaleString(undefined,{
+                  minimumFractionDigits:2
+                }) }</div>
                       </MenuItem>
                     ))}
                   </TextValidator>

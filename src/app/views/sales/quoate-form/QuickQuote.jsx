@@ -1180,7 +1180,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   
           let a = json?.map((item,i)=>{
             return { 
-             'description' : item?.RFQ_DESCRIPTION,
+             'description' :  item?.PRODUCT_CODE ? item?.PRODUCT_CODE +' ' +item?.RFQ_DESCRIPTION : item?.RFQ_DESCRIPTION,
              'product_id': "",
              'src': "",
              'index1': ++i,
