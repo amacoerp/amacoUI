@@ -21,27 +21,41 @@ const App = () => {
   const historyInstance = createBrowserHistory();
 
   const checkClicks = useCallback((event) => {
-    localStorage.setItem("expTime", 600000);
+    localStorage.setItem("expTime", 3600000); //60min
   }, []);
 
   const checkTime = () => {
     if (localStorage.getItem("expTime") == 0) {
-    
+      // Swal.fire({
+      //   title: "Do you want to keep going?",
+      //   text: "You have been logged out due to security concerns.",
+      //   icon: "danger",
+      //   showCancelButton: true,
+      //   confirmButtonText: "No, Logout",
+      //   icon: "warning",
+      //   cancelButtonText: "Yes, keep going.!",
+      // }).then((result) => {
+      //   if (result.value) {
+      //     localStorage.clear();
+      //     window.location.reload();
+      //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+      //     Swal.fire("Cancelled", "", "success");
+      //   }
+      // });
 
-      localStorage.clear();
-      Swal.fire({
-        title: 'For Security Reason',
-        type: 'Warning',
-        icon: 'warning',
-        text: 'You Have Been Logged out.',
+      // localStorage.clear();
+        Swal.fire({
+          title: 'For Security Reason',
+          type: 'Warning',
+          icon: 'warning',
+          text: 'You Have Been Logged out.',
+        })
+          .then((result) => {
+            localStorage.clear();
+            window.location.reload();
+          }).catch(function (error) {
+
       })
-        .then((result) => {
-          localStorage.clear();
-          window.location.reload();
-        }).catch(function (error) {
-
-    })
-      
     } else {
       let time = localStorage.getItem("expTime");
       time = time - 1000;
@@ -50,13 +64,15 @@ const App = () => {
   };
 
   setInterval(() => {
-    if (localStorage.getItem("accessToken") && localStorage.getItem("expTime") !== 0) {
+    if (
+      localStorage.getItem("accessToken") &&
+      localStorage.getItem("expTime") !== 0
+    ) {
       checkTime();
     }
   }, 1000);
 
   useEffect(() => {
-    
     document.addEventListener("keydown", checkClicks);
     window.addEventListener("mousemove", checkClicks);
     return () => {

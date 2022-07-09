@@ -453,7 +453,7 @@ const VatStatement = ({
                                 fontSize: 16,
                               }}
                             >
-                              <h3>STATEMENT OF ACCOUNT</h3>
+                              <h3>SALES VAT STATEMENT</h3>
                             </TableCell>
                           </TableRow>
                           <TableRow
@@ -775,7 +775,7 @@ const VatStatement = ({
                                 )}
                               </TableCell>
                             </TableRow>
-                            {statements.map((item, index) => {
+                            {statements.filter((obj)=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
                               return (
                                 <TableRow
                                   style={{
@@ -810,7 +810,7 @@ const VatStatement = ({
                                     }}
                                   >
                                     {/* Displays the descriptions ("Type/Invoice or Voucher number") */}
-                                    {item?.type + "/" + item?.number}
+                                    {item?.type + "/" + item?.number + "-" + item.div_id}
                                   </TableCell>
 
                                   <TableCell

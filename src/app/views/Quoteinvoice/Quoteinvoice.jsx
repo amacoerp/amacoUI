@@ -213,7 +213,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     arr.vat_in_value = parseFloat(vat).toFixed(2)
     arr.party_id = party_id
     arr.po_number = pono
-    arr.ps_date = ps_date
+
+    arr.ps_date = moment(ps_date).format('DD MMM YYYY')
+
     arr.user_id = user.id
     arr.div_id = localStorage.getItem('division')
 
@@ -250,7 +252,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     routerHistory.push(navigatePath + `/quote/${id}/accept/2`)
   }
 
-  const [ps_date,setps_date] = useState('')
+  const [ps_date,setps_date] = useState(new Date())
 
   useEffect(() => {
 
@@ -261,7 +263,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
       setcname(data?.sales?.party?.firm_name)
       setqno(data?.sales?.quotation_no)
-      setps_date(data?.sales?.ps_date)
+      // setps_date(data?.sales?.ps_date)
       setpono(data?.sales?.po_number)
       // setrdate(data[0].requested_date)
       setparty_id(data?.sales?.party_id)

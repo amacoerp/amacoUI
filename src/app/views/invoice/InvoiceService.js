@@ -1,20 +1,19 @@
 import axios from "axios";
 import useSettings from "../../hooks/useSettings";
 
-
 export const getAllInvoice = () => {
   return url.get("/api/invoices/all");
 };
-export const getInvoiceById = id => {
+export const getInvoiceById = (id) => {
   return url.get("/api/invoices", { data: id });
 };
-export const deleteInvoice = invoice => {
+export const deleteInvoice = (invoice) => {
   return url.post("/api/invoices/delete", invoice);
 };
-export const addInvoice = invoice => {
+export const addInvoice = (invoice) => {
   return url.post("/api/invoices/add", invoice);
 };
-export const updateInvoice = invoice => {
+export const updateInvoice = (invoice) => {
   return url.post("/api/invoices/update", invoice);
 };
 
@@ -40,20 +39,21 @@ export const getInvoice = () => {
 };
 
 const url = axios.create({
-  //  baseURL: "http://127.0.0.1:8000/api/",
-// baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
+    baseURL: "http://127.0.0.1:8000/api/",
+  // baseURL: "http://www.amacoerp.com/test/amaco_test/public/api/",
   //  baseURL: "http://18.210.239.86/test/amaco/public/api/",
   // baseURL: "http://18.210.239.86/amaco/public/api/",
-   baseURL: "http://www.amacoerp.com/amaco/public/api/",
+  //baseURL: "http://www.amacoerp.com/amaco/public/api/",
   //  timeout: 1000,
   // headers: {'Authorization': 'Bearer '+localStorage.getItem('rememberMe')}
 });
-// export const basePath = "http://127.0.0.1:8000/";
-    // export const basePath = "http://18.210.239.86/amaco/";
-  // export const basePath = "http://www.amacoerp.com/test/amaco_test/public/";
-  export const basePath = "http://www.amacoerp.com/amaco/public/";
+
+ export const basePath = "http://127.0.0.1:8000/";
+// export const basePath = "http://18.210.239.86/amaco/";
+// export const basePath = "http://www.amacoerp.com/test/amaco_test/public/";
+//export const basePath = "http://www.amacoerp.com/amaco/public/";
 //   const url = axios.create({
-    // baseURL: 'http://www.amacoerp.com/amaco/public/api/',
+// baseURL: 'http://www.amacoerp.com/amaco/public/api/',
 
 //     // timeout: 1000,
 
@@ -249,7 +249,7 @@ export const data = [
 export const currency = [
   {
     name: "SAR",
-    value: "SAR", 
+    value: "SAR",
   },
   {
     name: "USD",
@@ -276,11 +276,11 @@ export const CUR_RENCY = [
   },
 ];
 
-export const capitalize_arr = value => {
+export const capitalize_arr = (value) => {
   let wordsArray = value.split(" ");
   let capsArray = [];
 
-  wordsArray.forEach(word => {
+  wordsArray.forEach((word) => {
     capsArray.push(word[0].toUpperCase() + word.slice(1).toLowerCase());
   });
 

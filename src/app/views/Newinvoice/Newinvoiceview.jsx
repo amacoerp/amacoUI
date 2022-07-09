@@ -2015,7 +2015,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </IntlProvider>
                         </h5>
                         Prepared by
-                        {sstatus == "Invoice Submitted" && (
+                        {/* {sstatus == "Invoice Submitted" && (
                           <>
                             {sign[0]?.prepared_by && (
                               <>
@@ -2028,7 +2028,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </>
                             )}
                           </>
-                        )}
+                        )} */}
                       </div>
                       <div
                         style={{ fontWeight: 1000, width: "-1px" }}
@@ -2040,7 +2040,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                           </IntlProvider>
                         </h5>
                         Approved by
-                        {sstatus == "Invoice Submitted" && (
+                        {/* {sstatus == "Invoice Submitted" && (
                           <>
                             {sign[0]?.approval_by && (
                               <>
@@ -2053,7 +2053,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               </>
                             )}
                           </>
-                        )}
+                        )} */}
                       </div>
                       <div
                         className="mr-0 pr-24"

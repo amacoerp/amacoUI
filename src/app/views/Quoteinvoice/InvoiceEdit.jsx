@@ -192,6 +192,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [ddate, setddate] = useState([]);
   const [cname, setcname] = useState('');
   const [party_id, setparty_id] = useState('');
+  const [submitStatus, setsubmitStatus] = useState('');
   const [rfq_details, setrfqdetails] = useState([]);
   const [discounts, setdiscounts] = useState('0');
   const [proList, setproList] = useState([]);
@@ -1066,6 +1067,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 
         setdiscount(data?.inv[0].discount_in_percentage ? data?.inv[0].discount_in_percentage == null || data?.inv[0].discount_in_percentage == 'null' ? 0 : data?.inv[0].discount_in_percentage : 0);
       setparty_id(data?.inv[0]?.party_id)
+      setsubmitStatus(data?.inv[0]?.submit_status)
       setQuote_date(data?.inv[0]?.issue_date)
       // if (data?.inv[0]?.contact_id !== null) {
         let f = data?.inv[4]?.fname ? data?.inv[4]?.fname  : ''
@@ -1515,6 +1517,7 @@ select
                 )}
               </Grid>
               <Grid item>
+                {submitStatus !== 'Invoice Submitted' && <>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     className=""
@@ -1532,6 +1535,8 @@ select
                     }}
                   />
                 </MuiPickersUtilsProvider>
+                </>}
+                
 
 
               </Grid>
