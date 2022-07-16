@@ -1294,7 +1294,7 @@ const Analytics = () => {
               />
             </MuiPickersUtilsProvider>
           </div>
-          <div>LAST 12 MONTHS SALES</div>
+          <div>SALES AND EXPENCE CHART</div>
         </div>
         <div className="container">
           <ModifiedAreaChart

@@ -169,17 +169,19 @@ const VatStatement = ({
           moment(to_date).format("YYYY-MM-DD")
       )
       .then(({ data }) => {
-        const myArr = Object.values(data[0]?.data).sort(
+        
+        const myArr = Object.values(data[0]?.data).filter((obj)=>obj.div_id==localStorage.getItem('division')).sort(
           (a, b) => new Date(a?.created_at) - new Date(b?.created_at)
         );
-
+       
         setstatements(myArr);
         setresponse_data(myArr);
         setarr_length(Object.keys(myArr).length);
 
+        
         let sum = 0.0;
         let sum1 = 0.0;
-        Object.values(data[0].data).map((item, i) => {
+        Object.values(myArr).map((item, i) => {
           if (item.debit) {
             sum += parseFloat(item.debit);
           }
@@ -260,7 +262,7 @@ const VatStatement = ({
     minimumFractionDigits: 2,
   });
 
-  // Filter the array based on the from date and Todate
+  // Filter the array based on the from date and Todate 
   const filter_data = (id, fDate, tDate) => {
     var result = response_data.filter(
       obj =>
@@ -572,6 +574,7 @@ const VatStatement = ({
                               {closing_bal.toLocaleString(undefined, {
                                 minimumFractionDigits: 2,
                               })}
+                                
                             </TableCell>
                           </TableRow>
                         </Table>
@@ -936,10 +939,10 @@ const VatStatement = ({
                                 }}
                               >
                                 {/* Total Debit balance */}
-                                {parseFloat(debit_balance).toLocaleString(
+                                {/* {parseFloat(debit_balance).toLocaleString(
                                   undefined,
                                   { minimumFractionDigits: 2 }
-                                )}
+                                )} */}
                               </TableCell>
                               <TableCell
                                 className="pl-0 capitalize"
@@ -951,10 +954,10 @@ const VatStatement = ({
                                 }}
                               >
                                 {/* Total Credit balance */}
-                                {parseFloat(credit_balance).toLocaleString(
+                                {/* {parseFloat(credit_balance).toLocaleString(
                                   undefined,
                                   { minimumFractionDigits: 2 }
-                                )}
+                                )} */}
                               </TableCell>
                               <TableCell
                                 className="pl-0 capitalize"
