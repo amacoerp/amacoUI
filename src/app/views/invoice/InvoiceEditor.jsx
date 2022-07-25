@@ -480,7 +480,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
       tempItemList.map((answer, i) => {
         formData.append(`file${i}`, answer.files ? answer.files : null);
       });
-      console.log(tempItemList)
+     // console.log(tempItemList)
       url
         .post(`rfq-update`, formData)
         .then((response) => {

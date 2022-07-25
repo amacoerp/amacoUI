@@ -813,7 +813,7 @@ const VatStatement = ({
                                     }}
                                   >
                                     {/* Displays the descriptions ("Type/Invoice or Voucher number") */}
-                                    {item?.type + "/" + item?.number + "-" + item.div_id}
+                                    {item?.type + "/" + item?.number}
                                   </TableCell>
 
                                   <TableCell
